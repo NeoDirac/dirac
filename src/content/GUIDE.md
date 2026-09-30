@@ -175,7 +175,19 @@ diagramLabel: L("Descripción accesible…", "Accessible description…"), // ar
 
 Kinds: `function-graph`, `vectors` (arrows, optional components), `projectile`
 (v0, angleDeg, h0), `unit-circle` (angleDeg), `right-triangle` (side labels),
-`free-body` (force arrows, optional incline). See the exemplar files.
+`free-body` (force arrows, optional incline), `circuit` (mode: "series" |
+"parallel", voltage label, resistor labels, optional current arrow).
+See the exemplar files.
+
+```ts
+diagram: {
+  kind: "circuit",
+  mode: "parallel",
+  voltage: "12 V",
+  resistors: ["R\u2081 = 30 \u03a9", "R\u2082 = 60 \u03a9"],
+  showCurrent: true,
+},
+```
 
 ## Difficulty guide
 

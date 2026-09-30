@@ -48,7 +48,7 @@ export function SolutionPanel({
       </Button>
 
       {open ? (
-        <ol className="mt-4 space-y-0">
+        <ol className="animate-in fade-in slide-in-from-top-2 duration-200 mt-4 space-y-0">
           {steps.map((step, i) => (
             <li key={i} className="relative flex gap-4 pb-5 last:pb-1">
               {/* rail */}

@@ -55,7 +55,7 @@ function FeedbackPanel({
     return (
       <div
         role="status"
-        className="flex items-start gap-3 rounded-xl border border-success/40 bg-success/10 px-4 py-3 text-[15px]"
+        className="animate-in fade-in slide-in-from-bottom-2 duration-200 flex items-start gap-3 rounded-xl border border-success/40 bg-success/10 px-4 py-3 text-[15px]"
       >
         <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-success" aria-hidden="true" />
         <div>
@@ -76,7 +76,7 @@ function FeedbackPanel({
     return (
       <div
         role="status"
-        className="flex items-start gap-3 rounded-xl border border-diff-medium/40 bg-diff-medium/10 px-4 py-3 text-[15px]"
+        className="animate-in fade-in slide-in-from-bottom-2 duration-200 flex items-start gap-3 rounded-xl border border-diff-medium/40 bg-diff-medium/10 px-4 py-3 text-[15px]"
       >
         <XCircle className="mt-0.5 h-5 w-5 shrink-0 text-diff-medium" aria-hidden="true" />
         <p className="text-diff-medium">{t("feedback.invalid.numeric")}</p>
@@ -88,7 +88,7 @@ function FeedbackPanel({
     return (
       <div
         role="status"
-        className="flex items-start gap-3 rounded-xl border border-diff-medium/40 bg-diff-medium/10 px-4 py-3 text-[15px]"
+        className="animate-in fade-in slide-in-from-bottom-2 duration-200 flex items-start gap-3 rounded-xl border border-diff-medium/40 bg-diff-medium/10 px-4 py-3 text-[15px]"
       >
         <XCircle className="mt-0.5 h-5 w-5 shrink-0 text-diff-medium" aria-hidden="true" />
         <p className="font-medium text-diff-medium">{t("feedback.wrongUnit")}</p>
@@ -107,7 +107,7 @@ function FeedbackPanel({
     <div
       role="status"
       className={cn(
-        "flex items-start gap-3 rounded-xl border px-4 py-3 text-[15px]",
+        "animate-in fade-in slide-in-from-bottom-2 duration-200 flex items-start gap-3 rounded-xl border px-4 py-3 text-[15px]",
         resolved ? "border-border bg-muted/50" : "border-destructive/30 bg-destructive/5",
       )}
     >
@@ -157,7 +157,11 @@ export function ProblemView({
   }, [state.status]);
 
   return (
-    <article className="rounded-2xl border bg-card p-5 shadow-sm sm:p-7" ref={focusRef}>
+    <article
+      key={problemKey}
+      className="animate-in fade-in slide-in-from-bottom-3 duration-300 rounded-2xl border bg-card p-5 shadow-sm transition-shadow sm:p-7"
+      ref={focusRef}
+    >
       {/* meta row */}
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
         <DifficultyBadge difficulty={problem.difficulty} />
@@ -203,7 +207,7 @@ export function ProblemView({
 
       {/* revealed answer */}
       {answerRevealed && state.status !== "correct" ? (
-        <div className="mt-4 rounded-xl border border-diff-medium/40 bg-diff-medium/10 px-4 py-3.5">
+        <div className="animate-in fade-in zoom-in-95 duration-200 mt-4 rounded-xl border border-diff-medium/40 bg-diff-medium/10 px-4 py-3.5">
           <p className="text-xs font-semibold uppercase tracking-wider text-diff-medium">
             {t("answer.revealedTitle")}
           </p>
@@ -214,7 +218,7 @@ export function ProblemView({
       ) : null}
 
       {state.status === "correct" ? (
-        <div className="mt-4 rounded-xl border border-success/40 bg-success/10 px-4 py-3.5">
+        <div className="animate-in fade-in zoom-in-95 duration-200 mt-4 rounded-xl border border-success/40 bg-success/10 px-4 py-3.5">
           <p className="text-xs font-semibold uppercase tracking-wider text-success">
             {t("answer.revealedTitle")}
           </p>

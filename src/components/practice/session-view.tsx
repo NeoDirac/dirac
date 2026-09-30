@@ -28,8 +28,10 @@ import { initialProblemState, type ProblemState } from "./state";
 import { useI18n } from "@/lib/i18n/context";
 import { useAllTemplates } from "@/lib/use-templates";
 import { buildDeck, findTemplate, instantiateProblem } from "@/lib/session";
+import { loadSession, saveSession, clearSession } from "@/lib/session-persist";
 import { navigate, href, sessionHref } from "@/lib/router";
 import { appendRecord } from "@/lib/progress";
+import { useToast } from "@/hooks/use-toast";
 import { checkAnswer, type AnswerSubmission } from "@/lib/validation/answer";
 import { mathCurriculum } from "@/content/curriculum/math";
 import { physicsCurriculum } from "@/content/curriculum/physics";
@@ -47,10 +49,14 @@ export function SessionView({ config }: { config: SessionConfig }) {
   const [checking, setChecking] = useState(false);
   const [ended, setEnded] = useState(false);
   const [relaxed, setRelaxed] = useState(false);
+  const [builtKey, setBuiltKey] = useState<string | null>(null);
   const nextRef = useRef<HTMLButtonElement>(null);
   const configKey = useMemo(() => JSON.stringify(config), [config]);
 
   const unlimited = !Number.isFinite(config.count);
+
+  const { toast } = useToast();
+  const sessionKeyRef = useRef<string | null>(null);
 
   useEffect(() => {
     if (loading) return;
@@ -62,15 +68,42 @@ export function SessionView({ config }: { config: SessionConfig }) {
         navigate(sessionHref({ ...cfg, seed: Math.floor(Math.random() * 2 ** 31) }));
         return;
       }
+      // build/restore only once per config (language switches must not re-run it)
+      if (sessionKeyRef.current === configKey) return;
+      sessionKeyRef.current = configKey;
+      // restore an interrupted session (same URL seed) instead of rebuilding
+      const stored = loadSession(configKey);
+      if (stored) {
+        setDeck(stored.problems);
+        setStates(stored.states);
+        setIndex(stored.index);
+        setEnded(stored.ended);
+        setRelaxed(false);
+        setBuiltKey(configKey);
+        toast({
+          description: t("practice.restored"),
+        });
+        return;
+      }
+      clearSession();
       const result = buildDeck(cfg, templates, { batchSize: Number.isFinite(cfg.count) ? cfg.count : BATCH });
       setDeck(result.problems);
       setStates(result.problems.map(() => ({ ...initialProblemState })));
       setRelaxed(result.difficultyRelaxed);
       setIndex(0);
       setEnded(false);
+      setBuiltKey(configKey);
     });
     return () => cancelAnimationFrame(id);
-  }, [loading, templates, configKey]);
+  }, [loading, templates, configKey, t, toast]);
+
+  // mirror the running session so a refresh never loses it — but only once
+  // the deck actually belongs to the current config (avoids saving the previous
+  // session under the new key during the rebuild frame)
+  useEffect(() => {
+    if (!deck || !configKey || builtKey !== configKey) return;
+    saveSession({ configKey, index, ended, problems: deck, states });
+  }, [deck, states, index, ended, configKey, builtKey]);
 
   const current = deck?.[index];
   const currentState = states[index];
@@ -237,6 +270,7 @@ export function SessionView({ config }: { config: SessionConfig }) {
   }, [current, deck, index, templates]);
 
   const handleAgain = useCallback(() => {
+    clearSession();
     const cfg = JSON.parse(configKey) as SessionConfig;
     navigate(sessionHref({ ...cfg, seed: Math.floor(Math.random() * 2 ** 31) }));
   }, [configKey]);

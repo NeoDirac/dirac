@@ -128,6 +128,8 @@ const es: Dictionary = {
   "practice.attemptsCount": "{n} intento",
   "practice.attemptsCountPlural": "{n} intentos",
   "practice.firstTry": "al primer intento",
+  "practice.restored": "Sesión restaurada — sigues donde lo dejaste.",
+  "input.mc.hint": "Puedes elegir con las teclas 1–{n}.",
   "practice.score.correct": "correctos",
   "practice.score.incorrect": "fallados",
 
@@ -374,6 +376,8 @@ const en: Dictionary = {
   "practice.attemptsCount": "{n} attempt",
   "practice.attemptsCountPlural": "{n} attempts",
   "practice.firstTry": "on the first attempt",
+  "practice.restored": "Session restored — picking up where you left off.",
+  "input.mc.hint": "You can choose with keys 1–{n}.",
   "practice.score.correct": "correct",
   "practice.score.incorrect": "missed",
 

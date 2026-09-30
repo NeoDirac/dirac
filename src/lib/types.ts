@@ -175,13 +175,25 @@ export interface FreeBodyDiagram {
   }[];
 }
 
+export interface CircuitDiagram {
+  kind: "circuit";
+  mode: "series" | "parallel";
+  /** battery emf label drawn next to the battery, e.g. "12 V" */
+  voltage: string;
+  /** resistor labels, e.g. ["R₁ = 30 Ω", "R₂ = 60 Ω"] */
+  resistors: string[];
+  /** draw a small current-direction arrow on the loop */
+  showCurrent?: boolean;
+}
+
 export type DiagramSpec =
   | FunctionGraphDiagram
   | VectorsDiagram
   | ProjectileDiagram
   | UnitCircleDiagram
   | RightTriangleDiagram
-  | FreeBodyDiagram;
+  | FreeBodyDiagram
+  | CircuitDiagram;
 
 /* ------------------------------------------------------------------ */
 /* Worked solutions                                                    */

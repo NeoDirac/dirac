@@ -42,7 +42,7 @@ export function HintsSection({
         {problem.hints.slice(0, revealed).map((hint, i) => (
           <li
             key={i}
-            className="flex gap-3 rounded-lg border bg-card px-3.5 py-2.5 text-[15px] leading-relaxed"
+            className="animate-in fade-in slide-in-from-left-2 duration-200 flex gap-3 rounded-lg border bg-card px-3.5 py-2.5 text-[15px] leading-relaxed"
           >
             <span
               aria-hidden="true"

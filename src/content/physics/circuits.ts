@@ -487,6 +487,17 @@ export const templates: ProblemTemplate[] = [
           `Dos resistencias $R_1 = ${r1}\\ \\Omega$ y $R_2 = ${r2}\\ \\Omega$ están conectadas **en serie** entre los bornes de una batería ideal de $${v}\\ \\text{V}$. ¿Qué tensión hay entre los extremos de $R_2$? (2 cifras significativas)`,
           `Two resistors $R_1 = ${r1}\\ \\Omega$ and $R_2 = ${r2}\\ \\Omega$ are connected **in series** across an ideal $${v}\\ \\text{V}$ battery. What is the voltage across $R_2$? (2 significant figures)`,
         ),
+        diagram: {
+          kind: "circuit",
+          mode: "series",
+          voltage: `${v} V`,
+          resistors: ["R\u2081 = " + r1 + " \u03a9", "R\u2082 = " + r2 + " \u03a9"],
+          showCurrent: true,
+        },
+        diagramLabel: L(
+          `Circuito en serie: bater\u00eda de ${v} V con dos resistencias en serie, R\u2081 = ${r1} \u03a9 y R\u2082 = ${r2} \u03a9, y la corriente I marcada.`,
+          `Series circuit: a ${v} V battery with two resistors in series, R\u2081 = ${r1} \u03a9 and R\u2082 = ${r2} \u03a9, with the current I marked.`,
+        ),
         answer: {
           kind: "numeric-unit",
           value: sig2(v2),
@@ -562,6 +573,17 @@ export const templates: ProblemTemplate[] = [
         statement: L(
           `Calcula la resistencia equivalente de dos resistencias de $${r1}\\ \\Omega$ y $${r2}\\ \\Omega$ conectadas **en paralelo**. (2 cifras significativas)`,
           `Find the equivalent resistance of two resistors of $${r1}\\ \\Omega$ and $${r2}\\ \\Omega$ connected **in parallel**. (2 significant figures)`,
+        ),
+        diagram: {
+          kind: "circuit",
+          mode: "parallel",
+          voltage: "V",
+          resistors: ["R\u2081 = " + r1 + " \u03a9", "R\u2082 = " + r2 + " \u03a9"],
+          showCurrent: true,
+        },
+        diagramLabel: L(
+          `Circuito en paralelo: dos resistencias en derivaci\u00f3n, R\u2081 = ${r1} \u03a9 y R\u2082 = ${r2} \u03a9, conectadas a la misma bater\u00eda.`,
+          `Parallel circuit: two resistors in parallel branches, R\u2081 = ${r1} \u03a9 and R\u2082 = ${r2} \u03a9, connected across the same battery.`,
         ),
         answer: {
           kind: "numeric-unit",

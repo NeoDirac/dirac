@@ -252,3 +252,33 @@ Stage Summary:
 - Platform COMPLETE and browser-verified: 404 bilingual templates across 36 topics, all validation gates green (validator 0 errors/0 warnings, tsc 0 app errors, lint clean)
 - Ready for Vercel deployment (single route, static-prerendered, local storage progress)
 - Remaining nice-to-haves: session persistence across refresh, per-problem deep-link sharing UI, teacher-facing analytics (future backend)
+
+---
+Task ID: 4
+Agent: main (Z.ai Code) — scheduled review round 1
+Task: QA sweep + new features (session persistence, MC keyboard shortcuts, circuit diagrams) + animation polish
+
+Work Log:
+- Reviewed worklog (platform complete at Task 3), confirmed all gates green at start: 404 templates/0 errors/0 warnings, tsc 0 app errors, lint clean, server healthy
+- Browser QA re-run of golden path (quadratics: wrong answer → hint → correct k=4 → staged solution → next) — all working, 0 page errors
+- NEW FEATURE 1 — Session persistence across refresh (src/lib/session-persist.ts):
+  - Running session (deck, per-problem states, index, ended) mirrored to sessionStorage on every state change
+  - On reload with the same URL seed the session restores exactly (position, score, attempts, skip/reveal states) with a bilingual "Session restored" toast
+  - Fixed a race found during QA: navigating from an ended session to a new seed briefly saved the old deck under the new key → restored a phantom "Session ended"; now guarded with builtKey state so saves only happen when the deck belongs to the current config
+  - "Practice again" clears storage before re-seeding; ended sessions restore to their summary
+- NEW FEATURE 2 — Multiple-choice keyboard shortcuts:
+  - Keys 1–9 select the nth option (ignored while typing in inputs), numbered badge chips on every option, "choose with keys 1–4" helper text, radio dots replaced by badges with visible :focus-visible ring on the label for a11y
+- NEW FEATURE 3 — Circuit schematic diagram kind (series + parallel):
+  - New CircuitDiagram spec (mode, voltage, resistor labels, optional current arrow) + renderer with battery two-plate symbol, resistor boxes, current arrow
+  - Wired into cir-series-01 and cir-parallel-01 with generated labels (R₁ = 30 Ω…); validator + GUIDE.md updated
+- STYLING POLISH — restrained motion pass (tw-animate-css, reduced-motion respected globally):
+  - Problem card entrance (fade + slide-up), feedback panels, revealed-answer boxes (zoom-in), progressive hint items (slide from left), solution panel (slide from top)
+
+Verification:
+- bun run validate:content → 404 templates · 0 errors · 0 warnings
+- bunx tsc --noEmit (excl. examples/skills) → 0 errors; bun run lint → clean; dev.log → 0 errors
+- agent-browser: restore verified at problem 2/5 with score chip "1 correct"; fresh seed no longer phantom-restores after race fix; MC key "3" selects option 3 (synthetic + real keypress), Check enables; circuit diagram renders (aria-label "Parallel circuit: R₁ = 100 Ω…", 11 SVG shapes); fresh reload → 0 page errors, hydration clean
+
+Stage Summary:
+- Platform stable + 3 new features shipped and browser-verified; session UX now survives accidental refresh (top gap closed)
+- Next-round ideas: per-subtopic practice filters, print-friendly worksheet mode, keyboard shortcut for Check (Ctrl+Enter), more circuit diagrams (kirchhoff loops), thin-topic content top-ups (topics with <10 templates)

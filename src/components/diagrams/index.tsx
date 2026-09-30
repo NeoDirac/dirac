@@ -535,6 +535,127 @@ function FreeBody({ spec }: { spec: Extract<DiagramSpec, { kind: "free-body" }> 
 }
 
 /* ================================================================== */
+/* Circuit schematic                                                   */
+/* ================================================================== */
+
+function Circuit({ spec }: { spec: Extract<DiagramSpec, { kind: "circuit" }> }) {
+  const n = spec.resistors.length;
+  const W = 520;
+  const H = spec.mode === "parallel" ? 300 : 260;
+  const L = 70; // left wire x
+  const R = 450; // right wire x
+  const T = 70; // top wire y
+  const B = H - 60; // bottom wire y
+  const wire = "var(--diagram-axis)";
+
+  const resistorBox = (x: number, y: number, horizontal: boolean, label: string) => {
+    const bw = 54;
+    const bh = 22;
+    const rx = horizontal ? x - bw / 2 : x - bh / 2;
+    const ry = horizontal ? y - bh / 2 : y - bw / 2;
+    return (
+      <g key={label + x + y}>
+        <rect
+          x={rx}
+          y={ry}
+          width={horizontal ? bw : bh}
+          height={horizontal ? bh : bw}
+          rx={3}
+          fill="color-mix(in oklch, var(--diagram-primary) 12%, var(--card))"
+          stroke="var(--diagram-primary)"
+          strokeWidth={2}
+        />
+        <text
+          x={horizontal ? x : x + 14}
+          y={horizontal ? y - bh / 2 - 8 : y}
+          fontSize={13}
+          fontWeight={500}
+          fill="var(--foreground)"
+          textAnchor={horizontal ? "middle" : "start"}
+          dominantBaseline={horizontal ? "auto" : "middle"}
+        >
+          {label}
+        </text>
+      </g>
+    );
+  };
+
+  if (spec.mode === "series") {
+    // battery on the left wire, resistors in series on the top wire
+    const slots = Array.from({ length: n }, (_, i) => L + ((R - L) * (i + 1)) / (n + 1));
+    return (
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-auto" role="presentation">
+        {/* loop */}
+        <polyline
+          points={`${L},${B} ${L},${T} ${R},${T} ${R},${B} ${L},${B}`}
+          fill="none"
+          stroke={wire}
+          strokeWidth={2}
+        />
+        {/* battery (gap on left wire, two-plate symbol) */}
+        <line x1={L - 16} y1={B / 2 + 16} x2={L + 16} y2={B / 2 + 16} stroke={wire} strokeWidth={3} />
+        <line x1={L - 7} y1={B / 2 + 26} x2={L + 7} y2={B / 2 + 26} stroke={wire} strokeWidth={3} />
+        <line x1={L} y1={B / 2 - 34} x2={L} y2={B / 2 + 16} stroke={wire} strokeWidth={2} />
+        <line x1={L} y1={B / 2 + 26} x2={L} y2={B / 2 + 54} stroke={wire} strokeWidth={2} />
+        <text x={L - 22} y={B / 2 + 8} fontSize={13.5} fontWeight={600} fill="var(--diagram-secondary)" textAnchor="end">
+          {spec.voltage}
+        </text>
+        {/* resistors */}
+        {slots.map((x, i) => resistorBox(x, T, true, spec.resistors[i]))}
+        {/* current arrow on bottom wire */}
+        {spec.showCurrent ? (
+          <g>
+            <line x1={(L + R) / 2 - 26} y1={B} x2={(L + R) / 2 + 14} y2={B} stroke="var(--diagram-secondary)" strokeWidth={2} />
+            <path d={`M${(L + R) / 2 + 22},${B} l-9,-4.5 l0,9 z`} fill="var(--diagram-secondary)" />
+            <text x={(L + R) / 2 + 4} y={B + 20} fontSize={13} fontWeight={600} fill="var(--diagram-secondary)" textAnchor="middle" fontStyle="italic">
+              I
+            </text>
+          </g>
+        ) : null}
+      </svg>
+    );
+  }
+
+  // parallel: battery left, vertical resistor branches
+  const bx = Array.from({ length: n }, (_, i) => L + ((R - L) * (i + 1)) / (n + 1));
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-auto" role="presentation">
+      {/* main loop */}
+      <polyline
+        points={`${L},${B} ${L},${T} ${R},${T} ${R},${B} ${L},${B}`}
+        fill="none"
+        stroke={wire}
+        strokeWidth={2}
+      />
+      {/* battery */}
+      <line x1={L - 16} y1={B / 2 + 16} x2={L + 16} y2={B / 2 + 16} stroke={wire} strokeWidth={3} />
+      <line x1={L - 7} y1={B / 2 + 26} x2={L + 7} y2={B / 2 + 26} stroke={wire} strokeWidth={3} />
+      <line x1={L} y1={B / 2 - 34} x2={L} y2={B / 2 + 16} stroke={wire} strokeWidth={2} />
+      <line x1={L} y1={B / 2 + 26} x2={L} y2={B / 2 + 54} stroke={wire} strokeWidth={2} />
+      <text x={L - 22} y={B / 2 + 8} fontSize={13.5} fontWeight={600} fill="var(--diagram-secondary)" textAnchor="end">
+        {spec.voltage}
+      </text>
+      {/* branches */}
+      {bx.map((x, i) => (
+        <g key={x}>
+          <line x1={x} y1={T} x2={x} y2={B} stroke={wire} strokeWidth={2} />
+          {resistorBox(x, B / 2, false, spec.resistors[i])}
+        </g>
+      ))}
+      {spec.showCurrent ? (
+        <g>
+          <line x1={(L + R) / 2 - 26} y1={B} x2={(L + R) / 2 + 14} y2={B} stroke="var(--diagram-secondary)" strokeWidth={2} />
+          <path d={`M${(L + R) / 2 + 22},${B} l-9,-4.5 l0,9 z`} fill="var(--diagram-secondary)" />
+          <text x={(L + R) / 2 + 4} y={B + 20} fontSize={13} fontWeight={600} fill="var(--diagram-secondary)" textAnchor="middle" fontStyle="italic">
+            I
+          </text>
+        </g>
+      ) : null}
+    </svg>
+  );
+}
+
+/* ================================================================== */
 /* Dispatcher                                                          */
 /* ================================================================== */
 
@@ -561,6 +682,8 @@ export function ProblemDiagram({
         return <RightTriangle spec={spec} />;
       case "free-body":
         return <FreeBody spec={spec} />;
+      case "circuit":
+        return <Circuit spec={spec} />;
       default:
         return null;
     }
