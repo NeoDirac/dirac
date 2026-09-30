@@ -1,0 +1,529 @@
+   495→            "The buoyant force depends on three things: how much fluid is displaced (its density and volume) and the gravity that weighs it.",
+   496→          ),
+   497→          L(
+   498→            "Por el principio de Arquímedes, $F_b$ es el **peso** del fluido desalojado.",
+   499→            "By Archimedes' principle, $F_b$ is the **weight** of the displaced fluid.",
+   500→          ),
+   501→          L(
+   502→            "Un peso es masa por gravedad, y la masa desalojada es densidad por volumen: los tres factores se multiplican.",
+   503→            "A weight is mass times gravity, and the displaced mass is density times volume: the three factors multiply.",
+   504→          ),
+   505→        ],
+   506→        answerDisplay: L(`$F_b = \\rho\\, V\\, g$`, `$F_b = \\rho\\, V\\, g$`),
+   507→        solution: [
+   508→          step(
+   509→            "given",
+   510→            "Incógnita: $F_b$ en función de $\\rho$ (fluido), $V$ (sumergido) y $g$.",
+   511→            "Unknown: $F_b$ in terms of $\\rho$ (fluid), $V$ (submerged) and $g$.",
+   512→          ),
+   513→          step(
+   514→            "approach",
+   515→            "Principio de Arquímedes: el empuje es el peso del fluido desalojado.",
+   516→            "Archimedes' principle: the buoyant force is the weight of the displaced fluid.",
+   517→          ),
+   518→          step(
+   519→            "calculation",
+   520→            `Masa desalojada: $m = \\rho\\, V$.<br>Peso: $F_b = m\\, g = \\rho\\, V\\, g$`,
+   521→            `Displaced mass: $m = \\rho\\, V$.<br>Weight: $F_b = m\\, g = \\rho\\, V\\, g$`,
+   522→          ),
+   523→          step(
+   524→            "result",
+   525→            "La respuesta es el producto de los tres factores: rho*V*g.",
+   526→            "The answer is the product of the three factors: rho*V*g.",
+   527→          ),
+   528→        ],
+   529→      };
+   530→    },
+   531→  ),
+   532→
+   533→  /* ---------------------------------------------------------------- */
+   534→  /* Continuity equation                                              */
+   535→  /* ---------------------------------------------------------------- */
+   536→  template(
+   537→    {
+   538→      id: "fl-cont-01",
+   539→      subject: "physics",
+   540→      topicId: "fluids",
+   541→      subtopicId: "continuity",
+   542→      difficulty: "medium",
+   543→      questionType: "numeric-unit",
+   544→      estimatedTimeSec: 120,
+   545→      tags: ["continuity", "flow"],
+   546→      prerequisites: [],
+   547→    },
+   548→    (rng) => {
+   549→      const [a1, v1, a2] = rng.pick([
+   550→        [12, 3, 4], [15, 4, 5], [20, 2, 4], [10, 3, 2], [30, 5, 6],
+   551→        [10, 2, 5], [12, 4, 3], [15, 3, 5], [20, 5, 4], [30, 3, 2],
+   552→        [18, 3, 6], [24, 4, 6], [16, 4, 2], [25, 2, 5], [24, 3, 4],
+   553→      ]);
+   554→      const v2 = r2((a1 * v1) / a2);
+   555→      return {
+   556→        skill: L("Ecuación de continuidad", "Continuity equation"),
+   557→        statement: L(
+   558→          `Por una tubería horizontal de sección $${a1}\\ \\text{cm}^2$ fluye agua con una rapidez de $${v1}\\ \\text{m/s}$. La tubería se estrecha hasta una sección de $${a2}\\ \\text{cm}^2$. ¿Con qué rapidez fluye el agua en la sección estrecha? (en m/s, 2 cifras significativas)`,
+   559→          `Water flows at $${v1}\\ \\text{m/s}$ through a horizontal pipe of cross-section $${a1}\\ \\text{cm}^2$. The pipe narrows to a cross-section of $${a2}\\ \\text{cm}^2$. How fast does the water flow in the narrow section? (in m/s, 2 significant figures)`,
+   560→        ),
+   561→        answer: {
+   562→          kind: "numeric-unit",
+   563→          value: v2,
+   564→          tolerance: { mode: "sigfig", value: 2 },
+   565→          units: ["m/s"],
+   566→          unitChoices: ["m/s", "m/s^2", "cm^2", "L/s"],
+   567→        },
+   568→        hints: [
+   569→          L(
+   570→            "Datos: $A_1$, $v_1$ y $A_2$; la incógnita es $v_2$. El agua es incomprensible, así que el caudal se conserva.",
+   571→            "Data: $A_1$, $v_1$ and $A_2$; the unknown is $v_2$. Water is incompressible, so the flow rate is conserved.",
+   572→          ),
+   573→          L(
+   574→            "Ecuación de continuidad: $A_1 v_1 = A_2 v_2$.",
+   575→            "Continuity equation: $A_1 v_1 = A_2 v_2$.",
+   576→          ),
+   577→          L(
+   578→            "Despeja $v_2 = A_1 v_1 / A_2$; como las dos áreas están en la misma unidad, no hace falta convertirlas.",
+   579→            "Solve $v_2 = A_1 v_1 / A_2$; since both areas are in the same unit, no conversion is needed.",
+   580→          ),
+   581→        ],
+   582→        answerDisplay: L(`$v_2 = ${tok(v2)}\\ \\text{m/s}$`, `$v_2 = ${tok(v2)}\\ \\text{m/s}$`),
+   583→        solution: [
+   584→          step(
+   585→            "given",
+   586→            `$A_1 = ${a1}\\ \\text{cm}^2$, $v_1 = ${v1}\\ \\text{m/s}$, $A_2 = ${a2}\\ \\text{cm}^2$`,
+   587→            `$A_1 = ${a1}\\ \\text{cm}^2$, $v_1 = ${v1}\\ \\text{m/s}$, $A_2 = ${a2}\\ \\text{cm}^2$`,
+   588→          ),
+   589→          step(
+   590→            "approach",
+   591→            "Caudal constante (fluido incompresible): $A_1 v_1 = A_2 v_2$.",
+   592→            "Constant flow rate (incompressible fluid): $A_1 v_1 = A_2 v_2$.",
+   593→          ),
+   594→          step(
+   595→            "calculation",
+   596→            `$v_2 = \\dfrac{A_1 v_1}{A_2} = \\dfrac{${a1} \\cdot ${v1}}{${a2}} = ${tok(v2)}\\ \\text{m/s}$`,
+   597→            `$v_2 = \\dfrac{A_1 v_1}{A_2} = \\dfrac{${a1} \\cdot ${v1}}{${a2}} = ${tok(v2)}\\ \\text{m/s}$`,
+   598→          ),
+   599→          step(
+   600→            "result",
+   601→            `En la sección estrecha el agua fluye a $${tok(v2)}\\ \\text{m/s}$: al disminuir el área, la rapidez aumenta.`,
+   602→            `In the narrow section the water flows at $${tok(v2)}\\ \\text{m/s}$: as the area decreases, the speed increases.`,
+   603→          ),
+   604→        ],
+   605→      };
+   606→    },
+   607→  ),
+   608→
+   609→  /* ---------------------------------------------------------------- */
+   610→  /* Total force on a dam (hydrostatic, hard)                         */
+   611→  /* ---------------------------------------------------------------- */
+   612→  template(
+   613→    {
+   614→      id: "fl-hydro-02",
+   615→      subject: "physics",
+   616→      topicId: "fluids",
+   617→      subtopicId: "hydrostatic",
+   618→      difficulty: "hard",
+   619→      questionType: "numeric-unit",
+   620→      estimatedTimeSec: 210,
+   621→      tags: ["hydrostatic-pressure", "force-on-dam"],
+   622→      prerequisites: ["hydrostatic"],
+   623→    },
+   624→    (rng) => {
+   625→      const [w, h] = rng.pick([
+   626→        [10, 3], [10, 4], [15, 4], [20, 4], [25, 4], [10, 6], [20, 3], [15, 6],
+   627→      ]);
+   628→      const pBar = 1000 * 9.8 * (h / 2);
+   629→      const area = w * h;
+   630→      const fExact = pBar * area;
+   631→      const f = r2(fExact);
+   632→      return {
+   633→        skill: L("Fuerza total sobre una presa", "Total force on a dam"),
+   634→        statement: L(
+   635→          `Una presa vertical retiene agua hasta una altura de $${h}\\ \\text{m}$; su anchura es de $${w}\\ \\text{m}$ y el agua llega justo al borde. ¿Qué fuerza total ejerce el agua sobre la presa? ($\\rho = 1000\\ \\text{kg/m}^3$, $g = 9{,}8\\ \\text{m/s}^2$; resultado en newtons, 2 cifras significativas)`,
+   636→          `A vertical dam holds water to a depth of $${h}\\ \\text{m}$; the dam is $${w}\\ \\text{m}$ wide and the water reaches the top edge. What total force does the water exert on the dam? ($\\rho = 1000\\ \\text{kg/m}^3$, $g = 9.8\\ \\text{m/s}^2$; answer in newtons, 2 significant figures)`,
+   637→        ),
+   638→        answer: {
+   639→          kind: "numeric-unit",
+   640→          value: f,
+   641→          tolerance: { mode: "sigfig", value: 2 },
+   642→          units: ["N", "newton", "newtons"],
+   643→          unitChoices: ["N", "kN", "Pa", "J"],
+   644→        },
+   645→        hints: [
+   646→          L(
+   647→            "La presión no es constante: crece linealmente con la profundidad. Piensa en la presión **media**.",
+   648→            "The pressure is not constant: it grows linearly with depth. Think of the **average** pressure.",
+   649→          ),
+   650→          L(
+   651→            "Usa $F = \\bar{P}\\, A$ con $\\bar{P} = \\rho\\, g\\, (h/2)$ (la presión al fondo es el doble de la media).",
+   652→            "Use $F = \\bar{P}\\, A$ with $\\bar{P} = \\rho\\, g\\, (h/2)$ (the bottom pressure is twice the average).",
+   653→          ),
+   654→          L(
+   655→            "Calcula por separado la presión media, el área de la presa $A = w\\, h$, y multiplica.",
+   656→            "Compute the average pressure, the dam area $A = w\\, h$, and multiply them.",
+   657→          ),
+   658→        ],
+   659→        answerDisplay: L(`$F \\approx ${tok(f)}\\ \\text{N}$`, `$F \\approx ${tok(f)}\\ \\text{N}$`),
+   660→        solution: [
+   661→          step(
+   662→            "given",
+   663→            `$h = ${h}\\ \\text{m}$, $w = ${w}\\ \\text{m}$, $\\rho = 1000\\ \\text{kg/m}^3$, $g = 9{,}8\\ \\text{m/s}^2$`,
+   664→            `$h = ${h}\\ \\text{m}$, $w = ${w}\\ \\text{m}$, $\\rho = 1000\\ \\text{kg/m}^3$, $g = 9.8\\ \\text{m/s}^2$`,
+   665→          ),
+   666→          step(
+   667→            "approach",
+   668→            "La presión crece de 0 (superficie) a $\\rho g h$ (fondo), así que la media es $\\bar{P} = \\rho g h/2$ y $F = \\bar{P}\\, A$.",
+   669→            "Pressure grows from 0 (surface) to $\\rho g h$ (bottom), so the average is $\\bar{P} = \\rho g h/2$ and $F = \\bar{P}\\, A$.",
+   670→          ),
+   671→          step(
+   672→            "calculation",
+   673→            `$\\bar{P} = 1000 \\cdot 9{,}8 \\cdot ${tok(h / 2)} = ${tok(pBar)}\\ \\text{Pa}$<br>$A = ${w} \\cdot ${h} = ${area}\\ \\text{m}^2$<br>$F = ${tok(pBar)} \\cdot ${area} = ${tok(fExact)}\\ \\text{N} \\approx ${tok(f)}\\ \\text{N}$`,
+   674→            `$\\bar{P} = 1000 \\cdot 9.8 \\cdot ${tok(h / 2)} = ${tok(pBar)}\\ \\text{Pa}$<br>$A = ${w} \\cdot ${h} = ${area}\\ \\text{m}^2$<br>$F = ${tok(pBar)} \\cdot ${area} = ${tok(fExact)}\\ \\text{N} \\approx ${tok(f)}\\ \\text{N}$`,
+   675→          ),
+   676→          step(
+   677→            "result",
+   678→            `El agua empuja la presa con una fuerza total de $\\approx ${tok(f)}\\ \\text{N}$.`,
+   679→            `The water pushes the dam with a total force of $\\approx ${tok(f)}\\ \\text{N}$.`,
+   680→          ),
+   681→        ],
+   682→      };
+   683→    },
+   684→  ),
+   685→
+   686→  /* ---------------------------------------------------------------- */
+   687→  /* Floating fraction (hard, diagram)                                */
+   688→  /* ---------------------------------------------------------------- */
+   689→  template(
+   690→    {
+   691→      id: "fl-buoy-02",
+   692→      subject: "physics",
+   693→      topicId: "fluids",
+   694→      subtopicId: "buoyancy",
+   695→      difficulty: "hard",
+   696→      questionType: "numeric",
+   697→      estimatedTimeSec: 210,
+   698→      tags: ["buoyancy", "floating", "equilibrium"],
+   699→      prerequisites: ["buoyancy"],
+   700→    },
+   701→    (rng) => {
+   702→      const rhoObj = rng.pick([400, 500, 600, 700, 800, 900]);
+   703→      const pct = rhoObj / 10;
+   704→      return {
+   705→        skill: L("Fracción sumergida de un flotador", "Submerged fraction of a floating body"),
+   706→        statement: L(
+   707→          `Un bloque de madera de densidad $${rhoObj}\\ \\text{kg/m}^3$ flota en equilibrio en agua dulce ($\\rho_{agua} = 1000\\ \\text{kg/m}^3$). ¿Qué **porcentaje** de su volumen queda sumergido?`,
+   708→          `A wooden block of density $${rhoObj}\\ \\text{kg/m}^3$ floats in equilibrium in fresh water ($\\rho_{water} = 1000\\ \\text{kg/m}^3$). What **percentage** of its volume is submerged?`,
+   709→        ),
+   710→        diagram: {
+   711→          kind: "vectors",
+   712→          xMin: -20,
+   713→          xMax: 20,
+   714→          yMin: -80,
+   715→          yMax: 80,
+   716→          vectors: [
+   717→            { x: 0, y: 60, label: "F_b", color: "primary" },
+   718→            { x: 0, y: -60, label: "W", color: "secondary" },
+   719→          ],
+   720→          showComponents: false,
+   721→          showGrid: false,
+   722→        },
+   723→        diagramLabel: L(
+   724→          "Bloque flotando en equilibrio: el empuje F_b hacia arriba y el peso W hacia abajo tienen el mismo módulo.",
+   725→          "Block floating in equilibrium: the buoyant force F_b upward and the weight W downward have equal magnitude.",
+   726→        ),
+   727→        answer: { kind: "numeric", value: pct, unitSuffix: "%" },
+   728→        hints: [
+   729→          L(
+   730→            "Al flotar en equilibrio, dos fuerzas se compensan sobre el bloque.",
+   731→            "When floating in equilibrium, two forces on the block balance each other.",
+   732→          ),
+   733→          L(
+   734→            "Escribe el peso $W = \\rho_{objeto}\\, V_{total}\\, g$ y el empuje $F_b = \\rho_{agua}\\, V_{sumergido}\\, g$.",
+   735→            "Write the weight $W = \\rho_{object}\\, V_{total}\\, g$ and the buoyant force $F_b = \\rho_{water}\\, V_{submerged}\\, g$.",
+   736→          ),
+   737→          L(
+   738→            "Al igualarlas, $g$ se cancela y queda $\\dfrac{V_{sumergido}}{V_{total}} = \\dfrac{\\rho_{objeto}}{\\rho_{agua}}$; expresa ese cociente en porcentaje.",
+   739→            "Equating them cancels $g$, leaving $\\dfrac{V_{submerged}}{V_{total}} = \\dfrac{\\rho_{object}}{\\rho_{water}}$; express that ratio as a percentage.",
+   740→          ),
+   741→        ],
+   742→        answerDisplay: L(`$${pct}\\%$ del volumen`, `$${pct}\\%$ of the volume`),
+   743→        solution: [
+   744→          step(
+   745→            "given",
+   746→            `$\\rho_{objeto} = ${rhoObj}\\ \\text{kg/m}^3$, $\\rho_{agua} = 1000\\ \\text{kg/m}^3$, flotación en equilibrio.`,
+   747→            `$\\rho_{object} = ${rhoObj}\\ \\text{kg/m}^3$, $\\rho_{water} = 1000\\ \\text{kg/m}^3$, floating in equilibrium.`,
+   748→          ),
+   749→          step(
+   750→            "approach",
+   751→            "Equilibrio: $F_b = W$, es decir $\\rho_{agua}\\, V_{sum}\\, g = \\rho_{objeto}\\, V_{total}\\, g$.",
+   752→            "Equilibrium: $F_b = W$, i.e. $\\rho_{water}\\, V_{sub}\\, g = \\rho_{object}\\, V_{total}\\, g$.",
+   753→          ),
+   754→          step(
+   755→            "calculation",
+   756→            `$\\dfrac{V_{sum}}{V_{total}} = \\dfrac{${rhoObj}}{1000} = ${tok(rhoObj / 1000)} = ${tok(pct / 100)}$<br>En porcentaje: $${tok(pct / 100)} \\cdot 100 = ${pct}\\%$`,
+   757→            `$\\dfrac{V_{sub}}{V_{total}} = \\dfrac{${rhoObj}}{1000} = ${tok(rhoObj / 1000)} = ${tok(pct / 100)}$<br>As a percentage: $${tok(pct / 100)} \\cdot 100 = ${pct}\\%$`,
+   758→          ),
+   759→          step(
+   760→            "result",
+   761→            `Queda sumergido el $${pct}\\%$ del volumen del bloque.`,
+   762→            `$${pct}\\%$ of the block's volume is submerged.`,
+   763→          ),
+   764→        ],
+   765→      };
+   766→    },
+   767→  ),
+   768→
+   769→  /* ---------------------------------------------------------------- */
+   770→  /* Flow rate and filling time (hard)                                */
+   771→  /* ---------------------------------------------------------------- */
+   772→  template(
+   773→    {
+   774→      id: "fl-cont-02",
+   775→      subject: "physics",
+   776→      topicId: "fluids",
+   777→      subtopicId: "continuity",
+   778→      difficulty: "hard",
+   779→      questionType: "numeric-unit",
+   780→      estimatedTimeSec: 240,
+   781→      tags: ["continuity", "flow-rate", "two-step"],
+   782→      prerequisites: ["continuity"],
+   783→    },
+   784→    (rng) => {
+   785→      const [rCm, v, tank] = rng.pick([
+   786→        [2, 4, 1000], [1, 2, 500], [3, 2, 2000], [2, 2, 1000], [3, 3, 3000],
+   787→        [1, 4, 1000], [3, 4, 1500], [2, 5, 2500], [1, 5, 2000], [3, 5, 4000],
+   788→      ]);
+   789→      const rM = rCm / 100;
+   790→      const area = Math.PI * rM * rM;
+   791→      const qLps = area * v * 1000;
+   792→      const tExact = tank / qLps;
+   793→      const t = r2(tExact);
+   794→      return {
+   795→        skill: L("Caudal y tiempo de llenado", "Flow rate and filling time"),
+   796→        statement: L(
+   797→          `Una manguera de radio $${rCm}\\ \\text{cm}$ lleva agua con una rapidez de $${v}\\ \\text{m/s}$. Con ese chorro se llena un depósito de $${tank}\\ \\text{L}$. ¿Cuánto tarda en llenarse? (en segundos, 2 cifras significativas; usa $\\pi \\approx 3{,}14$)`,
+   798→          `A hose of radius $${rCm}\\ \\text{cm}$ carries water at a speed of $${v}\\ \\text{m/s}$. The jet fills a $${tank}\\ \\text{L}$ tank. How long does it take to fill? (in seconds, 2 significant figures; use $\\pi \\approx 3.14$)`,
+   799→        ),
+   800→        answer: {
+   801→          kind: "numeric-unit",
+   802→          value: t,
+   803→          tolerance: { mode: "sigfig", value: 2 },
+   804→          units: ["s", "segundo", "segundos", "second", "seconds"],
+   805→          unitChoices: ["s", "min", "L/s", "m^3"],
+   806→        },
+   807→        hints: [
+   808→          L(
+   809→            "Hay dos pasos: primero el caudal $Q = A\\, v$ y después el tiempo $t = V_{deposito}/Q$.",
+   810→            "There are two steps: first the flow rate $Q = A\\, v$, then the time $t = V_{tank}/Q$.",
+   811→          ),
+   812→          L(
+   813→            "El área de la sección es $A = \\pi r^2$ con $r$ en metros; el caudal en $\\text{m}^3/\\text{s}$ se pasa a litros por segundo ($1\\ \\text{m}^3 = 1000\\ \\text{L}$).",
+   814→            "The cross-section area is $A = \\pi r^2$ with $r$ in metres; convert the flow rate from $\\text{m}^3/\\text{s}$ to litres per second ($1\\ \\text{m}^3 = 1000\\ \\text{L}$).",
+   815→          ),
+   816→          L(
+   817→            "Calcula $Q$ en L/s y divide el volumen del depósito entre ese caudal.",
+   818→            "Compute $Q$ in L/s and divide the tank volume by that flow rate.",
+   819→          ),
+   820→        ],
+   821→        answerDisplay: L(`$t \\approx ${tok(t)}\\ \\text{s}$`, `$t \\approx ${tok(t)}\\ \\text{s}$`),
+   822→        solution: [
+   823→          step(
+   824→            "given",
+   825→            `$r = ${rCm}\\ \\text{cm} = ${tok(rM)}\\ \\text{m}$, $v = ${v}\\ \\text{m/s}$, $V_{deposito} = ${tank}\\ \\text{L}$`,
+   826→            `$r = ${rCm}\\ \\text{cm} = ${tok(rM)}\\ \\text{m}$, $v = ${v}\\ \\text{m/s}$, $V_{tank} = ${tank}\\ \\text{L}$`,
+   827→          ),
+   828→          step(
+   829→            "approach",
+   830→            "Caudal $Q = A\\, v$ con $A = \\pi r^2$; después $t = V/Q$ con ambos volúmenes en litros.",
+   831→            "Flow rate $Q = A\\, v$ with $A = \\pi r^2$; then $t = V/Q$ with both volumes in litres.",
+   832→          ),
+   833→          step(
+   834→            "calculation",
+   835→            `$A = \\pi \\cdot (${tok(rM)})^2 \\approx ${tok(Number(area.toFixed(4)))}\\ \\text{m}^2$<br>$Q = A \\cdot ${v} \\approx ${tok(Number((area * v).toFixed(5)))}\\ \\text{m}^3/\\text{s} = ${tok(Number(qLps.toFixed(2)))}\\ \\text{L/s}$<br>$t = \\dfrac{${tank}\\ \\text{L}}{${tok(Number(qLps.toFixed(2)))}\\ \\text{L/s}} \\approx ${tok(Number(tExact.toFixed(1)))}\\ \\text{s} \\approx ${tok(t)}\\ \\text{s}$`,
+   836→            `$A = \\pi \\cdot (${tok(rM)})^2 \\approx ${tok(Number(area.toFixed(4)))}\\ \\text{m}^2$<br>$Q = A \\cdot ${v} \\approx ${tok(Number((area * v).toFixed(5)))}\\ \\text{m}^3/\\text{s} = ${tok(Number(qLps.toFixed(2)))}\\ \\text{L/s}$<br>$t = \\dfrac{${tank}\\ \\text{L}}{${tok(Number(qLps.toFixed(2)))}\\ \\text{L/s}} \\approx ${tok(Number(tExact.toFixed(1)))}\\ \\text{s} \\approx ${tok(t)}\\ \\text{s}$`,
+   837→          ),
+   838→          step(
+   839→            "result",
+   840→            `El depósito tarda $\\approx ${tok(t)}\\ \\text{s}$ en llenarse.`,
+   841→            `The tank takes $\\approx ${tok(t)}\\ \\text{s}$ to fill.`,
+   842→          ),
+   843→        ],
+   844→      };
+   845→    },
+   846→  ),
+   847→
+   848→  /* ---------------------------------------------------------------- */
+   849→  /* Bernoulli: pressure drop in a narrowing (hard)                   */
+   850→  /* ---------------------------------------------------------------- */
+   851→  template(
+   852→    {
+   853→      id: "fl-bern-01",
+   854→      subject: "physics",
+   855→      topicId: "fluids",
+   856→      subtopicId: "bernoulli",
+   857→      difficulty: "hard",
+   858→      questionType: "numeric-unit",
+   859→      estimatedTimeSec: 240,
+   860→      tags: ["bernoulli", "flow"],
+   861→      prerequisites: ["continuity"],
+   862→    },
+   863→    (rng) => {
+   864→      const [v1, v2] = rng.pick([
+   865→        [1, 2], [1, 3], [1, 4], [1, 5], [2, 3], [2, 4], [2, 6], [3, 4], [3, 5],
+   866→      ]);
+   867→      const dpExact = 0.5 * 1000 * (v2 * v2 - v1 * v1);
+   868→      const dp = r2(dpExact);
+   869→      return {
+   870→        skill: L("Bernoulli en una tubería horizontal", "Bernoulli in a horizontal pipe"),
+   871→        statement: L(
+   872→          `El agua ($\\rho = 1000\\ \\text{kg/m}^3$) fluye por una tubería horizontal. En la sección ancha su rapidez es $${v1}\\ \\text{m/s}$ y en la estrecha es $${v2}\\ \\text{m/s}$. ¿Cuánto **disminuye** la presión al pasar de la sección ancha a la estrecha? (en pascales, 2 cifras significativas)`,
+   873→          `Water ($\\rho = 1000\\ \\text{kg/m}^3$) flows through a horizontal pipe. Its speed is $${v1}\\ \\text{m/s}$ in the wide section and $${v2}\\ \\text{m/s}$ in the narrow one. By how much does the pressure **drop** from the wide to the narrow section? (in pascals, 2 significant figures)`,
+   874→        ),
+   875→        answer: {
+   876→          kind: "numeric-unit",
+   877→          value: dp,
+   878→          tolerance: { mode: "sigfig", value: 2 },
+   879→          units: ["Pa", "pascal", "pascals"],
+   880→          unitChoices: ["Pa", "kPa", "N", "m/s"],
+   881→        },
+   882→        hints: [
+   883→          L(
+   884→            "La tubería es horizontal, así que la altura no cambia: solo intercambian presión y rapidez.",
+   885→            "The pipe is horizontal, so the height does not change: only pressure and speed trade off.",
+   886→          ),
+   887→          L(
+   888→            "Ecuación de Bernoulli con $y_1 = y_2$: $P_1 + \\tfrac{1}{2}\\rho v_1^2 = P_2 + \\tfrac{1}{2}\\rho v_2^2$.",
+   889→            "Bernoulli's equation with $y_1 = y_2$: $P_1 + \\tfrac{1}{2}\\rho v_1^2 = P_2 + \\tfrac{1}{2}\\rho v_2^2$.",
+   890→          ),
+   891→          L(
+   892→            "Despeja la caída de presión: $P_1 - P_2 = \\tfrac{1}{2}\\rho\\,(v_2^2 - v_1^2)$ y sustituye las dos rapideces.",
+   893→            "Solve for the pressure drop: $P_1 - P_2 = \\tfrac{1}{2}\\rho\\,(v_2^2 - v_1^2)$ and substitute both speeds.",
+   894→          ),
+   895→        ],
+   896→        answerDisplay: L(
+   897→          `$\\Delta P \\approx ${tok(dp)}\\ \\text{Pa}$`,
+   898→          `$\\Delta P \\approx ${tok(dp)}\\ \\text{Pa}$`,
+   899→        ),
+   900→        solution: [
+   901→          step(
+   902→            "given",
+   903→            `$v_1 = ${v1}\\ \\text{m/s}$, $v_2 = ${v2}\\ \\text{m/s}$, $\\rho = 1000\\ \\text{kg/m}^3$, tubería horizontal.`,
+   904→            `$v_1 = ${v1}\\ \\text{m/s}$, $v_2 = ${v2}\\ \\text{m/s}$, $\\rho = 1000\\ \\text{kg/m}^3$, horizontal pipe.`,
+   905→          ),
+   906→          step(
+   907→            "approach",
+   908→            "Bernoulli a altura constante: $P_1 + \\tfrac{1}{2}\\rho v_1^2 = P_2 + \\tfrac{1}{2}\\rho v_2^2$.",
+   909→            "Bernoulli at constant height: $P_1 + \\tfrac{1}{2}\\rho v_1^2 = P_2 + \\tfrac{1}{2}\\rho v_2^2$.",
+   910→          ),
+   911→          step(
+   912→            "calculation",
+   913→            `$P_1 - P_2 = \\tfrac{1}{2} \\cdot 1000 \\cdot (${v2}^2 - ${v1}^2)$<br>$= 500 \\cdot (${v2 * v2} - ${v1 * v1}) = 500 \\cdot ${v2 * v2 - v1 * v1} = ${tok(dpExact)}\\ \\text{Pa} \\approx ${tok(dp)}\\ \\text{Pa}$`,
+   914→            `$P_1 - P_2 = \\tfrac{1}{2} \\cdot 1000 \\cdot (${v2}^2 - ${v1}^2)$<br>$= 500 \\cdot (${v2 * v2} - ${v1 * v1}) = 500 \\cdot ${v2 * v2 - v1 * v1} = ${tok(dpExact)}\\ \\text{Pa} \\approx ${tok(dp)}\\ \\text{Pa}$`,
+   915→          ),
+   916→          step(
+   917→            "result",
+   918→            `La presión baja en $\\approx ${tok(dp)}\\ \\text{Pa}$: donde el fluido va más rápido, la presión es menor.`,
+   919→            `The pressure drops by $\\approx ${tok(dp)}\\ \\text{Pa}$: where the fluid moves faster, the pressure is lower.`,
+   920→          ),
+   921→        ],
+   922→      };
+   923→    },
+   924→  ),
+   925→
+   926→  /* ---------------------------------------------------------------- */
+   927→  /* Challenge: apparent weight → density                             */
+   928→  /* ---------------------------------------------------------------- */
+   929→  template(
+   930→    {
+   931→      id: "fl-chal-01",
+   932→      subject: "physics",
+   933→      topicId: "fluids",
+   934→      subtopicId: "buoyancy",
+   935→      difficulty: "challenge",
+   936→      questionType: "numeric-unit",
+   937→      estimatedTimeSec: 300,
+   938→      tags: ["buoyancy", "density", "multi-step"],
+   939→      prerequisites: ["buoyancy", "density"],
+   940→    },
+   941→    (rng) => {
+   942→      const [w, wa] = rng.pick([
+   943→        [50, 30], [40, 30], [60, 40], [25, 15], [90, 60],
+   944→        [30, 10], [80, 50], [70, 50], [45, 15],
+   945→      ]);
+   946→      const fb = w - wa;
+   947→      const rho = r2((w * 1000) / fb);
+   948→      return {
+   949→        skill: L("Densidad a partir del peso aparente", "Density from apparent weight"),
+   950→        statement: L(
+   951→          `Un objeto cuelga de un dinamómetro: en el aire marca $${w}\\ \\text{N}$ y, sumergido por completo en agua ($\\rho_{agua} = 1000\\ \\text{kg/m}^3$), marca $${wa}\\ \\text{N}$. ¿Cuál es la densidad del objeto? (en kg/m³, 2 cifras significativas)`,
+   952→          `An object hangs from a spring scale: in air it reads $${w}\\ \\text{N}$ and, fully submerged in water ($\\rho_{water} = 1000\\ \\text{kg/m}^3$), it reads $${wa}\\ \\text{N}$. What is the density of the object? (in kg/m³, 2 significant figures)`,
+   953→        ),
+   954→        diagram: {
+   955→          kind: "vectors",
+   956→          xMin: -15,
+   957→          xMax: 15,
+   958→          yMin: -(w + 10),
+   959→          yMax: w + 10,
+   960→          vectors: [
+   961→            { x: 0, y: -w, label: "W", color: "secondary" },
+   962→            { x: 0, y: wa, label: "T", color: "primary", from: { x: -7, y: 0 } },
+   963→            { x: 0, y: fb, label: "F_b", color: "muted", from: { x: 7, y: 0 } },
+   964→          ],
+   965→          showComponents: false,
+   966→          showGrid: false,
+   967→        },
+   968→        diagramLabel: L(
+   969→          `Objeto sumergido: peso W de ${w} N hacia abajo; hacia arriba, la tensión T de ${wa} N y el empuje F_b.`,
+   970→          `Submerged object: weight W of ${w} N downward; upward, the tension T of ${wa} N and the buoyant force F_b.`,
+   971→        ),
+   972→        answer: {
+   973→          kind: "numeric-unit",
+   974→          value: rho,
+   975→          tolerance: { mode: "sigfig", value: 2 },
+   976→          units: ["kg/m^3", "kg/m³", "kg/m3"],
+   977→          unitChoices: ["kg/m^3", "g/cm^3", "kg", "N"],
+   978→        },
+   979→        hints: [
+   980→          L(
+   981→            "La diferencia entre las dos lecturas es el empuje; con él puedes obtener el volumen del objeto.",
+   982→            "The difference between the two readings is the buoyant force; from it you can get the object's volume.",
+   983→          ),
+   984→          L(
+   985→            "Usa $F_b = W - W_{aparente} = \\rho_{agua}\\, V\\, g$ para el volumen y $m = W/g$ para la masa.",
+   986→            "Use $F_b = W - W_{apparent} = \\rho_{water}\\, V\\, g$ for the volume and $m = W/g$ for the mass.",
+   987→          ),
+   988→          L(
+   989→            "Al dividir $m/V$, la gravedad se cancela: $\\rho_{objeto} = W\\ \\rho_{agua} / F_b$.",
+   990→            "When dividing $m/V$, gravity cancels: $\\rho_{object} = W\\ \\rho_{water} / F_b$.",
+   991→          ),
+   992→        ],
+   993→        answerDisplay: L(
+   994→          `$\\rho \\approx ${tok(rho)}\\ \\text{kg/m}^3$`,
+   995→          `$\\rho \\approx ${tok(rho)}\\ \\text{kg/m}^3$`,
+   996→        ),
+   997→        solution: [
+   998→          step(
+   999→            "given",
+  1000→            `$W = ${w}\\ \\text{N}$ (aire), $W_{ap} = ${wa}\\ \\text{N}$ (sumergido), $\\rho_{agua} = 1000\\ \\text{kg/m}^3$, $g = 9{,}8\\ \\text{m/s}^2$.`,
+  1001→            `$W = ${w}\\ \\text{N}$ (air), $W_{app} = ${wa}\\ \\text{N}$ (submerged), $\\rho_{water} = 1000\\ \\text{kg/m}^3$, $g = 9.8\\ \\text{m/s}^2$.`,
+  1002→          ),
+  1003→          step(
+  1004→            "approach",
+  1005→            "El empuje es la caída de la lectura: $F_b = W - W_{ap}$. Con él hallamos el volumen ($F_b = \\rho_{agua} V g$) y con el peso la masa ($m = W/g$); luego $\\rho = m/V$.",
+  1006→            "The buoyant force is the drop in the reading: $F_b = W - W_{app}$. It gives the volume ($F_b = \\rho_{water} V g$) while the weight gives the mass ($m = W/g$); then $\\rho = m/V$.",
+  1007→          ),
+  1008→          step(
+  1009→            "calculation",
+  1010→            `$F_b = ${w} - ${wa} = ${fb}\\ \\text{N}$<br>$V = \\dfrac{F_b}{\\rho_{agua}\\, g} = \\dfrac{${fb}}{1000 \\cdot 9{,}8} = ${tok(r2(fb / 9800))}\\ \\text{m}^3$<br>$m = \\dfrac{W}{g} = \\dfrac{${w}}{9{,}8} = ${tok(r2(w / 9.8))}\\ \\text{kg}$<br>$\\rho = \\dfrac{m}{V} = \\dfrac{${w} \\cdot 1000}{${fb}} \\approx ${tok(rho)}\\ \\text{kg/m}^3$`,
+  1011→            `$F_b = ${w} - ${wa} = ${fb}\\ \\text{N}$<br>$V = \\dfrac{F_b}{\\rho_{water}\\, g} = \\dfrac{${fb}}{1000 \\cdot 9.8} = ${tok(r2(fb / 9800))}\\ \\text{m}^3$<br>$m = \\dfrac{W}{g} = \\dfrac{${w}}{9.8} = ${tok(r2(w / 9.8))}\\ \\text{kg}$<br>$\\rho = \\dfrac{m}{V} = \\dfrac{${w} \\cdot 1000}{${fb}} \\approx ${tok(rho)}\\ \\text{kg/m}^3$`,
+  1012→          ),
+  1013→          step(
+  1014→            "result",
+  1015→            `La densidad del objeto es $\\approx ${tok(rho)}\\ \\text{kg/m}^3$ (más denso que el agua, por eso se hunde).`,
+  1016→            `The object's density is $\\approx ${tok(rho)}\\ \\text{kg/m}^3$ (denser than water, which is why it sinks).`,
+  1017→          ),
+  1018→        ],
+  1019→      };
+  1020→    },
+  1021→  ),
+  1022→];
+  1023→

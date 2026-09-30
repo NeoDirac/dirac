@@ -1,0 +1,1155 @@
+     1→/**
+     2→ * PHYSICS · Mathematical Foundations for Physics
+     3→ *
+     4→ * Units, scientific notation, significant figures, unit conversion,
+     5→ * graph reading, slopes and basic trigonometry — the toolkit every
+     6→ * other physics topic builds on. Includes MC, numeric and expression
+     7→ * styles; diagrams: function-graph and right-triangle.
+     8→ */
+     9→
+    10→import { template, L, step, tok } from "@/lib/problem";
+    11→import type { ProblemTemplate, McOption } from "@/lib/types";
+    12→
+    13→/* ---------- number helpers (local conventions) ---------- */
+    14→
+    15→/** Round to 1 decimal — intermediate display values. */
+    16→const r1 = (n: number): number => Math.round(n * 10) / 10;
+    17→/** Round to 2 decimals — intermediate display values. */
+    18→const r2 = (n: number): number => Math.round(n * 100) / 100;
+    19→/** Remove floating-point noise (0.30000000000000004 → 0.3). */
+    20→const clean = (n: number): number => Number(n.toPrecision(10));
+    21→/** Round to 2 significant figures, half away from zero (answers with sigfig tolerance). */
+    22→function sig2(n: number): number {
+    23→  if (n === 0) return 0;
+    24→  const exp = Math.floor(Math.log10(Math.abs(n)));
+    25→  const f = Math.pow(10, exp - 1);
+    26→  const scaled = n / f;
+    27→  const r = scaled >= 0 ? Math.floor(scaled + 0.5) : Math.ceil(scaled - 0.5);
+    28→  return clean(r * f);
+    29→}
+    30→
+    31→export const templates: ProblemTemplate[] = [
+    32→  /* ---------------------------------------------------------------- */
+    33→  /* SI units of derived quantities (MC)                               */
+    34→  /* ---------------------------------------------------------------- */
+    35→  template(
+    36→    {
+    37→      id: "pf-units-01",
+    38→      subject: "physics",
+    39→      topicId: "physics-foundations",
+    40→      subtopicId: "units",
+    41→      difficulty: "easy",
+    42→      questionType: "multiple-choice",
+    43→      estimatedTimeSec: 60,
+    44→      tags: ["si-units", "units"],
+    45→      prerequisites: [],
+    46→    },
+    47→    (rng) => {
+    48→      const items = [
+    49→        {
+    50→          es: "la fuerza",
+    51→          en: "force",
+    52→          unit: "\\text{N}",
+    53→          derEs: "fuerza = masa × aceleración $\\Rightarrow \\text{kg}\\cdot\\text{m/s}^2 = \\text{N}$",
+    54→          derEn: "force = mass × acceleration $\\Rightarrow \\text{kg}\\cdot\\text{m/s}^2 = \\text{N}$",
+    55→        },
+    56→        {
+    57→          es: "la energía",
+    58→          en: "energy",
+    59→          unit: "\\text{J}",
+    60→          derEs: "energía = fuerza × desplazamiento $\\Rightarrow \\text{N}\\cdot\\text{m} = \\text{J}$",
+    61→          derEn: "energy = force × displacement $\\Rightarrow \\text{N}\\cdot\\text{m} = \\text{J}$",
+    62→        },
+    63→        {
+    64→          es: "la potencia",
+    65→          en: "power",
+    66→          unit: "\\text{W}",
+    67→          derEs: "potencia = trabajo / tiempo $\\Rightarrow \\text{J}/\\text{s} = \\text{W}$",
+    68→          derEn: "power = work / time $\\Rightarrow \\text{J}/\\text{s} = \\text{W}$",
+    69→        },
+    70→        {
+    71→          es: "la presión",
+    72→          en: "pressure",
+    73→          unit: "\\text{Pa}",
+    74→          derEs: "presión = fuerza / área $\\Rightarrow \\text{N}/\\text{m}^2 = \\text{Pa}$",
+    75→          derEn: "pressure = force / area $\\Rightarrow \\text{N}/\\text{m}^2 = \\text{Pa}$",
+    76→        },
+    77→        {
+    78→          es: "la frecuencia",
+    79→          en: "frequency",
+    80→          unit: "\\text{Hz}",
+    81→          derEs: "frecuencia = 1 / periodo $\\Rightarrow 1/\\text{s} = \\text{Hz}$",
+    82→          derEn: "frequency = 1 / period $\\Rightarrow 1/\\text{s} = \\text{Hz}$",
+    83→        },
+    84→        {
+    85→          es: "la carga eléctrica",
+    86→          en: "electric charge",
+    87→          unit: "\\text{C}",
+    88→          derEs: "carga = corriente × tiempo $\\Rightarrow \\text{A}\\cdot\\text{s} = \\text{C}$",
+    89→          derEn: "charge = current × time $\\Rightarrow \\text{A}\\cdot\\text{s} = \\text{C}$",
+    90→        },
+    91→      ];
+    92→      const pick = rng.pick(items);
+    93→      const pool = [
+    94→        "\\text{N}",
+    95→        "\\text{J}",
+    96→        "\\text{W}",
+    97→        "\\text{Pa}",
+    98→        "\\text{Hz}",
+    99→        "\\text{C}",
+   100→        "\\text{kg}",
+   101→        "\\text{m}",
+   102→      ].filter((u) => u !== pick.unit);
+   103→      const bad = rng.shuffle(pool).slice(0, 3);
+   104→      const options: McOption[] = [
+   105→        { id: "a", text: L(`$${pick.unit}$`, `$${pick.unit}$`), correct: true },
+   106→        { id: "b", text: L(`$${bad[0]}$`, `$${bad[0]}$`), correct: false },
+   107→        { id: "c", text: L(`$${bad[1]}$`, `$${bad[1]}$`), correct: false },
+   108→        { id: "d", text: L(`$${bad[2]}$`, `$${bad[2]}$`), correct: false },
+   109→      ];
+   110→      return {
+   111→        skill: L("Unidades del SI", "SI units"),
+   112→        statement: L(
+   113→          `¿Cuál es la **unidad del SI** de ${pick.es}?`,
+   114→          `What is the **SI unit** of ${pick.en}?`,
+   115→        ),
+   116→        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+   117→        hints: [
+   118→          L(
+   119→            "Piensa en la ecuación que define la magnitud: ¿qué unidades básicas se combinan?",
+   120→            "Think of the equation that defines the quantity: which base units combine?",
+   121→          ),
+   122→          L(
+   123→            "Casi todas las unidades derivadas con nombre propio honran a un científico: newton, joule, watt, pascal…",
+   124→            "Most derived units with their own name honour a scientist: newton, joule, watt, pascal…",
+   125→          ),
+   126→          L(
+   127→            "Descarta las unidades de magnitudes distintas: el kg es de masa y el m es de longitud.",
+   128→            "Discard units of different quantities: kg is for mass and m is for length.",
+   129→          ),
+   130→        ],
+   131→        answerDisplay: L(`$${pick.unit}$`, `$${pick.unit}$`),
+   132→        solution: [
+   133→          step("given", `Magnitud: ${pick.es}.`, `Quantity: ${pick.en}.`),
+   134→          step(
+   135→            "approach",
+   136→            "Cada unidad derivada del SI se obtiene de la ecuación que define la magnitud.",
+   137→            "Every derived SI unit follows from the equation that defines the quantity.",
+   138→          ),
+   139→          step("calculation", pick.derEs, pick.derEn),
+   140→          step(
+   141→            "result",
+   142→            `La unidad del SI es $${pick.unit}$.`,
+   143→            `The SI unit is $${pick.unit}$.`,
+   144→          ),
+   145→        ],
+   146→      };
+   147→    },
+   148→  ),
+   149→
+   150→  /* ---------------------------------------------------------------- */
+   151→  /* Scientific notation (MC)                                          */
+   152→  /* ---------------------------------------------------------------- */
+   153→  template(
+   154→    {
+   155→      id: "pf-sci-01",
+   156→      subject: "physics",
+   157→      topicId: "physics-foundations",
+   158→      subtopicId: "scientific-notation",
+   159→      difficulty: "easy",
+   160→      questionType: "multiple-choice",
+   161→      estimatedTimeSec: 90,
+   162→      tags: ["scientific-notation"],
+   163→      prerequisites: ["units"],
+   164→    },
+   165→    (rng) => {
+   166→      const mant = rng.pick([2.5, 3.4, 4.8, 5.6, 6.3, 7.2]);
+   167→      const exp = rng.pick([-4, -3, 2, 3, 5]);
+   168→      const plain = clean(mant * Math.pow(10, exp));
+   169→      const mEs = mant.toFixed(1).replace(".", "{,}");
+   170→      const mEn = mant.toFixed(1);
+   171→      const opt = (m: number, e: number) =>
+   172→        L(
+   173→          `$${m.toFixed(1).replace(".", "{,}")}\\times10^{${e}}$`,
+   174→          `$${m.toFixed(1)}\\times10^{${e}}$`,
+   175→        );
+   176→      const options: McOption[] = [
+   177→        { id: "a", text: opt(mant, exp), correct: true },
+   178→        { id: "b", text: opt(mant, exp + 1), correct: false },
+   179→        { id: "c", text: opt(mant, exp - 1), correct: false },
+   180→        { id: "d", text: opt(mant, -exp), correct: false },
+   181→      ];
+   182→      return {
+   183→        skill: L("Notación científica", "Scientific notation"),
+   184→        statement: L(
+   185→          `Expresa en **notación científica** la cantidad $${tok(plain)}\\ \\text{m}$.`,
+   186→          `Write the quantity $${tok(plain)}\\ \\text{m}$ in **scientific notation**.`,
+   187→        ),
+   188→        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+   189→        hints: [
+   190→          L(
+   191→            "En notación científica se escribe $a \\times 10^n$ con $1 \\le a < 10$.",
+   192→            "Scientific notation writes $a \\times 10^n$ with $1 \\le a < 10$.",
+   193→          ),
+   194→          L(
+   195→            "Mueve la coma decimal hasta dejar un solo dígito (distinto de cero) antes de la coma.",
+   196→            "Shift the decimal point until a single non-zero digit remains before it.",
+   197→          ),
+   198→          L(
+   199→            "El exponente $n$ cuenta los lugares que moviste la coma: negativo si el número es menor que 1.",
+   200→            "The exponent $n$ counts the places you shifted: negative if the number is smaller than 1.",
+   201→          ),
+   202→        ],
+   203→        answerDisplay: L(
+   204→          `$${mEs}\\times10^{${exp}}\\ \\text{m}$`,
+   205→          `$${mEn}\\times10^{${exp}}\\ \\text{m}$`,
+   206→        ),
+   207→        solution: [
+   208→          step(
+   209→            "given",
+   210→            `Cantidad: $${tok(plain)}\\ \\text{m}$.`,
+   211→            `Quantity: $${tok(plain)}\\ \\text{m}$.`,
+   212→          ),
+   213→          step(
+   214→            "approach",
+   215→            "Buscamos $a \\times 10^n$ con $1 \\le a < 10$ y $n$ entero.",
+   216→            "We want $a \\times 10^n$ with $1 \\le a < 10$ and $n$ an integer.",
+   217→          ),
+   218→          step(
+   219→            "calculation",
+   220→            `Desplazamos la coma ${Math.abs(exp)} lugares ${exp > 0 ? "a la izquierda" : "a la derecha"}: $${tok(plain)} = ${mEs}\\times10^{${exp}}$.`,
+   221→            `Shift the decimal point ${Math.abs(exp)} places ${exp > 0 ? "to the left" : "to the right"}: $${tok(plain)} = ${mEn}\\times10^{${exp}}$.`,
+   222→          ),
+   223→          step(
+   224→            "result",
+   225→            `La notación científica es $${mEs}\\times10^{${exp}}\\ \\text{m}$.`,
+   226→            `The scientific notation is $${mEn}\\times10^{${exp}}\\ \\text{m}$.`,
+   227→          ),
+   228→        ],
+   229→      };
+   230→    },
+   231→  ),
+   232→
+   233→  /* ---------------------------------------------------------------- */
+   234→  /* Scientific notation (typed numeric)                               */
+   235→  /* ---------------------------------------------------------------- */
+   236→  template(
+   237→    {
+   238→      id: "pf-sci-02",
+   239→      subject: "physics",
+   240→      topicId: "physics-foundations",
+   241→      subtopicId: "scientific-notation",
+   242→      difficulty: "medium",
+   243→      questionType: "numeric",
+   244→      estimatedTimeSec: 120,
+   245→      tags: ["scientific-notation", "orders-of-magnitude"],
+   246→      prerequisites: ["scientific-notation"],
+   247→    },
+   248→    (rng) => {
+   249→      const mant = rng.pick([2.5, 3.4, 4.8, 6.7]);
+   250→      const exp = rng.pick([-7, -6, -5]);
+   251→      const plain = clean(mant * Math.pow(10, exp));
+   252→      const mEs = mant.toFixed(1).replace(".", "{,}");
+   253→      const mEn = mant.toFixed(1);
+   254→      return {
+   255→        skill: L("Escribir notación científica", "Writing scientific notation"),
+   256→        statement: L(
+   257→          `Un sensor mide una masa muy pequeña: $m = ${tok(plain)}\\ \\text{kg}$. Escribe ese valor en **notación científica** (solo el número; puedes teclear, por ejemplo, 3.2e-5 o 3.2*10^-5).`,
+   258→          `A sensor measures a tiny mass: $m = ${tok(plain)}\\ \\text{kg}$. Write that value in **scientific notation** (the number only; you may type, for example, 3.2e-5 or 3.2*10^-5).`,
+   259→        ),
+   260→        answer: {
+   261→          kind: "numeric",
+   262→          value: plain,
+   263→          tolerance: { mode: "relative", value: 0.02 },
+   264→        },
+   265→        hints: [
+   266→          L(
+   267→            "El objetivo es la forma $a \\times 10^n$ con $1 \\le a < 10$.",
+   268→            "The goal is the form $a \\times 10^n$ with $1 \\le a < 10$.",
+   269→          ),
+   270→          L(
+   271→            "Cuenta cuántos lugares hay entre la coma y el primer dígito distinto de cero.",
+   272→            "Count how many places separate the decimal point from the first non-zero digit.",
+   273→          ),
+   274→          L(
+   275→            "Como el número es menor que 1, el exponente es negativo.",
+   276→            "Since the number is smaller than 1, the exponent is negative.",
+   277→          ),
+   278→        ],
+   279→        answerDisplay: L(
+   280→          `$m = ${mEs}\\times10^{${exp}}\\ \\text{kg}$`,
+   281→          `$m = ${mEn}\\times10^{${exp}}\\ \\text{kg}$`,
+   282→        ),
+   283→        solution: [
+   284→          step(
+   285→            "given",
+   286→            `$m = ${tok(plain)}\\ \\text{kg}$`,
+   287→            `$m = ${tok(plain)}\\ \\text{kg}$`,
+   288→          ),
+   289→          step(
+   290→            "approach",
+   291→            "Reescribimos como $a\\times10^n$ con $1\\le a<10$.",
+   292→            "We rewrite it as $a\\times10^n$ with $1\\le a<10$.",
+   293→          ),
+   294→          step(
+   295→            "calculation",
+   296→            `El primer dígito distinto de cero está ${Math.abs(exp)} lugares después de la coma, así que $n = ${exp}$ y $a = ${mEs}$.`,
+   297→            `The first non-zero digit sits ${Math.abs(exp)} places after the decimal point, so $n = ${exp}$ and $a = ${mEn}$.`,
+   298→          ),
+   299→          step(
+   300→            "result",
+   301→            `$m = ${mEs}\\times10^{${exp}}\\ \\text{kg}$.`,
+   302→            `$m = ${mEn}\\times10^{${exp}}\\ \\text{kg}$.`,
+   303→          ),
+   304→        ],
+   305→      };
+   306→    },
+   307→  ),
+   308→
+   309→  /* ---------------------------------------------------------------- */
+   310→  /* Counting significant figures                                      */
+   311→  /* ---------------------------------------------------------------- */
+   312→  template(
+   313→    {
+   314→      id: "pf-sigfig-01",
+   315→      subject: "physics",
+   316→      topicId: "physics-foundations",
+   317→      subtopicId: "significant-figures",
+   318→      difficulty: "medium",
+   319→      questionType: "numeric",
+   320→      estimatedTimeSec: 120,
+   321→      tags: ["significant-figures", "measurement"],
+   322→      prerequisites: ["units"],
+   323→    },
+   324→    (rng) => {
+   325→      const items = [
+   326→        {
+   327→          v: "0.00450",
+   328→          unit: "m",
+   329→          sf: 3,
+   330→          whyEs:
+   331→            "Los ceros a la izquierda no cuentan; cuentan el 4, el 5 y el cero final (está tras el punto decimal).",
+   332→          whyEn:
+   333→            "Leading zeros do not count; the 4, the 5 and the final zero count (it is after the decimal point).",
+   334→        },
+   335→        {
+   336→          v: "1.20",
+   337→          unit: "s",
+   338→          sf: 3,
+   339→          whyEs: "El cero final tras el punto decimal es significativo: 1, 2 y 0.",
+   340→          whyEn: "The trailing zero after the decimal point is significant: 1, 2 and 0.",
+   341→        },
+   342→        {
+   343→          v: "0.030",
+   344→          unit: "kg",
+   345→          sf: 2,
+   346→          whyEs: "Solo cuentan el 3 y el cero final; los ceros a la izquierda no.",
+   347→          whyEn: "Only the 3 and the trailing zero count; leading zeros do not.",
+   348→        },
+   349→        {
+   350→          v: "205",
+   351→          unit: "m",
+   352→          sf: 3,
+   353→          whyEs: "Los ceros entre dígitos distintos de cero son significativos.",
+   354→          whyEn: "Zeros between non-zero digits are significant.",
+   355→        },
+   356→        {
+   357→          v: "0.008",
+   358→          unit: "s",
+   359→          sf: 1,
+   360→          whyEs: "Solo cuenta el 8; los ceros a la izquierda solo sitúan la coma.",
+   361→          whyEn: "Only the 8 counts; leading zeros just place the decimal point.",
+   362→        },
+   363→        {
+   364→          v: "3.05",
+   365→          unit: "kg",
+   366→          sf: 3,
+   367→          whyEs: "El cero entre el 3 y el 5 está entre dígitos significativos: cuenta.",
+   368→          whyEn: "The zero between the 3 and the 5 lies between significant digits: it counts.",
+   369→        },
+   370→      ];
+   371→      const pick = rng.pick(items);
+   372→      const vEs = pick.v.replace(".", "{,}");
+   373→      return {
+   374→        skill: L("Contar cifras significativas", "Counting significant figures"),
+   375→        statement: L(
+   376→          `¿Cuántas **cifras significativas** tiene la medida $${vEs}\\ \\text{${pick.unit}}$?`,
+   377→          `How many **significant figures** does the measurement $${pick.v}\\ \\text{${pick.unit}}$ have?`,
+   378→        ),
+   379→        answer: { kind: "numeric", value: pick.sf },
+   380→        hints: [
+   381→          L(
+   382→            "Empieza a contar en el primer dígito distinto de cero, por la izquierda.",
+   383→            "Start counting at the first non-zero digit, from the left.",
+   384→          ),
+   385→          L(
+   386→            "Los ceros a la izquierda del primer dígito distinto de cero nunca son significativos.",
+   387→            "Zeros to the left of the first non-zero digit are never significant.",
+   388→          ),
+   389→          L(
+   390→            "Sí cuentan: los ceros entre dígitos y los ceros finales que están tras el punto decimal.",
+   391→            "These do count: zeros between digits and trailing zeros after the decimal point.",
+   392→          ),
+   393→        ],
+   394→        answerDisplay: L(
+   395→          `**${pick.sf}** cifras significativas`,
+   396→          `**${pick.sf}** significant figures`,
+   397→        ),
+   398→        solution: [
+   399→          step(
+   400→            "given",
+   401→            `Medida: $${vEs}\\ \\text{${pick.unit}}$.`,
+   402→            `Measurement: $${pick.v}\\ \\text{${pick.unit}}$.`,
+   403→          ),
+   404→          step(
+   405→            "approach",
+   406→            "Aplicamos las reglas: los ceros a la izquierda no cuentan; los ceros entre dígitos y los finales tras el punto sí cuentan.",
+   407→            "Apply the rules: leading zeros never count; zeros between digits and trailing zeros after the decimal point do count.",
+   408→          ),
+   409→          step("calculation", pick.whyEs, pick.whyEn),
+   410→          step(
+   411→            "result",
+   412→            `La medida tiene **${pick.sf} cifras significativas**.`,
+   413→            `The measurement has **${pick.sf} significant figures**.`,
+   414→          ),
+   415→        ],
+   416→      };
+   417→    },
+   418→  ),
+   419→
+   420→  /* ---------------------------------------------------------------- */
+   421→  /* Rounding to 2 significant figures (MC)                            */
+   422→  /* ---------------------------------------------------------------- */
+   423→  template(
+   424→    {
+   425→      id: "pf-sigfig-02",
+   426→      subject: "physics",
+   427→      topicId: "physics-foundations",
+   428→      subtopicId: "significant-figures",
+   429→      difficulty: "hard",
+   430→      questionType: "multiple-choice",
+   431→      estimatedTimeSec: 150,
+   432→      tags: ["significant-figures", "rounding"],
+   433→      prerequisites: ["significant-figures"],
+   434→    },
+   435→    (rng) => {
+   436→      const items = [
+   437→        {
+   438→          v: "0.00457",
+   439→          ctxEs: "una longitud",
+   440→          ctxEn: "a length",
+   441→          unit: "m",
+   442→          ok: "0.0046",
+   443→          bad: ["0.0045", "0.005", "0.46"],
+   444→        },
+   445→        {
+   446→          v: "3.678",
+   447→          ctxEs: "un tiempo",
+   448→          ctxEn: "a time",
+   449→          unit: "s",
+   450→          ok: "3.7",
+   451→          bad: ["3.68", "3.6", "0.37"],
+   452→        },
+   453→        {
+   454→          v: "4587",
+   455→          ctxEs: "una distancia",
+   456→          ctxEn: "a distance",
+   457→          unit: "m",
+   458→          ok: "4600",
+   459→          bad: ["4500", "4590", "5000"],
+   460→        },
+   461→        {
+   462→          v: "27.43",
+   463→          ctxEs: "una masa",
+   464→          ctxEn: "a mass",
+   465→          unit: "kg",
+   466→          ok: "27",
+   467→          bad: ["27.4", "28", "2.7"],
+   468→        },
+   469→      ];
+   470→      const pick = rng.pick(items);
+   471→      const disp = (s: string) => L(`$${s.replace(".", "{,}")}$`, `$${s}$`);
+   472→      const options: McOption[] = [
+   473→        { id: "a", text: disp(pick.ok), correct: true },
+   474→        { id: "b", text: disp(pick.bad[0]), correct: false },
+   475→        { id: "c", text: disp(pick.bad[1]), correct: false },
+   476→        { id: "d", text: disp(pick.bad[2]), correct: false },
+   477→      ];
+   478→      const vEs = pick.v.replace(".", "{,}");
+   479→      return {
+   480→        skill: L("Redondeo a 2 cifras significativas", "Rounding to 2 significant figures"),
+   481→        statement: L(
+   482→          `Un instrumento mide ${pick.ctxEs} de $${vEs}\\ \\text{${pick.unit}}$. Exprésala con **2 cifras significativas**.`,
+   483→          `An instrument measures ${pick.ctxEn} of $${pick.v}\\ \\text{${pick.unit}}$. Express it with **2 significant figures**.`,
+   484→        ),
+   485→        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+   486→        hints: [
+   487→          L(
+   488→            "Localiza las dos primeras cifras significativas, empezando en el primer dígito distinto de cero.",
+   489→            "Locate the first two significant figures, starting at the first non-zero digit.",
+   490→          ),
+   491→          L(
+   492→            "Mira la cifra siguiente para decidir si redondeas hacia arriba o hacia abajo.",
+   493→            "Look at the next digit to decide whether to round up or down.",
+   494→          ),
+   495→          L(
+   496→            "Al redondear se conserva el orden de magnitud: no cambies la posición de la coma.",
+   497→            "Rounding preserves the order of magnitude: do not move the decimal point.",
+   498→          ),
+   499→        ],
+   500→        answerDisplay: disp(pick.ok),
+   501→        solution: [
+   502→          step(
+   503→            "given",
+   504→            `Medida: $${vEs}\\ \\text{${pick.unit}}$.`,
+   505→            `Measurement: $${pick.v}\\ \\text{${pick.unit}}$.`,
+   506→          ),
+   507→          step(
+   508→            "approach",
+   509→            "Nos quedamos con las dos primeras cifras significativas y redondeamos según la tercera.",
+   510→            "Keep the first two significant figures and round according to the third one.",
+   511→          ),
+   512→          step(
+   513→            "calculation",
+   514→            `Tomamos las dos primeras cifras significativas de $${vEs}$ y miramos la tercera para decidir el redondeo; el resto de dígitos se convierten en ceros o se eliminan si están tras el punto decimal.`,
+   515→            `Keep the first two significant figures of $${pick.v}$ and look at the third one to decide the rounding; the remaining digits become zeros, or are dropped if they lie after the decimal point.`,
+   516→          ),
+   517→          step(
+   518→            "result",
+   519→            `Con 2 cifras significativas: $${pick.ok.replace(".", "{,}")}\\ \\text{${pick.unit}}$.`,
+   520→            `With 2 significant figures: $${pick.ok}\\ \\text{${pick.unit}}$.`,
+   521→          ),
+   522→        ],
+   523→      };
+   524→    },
+   525→  ),
+   526→
+   527→  /* ---------------------------------------------------------------- */
+   528→  /* Unit conversion: km/h → m/s                                       */
+   529→  /* ---------------------------------------------------------------- */
+   530→  template(
+   531→    {
+   532→      id: "pf-conv-01",
+   533→      subject: "physics",
+   534→      topicId: "physics-foundations",
+   535→      subtopicId: "unit-conversion",
+   536→      difficulty: "medium",
+   537→      questionType: "numeric-unit",
+   538→      estimatedTimeSec: 120,
+   539→      tags: ["unit-conversion", "speed"],
+   540→      prerequisites: ["units"],
+   541→    },
+   542→    (rng) => {
+   543→      const kmh = rng.pick([36, 54, 72, 90, 108]);
+   544→      const ms = kmh / 3.6;
+   545→      return {
+   546→        skill: L("Conversión de rapidez", "Speed conversion"),
+   547→        statement: L(
+   548→          `Un tren de alta velocidad circula a $${kmh}\\ \\text{km/h}$. ¿A cuánto equivale su rapidez en $\\text{m/s}$? (2 cifras significativas).`,
+   549→          `A high-speed train travels at $${kmh}\\ \\text{km/h}$. What is its speed in $\\text{m/s}$? (2 significant figures).`,
+   550→        ),
+   551→        answer: {
+   552→          kind: "numeric-unit",
+   553→          value: sig2(ms),
+   554→          tolerance: { mode: "sigfig", value: 2 },
+   555→          units: ["m/s"],
+   556→          unitChoices: ["m/s", "km/h", "m", "s"],
+   557→        },
+   558→        hints: [
+   559→          L(
+   560→            "Identifica los dos factores de conversión: $1\\ \\text{km} = 1000\\ \\text{m}$ y $1\\ \\text{h} = 3600\\ \\text{s}$.",
+   561→            "Identify the two conversion factors: $1\\ \\text{km} = 1000\\ \\text{m}$ and $1\\ \\text{h} = 3600\\ \\text{s}$.",
+   562→          ),
+   563→          L(
+   564→            "Multiplica por $\\frac{1000\\ \\text{m}}{1\\ \\text{km}}$ y por $\\frac{1\\ \\text{h}}{3600\\ \\text{s}}$ para que se cancelen km y h.",
+   565→            "Multiply by $\\frac{1000\\ \\text{m}}{1\\ \\text{km}}$ and by $\\frac{1\\ \\text{h}}{3600\\ \\text{s}}$ so that km and h cancel.",
+   566→          ),
+   567→          L(
+   568→            "En total divides entre 3{,}6: pasa de km/h a m/s dividiendo entre 3{,}6.",
+   569→            "Overall you divide by 3.6: to go from km/h to m/s, divide by 3.6.",
+   570→          ),
+   571→        ],
+   572→        answerDisplay: L(
+   573→          `$v = ${tok(ms)}\\ \\text{m/s}$`,
+   574→          `$v = ${tok(ms)}\\ \\text{m/s}$`,
+   575→        ),
+   576→        solution: [
+   577→          step(
+   578→            "given",
+   579→            `$v = ${kmh}\\ \\text{km/h}$; $1\\ \\text{km} = 1000\\ \\text{m}$; $1\\ \\text{h} = 3600\\ \\text{s}$.`,
+   580→            `$v = ${kmh}\\ \\text{km/h}$; $1\\ \\text{km} = 1000\\ \\text{m}$; $1\\ \\text{h} = 3600\\ \\text{s}$.`,
+   581→          ),
+   582→          step(
+   583→            "approach",
+   584→            "Multiplicamos por los factores de conversión de forma que km y h se cancelen.",
+   585→            "Multiply by conversion factors so that km and h cancel out.",
+   586→          ),
+   587→          step(
+   588→            "calculation",
+   589→            `$v = ${kmh}\\ \\frac{\\text{km}}{\\text{h}} \\cdot \\frac{1000\\ \\text{m}}{1\\ \\text{km}} \\cdot \\frac{1\\ \\text{h}}{3600\\ \\text{s}} = \\frac{${kmh * 1000}}{3600}\\ \\text{m/s} = ${tok(ms)}\\ \\text{m/s}$`,
+   590→            `$v = ${kmh}\\ \\frac{\\text{km}}{\\text{h}} \\cdot \\frac{1000\\ \\text{m}}{1\\ \\text{km}} \\cdot \\frac{1\\ \\text{h}}{3600\\ \\text{s}} = \\frac{${kmh * 1000}}{3600}\\ \\text{m/s} = ${tok(ms)}\\ \\text{m/s}$`,
+   591→          ),
+   592→          step(
+   593→            "result",
+   594→            `El tren circula a $${tok(ms)}\\ \\text{m/s}$.`,
+   595→            `The train travels at $${tok(ms)}\\ \\text{m/s}$.`,
+   596→          ),
+   597→        ],
+   598→      };
+   599→    },
+   600→  ),
+   601→
+   602→  /* ---------------------------------------------------------------- */
+   603→  /* Unit conversion: g/cm³ → kg/m³                                    */
+   604→  /* ---------------------------------------------------------------- */
+   605→  template(
+   606→    {
+   607→      id: "pf-conv-02",
+   608→      subject: "physics",
+   609→      topicId: "physics-foundations",
+   610→      subtopicId: "unit-conversion",
+   611→      difficulty: "hard",
+   612→      questionType: "numeric-unit",
+   613→      estimatedTimeSec: 180,
+   614→      tags: ["unit-conversion", "density"],
+   615→      prerequisites: ["unit-conversion"],
+   616→    },
+   617→    (rng) => {
+   618→      const gcm = rng.pick([1.8, 2.7, 3.2, 4.5, 7.8, 8.9]);
+   619→      const kgm = gcm * 1000;
+   620→      return {
+   621→        skill: L("Conversión de densidades", "Density conversion"),
+   622→        statement: L(
+   623→          `La densidad de un mineral es $\\rho = ${tok(gcm)}\\ \\text{g/cm}^3$. Exprésala en $\\text{kg/m}^3$ (2 cifras significativas).`,
+   624→          `The density of a mineral is $\\rho = ${tok(gcm)}\\ \\text{g/cm}^3$. Express it in $\\text{kg/m}^3$ (2 significant figures).`,
+   625→        ),
+   626→        answer: {
+   627→          kind: "numeric-unit",
+   628→          value: sig2(kgm),
+   629→          tolerance: { mode: "sigfig", value: 2 },
+   630→          units: ["kg/m^3", "kg/m³"],
+   631→          unitChoices: ["kg/m^3", "g/cm^3", "kg/m^2", "N/m^3"],
+   632→        },
+   633→        hints: [
+   634→          L(
+   635→            "Convierte por separado el numerador (gramos → kg) y el denominador (cm³ → m³).",
+   636→            "Convert the numerator (grams → kg) and the denominator (cm³ → m³) separately.",
+   637→          ),
+   638→          L(
+   639→            "Recuerda: $1\\ \\text{cm}^3 = 10^{-6}\\ \\text{m}^3$, porque 1 m = 100 cm y el volumen eleva al cubo.",
+   640→            "Remember: $1\\ \\text{cm}^3 = 10^{-6}\\ \\text{m}^3$, because 1 m = 100 cm and volume cubes the factor.",
+   641→          ),
+   642→          L(
+   643→            "El cociente $10^{-3}/10^{-6}$ da el factor total que multiplica la cifra.",
+   644→            "The ratio $10^{-3}/10^{-6}$ gives the overall factor multiplying the value.",
+   645→          ),
+   646→        ],
+   647→        answerDisplay: L(
+   648→          `$\\rho = ${tok(kgm)}\\ \\text{kg/m}^3$`,
+   649→          `$\\rho = ${tok(kgm)}\\ \\text{kg/m}^3$`,
+   650→        ),
+   651→        solution: [
+   652→          step(
+   653→            "given",
+   654→            `$\\rho = ${tok(gcm)}\\ \\text{g/cm}^3$; $1\\ \\text{g} = 10^{-3}\\ \\text{kg}$; $1\\ \\text{cm}^3 = 10^{-6}\\ \\text{m}^3$.`,
+   655→            `$\\rho = ${tok(gcm)}\\ \\text{g/cm}^3$; $1\\ \\text{g} = 10^{-3}\\ \\text{kg}$; $1\\ \\text{cm}^3 = 10^{-6}\\ \\text{m}^3$.`,
+   656→          ),
+   657→          step(
+   658→            "approach",
+   659→            "Convertimos numerador y denominador y tomamos el cociente.",
+   660→            "Convert the numerator and the denominator, then take the ratio.",
+   661→          ),
+   662→          step(
+   663→            "calculation",
+   664→            `$1\\ \\text{g/cm}^3 = \\frac{10^{-3}\\ \\text{kg}}{10^{-6}\\ \\text{m}^3} = 10^{3}\\ \\text{kg/m}^3$<br>$\\rho = ${tok(gcm)} \\cdot 10^{3}\\ \\text{kg/m}^3 = ${tok(kgm)}\\ \\text{kg/m}^3$`,
+   665→            `$1\\ \\text{g/cm}^3 = \\frac{10^{-3}\\ \\text{kg}}{10^{-6}\\ \\text{m}^3} = 10^{3}\\ \\text{kg/m}^3$<br>$\\rho = ${tok(gcm)} \\cdot 10^{3}\\ \\text{kg/m}^3 = ${tok(kgm)}\\ \\text{kg/m}^3$`,
+   666→          ),
+   667→          step(
+   668→            "result",
+   669→            `La densidad es $${tok(kgm)}\\ \\text{kg/m}^3$.`,
+   670→            `The density is $${tok(kgm)}\\ \\text{kg/m}^3$.`,
+   671→          ),
+   672→        ],
+   673→      };
+   674→    },
+   675→  ),
+   676→
+   677→  /* ---------------------------------------------------------------- */
+   678→  /* Reading and extrapolating a graph (MC, diagram)                   */
+   679→  /* ---------------------------------------------------------------- */
+   680→  template(
+   681→    {
+   682→      id: "pf-graph-01",
+   683→      subject: "physics",
+   684→      topicId: "physics-foundations",
+   685→      subtopicId: "graphs",
+   686→      difficulty: "medium",
+   687→      questionType: "multiple-choice",
+   688→      estimatedTimeSec: 150,
+   689→      tags: ["graphs", "linear", "extrapolation"],
+   690→      prerequisites: [],
+   691→    },
+   692→    (rng) => {
+   693→      const k = rng.pick([2, 3, 4, 5]);
+   694→      const options: McOption[] = [
+   695→        { id: "a", text: L(`$${5 * k}\\ \\text{m}$`, `$${5 * k}\\ \\text{m}$`), correct: true },
+   696→        { id: "b", text: L(`$${4 * k}\\ \\text{m}$`, `$${4 * k}\\ \\text{m}$`), correct: false },
+   697→        { id: "c", text: L(`$${3 * k}\\ \\text{m}$`, `$${3 * k}\\ \\text{m}$`), correct: false },
+   698→        { id: "d", text: L(`$${6 * k}\\ \\text{m}$`, `$${6 * k}\\ \\text{m}$`), correct: false },
+   699→      ];
+   700→      return {
+   701→        skill: L("Leer y extrapolar una gráfica", "Reading and extrapolating a graph"),
+   702→        statement: L(
+   703→          "La gráfica muestra la posición $x$ de un móvil en función del tiempo: una recta con dos puntos marcados. Usa la **pendiente** para predecir: ¿qué posición tendrá el móvil en $t = 5\\ \\text{s}$?",
+   704→          "The graph shows the position $x$ of an object versus time: a straight line with two marked points. Use the **slope** to predict: what position will the object reach at $t = 5\\ \\text{s}$?",
+   705→        ),
+   706→        diagram: {
+   707→          kind: "function-graph",
+   708→          xMin: 0,
+   709→          xMax: 6.5,
+   710→          yMin: 0,
+   711→          yMax: 6 * k + 2,
+   712→          curves: [{ fn: `${k}*x`, color: "primary" }],
+   713→          points: [
+   714→            { x: 1, y: k, label: `(1, ${k})` },
+   715→            { x: 3, y: 3 * k, label: `(3, ${3 * k})` },
+   716→            { x: 5, y: 5 * k },
+   717→          ],
+   718→          xLabel: "t (s)",
+   719→          yLabel: "x (m)",
+   720→          showGrid: true,
+   721→        },
+   722→        diagramLabel: L(
+   723→          `Gráfica posición-tiempo: recta que pasa por (1, ${k}) y (3, ${3 * k}); hay un punto sin etiqueta en t = 5 s.`,
+   724→          `Position-time graph: a straight line through (1, ${k}) and (3, ${3 * k}); an unlabelled point sits at t = 5 s.`,
+   725→        ),
+   726→        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+   727→        hints: [
+   728→          L(
+   729→            "Los puntos marcados te dan dos pares $(t, x)$ exactos de la recta.",
+   730→            "The marked points give you two exact $(t, x)$ pairs of the line.",
+   731→          ),
+   732→          L(
+   733→            "La recta pasa por el origen, así que $x$ es proporcional a $t$: calcula la pendiente $x/t$ con un punto marcado.",
+   734→            "The line goes through the origin, so $x$ is proportional to $t$: compute the slope $x/t$ from a marked point.",
+   735→          ),
+   736→          L(
+   737→            "Multiplica la pendiente por $t = 5\\ \\text{s}$.",
+   738→            "Multiply the slope by $t = 5\\ \\text{s}$.",
+   739→          ),
+   740→        ],
+   741→        answerDisplay: L(`$x = ${5 * k}\\ \\text{m}$`, `$x = ${5 * k}\\ \\text{m}$`),
+   742→        solution: [
+   743→          step(
+   744→            "given",
+   745→            `Recta por el origen con puntos $(1, ${k})$ y $(3, ${3 * k})$.`,
+   746→            `A line through the origin with points $(1, ${k})$ and $(3, ${3 * k})$.`,
+   747→          ),
+   748→          step(
+   749→            "approach",
+   750→            "Como la recta pasa por $(0,0)$, la relación es $x = \\text{pendiente} \\cdot t$.",
+   751→            "Since the line passes through $(0,0)$, the relation is $x = \\text{slope} \\cdot t$.",
+   752→          ),
+   753→          step(
+   754→            "calculation",
+   755→            `$\\text{pendiente} = \\frac{${3 * k} - ${k}}{3 - 1} = ${k}$, así que $x(5) = ${k} \\cdot 5 = ${5 * k}\\ \\text{m}$`,
+   756→            `$\\text{slope} = \\frac{${3 * k} - ${k}}{3 - 1} = ${k}$, so $x(5) = ${k} \\cdot 5 = ${5 * k}\\ \\text{m}$`,
+   757→          ),
+   758→          step(
+   759→            "result",
+   760→            `En $t = 5\\ \\text{s}$ el móvil está en $x = ${5 * k}\\ \\text{m}$.`,
+   761→            `At $t = 5\\ \\text{s}$ the object is at $x = ${5 * k}\\ \\text{m}$.`,
+   762→          ),
+   763→        ],
+   764→      };
+   765→    },
+   766→  ),
+   767→
+   768→  /* ---------------------------------------------------------------- */
+   769→  /* Slope of a position–time graph = velocity (diagram)               */
+   770→  /* ---------------------------------------------------------------- */
+   771→  template(
+   772→    {
+   773→      id: "pf-slope-01",
+   774→      subject: "physics",
+   775→      topicId: "physics-foundations",
+   776→      subtopicId: "slopes",
+   777→      difficulty: "medium",
+   778→      questionType: "numeric-unit",
+   779→      estimatedTimeSec: 150,
+   780→      tags: ["slopes", "velocity", "graphs"],
+   781→      prerequisites: ["graphs"],
+   782→    },
+   783→    (rng) => {
+   784→      const k = rng.pick([2, 3, 4, -2, -3, -4]);
+   785→      const x1 = 1;
+   786→      const x2 = 4;
+   787→      const y1 = 5;
+   788→      const y2 = y1 + k * (x2 - x1);
+   789→      return {
+   790→        skill: L("Pendiente de una gráfica x–t", "Slope of an x–t graph"),
+   791→        statement: L(
+   792→          "La gráfica muestra la posición $x(t)$ de un ciclista que se mueve en línea recta. Calcula su **velocidad** (la pendiente), con signo: positiva si avanza en el sentido $+x$ (2 cifras significativas).",
+   793→          "The graph shows the position $x(t)$ of a cyclist moving in a straight line. Compute the **velocity** (the slope), with sign: positive if moving in the $+x$ direction (2 significant figures).",
+   794→        ),
+   795→        diagram: {
+   796→          kind: "function-graph",
+   797→          xMin: 0,
+   798→          xMax: 6,
+   799→          yMin: Math.min(-2, y2 - 2),
+   800→          yMax: Math.max(y1, y2) + 2,
+   801→          curves: [{ fn: `${k}*(x - ${x1}) + ${y1}`, color: "primary" }],
+   802→          points: [
+   803→            { x: x1, y: y1, label: `(${x1}, ${y1})` },
+   804→            { x: x2, y: y2, label: `(${x2}, ${y2})` },
+   805→          ],
+   806→          xLabel: "t (s)",
+   807→          yLabel: "x (m)",
+   808→          showGrid: true,
+   809→        },
+   810→        diagramLabel: L(
+   811→          `Gráfica posición-tiempo con una recta que pasa por (${x1}, ${y1}) y (${x2}, ${y2}).`,
+   812→          `Position-time graph with a straight line through (${x1}, ${y1}) and (${x2}, ${y2}).`,
+   813→        ),
+   814→        answer: {
+   815→          kind: "numeric-unit",
+   816→          value: sig2(k),
+   817→          tolerance: { mode: "sigfig", value: 2 },
+   818→          units: ["m/s"],
+   819→          unitChoices: ["m/s", "m", "m/s^2", "s"],
+   820→        },
+   821→        hints: [
+   822→          L(
+   823→            "La velocidad en una gráfica posición–tiempo es la pendiente de la recta.",
+   824→            "On a position-time graph the velocity is the slope of the line.",
+   825→          ),
+   826→          L(
+   827→            "Usa los dos puntos marcados: $v = \\frac{\\Delta x}{\\Delta t}$.",
+   828→            "Use the two marked points: $v = \\frac{\\Delta x}{\\Delta t}$.",
+   829→          ),
+   830→          L(
+   831→            "Cuidado con el signo: si la posición disminuye con el tiempo, la velocidad es negativa.",
+   832→            "Watch the sign: if the position decreases with time, the velocity is negative.",
+   833→          ),
+   834→        ],
+   835→        answerDisplay: L(
+   836→          `$v = ${tok(sig2(k))}\\ \\text{m/s}$`,
+   837→          `$v = ${tok(sig2(k))}\\ \\text{m/s}$`,
+   838→        ),
+   839→        solution: [
+   840→          step(
+   841→            "given",
+   842→            `Puntos de la recta: $(${x1}, ${y1})$ y $(${x2}, ${y2})$.`,
+   843→            `Points on the line: $(${x1}, ${y1})$ and $(${x2}, ${y2})$.`,
+   844→          ),
+   845→          step(
+   846→            "approach",
+   847→            "En $x(t)$, la pendiente es la velocidad: $v = \\frac{\\Delta x}{\\Delta t}$ (unidades: m/s).",
+   848→            "On $x(t)$ the slope is the velocity: $v = \\frac{\\Delta x}{\\Delta t}$ (units: m/s).",
+   849→          ),
+   850→          step(
+   851→            "calculation",
+   852→            `$v = \\frac{${y2} - ${y1}\\ \\text{m}}{${x2} - ${x1}\\ \\text{s}} = \\frac{${y2 - y1}\\ \\text{m}}{${x2 - x1}\\ \\text{s}} = ${tok(sig2(k))}\\ \\text{m/s}$`,
+   853→            `$v = \\frac{${y2} - ${y1}\\ \\text{m}}{${x2} - ${x1}\\ \\text{s}} = \\frac{${y2 - y1}\\ \\text{m}}{${x2 - x1}\\ \\text{s}} = ${tok(sig2(k))}\\ \\text{m/s}$`,
+   854→          ),
+   855→          step(
+   856→            "result",
+   857→            `${k > 0 ? "El ciclista avanza en el sentido $+x$ con" : "El ciclista retrocede (sentido $-x$) con"} $v = ${tok(sig2(k))}\\ \\text{m/s}$.`,
+   858→            `${k > 0 ? "The cyclist moves in the $+x$ direction with" : "The cyclist moves backwards ($-x$ direction) with"} $v = ${tok(sig2(k))}\\ \\text{m/s}$.`,
+   859→          ),
+   860→        ],
+   861→      };
+   862→    },
+   863→  ),
+   864→
+   865→  /* ---------------------------------------------------------------- */
+   866→  /* Basic trigonometry: ramp height (right-triangle diagram)          */
+   867→  /* ---------------------------------------------------------------- */
+   868→  template(
+   869→    {
+   870→      id: "pf-trig-01",
+   871→      subject: "physics",
+   872→      topicId: "physics-foundations",
+   873→      subtopicId: "basic-trigonometry",
+   874→      difficulty: "medium",
+   875→      questionType: "numeric-unit",
+   876→      estimatedTimeSec: 150,
+   877→      tags: ["trigonometry", "ramp", "sin"],
+   878→      prerequisites: [],
+   879→    },
+   880→    (rng) => {
+   881→      const inclines = [
+   882→        { ang: 30, sin: 0.5 },
+   883→        { ang: 45, sin: 0.707 },
+   884→        { ang: 60, sin: 0.866 },
+   885→      ];
+   886→      const pick = rng.pick(inclines);
+   887→      const len = rng.pick([5, 10, 20]);
+   888→      const h = sig2(len * pick.sin);
+   889→      return {
+   890→        skill: L("Trigonometría: altura de una rampa", "Trigonometry: height of a ramp"),
+   891→        statement: L(
+   892→          `Una rampa recta de longitud $L = ${len}\\ \\text{m}$ se apoya formando un ángulo de $${pick.ang}^\\circ$ con el suelo. ¿A qué altura $h$ llega su extremo superior? Usa $\\sin ${pick.ang}^\\circ \\approx ${tok(pick.sin)}$ y da el resultado con 2 cifras significativas.`,
+   893→          `A straight ramp of length $L = ${len}\\ \\text{m}$ rests at an angle of $${pick.ang}^\\circ$ to the ground. What height $h$ does its upper end reach? Use $\\sin ${pick.ang}^\\circ \\approx ${tok(pick.sin)}$ and give the result to 2 significant figures.`,
+   894→        ),
+   895→        diagram: {
+   896→          kind: "right-triangle",
+   897→          aLabel: "d",
+   898→          bLabel: "h = ?",
+   899→          cLabel: `L = ${len} m`,
+   900→          angleLabel: `${pick.ang}°`,
+   901→        },
+   902→        diagramLabel: L(
+   903→          `Triángulo rectángulo de una rampa: hipotenusa L = ${len} m, ángulo ${pick.ang} grados con el suelo y cateto vertical h desconocido.`,
+   904→          `Right triangle of a ramp: hypotenuse L = ${len} m, angle ${pick.ang} degrees to the ground, unknown vertical side h.`,
+   905→        ),
+   906→        answer: {
+   907→          kind: "numeric-unit",
+   908→          value: h,
+   909→          tolerance: { mode: "sigfig", value: 2 },
+   910→          units: ["m"],
+   911→          unitChoices: ["m", "cm", "km", "m/s"],
+   912→        },
+   913→        hints: [
+   914→          L(
+   915→            "Identifica en el triángulo la hipotenusa ($L$) y el cateto opuesto al ángulo ($h$).",
+   916→            "Identify in the triangle the hypotenuse ($L$) and the side opposite the angle ($h$).",
+   917→          ),
+   918→          L(
+   919→            "El seno relaciona el cateto opuesto con la hipotenusa: $\\sin\\theta = \\frac{h}{L}$.",
+   920→            "The sine links the opposite side to the hypotenuse: $\\sin\\theta = \\frac{h}{L}$.",
+   921→          ),
+   922→          L(
+   923→            "Despeja $h = L\\sin\\theta$ y sustituye.",
+   924→            "Rearrange to $h = L\\sin\\theta$ and substitute.",
+   925→          ),
+   926→        ],
+   927→        answerDisplay: L(`$h = ${tok(h)}\\ \\text{m}$`, `$h = ${tok(h)}\\ \\text{m}$`),
+   928→        solution: [
+   929→          step(
+   930→            "given",
+   931→            `$L = ${len}\\ \\text{m}$, $\\theta = ${pick.ang}^\\circ$, $\\sin\\theta \\approx ${tok(pick.sin)}$`,
+   932→            `$L = ${len}\\ \\text{m}$, $\\theta = ${pick.ang}^\\circ$, $\\sin\\theta \\approx ${tok(pick.sin)}$`,
+   933→          ),
+   934→          step(
+   935→            "approach",
+   936→            "La altura es el cateto opuesto al ángulo: $\\sin\\theta = h/L \\Rightarrow h = L\\sin\\theta$.",
+   937→            "The height is the side opposite the angle: $\\sin\\theta = h/L \\Rightarrow h = L\\sin\\theta$.",
+   938→          ),
+   939→          step(
+   940→            "calculation",
+   941→            `$h = ${len}\\ \\text{m} \\cdot ${tok(pick.sin)} = ${tok(r2(len * pick.sin))}\\ \\text{m} \\approx ${tok(h)}\\ \\text{m}$`,
+   942→            `$h = ${len}\\ \\text{m} \\cdot ${tok(pick.sin)} = ${tok(r2(len * pick.sin))}\\ \\text{m} \\approx ${tok(h)}\\ \\text{m}$`,
+   943→          ),
+   944→          step(
+   945→            "result",
+   946→            `El extremo de la rampa alcanza una altura de $\\approx ${tok(h)}\\ \\text{m}$.`,
+   947→            `The end of the ramp reaches a height of $\\approx ${tok(h)}\\ \\text{m}$.`,
+   948→          ),
+   949→        ],
+   950→      };
+   951→    },
+   952→  ),
+   953→
+   954→  /* ---------------------------------------------------------------- */
+   955→  /* Rearranging physics formulas (MC)                                 */
+   956→  /* ---------------------------------------------------------------- */
+   957→  template(
+   958→    {
+   959→      id: "pf-alg-01",
+   960→      subject: "physics",
+   961→      topicId: "physics-foundations",
+   962→      subtopicId: "algebraic-rearrangement",
+   963→      difficulty: "hard",
+   964→      questionType: "multiple-choice",
+   965→      estimatedTimeSec: 180,
+   966→      tags: ["rearrangement", "algebra", "formulas"],
+   967→      prerequisites: [],
+   968→    },
+   969→    (rng) => {
+   970→      const forms = [
+   971→        {
+   972→          eq: "$K = \\tfrac{1}{2} m v^2$",
+   973→          askEs: "la rapidez $v$",
+   974→          askEn: "the speed $v$",
+   975→          ok: "$v = \\sqrt{\\dfrac{2K}{m}}$",
+   976→          bad: [
+   977→            "$v = \\sqrt{\\dfrac{K}{2m}}$",
+   978→            "$v = \\dfrac{2K}{m}$",
+   979→            "$v = 2\\sqrt{\\dfrac{K}{m}}$",
+   980→          ],
+   981→          whyEs:
+   982→            "Multiplica por 2: $2K = m v^2$; divide entre $m$; y toma raíz cuadrada.",
+   983→          whyEn: "Multiply by 2: $2K = m v^2$; divide by $m$; then take the square root.",
+   984→        },
+   985→        {
+   986→          eq: "$v = v_0 + a\\,t$",
+   987→          askEs: "la aceleración $a$",
+   988→          askEn: "the acceleration $a$",
+   989→          ok: "$a = \\dfrac{v - v_0}{t}$",
+   990→          bad: [
+   991→            "$a = \\dfrac{v}{t} - v_0$",
+   992→            "$a = v - \\dfrac{v_0}{t}$",
+   993→            "$a = \\dfrac{v + v_0}{t}$",
+   994→          ],
+   995→          whyEs: "Resta $v_0$: $v - v_0 = a\\,t$; después divide entre $t$.",
+   996→          whyEn: "Subtract $v_0$: $v - v_0 = a\\,t$; then divide by $t$.",
+   997→        },
+   998→        {
+   999→          eq: "$F = G\\,\\dfrac{m_1 m_2}{r^2}$",
+  1000→          askEs: "la distancia $r$",
+  1001→          askEn: "the distance $r$",
+  1002→          ok: "$r = \\sqrt{\\dfrac{G\\,m_1 m_2}{F}}$",
+  1003→          bad: [
+  1004→            "$r = \\dfrac{G\\,m_1 m_2}{F}$",
+  1005→            "$r = \\sqrt{\\dfrac{F}{G\\,m_1 m_2}}$",
+  1006→            "$r = \\dfrac{\\sqrt{G\\,m_1 m_2}}{F}$",
+  1007→          ],
+  1008→          whyEs:
+  1009→            "Multiplica por $r^2$ y divide entre $F$: $r^2 = \\frac{G\\,m_1 m_2}{F}$; al final, raíz cuadrada.",
+  1010→          whyEn:
+  1011→            "Multiply by $r^2$ and divide by $F$: $r^2 = \\frac{G\\,m_1 m_2}{F}$; finally, take the square root.",
+  1012→        },
+  1013→        {
+  1014→          eq: "$W = F\\,d\\cos\\theta$",
+  1015→          askEs: "el ángulo $\\theta$",
+  1016→          askEn: "the angle $\\theta$",
+  1017→          ok: "$\\theta = \\arccos\\left(\\dfrac{W}{F\\,d}\\right)$",
+  1018→          bad: [
+  1019→            "$\\theta = \\arccos\\left(\\dfrac{F\\,d}{W}\\right)$",
+  1020→            "$\\theta = \\cos\\left(\\dfrac{W}{F\\,d}\\right)$",
+  1021→            "$\\theta = \\dfrac{W}{F\\,d}$",
+  1022→          ],
+  1023→          whyEs:
+  1024→            "Divide entre $F\\,d$: $\\cos\\theta = \\frac{W}{Fd}$; y aplica la función inversa ($\\arccos$).",
+  1025→          whyEn:
+  1026→            "Divide by $F\\,d$: $\\cos\\theta = \\frac{W}{Fd}$; then apply the inverse function ($\\arccos$).",
+  1027→        },
+  1028→      ];
+  1029→      const pick = rng.pick(forms);
+  1030→      const options: McOption[] = [
+  1031→        { id: "a", text: L(pick.ok, pick.ok), correct: true },
+  1032→        { id: "b", text: L(pick.bad[0], pick.bad[0]), correct: false },
+  1033→        { id: "c", text: L(pick.bad[1], pick.bad[1]), correct: false },
+  1034→        { id: "d", text: L(pick.bad[2], pick.bad[2]), correct: false },
+  1035→      ];
+  1036→      return {
+  1037→        skill: L("Despejar variables en fórmulas", "Rearranging formulas"),
+  1038→        statement: L(
+  1039→          `Despeja **${pick.askEs}** de la ecuación ${pick.eq}.`,
+  1040→          `Solve **${pick.askEn}** from the equation ${pick.eq}.`,
+  1041→        ),
+  1042→        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+  1043→        hints: [
+  1044→          L(
+  1045→            "Identifica qué operaciones encierran a la variable que quieres despejar.",
+  1046→            "Identify which operations wrap the variable you want to isolate.",
+  1047→          ),
+  1048→          L(
+  1049→            "Deshaz las operaciones en orden inverso: primero sumas/restas, luego productos/cocientes, luego potencias.",
+  1050→            "Undo operations in reverse order: additions/subtractions first, then products/quotients, then powers.",
+  1051→          ),
+  1052→          L(
+  1053→            "Comprueba tu resultado: sustituye casos límite sencillos (por ejemplo, valores que anulan términos).",
+  1054→            "Check your result: substitute simple limiting cases (values that cancel terms).",
+  1055→          ),
+  1056→        ],
+  1057→        answerDisplay: L(pick.ok, pick.ok),
+  1058→        solution: [
+  1059→          step("given", `Ecuación: ${pick.eq}`, `Equation: ${pick.eq}`),
+  1060→          step(
+  1061→            "approach",
+  1062→            "Aplicamos operaciones inversas dejando la incógnita sola en un lado.",
+  1063→            "Apply inverse operations, leaving the unknown alone on one side.",
+  1064→          ),
+  1065→          step("calculation", pick.whyEs, pick.whyEn),
+  1066→          step(
+  1067→            "result",
+  1068→            `El despeje correcto es ${pick.ok}.`,
+  1069→            `The correct rearrangement is ${pick.ok}.`,
+  1070→          ),
+  1071→        ],
+  1072→      };
+  1073→    },
+  1074→  ),
+  1075→
+  1076→  /* ---------------------------------------------------------------- */
+  1077→  /* Challenge: proportional reasoning with an inverse-square law      */
+  1078→  /* ---------------------------------------------------------------- */
+  1079→  template(
+  1080→    {
+  1081→      id: "pf-chal-01",
+  1082→      subject: "physics",
+  1083→      topicId: "physics-foundations",
+  1084→      subtopicId: "proportional-reasoning",
+  1085→      difficulty: "challenge",
+  1086→      questionType: "numeric",
+  1087→      estimatedTimeSec: 300,
+  1088→      tags: ["proportional-reasoning", "inverse-square"],
+  1089→      prerequisites: ["algebraic-rearrangement"],
+  1090→    },
+  1091→    (rng) => {
+  1092→      const combos = [
+  1093→        { a: 3, b: 2, aEs: "se triplica", aEn: "triples", bEs: "se duplica", bEn: "doubles" },
+  1094→        { a: 2, b: 2, aEs: "se duplica", aEn: "doubles", bEs: "se duplica", bEn: "doubles" },
+  1095→        { a: 2, b: 3, aEs: "se duplica", aEn: "doubles", bEs: "se triplica", bEn: "triples" },
+  1096→        { a: 3, b: 3, aEs: "se triplica", aEn: "triples", bEs: "se triplica", bEn: "triples" },
+  1097→      ];
+  1098→      const pick = rng.pick(combos);
+  1099→      const factor = sig2(pick.a / (pick.b * pick.b));
+  1100→      return {
+  1101→        skill: L("Razonamiento proporcional con ley de inverso del cuadrado", "Proportional reasoning with an inverse-square law"),
+  1102→        statement: L(
+  1103→          `La fuerza gravitatoria entre dos cuerpos es $F = G\\,\\dfrac{m_1 m_2}{r^2}$. Si la masa de uno de ellos ${pick.aEs} y, además, la distancia entre sus centros ${pick.bEs}, ¿por qué **factor** queda multiplicada la fuerza? (Da el factor con 2 cifras significativas; será menor que 1).`,
+  1104→          `The gravitational force between two bodies is $F = G\\,\\dfrac{m_1 m_2}{r^2}$. If the mass of one of them ${pick.aEn} and, in addition, the distance between their centres ${pick.bEn}, by which **factor** is the force multiplied? (Give the factor to 2 significant figures; it will be less than 1).`,
+  1105→        ),
+  1106→        answer: {
+  1107→          kind: "numeric",
+  1108→          value: factor,
+  1109→          tolerance: { mode: "sigfig", value: 2 },
+  1110→        },
+  1111→        hints: [
+  1112→          L(
+  1113→            `Escribe la fuerza nueva $F'$ sustituyendo $m_1 \\to ${pick.a}\\,m_1$ y $r \\to ${pick.b}\\,r$.`,
+  1114→            `Write the new force $F'$ substituting $m_1 \\to ${pick.a}\\,m_1$ and $r \\to ${pick.b}\\,r$.`,
+  1115→          ),
+  1116→          L(
+  1117→            "La masa multiplica la fuerza directamente, pero la distancia aparece al cuadrado y en el denominador.",
+  1118→            "The mass multiplies the force directly, but the distance appears squared in the denominator.",
+  1119→          ),
+  1120→          L(
+  1121→            `El factor buscado es el cociente $F'/F = \\frac{${pick.a}}{(${pick.b})^2}$.`,
+  1122→            `The sought factor is the ratio $F'/F = \\frac{${pick.a}}{(${pick.b})^2}$.`,
+  1123→          ),
+  1124→        ],
+  1125→        answerDisplay: L(
+  1126→          `$F' = \\frac{${pick.a}}{${pick.b * pick.b}} F \\approx ${tok(factor)}\\,F$`,
+  1127→          `$F' = \\frac{${pick.a}}{${pick.b * pick.b}} F \\approx ${tok(factor)}\\,F$`,
+  1128→        ),
+  1129→        solution: [
+  1130→          step(
+  1131→            "given",
+  1132→            `$m_1' = ${pick.a}\\,m_1$, $r' = ${pick.b}\\,r$; $F = G\\,\\dfrac{m_1 m_2}{r^2}$.`,
+  1133→            `$m_1' = ${pick.a}\\,m_1$, $r' = ${pick.b}\\,r$; $F = G\\,\\dfrac{m_1 m_2}{r^2}$.`,
+  1134→          ),
+  1135→          step(
+  1136→            "approach",
+  1137→            "Escribimos $F'$ con los nuevos valores y la comparamos con $F$ mediante un cociente.",
+  1138→            "Write $F'$ with the new values and compare it with $F$ through a ratio.",
+  1139→          ),
+  1140→          step(
+  1141→            "calculation",
+  1142→            `$F' = G\\,\\dfrac{(${pick.a}\\,m_1)\\,m_2}{(${pick.b}\\,r)^2} = \\dfrac{${pick.a}}{${pick.b * pick.b}}\\,G\\,\\dfrac{m_1 m_2}{r^2} = \\dfrac{${pick.a}}{${pick.b * pick.b}}\\,F$<br>$F'/F = \\dfrac{${pick.a}}{${pick.b * pick.b}} \\approx ${tok(factor)}$`,
+  1143→            `$F' = G\\,\\dfrac{(${pick.a}\\,m_1)\\,m_2}{(${pick.b}\\,r)^2} = \\dfrac{${pick.a}}{${pick.b * pick.b}}\\,G\\,\\dfrac{m_1 m_2}{r^2} = \\dfrac{${pick.a}}{${pick.b * pick.b}}\\,F$<br>$F'/F = \\dfrac{${pick.a}}{${pick.b * pick.b}} \\approx ${tok(factor)}$`,
+  1144→          ),
+  1145→          step(
+  1146→            "result",
+  1147→            `La fuerza queda multiplicada por $\\approx ${tok(factor)}$: el aumento de distancia pesa más que el aumento de masa, porque $r$ está al cuadrado.`,
+  1148→            `The force is multiplied by $\\approx ${tok(factor)}$: the larger distance matters more than the extra mass, because $r$ is squared.`,
+  1149→          ),
+  1150→        ],
+  1151→      };
+  1152→    },
+  1153→  ),
+  1154→];
+  1155→

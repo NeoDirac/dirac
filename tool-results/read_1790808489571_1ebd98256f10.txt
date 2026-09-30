@@ -1,0 +1,562 @@
+     1→/**
+     2→ * PHYSICS · Introductory Modern Physics
+     3→ *
+     4→ * Photons (E = hc/λ), the photoelectric effect (with stopping-potential
+     5→ * inversion as a challenge), Bohr energy levels with an energy-level
+     6→ * diagram, basic special relativity, and simple nuclear arithmetic.
+     7→ */
+     8→
+     9→import { template, L, step, tok } from "@/lib/problem";
+    10→import type { ProblemTemplate, McOption } from "@/lib/types";
+    11→
+    12→/* Physical constants — must match the values quoted in the statements. */
+    13→const H_PLANCK = 6.626e-34; // J·s
+    14→const C_LIGHT = 3e8; // m/s
+    15→const EV = 1.602e-19; // J
+    16→const HC = H_PLANCK * C_LIGHT; // J·m
+    17→const R_H = 1.097e7; // m⁻¹ (Rydberg)
+    18→
+    19→/* Deterministic formatting helpers (no RNG inside). */
+    20→const r1 = (v: number) => Math.round(v * 10) / 10;
+    21→const r2 = (v: number) => Math.round(v * 100) / 100;
+    22→
+    23→/** Round to 3 significant figures. */
+    24→function sig3(v: number): number {
+    25→  if (v === 0) return 0;
+    26→  const exp = Math.floor(Math.log10(Math.abs(v)));
+    27→  return Math.round(v / Math.pow(10, exp - 2)) * Math.pow(10, exp - 2);
+    28→}
+    29→
+    30→/** Splits a value into mantissa (2 decimals) × 10^exp for display/checking. */
+    31→function sci(v: number): { man: number; exp: number; value: number } {
+    32→  const exp = Math.floor(Math.log10(Math.abs(v)));
+    33→  const man = Math.round((v / Math.pow(10, exp)) * 100) / 100;
+    34→  return { man, exp, value: man * Math.pow(10, exp) };
+    35→}
+    36→
+    37→/** Photon energy of a wavelength given in nm, in eV (unrounded chain). */
+    38→function photonEv(lamNm: number): number {
+    39→  return HC / (lamNm * 1e-9) / EV;
+    40→}
+    41→
+    42→export const templates: ProblemTemplate[] = [
+    43→  /* ---------------------------------------------------------------- */
+    44→  /* Photon energy in eV (E = hc/λ)                                   */
+    45→  /* ---------------------------------------------------------------- */
+    46→  template(
+    47→    {
+    48→      id: "mp-photon-01",
+    49→      subject: "physics",
+    50→      topicId: "modern-physics",
+    51→      subtopicId: "photons",
+    52→      difficulty: "easy",
+    53→      questionType: "numeric-unit",
+    54→      estimatedTimeSec: 150,
+    55→      tags: ["photons", "energy"],
+    56→      prerequisites: [],
+    57→    },
+    58→    (rng) => {
+    59→      const lam = rng.pick([400, 450, 500, 550, 620, 700]);
+    60→      const EJ = sci(HC / (lam * 1e-9));
+    61→      const EeV = r2(photonEv(lam));
+    62→      return {
+    63→        skill: L("Energía de un fotón", "Energy of a photon"),
+    64→        statement: L(
+    65→          `Calcula la energía de un fotón de luz visible con longitud de onda $\\lambda = ${lam}\\ \\text{nm}$, expresada en electronvoltios (2 cifras significativas). Datos: $h = 6{,}626\\times10^{-34}\\ \\text{J}\\cdot\\text{s}$, $c = 3\\times10^{8}\\ \\text{m/s}$, $1\\ \\text{eV} = 1{,}602\\times10^{-19}\\ \\text{J}$.`,
+    66→          `Compute the energy of a visible-light photon with wavelength $\\lambda = ${lam}\\ \\text{nm}$, expressed in electronvolts (2 significant figures). Data: $h = 6.626\\times10^{-34}\\ \\text{J}\\cdot\\text{s}$, $c = 3\\times10^{8}\\ \\text{m/s}$, $1\\ \\text{eV} = 1.602\\times10^{-19}\\ \\text{J}$.`,
+    67→        ),
+    68→        answer: {
+    69→          kind: "numeric-unit",
+    70→          value: EeV,
+    71→          tolerance: { mode: "sigfig", value: 2 },
+    72→          units: ["eV"],
+    73→          unitChoices: ["eV", "J", "keV", "MeV"],
+    74→        },
+    75→        hints: [
+    76→          L(
+    77→            "La energía de un fotón es $E = \\frac{hc}{\\lambda}$; primero saldrá en julios.",
+    78→            "A photon's energy is $E = \\frac{hc}{\\lambda}$; it comes out in joules first.",
+    79→          ),
+    80→          L(
+    81→            "Convierte $\\lambda$ a metros ($1\\ \\text{nm} = 10^{-9}\\ \\text{m}$) antes de sustituir.",
+    82→            "Convert $\\lambda$ to metres ($1\\ \\text{nm} = 10^{-9}\\ \\text{m}$) before substituting.",
+    83→          ),
+    84→          L(
+    85→            "Divide el resultado en julios entre $1{,}602\\times10^{-19}$ para pasarlo a eV.",
+    86→            "Divide the result in joules by $1.602\\times10^{-19}$ to convert to eV.",
+    87→          ),
+    88→        ],
+    89→        answerDisplay: L(`$E \\approx ${tok(EeV)}\\ \\text{eV}$`, `$E \\approx ${tok(EeV)}\\ \\text{eV}$`),
+    90→        solution: [
+    91→          step(
+    92→            "given",
+    93→            `$\\lambda = ${lam}\\ \\text{nm} = ${lam}\\times10^{-9}\\ \\text{m}$, $h = 6{,}626\\times10^{-34}\\ \\text{J}\\cdot\\text{s}$, $c = 3\\times10^{8}\\ \\text{m/s}$`,
+    94→            `$\\lambda = ${lam}\\ \\text{nm} = ${lam}\\times10^{-9}\\ \\text{m}$, $h = 6.626\\times10^{-34}\\ \\text{J}\\cdot\\text{s}$, $c = 3\\times10^{8}\\ \\text{m/s}$`,
+    95→          ),
+    96→          step(
+    97→            "approach",
+    98→            "Energía del fotón: $E = \\frac{hc}{\\lambda}$ en julios, y después $E(\\text{eV}) = \\frac{E(\\text{J})}{1{,}602\\times10^{-19}}$.",
+    99→            "Photon energy: $E = \\frac{hc}{\\lambda}$ in joules, then $E(\\text{eV}) = \\frac{E(\\text{J})}{1.602\\times10^{-19}}$.",
+   100→          ),
+   101→          step(
+   102→            "calculation",
+   103→            `$E = \\frac{(6{,}626\\times10^{-34})(3\\times10^{8})}{${lam}\\times10^{-9}} \\approx ${tok(EJ.man)}\\times10^{${EJ.exp}}\\ \\text{J}$<br>$E = \\frac{ ${tok(EJ.man)}\\times10^{${EJ.exp}}}{1{,}602\\times10^{-19}} \\approx ${tok(EeV)}\\ \\text{eV}$`,
+   104→            `$E = \\frac{(6.626\\times10^{-34})(3\\times10^{8})}{${lam}\\times10^{-9}} \\approx ${tok(EJ.man)}\\times10^{${EJ.exp}}\\ \\text{J}$<br>$E = \\frac{ ${tok(EJ.man)}\\times10^{${EJ.exp}}}{1.602\\times10^{-19}} \\approx ${tok(EeV)}\\ \\text{eV}$`,
+   105→          ),
+   106→          step(
+   107→            "result",
+   108→            `Cada fotón de ${lam} nm lleva $\\approx ${tok(EeV)}\\ \\text{eV}$.`,
+   109→            `Each ${lam} nm photon carries $\\approx ${tok(EeV)}\\ \\text{eV}$.`,
+   110→          ),
+   111→        ],
+   112→      };
+   113→    },
+   114→  ),
+   115→
+   116→  /* ---------------------------------------------------------------- */
+   117→  /* Expression: E = hf                                               */
+   118→  /* ---------------------------------------------------------------- */
+   119→  template(
+   120→    {
+   121→      id: "mp-photon-03",
+   122→      subject: "physics",
+   123→      topicId: "modern-physics",
+   124→      subtopicId: "photons",
+   125→      difficulty: "easy",
+   126→      questionType: "expression",
+   127→      estimatedTimeSec: 90,
+   128→      tags: ["photons", "formula"],
+   129→      prerequisites: [],
+   130→    },
+   131→    (rng) => {
+   132→      void rng;
+   133→      return {
+   134→        skill: L("Fórmula de la energía de un fotón", "Photon energy formula"),
+   135→        statement: L(
+   136→          "Escribe la energía de un fotón de frecuencia $f$, siendo $h$ la constante de Planck (por ejemplo h*f).",
+   137→          "Write the energy of a photon of frequency $f$, where $h$ is Planck's constant (e.g. h*f).",
+   138→        ),
+   139→        answer: {
+   140→          kind: "expression",
+   141→          accepted: ["h*f"],
+   142→          variables: ["h", "f"],
+   143→        },
+   144→        hints: [
+   145→          L(
+   146→            "En el efecto fotoeléctrico, la luz entrega energía en paquetes.",
+   147→            "In the photoelectric effect, light delivers energy in packets.",
+   148→          ),
+   149→          L(
+   150→            "Cada paquete (fotón) lleva una energía proporcional a la frecuencia.",
+   151→            "Each packet (photon) carries an energy proportional to the frequency.",
+   152→          ),
+   153→          L(
+   154→            "La constante de proporcionalidad es la constante de Planck.",
+   155→            "The proportionality constant is Planck's constant.",
+   156→          ),
+   157→        ],
+   158→        answerDisplay: L("$E = hf$", "$E = hf$"),
+   159→        solution: [
+   160→          step("given", "Frecuencia $f$ del fotón y constante de Planck $h$.", "Photon frequency $f$ and Planck constant $h$."),
+   161→          step(
+   162→            "approach",
+   163→            "Cuantización de Planck–Einstein: la energía de cada fotón es proporcional a la frecuencia.",
+   164→            "Planck–Einstein quantization: each photon's energy is proportional to its frequency.",
+   165→          ),
+   166→          step("calculation", "$E = h\\,f$", "$E = h\\,f$"),
+   167→          step("result", "La energía del fotón es $E = hf$.", "The photon energy is $E = hf$."),
+   168→        ],
+   169→      };
+   170→    },
+   171→  ),
+   172→
+   173→  /* ---------------------------------------------------------------- */
+   174→  /* Bohr: emit or absorb (MC + energy level diagram)                 */
+   175→  /* ---------------------------------------------------------------- */
+   176→  template(
+   177→    {
+   178→      id: "mp-atom-01",
+   179→      subject: "physics",
+   180→      topicId: "modern-physics",
+   181→      subtopicId: "atomic-models",
+   182→      difficulty: "easy",
+   183→      questionType: "multiple-choice",
+   184→      estimatedTimeSec: 90,
+   185→      tags: ["bohr", "energy-levels", "conceptual"],
+   186→      prerequisites: [],
+   187→    },
+   188→    (rng) => {
+   189→      const pick = rng.pick([
+   190→        { ni: 3, nf: 1 },
+   191→        { ni: 2, nf: 1 },
+   192→        { ni: 4, nf: 2 },
+   193→        { ni: 5, nf: 2 },
+   194→        { ni: 1, nf: 3 },
+   195→        { ni: 2, nf: 4 },
+   196→        { ni: 3, nf: 5 },
+   197→        { ni: 4, nf: 6 },
+   198→      ]);
+   199→      const emits = pick.ni > pick.nf;
+   200→      const options: McOption[] = [
+   201→        { id: "a", text: L("Emite un fotón", "It emits a photon"), correct: emits },
+   202→        { id: "b", text: L("Absorbe un fotón", "It absorbs a photon"), correct: !emits },
+   203→        { id: "c", text: L("No cambia su energía", "Its energy does not change"), correct: false },
+   204→        { id: "d", text: L("El átomo se ioniza (pierde el electrón)", "The atom ionizes (loses the electron)"), correct: false },
+   205→      ];
+   206→      return {
+   207→        skill: L("Transiciones en el modelo de Bohr", "Transitions in the Bohr model"),
+   208→        statement: L(
+   209→          `En el modelo de Bohr del átomo de hidrógeno (ver niveles de energía), un electrón pasa del nivel $n = ${pick.ni}$ al nivel $n = ${pick.nf}$. ¿Qué ocurre?`,
+   210→          `In the Bohr model of the hydrogen atom (see the energy levels), an electron goes from level $n = ${pick.ni}$ to level $n = ${pick.nf}$. What happens?`,
+   211→        ),
+   212→        diagram: {
+   213→          kind: "function-graph",
+   214→          xMin: 0,
+   215→          xMax: 12,
+   216→          yMin: -15,
+   217→          yMax: 1,
+   218→          curves: [
+   219→            { fn: "-13.6", color: "primary" },
+   220→            { fn: "-3.4", color: "primary" },
+   221→            { fn: "-1.51", color: "primary" },
+   222→            { fn: "-0.85", color: "primary" },
+   223→          ],
+   224→          points: [
+   225→            { x: 8, y: -13.6, label: "n = 1  (−13,6 eV)" },
+   226→            { x: 8, y: -3.4, label: "n = 2  (−3,4 eV)" },
+   227→            { x: 8, y: -1.51, label: "n = 3  (−1,51 eV)" },
+   228→            { x: 8, y: -0.85, label: "n = 4  (−0,85 eV)" },
+   229→          ],
+   230→          yLabel: "E (eV)",
+   231→          showGrid: false,
+   232→        },
+   233→        diagramLabel: L(
+   234→          "Diagrama de niveles de energía del hidrógeno: n = 1 en −13,6 eV; n = 2 en −3,4 eV; n = 3 en −1,51 eV; n = 4 en −0,85 eV.",
+   235→          "Hydrogen energy-level diagram: n = 1 at −13.6 eV; n = 2 at −3.4 eV; n = 3 at −1.51 eV; n = 4 at −0.85 eV.",
+   236→        ),
+   237→        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+   238→        hints: [
+   239→          L(
+   240→            "Compara la energía de los dos niveles en el diagrama ($E_n$ es más negativa cuanto menor es $n$).",
+   241→            "Compare the energy of the two levels in the diagram ($E_n$ is more negative for smaller $n$).",
+   242→          ),
+   243→          L(
+   244→            "Si el electrón cae a un nivel más bajo, la energía sobrante tiene que salir del átomo.",
+   245→            "If the electron falls to a lower level, the surplus energy must leave the atom.",
+   246→          ),
+   247→          L(
+   248→            "Si sube a un nivel más alto, necesita recibir exactamente la diferencia de energía.",
+   249→            "If it rises to a higher level, it must receive exactly the energy difference.",
+   250→          ),
+   251→        ],
+   252→        answerDisplay: emits
+   253→          ? L("Emite un fotón con la diferencia de energía.", "It emits a photon carrying the energy difference.")
+   254→          : L("Absorbe un fotón con la diferencia de energía.", "It absorbs a photon with the energy difference."),
+   255→        solution: [
+   256→          step(
+   257→            "given",
+   258→            `Transición de $n = ${pick.ni}$ a $n = ${pick.nf}$ en el hidrógeno.`,
+   259→            `Transition from $n = ${pick.ni}$ to $n = ${pick.nf}$ in hydrogen.`,
+   260→          ),
+   261→          step(
+   262→            "approach",
+   263→            "En el modelo de Bohr la energía del electrón está cuantizada: $E_n = -\\frac{13{,}6}{n^2}\\ \\text{eV}$. Solo puede cambiar por emisión o absorción de un fotón.",
+   264→            "In the Bohr model the electron energy is quantized: $E_n = -\\frac{13.6}{n^2}\\ \\text{eV}$. It can only change by emitting or absorbing a photon.",
+   265→          ),
+   266→          step(
+   267→            "calculation",
+   268→            emits
+   269→              ? `Como $n = ${pick.nf} < n = ${pick.ni}$, la energía final es **más negativa** (menor): la diferencia se emite como un fotón.`
+   270→              : `Como $n = ${pick.nf} > n = ${pick.ni}$, la energía final es mayor: el electrón debe **absorber** un fotón con esa diferencia.`,
+   271→            emits
+   272→              ? `Since $n = ${pick.nf} < n = ${pick.ni}$, the final energy is more negative (lower): the difference is emitted as a photon.`
+   273→              : `Since $n = ${pick.nf} > n = ${pick.ni}$, the final energy is higher: the electron must **absorb** a photon with that difference.`,
+   274→          ),
+   275→          step(
+   276→            "result",
+   277→            emits
+   278→              ? "El átomo emite un fotón (los saltos hacia abajo dan las líneas de emisión)."
+   279→              : "El átomo absorbe un fotón (los saltos hacia arriba requieren luz entrante).",
+   280→            emits
+   281→              ? "The atom emits a photon (downward jumps give emission lines)."
+   282→              : "The atom absorbs a photon (upward jumps require incoming light).",
+   283→          ),
+   284→        ],
+   285→      };
+   286→    },
+   287→  ),
+   288→
+   289→  /* ---------------------------------------------------------------- */
+   290→  /* Photoelectric effect: maximum kinetic energy                     */
+   291→  /* ---------------------------------------------------------------- */
+   292→  template(
+   293→    {
+   294→      id: "mp-photo-01",
+   295→      subject: "physics",
+   296→      topicId: "modern-physics",
+   297→      subtopicId: "photoelectric",
+   298→      difficulty: "medium",
+   299→      questionType: "numeric-unit",
+   300→      estimatedTimeSec: 210,
+   301→      tags: ["photoelectric", "energy"],
+   302→      prerequisites: ["photons"],
+   303→    },
+   304→    (rng) => {
+   305→      const pick = rng.pick([
+   306→        { lam: 400, phi: 2.0 },
+   307→        { lam: 400, phi: 2.5 },
+   308→        { lam: 500, phi: 2.0 },
+   309→        { lam: 550, phi: 1.6 },
+   310→        { lam: 450, phi: 2.2 },
+   311→        { lam: 620, phi: 1.9 },
+   312→        { lam: 600, phi: 1.5 },
+   313→        { lam: 500, phi: 1.8 },
+   314→      ]);
+   315→      const EeV = r2(photonEv(pick.lam));
+   316→      const KE = r2(EeV - pick.phi);
+   317→      return {
+   318→        skill: L("Efecto fotoeléctrico: energía cinética máxima", "Photoelectric effect: maximum kinetic energy"),
+   319→        statement: L(
+   320→          `Luz de longitud de onda $\\lambda = ${pick.lam}\\ \\text{nm}$ ilumina un metal cuya función de trabajo es $\\phi = ${tok(pick.phi)}\\ \\text{eV}$. Calcula la energía cinética máxima de los fotoelectrones emitidos (en eV, 2 cifras significativas). Datos: $h = 6{,}626\\times10^{-34}\\ \\text{J}\\cdot\\text{s}$, $c = 3\\times10^{8}\\ \\text{m/s}$, $1\\ \\text{eV} = 1{,}602\\times10^{-19}\\ \\text{J}$.`,
+   321→          `Light of wavelength $\\lambda = ${pick.lam}\\ \\text{nm}$ shines on a metal whose work function is $\\phi = ${tok(pick.phi)}\\ \\text{eV}$. Compute the maximum kinetic energy of the emitted photoelectrons (in eV, 2 significant figures). Data: $h = 6.626\\times10^{-34}\\ \\text{J}\\cdot\\text{s}$, $c = 3\\times10^{8}\\ \\text{m/s}$, $1\\ \\text{eV} = 1.602\\times10^{-19}\\ \\text{J}$.`,
+   322→        ),
+   323→        answer: {
+   324→          kind: "numeric-unit",
+   325→          value: KE,
+   326→          tolerance: { mode: "sigfig", value: 2 },
+   327→          units: ["eV"],
+   328→          unitChoices: ["eV", "J", "keV", "V"],
+   329→        },
+   330→        hints: [
+   331→          L(
+   332→            "Dos energías intervienen: la del fotón $E = hc/\\lambda$ y la función de trabajo $\\phi$.",
+   333→            "Two energies are involved: the photon's $E = hc/\\lambda$ and the work function $\\phi$.",
+   334→          ),
+   335→          L(
+   336→            "Ecuación de Einstein: $E_{\\text{cin,max}} = E_{\\text{fotón}} - \\phi$.",
+   337→            "Einstein's equation: $K_{\\max} = E_{\\text{photon}} - \\phi$.",
+   338→          ),
+   339→          L(
+   340→            "Calcula $E$ en eV y resta $\\phi$ (que ya está en eV).",
+   341→            "Compute $E$ in eV and subtract $\\phi$ (already in eV).",
+   342→          ),
+   343→        ],
+   344→        answerDisplay: L(`$E_{\\text{cin,max}} \\approx ${tok(KE)}\\ \\text{eV}$`, `$K_{\\max} \\approx ${tok(KE)}\\ \\text{eV}$`),
+   345→        solution: [
+   346→          step(
+   347→            "given",
+   348→            `$\\lambda = ${pick.lam}\\ \\text{nm}$, $\\phi = ${tok(pick.phi)}\\ \\text{eV}$, $hc = 1{,}988\\times10^{-25}\\ \\text{J}\\cdot\\text{m}$`,
+   349→            `$\\lambda = ${pick.lam}\\ \\text{nm}$, $\\phi = ${tok(pick.phi)}\\ \\text{eV}$, $hc = 1.988\\times10^{-25}\\ \\text{J}\\cdot\\text{m}$`,
+   350→          ),
+   351→          step(
+   352→            "approach",
+   353→            "Einstein: $K_{\\max} = \\frac{hc}{\\lambda} - \\phi$; primero el fotón en eV y después restamos la función de trabajo.",
+   354→            "Einstein: $K_{\\max} = \\frac{hc}{\\lambda} - \\phi$; first the photon in eV, then subtract the work function.",
+   355→          ),
+   356→          step(
+   357→            "calculation",
+   358→            `$E_{\\text{fotón}} = \\frac{hc}{\\lambda} = \\frac{1{,}988\\times10^{-25}}{${pick.lam}\\times10^{-9}} \\approx ${tok(EeV)}\\ \\text{eV}$<br>$K_{\\max} = ${tok(EeV)} - ${tok(pick.phi)} = ${tok(KE)}\\ \\text{eV}$`,
+   359→            `$E_{\\text{photon}} = \\frac{hc}{\\lambda} = \\frac{1.988\\times10^{-25}}{${pick.lam}\\times10^{-9}} \\approx ${tok(EeV)}\\ \\text{eV}$<br>$K_{\\max} = ${tok(EeV)} - ${tok(pick.phi)} = ${tok(KE)}\\ \\text{eV}$`,
+   360→          ),
+   361→          step(
+   362→            "result",
+   363→            `Los fotoelectrones salen con un máximo de $\\approx ${tok(KE)}\\ \\text{eV}$.`,
+   364→            `The photoelectrons emerge with at most $\\approx ${tok(KE)}\\ \\text{eV}$.`,
+   365→          ),
+   366→        ],
+   367→      };
+   368→    },
+   369→  ),
+   370→
+   371→  /* ---------------------------------------------------------------- */
+   372→  /* Balmer / Lyman wavelength                                        */
+   373→  /* ---------------------------------------------------------------- */
+   374→  template(
+   375→    {
+   376→      id: "mp-atom-02",
+   377→      subject: "physics",
+   378→      topicId: "modern-physics",
+   379→      subtopicId: "atomic-models",
+   380→      difficulty: "medium",
+   381→      questionType: "numeric-unit",
+   382→      estimatedTimeSec: 240,
+   383→      tags: ["bohr", "rydberg", "wavelength"],
+   384→      prerequisites: ["atomic-models"],
+   385→    },
+   386→    (rng) => {
+   387→      const pick = rng.pick([
+   388→        { ni: 3, nf: 2 },
+   389→        { ni: 4, nf: 2 },
+   390→        { ni: 5, nf: 2 },
+   391→        { ni: 6, nf: 2 },
+   392→        { ni: 2, nf: 1 },
+   393→        { ni: 3, nf: 1 },
+   394→      ]);
+   395→      const invLam = R_H * (1 / (pick.nf * pick.nf) - 1 / (pick.ni * pick.ni));
+   396→      const lamNm = sig3(1e9 / invLam);
+   397→      return {
+   398→        skill: L("Longitud de onda de una transición (Bohr)", "Wavelength of a transition (Bohr)"),
+   399→        statement: L(
+   400→          `En el hidrógeno, un electrón cae del nivel $n = ${pick.ni}$ al nivel $n = ${pick.nf}$. Calcula la longitud de onda del fotón emitido, en nm (2 cifras significativas). Dato: $R = 1{,}097\\times10^{7}\\ \\text{m}^{-1}$, con $\\frac{1}{\\lambda} = R\\left(\\frac{1}{n_f^2} - \\frac{1}{n_i^2}\\right)$.`,
+   401→          `In hydrogen, an electron falls from level $n = ${pick.ni}$ to level $n = ${pick.nf}$. Compute the wavelength of the emitted photon, in nm (2 significant figures). Data: $R = 1.097\\times10^{7}\\ \\text{m}^{-1}$, with $\\frac{1}{\\lambda} = R\\left(\\frac{1}{n_f^2} - \\frac{1}{n_i^2}\\right)$.`,
+   402→        ),
+   403→        answer: {
+   404→          kind: "numeric-unit",
+   405→          value: lamNm,
+   406→          tolerance: { mode: "sigfig", value: 2 },
+   407→          units: ["nm"],
+   408→          unitChoices: ["nm", "m", "mm", "eV"],
+   409→        },
+   410→        hints: [
+   411→          L(
+   412→            "Identifica $n_i = ${pick.ni}$ (inicial) y $n_f = ${pick.nf}$ (final) en la fórmula de Rydberg.",
+   413→            "Identify $n_i = ${pick.ni}$ (initial) and $n_f = ${pick.nf}$ (final) in the Rydberg formula.",
+   414→          ),
+   415→          L(
+   416→            `Calcula $\\frac{1}{n_f^2} - \\frac{1}{n_i^2}$ con cuidado: $\\frac{1}{${pick.nf * pick.nf}} - \\frac{1}{${pick.ni * pick.ni}}$.`,
+   417→            `Compute $\\frac{1}{n_f^2} - \\frac{1}{n_i^2}$ carefully: $\\frac{1}{${pick.nf * pick.nf}} - \\frac{1}{${pick.ni * pick.ni}}$.`,
+   418→          ),
+   419→          L(
+   420→            "Obtendrás $1/\\lambda$ en m⁻¹; invierte el resultado y convierte de metros a nanómetros.",
+   421→            "You will get $1/\\lambda$ in m⁻¹; invert it and convert from metres to nanometres.",
+   422→          ),
+   423→        ],
+   424→        answerDisplay: L(`$\\lambda \\approx ${tok(lamNm)}\\ \\text{nm}$`, `$\\lambda \\approx ${tok(lamNm)}\\ \\text{nm}$`),
+   425→        solution: [
+   426→          step(
+   427→            "given",
+   428→            `$n_i = ${pick.ni}$, $n_f = ${pick.nf}$, $R = 1{,}097\\times10^{7}\\ \\text{m}^{-1}$`,
+   429→            `$n_i = ${pick.ni}$, $n_f = ${pick.nf}$, $R = 1.097\\times10^{7}\\ \\text{m}^{-1}$`,
+   430→          ),
+   431→          step(
+   432→            "approach",
+   433→            "Fórmula de Rydberg–Bohr: $\\frac{1}{\\lambda} = R\\left(\\frac{1}{n_f^2} - \\frac{1}{n_i^2}\\right)$ (transición hacia abajo → fotón emitido).",
+   434→            "Rydberg–Bohr formula: $\\frac{1}{\\lambda} = R\\left(\\frac{1}{n_f^2} - \\frac{1}{n_i^2}\\right)$ (downward transition → emitted photon).",
+   435→          ),
+   436→          step(
+   437→            "calculation",
+   438→            `$\\frac{1}{\\lambda} = 1{,}097\\times10^{7}\\left(\\frac{1}{${pick.nf * pick.nf}} - \\frac{1}{${pick.ni * pick.ni}}\\right) = ${tok(sci(invLam).man)}\\times10^{${sci(invLam).exp}}\\ \\text{m}^{-1}$<br>$\\lambda = ${tok(sci(1 / invLam).man)}\\times10^{${sci(1 / invLam).exp}}\\ \\text{m} = ${tok(lamNm)}\\ \\text{nm}$`,
+   439→            `$\\frac{1}{\\lambda} = 1.097\\times10^{7}\\left(\\frac{1}{${pick.nf * pick.nf}} - \\frac{1}{${pick.ni * pick.ni}}\\right) = ${tok(sci(invLam).man)}\\times10^{${sci(invLam).exp}}\\ \\text{m}^{-1}$<br>$\\lambda = ${tok(sci(1 / invLam).man)}\\times10^{${sci(1 / invLam).exp}}\\ \\text{m} = ${tok(lamNm)}\\ \\text{nm}$`,
+   440→          ),
+   441→          step(
+   442→            "result",
+   443→            `La transición emite un fotón de $\\approx ${tok(lamNm)}\\ \\text{nm}$.`,
+   444→            `The transition emits a photon of $\\approx ${tok(lamNm)}\\ \\text{nm}$.`,
+   445→          ),
+   446→        ],
+   447→      };
+   448→    },
+   449→  ),
+   450→
+   451→  /* ---------------------------------------------------------------- */
+   452→  /* Time dilation                                                    */
+   453→  /* ---------------------------------------------------------------- */
+   454→  template(
+   455→    {
+   456→      id: "mp-rel-01",
+   457→      subject: "physics",
+   458→      topicId: "modern-physics",
+   459→      subtopicId: "relativity",
+   460→      difficulty: "medium",
+   461→      questionType: "numeric-unit",
+   462→      estimatedTimeSec: 180,
+   463→      tags: ["relativity", "time-dilation"],
+   464→      prerequisites: [],
+   465→    },
+   466→    (rng) => {
+   467→      const pick = rng.pick([
+   468→        { v: 0.6, dt0: 2 },
+   469→        { v: 0.6, dt0: 4 },
+   470→        { v: 0.6, dt0: 6 },
+   471→        { v: 0.6, dt0: 8 },
+   472→        { v: 0.8, dt0: 3 },
+   473→        { v: 0.8, dt0: 6 },
+   474→        { v: 0.8, dt0: 9 },
+   475→        { v: 0.8, dt0: 12 },
+   476→      ]);
+   477→      const gamma = 1 / Math.sqrt(1 - pick.v * pick.v);
+   478→      const dt = r1(gamma * pick.dt0);
+   479→      return {
+   480→        skill: L("Dilatación del tiempo", "Time dilation"),
+   481→        statement: L(
+   482→          `Una nave espacial viaja a $v = ${tok(pick.v)}c$ respecto a la Tierra. A bordo, un reloj mide un intervalo de $${pick.dt0}\\ \\text{s}$ entre dos sucesos que ocurren en el mismo punto de la nave. ¿Cuánto vale ese intervalo medido desde la Tierra? (en segundos, 2 cifras significativas)`,
+   483→          `A spaceship travels at $v = ${tok(pick.v)}c$ relative to Earth. On board, a clock measures an interval of $${pick.dt0}\\ \\text{s}$ between two events that happen at the same point on the ship. What is that interval as measured from Earth? (in seconds, 2 significant figures)`,
+   484→        ),
+   485→        answer: {
+   486→          kind: "numeric-unit",
+   487→          value: dt,
+   488→          tolerance: { mode: "sigfig", value: 2 },
+   489→          units: ["s"],
+   490→          unitChoices: ["s", "min", "m", "m/s"],
+   491→        },
+   492→        hints: [
+   493→          L(
+   494→            "El intervalo medido en la nave es el **tiempo propio** $\\Delta t_0$.",
+   495→            "The interval measured on the ship is the **proper time** $\\Delta t_0$.",
+   496→          ),
+   497→          L(
+   498→            "Dilatación del tiempo: $\\Delta t = \\gamma\\,\\Delta t_0$ con $\\gamma = \\frac{1}{\\sqrt{1 - v^2/c^2}}$.",
+   499→            "Time dilation: $\\Delta t = \\gamma\\,\\Delta t_0$ with $\\gamma = \\frac{1}{\\sqrt{1 - v^2/c^2}}$.",
+   500→          ),
+   501→          L(
+   502→            `Sustituye $v$ en unidades de $c$: el cociente $v^2/c^2$ es simplemente $${tok(r2(pick.v * pick.v))}$.`,
+   503→            `Substitute $v$ in units of $c$: the ratio $v^2/c^2$ is just $${tok(r2(pick.v * pick.v))}$.`,
+   504→          ),
+   505→        ],
+   506→        answerDisplay: L(`$\\Delta t = ${tok(dt)}\\ \\text{s}$`, `$\\Delta t = ${tok(dt)}\\ \\text{s}$`),
+   507→        solution: [
+   508→          step(
+   509→            "given",
+   510→            `$v = ${tok(pick.v)}c$, $\\Delta t_0 = ${pick.dt0}\\ \\text{s}$ (tiempo propio)`,
+   511→            `$v = ${tok(pick.v)}c$, $\\Delta t_0 = ${pick.dt0}\\ \\text{s}$ (proper time)`,
+   512→          ),
+   513→          step(
+   514→            "approach",
+   515→            "Dilatación del tiempo: $\\Delta t = \\gamma\\Delta t_0$, con $\\gamma = \\frac{1}{\\sqrt{1-v^2/c^2}} > 1$.",
+   516→            "Time dilation: $\\Delta t = \\gamma\\Delta t_0$, with $\\gamma = \\frac{1}{\\sqrt{1-v^2/c^2}} > 1$.",
+   517→          ),
+   518→          step(
+   519→            "calculation",
+   520→            `$\\gamma = \\frac{1}{\\sqrt{1 - ${tok(r2(pick.v * pick.v))}}} = ${tok(r2(gamma))}$<br>$\\Delta t = ${tok(r2(gamma))} \\cdot ${pick.dt0} = ${tok(dt)}\\ \\text{s}$`,
+   521→            `$\\gamma = \\frac{1}{\\sqrt{1 - ${tok(r2(pick.v * pick.v))}}} = ${tok(r2(gamma))}$<br>$\\Delta t = ${tok(r2(gamma))} \\cdot ${pick.dt0} = ${tok(dt)}\\ \\text{s}$`,
+   522→          ),
+   523→          step(
+   524→            "result",
+   525→            `Para la Tierra, el intervalo dura $${tok(dt)}\\ \\text{s}$ (el reloj de la nave va más lento visto desde fuera).`,
+   526→            `For Earth the interval lasts $${tok(dt)}\\ \\text{s}$ (the ship's clock runs slow as seen from outside).`,
+   527→          ),
+   528→        ],
+   529→      };
+   530→    },
+   531→  ),
+   532→
+   533→  /* ---------------------------------------------------------------- */
+   534→  /* Mass–energy equivalence (E = Δmc²)                               */
+   535→  /* ---------------------------------------------------------------- */
+   536→  template(
+   537→    {
+   538→      id: "mp-nucl-01",
+   539→      subject: "physics",
+   540→      topicId: "modern-physics",
+   541→      subtopicId: "nuclear",
+   542→      difficulty: "medium",
+   543→      questionType: "numeric-unit",
+   544→      estimatedTimeSec: 150,
+   545→      tags: ["nuclear", "mass-energy"],
+   546→      prerequisites: [],
+   547→    },
+   548→    (rng) => {
+   549→      const mMan = rng.pick([2, 3, 5, 8]); // ×10⁻³⁰ kg
+   550→      const E = sci(mMan * 1e-30 * C_LIGHT * C_LIGHT);
+   551→      return {
+   552→        skill: L("Equivalencia masa–energía", "Mass–energy equivalence"),
+   553→        statement: L(
+   554→          `En una reacción nuclear, la masa de los productos es menor que la de los reactivos en $\\Delta m = ${mMan}\\times10^{-30}\\ \\text{kg}$. ¿Cuánta energía se libera? (en julios, 2 cifras significativas; $c = 3\\times10^{8}\\ \\text{m/s}$)`,
+   555→          `In a nuclear reaction the mass of the products is smaller than that of the reactants by $\\Delta m = ${mMan}\\times10^{-30}\\ \\text{kg}$. How much energy is released? (in joules, 2 significant figures; $c = 3\\times10^{8}\\ \\text{m/s}$)`,
+   556→        ),
+   557→        answer: {
+   558→          kind: "numeric-unit",
+   559→          value: E.value,
+   560→          tolerance: { mode: "sigfig", value: 2 },
+
+[showing lines 1-560 of 1050; use offset=561 with limit to continue reading]

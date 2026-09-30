@@ -1,0 +1,90 @@
+"use client";
+
+import {
+  Calculator,
+  Equal,
+  GitMerge,
+  Layers,
+  FlipVertical,
+  Divide,
+  Radical,
+  FunctionSquare,
+  Spline,
+  TrendingUp,
+  Subscript,
+  ListOrdered,
+  CircleDot,
+  Triangle,
+  Waves,
+  Sigma,
+  Compass,
+  Shuffle,
+  Ruler,
+  MoveDiagonal,
+  Gauge,
+  Weight,
+  Orbit,
+  Zap,
+  ArrowLeftRight,
+  RefreshCw,
+  Droplets,
+  AudioWaveform,
+  Thermometer,
+  Sparkles,
+  CircuitBoard,
+  Magnet,
+  Radio,
+  Eye,
+  Atom,
+  type LucideIcon,
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+
+const ICONS: Record<string, LucideIcon> = {
+  calculator: Calculator,
+  equal: Equal,
+  "git-merge": GitMerge,
+  layers: Layers,
+  "flip-vertical": FlipVertical,
+  divide: Divide,
+  radical: Radical,
+  "function-square": FunctionSquare,
+  spline: Spline,
+  "trending-up": TrendingUp,
+  subscript: Subscript,
+  "list-ordered": ListOrdered,
+  "circle-dot": CircleDot,
+  triangle: Triangle,
+  waves: Waves,
+  sigma: Sigma,
+  compass: Compass,
+  shuffle: Shuffle,
+  ruler: Ruler,
+  "move-diagonal": MoveDiagonal,
+  gauge: Gauge,
+  weight: Weight,
+  orbit: Orbit,
+  zap: Zap,
+  "arrow-left-right": ArrowLeftRight,
+  "refresh-cw": RefreshCw,
+  droplets: Droplets,
+  "audio-waveform": AudioWaveform,
+  thermometer: Thermometer,
+  sparkles: Sparkles,
+  "circuit-board": CircuitBoard,
+  magnet: Magnet,
+  radio: Radio,
+  eye: Eye,
+  atom: Atom,
+};
+
+export function TopicIcon({
+  icon,
+  className,
+}: {
+  icon: string;
+  className?: string;
+}) {
+  const Icon = ICONS[icon] ?? Sigma;
+  return <Icon className={cn("h-5 w-5", className)} aria-hidden="true" />;
+}

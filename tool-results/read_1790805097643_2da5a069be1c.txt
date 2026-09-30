@@ -1,0 +1,1027 @@
+     1→/**
+     2→ * MATH · Foundations (arithmetic & algebra)
+     3→ *
+     4→ * Exemplar file: demonstrates static problems, parameterized generators,
+     5→ * numeric/expression/multiple-choice question types, and the full hint +
+     6→ * solution structure. Use it as the reference when authoring new topics.
+     7→ */
+     8→
+     9→import { template, L, step, tok } from "@/lib/problem";
+    10→import type { ProblemTemplate, McOption } from "@/lib/types";
+    11→
+    12→const gcd = (x: number, y: number): number => (y === 0 ? x : gcd(y, x % y));
+    13→
+    14→export const templates: ProblemTemplate[] = [
+    15→  /* ---------------------------------------------------------------- */
+    16→  /* Order of operations                                              */
+    17→  /* ---------------------------------------------------------------- */
+    18→  template(
+    19→    {
+    20→      id: "found-ooo-01",
+    21→      subject: "math",
+    22→      topicId: "foundations",
+    23→      subtopicId: "order-of-operations",
+    24→      difficulty: "easy",
+    25→      questionType: "numeric",
+    26→      estimatedTimeSec: 60,
+    27→      tags: ["order-of-operations"],
+    28→      prerequisites: [],
+    29→    },
+    30→    (rng) => {
+    31→      const b = rng.int(2, 9);
+    32→      const c = rng.int(2, 9);
+    33→      const a = rng.int(2, 40);
+    34→      const value = a + b * c;
+    35→      return {
+    36→        skill: L("Jerarquía de operaciones", "Order of operations"),
+    37→        statement: L(
+    38→          `Calcula: $${a} + ${b} \\cdot ${c}$`,
+    39→          `Evaluate: $${a} + ${b} \\cdot ${c}$`,
+    40→        ),
+    41→        answer: { kind: "numeric", value },
+    42→        hints: [
+    43→          L(
+    44→            "La multiplicación se hace antes que la suma.",
+    45→            "Multiplication is done before addition.",
+    46→          ),
+    47→          L(
+    48→            `Primero calcula $${b} \\cdot ${c}$.`,
+    49→            `First compute $${b} \\cdot ${c}$.`,
+    50→          ),
+    51→          L(
+    52→            `Suma el resultado a $${a}$.`,
+    53→            `Add the result to $${a}$.`,
+    54→          ),
+    55→        ],
+    56→        answerDisplay: L(`$${value}$`, `$${value}$`),
+    57→        solution: [
+    58→          step(
+    59→            "given",
+    60→            `Expresión: $${a} + ${b} \\cdot ${c}$`,
+    61→            `Expression: $${a} + ${b} \\cdot ${c}$`,
+    62→          ),
+    63→          step(
+    64→            "approach",
+    65→            "Aplicamos la jerarquía: primero potencias y raíces, luego productos y divisiones, y por último sumas y restas.",
+    66→            "Apply the order of operations: powers and roots first, then products and divisions, and finally additions and subtractions.",
+    67→          ),
+    68→          step(
+    69→            "calculation",
+    70→            `$${a} + ${b} \\cdot ${c} = ${a} + ${b * c}$`,
+    71→            `$${a} + ${b} \\cdot ${c} = ${a} + ${b * c}$`,
+    72→          ),
+    73→          step(
+    74→            "result",
+    75→            `$= ${value}$`,
+    76→            `$= ${value}$`,
+    77→          ),
+    78→        ],
+    79→      };
+    80→    },
+    81→  ),
+    82→
+    83→  template(
+    84→    {
+    85→      id: "found-ooo-02",
+    86→      subject: "math",
+    87→      topicId: "foundations",
+    88→      subtopicId: "order-of-operations",
+    89→      difficulty: "medium",
+    90→      questionType: "numeric",
+    91→      estimatedTimeSec: 90,
+    92→      tags: ["order-of-operations", "powers"],
+    93→      prerequisites: [],
+    94→    },
+    95→    (rng) => {
+    96→      const a = rng.int(2, 5);
+    97→      const b = rng.int(1, 4);
+    98→      const c = rng.int(2, 9);
+    99→      const d = rng.int(1, 8);
+   100→      // (a^b + c) / d, guaranteed divisible
+   101→      const num = a ** b + c;
+   102→      const dFinal = num % d === 0 ? d : num; // avoid ugly fractions at easy/medium
+   103→      const useDivision = num % d === 0;
+   104→      const value = useDivision ? num / d : num - d;
+   105→      const expr = useDivision
+   106→        ? `\\frac{${a}^{${b}} + ${c}}{${d}}`
+   107→        : `${a}^{${b}} + ${c} - ${d}`;
+   108→      return {
+   109→        skill: L("Jerarquía con potencias", "Order of operations with powers"),
+   110→        statement: L(`Calcula: $${expr}$`, `Evaluate: $${expr}$`),
+   111→        answer: { kind: "numeric", value },
+   112→        hints: [
+   113→          L(
+   114→            "Resuelve primero lo que está dentro del paréntesis o en el numerador.",
+   115→            "Solve what is inside the parentheses or the numerator first.",
+   116→          ),
+   117→          L(
+   118→            `Calcula $${a}^{${b}}$ y luego la operación indicada.`,
+   119→            `Compute $${a}^{${b}}$ and then the indicated operation.`,
+   120→          ),
+   121→          L(
+   122→            "Termina con la operación que queda fuera (división o resta).",
+   123→            "Finish with the remaining outer operation (division or subtraction).",
+   124→          ),
+   125→        ],
+   126→        answerDisplay: L(`$${value}$`, `$${value}$`),
+   127→        solution: useDivision
+   128→          ? [
+   129→              step("given", `Expresión: $${expr}$`, `Expression: $${expr}$`),
+   130→              step(
+   131→                "approach",
+   132→                "El numerador se calcula entero antes de dividir.",
+   133→                "The whole numerator is computed before dividing.",
+   134→              ),
+   135→              step(
+   136→                "calculation",
+   137→                `$${a}^{${b}} + ${c} = ${a ** b} + ${c} = ${num}$, luego $\\frac{${num}}{${d}} = ${value}$`,
+   138→                `$${a}^{${b}} + ${c} = ${a ** b} + ${c} = ${num}$, then $\\frac{${num}}{${d}} = ${value}$`,
+   139→              ),
+   140→              step("result", `El resultado es $${value}$.`, `The result is $${value}$.`),
+   141→            ]
+   142→          : [
+   143→              step("given", `Expresión: $${expr}$`, `Expression: $${expr}$`),
+   144→              step(
+   145→                "approach",
+   146→                "La potencia se calcula antes que la resta.",
+   147→                "The power is computed before the subtraction.",
+   148→              ),
+   149→              step(
+   150→                "calculation",
+   151→                `$${a}^{${b}} = ${a ** b}$, luego $${a ** b} + ${c} - ${d} = ${num} - ${d} = ${value}$`,
+   152→                `$${a}^{${b}} = ${a ** b}$, then $${a ** b} + ${c} - ${d} = ${num} - ${d} = ${value}$`,
+   153→              ),
+   154→              step("result", `El resultado es $${value}$.`, `The result is $${value}$.`),
+   155→            ],
+   156→      };
+   157→    },
+   158→  ),
+   159→
+   160→  /* ---------------------------------------------------------------- */
+   161→  /* Fractions                                                        */
+   162→  /* ---------------------------------------------------------------- */
+   163→  template(
+   164→    {
+   165→      id: "found-frac-01",
+   166→      subject: "math",
+   167→      topicId: "foundations",
+   168→      subtopicId: "fractions",
+   169→      difficulty: "easy",
+   170→      questionType: "numeric",
+   171→      estimatedTimeSec: 90,
+   172→      tags: ["fractions"],
+   173→      prerequisites: [],
+   174→    },
+   175→    (rng) => {
+   176→      const halves = [2, 3, 4, 5, 6, 8, 10, 12];
+   177→      const b = rng.pick(halves);
+   178→      const a = rng.int(1, b - 1);
+   179→      const c = rng.int(1, 6);
+   180→      const num = a * c + 1;
+   181→      const den = b * c;
+   182→      const gg = gcd(num, den);
+   183→      const redNum = num / gg;
+   184→      const redDen = den / gg;
+   185→      const value = num / den;
+   186→      return {
+   187→        skill: L("Suma de fracciones", "Adding fractions"),
+   188→        statement: L(
+   189→          `Calcula $\\frac{${a}}{${b}} + \\frac{1}{${c * b}}$. Da el resultado como número o como fracción (por ejemplo 3/4).`,
+   190→          `Compute $\\frac{${a}}{${b}} + \\frac{1}{${c * b}}$. Give the result as a number or a fraction (e.g. 3/4).`,
+   191→        ),
+   192→        answer: { kind: "numeric", value, tolerance: { mode: "relative", value: 0.005 } },
+   193→        hints: [
+   194→          L(
+   195→            "Los denominadores son distintos: busca uno común.",
+   196→            "The denominators differ: find a common one.",
+   197→          ),
+   198→          L(
+   199→            `$${c * b}$ es múltiplo de $${b}$: amplifica la primera fracción por $${c}$.`,
+   200→            `$${c * b}$ is a multiple of $${b}$: scale the first fraction by $${c}$.`,
+   201→          ),
+   202→          L(
+   203→            `Suma los numeradores: $${a * c} + 1$.`,
+   204→            `Add the numerators: $${a * c} + 1$.`,
+   205→          ),
+   206→        ],
+   207→        answerDisplay:
+   208→          redDen === 1
+   209→            ? L(`$${redNum}$`, `$${redNum}$`)
+   210→            : L(
+   211→                `$\\frac{${redNum}}{${redDen}}$`,
+   212→                `$\\frac{${redNum}}{${redDen}}$`,
+   213→              ),
+   214→        solution: [
+   215→          step(
+   216→            "given",
+   217→            `$\\frac{${a}}{${b}} + \\frac{1}{${c * b}}$`,
+   218→            `$\\frac{${a}}{${b}} + \\frac{1}{${c * b}}$`,
+   219→          ),
+   220→          step(
+   221→            "approach",
+   222→            "Reducimos a común denominador y sumamos los numeradores.",
+   223→            "Reduce to a common denominator and add the numerators.",
+   224→          ),
+   225→          step(
+   226→            "calculation",
+   227→            `$\\frac{${a}}{${b}} + \\frac{1}{${c * b}} = \\frac{${a * c}}{${c * b}} + \\frac{1}{${c * b}} = \\frac{${num}}{${den}}$`,
+   228→            `$\\frac{${a}}{${b}} + \\frac{1}{${c * b}} = \\frac{${a * c}}{${c * b}} + \\frac{1}{${c * b}} = \\frac{${num}}{${den}}$`,
+   229→          ),
+   230→          step(
+   231→            "result",
+   232→            redDen === 1
+   233→              ? `El resultado es $${redNum}$.`
+   234→              : `Simplificando: $\\frac{${redNum}}{${redDen}}$.`,
+   235→            redDen === 1
+   236→              ? `The result is $${redNum}$.`
+   237→              : `Simplified: $\\frac{${redNum}}{${redDen}}$.`,
+   238→          ),
+   239→        ],
+   240→      };
+   241→    },
+   242→  ),
+   243→
+   244→  template(
+   245→    {
+   246→      id: "found-frac-02",
+   247→      subject: "math",
+   248→      topicId: "foundations",
+   249→      subtopicId: "fractions",
+   250→      difficulty: "medium",
+   251→      questionType: "numeric",
+   252→      estimatedTimeSec: 120,
+   253→      tags: ["fractions", "division"],
+   254→      prerequisites: [],
+   255→    },
+   256→    (rng) => {
+   257→      const a = rng.int(2, 9);
+   258→      const b = rng.int(2, 9);
+   259→      const c = rng.int(2, 9);
+   260→      const d = rng.int(2, 9);
+   261→      const value = (a / b) / (c / d);
+   262→      return {
+   263→        skill: L("División de fracciones", "Dividing fractions"),
+   264→        statement: L(
+   265→          `Calcula $\\frac{${a}}{${b}} \\div \\frac{${c}}{${d}}$. Da el resultado como número o fracción.`,
+   266→          `Compute $\\frac{${a}}{${b}} \\div \\frac{${c}}{${d}}$. Give the result as a number or fraction.`,
+   267→        ),
+   268→        answer: { kind: "numeric", value, tolerance: { mode: "relative", value: 0.005 } },
+   269→        hints: [
+   270→          L(
+   271→            "Dividir por una fracción equivale a multiplicar por su inversa.",
+   272→            "Dividing by a fraction is multiplying by its reciprocal.",
+   273→          ),
+   274→          L(
+   275→            `Invierte $\\frac{${c}}{${d}}$ y multiplica.`,
+   276→            `Flip $\\frac{${c}}{${d}}$ and multiply.`,
+   277→          ),
+   278→          L(
+   279→            "Multiplica numeradores entre sí y denominadores entre sí.",
+   280→            "Multiply numerators together and denominators together.",
+   281→          ),
+   282→        ],
+   283→        answerDisplay: L(
+   284→          `$\\frac{${a * d}}{${b * c}}$`,
+   285→          `$\\frac{${a * d}}{${b * c}}$`,
+   286→        ),
+   287→        solution: [
+   288→          step(
+   289→            "given",
+   290→            `$\\frac{${a}}{${b}} \\div \\frac{${c}}{${d}}$`,
+   291→            `$\\frac{${a}}{${b}} \\div \\frac{${c}}{${d}}$`,
+   292→          ),
+   293→          step(
+   294→            "approach",
+   295→            "Convertimos la división en un producto por la fracción invertida.",
+   296→            "Turn the division into a product by the flipped fraction.",
+   297→          ),
+   298→          step(
+   299→            "calculation",
+   300→            `$\\frac{${a}}{${b}} \\cdot \\frac{${d}}{${c}} = \\frac{${a * d}}{${b * c}}$`,
+   301→            `$\\frac{${a}}{${b}} \\cdot \\frac{${d}}{${c}} = \\frac{${a * d}}{${b * c}}$`,
+   302→          ),
+   303→          step(
+   304→            "result",
+   305→            `El resultado es $\\frac{${a * d}}{${b * c}} \\approx {{${value.toFixed(3)}}}$.`,
+   306→            `The result is $\\frac{${a * d}}{${b * c}} \\approx {{${value.toFixed(3)}}}$.`,
+   307→          ),
+   308→        ],
+   309→      };
+   310→    },
+   311→  ),
+   312→
+   313→  /* ---------------------------------------------------------------- */
+   314→  /* Percentages                                                      */
+   315→  /* ---------------------------------------------------------------- */
+   316→  template(
+   317→    {
+   318→      id: "found-pct-01",
+   319→      subject: "math",
+   320→      topicId: "foundations",
+   321→      subtopicId: "percentages",
+   322→      difficulty: "easy",
+   323→      questionType: "numeric",
+   324→      estimatedTimeSec: 60,
+   325→      tags: ["percentages"],
+   326→      prerequisites: [],
+   327→    },
+   328→    (rng) => {
+   329→      const p = rng.pick([10, 15, 20, 25, 40, 50, 60, 75]);
+   330→      const base = rng.pick([40, 60, 80, 120, 200, 240, 300, 400]);
+   331→      const value = (p / 100) * base;
+   332→      return {
+   333→        skill: L("Porcentaje de una cantidad", "Percentage of a quantity"),
+   334→        statement: L(
+   335→          `Calcula el $${p}\\%$ de $${base}$.`,
+   336→          `Compute $${p}\\%$ of $${base}$.`,
+   337→        ),
+   338→        answer: { kind: "numeric", value },
+   339→        hints: [
+   340→          L(
+   341→            '"Por ciento" significa "dividido entre 100".',
+   342→            '"Per cent" means "divided by 100".',
+   343→          ),
+   344→          L(
+   345→            `Escribe el porcentaje como fracción o decimal: $${p}\\% = {{${(p / 100).toFixed(2)}}}$.`,
+   346→            `Write the percentage as a fraction or decimal: $${p}\\% = {{${(p / 100).toFixed(2)}}}$.`,
+   347→          ),
+   348→          L(
+   349→            `Multiplica ese decimal por $${base}$.`,
+   350→            `Multiply that decimal by $${base}$.`,
+   351→          ),
+   352→        ],
+   353→        answerDisplay: L(`$${value}$`, `$${value}$`),
+   354→        solution: [
+   355→          step("given", `$${p}\\%$ de $${base}$`, `$${p}\\%$ of $${base}$`),
+   356→          step(
+   357→            "approach",
+   358→            "Un porcentaje se aplica multiplicando la cantidad por el tanto por uno.",
+   359→            "Apply a percentage by multiplying the quantity by its decimal form.",
+   360→          ),
+   361→          step(
+   362→            "calculation",
+   363→            `$${p}\\% = \\frac{${p}}{100} = {{${(p / 100).toFixed(2)}}} \\quad\\Rightarrow\\quad {{${(p / 100).toFixed(2)}}} \\cdot ${base} = ${value}$`,
+   364→            `$${p}\\% = \\frac{${p}}{100} = {{${(p / 100).toFixed(2)}}} \\quad\\Rightarrow\\quad {{${(p / 100).toFixed(2)}}} \\cdot ${base} = ${value}$`,
+   365→          ),
+   366→          step("result", `El $${p}\\%$ de $${base}$ es $${value}$.`, `$${p}\\%$ of $${base}$ is $${value}$.`),
+   367→        ],
+   368→      };
+   369→    },
+   370→  ),
+   371→
+   372→  template(
+   373→    {
+   374→      id: "found-pct-02",
+   375→      subject: "math",
+   376→      topicId: "foundations",
+   377→      subtopicId: "percentages",
+   378→      difficulty: "medium",
+   379→      questionType: "numeric",
+   380→      estimatedTimeSec: 150,
+   381→      tags: ["percentages", "word-problems"],
+   382→      prerequisites: [],
+   383→    },
+   384→    (rng) => {
+   385→      const base = rng.pick([80, 120, 150, 200, 250]);
+   386→      const inc = rng.pick([10, 20, 25, 50]);
+   387→      const value = base * (1 + inc / 100);
+   388→      return {
+   389→        skill: L("Aumento porcentual", "Percentage increase"),
+   390→        statement: L(
+   391→          `Un artículo que costaba $${base}\\,€$ sube un $${inc}\\%$. ¿Cuál es el precio final en euros?`,
+   392→          `An item that cost $${base}\\,€$ rises by $${inc}\\%$. What is the final price in euros?`,
+   393→        ),
+   394→        answer: { kind: "numeric", value, unitSuffix: "€" },
+   395→        hints: [
+   396→          L(
+   397→            "Primero calcula cuánto aumenta el precio.",
+   398→            "First compute how much the price increases.",
+   399→          ),
+   400→          L(
+   401→            `El aumento es $${inc}\\%$ de $${base}$.`,
+   402→            `The increase is $${inc}\\%$ of $${base}$.`,
+   403→          ),
+   404→          L(
+   405→            "Súmale el aumento al precio original.",
+   406→            "Add the increase to the original price.",
+   407→          ),
+   408→        ],
+   409→        answerDisplay: L(`$${value}\\,€$`, `$${value}\\,€$`),
+   410→        solution: [
+   411→          step(
+   412→            "given",
+   413→            `Precio inicial: $${base}\\,€$. Subida: $${inc}\\%$.`,
+   414→            `Initial price: $${base}\\,€$. Increase: $${inc}\\%$.`,
+   415→          ),
+   416→          step(
+   417→            "approach",
+   418→            "Calculamos el aumento y lo sumamos (equivalente a multiplicar por $1 + \\text{tanto por uno}$).",
+   419→            "Compute the increase and add it (equivalent to multiplying by $1 + \\text{decimal form}$).",
+   420→          ),
+   421→          step(
+   422→            "calculation",
+   423→            `$\\text{aumento} = \\frac{${inc}}{100} \\cdot ${base} = ${base * (inc / 100)}\\,€$<br>$\\text{final} = ${base} + ${base * (inc / 100)} = ${value}\\,€$`,
+   424→            `$\\text{increase} = \\frac{${inc}}{100} \\cdot ${base} = ${base * (inc / 100)}\\,€$<br>$\\text{final} = ${base} + ${base * (inc / 100)} = ${value}\\,€$`,
+   425→          ),
+   426→          step("result", `El precio final es $${value}\\,€$.`, `The final price is $${value}\\,€$.`),
+   427→        ],
+   428→      };
+   429→    },
+   430→  ),
+   431→
+   432→  /* ---------------------------------------------------------------- */
+   433→  /* Signed numbers                                                   */
+   434→  /* ---------------------------------------------------------------- */
+   435→  template(
+   436→    {
+   437→      id: "found-signed-01",
+   438→      subject: "math",
+   439→      topicId: "foundations",
+   440→      subtopicId: "signed-numbers",
+   441→      difficulty: "easy",
+   442→      questionType: "numeric",
+   443→      estimatedTimeSec: 60,
+   444→      tags: ["signed-numbers"],
+   445→      prerequisites: [],
+   446→    },
+   447→    (rng) => {
+   448→      const a = rng.int(2, 15);
+   449→      const b = rng.int(2, 15);
+   450→      const minusFirst = rng.bool();
+   451→      const value = minusFirst ? -a - b : -a + b;
+   452→      const expr = minusFirst ? `$-${a} - ${b}$` : `$-${a} + ${b}$`;
+   453→      return {
+   454→        skill: L("Suma y resta con signos", "Adding and subtracting signed numbers"),
+   455→        statement: L(`Calcula: ${expr}`, `Evaluate: ${expr}`),
+   456→        answer: { kind: "numeric", value },
+   457→        hints: [
+   458→          L(
+   459→            "Ambos números tienen signo: fíjate si son iguales o distintos.",
+   460→            "Both numbers carry a sign: check whether they are the same or different.",
+   461→          ),
+   462→          minusFirst
+   463→            ? L(
+   464→                "Es una suma de dos negativos: el resultado también es negativo.",
+   465→                "This is the sum of two negatives: the result is also negative.",
+   466→              )
+   467→            : L(
+   468→                "Signos distintos: resta los valores absolutos y conserva el signo del mayor.",
+   469→                "Different signs: subtract the absolute values and keep the sign of the larger one.",
+   470→              ),
+   471→          L(
+   472→            `Opera con los valores absolutos $${a}$ y $${b}$.`,
+   473→            `Work with the absolute values $${a}$ and $${b}$.`,
+   474→          ),
+   475→        ],
+   476→        answerDisplay: L(`$${value}$`, `$${value}$`),
+   477→        solution: [
+   478→          step("given", expr, expr),
+   479→          step(
+   480→            "approach",
+   481→            minusFirst
+   482→              ? "Sumar dos números negativos da un negativo cuya distancia es la suma de las distancias."
+   483→              : "Con signos distintos, restamos los valores absolutos y conservamos el signo del mayor.",
+   484→            minusFirst
+   485→              ? "Adding two negatives gives a negative whose size is the sum of the sizes."
+   486→              : "With different signs, subtract the absolute values and keep the sign of the larger one.",
+   487→          ),
+   488→          step(
+   489→            "calculation",
+   490→            minusFirst ? `$-${a} - ${b} = -(${a} + ${b}) = ${value}$` : `$-${a} + ${b} = ${b} - ${a}$ con signo del mayor$= ${value}$`,
+   491→            minusFirst ? `$-${a} - ${b} = -(${a} + ${b}) = ${value}$` : `$-${a} + ${b} = ${b} - ${a}$ with the sign of the larger$= ${value}$`,
+   492→          ),
+   493→          step("result", `El resultado es $${value}$.`, `The result is $${value}$.`),
+   494→        ],
+   495→      };
+   496→    },
+   497→  ),
+   498→
+   499→  /* ---------------------------------------------------------------- */
+   500→  /* Powers & roots                                                   */
+   501→  /* ---------------------------------------------------------------- */
+   502→  template(
+   503→    {
+   504→      id: "found-pow-01",
+   505→      subject: "math",
+   506→      topicId: "foundations",
+   507→      subtopicId: "powers",
+   508→      difficulty: "easy",
+   509→      questionType: "expression",
+   510→      estimatedTimeSec: 90,
+   511→      tags: ["exponent-laws"],
+   512→      prerequisites: [],
+   513→    },
+   514→    (rng) => {
+   515→      const m = rng.int(2, 6);
+   516→      const n = rng.int(2, 6);
+   517→      const base = rng.pick(["x", "a", "b"]);
+   518→      return {
+   519→        skill: L("Producto de potencias de igual base", "Product of powers with the same base"),
+   520→        statement: L(
+   521→          `Simplifica: $${base}^{${m}} \\cdot ${base}^{${n}}$ (escribe el resultado con la variable, por ejemplo x^7 o x**7).`,
+   522→          `Simplify: $${base}^{${m}} \\cdot ${base}^{${n}}$ (write the result with the variable, e.g. x^7 or x**7).`,
+   523→        ),
+   524→        answer: {
+   525→          kind: "expression",
+   526→          accepted: [`${base}^${m + n}`],
+   527→          variables: [base],
+   528→        },
+   529→        hints: [
+   530→          L(
+   531→            "Las dos potencias tienen la misma base.",
+   532→            "Both powers have the same base.",
+   533→          ),
+   534→          L(
+   535→            "Con la misma base, se conservan la base y se **suman** los exponentes.",
+   536→            "With the same base, keep the base and **add** the exponents.",
+   537→          ),
+   538→          L(`El exponente final es $${m} + ${n}$.`, `The final exponent is $${m} + ${n}$.`),
+   539→        ],
+   540→        answerDisplay: L(`$${base}^{${m + n}}$`, `$${base}^{${m + n}}$`),
+   541→        solution: [
+   542→          step(
+   543→            "given",
+   544→            `$${base}^{${m}} \\cdot ${base}^{${n}}$`,
+   545→            `$${base}^{${m}} \\cdot ${base}^{${n}}$`,
+   546→          ),
+   547→          step(
+   548→            "approach",
+   549→            "Identidad: $a^{m} \\cdot a^{n} = a^{m+n}$.",
+   550→            "Identity: $a^{m} \\cdot a^{n} = a^{m+n}$.",
+   551→          ),
+   552→          step(
+   553→            "calculation",
+   554→            `$${base}^{${m}} \\cdot ${base}^{${n}} = ${base}^{${m}+${n}}$`,
+   555→            `$${base}^{${m}} \\cdot ${base}^{${n}} = ${base}^{${m}+${n}}$`,
+   556→          ),
+   557→          step("result", `$= ${base}^{${m + n}}$`, `$= ${base}^{${m + n}}$`),
+   558→        ],
+   559→      };
+   560→    },
+   561→  ),
+   562→
+   563→  template(
+   564→    {
+   565→      id: "found-root-01",
+   566→      subject: "math",
+   567→      topicId: "foundations",
+   568→      subtopicId: "roots",
+   569→      difficulty: "medium",
+   570→      questionType: "expression",
+   571→      estimatedTimeSec: 120,
+   572→      tags: ["radicals", "simplification"],
+   573→      prerequisites: [],
+   574→    },
+   575→    (rng) => {
+   576→      const k = rng.pick([2, 3, 5, 6, 7]);
+   577→      const squareFactor = k * k;
+   578→      const remaining = rng.pick([2, 3, 5]);
+   579→      const inner = squareFactor * remaining;
+   580→      return {
+   581→        skill: L("Simplificar raíces cuadradas", "Simplifying square roots"),
+   582→        statement: L(
+   583→          `Simplifica: $\\sqrt{${inner}}$ (puedes escribir sqrt(2), 2sqrt(3), …).`,
+   584→          `Simplify: $\\sqrt{${inner}}$ (you may write sqrt(2), 2sqrt(3), …).`,
+   585→        ),
+   586→        answer: {
+   587→          kind: "expression",
+   588→          accepted: [`${k}*sqrt(${remaining})`],
+   589→          variables: [],
+   590→        },
+   591→        hints: [
+   592→          L(
+   593→            `Busca el mayor cuadrado perfecto que divida a $${inner}$.`,
+   594→            `Find the largest perfect square that divides $${inner}$.`,
+   595→          ),
+   596→          L(
+   597→            `$${squareFactor} = ${k}^2$ es un factor.`,
+   598→            `$${squareFactor} = ${k}^2$ is a factor.`,
+   599→          ),
+   600→          L(
+   601→            `Separa: $\\sqrt{${inner}} = \\sqrt{${squareFactor}} \\cdot \\sqrt{${remaining}}$.`,
+   602→            `Split it: $\\sqrt{${inner}} = \\sqrt{${squareFactor}} \\cdot \\sqrt{${remaining}}$.`,
+   603→          ),
+   604→        ],
+   605→        answerDisplay: L(`$${k}\\sqrt{${remaining}}$`, `$${k}\\sqrt{${remaining}}$`),
+   606→        solution: [
+   607→          step("given", `$\\sqrt{${inner}}$`, `$\\sqrt{${inner}}$`),
+   608→          step(
+   609→            "approach",
+   610→            "Extraemos el mayor factor cuadrado perfecto del radicando.",
+   611→            "Extract the largest perfect-square factor from the radicand.",
+   612→          ),
+   613→          step(
+   614→            "calculation",
+   615→            `$\\sqrt{${inner}} = \\sqrt{${squareFactor} \\cdot ${remaining}} = \\sqrt{${squareFactor}} \\cdot \\sqrt{${remaining}} = ${k}\\sqrt{${remaining}}$`,
+   616→            `$\\sqrt{${inner}} = \\sqrt{${squareFactor} \\cdot ${remaining}} = \\sqrt{${squareFactor}} \\cdot \\sqrt{${remaining}} = ${k}\\sqrt{${remaining}}$`,
+   617→          ),
+   618→          step(
+   619→            "result",
+   620→            `$\\sqrt{${inner}} = ${k}\\sqrt{${remaining}}$`,
+   621→            `$\\sqrt{${inner}} = ${k}\\sqrt{${remaining}}$`,
+   622→          ),
+   623→        ],
+   624→      };
+   625→    },
+   626→  ),
+   627→
+   628→  /* ---------------------------------------------------------------- */
+   629→  /* Scientific notation (multiple-choice exemplar)                   */
+   630→  /* ---------------------------------------------------------------- */
+   631→  template(
+   632→    {
+   633→      id: "found-sci-01",
+   634→      subject: "math",
+   635→      topicId: "foundations",
+   636→      subtopicId: "scientific-notation",
+   637→      difficulty: "medium",
+   638→      questionType: "multiple-choice",
+   639→      estimatedTimeSec: 90,
+   640→      tags: ["scientific-notation"],
+   641→      prerequisites: ["powers"],
+   642→    },
+   643→    (rng) => {
+   644→      const m = rng.pick([15, 28, 36, 42, 57, 63, 71, 84]);
+   645→      const exp = rng.pick([3, 4, 5]);
+   646→      const value = m * Math.pow(10, exp - 1);
+   647→      const mant = m / 10;
+   648→      const options: McOption[] = [
+   649→        { id: "a", text: L(`$${mant} \\times 10^{${exp}}$`, `$${mant} \\times 10^{${exp}}$`), correct: true },
+   650→        { id: "b", text: L(`$${m} \\times 10^{${exp - 1}}$`, `$${m} \\times 10^{${exp - 1}}$`), correct: false },
+   651→        { id: "c", text: L(`$${mant} \\times 10^{${exp + 1}}$`, `$${mant} \\times 10^{${exp + 1}}$`), correct: false },
+   652→        { id: "d", text: L(`$${m / 100} \\times 10^{${exp + 1}}$`, `$${m / 100} \\times 10^{${exp + 1}}$`), correct: false },
+   653→      ];
+   654→      return {
+   655→        skill: L("Notación científica", "Scientific notation"),
+   656→        statement: L(
+   657→          `¿Cuál es $${value}$ escrito en notación científica?`,
+   658→          `Which is $${value}$ written in scientific notation?`,
+   659→        ),
+   660→        answer: {
+   661→          kind: "multiple-choice",
+   662→          options: rng.shuffle(options),
+   663→        },
+   664→        hints: [
+   665→          L(
+   666→            "En notación científica el primer factor está entre 1 y 10.",
+   667→            "In scientific notation the first factor is between 1 and 10.",
+   668→          ),
+   669→          L(
+   670→            `Mueve la coma hasta obtener un número entre 1 y 10; cuenta cuántos lugares.`,
+   671→            `Slide the decimal point until you get a number between 1 and 10; count the places.`,
+   672→          ),
+   673→          L(
+   674→            "El número de lugares que mueves la coma es el exponente.",
+   675→            "The number of places you move the point is the exponent.",
+   676→          ),
+   677→        ],
+   678→        answerDisplay: L(`$${mant} \\times 10^{${exp}}$`, `$${mant} \\times 10^{${exp}}$`),
+   679→        solution: [
+   680→          step("given", `$${value}$`, `$${value}$`),
+   681→          step(
+   682→            "approach",
+   683→            "Buscamos $a \\times 10^{n}$ con $1 \\le a < 10$.",
+   684→            "We want $a \\times 10^{n}$ with $1 \\le a < 10$.",
+   685→          ),
+   686→          step(
+   687→            "calculation",
+   688→            `$${value} = ${mant} \\times 10^{${exp}}$ porque movemos la coma ${exp} lugares a la izquierda.`,
+   689→            `$${value} = ${mant} \\times 10^{${exp}}$ because we move the point ${exp} places to the left.`,
+   690→          ),
+   691→          step("result", `$${value} = ${mant} \\times 10^{${exp}}$`, `$${value} = ${mant} \\times 10^{${exp}}$`),
+   692→        ],
+   693→      };
+   694→    },
+   695→  ),
+   696→
+   697→  /* ---------------------------------------------------------------- */
+   698→  /* Distributive & like terms                                        */
+   699→  /* ---------------------------------------------------------------- */
+   700→  template(
+   701→    {
+   702→      id: "found-dist-01",
+   703→      subject: "math",
+   704→      topicId: "foundations",
+   705→      subtopicId: "distributive",
+   706→      difficulty: "easy",
+   707→      questionType: "expression",
+   708→      estimatedTimeSec: 90,
+   709→      tags: ["distributive", "expand"],
+   710→      prerequisites: [],
+   711→    },
+   712→    (rng) => {
+   713→      const a = rng.int(2, 9);
+   714→      const b = rng.int(2, 15);
+   715→      const c = rng.int(2, 12);
+   716→      return {
+   717→        skill: L("Propiedad distributiva", "Distributive property"),
+   718→        statement: L(
+   719→          `Expande y simplifica: $${a}(x + ${b}) - ${c}$ (escribe por ejemplo 3x+5).`,
+   720→          `Expand and simplify: $${a}(x + ${b}) - ${c}$ (write e.g. 3x+5).`,
+   721→        ),
+   722→        answer: {
+   723→          kind: "expression",
+   724→          accepted: [`${a}x + ${a * b - c}`],
+   725→          variables: ["x"],
+   726→        },
+   727→        hints: [
+   728→          L(
+   729→            `Multiplica $${a}$ por **cada término** del paréntesis.`,
+   730→            `Multiply $${a}$ by **each term** inside the parentheses.`,
+   731→          ),
+   732→          L(`$${a} \\cdot x = ${a}x$ y $${a} \\cdot ${b} = ${a * b}$.`, `$${a} \\cdot x = ${a}x$ and $${a} \\cdot ${b} = ${a * b}$.`),
+   733→          L(`Resta $${c}$ del resultado numérico.`, `Subtract $${c}$ from the numerical result.`),
+   734→        ],
+   735→        answerDisplay: L(`$${a}x + ${a * b - c}$`, `$${a}x + ${a * b - c}$`),
+   736→        solution: [
+   737→          step("given", `$${a}(x + ${b}) - ${c}$`, `$${a}(x + ${b}) - ${c}$`),
+   738→          step(
+   739→            "approach",
+   740→            "Aplicamos la distributiva y luego juntamos los términos numéricos.",
+   741→            "Apply the distributive property, then combine the numeric terms.",
+   742→          ),
+   743→          step(
+   744→            "calculation",
+   745→            `$${a}(x + ${b}) - ${c} = ${a}x + ${a * b} - ${c}$`,
+   746→            `$${a}(x + ${b}) - ${c} = ${a}x + ${a * b} - ${c}$`,
+   747→          ),
+   748→          step("result", `$= ${a}x + ${a * b - c}$`, `$= ${a}x + ${a * b - c}$`),
+   749→        ],
+   750→      };
+   751→    },
+   752→  ),
+   753→
+   754→  template(
+   755→    {
+   756→      id: "found-like-01",
+   757→      subject: "math",
+   758→      topicId: "foundations",
+   759→      subtopicId: "like-terms",
+   760→      difficulty: "easy",
+   761→      questionType: "expression",
+   762→      estimatedTimeSec: 90,
+   763→      tags: ["like-terms", "simplify"],
+   764→      prerequisites: [],
+   765→    },
+   766→    (rng) => {
+   767→      const a = rng.int(2, 9);
+   768→      const b = rng.int(1, 9);
+   769→      const c = rng.int(1, 9);
+   770→      const d = rng.int(1, 12);
+   771→      const coefX = a - c;
+   772→      const num = b + d;
+   773→      return {
+   774→        skill: L("Reducir términos semejantes", "Combining like terms"),
+   775→        statement: L(
+   776→          `Simplifica: $${a}x + ${b} - ${c}x + ${d}$`,
+   777→          `Simplify: $${a}x + ${b} - ${c}x + ${d}$`,
+   778→        ),
+   779→        answer: {
+   780→          kind: "expression",
+   781→          accepted: coefX === 0 ? [`${num}`] : [`${coefX}x + ${num}`],
+   782→          variables: ["x"],
+   783→        },
+   784→        hints: [
+   785→          L(
+   786→            "Agrupa por separado los términos con $x$ y los números.",
+   787→            "Group the $x$ terms and the numbers separately.",
+   788→          ),
+   789→          L(
+   790→            `Los términos en $x$ son $${a}x$ y $-${c}x$.`,
+   791→            `The $x$ terms are $${a}x$ and $-${c}x$.`,
+   792→          ),
+   793→          L(
+   794→            `Los números son $${b}$ y $${d}$.`,
+   795→            `The numbers are $${b}$ and $${d}$.`,
+   796→          ),
+   797→        ],
+   798→        answerDisplay:
+   799→          coefX === 0
+   800→            ? L(`$${num}$`, `$${num}$`)
+   801→            : L(`$${coefX}x + ${num}$`, `$${coefX}x + ${num}$`),
+   802→        solution: [
+   803→          step("given", `$${a}x + ${b} - ${c}x + ${d}$`, `$${a}x + ${b} - ${c}x + ${d}$`),
+   804→          step(
+   805→            "approach",
+   806→            "Solo se suman o restan términos semejantes (misma parte literal).",
+   807→            "Only like terms (same variable part) can be added or subtracted.",
+   808→          ),
+   809→          step(
+   810→            "calculation",
+   811→            `$(${a}x - ${c}x) + (${b} + ${d}) = ${coefX}x + ${num}$`,
+   812→            `$(${a}x - ${c}x) + (${b} + ${d}) = ${coefX}x + ${num}$`,
+   813→          ),
+   814→          step(
+   815→            "result",
+   816→            coefX === 0 ? `$= ${num}$` : `$= ${coefX}x + ${num}$`,
+   817→            coefX === 0 ? `$= ${num}$` : `$= ${coefX}x + ${num}$`,
+   818→          ),
+   819→        ],
+   820→      };
+   821→    },
+   822→  ),
+   823→
+   824→  /* ---------------------------------------------------------------- */
+   825→  /* Ratios & proportions                                             */
+   826→  /* ---------------------------------------------------------------- */
+   827→  template(
+   828→    {
+   829→      id: "found-prop-01",
+   830→      subject: "math",
+   831→      topicId: "foundations",
+   832→      subtopicId: "ratios-proportions",
+   833→      difficulty: "medium",
+   834→      questionType: "numeric",
+   835→      estimatedTimeSec: 120,
+   836→      tags: ["proportions", "word-problems"],
+   837→      prerequisites: ["fractions"],
+   838→    },
+   839→    (rng) => {
+   840→      const recipeFor = rng.int(4, 8);
+   841→      const cups = rng.int(2, 5);
+   842→      const factor = rng.pick([2, 3, 4]);
+   843→      const value = cups * factor;
+   844→      return {
+   845→        skill: L("Proporcionalidad directa", "Direct proportionality"),
+   846→        statement: L(
+   847→          `Una receta para $${recipeFor}$ personas usa $${cups}$ tazas de arroz. ¿Cuántas tazas necesita la receta para $${recipeFor * factor}$ personas (con el mismo reparto por persona)?`,
+   848→          `A recipe for $${recipeFor}$ people uses $${cups}$ cups of rice. How many cups does the recipe need for $${recipeFor * factor}$ people (same amount per person)?`,
+   849→        ),
+   850→        answer: { kind: "numeric", value },
+   851→        hints: [
+   852→          L(
+   853→            "Compara la nueva cantidad de personas con la original.",
+   854→            "Compare the new number of people with the original one.",
+   855→          ),
+   856→          L(
+   857→            `¿Cuántas veces mayor es $${recipeFor * factor}$ que $${recipeFor}$?`,
+   858→            `How many times larger is $${recipeFor * factor}$ than $${recipeFor}$?`,
+   859→          ),
+   860→          L(
+   861→            `Multiplica las tazas por ese factor.`,
+   862→            `Multiply the cups by that factor.`,
+   863→          ),
+   864→        ],
+   865→        answerDisplay: L(`$${value}$ tazas`, `$${value}$ cups`),
+   866→        solution: [
+   867→          step(
+   868→            "given",
+   869→            `$${recipeFor}$ personas → $${cups}$ tazas.<br>$${recipeFor * factor}$ personas → ?`,
+   870→            `$${recipeFor}$ people → $${cups}$ cups.<br>$${recipeFor * factor}$ people → ?`,
+   871→          ),
+   872→          step(
+   873→            "approach",
+   874→            "Magnitudes directamente proporcionales: multiplicamos por el mismo factor.",
+   875→            "Directly proportional quantities: multiply by the same factor.",
+   876→          ),
+   877→          step(
+   878→            "calculation",
+   879→            `$\\frac{${recipeFor * factor}}{${recipeFor}} = ${factor} \\quad\\Rightarrow\\quad ${cups} \\cdot ${factor} = ${value}$`,
+   880→            `$\\frac{${recipeFor * factor}}{${recipeFor}} = ${factor} \\quad\\Rightarrow\\quad ${cups} \\cdot ${factor} = ${value}$`,
+   881→          ),
+   882→          step(
+   883→            "result",
+   884→            `Se necesitan $${value}$ tazas.`,
+   885→            `$${value}$ cups are needed.`,
+   886→          ),
+   887→        ],
+   888→      };
+   889→    },
+   890→  ),
+   891→
+   892→  template(
+   893→    {
+   894→      id: "found-prop-02",
+   895→      subject: "math",
+   896→      topicId: "foundations",
+   897→      subtopicId: "ratios-proportions",
+   898→      difficulty: "hard",
+   899→      questionType: "numeric",
+   900→      estimatedTimeSec: 180,
+   901→      tags: ["proportions", "word-problems"],
+   902→      prerequisites: ["fractions"],
+   903→    },
+   904→    (rng) => {
+   905→      const total = rng.pick([60, 72, 84, 90, 120]);
+   906→      const partA = rng.pick([2, 3, 5]);
+   907→      const partB = rng.pick([2, 3, 4]);
+   908→      const sum = partA + partB;
+   909→      const value = (total * partA) / sum;
+   910→      return {
+   911→        skill: L("Reparto proporcional", "Sharing in a ratio"),
+   912→        statement: L(
+   913→          `Reparte $${total}$ canicas entre dos hermanos en la proporción $${partA}:${partB}$. ¿Cuántas canicas recibe el que tiene la parte mayor?`,
+   914→          `Share $${total}$ marbles between two siblings in the ratio $${partA}:${partB}$. How many marbles does the one with the larger share get?`,
+   915→        ),
+   916→        answer: { kind: "numeric", value },
+   917→        hints: [
+   918→          L(
+   919→            "La proporción indica las partes, no las cantidades.",
+   920→            "The ratio gives parts, not amounts.",
+   921→          ),
+   922→          L(
+   923→            `En total hay $${partA} + ${partB} = ${sum}$ partes.`,
+   924→            `Altogether there are $${partA} + ${partB} = ${sum}$ parts.`,
+   925→          ),
+   926→          L(
+   927→            `Calcula el valor de una parte y multiplícalo por $${partA}$.`,
+   928→            `Work out one part and multiply it by $${partA}$.`,
+   929→          ),
+   930→        ],
+   931→        answerDisplay: L(`$${value}$ canicas`, `$${value}$ marbles`),
+   932→        solution: [
+   933→          step(
+   934→            "given",
+   935→            `Total: $${total}$. Proporción $${partA}:${partB}$.`,
+   936→            `Total: $${total}$. Ratio $${partA}:${partB}$.`,
+   937→          ),
+   938→          step(
+   939→            "approach",
+   940→            "Dividimos el total en partes iguales según la suma de la proporción y repartimos.",
+   941→            "Split the total into equal parts given by the sum of the ratio, then distribute.",
+   942→          ),
+   943→          step(
+   944→            "calculation",
+   945→            `$\\text{1 parte} = \\frac{${total}}{${sum}} = ${total / sum}$<br>$\\text{parte mayor} = ${partA} \\cdot ${total / sum} = ${value}$`,
+   946→            `$\\text{1 part} = \\frac{${total}}{${sum}} = ${total / sum}$<br>$\\text{larger share} = ${partA} \\cdot ${total / sum} = ${value}$`,
+   947→          ),
+   948→          step(
+   949→            "result",
+   950→            `El hermano con la parte mayor recibe $${value}$ canicas.`,
+   951→            `The sibling with the larger share gets $${value}$ marbles.`,
+   952→          ),
+   953→        ],
+   954→      };
+   955→    },
+   956→  ),
+   957→  template(
+   958→    {
+   959→      id: "found-chal-01",
+   960→      subject: "math",
+   961→      topicId: "foundations",
+   962→      subtopicId: "percentages",
+   963→      difficulty: "challenge",
+   964→      questionType: "numeric",
+   965→      estimatedTimeSec: 300,
+   966→      tags: ["percentages", "word-problems", "multi-step"],
+   967→      prerequisites: ["percentages", "fractions"],
+   968→    },
+   969→    (rng) => {
+   970→      const p = rng.pick([10, 20, 50]);
+   971→      const netFactor = 1 - (p / 100) ** 2;
+   972→      const value = Math.round(netFactor * 10000) / 100;
+   973→      const dec = p / 100;
+   974→      return {
+   975→        skill: L("Cambios porcentuales sucesivos", "Successive percentage changes"),
+   976→        statement: L(
+   977→          `El precio de un artículo sube un $${p}\\%$ y después baja un $${p}\\%$ respecto al nuevo precio. ¿Qué porcentaje del precio original se paga al final?`,
+   978→          `An item's price rises by $${p}\\%$ and then falls by $${p}\\%$ of the new price. What percentage of the original price do you end up paying?`,
+   979→        ),
+   980→        answer: {
+   981→          kind: "numeric",
+   982→          value,
+   983→          tolerance: { mode: "absolute", value: 0.05 },
+   984→          unitSuffix: "%",
+   985→        },
+   986→        hints: [
+   987→          L(
+   988→            "Prueba con un precio cualquiera, por ejemplo $100$, y sigue los dos cambios.",
+   989→            "Try any price, say $100$, and apply both changes.",
+   990→          ),
+   991→          L(
+   992→            `Tras subir un $${p}\\%$ el precio es $${100 + p}$. La bajada se aplica sobre ese valor.`,
+   993→            `After rising $${p}\\%$ the price is $${100 + p}$. The fall applies to that value.`,
+   994→          ),
+   995→          L(
+   996→            "La pregunta es: ¿el precio final equivale a qué % de 100?",
+   997→            "The question is: the final price equals what % of 100?",
+   998→          ),
+   999→        ],
+  1000→        answerDisplay: L(`$${tok(value)}\\%$ del precio original`, `$${tok(value)}\\%$ of the original price`),
+  1001→        solution: [
+  1002→          step(
+  1003→            "given",
+  1004→            `Precio inicial: $100$ (cualquier valor sirve). Sube $${p}\\%$, luego baja $${p}\\%$.`,
+  1005→            `Initial price: $100$ (any value works). Rises $${p}\\%$, then falls $${p}\\%$.`,
+  1006→          ),
+  1007→          step(
+  1008→            "approach",
+  1009→            "Aplicamos los cambios multiplicativos **en cadena**: subir un $p\\%$ es multiplicar por $(1 + p/100)$.",
+  1010→            "Apply multiplicative changes **in sequence**: a $p\\%$ rise multiplies by $(1 + p/100)$.",
+  1011→          ),
+  1012→          step(
+  1013→            "calculation",
+  1014→            `$100 \\cdot (1 + ${tok(dec)}) = ${100 + p}$<br>$${100 + p} \\cdot (1 - ${tok(dec)}) = ${tok(Math.round((100 + p) * (1 - dec) * 100) / 100)}$<br>O directamente: $100\\left(1 - \\frac{${p * p}}{10000}\\right) = ${tok(Math.round(netFactor * 100) / 100)}$`,
+  1015→            `$100 \\cdot (1 + ${tok(dec)}) = ${100 + p}$<br>$${100 + p} \\cdot (1 - ${tok(dec)}) = ${tok(Math.round((100 + p) * (1 - dec) * 100) / 100)}$<br>Or directly: $100\\left(1 - \\frac{${p * p}}{10000}\\right) = ${tok(Math.round(netFactor * 100) / 100)}$`,
+  1016→          ),
+  1017→          step(
+  1018→            "result",
+  1019→            `Se paga el $${tok(value)}\\%$ del precio original: los dos cambios **no** se anulan.`,
+  1020→            `You pay $${tok(value)}\\%$ of the original price: the two changes do **not** cancel out.`,
+  1021→          ),
+  1022→        ],
+  1023→      };
+  1024→    },
+  1025→  ),
+  1026→];
+  1027→

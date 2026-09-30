@@ -1,0 +1,774 @@
+     1→/**
+     2→ * MATH · Linear equations & inequalities
+     3→ *
+     4→ * Exemplar file: demonstrates the `text` question type (interval notation)
+     5→ * and the `function-graph` diagram used with multiple-choice questions.
+     6→ */
+     7→
+     8→import { template, L, step } from "@/lib/problem";
+     9→import type { ProblemTemplate, McOption } from "@/lib/types";
+    10→
+    11→export const templates: ProblemTemplate[] = [
+    12→  /* ---------------------------------------------------------------- */
+    13→  /* One-step equations                                               */
+    14→  /* ---------------------------------------------------------------- */
+    15→  template(
+    16→    {
+    17→      id: "lin-one-01",
+    18→      subject: "math",
+    19→      topicId: "linear-equations",
+    20→      subtopicId: "one-step",
+    21→      difficulty: "easy",
+    22→      questionType: "numeric",
+    23→      estimatedTimeSec: 60,
+    24→      tags: ["equations"],
+    25→      prerequisites: ["foundations"],
+    26→    },
+    27→    (rng) => {
+    28→      const x = rng.nonZeroInt(-12, 12);
+    29→      const a = rng.nonZeroInt(-15, 15);
+    30→      const b = x + a;
+    31→      const plus = a > 0;
+    32→      return {
+    33→        skill: L("Ecuaciones de un paso", "One-step equations"),
+    34→        statement: L(
+    35→          `Resuelve: $x ${plus ? "+" : "-"} ${Math.abs(a)} = ${b}$`,
+    36→          `Solve: $x ${plus ? "+" : "-"} ${Math.abs(a)} = ${b}$`,
+    37→        ),
+    38→        answer: { kind: "numeric", value: x },
+    39→        hints: [
+    40→          L(
+    41→            "El objetivo es dejar $x$ sola en un lado.",
+    42→            "The goal is to leave $x$ alone on one side.",
+    43→          ),
+    44→          L(
+    45→            `Aplica la operación inversa: ${plus ? "resta" : "suma"} $${Math.abs(a)}$ en los dos lados.`,
+    46→            `Apply the inverse operation: ${plus ? "subtract" : "add"} $${Math.abs(a)}$ on both sides.`,
+    47→          ),
+    48→          L(
+    49→            `Quédate con $x = $ lo que resulte en el lado derecho.`,
+    50→            `You are left with $x = $ whatever remains on the right side.`,
+    51→          ),
+    52→        ],
+    53→        answerDisplay: L(`$x = ${x}$`, `$x = ${x}$`),
+    54→        solution: [
+    55→          step("given", `$x ${plus ? "+" : "-"} ${Math.abs(a)} = ${b}$`, `$x ${plus ? "+" : "-"} ${Math.abs(a)} = ${b}$`),
+    56→          step(
+    57→            "approach",
+    58→            "Deshacemos la operación que acompaña a $x$ aplicando la inversa en ambos lados.",
+    59→            "Undo the operation attached to $x$ by applying its inverse on both sides.",
+    60→          ),
+    61→          step(
+    62→            "calculation",
+    63→            plus
+    64→              ? `$x + ${Math.abs(a)} - ${Math.abs(a)} = ${b} - ${Math.abs(a)}$`
+    65→              : `$x - ${Math.abs(a)} + ${Math.abs(a)} = ${b} + ${Math.abs(a)}$`,
+    66→            plus
+    67→              ? `$x + ${Math.abs(a)} - ${Math.abs(a)} = ${b} - ${Math.abs(a)}$`
+    68→              : `$x - ${Math.abs(a)} + ${Math.abs(a)} = ${b} + ${Math.abs(a)}$`,
+    69→          ),
+    70→          step("result", `$x = ${x}$`, `$x = ${x}$`),
+    71→        ],
+    72→      };
+    73→    },
+    74→  ),
+    75→
+    76→  /* ---------------------------------------------------------------- */
+    77→  /* Two-step equations (parameterized classic)                        */
+    78→  /* ---------------------------------------------------------------- */
+    79→  template(
+    80→    {
+    81→      id: "lin-two-01",
+    82→      subject: "math",
+    83→      topicId: "linear-equations",
+    84→      subtopicId: "multi-step",
+    85→      difficulty: "easy",
+    86→      questionType: "numeric",
+    87→      estimatedTimeSec: 90,
+    88→      tags: ["equations"],
+    89→      prerequisites: ["foundations"],
+    90→    },
+    91→    (rng) => {
+    92→      const a = rng.nonZeroInt(2, 9) * (rng.bool() ? 1 : -1);
+    93→      const x = rng.nonZeroInt(-9, 9);
+    94→      const b = rng.nonZeroInt(-15, 15);
+    95→      const c = a * x + b;
+    96→      return {
+    97→        skill: L("Ecuaciones de dos pasos", "Two-step equations"),
+    98→        statement: L(
+    99→          `Resuelve: $${a}x ${b >= 0 ? "+" : "-"} ${Math.abs(b)} = ${c}$`,
+   100→          `Solve: $${a}x ${b >= 0 ? "+" : "-"} ${Math.abs(b)} = ${c}$`,
+   101→        ),
+   102→        answer: { kind: "numeric", value: x },
+   103→        hints: [
+   104→          L(
+   105→            "Primero elimina el término que no acompaña a $x$.",
+   106→            "First remove the term that does not multiply $x$.",
+   107→          ),
+   108→          L(
+   109→            `${b >= 0 ? "Resta" : "Suma"} $${Math.abs(b)}$ en los dos lados.`,
+   110→            `${b >= 0 ? "Subtract" : "Add"} $${Math.abs(b)}$ on both sides.`,
+   111→          ),
+   112→          L(
+   113→            `Después divide entre $${a}$.`,
+   114→            `Then divide by $${a}$.`,
+   115→          ),
+   116→        ],
+   117→        answerDisplay: L(`$x = ${x}$`, `$x = ${x}$`),
+   118→        solution: [
+   119→          step(
+   120→            "given",
+   121→            `$${a}x ${b >= 0 ? "+" : "-"} ${Math.abs(b)} = ${c}$`,
+   122→            `$${a}x ${b >= 0 ? "+" : "-"} ${Math.abs(b)} = ${c}$`,
+   123→          ),
+   124→          step(
+   125→            "approach",
+   126→            "Aislar $x$ en dos pasos: primero el término independiente, después el coeficiente.",
+   127→            "Isolate $x$ in two steps: the constant term first, then the coefficient.",
+   128→          ),
+   129→          step(
+   130→            "calculation",
+   131→            `$${a}x = ${c} ${b >= 0 ? "-" : "+"} ${Math.abs(b)} = ${a * x}$<br>$x = \\frac{${a * x}}{${a}} = ${x}$`,
+   132→            `$${a}x = ${c} ${b >= 0 ? "-" : "+"} ${Math.abs(b)} = ${a * x}$<br>$x = \\frac{${a * x}}{${a}} = ${x}$`,
+   133→          ),
+   134→          step("result", `$x = ${x}$`, `$x = ${x}$`),
+   135→        ],
+   136→      };
+   137→    },
+   138→  ),
+   139→
+   140→  template(
+   141→    {
+   142→      id: "lin-both-01",
+   143→      subject: "math",
+   144→      topicId: "linear-equations",
+   145→      subtopicId: "multi-step",
+   146→      difficulty: "medium",
+   147→      questionType: "numeric",
+   148→      estimatedTimeSec: 150,
+   149→      tags: ["equations"],
+   150→      prerequisites: ["multi-step"],
+   151→    },
+   152→    (rng) => {
+   153→      const x = rng.nonZeroInt(-6, 6);
+   154→      const a = rng.nonZeroInt(2, 8);
+   155→      const c = rng.nonZeroInt(2, 8);
+   156→      // ensure a != c so the equation is genuinely linear
+   157→      const aFinal = a === c ? a + 1 : a;
+   158→      const b = rng.int(-10, 10);
+   159→      const d = aFinal * x + b - c * x;
+   160→      return {
+   161→        skill: L("Ecuaciones con x en los dos lados", "Equations with x on both sides"),
+   162→        statement: L(
+   163→          `Resuelve: $${aFinal}x ${b >= 0 ? "+" : "-"} ${Math.abs(b)} = ${c}x ${d >= 0 ? "+" : "-"} ${Math.abs(d)}$`,
+   164→          `Solve: $${aFinal}x ${b >= 0 ? "+" : "-"} ${Math.abs(b)} = ${c}x ${d >= 0 ? "+" : "-"} ${Math.abs(d)}$`,
+   165→        ),
+   166→        answer: { kind: "numeric", value: x },
+   167→        hints: [
+   168→          L(
+   169→            "Reúne todos los términos con $x$ en un mismo lado.",
+   170→            "Bring every $x$ term to the same side.",
+   171→          ),
+   172→          L(
+   173→            `Resta $${c}x$ en los dos lados (o pasa $${c}x$ restando).`,
+   174→            `Subtract $${c}x$ from both sides.`,
+   175→          ),
+   176→          L(
+   177→            "Ahora tienes una ecuación de dos pasos.",
+   178→            "You now have a two-step equation.",
+   179→          ),
+   180→        ],
+   181→        answerDisplay: L(`$x = ${x}$`, `$x = ${x}$`),
+   182→        solution: [
+   183→          step(
+   184→            "given",
+   185→            `$${aFinal}x ${b >= 0 ? "+" : "-"} ${Math.abs(b)} = ${c}x ${d >= 0 ? "+" : "-"} ${Math.abs(d)}$`,
+   186→            `$${aFinal}x ${b >= 0 ? "+" : "-"} ${Math.abs(b)} = ${c}x ${d >= 0 ? "+" : "-"} ${Math.abs(d)}$`,
+   187→          ),
+   188→          step(
+   189→            "approach",
+   190→            "Agrupamos la $x$ a la izquierda y los números a la derecha.",
+   191→            "Group the $x$ terms on the left and the numbers on the right.",
+   192→          ),
+   193→          step(
+   194→            "calculation",
+   195→            `$${aFinal}x - ${c}x = ${d} ${b >= 0 ? "-" : "+"} ${Math.abs(b)}$<br>$${aFinal - c}x = ${d - b}$<br>$x = \\frac{${d - b}}{${aFinal - c}} = ${x}$`,
+   196→            `$${aFinal}x - ${c}x = ${d} ${b >= 0 ? "-" : "+"} ${Math.abs(b)}$<br>$${aFinal - c}x = ${d - b}$<br>$x = \\frac{${d - b}}{${aFinal - c}} = ${x}$`,
+   197→          ),
+   198→          step("result", `$x = ${x}$`, `$x = ${x}$`),
+   199→        ],
+   200→      };
+   201→    },
+   202→  ),
+   203→
+   204→  template(
+   205→    {
+   206→      id: "lin-paren-01",
+   207→      subject: "math",
+   208→      topicId: "linear-equations",
+   209→      subtopicId: "parentheses",
+   210→      difficulty: "medium",
+   211→      questionType: "numeric",
+   212→      estimatedTimeSec: 150,
+   213→      tags: ["equations", "distributive"],
+   214→      prerequisites: ["multi-step"],
+   215→    },
+   216→    (rng) => {
+   217→      const x = rng.nonZeroInt(-6, 6);
+   218→      const a = rng.nonZeroInt(2, 6);
+   219→      const b = rng.int(1, 9);
+   220→      const c = rng.int(-5, 5);
+   221→      const rhs = a * (x + b) + c;
+   222→      return {
+   223→        skill: L("Ecuaciones con paréntesis", "Equations with parentheses"),
+   224→        statement: L(
+   225→          `Resuelve: $${a}(x + ${b}) ${c >= 0 ? "+" : "-"} ${Math.abs(c)} = ${rhs}$`,
+   226→          `Solve: $${a}(x + ${b}) ${c >= 0 ? "+" : "-"} ${Math.abs(c)} = ${rhs}$`,
+   227→        ),
+   228→        answer: { kind: "numeric", value: x },
+   229→        hints: [
+   230→          L(
+   231→            "Aplica la propiedad distributiva para quitar el paréntesis.",
+   232→            "Use the distributive property to remove the parentheses.",
+   233→          ),
+   234→          L(
+   235→            `$${a}(x + ${b}) = ${a}x + ${a * b}$.`,
+   236→            `$${a}(x + ${b}) = ${a}x + ${a * b}$.`,
+   237→          ),
+   238→          L(
+   239→            "Después resuelve la ecuación de dos pasos.",
+   240→            "Then solve the resulting two-step equation.",
+   241→          ),
+   242→        ],
+   243→        answerDisplay: L(`$x = ${x}$`, `$x = ${x}$`),
+   244→        solution: [
+   245→          step(
+   246→            "given",
+   247→            `$${a}(x + ${b}) ${c >= 0 ? "+" : "-"} ${Math.abs(c)} = ${rhs}$`,
+   248→            `$${a}(x + ${b}) ${c >= 0 ? "+" : "-"} ${Math.abs(c)} = ${rhs}$`,
+   249→          ),
+   250→          step(
+   251→            "approach",
+   252→            "Expandimos y reducimos antes de aislar $x$.",
+   253→            "Expand and simplify before isolating $x$.",
+   254→          ),
+   255→          step(
+   256→            "calculation",
+   257→            `$${a}x + ${a * b} ${c >= 0 ? "+" : "-"} ${Math.abs(c)} = ${rhs}$<br>$${a}x + ${a * b + c} = ${rhs}$<br>$${a}x = ${rhs - (a * b + c)}$<br>$x = ${x}$`,
+   258→            `$${a}x + ${a * b} ${c >= 0 ? "+" : "-"} ${Math.abs(c)} = ${rhs}$<br>$${a}x + ${a * b + c} = ${rhs}$<br>$${a}x = ${rhs - (a * b + c)}$<br>$x = ${x}$`,
+   259→          ),
+   260→          step("result", `$x = ${x}$`, `$x = ${x}$`),
+   261→        ],
+   262→      };
+   263→    },
+   264→  ),
+   265→
+   266→  template(
+   267→    {
+   268→      id: "lin-frac-01",
+   269→      subject: "math",
+   270→      topicId: "linear-equations",
+   271→      subtopicId: "fractions",
+   272→      difficulty: "medium",
+   273→      questionType: "numeric",
+   274→      estimatedTimeSec: 150,
+   275→      tags: ["equations", "fractions"],
+   276→      prerequisites: ["multi-step"],
+   277→    },
+   278→    (rng) => {
+   279→      const den = rng.pick([2, 3, 4, 5, 6]);
+   280→      const x = rng.nonZeroInt(-8, 8) * den; // guarantees integer numerator
+   281→      const b = rng.int(1, 9);
+   282→      const rhs = x / den + b;
+   283→      return {
+   284→        skill: L("Ecuaciones con fracciones", "Equations with fractions"),
+   285→        statement: L(
+   286→          `Resuelve: $\\frac{x}{${den}} + ${b} = ${rhs}$`,
+   287→          `Solve: $\\frac{x}{${den}} + ${b} = ${rhs}$`,
+   288→        ),
+   289→        answer: { kind: "numeric", value: x },
+   290→        hints: [
+   291→          L(
+   292→            "Puedes deshacerte de la fracción multiplicando toda la ecuación por el denominador.",
+   293→            "You can clear the fraction by multiplying the whole equation by the denominator.",
+   294→          ),
+   295→          L(
+   296→            `Multiplica cada término por $${den}$.`,
+   297→            `Multiply every term by $${den}$.`,
+   298→          ),
+   299→          L(
+   300→            `El numerador queda $x = ${den} \\cdot (${rhs} - ${b})$.`,
+   301→            `The numerator becomes $x = ${den} \\cdot (${rhs} - ${b})$.`,
+   302→          ),
+   303→        ],
+   304→        answerDisplay: L(`$x = ${x}$`, `$x = ${x}$`),
+   305→        solution: [
+   306→          step(
+   307→            "given",
+   308→            `$\\frac{x}{${den}} + ${b} = ${rhs}$`,
+   309→            `$\\frac{x}{${den}} + ${b} = ${rhs}$`,
+   310→          ),
+   311→          step(
+   312→            "approach",
+   313→            `Multiplicamos por $${den}$ para eliminar el denominador.`,
+   314→            `Multiply by $${den}$ to clear the denominator.`,
+   315→          ),
+   316→          step(
+   317→            "calculation",
+   318→            `$x + ${den} \\cdot ${b} = ${den} \\cdot ${rhs}$<br>$x = ${den * rhs} - ${den * b} = ${x}$`,
+   319→            `$x + ${den} \\cdot ${b} = ${den} \\cdot ${rhs}$<br>$x = ${den * rhs} - ${den * b} = ${x}$`,
+   320→          ),
+   321→          step("result", `$x = ${x}$`, `$x = ${x}$`),
+   322→        ],
+   323→      };
+   324→    },
+   325→  ),
+   326→
+   327→  /* ---------------------------------------------------------------- */
+   328→  /* Literal equations                                                 */
+   329→  /* ---------------------------------------------------------------- */
+   330→  template(
+   331→    {
+   332→      id: "lin-lit-01",
+   333→      subject: "math",
+   334→      topicId: "linear-equations",
+   335→      subtopicId: "literal",
+   336→      difficulty: "hard",
+   337→      questionType: "expression",
+   338→      estimatedTimeSec: 180,
+   339→      tags: ["literal-equations"],
+   340→      prerequisites: ["multi-step"],
+   341→    },
+   342→    (rng) => {
+   343→      const variant = rng.int(0, 2);
+   344→      if (variant === 0) {
+   345→        // P = 2a + 2b  →  solve for a
+   346→        return {
+   347→          skill: L("Despejar una variable (perímetro)", "Solving for a variable (perimeter)"),
+   348→          statement: L(
+   349→            "Despeja $a$ en función de $P$ y $b$: si $P = 2a + 2b$, entonces $a = ?$ (escribe por ejemplo (P-2b)/2).",
+   350→            "Solve for $a$ in terms of $P$ and $b$: if $P = 2a + 2b$, then $a = ?$ (write e.g. (P-2b)/2).",
+   351→          ),
+   352→          answer: {
+   353→            kind: "expression",
+   354→            accepted: ["(P - 2b)/2", "P/2 - b", "(P-2b)/2"],
+   355→            variables: ["P", "b"],
+   356→          },
+   357→          hints: [
+   358→            L("Aísla primero el término $2a$.", "Isolate the $2a$ term first."),
+   359→            L("Resta $2b$ en los dos lados.", "Subtract $2b$ from both sides."),
+   360→            L("Divide entre 2.", "Divide by 2."),
+   361→          ],
+   362→          answerDisplay: L("$a = \\frac{P - 2b}{2}$", "$a = \\frac{P - 2b}{2}$"),
+   363→          solution: [
+   364→            step("given", "$P = 2a + 2b$", "$P = 2a + 2b$"),
+   365→            step("approach", "Tratamos $b$ como un número cualquiera.", "Treat $b$ as just a number."),
+   366→            step(
+   367→              "calculation",
+   368→              "$P - 2b = 2a$<br>$a = \\frac{P - 2b}{2}$",
+   369→              "$P - 2b = 2a$<br>$a = \\frac{P - 2b}{2}$",
+   370→            ),
+   371→            step("result", "$a = \\frac{P - 2b}{2}$", "$a = \\frac{P - 2b}{2}$"),
+   372→          ],
+   373→        };
+   374→      } else if (variant === 1) {
+   375→        // C = (5/9)(F - 32) → solve for F
+   376→        return {
+   377→          skill: L("Despejar en una fórmula (temperatura)", "Rearranging a formula (temperature)"),
+   378→          statement: L(
+   379→            "Si $C = \\frac{5}{9}(F - 32)$, despeja $F$ (escribe por ejemplo 9C/5+32).",
+   380→            "If $C = \\frac{5}{9}(F - 32)$, solve for $F$ (write e.g. 9C/5+32).",
+   381→          ),
+   382→          answer: {
+   383→            kind: "expression",
+   384→            accepted: ["9C/5 + 32", "(9C + 160)/5", "9C/5+32"],
+   385→            variables: ["C"],
+   386→          },
+   387→          hints: [
+   388→            L("Deshaz primero la multiplicación por $\\frac{5}{9}$.", "Undo the multiplication by $\\frac{5}{9}$ first."),
+   389→            L("Multiplica ambos lados por $\\frac{9}{5}$.", "Multiply both sides by $\\frac{9}{5}$."),
+   390→            L("Después suma 32.", "Then add 32."),
+   391→          ],
+   392→          answerDisplay: L("$F = \\frac{9C}{5} + 32$", "$F = \\frac{9C}{5} + 32$"),
+   393→          solution: [
+   394→            step("given", "$C = \\frac{5}{9}(F - 32)$", "$C = \\frac{5}{9}(F - 32)$"),
+   395→            step("approach", "Aislar el paréntesis y luego $F$.", "Isolate the parentheses, then $F$."),
+   396→            step(
+   397→              "calculation",
+   398→              "$\\frac{9}{5}C = F - 32$<br>$F = \\frac{9C}{5} + 32$",
+   399→              "$\\frac{9}{5}C = F - 32$<br>$F = \\frac{9C}{5} + 32$",
+   400→            ),
+   401→            step("result", "$F = \\frac{9C}{5} + 32$", "$F = \\frac{9C}{5} + 32$"),
+   402→          ],
+   403→        };
+   404→      } else {
+   405→        // A = (1/2)bh → solve for h
+   406→        return {
+   407→          skill: L("Despejar en una fórmula (área)", "Rearranging a formula (area)"),
+   408→          statement: L(
+   409→            "Si $A = \\frac{1}{2}bh$, despeja $h$ (escribe por ejemplo 2A/b).",
+   410→            "If $A = \\frac{1}{2}bh$, solve for $h$ (write e.g. 2A/b).",
+   411→          ),
+   412→          answer: {
+   413→            kind: "expression",
+   414→            accepted: ["2A/b", "2*A/b"],
+   415→            variables: ["A", "b"],
+   416→          },
+   417→          hints: [
+   418→            L("Elimina el factor $\\frac{1}{2}$ multiplicando por 2.", "Clear the $\\frac{1}{2}$ by multiplying by 2."),
+   419→            L("$2A = bh$.", "$2A = bh$."),
+   420→            L("Divide entre $b$.", "Divide by $b$."),
+   421→          ],
+   422→          answerDisplay: L("$h = \\frac{2A}{b}$", "$h = \\frac{2A}{b}$"),
+   423→          solution: [
+   424→            step("given", "$A = \\frac{1}{2}bh$", "$A = \\frac{1}{2}bh$"),
+   425→            step("approach", "Aislar $h$ paso a paso.", "Isolate $h$ step by step."),
+   426→            step(
+   427→              "calculation",
+   428→              "$2A = bh$<br>$h = \\frac{2A}{b}$",
+   429→              "$2A = bh$<br>$h = \\frac{2A}{b}$",
+   430→            ),
+   431→            step("result", "$h = \\frac{2A}{b}$", "$h = \\frac{2A}{b}$"),
+   432→          ],
+   433→        };
+   434→      }
+   435→    },
+   436→  ),
+   437→
+   438→  /* ---------------------------------------------------------------- */
+   439→  /* Inequalities + interval notation (text type exemplar)             */
+   440→  /* ---------------------------------------------------------------- */
+   441→  template(
+   442→    {
+   443→      id: "lin-ineq-01",
+   444→      subject: "math",
+   445→      topicId: "linear-equations",
+   446→      subtopicId: "interval-notation",
+   447→      difficulty: "medium",
+   448→      questionType: "text",
+   449→      estimatedTimeSec: 150,
+   450→      tags: ["inequalities", "interval-notation"],
+   451→      prerequisites: ["multi-step"],
+   452→    },
+   453→    (rng) => {
+   454→      const x = rng.int(-6, 6);
+   455→      const a = rng.nonZeroInt(2, 6) * (rng.bool() ? 1 : -1);
+   456→      const b = rng.nonZeroInt(-10, 10);
+   457→      const c = a * x + b;
+   458→      const strict = rng.bool();
+   459→      const op = strict ? "<" : "\\le";
+   460→      // solution: a x + b op c  →  x op (c-b)/a ; careful when a < 0 (flips)
+   461→      const bound = (c - b) / a;
+   462→      const flipped = a < 0;
+   463→      const finalOp = flipped ? (strict ? ">" : "\\ge") : op;
+   464→      const sol = flipped ? (strict ? ">" : "≥") : strict ? "<" : "≤";
+   465→      return {
+   466→        skill: L("Desigualdades y notación de intervalos", "Inequalities and interval notation"),
+   467→        statement: L(
+   468→          `Resuelve $${a}x ${b >= 0 ? "+" : "-"} ${Math.abs(b)} ${op} ${c}$ y escribe la solución en notación de intervalos (por ejemplo (-3, 5) o [2, inf)).`,
+   469→          `Solve $${a}x ${b >= 0 ? "+" : "-"} ${Math.abs(b)} ${op} ${c}$ and write the solution in interval notation (e.g. (-3, 5) or [2, inf)).`,
+   470→        ),
+   471→        answer: {
+   472→          kind: "text",
+   473→          accepted: [
+   474→            strict
+   475→              ? `(-inf, ${bound})`
+   476→              : `(-inf, ${bound}]`,
+   477→            strict ? `(-∞, ${bound})` : `(-∞, ${bound}]`,
+   478→            strict ? `x<${bound}` : `x≤${bound}`,
+   479→            strict ? `x<${bound}` : `x<=${bound}`,
+   480→          ],
+   481→        },
+   482→        hints: [
+   483→          L(
+   484→            "Resuélvela como una ecuación, pero vigilando el signo.",
+   485→            "Solve it like an equation, watching the sign.",
+   486→          ),
+   487→          flipped
+   488→            ? L(
+   489→                `Al dividir entre $${a}$ (negativo), la desigualdad **se invierte**.`,
+   490→                `When dividing by $${a}$ (negative), the inequality **flips**.`,
+   491→              )
+   492→            : L(
+   493→                `Divide entre $${a}$ conservando el sentido de la desigualdad.`,
+   494→                `Divide by $${a}$ keeping the inequality direction.`,
+   495→              ),
+   496→          L(
+   497→            `El extremo ${strict ? "no se incluye" : "sí se incluye"}: usa ${strict ? "paréntesis" : "corchete"}.`,
+   498→            `The endpoint is ${strict ? "excluded" : "included"}: use a ${strict ? "parenthesis" : "bracket"}.`,
+   499→          ),
+   500→        ],
+   501→        answerDisplay: L(
+   502→          strict ? `$x < ${bound}$, es decir $(-\\infty, ${bound})$` : `$x \\le ${bound}$, es decir $(-\\infty, ${bound}]$`,
+   503→          strict ? `$x < ${bound}$, i.e. $(-\\infty, ${bound})$` : `$x \\le ${bound}$, i.e. $(-\\infty, ${bound}]$`,
+   504→        ),
+   505→        solution: [
+   506→          step(
+   507→            "given",
+   508→            `$${a}x ${b >= 0 ? "+" : "-"} ${Math.abs(b)} ${op} ${c}$`,
+   509→            `$${a}x ${b >= 0 ? "+" : "-"} ${Math.abs(b)} ${op} ${c}$`,
+   510→          ),
+   511→          step(
+   512→            "approach",
+   513→            "Aislamos $x$; recuerda que dividir por un negativo invierte la desigualdad.",
+   514→            "Isolate $x$; remember dividing by a negative flips the inequality.",
+   515→          ),
+   516→          step(
+   517→            "calculation",
+   518→            `$${a}x ${op} ${c} ${b >= 0 ? "-" : "+"} ${Math.abs(b)} = ${c - b}$<br>$x ${sol} \\frac{${c - b}}{${a}} = ${bound}$`,
+   519→            `$${a}x ${op} ${c} ${b >= 0 ? "-" : "+"} ${Math.abs(b)} = ${c - b}$<br>$x ${sol} \\frac{${c - b}}{${a}} = ${bound}$`,
+   520→          ),
+   521→          step(
+   522→            "result",
+   523→            strict ? `$x < ${bound}$, en intervalos: $(-\\infty, ${bound})$.` : `$x \\le ${bound}$, en intervalos: $(-\\infty, ${bound}]$.`,
+   524→            strict ? `$x < ${bound}$, in intervals: $(-\\infty, ${bound})$.` : `$x \\le ${bound}$, in intervals: $(-\\infty, ${bound}]$.`,
+   525→          ),
+   526→        ],
+   527→      };
+   528→    },
+   529→  ),
+   530→
+   531→  /* ---------------------------------------------------------------- */
+   532→  /* Absolute value equations                                          */
+   533→  /* ---------------------------------------------------------------- */
+   534→  template(
+   535→    {
+   536→      id: "lin-abs-01",
+   537→      subject: "math",
+   538→      topicId: "linear-equations",
+   539→      subtopicId: "abs-equations",
+   540→      difficulty: "medium",
+   541→      questionType: "numeric",
+   542→      estimatedTimeSec: 150,
+   543→      tags: ["absolute-value"],
+   544→      prerequisites: ["multi-step"],
+   545→    },
+   546→    (rng) => {
+   547→      const h = rng.nonZeroInt(-7, 7);
+   548→      const k = rng.int(2, 12);
+   549→      // |x - h| = k → x = h ± k
+   550→      const larger = h + k;
+   551→      const smaller = h - k;
+   552→      const askLarger = rng.bool();
+   553→      const value = askLarger ? larger : smaller;
+   554→      return {
+   555→        skill: L("Ecuaciones con valor absoluto", "Absolute value equations"),
+   556→        statement: L(
+   557→          `La ecuación $|x - (${h})| = ${k}$ tiene dos soluciones. Escribe la ${askLarger ? "mayor" : "menor"}.`,
+   558→          `The equation $|x - (${h})| = ${k}$ has two solutions. Write the ${askLarger ? "larger" : "smaller"} one.`,
+   559→        ),
+   560→        answer: { kind: "numeric", value },
+   561→        hints: [
+   562→          L(
+   563→            "El valor absoluto anula el signo: hay dos casos posibles.",
+   564→            "Absolute value erases the sign: there are two possible cases.",
+   565→          ),
+   566→          L(
+   567→            `Caso 1: $x - (${h}) = ${k}$. Caso 2: $x - (${h}) = -${k}$.`,
+   568→            `Case 1: $x - (${h}) = ${k}$. Case 2: $x - (${h}) = -${k}$.`,
+   569→          ),
+   570→          L(
+   571→            "Resuelve ambos casos y elige la solución que se pide.",
+   572→            "Solve both cases and pick the requested solution.",
+   573→          ),
+   574→        ],
+   575→        answerDisplay: L(
+   576→          `$x_1 = ${smaller}$, $x_2 = ${larger}$`,
+   577→          `$x_1 = ${smaller}$, $x_2 = ${larger}$`,
+   578→        ),
+   579→        solution: [
+   580→          step("given", `$|x - (${h})| = ${k}$`, `$|x - (${h})| = ${k}$`),
+   581→          step(
+   582→            "approach",
+   583→            "Separamos en dos ecuaciones: expresión = k y expresión = −k.",
+   584→            "Split into two equations: expression = k and expression = −k.",
+   585→          ),
+   586→          step(
+   587→            "calculation",
+   588→            `$x - (${h}) = ${k} \\Rightarrow x = ${larger}$<br>$x - (${h}) = -${k} \\Rightarrow x = ${smaller}$`,
+   589→            `$x - (${h}) = ${k} \\Rightarrow x = ${larger}$<br>$x - (${h}) = -${k} \\Rightarrow x = ${smaller}$`,
+   590→          ),
+   591→          step(
+   592→            "result",
+   593→            `Las soluciones son $${smaller}$ y $${larger}$; la ${askLarger ? "mayor" : "menor"} es $${value}$.`,
+   594→            `The solutions are $${smaller}$ and $${larger}$; the ${askLarger ? "larger" : "smaller"} is $${value}$.`,
+   595→          ),
+   596→        ],
+   597→      };
+   598→    },
+   599→  ),
+   600→
+   601→  /* ---------------------------------------------------------------- */
+   602→  /* Graph interpretation (function-graph diagram exemplar)            */
+   603→  /* ---------------------------------------------------------------- */
+   604→  template(
+   605→    {
+   606→      id: "lin-graph-01",
+   607→      subject: "math",
+   608→      topicId: "linear-equations",
+   609→      subtopicId: "multi-step",
+   610→      difficulty: "medium",
+   611→      questionType: "multiple-choice",
+   612→      estimatedTimeSec: 120,
+   613→      tags: ["graphs", "slope"],
+   614→      prerequisites: ["multi-step"],
+   615→    },
+   616→    (rng) => {
+   617→      const m = rng.nonZeroInt(-3, 3);
+   618→      const b = rng.nonZeroInt(-4, 4);
+   619→      const options: McOption[] = [
+   620→        { id: "a", text: L(`$y = ${m}x ${b >= 0 ? "+" : "-"} ${Math.abs(b)}$`, `$y = ${m}x ${b >= 0 ? "+" : "-"} ${Math.abs(b)}$`), correct: true },
+   621→        { id: "b", text: L(`$y = ${-m}x ${b >= 0 ? "+" : "-"} ${Math.abs(b)}$`, `$y = ${-m}x ${b >= 0 ? "+" : "-"} ${Math.abs(b)}$`), correct: false },
+   622→        { id: "c", text: L(`$y = ${m}x ${-b >= 0 ? "+" : "-"} ${Math.abs(b)}$`, `$y = ${m}x ${-b >= 0 ? "+" : "-"} ${Math.abs(b)}$`), correct: false },
+   623→        { id: "d", text: L(`$y = ${b}x ${m >= 0 ? "+" : "-"} ${Math.abs(m)}$`, `$y = ${b}x ${m >= 0 ? "+" : "-"} ${Math.abs(m)}$`), correct: false },
+   624→      ];
+   625→      return {
+   626→        skill: L("Leer la pendiente y la ordenada en la gráfica", "Reading slope and intercept from a graph"),
+   627→        statement: L(
+   628→          "La gráfica muestra una recta. ¿Qué ecuación la representa?",
+   629→          "The graph shows a straight line. Which equation represents it?",
+   630→        ),
+   631→        diagram: {
+   632→          kind: "function-graph",
+   633→          xMin: -6,
+   634→          xMax: 6,
+   635→          yMin: -6,
+   636→          yMax: 6,
+   637→          curves: [{ fn: `${m}*x + ${b}`, color: "primary" }],
+   638→          points: [
+   639→            { x: 0, y: b, label: `(0, ${b})` },
+   640→            { x: 1, y: m + b, label: `(1, ${m + b})` },
+   641→          ],
+   642→          showGrid: true,
+   643→          xLabel: "x",
+   644→          yLabel: "y",
+   645→        },
+   646→        diagramLabel: L(
+   647→          `Recta que corta el eje y en ${b} y pasa por (1, ${m + b}).`,
+   648→          `A line crossing the y-axis at ${b} and passing through (1, ${m + b}).`,
+   649→        ),
+   650→        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+   651→        hints: [
+   652→          L(
+   653→            "La ordenada en el origen es donde la recta corta al eje $y$.",
+   654→            "The y-intercept is where the line crosses the $y$-axis.",
+   655→          ),
+   656→          L(
+   657→            `La recta pasa por $(0, ${b})$: ese es el término independiente.`,
+   658→            `The line passes through $(0, ${b})$: that is the constant term.`,
+   659→          ),
+   660→          L(
+   661→            `De $(0, ${b})$ a $(1, ${m + b})$ la recta sube ${m > 0 ? "" : "baja "}${Math.abs(m)}: esa es la pendiente.`,
+   662→            `From $(0, ${b})$ to $(1, ${m + b})$ the line ${m > 0 ? "rises" : "falls"} ${Math.abs(m)}: that is the slope.`,
+   663→          ),
+   664→        ],
+   665→        answerDisplay: L(
+   666→          `$y = ${m}x ${b >= 0 ? "+" : "-"} ${Math.abs(b)}$`,
+   667→          `$y = ${m}x ${b >= 0 ? "+" : "-"} ${Math.abs(b)}$`,
+   668→        ),
+   669→        solution: [
+   670→          step(
+   671→            "given",
+   672→            `La recta pasa por $(0, ${b})$ y $(1, ${m + b})$.`,
+   673→            `The line passes through $(0, ${b})$ and $(1, ${m + b})$.`,
+   674→          ),
+   675→          step(
+   676→            "approach",
+   677→            "Identificamos $b$ (ordenada en el origen) y $m$ (pendiente) para $y = mx + b$.",
+   678→            "Identify $b$ (y-intercept) and $m$ (slope) for $y = mx + b$.",
+   679→          ),
+   680→          step(
+   681→            "calculation",
+   682→            `$b = ${b}$ (corte con el eje $y$)<br>$m = \\frac{${m + b} - ${b}}{1 - 0} = ${m}$`,
+   683→            `$b = ${b}$ (y-axis crossing)<br>$m = \\frac{${m + b} - ${b}}{1 - 0} = ${m}$`,
+   684→          ),
+   685→          step(
+   686→            "result",
+   687→            `$y = ${m}x ${b >= 0 ? "+" : "-"} ${Math.abs(b)}$`,
+   688→            `$y = ${m}x ${b >= 0 ? "+" : "-"} ${Math.abs(b)}$`,
+   689→          ),
+   690→        ],
+   691→      };
+   692→    },
+   693→  ),
+   694→
+   695→  /* ---------------------------------------------------------------- */
+   696→  /* Challenge: word problem                                          */
+   697→  /* ---------------------------------------------------------------- */
+   698→  template(
+   699→    {
+   700→      id: "lin-word-01",
+   701→      subject: "math",
+   702→      topicId: "linear-equations",
+   703→      subtopicId: "multi-step",
+   704→      difficulty: "challenge",
+   705→      questionType: "numeric",
+   706→      estimatedTimeSec: 240,
+   707→      tags: ["word-problems", "equations"],
+   708→      prerequisites: ["multi-step", "fractions"],
+   709→    },
+   710→    (rng) => {
+   711→      const width = rng.int(4, 15);
+   712→      const extra = rng.int(2, 6);
+   713→      const length = width + extra;
+   714→      const perimeter = 2 * (width + length);
+   715→      // Ask: given perimeter and length = width + extra, find width
+   716→      const targetWidth = rng.bool();
+   717→      const value = targetWidth ? width : length;
+   718→      return {
+   719→        skill: L("Plantear y resolver un problema con ecuación lineal", "Setting up and solving a linear equation"),
+   720→        statement: L(
+   721→          `El perímetro de un rectángulo mide $${perimeter}\\ \\text{m}$ y su largo mide $${extra}\\ \\text{m}$ más que su ancho. ¿Cuánto mide el ${targetWidth ? "ancho" : "largo"}?`,
+   722→          `A rectangle's perimeter is $${perimeter}\\ \\text{m}$ and its length is $${extra}\\ \\text{m}$ more than its width. How long is the ${targetWidth ? "width" : "length"}?`,
+   723→        ),
+   724→        answer: { kind: "numeric", value, unitSuffix: "m" },
+   725→        hints: [
+   726→          L(
+   727→            "Llama $x$ a la incógnita más pequeña y expresa la otra con $x$.",
+   728→            "Call the smaller quantity $x$ and express the other using $x$.",
+   729→          ),
+   730→          targetWidth
+   731→            ? L(
+   732→                `Si el ancho es $x$, el largo es $x + ${extra}$.`,
+   733→                `If the width is $x$, the length is $x + ${extra}$.`,
+   734→              )
+   735→            : L(
+   736→                `Si el largo es $x$, el ancho es $x - ${extra}$.`,
+   737→                `If the length is $x$, the width is $x - ${extra}$.`,
+   738→              ),
+   739→          L(
+   740→            `El perímetro es $2(\\text{ancho} + \\text{largo}) = ${perimeter}$.`,
+   741→            `The perimeter is $2(\\text{width} + \\text{length}) = ${perimeter}$.`,
+   742→          ),
+   743→        ],
+   744→        answerDisplay: L(
+   745→          `$${targetWidth ? "ancho" : "largo"} = ${value}\\ \\text{m}$`,
+   746→          `$${targetWidth ? "width" : "length"} = ${value}\\ \\text{m}$`,
+   747→        ),
+   748→        solution: [
+   749→          step(
+   750→            "given",
+   751→            `Perímetro $= ${perimeter}$ m. Largo $=$ ancho $+ ${extra}$.`,
+   752→            `Perimeter $= ${perimeter}$ m. Length $=$ width $+ ${extra}$.`,
+   753→          ),
+   754→          step(
+   755→            "approach",
+   756→            "Planteamos una ecuación con una única incógnita $x$.",
+   757→            "Set up an equation with a single unknown $x$.",
+   758→          ),
+   759→          step(
+   760→            "calculation",
+   761→            `$2(x + x + ${extra}) = ${perimeter}$<br>$2(2x + ${extra}) = ${perimeter}$<br>$4x + ${2 * extra} = ${perimeter}$<br>$4x = ${perimeter - 2 * extra}$<br>$x = ${width}$`,
+   762→            `$2(x + x + ${extra}) = ${perimeter}$<br>$2(2x + ${extra}) = ${perimeter}$<br>$4x + ${2 * extra} = ${perimeter}$<br>$4x = ${perimeter - 2 * extra}$<br>$x = ${width}$`,
+   763→          ),
+   764→          step(
+   765→            "result",
+   766→            `El ancho mide $${width}\\ \\text{m}$ y el largo $${length}\\ \\text{m}$. Se pide el ${targetWidth ? "ancho" : "largo"}: $${value}\\ \\text{m}$.`,
+   767→            `The width is $${width}\\ \\text{m}$ and the length $${length}\\ \\text{m}$. The requested ${targetWidth ? "width" : "length"} is $${value}\\ \\text{m}$.`,
+   768→          ),
+   769→        ],
+   770→      };
+   771→    },
+   772→  ),
+   773→];
+   774→

@@ -1,0 +1,763 @@
+     1→/**
+     2→ * MATH · Linear, Quadratic & Polynomial Functions
+     3→ *
+     4→ * Graphs, intercepts, transformations, modeling and model comparison.
+     5→ * Includes function-graph diagrams (vertex reading, y-intercept reading).
+     6→ */
+     7→
+     8→import { template, L, step } from "@/lib/problem";
+     9→import type { ProblemTemplate, McOption } from "@/lib/types";
+    10→
+    11→/** "(x - 3)" / "(x + 2)" built from a root r (meaning x - r). */
+    12→const xMinus = (r: number): string => (r >= 0 ? `x - ${r}` : `x + ${-r}`);
+    13→
+    14→/** signed term: "+ 3" / "- 3" */
+    15→const pmTerm = (n: number): string => (n >= 0 ? `+ ${n}` : `- ${-n}`);
+    16→
+    17→/** LaTeX coefficient in front of a variable term: 1 → "", -1 → "-", 3 → "3" */
+    18→const coef = (c: number): string => (c === 1 ? "" : c === -1 ? "-" : `${c}`);
+    19→
+    20→export const templates: ProblemTemplate[] = [
+    21→  /* ---------------------------------------------------------------- */
+    22→  /* Intercepts: y-intercept from factored form                       */
+    23→  /* ---------------------------------------------------------------- */
+    24→  template(
+    25→    {
+    26→      id: "pfn-int-01",
+    27→      subject: "math",
+    28→      topicId: "poly-functions",
+    29→      subtopicId: "intercepts",
+    30→      difficulty: "easy",
+    31→      questionType: "numeric",
+    32→      estimatedTimeSec: 90,
+    33→      tags: ["intercepts", "quadratics"],
+    34→      prerequisites: ["quadratics"],
+    35→    },
+    36→    (rng) => {
+    37→      const p = rng.nonZeroInt(-6, 6);
+    38→      const q = rng.intExcluding(-6, 6, [0, p]);
+    39→      const value = p * q;
+    40→      return {
+    41→        skill: L("Ordenada en el origen de una cuadrática", "y-intercept of a quadratic"),
+    42→        statement: L(
+    43→          `La parábola $f(x) = (${xMinus(p)})(${xMinus(q)})$ corta al eje $y$ en un punto. ¿Cuál es la ordenada de ese punto (el valor de $f(0)$)?`,
+    44→          `The parabola $f(x) = (${xMinus(p)})(${xMinus(q)})$ crosses the $y$-axis at one point. What is the ordinate of that point (the value of $f(0)$)?`,
+    45→        ),
+    46→        answer: { kind: "numeric", value },
+    47→        hints: [
+    48→          L(
+    49→            "El corte con el eje $y$ ocurre donde $x = 0$: evalúa $f(0)$.",
+    50→            "The $y$-intercept occurs where $x = 0$: evaluate $f(0)$.",
+    51→          ),
+    52→          L(
+    53→            "Sustituye $x = 0$ en cada factor.",
+    54→            "Substitute $x = 0$ into each factor.",
+    55→          ),
+    56→          L(
+    57→            "Cada factor cambia de signo; multiplica aplicando la ley de los signos.",
+    58→            "Each factor flips its sign; multiply applying the sign rules.",
+    59→          ),
+    60→        ],
+    61→        answerDisplay: L(`$f(0) = ${value}$`, `$f(0) = ${value}$`),
+    62→        solution: [
+    63→          step(
+    64→            "given",
+    65→            `$f(x) = (${xMinus(p)})(${xMinus(q)})$`,
+    66→            `$f(x) = (${xMinus(p)})(${xMinus(q)})$`,
+    67→          ),
+    68→          step(
+    69→            "approach",
+    70→            "La ordenada en el origen se obtiene evaluando la función en $x = 0$.",
+    71→            "The y-intercept is found by evaluating the function at $x = 0$.",
+    72→          ),
+    73→          step(
+    74→            "calculation",
+    75→            `$f(0) = (${-p})(${-q}) = ${-p} \\cdot ${-q} = ${value}$`,
+    76→            `$f(0) = (${-p})(${-q}) = ${-p} \\cdot ${-q} = ${value}$`,
+    77→          ),
+    78→          step(
+    79→            "result",
+    80→            `La parábola corta al eje $y$ en el punto $(0, ${value})$.`,
+    81→            `The parabola crosses the $y$-axis at $(0, ${value})$.`,
+    82→          ),
+    83→        ],
+    84→      };
+    85→    },
+    86→  ),
+    87→
+    88→  /* ---------------------------------------------------------------- */
+    89→  /* Graphs: end behavior (MC)                                        */
+    90→  /* ---------------------------------------------------------------- */
+    91→  template(
+    92→    {
+    93→      id: "pfn-end-01",
+    94→      subject: "math",
+    95→      topicId: "poly-functions",
+    96→      subtopicId: "graphs",
+    97→      difficulty: "easy",
+    98→      questionType: "multiple-choice",
+    99→      estimatedTimeSec: 90,
+   100→      tags: ["end-behavior", "polynomials", "graphs"],
+   101→      prerequisites: ["polynomials"],
+   102→    },
+   103→    (rng) => {
+   104→      const even = rng.bool();
+   105→      const n = even ? rng.pick([4, 6]) : rng.pick([3, 5]);
+   106→      const lead = rng.nonZeroInt(2, 5) * (rng.bool() ? 1 : -1);
+   107→      const b = rng.nonZeroInt(-7, 7);
+   108→      const c = rng.nonZeroInt(-9, 9);
+   109→      const correctIdx = lead > 0 ? (even ? 0 : 1) : (even ? 3 : 2);
+   110→      const opt = (up1: boolean, up2: boolean): string =>
+   111→        `$x \\to +\\infty:\\ f(x) \\to ${up1 ? "+" : "-"}\\infty$ ; $x \\to -\\infty:\\ f(x) \\to ${up2 ? "+" : "-"}\\infty$`;
+   112→      const options: McOption[] = [
+   113→        { id: "a", text: L(opt(true, true), opt(true, true)), correct: correctIdx === 0 },
+   114→        { id: "b", text: L(opt(true, false), opt(true, false)), correct: correctIdx === 1 },
+   115→        { id: "c", text: L(opt(false, true), opt(false, true)), correct: correctIdx === 2 },
+   116→        { id: "d", text: L(opt(false, false), opt(false, false)), correct: correctIdx === 3 },
+   117→      ];
+   118→      return {
+   119→        skill: L("Comportamiento en los extremos", "End behavior"),
+   120→        statement: L(
+   121→          `Sin graficar, determina el comportamiento de $f(x) = ${lead}x^{${n}} ${pmTerm(b)}x^{2} ${pmTerm(c)}$ cuando $x \\to +\\infty$ y cuando $x \\to -\\infty$.`,
+   122→          `Without graphing, determine the behavior of $f(x) = ${lead}x^{${n}} ${pmTerm(b)}x^{2} ${pmTerm(c)}$ as $x \\to +\\infty$ and as $x \\to -\\infty$.`,
+   123→        ),
+   124→        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+   125→        hints: [
+   126→          L(
+   127→            "El comportamiento en los extremos lo decide el término de mayor grado.",
+   128→            "End behavior is governed by the highest-degree term.",
+   129→          ),
+   130→          L(
+   131→            `Solo importa $${lead}x^{${n}}$: mira el signo del coeficiente y si el exponente es par o impar.`,
+   132→            `Only $${lead}x^{${n}}$ matters: look at the sign of the coefficient and whether the exponent is even or odd.`,
+   133→          ),
+   134→          L(
+   135→            `Con $x$ muy grande en valor absoluto, el signo de $x^{${n}}$ es ${even ? "positivo en ambos extremos" : "positivo si $x > 0$ y negativo si $x < 0$"}.`,
+   136→            `For large $|x|$, the sign of $x^{${n}}$ is ${even ? "positive at both ends" : "positive for $x > 0$ and negative for $x < 0$"}.`,
+   137→          ),
+   138→        ],
+   139→        answerDisplay: L(opt(lead > 0, even ? lead > 0 : lead < 0), opt(lead > 0, even ? lead > 0 : lead < 0)),
+   140→        solution: [
+   141→          step(
+   142→            "given",
+   143→            `$f(x) = ${lead}x^{${n}} ${pmTerm(b)}x^{2} ${pmTerm(c)}$`,
+   144→            `$f(x) = ${lead}x^{${n}} ${pmTerm(b)}x^{2} ${pmTerm(c)}$`,
+   145→          ),
+   146→          step(
+   147→            "approach",
+   148→            "El término dominante gobierna el comportamiento en los extremos; los términos de menor grado se vuelven despreciables.",
+   149→            "The leading term governs end behavior; lower-degree terms become negligible.",
+   150→          ),
+   151→          step(
+   152→            "calculation",
+   153→            `Término dominante: $${lead}x^{${n}}$ — grado ${n} (${even ? "par" : "impar"}), coeficiente ${lead > 0 ? "positivo" : "negativo"}.<br>$x \\to +\\infty$: $x^{${n}} > 0 \\Rightarrow f(x) \\to ${lead > 0 ? "+\\infty" : "-\\infty"}$<br>$x \\to -\\infty$: $x^{${n}} ${even ? "> 0" : "< 0"} \\Rightarrow f(x) \\to ${even ? (lead > 0 ? "+\\infty" : "-\\infty") : lead > 0 ? "-\\infty" : "+\\infty"}$`,
+   154→            `Leading term: $${lead}x^{${n}}$ — degree ${n} (${even ? "even" : "odd"}), coefficient ${lead > 0 ? "positive" : "negative"}.<br>$x \\to +\\infty$: $x^{${n}} > 0 \\Rightarrow f(x) \\to ${lead > 0 ? "+\\infty" : "-\\infty"}$<br>$x \\to -\\infty$: $x^{${n}} ${even ? "> 0" : "< 0"} \\Rightarrow f(x) \\to ${even ? (lead > 0 ? "+\\infty" : "-\\infty") : lead > 0 ? "-\\infty" : "+\\infty"}$`,
+   155→          ),
+   156→          step(
+   157→            "result",
+   158→            opt(lead > 0, even ? lead > 0 : lead < 0),
+   159→            opt(lead > 0, even ? lead > 0 : lead < 0),
+   160→          ),
+   161→        ],
+   162→      };
+   163→    },
+   164→  ),
+   165→
+   166→  /* ---------------------------------------------------------------- */
+   167→  /* Graphs + diagram: read the y-intercept of a parabola             */
+   168→  /* ---------------------------------------------------------------- */
+   169→  template(
+   170→    {
+   171→      id: "pfn-graph-02",
+   172→      subject: "math",
+   173→      topicId: "poly-functions",
+   174→      subtopicId: "intercepts",
+   175→      difficulty: "easy",
+   176→      questionType: "numeric",
+   177→      estimatedTimeSec: 90,
+   178→      tags: ["graphs", "intercepts", "reading-graphs"],
+   179→      prerequisites: ["quadratics"],
+   180→    },
+   181→    (rng) => {
+   182→      const a = rng.pick([1, -1]);
+   183→      const h = rng.nonZeroInt(-2, 2);
+   184→      const k = rng.int(-4, 4);
+   185→      const value = a * h * h + k;
+   186→      const fnStr = `${a}*(x ${h >= 0 ? "-" : "+"} ${Math.abs(h)})^2 ${k >= 0 ? "+" : "-"} ${Math.abs(k)}`;
+   187→      return {
+   188→        skill: L("Leer cortes en la gráfica", "Reading intercepts from a graph"),
+   189→        statement: L(
+   190→          "La gráfica muestra la parábola $g$ con su vértice marcado. ¿En qué valor de $y$ corta la parábola al eje vertical? Escribe solo la ordenada (el valor de $g(0)$).",
+   191→          "The graph shows the parabola $g$ with its vertex marked. At what $y$ value does the parabola cross the vertical axis? Write only the ordinate (the value of $g(0)$).",
+   192→        ),
+   193→        diagram: {
+   194→          kind: "function-graph",
+   195→          xMin: -7,
+   196→          xMax: 7,
+   197→          yMin: -9,
+   198→          yMax: 9,
+   199→          curves: [{ fn: fnStr, color: "primary" }],
+   200→          points: [{ x: h, y: k, label: `(${h}, ${k})` }],
+   201→          showGrid: true,
+   202→          xLabel: "x",
+   203→          yLabel: "y",
+   204→        },
+   205→        diagramLabel: L(
+   206→          `Parábola con vértice en (${h}, ${k}).`,
+   207→          `Parabola with vertex at (${h}, ${k}).`,
+   208→        ),
+   209→        answer: { kind: "numeric", value },
+   210→        hints: [
+   211→          L(
+   212→            "El corte con el eje $y$ ocurre en $x = 0$.",
+   213→            "The crossing with the $y$-axis happens at $x = 0$.",
+   214→          ),
+   215→          L(
+   216→            "Sigue el eje vertical desde el origen hasta encontrar la curva.",
+   217→            "Follow the vertical axis from the origin until you meet the curve.",
+   218→          ),
+   219→          L(
+   220→            "Cuenta los cuadrados de la cuadrícula: la ordenada es un número entero.",
+   221→            "Count the grid squares: the ordinate is a whole number.",
+   222→          ),
+   223→        ],
+   224→        answerDisplay: L(`$g(0) = ${value}$`, `$g(0) = ${value}$`),
+   225→        solution: [
+   226→          step(
+   227→            "given",
+   228→            `Parábola con vértice en $(${h}, ${k})$.`,
+   229→            `Parabola with vertex at $(${h}, ${k})$.`,
+   230→          ),
+   231→          step(
+   232→            "approach",
+   233→            "El corte con el eje $y$ se lee en la recta vertical $x = 0$.",
+   234→            "The $y$-intercept is read on the vertical line $x = 0$.",
+   235→          ),
+   236→          step(
+   237→            "calculation",
+   238→            `En $x = 0$ la curva pasa por el punto $(0, ${value})$.<br>Comprobación algebraica: $g(0) = ${a}(0 ${h >= 0 ? "-" : "+"} ${Math.abs(h)})^{2} ${k >= 0 ? "+" : "-"} ${Math.abs(k)} = ${a} \\cdot ${h * h} ${k >= 0 ? "+" : "-"} ${Math.abs(k)} = ${value}$`,
+   239→            `At $x = 0$ the curve passes through $(0, ${value})$.<br>Algebraic check: $g(0) = ${a}(0 ${h >= 0 ? "-" : "+"} ${Math.abs(h)})^{2} ${k >= 0 ? "+" : "-"} ${Math.abs(k)} = ${a} \\cdot ${h * h} ${k >= 0 ? "+" : "-"} ${Math.abs(k)} = ${value}$`,
+   240→          ),
+   241→          step(
+   242→            "result",
+   243→            `La parábola corta al eje $y$ en $(0, ${value})$.`,
+   244→            `The parabola crosses the $y$-axis at $(0, ${value})$.`,
+   245→          ),
+   246→        ],
+   247→      };
+   248→    },
+   249→  ),
+   250→
+   251→  /* ---------------------------------------------------------------- */
+   252→  /* Intercepts: vertex form → x-intercepts                           */
+   253→  /* ---------------------------------------------------------------- */
+   254→  template(
+   255→    {
+   256→      id: "pfn-int-02",
+   257→      subject: "math",
+   258→      topicId: "poly-functions",
+   259→      subtopicId: "intercepts",
+   260→      difficulty: "medium",
+   261→      questionType: "numeric",
+   262→      estimatedTimeSec: 150,
+   263→      tags: ["intercepts", "vertex-form"],
+   264→      prerequisites: ["quadratics"],
+   265→    },
+   266→    (rng) => {
+   267→      const a = rng.pick([1, 2]);
+   268→      const t = rng.pick([1, 2, 3]);
+   269→      const h = rng.nonZeroInt(-5, 5);
+   270→      const k = -a * t * t;
+   271→      const value = h + t;
+   272→      return {
+   273→        skill: L("Cortes con el eje x desde la forma de vértice", "x-intercepts from vertex form"),
+   274→        statement: L(
+   275→          `La parábola $f(x) = ${a}(${xMinus(h)})^{2} - ${a * t * t}$ corta al eje $x$ en dos puntos. ¿Cuál es la abscisa del corte situado más a la derecha?`,
+   276→          `The parabola $f(x) = ${a}(${xMinus(h)})^{2} - ${a * t * t}$ crosses the $x$-axis at two points. What is the abscissa of the rightmost crossing?`,
+   277→        ),
+   278→        answer: { kind: "numeric", value },
+   279→        hints: [
+   280→          L(
+   281→            "En los cortes con el eje $x$ se cumple $f(x) = 0$.",
+   282→            "At the $x$-axis crossings, $f(x) = 0$.",
+   283→          ),
+   284→          L(
+   285→            `Despeja el cuadrado: $(${xMinus(h)})^{2} = ${t * t}$, que es un cuadrado perfecto.`,
+   286→            `Isolate the square: $(${xMinus(h)})^{2} = ${t * t}$, which is a perfect square.`,
+   287→          ),
+   288→          L(
+   289→            `La ecuación $(${xMinus(h)}) = \\pm ${t}$ da dos soluciones simétricas respecto a $x = ${h}$.`,
+   290→            `The equation $(${xMinus(h)}) = \\pm ${t}$ gives two solutions symmetric about $x = ${h}$.`,
+   291→          ),
+   292→        ],
+   293→        answerDisplay: L(`$x = ${h + t}$`, `$x = ${h + t}$`),
+   294→        solution: [
+   295→          step(
+   296→            "given",
+   297→            `$f(x) = ${a}(${xMinus(h)})^{2} - ${a * t * t}$`,
+   298→            `$f(x) = ${a}(${xMinus(h)})^{2} - ${a * t * t}$`,
+   299→          ),
+   300→          step(
+   301→            "approach",
+   302→            "Cortes con el eje $x$: resolvemos $f(x) = 0$.",
+   303→            "$x$-axis crossings: solve $f(x) = 0$.",
+   304→          ),
+   305→          step(
+   306→            "calculation",
+   307→            `$${a}(${xMinus(h)})^{2} - ${a * t * t} = 0$<br>$(${xMinus(h)})^{2} = ${t * t}$<br>$${xMinus(h)} = \\pm ${t}$<br>$x = ${h} \\pm ${t}$`,
+   308→            `$${a}(${xMinus(h)})^{2} - ${a * t * t} = 0$<br>$(${xMinus(h)})^{2} = ${t * t}$<br>$${xMinus(h)} = \\pm ${t}$<br>$x = ${h} \\pm ${t}$`,
+   309→          ),
+   310→          step(
+   311→            "result",
+   312→            `Los cortes son $(${h - t}, 0)$ y $(${h + t}, 0)$; el más a la derecha es $x = ${h + t}$.`,
+   313→            `The crossings are $(${h - t}, 0)$ and $(${h + t}, 0)$; the rightmost one is $x = ${h + t}$.`,
+   314→          ),
+   315→        ],
+   316→      };
+   317→    },
+   318→  ),
+   319→
+   320→  /* ---------------------------------------------------------------- */
+   321→  /* Graphs + diagram: parabola → equation (MC)                       */
+   322→  /* ---------------------------------------------------------------- */
+   323→  template(
+   324→    {
+   325→      id: "pfn-graph-01",
+   326→      subject: "math",
+   327→      topicId: "poly-functions",
+   328→      subtopicId: "graphs",
+   329→      difficulty: "medium",
+   330→      questionType: "multiple-choice",
+   331→      estimatedTimeSec: 150,
+   332→      tags: ["graphs", "vertex-form", "reading-graphs"],
+   333→      prerequisites: ["quadratics"],
+   334→    },
+   335→    (rng) => {
+   336→      const a = rng.pick([1, -1]);
+   337→      const h = rng.nonZeroInt(-3, 3);
+   338→      const k = rng.nonZeroInt(-4, 4);
+   339→      const fnStr = `${a}*(x ${h >= 0 ? "-" : "+"} ${Math.abs(h)})^2 ${k >= 0 ? "+" : "-"} ${Math.abs(k)}`;
+   340→      const eqLat = (cc: number, hh: number, kk: number): string =>
+   341→        `$y = ${coef(cc)}(${xMinus(hh)})^{2} ${kk >= 0 ? "+" : "-"} ${Math.abs(kk)}$`;
+   342→      const options: McOption[] = [
+   343→        { id: "a", text: L(eqLat(a, h, k), eqLat(a, h, k)), correct: true },
+   344→        { id: "b", text: L(eqLat(-a, h, k), eqLat(-a, h, k)), correct: false },
+   345→        { id: "c", text: L(eqLat(a, -h, k), eqLat(a, -h, k)), correct: false },
+   346→        { id: "d", text: L(eqLat(a, h, -k), eqLat(a, h, -k)), correct: false },
+   347→      ];
+   348→      return {
+   349→        skill: L("Identificar la ecuación de una parábola", "Identifying a parabola's equation"),
+   350→        statement: L(
+   351→          "La gráfica muestra una parábola con su vértice marcado y un punto adicional. ¿Qué ecuación la representa?",
+   352→          "The graph shows a parabola with its vertex marked and one extra point. Which equation represents it?",
+   353→        ),
+   354→        diagram: {
+   355→          kind: "function-graph",
+   356→          xMin: -7,
+   357→          xMax: 7,
+   358→          yMin: -10,
+   359→          yMax: 10,
+   360→          curves: [{ fn: fnStr, color: "primary" }],
+   361→          points: [
+   362→            { x: h, y: k, label: `(${h}, ${k})` },
+   363→            { x: h + 1, y: k + a, label: `(${h + 1}, ${k + a})` },
+   364→          ],
+   365→          showGrid: true,
+   366→          xLabel: "x",
+   367→          yLabel: "y",
+   368→        },
+   369→        diagramLabel: L(
+   370→          `Parábola con vértice en (${h}, ${k}) que pasa por (${h + 1}, ${k + a}).`,
+   371→          `Parabola with vertex at (${h}, ${k}) passing through (${h + 1}, ${k + a}).`,
+   372→        ),
+   373→        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+   374→        hints: [
+   375→          L(
+   376→            "La forma de vértice es $y = a(x - h)^{2} + k$ con vértice en $(h, k)$.",
+   377→            "Vertex form is $y = a(x - h)^{2} + k$ with vertex at $(h, k)$.",
+   378→          ),
+   379→          L(
+   380→            `El vértice marcado es $(${h}, ${k})$: eso fija $h$ y $k$.`,
+   381→            `The marked vertex is $(${h}, ${k})$: that fixes $h$ and $k$.`,
+   382→          ),
+   383→          L(
+   384→            `Sustituye el segundo punto $(${h + 1}, ${k + a})$ para decidir el valor de $a$.`,
+   385→            `Substitute the second point $(${h + 1}, ${k + a})$ to decide the value of $a$.`,
+   386→          ),
+   387→        ],
+   388→        answerDisplay: L(eqLat(a, h, k), eqLat(a, h, k)),
+   389→        solution: [
+   390→          step(
+   391→            "given",
+   392→            `Vértice: $(${h}, ${k})$. Punto adicional: $(${h + 1}, ${k + a})$.`,
+   393→            `Vertex: $(${h}, ${k})$. Extra point: $(${h + 1}, ${k + a})$.`,
+   394→          ),
+   395→          step(
+   396→            "approach",
+   397→            "Usamos la forma de vértice $y = a(x - h)^{2} + k$ y hallamos $a$ con el segundo punto.",
+   398→            "Use vertex form $y = a(x - h)^{2} + k$ and find $a$ from the second point.",
+   399→          ),
+   400→          step(
+   401→            "calculation",
+   402→            `$h = ${h}$, $k = ${k}$ (del vértice)<br>$y = a(${xMinus(h)})^{2} ${k >= 0 ? "+" : "-"} ${Math.abs(k)}$<br>Sustituyendo $(${h + 1}, ${k + a})$: $${k + a} = a(${h + 1} - (${h}))^{2} ${k >= 0 ? "+" : "-"} ${Math.abs(k)} = a \\cdot 1 ${k >= 0 ? "+" : "-"} ${Math.abs(k)}$<br>$a = ${a}$ (la parábola ${a > 0 ? "abre hacia arriba" : "abre hacia abajo"})`,
+   403→            `$h = ${h}$, $k = ${k}$ (from the vertex)<br>$y = a(${xMinus(h)})^{2} ${k >= 0 ? "+" : "-"} ${Math.abs(k)}$<br>Substituting $(${h + 1}, ${k + a})$: $${k + a} = a(${h + 1} - (${h}))^{2} ${k >= 0 ? "+" : "-"} ${Math.abs(k)} = a \\cdot 1 ${k >= 0 ? "+" : "-"} ${Math.abs(k)}$<br>$a = ${a}$ (the parabola opens ${a > 0 ? "upward" : "downward"})`,
+   404→          ),
+   405→          step("result", eqLat(a, h, k), eqLat(a, h, k)),
+   406→        ],
+   407→      };
+   408→    },
+   409→  ),
+   410→
+   411→  /* ---------------------------------------------------------------- */
+   412→  /* Transformations: identify the shift (MC)                         */
+   413→  /* ---------------------------------------------------------------- */
+   414→  template(
+   415→    {
+   416→      id: "pfn-trans-01",
+   417→      subject: "math",
+   418→      topicId: "poly-functions",
+   419→      subtopicId: "transformations",
+   420→      difficulty: "medium",
+   421→      questionType: "multiple-choice",
+   422→      estimatedTimeSec: 120,
+   423→      tags: ["transformations", "vertex-form"],
+   424→      prerequisites: ["quadratics"],
+   425→    },
+   426→    (rng) => {
+   427→      const p = rng.int(1, 5);
+   428→      const q = rng.int(1, 6);
+   429→      const mk = (left: boolean, up: boolean): string =>
+   430→        `$${p}$ unidades a la ${left ? "izquierda" : "derecha"} y $${q}$ hacia ${up ? "arriba" : "abajo"}`;
+   431→      const mkEn = (left: boolean, up: boolean): string =>
+   432→        `$${p}$ units to the ${left ? "left" : "right"} and $${q}$ ${up ? "up" : "down"}`;
+   433→      const options: McOption[] = [
+   434→        { id: "a", text: L(mk(true, true), mkEn(true, true)), correct: true },
+   435→        { id: "b", text: L(mk(false, true), mkEn(false, true)), correct: false },
+   436→        { id: "c", text: L(mk(true, false), mkEn(true, false)), correct: false },
+   437→        { id: "d", text: L(mk(false, false), mkEn(false, false)), correct: false },
+   438→      ];
+   439→      return {
+   440→        skill: L("Traslaciones de una parábola", "Translations of a parabola"),
+   441→        statement: L(
+   442→          `La gráfica de $f(x) = x^{2}$ se transforma en la de $g(x) = (x + ${p})^{2} + ${q}$. ¿Qué traslación se ha aplicado?`,
+   443→          `The graph of $f(x) = x^{2}$ is transformed into $g(x) = (x + ${p})^{2} + ${q}$. Which translation was applied?`,
+   444→        ),
+   445→        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+   446→        hints: [
+   447→          L(
+   448→            "Compara con la forma $y = (x - h)^{2} + k$ respecto a $y = x^{2}$.",
+   449→            "Compare with the form $y = (x - h)^{2} + k$ relative to $y = x^{2}$.",
+   450→          ),
+   451→          L(
+   452→            "Dentro del paréntesis, **sumar** desplaza a la izquierda (el signo se invierte).",
+   453→            "Inside the parentheses, **adding** shifts to the left (the sign flips).",
+   454→          ),
+   455→          L(
+   456→            "Fuera del paréntesis, sumar desplaza hacia arriba.",
+   457→            "Outside the parentheses, adding shifts upward.",
+   458→          ),
+   459→        ],
+   460→        answerDisplay: L(mk(true, true), mkEn(true, true)),
+   461→        solution: [
+   462→          step(
+   463→            "given",
+   464→            `$g(x) = (x + ${p})^{2} + ${q} = (x - (-${p}))^{2} + ${q}$`,
+   465→            `$g(x) = (x + ${p})^{2} + ${q} = (x - (-${p}))^{2} + ${q}$`,
+   466→          ),
+   467→          step(
+   468→            "approach",
+   469→            "En la forma $y = a(x - h)^{2} + k$, $h$ desplaza en horizontal y $k$ en vertical.",
+   470→            "In $y = a(x - h)^{2} + k$, $h$ shifts horizontally and $k$ vertically.",
+   471→          ),
+   472→          step(
+   473→            "calculation",
+   474→            `$h = -${p} \\Rightarrow$ ${p} unidades a la izquierda<br>$k = ${q} \\Rightarrow$ ${q} unidades hacia arriba`,
+   475→            `$h = -${p} \\Rightarrow$ ${p} units to the left<br>$k = ${q} \\Rightarrow$ ${q} units up`,
+   476→          ),
+   477→          step(
+   478→            "result",
+   479→            `La parábola se traslada ${p} unidades a la izquierda y ${q} hacia arriba.`,
+   480→            `The parabola is shifted ${p} units to the left and ${q} up.`,
+   481→          ),
+   482→        ],
+   483→      };
+   484→    },
+   485→  ),
+   486→
+   487→  /* ---------------------------------------------------------------- */
+   488→  /* Modeling: rectangle of maximum area                               */
+   489→  /* ---------------------------------------------------------------- */
+   490→  template(
+   491→    {
+   492→      id: "pfn-model-02",
+   493→      subject: "math",
+   494→      topicId: "poly-functions",
+   495→      subtopicId: "modeling",
+   496→      difficulty: "medium",
+   497→      questionType: "numeric",
+   498→      estimatedTimeSec: 180,
+   499→      tags: ["modeling", "optimization", "word-problems"],
+   500→      prerequisites: ["quadratics"],
+   501→    },
+   502→    (rng) => {
+   503→      const P = rng.pick([24, 32, 40, 48]);
+   504→      const value = P / 4;
+   505→      return {
+   506→        skill: L("Modelizar un área máxima", "Modeling a maximum area"),
+   507→        statement: L(
+   508→          `Tienes $${P}\\ \\text{m}$ de valla para cerrar un jardín rectangular. Si un lado mide $x$ metros, el otro mide $${P / 2} - x$. ¿Para qué valor de $x$ es máxima el área?`,
+   509→          `You have $${P}\\ \\text{m}$ of fence to enclose a rectangular garden. If one side is $x$ metres, the other is $${P / 2} - x$. For which value of $x$ is the area maximized?`,
+   510→        ),
+   511→        answer: { kind: "numeric", value, unitSuffix: "m" },
+   512→        hints: [
+   513→          L(
+   514→            `Escribe el área como función de $x$: $A(x) = x(${P / 2} - x)$.`,
+   515→            `Write the area as a function of $x$: $A(x) = x(${P / 2} - x)$.`,
+   516→          ),
+   517→          L(
+   518→            "Es una parábola que abre hacia abajo: el máximo está en el vértice.",
+   519→            "It is a downward-opening parabola: the maximum is at the vertex.",
+   520→          ),
+   521→          L(
+   522→            `Usa $x_{v} = \\frac{-b}{2a}$ con $a = -1$ y $b = ${P / 2}$.`,
+   523→            `Use $x_{v} = \\frac{-b}{2a}$ with $a = -1$ and $b = ${P / 2}$.`,
+   524→          ),
+   525→        ],
+   526→        answerDisplay: L(`$x = ${value}\\ \\text{m}$`, `$x = ${value}\\ \\text{m}$`),
+   527→        solution: [
+   528→          step(
+   529→            "given",
+   530→            `Perímetro: $${P}\\ \\text{m}$. Lados: $x$ y $${P / 2} - x$.`,
+   531→            `Perimeter: $${P}\\ \\text{m}$. Sides: $x$ and $${P / 2} - x$.`,
+   532→          ),
+   533→          step(
+   534→            "approach",
+   535→            "Modelizamos el área con una función cuadrática y buscamos su vértice.",
+   536→            "Model the area with a quadratic function and locate its vertex.",
+   537→          ),
+   538→          step(
+   539→            "calculation",
+   540→            `$A(x) = x(${P / 2} - x) = -x^{2} + ${P / 2}x$<br>$x_{v} = \\frac{-(${P / 2})}{2 \\cdot (-1)} = ${value}$`,
+   541→            `$A(x) = x(${P / 2} - x) = -x^{2} + ${P / 2}x$<br>$x_{v} = \\frac{-(${P / 2})}{2 \\cdot (-1)} = ${value}$`,
+   542→          ),
+   543→          step(
+   544→            "result",
+   545→            `El área es máxima cuando $x = ${value}\\ \\text{m}$: un cuadrado de $${value} \\times ${value}\\ \\text{m}$.`,
+   546→            `The area is maximized when $x = ${value}\\ \\text{m}$: a ${value} \\times ${value}\\ \\text{m}$ square.`,
+   547→          ),
+   548→        ],
+   549→      };
+   550→    },
+   551→  ),
+   552→
+   553→  /* ---------------------------------------------------------------- */
+   554→  /* Transformations: write the transformed equation (expression)      */
+   555→  /* ---------------------------------------------------------------- */
+   556→  template(
+   557→    {
+   558→      id: "pfn-trans-02",
+   559→      subject: "math",
+   560→      topicId: "poly-functions",
+   561→      subtopicId: "transformations",
+   562→      difficulty: "hard",
+   563→      questionType: "expression",
+   564→      estimatedTimeSec: 210,
+   565→      tags: ["transformations", "vertex-form"],
+   566→      prerequisites: ["quadratics"],
+   567→    },
+   568→    (rng) => {
+   569→      const a = rng.pick([2, 3]);
+   570→      const h = rng.int(1, 5);
+   571→      const k = rng.int(1, 6);
+   572→      const expanded = `${a}x^2 ${pmTerm(-2 * a * h)}x ${pmTerm(a * h * h - k)}`;
+   573→      return {
+   574→        skill: L("Escribir la ecuación transformada", "Writing the transformed equation"),
+   575→        statement: L(
+   576→          `La gráfica de $f(x) = x^{2}$ se desplaza $${h}$ unidades a la derecha y $${k}$ hacia abajo, y después se estira verticalmente por un factor de $${a}$. Escribe la ecuación de $g(x)$ (por ejemplo: 2*(x-6)^2-7).`,
+   577→          `The graph of $f(x) = x^{2}$ is shifted $${h}$ units right and $${k}$ down, and then stretched vertically by a factor of $${a}$. Write the equation of $g(x)$ (e.g. 2*(x-6)^2-7).`,
+   578→        ),
+   579→        answer: {
+   580→          kind: "expression",
+   581→          accepted: [`${a}*(x-${h})^2-${k}`, `${a}(x-${h})^2-${k}`, expanded],
+   582→          variables: ["x"],
+   583→        },
+   584→        hints: [
+   585→          L(
+   586→            "Parte de la forma general $g(x) = a(x - h)^{2} + k$.",
+   587→            "Start from the general form $g(x) = a(x - h)^{2} + k$.",
+   588→          ),
+   589→          L(
+   590→            `Traslación de $${h}$ a la derecha y $${k}$ hacia abajo fijan $h$ y $k$.`,
+   591→            `A shift of $${h}$ right and $${k}$ down fix $h$ and $k$.`,
+   592→          ),
+   593→          L(
+   594→            "El estirado vertical multiplica al paréntesis **completo**, no solo al último término.",
+   595→            "The vertical stretch multiplies the **whole** parenthesized term, not just the last term.",
+   596→          ),
+   597→        ],
+   598→        answerDisplay: L(
+   599→          `$g(x) = ${a}(x - ${h})^{2} - ${k}$`,
+   600→          `$g(x) = ${a}(x - ${h})^{2} - ${k}$`,
+   601→        ),
+   602→        solution: [
+   603→          step(
+   604→            "given",
+   605→            `Traslación: $${h}$ a la derecha, $${k}$ hacia abajo. Estirado vertical: factor $${a}$.`,
+   606→            `Shift: $${h}$ right, $${k}$ down. Vertical stretch: factor $${a}$.`,
+   607→          ),
+   608→          step(
+   609→            "approach",
+   610→            "Cada transformación actúa sobre la forma de vértice $y = a(x - h)^{2} + k$.",
+   611→            "Each transformation acts on the vertex form $y = a(x - h)^{2} + k$.",
+   612→          ),
+   613→          step(
+   614→            "calculation",
+   615→            `$g(x) = ${a}(x - ${h})^{2} + (-${k})$<br>$g(x) = ${a}(x - ${h})^{2} - ${k}$<br>Forma expandida equivalente: $g(x) = ${expanded}$`,
+   616→            `$g(x) = ${a}(x - ${h})^{2} + (-${k})$<br>$g(x) = ${a}(x - ${h})^{2} - ${k}$<br>Equivalent expanded form: $g(x) = ${expanded}$`,
+   617→          ),
+   618→          step(
+   619→            "result",
+   620→            `$g(x) = ${a}(x - ${h})^{2} - ${k}$`,
+   621→            `$g(x) = ${a}(x - ${h})^{2} - ${k}$`,
+   622→          ),
+   623→        ],
+   624→      };
+   625→    },
+   626→  ),
+   627→
+   628→  /* ---------------------------------------------------------------- */
+   629→  /* Modeling: maximum height of a projectile                          */
+   630→  /* ---------------------------------------------------------------- */
+   631→  template(
+   632→    {
+   633→      id: "pfn-model-01",
+   634→      subject: "math",
+   635→      topicId: "poly-functions",
+   636→      subtopicId: "modeling",
+   637→      difficulty: "hard",
+   638→      questionType: "numeric",
+   639→      estimatedTimeSec: 210,
+   640→      tags: ["modeling", "projectile", "vertex"],
+   641→      prerequisites: ["quadratics"],
+   642→    },
+   643→    (rng) => {
+   644→      const k = rng.int(1, 4);
+   645→      const v0 = 10 * k;
+   646→      const value = 5 * k * k;
+   647→      return {
+   648→        skill: L("Altura máxima de un lanzamiento", "Maximum height of a projectile"),
+   649→        statement: L(
+   650→          `Desde el suelo se lanza una pelota hacia arriba. Su altura en metros tras $t$ segundos es $h(t) = -5t^{2} + ${v0}t$. ¿Qué altura máxima alcanza?`,
+   651→          `A ball is thrown straight up from the ground. Its height in metres after $t$ seconds is $h(t) = -5t^{2} + ${v0}t$. What maximum height does it reach?`,
+   652→        ),
+   653→        answer: { kind: "numeric", value, unitSuffix: "m" },
+   654→        hints: [
+   655→          L(
+   656→            "La altura máxima ocurre en el vértice de la parábola.",
+   657→            "The maximum height occurs at the vertex of the parabola.",
+   658→          ),
+   659→          L(
+   660→            `El tiempo del vértice es $t_{v} = \\frac{-b}{2a}$ con $a = -5$ y $b = ${v0}$.`,
+   661→            `The vertex time is $t_{v} = \\frac{-b}{2a}$ with $a = -5$ and $b = ${v0}$.`,
+   662→          ),
+   663→          L(
+   664→            "Una vez tienes $t_{v}$, evalúa $h(t_{v})$.",
+   665→            "Once you have $t_{v}$, evaluate $h(t_{v})$.",
+   666→          ),
+   667→        ],
+   668→        answerDisplay: L(`$h_{\\max} = ${value}\\ \\text{m}$`, `$h_{\\max} = ${value}\\ \\text{m}$`),
+   669→        solution: [
+   670→          step(
+   671→            "given",
+   672→            `$h(t) = -5t^{2} + ${v0}t$`,
+   673→            `$h(t) = -5t^{2} + ${v0}t$`,
+   674→          ),
+   675→          step(
+   676→            "approach",
+   677→            "La parábola abre hacia abajo: el vértice da el tiempo y la altura máximos.",
+   678→            "The parabola opens downward: the vertex gives the time and value of the maximum.",
+   679→          ),
+   680→          step(
+   681→            "calculation",
+   682→            `$t_{v} = \\frac{-${v0}}{2 \\cdot (-5)} = ${k}$<br>$h(${k}) = -5 \\cdot ${k * k} + ${v0} \\cdot ${k} = ${-5 * k * k} + ${v0 * k} = ${value}$`,
+   683→            `$t_{v} = \\frac{-${v0}}{2 \\cdot (-5)} = ${k}$<br>$h(${k}) = -5 \\cdot ${k * k} + ${v0} \\cdot ${k} = ${-5 * k * k} + ${v0 * k} = ${value}$`,
+   684→          ),
+   685→          step(
+   686→            "result",
+   687→            `La altura máxima es $${value}\\ \\text{m}$, alcanzada en $t = ${k}\\ \\text{s}$.`,
+   688→            `The maximum height is $${value}\\ \\text{m}$, reached at $t = ${k}\\ \\text{s}$.`,
+   689→          ),
+   690→        ],
+   691→      };
+   692→    },
+   693→  ),
+   694→
+   695→  /* ---------------------------------------------------------------- */
+   696→  /* Comparisons: when does the quadratic overtake the linear model    */
+   697→  /* ---------------------------------------------------------------- */
+   698→  template(
+   699→    {
+   700→      id: "pfn-comp-01",
+   701→      subject: "math",
+   702→      topicId: "poly-functions",
+   703→      subtopicId: "comparisons",
+   704→      difficulty: "challenge",
+   705→      questionType: "numeric",
+   706→      estimatedTimeSec: 300,
+   707→      tags: ["comparisons", "inequalities", "quadratics"],
+   708→      prerequisites: ["quadratics"],
+   709→    },
+   710→    (rng) => {
+   711→      const m = rng.int(2, 5);
+   712→      const r = rng.int(m + 3, Math.min(m + 8, 12));
+   713→      const c = r * (r - m);
+   714→      const value = r + 1;
+   715→      return {
+   716→        skill: L("Comparar un modelo lineal y uno cuadrático", "Comparing a linear and a quadratic model"),
+   717→        statement: L(
+   718→          `Se comparan dos modelos: $f(x) = ${m}x + ${c}$ (lineal) y $g(x) = x^{2}$ (cuadrático). ¿Para qué valor entero positivo de $x$ se cumple **por primera vez** que $g(x) > f(x)$?`,
+   719→          `Two models are compared: $f(x) = ${m}x + ${c}$ (linear) and $g(x) = x^{2}$ (quadratic). For which positive integer $x$ does $g(x) > f(x)$ hold **for the first time**?`,
+   720→        ),
+   721→        answer: { kind: "numeric", value },
+   722→        hints: [
+   723→          L(
+   724→            "Plantea la igualdad $x^{2} = " + m + "x + " + c + "$ para localizar el punto de cruce.",
+   725→            `Set up the equality $x^{2} = ${m}x + ${c}$ to locate the crossing point.`,
+   726→          ),
+   727→          L(
+   728→            "Pasa todos los términos a un lado y factoriza el trinomio.",
+   729→            "Move every term to one side and factor the trinomial.",
+   730→          ),
+   731→          L(
+   732→            "Comprueba qué ocurre exactamente en las raíces y justo después de la mayor.",
+   733→            "Check what happens exactly at the roots and just after the larger one.",
+   734→          ),
+   735→        ],
+   736→        answerDisplay: L(`$x = ${value}$`, `$x = ${value}$`),
+   737→        solution: [
+   738→          step(
+   739→            "given",
+   740→            `$f(x) = ${m}x + ${c}$, $g(x) = x^{2}$`,
+   741→            `$f(x) = ${m}x + ${c}$, $g(x) = x^{2}$`,
+   742→          ),
+   743→          step(
+   744→            "approach",
+   745→            "Resolvemos $g(x) = f(x)$ para encontrar los cruces y estudiamos el signo de $g - f$ después del mayor.",
+   746→            "Solve $g(x) = f(x)$ to find the crossings, then study the sign of $g - f$ after the larger one.",
+   747→          ),
+   748→          step(
+   749→            "calculation",
+   750→            `$x^{2} = ${m}x + ${c}$<br>$x^{2} - ${m}x - ${c} = 0$<br>$(x - ${r})(x + ${r - m}) = 0$<br>$x = ${r}$ o $x = ${m - r}$<br>En $x = ${r}$: $g = f = ${r * r}$. Para $0 < x < ${r}$: $g(x) < f(x)$.<br>$g(${r + 1}) = ${(r + 1) * (r + 1)} > f(${r + 1}) = ${m * (r + 1) + c}$`,
+   751→            `$x^{2} = ${m}x + ${c}$<br>$x^{2} - ${m}x - ${c} = 0$<br>$(x - ${r})(x + ${r - m}) = 0$<br>$x = ${r}$ or $x = ${m - r}$<br>At $x = ${r}$: $g = f = ${r * r}$. For $0 < x < ${r}$: $g(x) < f(x)$.<br>$g(${r + 1}) = ${(r + 1) * (r + 1)} > f(${r + 1}) = ${m * (r + 1) + c}$`,
+   752→          ),
+   753→          step(
+   754→            "result",
+   755→            `Los modelos empatan en $x = ${r}$; el primer entero con $g(x) > f(x)$ es $x = ${r + 1}$.`,
+   756→            `The models tie at $x = ${r}$; the first integer with $g(x) > f(x)$ is $x = ${r + 1}$.`,
+   757→          ),
+   758→        ],
+   759→      };
+   760→    },
+   761→  ),
+   762→];
+   763→

@@ -1,0 +1,702 @@
+    40→    40→    40→        answer: {
+    41→    41→    41→          kind: "numeric-unit",
+    42→    42→    42→          value: vMs,
+    43→    43→    43→          tolerance: { mode: "sigfig", value: 2 },
+    44→    44→    44→          units: ["m/s"],
+    45→    45→    45→          unitChoices: ["m/s", "km/h", "m/s^2", "m"],
+    46→    46→    46→        },
+    47→    47→    47→        hints: [
+    48→    48→    48→          L(
+    49→    49→    49→            "La rapidez media es distancia dividida por tiempo.",
+    50→    50→    50→            "Average speed is distance divided by time.",
+    51→    51→    51→          ),
+    52→    52→    52→          L(
+    53→    53→    53→            `Convierte primero: $${km}\\ \\text{km} = ${km * 1000}\\ \\text{m}$ y $${mins}\\ \\text{min} = {{${(mins / 60).toFixed(2)}}}\\ \\text{h} = ${mins * 60}\\ \\text{s}$.`,
+    54→    54→    54→            `Convert first: $${km}\\ \\text{km} = ${km * 1000}\\ \\text{m}$ and $${mins}\\ \\text{min} = ${mins * 60}\\ \\text{s}$.`,
+    55→    55→    55→          ),
+    56→    56→    56→          L(
+    57→    57→    57→            "Divide los metros entre los segundos.",
+    58→    58→    58→            "Divide the metres by the seconds.",
+    59→    59→    59→          ),
+    60→    60→    60→        ],
+    61→    61→    61→        answerDisplay: L(
+    62→    62→    62→          `$\\approx {{${vMs}}}\\ \\text{m/s}$`,
+    63→    63→    63→          `$\\approx {{${vMs}}}\\ \\text{m/s}$`,
+    64→    64→    64→        ),
+    65→    65→    65→        solution: [
+    66→    66→    66→          step(
+    67→    67→    67→            "given",
+    68→    68→    68→            `$d = ${km}\\ \\text{km} = ${km * 1000}\\ \\text{m}$<br>$t = ${mins}\\ \\text{min} = ${mins * 60}\\ \\text{s}$`,
+    69→    69→    69→            `$d = ${km}\\ \\text{km} = ${km * 1000}\\ \\text{m}$<br>$t = ${mins}\\ \\text{min} = ${mins * 60}\\ \\text{s}$`,
+    70→    70→    70→          ),
+    71→    71→    71→          step(
+    72→    72→    72→            "approach",
+    73→    73→    73→            "Rapidez media: $\\bar{v} = d/t$, todo en unidades del SI.",
+    74→    74→    74→            "Average speed: $\\bar{v} = d/t$, all in SI units.",
+    75→    75→    75→          ),
+    76→    76→    76→          step(
+    77→    77→    77→            "calculation",
+    78→    78→    78→            `$\\bar{v} = \\frac{${km * 1000}\\ \\text{m}}{${mins * 60}\\ \\text{s}} \\approx {{${vMs}}}\\ \\text{m/s}$`,
+    79→    79→    79→            `$\\bar{v} = \\frac{${km * 1000}\\ \\text{m}}{${mins * 60}\\ \\text{s}} \\approx {{${vMs}}}\\ \\text{m/s}$`,
+    80→    80→    80→          ),
+    81→    81→    81→          step(
+    82→    82→    82→            "result",
+    83→    83→    83→            `La rapidez media es $\\approx {{${vMs}}}\\ \\text{m/s}$.`,
+    84→    84→    84→            `The average speed is $\\approx {{${vMs}}}\\ \\text{m/s}$.`,
+    85→    85→    85→          ),
+    86→    86→    86→        ],
+    87→    87→    87→      };
+    88→    88→    88→    },
+    89→    89→    89→  ),
+    90→    90→    90→
+    91→    91→    91→  /* ---------------------------------------------------------------- */
+    92→    92→    92→  /* v = v0 + a·t                                                     */
+    93→    93→    93→  /* ---------------------------------------------------------------- */
+    94→    94→    94→  template(
+    95→    95→    95→    {
+    96→    96→    96→      id: "kin-vat-01",
+    97→    97→    97→      subject: "physics",
+    98→    98→    98→      topicId: "kinematics",
+    99→    99→    99→      subtopicId: "constant-acceleration",
+   100→   100→   100→      difficulty: "easy",
+   101→   101→   101→      questionType: "numeric-unit",
+   102→   102→   102→      estimatedTimeSec: 90,
+   103→   103→   103→      tags: ["kinematics", "constant-acceleration"],
+   104→   104→   104→      prerequisites: [],
+   105→   105→   105→    },
+   106→   106→   106→    (rng) => {
+   107→   107→   107→      const v0 = rng.pick([0, 2, 4, 5, 8, 10]);
+   108→   108→   108→      const a = rng.pick([1.5, 2, 2.5, 3, 4]);
+   109→   109→   109→      const t = rng.pick([3, 4, 5, 6, 8]);
+   110→   110→   110→      const v = Math.round((v0 + a * t) * 10) / 10;
+   111→   111→   111→      return {
+   112→   112→   112→        skill: L("Velocidad final con aceleración constante", "Final velocity under constant acceleration"),
+   113→   113→   113→        statement: L(
+   114→   114→   114→          `Un móvil parte con $v_0 = {{${v0}}}\\ \\text{m/s}$ y acelera a $a = {{${a}}}\\ \\text{m/s}^2$ durante $${t}\\ \\text{s}$. ¿Qué velocidad alcanza?`,
+   115→   115→   115→          `An object starts with $v_0 = {{${v0}}}\\ \\text{m/s}$ and accelerates at $a = {{${a}}}\\ \\text{m/s}^2$ for $${t}\\ \\text{s}$. What velocity does it reach?`,
+   116→   116→   116→        ),
+   117→   117→   117→        answer: {
+   118→   118→   118→          kind: "numeric-unit",
+   119→   119→   119→          value: v,
+   120→   120→   120→          tolerance: { mode: "sigfig", value: 2 },
+   121→   121→   121→          units: ["m/s"],
+   122→   122→   122→          unitChoices: ["m/s", "m/s^2", "m", "N"],
+   123→   123→   123→        },
+   124→   124→   124→        hints: [
+   125→   125→   125→          L(
+   126→   126→   126→            "Identifica los datos y la incógnita: tienes $v_0$, $a$, $t$ y piden $v$.",
+   127→   127→   127→            "Identify the data and the unknown: you have $v_0$, $a$, $t$ and need $v$.",
+   128→   128→   128→          ),
+   129→   129→   129→          L(
+   130→   130→   130→            "La ecuación que conecta estos tres con $v$ es $v = v_0 + at$.",
+   131→   131→   131→            "The equation linking them is $v = v_0 + at$.",
+   132→   132→   132→          ),
+   133→   133→   133→          L(
+   134→   134→   134→            "Sustituye y suma: no hace falta despejar nada.",
+   135→   135→   135→            "Substitute and add: no rearranging needed.",
+   136→   136→   136→          ),
+   137→   137→   137→        ],
+   138→   138→   138→        answerDisplay: L(`$v = {{${v}}}\\ \\text{m/s}$`, `$v = {{${v}}}\\ \\text{m/s}$`),
+   139→   139→   139→        solution: [
+   140→   140→   140→          step(
+   141→   141→   141→            "given",
+   142→   142→   142→            `$v_0 = {{${v0}}}\\ \\text{m/s}$, $a = {{${a}}}\\ \\text{m/s}^2$, $t = ${t}\\ \\text{s}$`,
+   143→   143→   143→            `$v_0 = {{${v0}}}\\ \\text{m/s}$, $a = {{${a}}}\\ \\text{m/s}^2$, $t = ${t}\\ \\text{s}$`,
+   144→   144→   144→          ),
+   145→   145→   145→          step(
+   146→   146→   146→            "approach",
+   147→   147→   147→            "Aceleración constante → ecuación $v = v_0 + at$.",
+   148→   148→   148→            "Constant acceleration → the equation $v = v_0 + at$.",
+   149→   149→   149→          ),
+   150→   150→   150→          step(
+   151→   151→   151→            "calculation",
+   152→   152→   152→            `$v = {{${v0}}} + {{${a}}} \\cdot ${t} = {{${v0}}} + {{${Math.round(a * t * 10) / 10}}} = {{${v}}}\\ \\text{m/s}$`,
+   153→   153→   153→            `$v = {{${v0}}} + {{${a}}} \\cdot ${t} = {{${v0}}} + {{${Math.round(a * t * 10) / 10}}} = {{${v}}}\\ \\text{m/s}$`,
+   154→   154→   154→          ),
+   155→   155→   155→          step(
+   156→   156→   156→            "result",
+   157→   157→   157→            `La velocidad final es $${tok(v)}\\ \\text{m/s}$.`,
+   158→   158→   158→            `The final velocity is $${tok(v)}\\ \\text{m/s}$.`,
+   159→   159→   159→          ),
+   160→   160→   160→        ],
+   161→   161→   161→      };
+   162→   162→   162→    },
+   163→   163→   163→  ),
+   164→   164→   164→
+   165→   165→   165→  /* ---------------------------------------------------------------- */
+   166→   166→   166→  /* Displacement with constant acceleration                          */
+   167→   167→   167→  /* ---------------------------------------------------------------- */
+   168→   168→   168→  template(
+   169→   169→   169→    {
+   170→   170→   170→      id: "kin-disp-01",
+   171→   171→   171→      subject: "physics",
+   172→   172→   172→      topicId: "kinematics",
+   173→   173→   173→      subtopicId: "constant-acceleration",
+   174→   174→   174→      difficulty: "medium",
+   175→   175→   175→      questionType: "numeric-unit",
+   176→   176→   176→      estimatedTimeSec: 150,
+   177→   177→   177→      tags: ["kinematics", "constant-acceleration"],
+   178→   178→   178→      prerequisites: ["constant-acceleration"],
+   179→   179→   179→    },
+   180→   180→   180→    (rng) => {
+   181→   181→   181→      const v0 = rng.pick([0, 3, 5, 6, 8]);
+   182→   182→   182→      const a = rng.pick([-3, -2, 2, 2.5, 3]);
+   183→   183→   183→      const t = rng.pick([4, 5, 6, 8, 10]);
+   184→   184→   184→      const x = Math.round((v0 * t + 0.5 * a * t * t) * 10) / 10;
+   185→   185→   185→      return {
+   186→   186→   186→        skill: L("Desplazamiento con aceleración constante", "Displacement under constant acceleration"),
+   187→   187→   187→        statement: L(
+   188→   188→   188→          `Un móvil lleva $v_0 = {{${v0}}}\\ \\text{m/s}$ y acelera con $a = {{${a}}}\\ \\text{m/s}^2$ (si es negativa, frena). ¿Qué desplazamiento recorre en $${t}\\ \\text{s}$?`,
+   189→   189→   189→          `An object moves with $v_0 = {{${v0}}}\\ \\text{m/s}$ and accelerates at $a = {{${a}}}\\ \\text{m/s}^2$ (negative means it brakes). What displacement does it cover in $${t}\\ \\text{s}$?`,
+   190→   190→   190→        ),
+   191→   191→   191→        answer: {
+   192→   192→   192→          kind: "numeric-unit",
+   193→   193→   193→          value: x,
+   194→   194→   194→          tolerance: { mode: "sigfig", value: 2 },
+   195→   195→   195→          units: ["m"],
+   196→   196→   196→          unitChoices: ["m", "km", "m/s", "s"],
+   197→   197→   197→        },
+   198→   198→   198→        hints: [
+   199→   199→   199→          L(
+   200→   200→   200→            "Datos: $v_0$, $a$, $t$. Incógnita: $\\Delta x$.",
+   201→   201→   201→            "Data: $v_0$, $a$, $t$. Unknown: $\\Delta x$.",
+   202→   202→   202→          ),
+   203→   203→   203→          L(
+   204→   204→   204→            "La ecuación que no necesita $v$ es $\\Delta x = v_0 t + \\frac{1}{2}at^2$.",
+   205→   205→   205→            "The equation that avoids $v$ is $\\Delta x = v_0 t + \\frac{1}{2}at^2$.",
+   206→   206→   206→          ),
+   207→   207→   207→          L(
+   208→   208→   208→            `Calcula por separado $v_0 t$ y $\\frac{1}{2}at^2 = {{${Math.round(0.5 * a * t * t * 10) / 10}}}$.`,
+   209→   209→   209→            `Compute $v_0 t$ and $\\frac{1}{2}at^2 = {{${Math.round(0.5 * a * t * t * 10) / 10}}}$ separately.`,
+   210→   210→   210→          ),
+   211→   211→   211→        ],
+   212→   212→   212→        answerDisplay: L(`$\\Delta x = {{${x}}}\\ \\text{m}$`, `$\\Delta x = {{${x}}}\\ \\text{m}$`),
+   213→   213→   213→        solution: [
+   214→   214→   214→          step(
+   215→   215→   215→            "given",
+   216→   216→   216→            `$v_0 = {{${v0}}}\\ \\text{m/s}$, $a = {{${a}}}\\ \\text{m/s}^2$, $t = ${t}\\ \\text{s}$`,
+   217→   217→   217→            `$v_0 = {{${v0}}}\\ \\text{m/s}$, $a = {{${a}}}\\ \\text{m/s}^2$, $t = ${t}\\ \\text{s}$`,
+   218→   218→   218→          ),
+   219→   219→   219→          step(
+   220→   220→   220→            "approach",
+   221→   221→   221→            "Usamos $\\Delta x = v_0 t + \\tfrac{1}{2}at^2$ porque no interviene $v$.",
+   222→   222→   222→            "Use $\\Delta x = v_0 t + \\tfrac{1}{2}at^2$ since $v$ is not involved.",
+   223→   223→   223→          ),
+   224→   224→   224→          step(
+   225→   225→   225→            "calculation",
+   226→   226→   226→            `$\\Delta x = {{${v0}}} \\cdot ${t} + \\tfrac{1}{2} \\cdot ({{${a}}}) \\cdot ${t}^2$<br>$= {{${Math.round(v0 * t * 10) / 10}}} ${a < 0 ? "-" : "+"} {{${Math.abs(Math.round(0.5 * a * t * t * 10) / 10)}}} = {{${x}}}\\ \\text{m}$`,
+   227→   227→   227→            `$\\Delta x = {{${v0}}} \\cdot ${t} + \\tfrac{1}{2} \\cdot ({{${a}}}) \\cdot ${t}^2$<br>$= {{${Math.round(v0 * t * 10) / 10}}} ${a < 0 ? "-" : "+"} {{${Math.abs(Math.round(0.5 * a * t * t * 10) / 10)}}} = {{${x}}}\\ \\text{m}$`,
+   228→   228→   228→          ),
+   229→   229→   229→          step(
+   230→   230→   230→            "result",
+   231→   231→   231→            `El desplazamiento es $${tok(x)}\\ \\text{m}$.`,
+   232→   232→   232→            `The displacement is $${tok(x)}\\ \\text{m}$.`,
+   233→   233→   233→          ),
+   234→   234→   234→        ],
+   235→   235→   235→      };
+   236→   236→   236→    },
+   237→   237→   237→  ),
+   238→   238→   238→
+   239→   239→   239→  /* ---------------------------------------------------------------- */
+   240→   240→   240→  /* Free fall                                                        */
+   241→   241→   241→  /* ---------------------------------------------------------------- */
+   242→   242→   242→  template(
+   243→   243→   243→    {
+   244→   244→   244→      id: "kin-fall-01",
+   245→   245→   245→      subject: "physics",
+   246→   246→   246→      topicId: "kinematics",
+   247→   247→   247→      subtopicId: "free-fall",
+   248→   248→   248→      difficulty: "medium",
+   249→   249→   249→      questionType: "numeric-unit",
+   250→   250→   250→      estimatedTimeSec: 150,
+   251→   251→   251→      tags: ["free-fall", "gravity"],
+   252→   252→   252→      prerequisites: ["constant-acceleration"],
+   253→   253→   253→    },
+   254→   254→   254→    (rng) => {
+   255→   255→   255→      const h = rng.pick([20, 25, 30, 35, 40, 45, 50, 60, 80]);
+   256→   256→   256→      const v = Math.round(Math.sqrt(2 * 9.8 * h) * 10) / 10;
+   257→   257→   257→      return {
+   258→   258→   258→        skill: L("Caída libre: velocidad de impacto", "Free fall: impact velocity"),
+   259→   259→   259→        statement: L(
+   260→   260→   260→          `Se deja caer una piedra desde $${h}\\ \\text{m}$ de altura (sin velocidad inicial). ¿Con qué velocidad llega al suelo? Usa $g = 9{,}8\\ \\text{m/s}^2$ y desprecia el aire.`,
+   261→   261→   261→          `A stone is dropped from a height of $${h}\\ \\text{m}$ (no initial velocity). With what velocity does it hit the ground? Use $g = 9.8\\ \\text{m/s}^2$ and neglect air resistance.`,
+   262→   262→   262→        ),
+   263→   263→   263→        answer: {
+   264→   264→   264→          kind: "numeric-unit",
+   265→   265→   265→          value: v,
+   266→   266→   266→          tolerance: { mode: "sigfig", value: 2 },
+   267→   267→   267→          units: ["m/s"],
+   268→   268→   268→          unitChoices: ["m/s", "m", "m/s^2", "s"],
+   269→   269→   269→        },
+   270→   270→   270→        hints: [
+   271→   271→   271→          L(
+   272→   272→   272→            "Caída libre: aceleración constante $g$ hacia abajo, $v_0 = 0$.",
+   273→   273→   273→            "Free fall: constant downward acceleration $g$, with $v_0 = 0$.",
+   274→   274→   274→          ),
+   275→   275→   275→          L(
+   276→   276→   276→            "La ecuación que conecta velocidad y altura sin el tiempo es $v^2 = v_0^2 + 2g\\Delta y$.",
+   277→   277→   277→            "The equation linking velocity and height without time is $v^2 = v_0^2 + 2g\\Delta y$.",
+   278→   278→   278→          ),
+   279→   279→   279→          L(
+   280→   280→   280→            `Calcula $v^2 = 2 \\cdot 9{,}8 \\cdot ${h}$ y después la raíz.`,
+   281→   281→   281→            `Compute $v^2 = 2 \\cdot 9.8 \\cdot ${h}$ and then take the root.`,
+   282→   282→   282→          ),
+   283→   283→   283→        ],
+   284→   284→   284→        answerDisplay: L(`$v \\approx {{${v}}}\\ \\text{m/s}$`, `$v \\approx {{${v}}}\\ \\text{m/s}$`),
+   285→   285→   285→        solution: [
+   286→   286→   286→          step(
+   287→   287→   287→            "given",
+   288→   288→   288→            `$v_0 = 0$, $\\Delta y = ${h}\\ \\text{m}$, $g = 9{,}8\\ \\text{m/s}^2$`,
+   289→   289→   289→            `$v_0 = 0$, $\\Delta y = ${h}\\ \\text{m}$, $g = 9.8\\ \\text{m/s}^2$`,
+   290→   290→   290→          ),
+   291→   291→   291→          step(
+   292→   292→   292→            "approach",
+   293→   293→   293→            "Sin tiempo en los datos: usamos $v^2 = v_0^2 + 2g\\Delta y$.",
+   294→   294→   294→            "No time given: use $v^2 = v_0^2 + 2g\\Delta y$.",
+   295→   295→   295→          ),
+   296→   296→   296→          step(
+   297→   297→   297→            "calculation",
+   298→   298→   298→            `$v^2 = 0 + 2 \\cdot 9{,}8 \\cdot ${h} = ${Math.round(2 * 9.8 * h * 10) / 10}$<br>$v = \\sqrt{${Math.round(2 * 9.8 * h * 10) / 10}} \\approx {{${v}}}\\ \\text{m/s}$`,
+   299→   299→   299→            `$v^2 = 0 + 2 \\cdot 9.8 \\cdot ${h} = ${Math.round(2 * 9.8 * h * 10) / 10}$<br>$v = \\sqrt{${Math.round(2 * 9.8 * h * 10) / 10}} \\approx {{${v}}}\\ \\text{m/s}$`,
+   300→   300→   300→          ),
+   301→   301→   301→          step(
+   302→   302→   302→            "result",
+   303→   303→   303→            `Llega al suelo con $\\approx {{${v}}}\\ \\text{m/s}$ (hacia abajo).`,
+   304→   304→   304→            `It reaches the ground at $\\approx {{${v}}}\\ \\text{m/s}$ (downward).`,
+   305→   305→   305→          ),
+   306→   306→   306→        ],
+   307→   307→   307→      };
+   308→   308→   308→    },
+   309→   309→   309→  ),
+   310→   310→   310→
+   311→   311→   311→  template(
+   312→   312→   312→    {
+   313→   313→   313→      id: "kin-fall-02",
+   314→   314→   314→      subject: "physics",
+   315→   315→   315→      topicId: "kinematics",
+   316→   316→   316→      subtopicId: "free-fall",
+   317→   317→   317→      difficulty: "medium",
+   318→   318→   318→      questionType: "numeric-unit",
+   319→   319→   319→      estimatedTimeSec: 150,
+   320→   320→   320→      tags: ["free-fall", "gravity"],
+   321→   321→   321→      prerequisites: ["free-fall"],
+   322→   322→   322→    },
+   323→   323→   323→    (rng) => {
+   324→   324→   324→      const t = rng.pick([2, 2.5, 3, 3.5, 4]);
+   325→   325→   325→      const h = Math.round(0.5 * 9.8 * t * t * 10) / 10;
+   326→   326→   326→      return {
+   327→   327→   327→        skill: L("Caída libre: altura desde el tiempo", "Free fall: height from time"),
+   328→   328→   328→        statement: L(
+   329→   329→   329→          `Un objeto en caída libre tarda $${tok(t)}\\ \\text{s}$ en llegar al suelo. ¿Desde qué altura cayó? ($g = 9{,}8\\ \\text{m/s}^2$)`,
+   330→   330→   330→          `An object in free fall takes $${tok(t)}\\ \\text{s}$ to reach the ground. From what height did it fall? ($g = 9.8\\ \\text{m/s}^2$)`,
+   331→   331→   331→        ),
+   332→   332→   332→        answer: {
+   333→   333→   333→          kind: "numeric-unit",
+   334→   334→   334→          value: h,
+   335→   335→   335→          tolerance: { mode: "sigfig", value: 2 },
+   336→   336→   336→          units: ["m"],
+   337→   337→   337→          unitChoices: ["m", "km", "cm", "s"],
+   338→   338→   338→        },
+   339→   339→   339→        hints: [
+   340→   340→   340→          L(
+   341→   341→   341→            "Tienes el tiempo y la aceleración; piden el desplazamiento.",
+   342→   342→   342→            "You have the time and the acceleration; you need the displacement.",
+   343→   343→   343→          ),
+   344→   344→   344→          L(
+   345→   345→   345→            "Parte del reposo: $v_0 = 0$.",
+   346→   346→   346→            "It starts from rest: $v_0 = 0$.",
+   347→   347→   347→          ),
+   348→   348→   348→          L(
+   349→   349→   349→            "Usa $\\Delta y = \\frac{1}{2}gt^2$.",
+   350→   350→   350→            "Use $\\Delta y = \\frac{1}{2}gt^2$.",
+   351→   351→   351→          ),
+   352→   352→   352→        ],
+   353→   353→   353→        answerDisplay: L(`$h \\approx {{${h}}}\\ \\text{m}$`, `$h \\approx {{${h}}}\\ \\text{m}$`),
+   354→   354→   354→        solution: [
+   355→   355→   355→          step(
+   356→   356→   356→            "given",
+   357→   357→   357→            `$t = {{${t}}}\\ \\text{s}$, $v_0 = 0$, $g = 9{,}8\\ \\text{m/s}^2$`,
+   358→   358→   358→            `$t = {{${t}}}\\ \\text{s}$, $v_0 = 0$, $g = 9.8\\ \\text{m/s}^2$`,
+   359→   359→   359→          ),
+   360→   360→   360→          step(
+   361→   361→   361→            "approach",
+   362→   362→   362→            "Con $v_0 = 0$: $h = \\tfrac{1}{2}gt^2$.",
+   363→   363→   363→            "With $v_0 = 0$: $h = \\tfrac{1}{2}gt^2$.",
+   364→   364→   364→          ),
+   365→   365→   365→          step(
+   366→   366→   366→            "calculation",
+   367→   367→   367→            `$h = \\tfrac{1}{2} \\cdot 9{,}8 \\cdot ({{${t}}})^2 = {{${Math.round(0.5 * 9.8 * t * t * 10) / 10}}} \\approx {{${h}}}\\ \\text{m}$`,
+   368→   368→   368→            `$h = \\tfrac{1}{2} \\cdot 9.8 \\cdot ({{${t}}})^2 = {{${Math.round(0.5 * 9.8 * t * t * 10) / 10}}} \\approx {{${h}}}\\ \\text{m}$`,
+   369→   369→   369→          ),
+   370→   370→   370→          step("result", `Cayó desde $\\approx {{${h}}}\\ \\text{m}$.`, `It fell from $\\approx {{${h}}}\\ \\text{m}$.`),
+   371→   371→   371→        ],
+   372→   372→   372→      };
+   373→   373→   373→    },
+   374→   374→   374→  ),
+   375→   375→   375→
+   376→   376→   376→  /* ---------------------------------------------------------------- */
+   377→   377→   377→  /* Motion graph interpretation (diagram + MC)                       */
+   378→   378→   378→  /* ---------------------------------------------------------------- */
+   379→   379→   379→  template(
+   380→   380→   380→    {
+   381→   381→   381→      id: "kin-graph-01",
+   382→   382→   382→      subject: "physics",
+   383→   383→   383→      topicId: "kinematics",
+   384→   384→   384→      subtopicId: "motion-graphs",
+   385→   385→   385→      difficulty: "medium",
+   386→   386→   386→      questionType: "multiple-choice",
+   387→   387→   387→      estimatedTimeSec: 120,
+   388→   388→   388→      tags: ["motion-graphs", "velocity-time"],
+   389→   389→   389→      prerequisites: ["constant-acceleration"],
+   390→   390→   390→    },
+   391→   391→   391→    (rng) => {
+   392→   392→   392→      const v0 = rng.pick([0, 2, 4]);
+   393→   393→   393→      const slope = rng.pick([1, 1.5, 2, -1.5, -2]);
+   394→   394→   394→      const tEnd = 6;
+   395→   395→   395→      const vEnd = v0 + slope * tEnd;
+   396→   396→   396→      const a = slope;
+   397→   397→   397→      const options: McOption[] = [
+   398→   398→   398→        { id: "a", text: L(`$\\text{m/s}^2$ con valor $${tok(a)}$`, `$\\text{m/s}^2$ with value $${tok(a)}$`), correct: true },
+   399→   399→   399→        { id: "b", text: L(`$\\text{m/s}^2$ con valor $${tok(Math.round(vEnd * 10) / 10)}$`, `$\\text{m/s}^2$ with value $${tok(Math.round(vEnd * 10) / 10)}$`), correct: false },
+   400→   400→   400→        { id: "c", text: L(`$\\text{m/s}$ con valor $${tok(a)}$`, `$\\text{m/s}$ with value $${tok(a)}$`), correct: false },
+   401→   401→   401→        { id: "d", text: L("$\\text{m/s}^2$ con valor 0 (velocidad constante)", "$\\text{m/s}^2$ with value 0 (constant velocity)"), correct: false },
+   402→   402→   402→      ];
+   403→   403→   403→      return {
+   404→   404→   404→        skill: L("Pendiente de una gráfica v–t", "Slope of a v–t graph"),
+   405→   405→   405→        statement: L(
+   406→   406→   406→          "La gráfica muestra la velocidad de un móvil en función del tiempo. ¿Qué representa la **pendiente** de esta gráfica y cuánto vale?",
+   407→   407→   407→          "The graph shows an object's velocity as a function of time. What does the **slope** of this graph represent and what is its value?",
+   408→   408→   408→        ),
+   409→   409→   409→        diagram: {
+   410→   410→   410→          kind: "function-graph",
+   411→   411→   411→          xMin: 0,
+   412→   412→   412→          xMax: 8,
+   413→   413→   413→          yMin: slope > 0 ? 0 : Math.min(0, vEnd) - 1,
+   414→   414→   414→          yMax: Math.max(v0, vEnd) + 2,
+   415→   415→   415→          curves: [{ fn: `${v0} + ${slope}*x`, color: "primary" }],
+   416→   416→   416→          points: [
+   417→   417→   417→            { x: 0, y: v0, label: `(0, ${v0})` },
+   418→   418→   418→            { x: tEnd, y: vEnd, label: `(${tEnd}, ${Math.round(vEnd * 10) / 10})` },
+   419→   419→   419→          ],
+   420→   420→   420→          xLabel: "t (s)",
+   421→   421→   421→          yLabel: "v (m/s)",
+   422→   422→   422→          showGrid: true,
+   423→   423→   423→        },
+   424→   424→   424→        diagramLabel: L(
+   425→   425→   425→          `Gráfica velocidad-tiempo: línea recta desde (${0}, ${v0}) hasta (${tEnd}, ${vEnd}).`,
+   426→   426→   426→          `Velocity-time graph: a straight line from (${0}, ${v0}) to (${tEnd}, ${vEnd}).`,
+   427→   427→   427→        ),
+   428→   428→   428→        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+   429→   429→   429→        hints: [
+   430→   430→   430→          L(
+   431→   431→   431→            "En una gráfica $v$–$t$, la pendiente tiene unidades de $\\text{m/s}$ dividido entre $\\text{s}$.",
+   432→   432→   432→            "In a $v$–$t$ graph the slope has units of $\\text{m/s}$ per $\\text{s}$.",
+   433→   433→   433→          ),
+   434→   434→   434→          L(
+   435→   435→   435→            "La pendiente de una gráfica $v$–$t$ es la aceleración.",
+   436→   436→   436→            "The slope of a $v$–$t$ graph is the acceleration.",
+   437→   437→   437→          ),
+   438→   438→   438→          L(
+   439→   439→   439→            `$a = \\frac{\\Delta v}{\\Delta t} = \\frac{${Math.round(vEnd * 10) / 10} - ${v0}}{${tEnd} - 0}$.`,
+   440→   440→   440→            `$a = \\frac{\\Delta v}{\\Delta t} = \\frac{${Math.round(vEnd * 10) / 10} - ${v0}}{${tEnd} - 0}$.`,
+   441→   441→   441→          ),
+   442→   442→   442→        ],
+   443→   443→   443→        answerDisplay: L(
+   444→   444→   444→          `Es la aceleración: $a = {{${a}}}\\ \\text{m/s}^2$`,
+   445→   445→   445→          `It is the acceleration: $a = {{${a}}}\\ \\text{m/s}^2$`,
+   446→   446→   446→        ),
+   447→   447→   447→        solution: [
+   448→   448→   448→          step(
+   449→   449→   449→            "given",
+   450→   450→   450→            `Recta desde $(0, ${v0})$ hasta $(${tEnd}, ${Math.round(vEnd * 10) / 10})$ en la gráfica $v$–$t$.`,
+   451→   451→   451→            `A straight line from $(0, ${v0})$ to $(${tEnd}, ${Math.round(vEnd * 10) / 10})$ on the $v$–$t$ graph.`,
+   452→   452→   452→          ),
+   453→   453→   453→          step(
+   454→   454→   454→            "approach",
+   455→   455→   455→            "En $v(t)$, la pendiente es $a = \\Delta v / \\Delta t$.",
+   456→   456→   456→            "On a $v(t)$ graph, the slope is $a = \\Delta v / \\Delta t$.",
+   457→   457→   457→          ),
+   458→   458→   458→          step(
+   459→   459→   459→            "calculation",
+   460→   460→   460→            `$a = \\frac{${Math.round(vEnd * 10) / 10} - ${v0}}{${tEnd} - 0} = \\frac{${Math.round((vEnd - v0) * 10) / 10}}{${tEnd}} = {{${a}}}\\ \\text{m/s}^2$`,
+   461→   461→   461→            `$a = \\frac{${Math.round(vEnd * 10) / 10} - ${v0}}{${tEnd} - 0} = \\frac{${Math.round((vEnd - v0) * 10) / 10}}{${tEnd}} = {{${a}}}\\ \\text{m/s}^2$`,
+   462→   462→   462→          ),
+   463→   463→   463→          step(
+   464→   464→   464→            "result",
+   465→   465→   465→            `La pendiente es la aceleración, $a = {{${a}}}\\ \\text{m/s}^2$.`,
+   466→   466→   466→            `The slope is the acceleration, $a = {{${a}}}\\ \\text{m/s}^2$.`,
+   467→   467→   467→          ),
+   468→   468→   468→        ],
+   469→   469→   469→      };
+   470→   470→   470→    },
+   471→   471→   471→  ),
+   472→   472→   472→
+   473→   473→   473→  template(
+   474→   474→   474→    {
+   475→   475→   475→      id: "kin-graph-02",
+   476→   476→   476→      subject: "physics",
+   477→   477→   477→      topicId: "kinematics",
+   478→   478→   478→      subtopicId: "motion-graphs",
+   479→   479→   479→      difficulty: "hard",
+   480→   480→   480→      questionType: "multiple-choice",
+   481→   481→   481→      estimatedTimeSec: 150,
+   482→   482→   482→      tags: ["motion-graphs", "position-time"],
+   483→   483→   483→      prerequisites: ["motion-graphs"],
+   484→   484→   484→    },
+   485→   485→   485→    (rng) => {
+   486→   486→   486→      // x(t) = v t  (constant velocity, v chosen ≠ 0)
+   487→   487→   487→      const v = rng.nonZeroInt(2, 6) * (rng.bool() ? 1 : -1);
+   488→   488→   488→      const options: McOption[] = [
+   489→   489→   489→        { id: "a", text: L("Móvil detenido", "Object at rest"), correct: false },
+   490→   490→   490→        { id: "b", text: L(`Movimiento uniforme con $v = ${v}\\ \\text{m/s}$`, `Uniform motion with $v = ${v}\\ \\text{m/s}$`), correct: true },
+   491→   491→   491→        { id: "c", text: L("Acelera uniformemente", "Uniformly accelerating"), correct: false },
+   492→   492→   492→        { id: "d", text: L(`Movimiento uniforme con $v = ${-v}\\ \\text{m/s}$`, `Uniform motion with $v = ${-v}\\ \\text{m/s}$`), correct: false },
+   493→   493→   493→      ];
+   494→   494→   494→      return {
+   495→   495→   495→        skill: L("Interpretar una gráfica x–t", "Interpreting an x–t graph"),
+   496→   496→   496→        statement: L(
+   497→   497→   497→          "La gráfica muestra la posición $x(t)$ de un móvil. ¿Qué describe el movimiento?",
+   498→   498→   498→          "The graph shows the position $x(t)$ of an object. What does it describe?",
+   499→   499→   499→        ),
+   500→   500→   500→        diagram: {
+   501→   501→   501→          kind: "function-graph",
+   502→   502→   502→          xMin: 0,
+   503→   503→   503→          xMax: 8,
+   504→   504→   504→          yMin: Math.min(0, v * 8) - 2,
+   505→   505→   505→          yMax: Math.max(0, v * 8) + 2,
+   506→   506→   506→          curves: [{ fn: `${v}*x`, color: "primary" }],
+   507→   507→   507→          points: [
+   508→   508→   508→            { x: 2, y: v * 2, label: `(2, ${v * 2})` },
+   509→   509→   509→            { x: 5, y: v * 5, label: `(5, ${v * 5})` },
+   510→   510→   510→          ],
+   511→   511→   511→          xLabel: "t (s)",
+   512→   512→   512→          yLabel: "x (m)",
+   513→   513→   513→          showGrid: true,
+   514→   514→   514→        },
+   515→   515→   515→        diagramLabel: L(
+   516→   516→   516→          `Gráfica posición-tiempo: recta que pasa por (2, ${v * 2}) y (5, ${v * 5}).`,
+   517→   517→   517→          `Position-time graph: a straight line through (2, ${v * 2}) and (5, ${v * 5}).`,
+   518→   518→   518→        ),
+   519→   519→   519→        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+   520→   520→   520→        hints: [
+   521→   521→   521→          L(
+   522→   522→   522→            "Observa la forma de la curva: ¿es una recta o una parábola?",
+   523→   523→   523→            "Look at the shape: is it a straight line or a parabola?",
+   524→   524→   524→          ),
+   525→   525→   525→          L(
+   526→   526→   526→            "Una recta en $x$–$t$ significa velocidad constante.",
+   527→   527→   527→            "A straight line on $x$–$t$ means constant velocity.",
+   528→   528→   528→          ),
+   529→   529→   529→          L(
+   530→   530→   530→            `La pendiente es $\\frac{${v * 5} - ${v * 2}}{5 - 2}$; su signo indica el sentido.`,
+   531→   531→   531→            `The slope is $\\frac{${v * 5} - ${v * 2}}{5 - 2}$; its sign gives the direction.`,
+   532→   532→   532→          ),
+   533→   533→   533→        ],
+   534→   534→   534→        answerDisplay: L(
+   535→   535→   535→          `Movimiento uniforme con $v = ${v}\\ \\text{m/s}$`,
+   536→   536→   536→          `Uniform motion with $v = ${v}\\ \\text{m/s}$`,
+   537→   537→   537→        ),
+   538→   538→   538→        solution: [
+   539→   539→   539→          step(
+   540→   540→   540→            "given",
+   541→   541→   541→            `Recta en la gráfica $x$–$t$ que pasa por $(2, ${v * 2})$ y $(5, ${v * 5})$.`,
+   542→   542→   542→            `A straight line on the $x$–$t$ graph through $(2, ${v * 2})$ and $(5, ${v * 5})$.`,
+   543→   543→   543→          ),
+   544→   544→   544→          step(
+   545→   545→   545→            "approach",
+   546→   546→   546→            "En $x(t)$: recta → velocidad constante; parábola → aceleración constante.",
+   547→   547→   547→            "On $x(t)$: a line → constant velocity; a parabola → constant acceleration.",
+   548→   548→   548→          ),
+   549→   549→   549→          step(
+   550→   550→   550→            "calculation",
+   551→   551→   551→            `$v = \\frac{\\Delta x}{\\Delta t} = \\frac{${v * 5} - ${v * 2}}{5 - 2} = \\frac{${v * 3}}{3} = ${v}\\ \\text{m/s}$`,
+   552→   552→   552→            `$v = \\frac{\\Delta x}{\\Delta t} = \\frac{${v * 5} - ${v * 2}}{5 - 2} = \\frac{${v * 3}}{3} = ${v}\\ \\text{m/s}$`,
+   553→   553→   553→          ),
+   554→   554→   554→          step(
+   555→   555→   555→            "result",
+   556→   556→   556→            `Es un movimiento rectilíneo uniforme con $v = ${v}\\ \\text{m/s}$.`,
+   557→   557→   557→            `It is uniform linear motion with $v = ${v}\\ \\text{m/s}$.`,
+   558→   558→   558→          ),
+   559→   559→   559→        ],
+   560→   560→   560→      };
+   561→   561→   561→    },
+   562→   562→   562→  ),
+   563→   563→   563→
+   564→   564→   564→  /* ---------------------------------------------------------------- */
+   565→   565→   565→  /* Projectile motion (diagram exemplar)                             */
+   566→   566→   566→  /* ---------------------------------------------------------------- */
+   567→   567→   567→  template(
+   568→   568→   568→    {
+   569→   569→   569→      id: "kin-proj-01",
+   570→   570→   570→      subject: "physics",
+   571→   571→   571→      topicId: "kinematics",
+   572→   572→   572→      subtopicId: "projectile-motion",
+   573→   573→   573→      difficulty: "hard",
+   574→   574→   574→      questionType: "numeric-unit",
+   575→   575→   575→      estimatedTimeSec: 240,
+   576→   576→   576→      tags: ["projectile", "2d-motion"],
+   577→   577→   577→      prerequisites: ["constant-acceleration", "free-fall"],
+   578→   578→   578→    },
+   579→   579→   579→    (rng) => {
+   580→   580→   580→      const v0 = rng.pick([15, 18, 20, 22, 25]);
+   581→   581→   581→      const angle = rng.pick([30, 37, 40, 45, 50, 53, 60]);
+   582→   582→   582→      const rad = (angle * Math.PI) / 180;
+   583→   583→   583→      const range = (v0 * v0 * Math.sin(2 * rad)) / 9.8;
+   584→   584→   584→      const rRounded = Math.round(range * 10) / 10;
+   585→   585→   585→      return {
+   586→   586→   586→        skill: L("Alcance de un proyectil", "Range of a projectile"),
+   587→   587→   587→        statement: L(
+   588→   588→   588→          `Se lanza un proyectil con $v_0 = ${v0}\\ \\text{m/s}$ formando $${angle}^\\circ$ con la horizontal, desde el suelo. ¿Qué alcance horizontal alcanza? ($g = 9{,}8\\ \\text{m/s}^2$, desprecia el aire)`,
+   589→   589→   589→          `A projectile is launched at $v_0 = ${v0}\\ \\text{m/s}$ at $${angle}^\\circ$ above the horizontal, from ground level. What horizontal range does it achieve? ($g = 9.8\\ \\text{m/s}^2$, neglect air resistance)`,
+   590→   590→   590→        ),
+   591→   591→   591→        diagram: {
+   592→   592→   592→          kind: "projectile",
+   593→   593→   593→          v0,
+   594→   594→   594→          angleDeg: angle,
+   595→   595→   595→          h0: 0,
+   596→   596→   596→          g: 9.8,
+   597→   597→   597→          showAnnotations: true,
+   598→   598→   598→        },
+   599→   599→   599→        diagramLabel: L(
+   600→   600→   600→          `Trayectoria parabólica de un proyectil lanzado a ${v0} m/s y ${angle} grados.`,
+   601→   601→   601→          `Parabolic trajectory of a projectile launched at ${v0} m/s and ${angle} degrees.`,
+   602→   602→   602→        ),
+   603→   603→   603→        answer: {
+   604→   604→   604→          kind: "numeric-unit",
+   605→   605→   605→          value: rRounded,
+   606→   606→   606→          tolerance: { mode: "sigfig", value: 2 },
+   607→   607→   607→          units: ["m"],
+   608→   608→   608→          unitChoices: ["m", "km", "m/s", "s"],
+   609→   609→   609→        },
+   610→   610→   610→        hints: [
+   611→   611→   611→          L(
+   612→   612→   612→            "Descompón el movimiento: horizontal (uniforme) y vertical (caída libre).",
+   613→   613→   613→            "Split the motion: horizontal (uniform) and vertical (free fall).",
+   614→   614→   614→          ),
+   615→   615→   615→          L(
+   616→   616→   616→            `El tiempo de vuelo sale del eje vertical: $t_v = \\frac{2 v_0 \\sin\\theta}{g}$.`,
+   617→   617→   617→            `The flight time comes from the vertical axis: $t_v = \\frac{2 v_0 \\sin\\theta}{g}$.`,
+   618→   618→   618→          ),
+   619→   619→   619→          L(
+   620→   620→   620→            `El alcance es $R = v_0 \\cos\\theta \\cdot t_v$, es decir $R = \\frac{v_0^2 \\sin 2\\theta}{g}$.`,
+   621→   621→   621→            `The range is $R = v_0 \\cos\\theta \\cdot t_v$, that is $R = \\frac{v_0^2 \\sin 2\\theta}{g}$.`,
+   622→   622→   622→          ),
+   623→   623→   623→        ],
+   624→   624→   624→        answerDisplay: L(`$R \\approx {{${rRounded}}}\\ \\text{m}$`, `$R \\approx {{${rRounded}}}\\ \\text{m}$`),
+   625→   625→   625→        solution: [
+   626→   626→   626→          step(
+   627→   627→   627→            "given",
+   628→   628→   628→            `$v_0 = ${v0}\\ \\text{m/s}$, $\\theta = ${angle}^\\circ$, $g = 9{,}8\\ \\text{m/s}^2$, $y_0 = 0$`,
+   629→   629→   629→            `$v_0 = ${v0}\\ \\text{m/s}$, $\\theta = ${angle}^\\circ$, $g = 9.8\\ \\text{m/s}^2$, $y_0 = 0$`,
+   630→   630→   630→          ),
+   631→   631→   631→          step(
+   632→   632→   632→            "approach",
+   633→   633→   633→            "Con $y_0 = 0$, el alcance es $R = \\frac{v_0^2 \\sin 2\\theta}{g}$ (tiempo de vuelo × velocidad horizontal).",
+   634→   634→   634→            "With $y_0 = 0$, the range is $R = \\frac{v_0^2 \\sin 2\\theta}{g}$ (flight time × horizontal velocity).",
+   635→   635→   635→          ),
+   636→   636→   636→          step(
+   637→   637→   637→            "calculation",
+   638→   638→   638→            `$R = \\frac{${v0}^2 \\cdot \\sin(${2 * angle}^\\circ)}{9{,}8} = \\frac{${v0 * v0} \\cdot {{${Math.round(Math.sin((2 * angle * Math.PI) / 180) * 1000) / 1000}}}}{9{,}8} \\approx {{${Math.round(range * 10) / 10}}}\\ \\text{m}$`,
+   639→   639→   639→            `$R = \\frac{${v0}^2 \\cdot \\sin(${2 * angle}^\\circ)}{9.8} = \\frac{${v0 * v0} \\cdot {{${Math.round(Math.sin((2 * angle * Math.PI) / 180) * 1000) / 1000}}}}{9.8} \\approx {{${Math.round(range * 10) / 10}}}\\ \\text{m}$`,
+   640→   640→   640→          ),
+   641→   641→   641→          step(
+   642→   642→   642→            "result",
+   643→   643→   643→            `El alcance horizontal es $\\approx {{${rRounded}}}\\ \\text{m}$.`,
+   644→   644→   644→            `The horizontal range is $\\approx {{${rRounded}}}\\ \\text{m}$.`,
+   645→   645→   645→          ),
+   646→   646→   646→        ],
+   647→   647→   647→      };
+   648→   648→   648→    },
+   649→   649→   649→  ),
+   650→   650→   650→
+   651→   651→   651→  /* ---------------------------------------------------------------- */
+   652→   652→   652→  /* Challenge: two-phase motion                                      */
+   653→   653→   653→  /* ---------------------------------------------------------------- */
+   654→   654→   654→  template(
+   655→   655→   655→    {
+   656→   656→   656→      id: "kin-chal-01",
+   657→   657→   657→      subject: "physics",
+   658→   658→   658→      topicId: "kinematics",
+   659→   659→   659→      subtopicId: "constant-acceleration",
+   660→   660→   660→      difficulty: "challenge",
+   661→   661→   661→      questionType: "numeric-unit",
+   662→   662→   662→      estimatedTimeSec: 300,
+   663→   663→   663→      tags: ["multi-step", "constant-acceleration"],
+   664→   664→   664→      prerequisites: ["constant-acceleration", "velocity"],
+   665→   665→   665→    },
+   666→   666→   666→    (rng) => {
+   667→   667→   667→      const a = rng.pick([1.5, 2, 2.5]);
+   668→   668→   668→      const vMax = rng.pick([15, 18, 20, 24]);
+   669→   669→   669→      const t1 = Math.round((vMax / a) * 10) / 10; // acceleration phase
+   670→   670→   670→      const d1 = (vMax * vMax) / (2 * a);
+   671→   671→   671→      const t2 = rng.pick([10, 15, 20]); // constant phase
+   672→   672→   672→      const dTotal = d1 + vMax * t2;
+   673→   673→   673→      const vAvg = Math.round((dTotal / (t1 + t2)) * 10) / 10;
+   674→   674→   674→      return {
+   675→   675→   675→        skill: L("Movimiento en dos fases", "Two-phase motion"),
+   676→   676→   676→        statement: L(
+   677→   677→   677→          `Un tren parte del reposo y acelera uniformemente hasta alcanzar $${vMax}\\ \\text{m/s}$. Después mantiene esa velocidad durante $${t2}\\ \\text{s}$. Si la aceleración fue $${tok(a)}\\ \\text{m/s}^2$, ¿cuál es la **velocidad media** de todo el viaje?`,
+   678→   678→   678→          `A train starts from rest and accelerates uniformly until it reaches $${vMax}\\ \\text{m/s}$. It then keeps that velocity for $${t2}\\ \\text{s}$. If the acceleration was $${tok(a)}\\ \\text{m/s}^2$, what is the **average velocity** of the whole trip?`,
+   679→   679→   679→        ),
+   680→   680→   680→        answer: {
+   681→   681→   681→          kind: "numeric-unit",
+   682→   682→   682→          value: vAvg,
+   683→   683→   683→          tolerance: { mode: "sigfig", value: 2 },
+   684→   684→   684→          units: ["m/s"],
+   685→   685→   685→          unitChoices: ["m/s", "m", "m/s^2", "s"],
+   686→   686→   686→        },
+   687→   687→   687→        hints: [
+   688→   688→   688→          L(
+   689→   689→   689→            "Divide el viaje en dos fases y calcula por separado distancia y tiempo de cada una.",
+   690→   690→   690→            "Split the trip into two phases and compute distance and time for each.",
+   691→   691→   691→          ),
+   692→   692→   692→          L(
+   693→   693→   693→            `Fase 1: $t_1 = v/a$, $d_1 = \\frac{v^2}{2a}$. Fase 2: $d_2 = v \\cdot ${t2}$.`,
+   694→   694→   694→            `Phase 1: $t_1 = v/a$, $d_1 = \\frac{v^2}{2a}$. Phase 2: $d_2 = v \\cdot ${t2}$.`,
+   695→   695→   695→          ),
+   696→   696→   696→          L(
+   697→   697→   697→            "La velocidad media es el total de distancia entre el total de tiempo.",
+   698→   698→   698→            "The average velocity is total distance over total time.",
+   699→   699→   699→          ),
+   700→   700→   700→        ],
+   701→   701→   701→        answerDisplay: L(
+   702→   702→   702→          `$\\bar{v} \\approx {{${vAvg}}}\\ \\text{m/s}$`,
+   703→   703→   703→          `$\\bar{v} \\approx {{${vAvg}}}\\ \\text{m/s}$`,
+   704→   704→   704→        ),
+   705→   705→   705→        solution: [
+   706→   706→   706→          step(
+   707→   707→   707→            "given",
+   708→   708→   708→            `Fase 1: $v_0 = 0 \\to ${vMax}\\ \\text{m/s}$ con $a = {{${a}}}\\ \\text{m/s}^2$.<br>Fase 2: $v = ${vMax}\\ \\text{m/s}$ durante $${t2}\\ \\text{s}$.`,
+   709→   709→   709→            `Phase 1: $v_0 = 0 \\to ${vMax}\\ \\text{m/s}$ with $a = {{${a}}}\\ \\text{m/s}^2$.<br>Phase 2: $v = ${vMax}\\ \\text{m/s}$ for $${t2}\\ \\text{s}$.`,
+   710→   710→   710→          ),
+   711→   711→   711→          step(
+   712→   712→   712→            "approach",
+   713→   713→   713→            "Calculamos distancia y tiempo de cada fase y aplicamos $\\bar{v} = d_{total}/t_{total}$.",
+   714→   714→   714→            "Compute distance and time per phase, then apply $\\bar{v} = d_{total}/t_{total}$.",
+   715→   715→   715→          ),
+   716→   716→   716→          step(
+   717→   717→   717→            "calculation",
+   718→   718→   718→            `**Fase 1:** $t_1 = \\frac{${vMax}}{{${a}}} = {{${t1}}}\\ \\text{s}$, $d_1 = \\frac{${vMax}^2}{2 \\cdot {{${a}}}} = {{${Math.round(d1 * 10) / 10}}}\\ \\text{m}$<br>**Fase 2:** $d_2 = ${vMax} \\cdot ${t2} = ${vMax * t2}\\ \\text{m}$<br>$\\bar{v} = \\frac{{{${Math.round(d1 * 10) / 10}}} + ${vMax * t2}}{ {{${t1}}} + ${t2} } = \\frac{{{${Math.round(dTotal * 10) / 10}}}}{ {{${Math.round((t1 + t2) * 10) / 10}}} } \\approx {{${vAvg}}}\\ \\text{m/s}$`,
+   719→   719→   719→            `**Phase 1:** $t_1 = \\frac{${vMax}}{{${a}}} = {{${t1}}}\\ \\text{s}$, $d_1 = \\frac{${vMax}^2}{2 \\cdot {{${a}}}} = {{${Math.round(d1 * 10) / 10}}}\\ \\text{m}$<br>**Phase 2:** $d_2 = ${vMax} \\cdot ${t2} = ${vMax * t2}\\ \\text{m}$<br>$\\bar{v} = \\frac{{{${Math.round(d1 * 10) / 10}}} + ${vMax * t2}}{ {{${t1}}} + ${t2} } = \\frac{{{${Math.round(dTotal * 10) / 10}}}}{ {{${Math.round((t1 + t2) * 10) / 10}}} } \\approx {{${vAvg}}}\\ \\text{m/s}$`,
+   720→   720→   720→          ),
+   721→   721→   721→          step(
+   722→   722→   722→            "result",
+   723→   723→   723→            `La velocidad media del viaje es $\\approx {{${vAvg}}}\\ \\text{m/s}$.`,
+   724→   724→   724→            `The average velocity of the trip is $\\approx {{${vAvg}}}\\ \\text{m/s}$.`,
+   725→   725→   725→          ),
+   726→   726→   726→        ],
+   727→   727→   727→      };
+   728→   728→   728→    },
+   729→   729→   729→  ),
+   730→   730→   730→
+   731→   731→   731→  /* ---------------------------------------------------------------- */
+   732→   732→   732→  /* Stopping distance (hard, reverse setup)                          */
+   733→   733→   733→  /* ---------------------------------------------------------------- */
+   734→   734→   734→  template(
+   735→   735→   735→    {
+   736→   736→   736→      id: "kin-stop-01",
+   737→   737→   737→      subject: "physics",
+   738→   738→   738→      topicId: "kinematics",
+   739→   739→   739→      subtopicId: "constant-acceleration",
+
+[showing lines 40-739 of 800; use offset=740 with limit to continue reading]
