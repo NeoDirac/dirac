@@ -111,6 +111,10 @@ const es: Dictionary = {
   "topic.stats.firstTry": "aciertos al primer intento",
   "topic.empty.title": "Aún no hay ejercicios de este nivel",
   "topic.empty.desc": "Prueba con otro nivel o vuelve más adelante: el banco de problemas crece cada semana.",
+  "topic.subtopic.hint": "Toca un apartado para practicar solo ese contenido (o deja todos).",
+  "topic.subtopic.selected": "Práctica centrada en: {name}. Toca otra vez para quitar el filtro.",
+  "topic.subtopic.practice": "Practicar solo este apartado",
+  "topic.subtopic.clear": "Quitar el filtro de apartado",
 
   // practice session
   "practice.backToTopic": "Volver al tema",
@@ -132,6 +136,10 @@ const es: Dictionary = {
   "input.mc.hint": "Puedes elegir con las teclas 1–{n}.",
   "practice.score.correct": "correctos",
   "practice.score.incorrect": "fallados",
+  "practice.shortcuts": "Atajos de teclado",
+  "practice.shortcuts.hint": "siguiente pista",
+  "practice.shortcuts.next": "siguiente problema",
+  "practice.shortcuts.check": "comprobar",
 
   // feedback
   "feedback.correct.first": "¡Correcto! Bien resuelto.",
@@ -222,6 +230,8 @@ const es: Dictionary = {
   "progress.reset.confirmDesc": "Se eliminará el historial guardado en este navegador. Esta acción no se puede deshacer.",
   "progress.reset.done": "Progreso borrado",
   "progress.lastActivity": "Última actividad: {when}",
+  "progress.streak": "Días seguidos practicando",
+  "progress.streak.today": "¡Hoy también! Sigue así.",
 
   // about page
   "about.title": "Acerca de",
@@ -258,6 +268,27 @@ const es: Dictionary = {
   "error.generic": "Algo salió mal. Inténtalo de nuevo.",
   "session.lowStock.title": "Nivel ampliado",
   "session.lowStock.desc": "Este tema tiene pocos problemas del nivel elegido, así que hemos mezclado niveles.",
+  "session.empty.title": "No hay problemas con estos criterios",
+  "session.empty.desc": "Prueba a quitar el filtro de apartado o elige otro nivel de dificultad.",
+
+  // printable worksheet
+  "worksheet.printButton": "Hoja imprimible",
+  "worksheet.print": "Imprimir",
+  "worksheet.newVariants": "Otras variantes",
+  "worksheet.titleMixed": "Práctica mixta",
+  "worksheet.titleChallenge": "Problemas de desafío",
+  "worksheet.problems": "problemas",
+  "worksheet.name": "Nombre",
+  "worksheet.date": "Fecha",
+  "worksheet.instructions":
+    "Resuelve cada problema en el espacio indicado. Escribe el procedimiento, no solo el resultado: el proceso es lo que cuenta. Las respuestas están al final.",
+  "worksheet.answerKey": "Solucionario",
+  "worksheet.footer": "Generado con Aula Vega · Cada hoja usa variantes nuevas de los mismos problemas.",
+  "worksheet.type.numeric": "respuesta numérica",
+  "worksheet.type.numeric-unit": "respuesta numérica con unidad",
+  "worksheet.type.expression": "expresión algebraica",
+  "worksheet.type.multiple-choice": "elección múltiple",
+  "worksheet.type.text": "respuesta corta",
 };
 
 const en: Dictionary = {
@@ -360,6 +391,10 @@ const en: Dictionary = {
   "topic.stats.firstTry": "first-try correct",
   "topic.empty.title": "No exercises at this level yet",
   "topic.empty.desc": "Try another level or check back soon — the problem bank grows every week.",
+  "topic.subtopic.hint": "Tap a section to practice just that content (or leave all).",
+  "topic.subtopic.selected": "Focused practice: {name}. Tap again to clear the filter.",
+  "topic.subtopic.practice": "Practice just this section",
+  "topic.subtopic.clear": "Clear the section filter",
 
   "practice.backToTopic": "Back to topic",
   "practice.questionOf": "Problem {current} of {total}",
@@ -380,6 +415,10 @@ const en: Dictionary = {
   "input.mc.hint": "You can choose with keys 1–{n}.",
   "practice.score.correct": "correct",
   "practice.score.incorrect": "missed",
+  "practice.shortcuts": "Keyboard shortcuts",
+  "practice.shortcuts.hint": "next hint",
+  "practice.shortcuts.next": "next problem",
+  "practice.shortcuts.check": "check",
 
   "feedback.correct.first": "Correct! Nicely solved.",
   "feedback.correct.later": "Correct! Great persistence.",
@@ -463,6 +502,8 @@ const en: Dictionary = {
   "progress.reset.confirmDesc": "This deletes the history saved in this browser. This cannot be undone.",
   "progress.reset.done": "Progress erased",
   "progress.lastActivity": "Last activity: {when}",
+  "progress.streak": "Practice streak (days)",
+  "progress.streak.today": "Today too! Keep it going.",
 
   "about.title": "About",
   "about.subtitle": "A practice platform in service of the lessons.",
@@ -496,6 +537,27 @@ const en: Dictionary = {
   "error.generic": "Something went wrong. Please try again.",
   "session.lowStock.title": "Level widened",
   "session.lowStock.desc": "This topic has few problems at the chosen level, so other levels were mixed in.",
+  "session.empty.title": "No problems match these filters",
+  "session.empty.desc": "Try clearing the section filter or picking another difficulty level.",
+
+  // printable worksheet
+  "worksheet.printButton": "Printable worksheet",
+  "worksheet.print": "Print",
+  "worksheet.newVariants": "New variants",
+  "worksheet.titleMixed": "Mixed practice",
+  "worksheet.titleChallenge": "Challenge problems",
+  "worksheet.problems": "problems",
+  "worksheet.name": "Name",
+  "worksheet.date": "Date",
+  "worksheet.instructions":
+    "Solve each problem in the space provided. Show your working, not just the answer — the process is what counts. Answers are at the end.",
+  "worksheet.answerKey": "Answer key",
+  "worksheet.footer": "Generated with Aula Vega · every sheet uses fresh variants of the same problems.",
+  "worksheet.type.numeric": "numeric answer",
+  "worksheet.type.numeric-unit": "numeric answer with unit",
+  "worksheet.type.expression": "algebraic expression",
+  "worksheet.type.multiple-choice": "multiple choice",
+  "worksheet.type.text": "short answer",
 };
 
 export const dictionaries: Record<"es" | "en", Dictionary> = { es, en };

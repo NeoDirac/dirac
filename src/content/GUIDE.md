@@ -189,6 +189,21 @@ diagram: {
 },
 ```
 
+`circuit-two-loop` — two meshes sharing a middle resistor branch, for
+Kirchhoff practice: `emfLeft` / `emfRight` battery labels, `resistors` as a
+`[R₁, R₂-middle, R₃]` triple, `showCurrents` draws the loop currents
+I₁, I₂ and their sum I₃ down the middle branch.
+
+```ts
+diagram: {
+  kind: "circuit-two-loop",
+  emfLeft: "\u03b5\u2081 = 12 V",
+  emfRight: "\u03b5\u2082 = 10 V",
+  resistors: ["R\u2081 = 3 \u03a9", "R\u2082 = 2 \u03a9", "R\u2083 = 4 \u03a9"],
+  showCurrents: true,
+},
+```
+
 ## Difficulty guide
 
 - **easy** — one concept, direct calculation (≈1 min).

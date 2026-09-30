@@ -238,6 +238,24 @@
   .text-balance {
     text-wrap: balance;
   }
+
+  /* small keyboard-key chip shown on buttons with shortcuts */
+  .kbd-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.35rem;
+    height: 1.35rem;
+    padding: 0 0.3rem;
+    border-radius: 0.375rem;
+    border: 1px solid color-mix(in oklch, currentColor 32%, transparent);
+    background: color-mix(in oklch, currentColor 9%, transparent);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 600;
+    line-height: 1;
+    opacity: 0.82;
+  }
 }
 
 /* KaTeX fine-tuning */
@@ -252,4 +270,68 @@
 }
 .katex-display > .katex {
   white-space: nowrap;
+}
+
+/* ================================================================== */
+/* Print — worksheet mode                                              */
+/* ================================================================== */
+
+@page {
+  margin: 14mm 13mm;
+}
+
+@media print {
+  /* app chrome never reaches the paper */
+  .no-print,
+  header.site-header,
+  footer.site-footer,
+  .nextjs-dev-tools-btn {
+    display: none !important;
+  }
+
+  /* force the light paper palette even when the site is in dark mode */
+  :root,
+  .dark {
+    --background: oklch(1 0 0) !important;
+    --foreground: oklch(0.245 0.012 80) !important;
+    --card: oklch(1 0 0) !important;
+    --card-foreground: oklch(0.245 0.012 80) !important;
+    --border: oklch(0.85 0.01 90) !important;
+    --muted-foreground: oklch(0.42 0.015 80) !important;
+    --diagram-primary: oklch(0.35 0.07 172) !important;
+    --diagram-secondary: oklch(0.42 0.11 45) !important;
+    --diagram-muted: oklch(0.45 0.02 80) !important;
+    --diagram-grid: oklch(0.9 0.008 90) !important;
+    --diagram-axis: oklch(0.25 0.02 80) !important;
+  }
+
+  html,
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  main {
+    flex: none !important;
+  }
+
+  .worksheet-item {
+    break-inside: avoid;
+  }
+
+  .worksheet-key {
+    break-before: page;
+  }
+
+  /* keep links plain black on paper (topic names etc.) */
+  a {
+    color: inherit !important;
+    text-decoration: none !important;
+  }
+
+  .katex,
+  .katex * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
 }

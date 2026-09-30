@@ -24,8 +24,12 @@ export interface DeckResult {
 function filterTemplates(config: SessionConfig, templates: ProblemTemplate[]): ProblemTemplate[] {
   let pool = templates.filter((t) => config.subjects.includes(t.subject));
 
-  if (config.mode === "topic" && config.topicId) {
+  // honor an explicit topic/subtopic restriction in any mode
+  if (config.topicId) {
     pool = pool.filter((t) => t.topicId === config.topicId);
+    if (config.subtopicId) {
+      pool = pool.filter((t) => t.subtopicId === config.subtopicId);
+    }
   }
   if (config.mode === "challenge") {
     pool = pool.filter((t) => t.difficulty === "challenge");

@@ -99,6 +99,20 @@ export function AnswerArea({ problem, disabled, checking, onSubmit }: AnswerArea
     }
   }
 
+  // Ctrl/⌘+Enter checks the answer from anywhere (even outside the form)
+  useEffect(() => {
+    if (disabled || checking) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== "Enter" || !(e.ctrlKey || e.metaKey)) return;
+      if (e.defaultPrevented) return;
+      if (document.querySelector("[role=dialog], [role=menu]")) return;
+      e.preventDefault();
+      submit();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  });
+
   return (
     <form onSubmit={submit} className="space-y-3">
       {problem.questionType === "multiple-choice" ? (
@@ -248,7 +262,7 @@ export function AnswerArea({ problem, disabled, checking, onSubmit }: AnswerArea
         <Button
           type="submit"
           disabled={!canSubmit || checking}
-          className="h-12 flex-1 text-[15px] font-semibold sm:flex-none sm:px-10"
+          className="h-12 flex-1 gap-1.5 text-[15px] font-semibold sm:flex-none sm:px-10"
         >
           {checking ? (
             <>
@@ -258,7 +272,8 @@ export function AnswerArea({ problem, disabled, checking, onSubmit }: AnswerArea
           ) : (
             <>
               {t("practice.check")}
-              <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+              <kbd className="kbd-chip ml-1 hidden sm:inline-flex" aria-hidden="true">⏎</kbd>
+              <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
             </>
           )}
         </Button>

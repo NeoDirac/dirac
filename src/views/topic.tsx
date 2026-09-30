@@ -5,14 +5,14 @@
  * (difficulty, number of questions, mixed & challenge shortcuts).
  */
 
-import { useState } from "react";
-import { ArrowLeft, ArrowRight, Infinity as InfinityIcon, Shuffle, Swords } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ArrowLeft, ArrowRight, Infinity as InfinityIcon, Printer, Shuffle, Swords } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { TopicIcon } from "@/components/site/topic-icon";
 import { useI18n } from "@/lib/i18n/context";
 import { useSubjectTemplates } from "@/lib/use-templates";
-import { href, sessionHref } from "@/lib/router";
+import { href, sessionHref, worksheetHref } from "@/lib/router";
 import { templateStats } from "@/lib/session";
 import { computeStats, loadProgress, topicKey } from "@/lib/progress";
 import { mathCurriculum } from "@/content/curriculum/math";
@@ -40,9 +40,22 @@ export function TopicView({ subject, topicId }: { subject: Subject; topicId: str
   const { templates, loading } = useSubjectTemplates(subject);
   const [difficulty, setDifficulty] = useState<Difficulty | "any">("any");
   const [count, setCount] = useState<number>(10);
+  const [subtopic, setSubtopic] = useState<string | null>(null);
 
   const curriculum = subject === "math" ? mathCurriculum : physicsCurriculum;
   const topic = curriculum.find((tp) => tp.id === topicId);
+
+  // template stats are computed for the active subtopic filter (hooks must run
+  // before the not-found early return, so keep them above it)
+  const topicTemplates = templates.filter((tp) => tp.topicId === topicId);
+  const activeTemplates = subtopic
+    ? topicTemplates.filter((tp) => tp.subtopicId === subtopic)
+    : topicTemplates;
+  const stats = loading ? null : templateStats(activeTemplates);
+  // if the focused subtopic lacks the chosen level, fall back to “any” (derived,
+  // not stored — no cascading renders)
+  const effectiveDifficulty: Difficulty | "any" =
+    stats && difficulty !== "any" && stats.byDifficulty[difficulty] === 0 ? "any" : difficulty;
 
   if (!topic) {
     return (
@@ -58,8 +71,6 @@ export function TopicView({ subject, topicId }: { subject: Subject; topicId: str
   const subjectColor = subject === "math" ? "text-subject-math" : "text-subject-physics";
   const subjectBg = subject === "math" ? "bg-subject-math/10" : "bg-subject-physics/10";
 
-  const topicTemplates = templates.filter((tp) => tp.topicId === topicId);
-  const stats = loading ? null : templateStats(topicTemplates);
   const progress = computeStats(loadProgress());
   const topicProgress = progress.byTopic[topicKey(subject, topicId)];
 
@@ -68,12 +79,25 @@ export function TopicView({ subject, topicId }: { subject: Subject; topicId: str
     subCounts.set(tp.subtopicId, (subCounts.get(tp.subtopicId) ?? 0) + 1);
   }
 
+  const selectedSubtopic = topic.subtopics.find((st) => st.id === subtopic) ?? null;
+
   const startHref = sessionHref({
     mode: "topic",
     subjects: [subject],
     topicId,
-    difficulty,
+    subtopicId: subtopic ?? undefined,
+    difficulty: effectiveDifficulty,
     count,
+    seed: 0,
+  });
+
+  const printHref = worksheetHref({
+    mode: "topic",
+    subjects: [subject],
+    topicId,
+    subtopicId: subtopic ?? undefined,
+    difficulty: effectiveDifficulty,
+    count: Number.isFinite(count) ? count : 10,
     seed: 0,
   });
 
@@ -129,26 +153,53 @@ export function TopicView({ subject, topicId }: { subject: Subject; topicId: str
         </div>
       ) : null}
 
-      {/* subtopics */}
+      {/* subtopics — click one to focus practice on it */}
       <section className="mt-8" aria-labelledby="subtopics-heading">
         <h2 id="subtopics-heading" className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
           {t("topic.subtopics")}
         </h2>
         <ul className="mt-3.5 flex flex-wrap gap-2">
-          {topic.subtopics.map((st) => (
-            <li
-              key={st.id}
-              className="inline-flex items-center gap-2 rounded-full border bg-card px-3.5 py-1.5 text-sm"
-            >
-              {st.name[lang]}
-              {subCounts.get(st.id) ? (
-                <span className="rounded-full bg-secondary px-1.5 text-[11px] font-semibold text-muted-foreground">
-                  {subCounts.get(st.id)}
-                </span>
-              ) : null}
-            </li>
-          ))}
+          {topic.subtopics.map((st) => {
+            const selected = subtopic === st.id;
+            const n = subCounts.get(st.id) ?? 0;
+            return (
+              <li key={st.id}>
+                <button
+                  type="button"
+                  onClick={() => setSubtopic(selected ? null : st.id)}
+                  aria-pressed={selected}
+                  disabled={!loading && n === 0}
+                  title={selected ? t("topic.subtopic.clear") : t("topic.subtopic.practice")}
+                  className={cn(
+                    "inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-sm transition-all",
+                    "hover:border-ring/60 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                    selected
+                      ? "border-primary bg-primary text-primary-foreground shadow-sm"
+                      : "bg-card text-foreground hover:bg-secondary",
+                    n === 0 && !loading && "cursor-not-allowed opacity-50 hover:bg-card",
+                  )}
+                >
+                  {st.name[lang]}
+                  {n ? (
+                    <span
+                      className={cn(
+                        "rounded-full px-1.5 text-[11px] font-semibold",
+                        selected ? "bg-primary-foreground/20 text-primary-foreground" : "bg-secondary text-muted-foreground",
+                      )}
+                    >
+                      {formatNumber(n)}
+                    </span>
+                  ) : null}
+                </button>
+              </li>
+            );
+          })}
         </ul>
+        <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+          {subtopic
+            ? t("topic.subtopic.selected", { name: selectedSubtopic?.name[lang] ?? "" })
+            : t("topic.subtopic.hint")}
+        </p>
         {prereqTopics.length > 0 ? (
           <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
             <span className="font-medium">{t("topic.prerequisites")}:</span>{" "}
@@ -172,20 +223,21 @@ export function TopicView({ subject, topicId }: { subject: Subject; topicId: str
             <div className="mt-2.5 flex flex-wrap gap-2">
               {DIFFICULTIES.map((d) => {
                 const unavailable = Boolean(stats) && d !== "any" && stats !== null && stats.byDifficulty[d] === 0;
+                const pressed = effectiveDifficulty === d;
                 return (
                   <button
                     key={d}
                     type="button"
                     onClick={() => setDifficulty(d)}
-                    aria-pressed={difficulty === d}
+                    aria-pressed={pressed}
                     disabled={unavailable}
                     className={cn(
                       "rounded-full border px-4 py-1.5 text-sm font-medium transition-colors",
-                      difficulty === d
+                      pressed
                         ? "border-primary bg-primary text-primary-foreground"
                         : "bg-card hover:bg-secondary",
                       d !== "any" && DIFF_CHIP[d],
-                      difficulty === d && DIFF_CHIP[d] && "text-primary-foreground",
+                      pressed && DIFF_CHIP[d] && "text-primary-foreground",
                       unavailable && "cursor-not-allowed opacity-40",
                     )}
                   >
@@ -218,12 +270,20 @@ export function TopicView({ subject, topicId }: { subject: Subject; topicId: str
             </div>
           </fieldset>
 
-          <Button asChild size="lg" className="w-full gap-2 text-[15px] font-semibold sm:w-auto sm:px-10">
-            <a href={startHref}>
-              {t("topic.start")}
-              <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </a>
-          </Button>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+            <Button asChild size="lg" className="gap-2 text-[15px] font-semibold sm:px-10">
+              <a href={startHref}>
+                {t("topic.start")}
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </a>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="gap-2 text-[15px] font-medium">
+              <a href={printHref}>
+                <Printer className="h-4 w-4" aria-hidden="true" />
+                {t("worksheet.printButton")}
+              </a>
+            </Button>
+          </div>
         </div>
       </section>
 

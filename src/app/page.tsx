@@ -22,6 +22,9 @@ const SessionView = dynamic(
   () => import("@/components/practice/session-view").then((m) => m.SessionView),
   { loading: () => <PageSkeleton /> },
 );
+const WorksheetView = dynamic(() => import("@/views/worksheet").then((m) => m.WorksheetView), {
+  loading: () => <PageSkeleton />,
+});
 const PracticeConfigView = dynamic(
   () => import("@/views/practice-config").then((m) => m.PracticeConfigView),
   { loading: () => <PageSkeleton /> },
@@ -56,6 +59,8 @@ function CurrentView() {
       return <PracticeConfigView />;
     case "session":
       return <SessionView config={route.config} />;
+    case "worksheet":
+      return <WorksheetView config={route.config} />;
     case "progress":
       return <ProgressView />;
     case "about":

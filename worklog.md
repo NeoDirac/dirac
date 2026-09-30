@@ -282,3 +282,46 @@ Verification:
 Stage Summary:
 - Platform stable + 3 new features shipped and browser-verified; session UX now survives accidental refresh (top gap closed)
 - Next-round ideas: per-subtopic practice filters, print-friendly worksheet mode, keyboard shortcut for Check (Ctrl+Enter), more circuit diagrams (kirchhoff loops), thin-topic content top-ups (topics with <10 templates)
+
+---
+Task ID: 5
+Agent: main (Z.ai Code) — scheduled review round 2
+Task: QA sweep + new features (subtopic filters, keyboard shortcuts, worksheet mode, two-loop circuits, streak) + styling polish
+
+Work Log:
+- Reviewed worklog (platform complete at Task 4); all gates green at start (404 templates/0 errors/0 warnings, tsc 0, lint clean)
+- Browser QA re-run of golden path (quadratics: wrong → hint → correct −5/3 → staged solution → next; negative discriminant −8 accepted; ES mid-session switch; progress dashboard with real data) — all working, 0 page errors
+- NEW FEATURE 1 — Per-subtopic practice filter:
+  - SessionConfig gains optional subtopicId; router parses/serializes `u=` param; buildDeck filters by topic+subtopic
+  - Topic page subtopic chips are now toggle buttons (aria-pressed, selected state, disabled when a subtopic has 0 templates); helper text shows focus; session header shows "Topic · Subtopic"
+  - Difficulty availability recomputes for the focused subtopic, with a derived (non-state) fallback to "any" if the chosen level is unavailable — no cascading renders, lint-clean
+  - filterTemplates now honors an explicit topicId/subtopicId restriction in ANY mode (previously topicId was silently ignored in challenge mode deep links)
+- NEW FEATURE 2 — Keyboard shortcuts:
+  - H = next hint, N = next problem (SessionView global handler; ignored while typing in inputs, with modifiers held, or when a dialog/menu is open)
+  - Ctrl/⌘+Enter = check answer from anywhere (AnswerArea window listener, fresh closure per render)
+  - Discreet kbd-chip legend in the session header (desktop only), kbd chips on Hint and Next buttons, ⏎ chip on the Check button; new .kbd-chip utility in globals.css
+- NEW FEATURE 3 — Printable worksheet mode (#/worksheet?...):
+  - New WorksheetView sharing the session params + deterministic seed (shareable URLs, "New variants" mints a fresh seed); capped at 20 problems, finite count only
+  - Print-optimized sheet: brand + topic/subtopic title, difficulty/count meta, Name/Date lines, instructions, numbered problems (difficulty + type + time meta, KaTeX statements, lettered MC options a)–d), compact diagrams, ruled work space), answer key on its own page (break-before:page)
+  - @media print rules: hides site chrome (.site-header/.site-footer/.no-print classes added), forces light paper palette even in dark mode, break-inside-avoid per problem, @page margins; KaTeX print-color-adjust exact
+  - Entry points: "Printable worksheet" outline button on both topic page (respects subtopic+difficulty) and practice-config page
+- NEW FEATURE 4 — Two-loop Kirchhoff circuit diagram + template:
+  - New TwoLoopCircuitDiagram spec (emfLeft/emfRight, [R₁,R₂-middle,R₃] labels, showCurrents) + SVG renderer: two meshes sharing a middle branch, vertical battery symbols, loop-current arrows I₁/I₂ and I₃=I₁+I₂ down the middle (direction-aware arrowheads)
+  - New template cir-kirch-03 (hard, numeric-unit): 7 hand-curated parameter sets where both loop equations and all currents are exact integers; solution shows the 2×2 system, elimination result and a numeric check of the left loop
+  - Verified by throwaway script: 300 seeds → answer matches brute-force 2×2 solve, all loop currents integer, $-parity even everywhere, 0 NaN/undefined; validator + GUIDE.md updated for the new diagram kind
+- NEW FEATURE 5 — Practice streak on progress dashboard: consecutive-day computation from record timestamps (today or yesterday anchored), 6th overview card with Flame icon, grid now 2/3/6 columns
+- NEW FEATURE 6 — Empty-deck state: sessions with no matching problems (e.g. challenge + a subtopic without challenge templates) now show a friendly bilingual empty state + back link instead of a blank summary
+- STYLING POLISH (VLM-assisted critique rounds):
+  - Fixed real bug found by VLM: right battery label in the two-loop diagram overflowed the SVG viewBox (now anchors inward)
+  - Hero decorative graph now reads as a real figure (quiet t, f(t), max., 0 labels, language-neutral)
+  - Worksheet work space deepened (space-y-9 ruled lines) per print-critique feedback
+  - Shortcut legend labels deduplicated (chip shows the key, label no longer repeats it)
+
+Verification (all green):
+- bun run validate:content → 405 templates · 0 errors · 0 warnings (new cir-kirch-03 included)
+- bunx tsc --noEmit (excl. examples/skills) → 0 errors; bun run lint → clean; dev.log → no runtime errors
+- agent-browser: subtopic filter end-to-end (chip → u=discriminant → session header "· Discriminante" → discriminant-only problems); H reveals hint (with input blur), Ctrl+Enter checks 41 ✓, N advances; session restore still works with subtopic configs; empty state renders for impossible filters; worksheet PDF (3 pages: chrome hidden, numbered problems + workspace, answer key on its own page, black-on-white); MC options lettered a)–d); "New variants" reseeds; streak card shows 1 day; difficulty fallback to "All levels" verified; mobile 390px topic + worksheet layouts clean (no overflow, proper wrapping); fresh load 0 console errors
+
+Stage Summary:
+- Platform stable; 5 new user-facing features + 1 robustness fix shipped and browser-verified; bank grew to 405 templates
+- Next-round ideas: thin-topic content top-ups (topics < 10 templates), worksheet difficulty mix option, session summary "review missed problems" mode, per-problem deep-link share button, teacher-facing analytics (future backend)

@@ -7,7 +7,7 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, Check, Flag, SkipForward, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Flag, Inbox, SkipForward, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -113,6 +113,15 @@ export function SessionView({ config }: { config: SessionConfig }) {
       const cur = config.subjects[0] === "physics" ? physicsCurriculum : mathCurriculum;
       const topic = cur.find((tp) => tp.id === config.topicId);
       return topic?.name[lang] ?? "";
+    }
+    return "";
+  }, [config, lang]);
+
+  const subtopicName = useMemo(() => {
+    if (config.mode === "topic" && config.topicId && config.subtopicId) {
+      const cur = config.subjects[0] === "physics" ? physicsCurriculum : mathCurriculum;
+      const topic = cur.find((tp) => tp.id === config.topicId);
+      return topic?.subtopics.find((st) => st.id === config.subtopicId)?.name[lang] ?? "";
     }
     return "";
   }, [config, lang]);
@@ -276,6 +285,43 @@ export function SessionView({ config }: { config: SessionConfig }) {
   }, [configKey]);
 
   /* ---------------------------------------------------------------- */
+  /* keyboard shortcuts: H = next hint, N = next problem               */
+  /* (Ctrl/⌘+Enter for checking lives in the AnswerArea form)          */
+  /* ---------------------------------------------------------------- */
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.defaultPrevented) return;
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      const target = e.target as HTMLElement | null;
+      if (
+        target &&
+        (target.tagName === "INPUT" ||
+          target.tagName === "TEXTAREA" ||
+          target.tagName === "SELECT" ||
+          target.isContentEditable)
+      ) {
+        return;
+      }
+      // don't fight with open dialogs / menus
+      if (document.querySelector("[role=dialog], [role=menu]")) return;
+      const key = e.key.toLowerCase();
+      if (key === "h") {
+        if (currentState && currentState.status === "attempting") {
+          e.preventDefault();
+          handleRevealHint();
+        }
+      } else if (key === "n") {
+        if (currentState && currentState.status !== "attempting") {
+          e.preventDefault();
+          handleNext();
+        }
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [currentState, handleRevealHint, handleNext]);
+
+  /* ---------------------------------------------------------------- */
   /* render                                                            */
   /* ---------------------------------------------------------------- */
 
@@ -290,6 +336,21 @@ export function SessionView({ config }: { config: SessionConfig }) {
   }
 
   if (ended || !current || !currentState) {
+    if (deck && deck.length === 0) {
+      // no problems matched the requested filters (e.g. an empty level)
+      return (
+        <div className="mx-auto max-w-3xl px-4 py-20 text-center sm:px-6">
+          <Inbox className="mx-auto h-10 w-10 text-muted-foreground/60" aria-hidden="true" />
+          <h1 className="mt-4 font-serif text-2xl font-semibold">{t("session.empty.title")}</h1>
+          <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-muted-foreground">
+            {t("session.empty.desc")}
+          </p>
+          <Button asChild variant="outline" className="mt-6">
+            <a href={backHref}>{t("common.back")}</a>
+          </Button>
+        </div>
+      );
+    }
     return (
       <SessionSummary
         config={config}
@@ -322,6 +383,7 @@ export function SessionView({ config }: { config: SessionConfig }) {
           <span className="text-sm font-semibold">
             {subjectLabel}
             {topicName ? <span className="text-muted-foreground"> · {topicName}</span> : null}
+            {subtopicName ? <span className="text-muted-foreground"> · {subtopicName}</span> : null}
           </span>
           <AlertDialog>
             <AlertDialogTrigger asChild>
@@ -370,6 +432,14 @@ export function SessionView({ config }: { config: SessionConfig }) {
           </div>
         </div>
         <Progress value={progress} className="h-1.5" aria-label={t("practice.questionOf", { current: index + 1, total: deck!.length })} />
+
+        {/* keyboard legend — desktop only, never printed */}
+        <p className="hidden items-center gap-2.5 text-[11px] text-muted-foreground/80 sm:flex" aria-label={t("practice.shortcuts")}>
+          <span className="font-medium uppercase tracking-wider">{t("practice.shortcuts")}</span>
+          <span className="inline-flex items-center gap-1"><kbd className="kbd-chip">H</kbd>{t("practice.shortcuts.hint")}</span>
+          <span className="inline-flex items-center gap-1"><kbd className="kbd-chip">N</kbd>{t("practice.shortcuts.next")}</span>
+          <span className="inline-flex items-center gap-1"><kbd className="kbd-chip">Ctrl ⏎</kbd>{t("practice.shortcuts.check")}</span>
+        </p>
       </div>
 
       {relaxed ? (
@@ -410,6 +480,7 @@ export function SessionView({ config }: { config: SessionConfig }) {
           )}
         >
           {t("practice.next")}
+          <kbd className="kbd-chip" aria-hidden="true">N</kbd>
           <ArrowRight className="h-4 w-4" aria-hidden="true" />
         </Button>
       </div>

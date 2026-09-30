@@ -5,11 +5,11 @@
  */
 
 import { useState } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Printer } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n/context";
-import { href, sessionHref } from "@/lib/router";
+import { href, sessionHref, worksheetHref } from "@/lib/router";
 import type { Difficulty, Subject } from "@/lib/types";
 
 const DIFFICULTIES: (Difficulty | "any")[] = ["any", "easy", "medium", "hard", "challenge"];
@@ -24,6 +24,14 @@ export function PracticeConfigView() {
   const [count, setCount] = useState<number>(10);
 
   const startHref = sessionHref({
+    mode: difficulty === "challenge" ? "challenge" : "mixed",
+    subjects: subject === "both" ? ["math", "physics"] : [subject as Subject],
+    difficulty,
+    count,
+    seed: 0,
+  });
+
+  const printHref = worksheetHref({
     mode: difficulty === "challenge" ? "challenge" : "mixed",
     subjects: subject === "both" ? ["math", "physics"] : [subject as Subject],
     difficulty,
@@ -114,6 +122,12 @@ export function PracticeConfigView() {
             <a href={startHref}>
               {t("mixed.start")}
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </a>
+          </Button>
+          <Button asChild size="lg" variant="outline" className="gap-2 text-[15px] font-medium">
+            <a href={printHref}>
+              <Printer className="h-4 w-4" aria-hidden="true" />
+              {t("worksheet.printButton")}
             </a>
           </Button>
           <Button asChild size="lg" variant="ghost" className="text-muted-foreground">

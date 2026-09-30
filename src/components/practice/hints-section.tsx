@@ -68,6 +68,7 @@ export function HintsSection({
           >
             <Lightbulb className="h-3.5 w-3.5" aria-hidden="true" />
             {t("hints.hintN", { n: revealed + 1 })}
+            <kbd className="kbd-chip" aria-hidden="true">H</kbd>
           </Button>
         )}
       </div>

@@ -5,7 +5,7 @@
  */
 
 import { useEffect, useState } from "react";
-import { ArrowRight, Check, Eye, Lightbulb, RotateCcw, Sigma, Trash2 } from "lucide-react";
+import { ArrowRight, Check, Eye, Flame, Lightbulb, RotateCcw, Sigma, Trash2 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { es as dateEs, enUS as dateEn } from "date-fns/locale";
 import {
@@ -51,6 +51,25 @@ function ActivityIcon({ r }: { r: ProblemRecord }) {
   return <Sigma className="h-4 w-4" aria-hidden="true" />;
 }
 
+/** Consecutive calendar days (ending today, or yesterday if today is empty)
+ *  on which at least one problem was attempted. */
+function computeStreak(records: ProblemRecord[]): number {
+  if (records.length === 0) return 0;
+  const days = new Set(records.map((r) => new Date(r.timestamp).toDateString()));
+  const cursor = new Date();
+  if (!days.has(cursor.toDateString())) {
+    // the streak survives until the end of today only if yesterday was active
+    cursor.setDate(cursor.getDate() - 1);
+    if (!days.has(cursor.toDateString())) return 0;
+  }
+  let streak = 0;
+  while (days.has(cursor.toDateString())) {
+    streak += 1;
+    cursor.setDate(cursor.getDate() - 1);
+  }
+  return streak;
+}
+
 export function ProgressView() {
   const { t, lang, formatNumber } = useI18n();
   const [stats, setStats] = useState<OverallStats | null>(null);
@@ -80,6 +99,7 @@ export function ProgressView() {
   }
 
   const hasData = stats.attempted > 0;
+  const streak = computeStreak(stats.recent);
 
   const overview = [
     { label: t("progress.overview.attempted"), value: stats.attempted },
@@ -199,13 +219,25 @@ export function ProgressView() {
         </div>
       ) : (
         <>
-          <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-5">
+          <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
             {overview.map((o) => (
               <div key={o.label} className="rounded-xl border bg-card p-4">
                 <p className="font-serif text-2xl font-semibold">{o.value}</p>
                 <p className="mt-0.5 text-[11px] leading-snug text-muted-foreground">{o.label}</p>
               </div>
             ))}
+            <div
+              className="rounded-xl border bg-primary/5 p-4"
+              title={streak > 0 ? t("progress.streak.today") : undefined}
+            >
+              <p className="flex items-center gap-1.5 font-serif text-2xl font-semibold text-primary">
+                {streak}
+                <Flame className="h-4.5 w-4.5" aria-hidden="true" />
+              </p>
+              <p className="mt-0.5 text-[11px] leading-snug text-muted-foreground">
+                {t("progress.streak")}
+              </p>
+            </div>
           </div>
 
           <h2 className="mb-4 mt-10 text-sm font-semibold uppercase tracking-wider text-muted-foreground">

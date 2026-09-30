@@ -900,6 +900,113 @@ export const templates: ProblemTemplate[] = [
   ),
 
   /* ---------------------------------------------------------------- */
+  /* Kirchhoff: two loops, two batteries, shared middle resistor      */
+  /* ---------------------------------------------------------------- */
+  template(
+    {
+      id: "cir-kirch-03",
+      subject: "physics",
+      topicId: "circuits",
+      subtopicId: "kirchhoff",
+      difficulty: "hard",
+      questionType: "numeric-unit",
+      estimatedTimeSec: 300,
+      tags: ["kirchhoff", "junction-rule", "loop-rule", "two-loop"],
+      prerequisites: ["kirchhoff", "series"],
+    },
+    (rng) => {
+      // [e1, e2, R1, R2, R3, i1, i2] — curated so both loop equations and
+      // all currents are exact integers (I3 = i1 + i2 flows down the middle)
+      const [e1, e2, r1, r2, r3, i1, i2] = rng.pick([
+        [12, 10, 3, 2, 4, 2, 1],
+        [15, 13, 6, 3, 2, 1, 2],
+        [18, 16, 4, 2, 2, 2, 3],
+        [14, 16, 2, 2, 8, 3, 1],
+        [12, 12, 6, 3, 6, 1, 1],
+        [14, 12, 2, 1, 3, 4, 2],
+        [17, 18, 4, 3, 9, 2, 1],
+      ]);
+      const i3 = i1 + i2;
+      const a = r1 + r2; // left loop I1 coefficient after substituting I3 = I1 + I2
+      const b = r2; // left loop I2 coefficient
+      const c = r2; // right loop I1 coefficient
+      const d = r3 + r2; // right loop I2 coefficient
+      return {
+        skill: L(
+          "Kirchhoff: dos lazos con una resistencia compartida",
+          "Kirchhoff: two loops sharing a resistor",
+        ),
+        statement: L(
+          `En el circuito de la figura hay dos baterías, $\\varepsilon_1 = ${e1}\\ \\text{V}$ y $\\varepsilon_2 = ${e2}\\ \\text{V}$, con el terminal positivo hacia el riel superior. Cada lazo tiene una resistencia en el riel superior, $R_1 = ${r1}\\ \\Omega$ y $R_3 = ${r3}\\ \\Omega$, y comparten la resistencia central $R_2 = ${r2}\\ \\Omega$. Las corrientes de lazo $I_1$ e $I_2$ recorren cada malla y se suman bajando por $R_2$. ¿Qué corriente atraviesa $R_2$? (2 cifras significativas)`,
+          `The circuit in the figure has two batteries, $\\varepsilon_1 = ${e1}\\ \\text{V}$ and $\\varepsilon_2 = ${e2}\\ \\text{V}$, with the positive terminal toward the top rail. Each loop has one resistor on the top rail, $R_1 = ${r1}\\ \\Omega$ and $R_3 = ${r3}\\ \\Omega$, and they share the middle resistor $R_2 = ${r2}\\ \\Omega$. The loop currents $I_1$ and $I_2$ flow around each mesh and add up going down through $R_2$. What current flows through $R_2$? (2 significant figures)`,
+        ),
+        diagram: {
+          kind: "circuit-two-loop",
+          emfLeft: `\u03b5\u2081 = ${e1} V`,
+          emfRight: `\u03b5\u2082 = ${e2} V`,
+          resistors: [
+            `R\u2081 = ${r1} \u03a9`,
+            `R\u2082 = ${r2} \u03a9`,
+            `R\u2083 = ${r3} \u03a9`,
+          ],
+          showCurrents: true,
+        },
+        diagramLabel: L(
+          `Circuito de dos lazos: batería izquierda de ${e1} V, batería derecha de ${e2} V (positivos arriba), resistencias R\u2081 = ${r1} \u03a9 arriba a la izquierda, R\u2083 = ${r3} \u03a9 arriba a la derecha y R\u2082 = ${r2} \u03a9 en la rama central; las corrientes I\u2081 e I\u2082 bajan por la rama central sumándose en I\u2083.`,
+          `Two-loop circuit: ${e1} V battery on the left and ${e2} V battery on the right (positive terminals up), resistors R\u2081 = ${r1} \u03a9 on the top left, R\u2083 = ${r3} \u03a9 on the top right and R\u2082 = ${r2} \u03a9 in the middle branch; the currents I\u2081 and I\u2082 flow down the middle branch, adding up to I\u2083.`,
+        ),
+        answer: {
+          kind: "numeric-unit",
+          value: sig2(i3),
+          tolerance: { mode: "sigfig", value: 2 },
+          units: ["A", "ampere", "amperes", "amperio", "amperios"],
+          unitChoices: ["A", "mA", "V", "Ω"],
+        },
+        hints: [
+          L(
+            "En el nodo superior se cumple la primera ley de Kirchhoff: la corriente que baja por $R_2$ es $I_3 = I_1 + I_2$.",
+            "At the top node Kirchhoff's junction rule holds: the current down through $R_2$ is $I_3 = I_1 + I_2$.",
+          ),
+          L(
+            "Aplica la segunda ley a cada lazo por separado: $\\varepsilon_1 = I_1 R_1 + I_3 R_2$ (lazo izquierdo) y $\\varepsilon_2 = I_2 R_3 + I_3 R_2$ (lazo derecho).",
+            "Apply the loop rule to each mesh separately: $\\varepsilon_1 = I_1 R_1 + I_3 R_2$ (left loop) and $\\varepsilon_2 = I_2 R_3 + I_3 R_2$ (right loop).",
+          ),
+          L(
+            "Sustituye $I_3 = I_1 + I_2$ en las dos ecuaciones y resuelve el sistema $2\\times2$ por eliminación.",
+            "Substitute $I_3 = I_1 + I_2$ into both equations and solve the $2\\times2$ system by elimination.",
+          ),
+        ],
+        answerDisplay: L(
+          `$I_3 = I_1 + I_2 = ${i1} + ${i2} = ${tk(i3)}\\ \\text{A}$`,
+          `$I_3 = I_1 + I_2 = ${i1} + ${i2} = ${tk(i3)}\\ \\text{A}$`,
+        ),
+        solution: [
+          step(
+            "given",
+            `$\\varepsilon_1 = ${e1}\\ \\text{V}$, $\\varepsilon_2 = ${e2}\\ \\text{V}$; $R_1 = ${r1}\\ \\Omega$, $R_2 = ${r2}\\ \\Omega$, $R_3 = ${r3}\\ \\Omega$; incógnitas: $I_1$, $I_2$ e $I_3$ (rama central).`,
+            `$\\varepsilon_1 = ${e1}\\ \\text{V}$, $\\varepsilon_2 = ${e2}\\ \\text{V}$; $R_1 = ${r1}\\ \\Omega$, $R_2 = ${r2}\\ \\Omega$, $R_3 = ${r3}\\ \\Omega$; unknowns: $I_1$, $I_2$ and $I_3$ (middle branch).`,
+          ),
+          step(
+            "approach",
+            "Nodo superior (1ª ley): $I_3 = I_1 + I_2$. Lazo izquierdo (2ª ley): $\\varepsilon_1 = I_1 R_1 + I_3 R_2$. Lazo derecho: $\\varepsilon_2 = I_2 R_3 + I_3 R_2$. Sustituyendo $I_3$ queda un sistema $2\\times2$.",
+            "Top node (junction rule): $I_3 = I_1 + I_2$. Left loop (loop rule): $\\varepsilon_1 = I_1 R_1 + I_3 R_2$. Right loop: $\\varepsilon_2 = I_2 R_3 + I_3 R_2$. Substituting $I_3$ leaves a $2\\times2$ system.",
+          ),
+          step(
+            "calculation",
+            `$\\begin{cases} ${e1} = ${r1}\\,I_1 + ${r2}\\,(I_1 + I_2) \\\\ ${e2} = ${r3}\\,I_2 + ${r2}\\,(I_1 + I_2) \\end{cases} \\Rightarrow \\begin{cases} ${a}\\,I_1 + ${b}\\,I_2 = ${e1} \\\\ ${c}\\,I_1 + ${d}\\,I_2 = ${e2} \\end{cases}$<br>Resolviendo por eliminación: $I_1 = ${tk(i1)}\\ \\text{A}$, $I_2 = ${tk(i2)}\\ \\text{A}$<br>$I_3 = I_1 + I_2 = ${i1} + ${i2} = ${tk(i3)}\\ \\text{A}$<br>(comprobación, lazo izquierdo: $${r1}\\cdot${i1} + ${r2}\\cdot${i3} = ${e1}\\ \\text{V}$ ✓)`,
+            `$\\begin{cases} ${e1} = ${r1}\\,I_1 + ${r2}\\,(I_1 + I_2) \\\\ ${e2} = ${r3}\\,I_2 + ${r2}\\,(I_1 + I_2) \\end{cases} \\Rightarrow \\begin{cases} ${a}\\,I_1 + ${b}\\,I_2 = ${e1} \\\\ ${c}\\,I_1 + ${d}\\,I_2 = ${e2} \\end{cases}$<br>Solving by elimination: $I_1 = ${tk(i1)}\\ \\text{A}$, $I_2 = ${tk(i2)}\\ \\text{A}$<br>$I_3 = I_1 + I_2 = ${i1} + ${i2} = ${tk(i3)}\\ \\text{A}$<br>(check, left loop: $${r1}\\cdot${i1} + ${r2}\\cdot${i3} = ${e1}\\ \\text{V}$ ✓)`,
+          ),
+          step(
+            "result",
+            `Por la resistencia central $R_2$ baja una corriente de $${tk(i3)}\\ \\text{A}$: la suma de las dos corrientes de lazo.`,
+            `A current of $${tk(i3)}\\ \\text{A}$ flows down through the middle resistor $R_2$: the sum of the two loop currents.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* ---------------------------------------------------------------- */
   /* Electrical power: symbolic formula (expression)                  */
   /* ---------------------------------------------------------------- */
   template(

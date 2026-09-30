@@ -656,6 +656,134 @@ function Circuit({ spec }: { spec: Extract<DiagramSpec, { kind: "circuit" }> }) 
 }
 
 /* ================================================================== */
+/* Two-loop circuit (Kirchhoff: two batteries, shared middle branch)  */
+/* ================================================================== */
+
+function TwoLoopCircuit({ spec }: { spec: Extract<DiagramSpec, { kind: "circuit-two-loop" }> }) {
+  const W = 520;
+  const H = 310;
+  const L = 50; // left wire x
+  const M = 260; // middle branch x
+  const R = 470; // right wire x
+  const T = 70; // top wire y
+  const B = 250; // bottom wire y
+  const wire = "var(--diagram-axis)";
+
+  const bw = 54;
+  const bh = 22;
+
+  const hResistor = (x: number, y: number, lbl: string) => (
+    <g>
+      <rect
+        x={x - bw / 2}
+        y={y - bh / 2}
+        width={bw}
+        height={bh}
+        rx={3}
+        fill="color-mix(in oklch, var(--diagram-primary) 12%, var(--card))"
+        stroke="var(--diagram-primary)"
+        strokeWidth={2}
+      />
+      <text x={x} y={y - bh / 2 - 7} fontSize={12.5} fontWeight={500} fill="var(--foreground)" textAnchor="middle">
+        {lbl}
+      </text>
+    </g>
+  );
+
+  const vResistor = (x: number, y: number, lbl: string) => (
+    <g>
+      <rect
+        x={x - bh / 2}
+        y={y - bw / 2}
+        width={bh}
+        height={bw}
+        rx={3}
+        fill="color-mix(in oklch, var(--diagram-primary) 12%, var(--card))"
+        stroke="var(--diagram-primary)"
+        strokeWidth={2}
+      />
+      <text x={x + bh / 2 + 7} y={y - bw / 2 - 4} fontSize={12.5} fontWeight={500} fill="var(--foreground)" textAnchor="start">
+        {lbl}
+      </text>
+    </g>
+  );
+
+  /** vertical battery on wire x, centered at (x, yc), label to the side */
+  const battery = (x: number, yc: number, lbl: string, side: "left" | "right") => (
+    <g>
+      <line x1={x} y1={yc - 40} x2={x} y2={yc - 14} stroke={wire} strokeWidth={2} />
+      <line x1={x - 14} y1={yc - 14} x2={x + 14} y2={yc - 14} stroke={wire} strokeWidth={3} />
+      <line x1={x - 6} y1={yc - 5} x2={x + 6} y2={yc - 5} stroke={wire} strokeWidth={3} />
+      <line x1={x} y1={yc - 5} x2={x} y2={yc + 30} stroke={wire} strokeWidth={2} />
+      {/* right-side labels anchor inward so they never overflow the viewBox */}
+      <text
+        x={side === "left" ? x - 20 : x - 20}
+        y={yc - 26}
+        fontSize={13}
+        fontWeight={600}
+        fill="var(--diagram-secondary)"
+        textAnchor={side === "left" ? "end" : "start"}
+      >
+        {lbl}
+      </text>
+    </g>
+  );
+
+  const arrow = (x1: number, y1: number, x2: number, y2: number, lbl: string, lx: number, ly: number, anchor: "start" | "middle" | "end" = "middle") => {
+    const dx = x2 - x1;
+    const dy = y2 - y1;
+    const len = Math.hypot(dx, dy) || 1;
+    const ux = dx / len;
+    const uy = dy / len;
+    const bx = x2 - 9 * ux;
+    const by = y2 - 9 * uy;
+    const px = -uy * 4.5;
+    const py = ux * 4.5;
+    return (
+      <g>
+        <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="var(--diagram-secondary)" strokeWidth={2} />
+        <path d={`M${x2},${y2} L${bx + px},${by + py} L${bx - px},${by - py} Z`} fill="var(--diagram-secondary)" />
+        <text x={lx} y={ly} fontSize={12.5} fontWeight={600} fill="var(--diagram-secondary)" textAnchor={anchor} fontStyle="italic">
+          {lbl}
+        </text>
+      </g>
+    );
+  };
+
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-auto" role="presentation">
+      {/* outer rectangle + bottom rail */}
+      <polyline
+        points={`${L},${B} ${L},${T} ${R},${T} ${R},${B} ${L},${B}`}
+        fill="none"
+        stroke={wire}
+        strokeWidth={2}
+      />
+      {/* middle branch */}
+      <line x1={M} y1={T} x2={M} y2={B} stroke={wire} strokeWidth={2} />
+
+      {/* batteries */}
+      {battery(L, 165, spec.emfLeft, "left")}
+      {battery(R, 165, spec.emfRight, "right")}
+
+      {/* resistors: R1 top-left, R2 middle, R3 top-right */}
+      {hResistor((L + M) / 2, T, spec.resistors[0])}
+      {vResistor(M, 150, spec.resistors[1])}
+      {hResistor((M + R) / 2, T, spec.resistors[2])}
+
+      {/* loop currents */}
+      {spec.showCurrents ? (
+        <g>
+          {arrow(96, T, 128, T, "I\u2081", 112, T - 9)}
+          {arrow(424, T, 392, T, "I\u2082", 408, T - 9)}
+          {arrow(M, 196, M, 228, "I\u2083 = I\u2081 + I\u2082", M + 12, 226, "start")}
+        </g>
+      ) : null}
+    </svg>
+  );
+}
+
+/* ================================================================== */
 /* Dispatcher                                                          */
 /* ================================================================== */
 
@@ -684,6 +812,8 @@ export function ProblemDiagram({
         return <FreeBody spec={spec} />;
       case "circuit":
         return <Circuit spec={spec} />;
+      case "circuit-two-loop":
+        return <TwoLoopCircuit spec={spec} />;
       default:
         return null;
     }

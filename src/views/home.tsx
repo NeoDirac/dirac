@@ -52,6 +52,11 @@ function HeroCurve() {
         />
         <circle cx="140" cy="30" r="4" fill="var(--diagram-primary)" />
         <circle cx="280" cy="110" r="4" fill="var(--diagram-primary)" />
+        {/* quiet labels so the figure reads as a real graph, not decoration */}
+        <text x="412" y="126" fontSize="13" fill="var(--diagram-muted)" textAnchor="end" fontStyle="italic">t</text>
+        <text x="8" y="20" fontSize="13" fill="var(--diagram-muted)" fontStyle="italic">f(t)</text>
+        <text x="150" y="26" fontSize="12" fill="var(--diagram-muted)" fontStyle="italic">max.</text>
+        <text x="290" y="126" fontSize="12" fill="var(--diagram-muted)" fontStyle="italic">0</text>
       </g>
     </svg>
   );

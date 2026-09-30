@@ -186,6 +186,19 @@ export interface CircuitDiagram {
   showCurrent?: boolean;
 }
 
+/** Two adjacent loops sharing a middle resistor branch (Kirchhoff practice). */
+export interface TwoLoopCircuitDiagram {
+  kind: "circuit-two-loop";
+  /** left battery label, e.g. "ε₁ = 12 V" */
+  emfLeft: string;
+  /** right battery label, e.g. "ε₂ = 10 V" */
+  emfRight: string;
+  /** [R₁ top-left, R₂ middle branch, R₃ top-right] labels */
+  resistors: [string, string, string];
+  /** draw loop-current arrows I₁ and I₂ */
+  showCurrents?: boolean;
+}
+
 export type DiagramSpec =
   | FunctionGraphDiagram
   | VectorsDiagram
@@ -193,7 +206,8 @@ export type DiagramSpec =
   | UnitCircleDiagram
   | RightTriangleDiagram
   | FreeBodyDiagram
-  | CircuitDiagram;
+  | CircuitDiagram
+  | TwoLoopCircuitDiagram;
 
 /* ------------------------------------------------------------------ */
 /* Worked solutions                                                    */
@@ -279,6 +293,8 @@ export interface SessionConfig {
   mode: SessionMode;
   subjects: Subject[];
   topicId?: string;
+  /** optional: restrict a topic session to a single subtopic */
+  subtopicId?: string;
   difficulty: Difficulty | "any";
   /** 5 | 10 | 20 | Infinity (unlimited) */
   count: number;

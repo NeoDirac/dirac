@@ -177,7 +177,7 @@ function validateContent(t: ProblemTemplate, c: ProblemContent, where: string): 
   // diagram
   if (c.diagram) {
     const d = c.diagram as { kind: string; curves?: { fn: string }[] };
-    const kinds = ["function-graph", "vectors", "projectile", "unit-circle", "right-triangle", "free-body", "circuit"];
+    const kinds = ["function-graph", "vectors", "projectile", "unit-circle", "right-triangle", "free-body", "circuit", "circuit-two-loop"];
     if (!kinds.includes(d.kind)) error(`${where}: unknown diagram kind '${d.kind}'`);
     if (d.kind === "function-graph") {
       for (const curve of d.curves ?? []) {

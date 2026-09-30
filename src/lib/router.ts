@@ -9,11 +9,13 @@
  *   #/math/<topicId>                      topic detail + practice setup
  *   #/practice                            mixed practice setup
  *   #/session?...                         running practice session
+ *   #/worksheet?...                       printable worksheet (same params)
  *   #/progress  #/about
  *
- * Session query params:
+ * Session/worksheet query params:
  *   m = topic|mixed|challenge   s = math|physics|all (comma list ok)
- *   t = topicId                 d = easy|medium|hard|challenge|any
+ *   t = topicId                 u = subtopicId (topic sessions only)
+ *   d = easy|medium|hard|challenge|any
  *   n = 5|10|20|inf             k = session seed
  */
 
@@ -26,6 +28,7 @@ export type Route =
   | { name: "topic"; subject: Subject; topicId: string }
   | { name: "practice" }
   | { name: "session"; config: SessionConfig }
+  | { name: "worksheet"; config: SessionConfig }
   | { name: "progress" }
   | { name: "about" };
 
@@ -50,6 +53,9 @@ export function parseHash(rawHash: string): Route {
   if (segments[0] === "session") {
     return { name: "session", config: parseSessionConfig(query) };
   }
+  if (segments[0] === "worksheet") {
+    return { name: "worksheet", config: parseSessionConfig(query) };
+  }
 
   return { name: "home" };
 }
@@ -68,9 +74,19 @@ function parseSessionConfig(q: URLSearchParams): SessionConfig {
   const nRaw = q.get("n");
   const count = nRaw === "inf" ? Infinity : Math.min(Math.max(parseInt(nRaw ?? "10", 10) || 10, 1), 40);
   const topicId = q.get("t") ?? undefined;
+  const subtopicId = q.get("u") ?? undefined;
   const seed = parseInt(q.get("k") ?? "0", 10) || 0;
   const easyWeighted = q.get("w") === "easy";
-  return { mode, subjects: subjects.length ? subjects : ["math"], topicId, difficulty, count, seed, easyWeighted };
+  return {
+    mode,
+    subjects: subjects.length ? subjects : ["math"],
+    topicId,
+    subtopicId,
+    difficulty,
+    count,
+    seed,
+    easyWeighted,
+  };
 }
 
 export function sessionHref(config: SessionConfig): string {
@@ -78,11 +94,17 @@ export function sessionHref(config: SessionConfig): string {
   q.set("m", config.mode);
   q.set("s", config.subjects.join(","));
   if (config.topicId) q.set("t", config.topicId);
+  if (config.subtopicId) q.set("u", config.subtopicId);
   q.set("d", config.difficulty);
   q.set("n", Number.isFinite(config.count) ? String(config.count) : "inf");
   q.set("k", String(config.seed));
   if (config.easyWeighted) q.set("w", "easy");
   return `#/session?${q.toString()}`;
+}
+
+/** Same params as a session, but rendered as a printable worksheet. */
+export function worksheetHref(config: SessionConfig): string {
+  return sessionHref(config).replace("#/session?", "#/worksheet?");
 }
 
 export function href(
