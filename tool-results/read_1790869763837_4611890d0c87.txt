@@ -1,0 +1,702 @@
+     1→     1→/**
+     2→     2→ * MATH · Mixed Pre-Calculus Practice
+     3→     3→ *
+     4→     4→ * Exam-style problems that combine several topics (functions, quadratics,
+     5→     5→ * exponentials, logarithms, trig and geometry) with multi-step reasoning.
+     6→     6→ */
+     7→     7→
+     8→     8→import { template, L, step, tok } from "@/lib/problem";
+     9→     9→import type { ProblemTemplate, McOption } from "@/lib/types";
+    10→    10→
+    11→    11→/* ------------------------------------------------------------------ */
+    12→    12→/* Helpers for the "bridge" batch (hard multi-concept compositions,    */
+    13→    13→/* Task 17-b). All of them build LaTeX from parameters.               */
+    14→    14→/* ------------------------------------------------------------------ */
+    15→    15→
+    16→    16→/** "+ 5" | "- 5" — joins a signed constant */
+    17→    17→const bop = (n: number): string => (n < 0 ? `- ${Math.abs(n)}` : `+ ${n}`);
+    18→    18→
+    19→    19→/** "+ 5x" | "- x" | "" (coefficient 0 omitted) — joins a signed term */
+    20→    20→const bterm = (n: number, v: string): string =>
+    21→    21→  n === 0 ? "" : `${n < 0 ? "- " : "+ "}${Math.abs(n) === 1 ? "" : Math.abs(n)}${v}`;
+    22→    22→
+    23→    23→/** LaTeX of a monic quadratic x² + px + q (zero terms omitted) */
+    24→    24→const bquad = (p: number, q: number): string =>
+    25→    25→  `x^2${p === 0 ? "" : ` ${bterm(p, "x")}`}${q === 0 ? "" : ` ${bop(q)}`}`;
+    26→    26→
+    27→    27→/** LaTeX of a linear argument "x + 3" | "x - 3" | "x" */
+    28→    28→const blin = (b: number): string => (b === 0 ? "x" : `x ${bop(b)}`);
+    29→    29→
+    30→    30→/** LaTeX of "|x - v|" handling v ≤ 0 */
+    31→    31→const babs = (v: number): string =>
+    32→    32→  v === 0 ? "|x|" : `\\left|x ${v > 0 ? "- " : "+ "}${Math.abs(v)}\\right|`;
+    33→    33→
+    34→    34→const bgcd = (a: number, b: number): number => (b === 0 ? Math.abs(a) : bgcd(b, a % b));
+    35→    35→
+    36→    36→/** LaTeX of the reduced fraction (n/d)·π, e.g. bpi(1, 6) → "\frac{\pi}{6}" */
+    37→    37→const bpi = (n: number, d: number): string => {
+    38→    38→  const g = bgcd(n, d) || 1;
+    39→    39→  const nn = n / g;
+    40→    40→  const dd = d / g;
+    41→    41→  if (dd === 1) return nn === 1 ? "\\pi" : `${nn}\\pi`;
+    42→    42→  if (nn === 1) return `\\frac{\\pi}{${dd}}`;
+    43→    43→  return `\\frac{${nn}\\pi}{${dd}}`;
+    44→    44→};
+    45→    45→
+    46→    46→/** "(a, b)" — renders an ordered pair */
+    47→    47→const bpt = (x: number, y: number): string => `(${x}, ${y})`;
+    48→    48→
+    49→    49→export const templates: ProblemTemplate[] = [
+    50→    50→  /* ---------------------------------------------------------------- */
+    51→    51→  /* Composition of functions (easy)                                   */
+    52→    52→  /* ---------------------------------------------------------------- */
+    53→    53→  template(
+    54→    54→    {
+    55→    55→      id: "pcm-fncomp-01",
+    56→    56→      subject: "math",
+    57→    57→      topicId: "precalculus-mixed",
+    58→    58→      subtopicId: "mixed-topics",
+    59→    59→      difficulty: "easy",
+    60→    60→      questionType: "numeric",
+    61→    61→      estimatedTimeSec: 90,
+    62→    62→      tags: ["composition", "functions"],
+    63→    63→      prerequisites: ["functions"],
+    64→    64→    },
+    65→    65→    (rng) => {
+    66→    66→      const a = rng.pick([2, 3, 4, 5]);
+    67→    67→      const b = rng.nonZeroInt(-5, 6);
+    68→    68→      const useSqrt = rng.bool();
+    69→    69→      const k = useSqrt ? rng.pick([4, 9, 16, 25]) : rng.int(2, 6);
+    70→    70→      const gLatex = useSqrt ? "g(x) = \\sqrt{x}" : "g(x) = x^2";
+    71→    71→      const gInner = useSqrt ? Math.sqrt(k) : k * k;
+    72→    72→      const value = a * gInner + b;
+    73→    73→      return {
+    74→    74→        skill: L("Composición de funciones", "Composition of functions"),
+    75→    75→        statement: L(
+    76→    76→          `Si $f(x) = ${a}x ${b > 0 ? "+" : "-"} ${Math.abs(b)}$ y $${gLatex}$, calcula $f\\bigl(g(${k})\\bigr)$.`,
+    77→    77→          `If $f(x) = ${a}x ${b > 0 ? "+" : "-"} ${Math.abs(b)}$ and $${gLatex}$, evaluate $f\\bigl(g(${k})\\bigr)$.`,
+    78→    78→        ),
+    79→    79→        answer: { kind: "numeric", value },
+    80→    80→        hints: [
+    81→    81→          L(
+    82→    82→            "Trabaja desde dentro hacia fuera: primero la función interior.",
+    83→    83→            "Work from the inside out: the inner function first.",
+    84→    84→          ),
+    85→    85→          L(
+    86→    86→            `Calcula $g(${k})$.`,
+    87→    87→            `Compute $g(${k})$.`,
+    88→    88→          ),
+    89→    89→          L(
+    90→    90→            "Sustituye ese resultado en $f$.",
+    91→    91→            "Substitute that result into $f$.",
+    92→    92→          ),
+    93→    93→        ],
+    94→    94→        answerDisplay: L(
+    95→    95→          `$f\\bigl(g(${k})\\bigr) = ${value}$`,
+    96→    96→          `$f\\bigl(g(${k})\\bigr) = ${value}$`,
+    97→    97→        ),
+    98→    98→        solution: [
+    99→    99→          step(
+   100→   100→            "given",
+   101→   101→            `$f(x) = ${a}x ${b > 0 ? "+" : "-"} ${Math.abs(b)}$, $${gLatex}$; queremos $f(g(${k}))$.`,
+   102→   102→            `$f(x) = ${a}x ${b > 0 ? "+" : "-"} ${Math.abs(b)}$, $${gLatex}$; we want $f(g(${k}))$.`,
+   103→   103→          ),
+   104→   104→          step(
+   105→   105→            "approach",
+   106→   106→            "Evaluamos la función interior y el resultado lo metemos en la exterior.",
+   107→   107→            "Evaluate the inner function and feed its output into the outer one.",
+   108→   108→          ),
+   109→   109→          step(
+   110→   110→            "calculation",
+   111→   111→            `$g(${k}) = ${gInner}$<br>$f(${gInner}) = ${a}\\cdot${gInner} ${b > 0 ? "+" : "-"} ${Math.abs(b)} = ${value}$`,
+   112→   112→            `$g(${k}) = ${gInner}$<br>$f(${gInner}) = ${a}\\cdot${gInner} ${b > 0 ? "+" : "-"} ${Math.abs(b)} = ${value}$`,
+   113→   113→          ),
+   114→   114→          step(
+   115→   115→            "result",
+   116→   116→            `$f\\bigl(g(${k})\\bigr) = ${value}$.`,
+   117→   117→            `$f\\bigl(g(${k})\\bigr) = ${value}$.`,
+   118→   118→          ),
+   119→   119→        ],
+   120→   120→      };
+   121→   121→    },
+   122→   122→  ),
+   123→   123→
+   124→   124→  /* ---------------------------------------------------------------- */
+   125→   125→  /* Expand a binomial product (easy, expression)                      */
+   126→   126→  /* ---------------------------------------------------------------- */
+   127→   127→  template(
+   128→   128→    {
+   129→   129→      id: "pcm-expand-01",
+   130→   130→      subject: "math",
+   131→   131→      topicId: "precalculus-mixed",
+   132→   132→      subtopicId: "mixed-topics",
+   133→   133→      difficulty: "easy",
+   134→   134→      questionType: "expression",
+   135→   135→      estimatedTimeSec: 90,
+   136→   136→      tags: ["polynomials", "expand"],
+   137→   137→      prerequisites: ["polynomials"],
+   138→   138→    },
+   139→   139→    (rng) => {
+   140→   140→      const a = rng.int(2, 9);
+   141→   141→      const b = rng.int(2, 9);
+   142→   142→      const minus = rng.bool();
+   143→   143→      const c1 = minus ? a - b : a + b;
+   144→   144→      const c0 = minus ? -a * b : a * b;
+   145→   145→      const linTerm =
+   146→   146→        c1 === 0
+   147→   147→          ? ""
+   148→   148→          : c1 === 1
+   149→   149→            ? " + x"
+   150→   150→            : c1 === -1
+   151→   151→              ? " - x"
+   152→   152→              : c1 > 0
+   153→   153→                ? ` + ${c1}x`
+   154→   154→                : ` - ${Math.abs(c1)}x`;
+   155→   155→      const constTerm = c0 > 0 ? ` + ${c0}` : ` - ${Math.abs(c0)}`;
+   156→   156→      const accepted = `x^2${linTerm}${constTerm}`;
+   157→   157→      const latexTerm =
+   158→   158→        c1 === 0
+   159→   159→          ? ""
+   160→   160→          : c1 === 1
+   161→   161→            ? "+ x"
+   162→   162→            : c1 === -1
+   163→   163→              ? "- x"
+   164→   164→              : `${c1 > 0 ? "+" : "-"} ${Math.abs(c1)}x`;
+   165→   165→      return {
+   166→   166→        skill: L("Producto de binomios", "Product of binomials"),
+   167→   167→        statement: L(
+   168→   168→          `Expande y simplifica: $(x + ${a})(x ${minus ? "-" : "+"} ${b})$ (escribe por ejemplo x^2 + 3x - 10).`,
+   169→   169→          `Expand and simplify: $(x + ${a})(x ${minus ? "-" : "+"} ${b})$ (write e.g. x^2 + 3x - 10).`,
+   170→   170→        ),
+   171→   171→        answer: { kind: "expression", accepted: [accepted], variables: ["x"] },
+   172→   172→        hints: [
+   173→   173→          L(
+   174→   174→            "Aplica la propiedad distributiva término a término.",
+   175→   175→            "Apply the distributive property term by term.",
+   176→   176→          ),
+   177→   177→          L(
+   178→   178→            "Los productos cruzado (externo e interno) dan los términos con $x$.",
+   179→   179→            "The cross products (outer and inner) give the $x$ terms.",
+   180→   180→          ),
+   181→   181→          L(
+   182→   182→            "Suma los términos semejantes: los que llevan $x$ y los números.",
+   183→   183→            "Combine like terms: the ones with $x$ and the constants.",
+   184→   184→          ),
+   185→   185→        ],
+   186→   186→        answerDisplay: L(
+   187→   187→          `$x^2 ${latexTerm} ${c0 > 0 ? "+" : "-"} ${Math.abs(c0)}$`,
+   188→   188→          `$x^2 ${latexTerm} ${c0 > 0 ? "+" : "-"} ${Math.abs(c0)}$`,
+   189→   189→        ),
+   190→   190→        solution: [
+   191→   191→          step(
+   192→   192→            "given",
+   193→   193→            `$(x + ${a})(x ${minus ? "-" : "+"} ${b})$`,
+   194→   194→            `$(x + ${a})(x ${minus ? "-" : "+"} ${b})$`,
+   195→   195→          ),
+   196→   196→          step(
+   197→   197→            "approach",
+   198→   198→            "Multiplicamos cada término del primer paréntesis por cada término del segundo y reducimos.",
+   199→   199→            "Multiply each term of the first parenthesis by each term of the second and combine.",
+   200→   200→          ),
+   201→   201→          step(
+   202→   202→            "calculation",
+   203→   203→            `$(x + ${a})(x ${minus ? "-" : "+"} ${b}) = x^2 ${minus ? "-" : "+"} ${b}x + ${a}x ${minus ? "-" : "+"} ${a * b}$<br>$= x^2 ${latexTerm} ${c0 > 0 ? "+" : "-"} ${Math.abs(c0)}$`,
+   204→   204→            `$(x + ${a})(x ${minus ? "-" : "+"} ${b}) = x^2 ${minus ? "-" : "+"} ${b}x + ${a}x ${minus ? "-" : "+"} ${a * b}$<br>$= x^2 ${latexTerm} ${c0 > 0 ? "+" : "-"} ${Math.abs(c0)}$`,
+   205→   205→          ),
+   206→   206→          step(
+   207→   207→            "result",
+   208→   208→            `El resultado es $${accepted}$.`,
+   209→   209→            `The result is $${accepted}$.`,
+   210→   210→          ),
+   211→   211→        ],
+   212→   212→      };
+   213→   213→    },
+   214→   214→  ),
+   215→   215→
+   216→   216→  /* ---------------------------------------------------------------- */
+   217→   217→  /* Exponential growth (medium)                                       */
+   218→   218→  /* ---------------------------------------------------------------- */
+   219→   219→  template(
+   220→   220→    {
+   221→   221→      id: "pcm-expo-01",
+   222→   222→      subject: "math",
+   223→   223→      topicId: "precalculus-mixed",
+   224→   224→      subtopicId: "exam-style",
+   225→   225→      difficulty: "medium",
+   226→   226→      questionType: "numeric",
+   227→   227→      estimatedTimeSec: 120,
+   228→   228→      tags: ["exponential", "growth", "word-problems"],
+   229→   229→      prerequisites: ["exponential"],
+   230→   230→    },
+   231→   231→    (rng) => {
+   232→   232→      const P0 = rng.pick([100, 200, 500, 1000, 2000]);
+   233→   233→      const t = rng.pick([3, 4, 5]);
+   234→   234→      const value = P0 * 2 ** t;
+   235→   235→      return {
+   236→   236→        skill: L("Crecimiento exponencial", "Exponential growth"),
+   237→   237→        statement: L(
+   238→   238→          `Una cultura de bacterias comienza con $${P0}$ bacterias y su población se **duplica** cada hora. ¿Cuántas bacterias hay tras $${t}$ horas?`,
+   239→   239→          `A bacteria culture starts with $${P0}$ bacteria and its population **doubles** every hour. How many bacteria are there after $${t}$ hours?`,
+   240→   240→        ),
+   241→   241→        answer: { kind: "numeric", value },
+   242→   242→        hints: [
+   243→   243→          L(
+   244→   244→            "Cada hora la población se multiplica por $2$: no se suma una cantidad fija.",
+   245→   245→            "Each hour the population is multiplied by $2$: a fixed amount is not added.",
+   246→   246→          ),
+   247→   247→          L(
+   248→   248→            "Tras $t$ horas: $P = P_0\\cdot 2^{t}$.",
+   249→   249→            "After $t$ hours: $P = P_0\\cdot 2^{t}$.",
+   250→   250→          ),
+   251→   251→          L(
+   252→   252→            `Calcula primero $2^{${t}}$.`,
+   253→   253→            `Compute $2^{${t}}$ first.`,
+   254→   254→          ),
+   255→   255→        ],
+   256→   256→        answerDisplay: L(`$P = ${value}$ bacterias`, `$P = ${value}$ bacteria`),
+   257→   257→        solution: [
+   258→   258→          step(
+   259→   259→            "given",
+   260→   260→            `$P_0 = ${P0}$, duplicación cada hora, $t = ${t}\\ \\text{h}$.`,
+   261→   261→            `$P_0 = ${P0}$, doubling every hour, $t = ${t}\\ \\text{h}$.`,
+   262→   262→          ),
+   263→   263→          step(
+   264→   264→            "approach",
+   265→   265→            "Modelo de crecimiento exponencial con base 2.",
+   266→   266→            "Exponential growth model with base 2.",
+   267→   267→          ),
+   268→   268→          step(
+   269→   269→            "calculation",
+   270→   270→            `$P = ${P0}\\cdot 2^{${t}} = ${P0}\\cdot ${2 ** t} = ${value}$`,
+   271→   271→            `$P = ${P0}\\cdot 2^{${t}} = ${P0}\\cdot ${2 ** t} = ${value}$`,
+   272→   272→          ),
+   273→   273→          step(
+   274→   274→            "result",
+   275→   275→            `Tras $${t}$ horas hay $${value}$ bacterias.`,
+   276→   276→            `After $${t}$ hours there are $${value}$ bacteria.`,
+   277→   277→          ),
+   278→   278→        ],
+   279→   279→      };
+   280→   280→    },
+   281→   281→  ),
+   282→   282→
+   283→   283→  /* ---------------------------------------------------------------- */
+   284→   284→  /* Evaluate logs (medium)                                            */
+   285→   285→  /* ---------------------------------------------------------------- */
+   286→   286→  template(
+   287→   287→    {
+   288→   288→      id: "pcm-log-01",
+   289→   289→      subject: "math",
+   290→   290→      topicId: "precalculus-mixed",
+   291→   291→      subtopicId: "exam-style",
+   292→   292→      difficulty: "medium",
+   293→   293→      questionType: "numeric",
+   294→   294→      estimatedTimeSec: 120,
+   295→   295→      tags: ["logarithms"],
+   296→   296→      prerequisites: ["logarithmic"],
+   297→   297→    },
+   298→   298→    (rng) => {
+   299→   299→      const f1 = rng.pick([
+   300→   300→        { b: 2, k: 4 },
+   301→   301→        { b: 2, k: 5 },
+   302→   302→        { b: 2, k: 6 },
+   303→   303→        { b: 3, k: 3 },
+   304→   304→        { b: 3, k: 4 },
+   305→   305→        { b: 5, k: 3 },
+   306→   306→        { b: 10, k: 3 },
+   307→   307→        { b: 10, k: 4 },
+   308→   308→      ]);
+   309→   309→      const f2 = rng.pick([
+   310→   310→        { b: 2, k: 3 },
+   311→   311→        { b: 2, k: 4 },
+   312→   312→        { b: 3, k: 2 },
+   313→   313→        { b: 3, k: 3 },
+   314→   314→        { b: 5, k: 2 },
+   315→   315→        { b: 10, k: 2 },
+   316→   316→        { b: 10, k: 3 },
+   317→   317→      ]);
+   318→   318→      const n1 = f1.b ** f1.k;
+   319→   319→      const n2 = f2.b ** f2.k;
+   320→   320→      const value = f1.k + f2.k;
+   321→   321→      return {
+   322→   322→        skill: L("Evaluar logaritmos", "Evaluating logarithms"),
+   323→   323→        statement: L(
+   324→   324→          `Calcula: $\\log_{${f1.b}} ${n1} + \\log_{${f2.b}} ${n2}$.`,
+   325→   325→          `Evaluate: $\\log_{${f1.b}} ${n1} + \\log_{${f2.b}} ${n2}$.`,
+   326→   326→        ),
+   327→   327→        answer: { kind: "numeric", value },
+   328→   328→        hints: [
+   329→   329→          L(
+   330→   330→            "Un logaritmo pregunta: ¿a qué exponente hay que elevar la base para obtener el argumento?",
+   331→   331→            "A logarithm asks: to which exponent must the base be raised to obtain the argument?",
+   332→   332→          ),
+   333→   333→          L(
+   334→   334→            "Escribe cada argumento como potencia de su base.",
+   335→   335→            "Write each argument as a power of its base.",
+   336→   336→          ),
+   337→   337→          L(
+   338→   338→            "El logaritmo de una potencia de la base es simplemente el exponente.",
+   339→   339→            "The logarithm of a power of the base is just the exponent.",
+   340→   340→          ),
+   341→   341→        ],
+   342→   342→        answerDisplay: L(
+   343→   343→          `$\\log_{${f1.b}} ${n1} + \\log_{${f2.b}} ${n2} = ${value}$`,
+   344→   344→          `$\\log_{${f1.b}} ${n1} + \\log_{${f2.b}} ${n2} = ${value}$`,
+   345→   345→        ),
+   346→   346→        solution: [
+   347→   347→          step(
+   348→   348→            "given",
+   349→   349→            `$\\log_{${f1.b}} ${n1} + \\log_{${f2.b}} ${n2}$`,
+   350→   350→            `$\\log_{${f1.b}} ${n1} + \\log_{${f2.b}} ${n2}$`,
+   351→   351→          ),
+   352→   352→          step(
+   353→   353→            "approach",
+   354→   354→            "Expresamos cada argumento como potencia de la base del logaritmo.",
+   355→   355→            "Write each argument as a power of its logarithm's base.",
+   356→   356→          ),
+   357→   357→          step(
+   358→   358→            "calculation",
+   359→   359→            `${n1} = ${f1.b}^{${f1.k}} \\Rightarrow \\log_{${f1.b}} ${n1} = ${f1.k}$<br>${n2} = ${f2.b}^{${f2.k}} \\Rightarrow \\log_{${f2.b}} ${n2} = ${f2.k}$<br>Suma: $${f1.k} + ${f2.k} = ${value}$`,
+   360→   360→            `${n1} = ${f1.b}^{${f1.k}} \\Rightarrow \\log_{${f1.b}} ${n1} = ${f1.k}$<br>${n2} = ${f2.b}^{${f2.k}} \\Rightarrow \\log_{${f2.b}} ${n2} = ${f2.k}$<br>Sum: $${f1.k} + ${f2.k} = ${value}$`,
+   361→   361→          ),
+   362→   362→          step(
+   363→   363→            "result",
+   364→   364→            `El valor de la expresión es $${value}$.`,
+   365→   365→            `The value of the expression is $${value}$.`,
+   366→   366→          ),
+   367→   367→        ],
+   368→   368→      };
+   369→   369→    },
+   370→   370→  ),
+   371→   371→
+   372→   372→  /* ---------------------------------------------------------------- */
+   373→   373→  /* Quadratic model: maximum height (medium)                          */
+   374→   374→  /* ---------------------------------------------------------------- */
+   375→   375→  template(
+   376→   376→    {
+   377→   377→      id: "pcm-quadapp-01",
+   378→   378→      subject: "math",
+   379→   379→      topicId: "precalculus-mixed",
+   380→   380→      subtopicId: "multi-step",
+   381→   381→      difficulty: "medium",
+   382→   382→      questionType: "numeric",
+   383→   383→      estimatedTimeSec: 180,
+   384→   384→      tags: ["quadratics", "vertex", "modeling"],
+   385→   385→      prerequisites: ["quadratics"],
+   386→   386→    },
+   387→   387→    (rng) => {
+   388→   388→      const v = rng.pick([20, 30, 40, 60]);
+   389→   389→      const tStar = v / 10;
+   390→   390→      const hMax = (v * v) / 20;
+   391→   391→      return {
+   392→   392→        skill: L("Altura máxima de un lanzamiento", "Maximum height of a launch"),
+   393→   393→        statement: L(
+   394→   394→          `Se lanza un objeto verticalmente hacia arriba y su altura (en metros) tras $t$ segundos es $h(t) = -5t^2 + ${v}t$. ¿Qué **altura máxima** alcanza?`,
+   395→   395→          `An object is thrown straight up and its height (in metres) after $t$ seconds is $h(t) = -5t^2 + ${v}t$. What is its **maximum height**?`,
+   396→   396→        ),
+   397→   397→        answer: { kind: "numeric", value: hMax, unitSuffix: "m" },
+   398→   398→        hints: [
+   399→   399→          L(
+   400→   400→            "La altura es una función cuadrática con coeficiente principal negativo: su máximo está en el vértice.",
+   401→   401→            "The height is a quadratic function with negative leading coefficient: its maximum is at the vertex.",
+   402→   402→          ),
+   403→   403→          L(
+   404→   404→            `El tiempo del vértice es $t_v = \\frac{-b}{2a}$ con $a = -5$ y $b = ${v}$.`,
+   405→   405→            `The vertex time is $t_v = \\frac{-b}{2a}$ with $a = -5$ and $b = ${v}$.`,
+   406→   406→          ),
+   407→   407→          L(
+   408→   408→            "Sustituye $t_v$ en $h(t)$.",
+   409→   409→            "Substitute $t_v$ into $h(t)$.",
+   410→   410→          ),
+   411→   411→        ],
+   412→   412→        answerDisplay: L(
+   413→   413→          `Altura máxima $= ${hMax}\\ \\text{m}$`,
+   414→   414→          `Maximum height $= ${hMax}\\ \\text{m}$`,
+   415→   415→        ),
+   416→   416→        solution: [
+   417→   417→          step(
+   418→   418→            "given",
+   419→   419→            `$h(t) = -5t^2 + ${v}t$ (metros, segundos).`,
+   420→   420→            `$h(t) = -5t^2 + ${v}t$ (metres, seconds).`,
+   421→   421→          ),
+   422→   422→          step(
+   423→   423→            "approach",
+   424→   424→            "Hallamos el vértice de la parábola y evaluamos la función allí.",
+   425→   425→            "Find the vertex of the parabola and evaluate the function there.",
+   426→   426→          ),
+   427→   427→          step(
+   428→   428→            "calculation",
+   429→   429→            `$t_v = \\frac{-${v}}{2\\cdot(-5)} = ${tStar}\\ \\text{s}$<br>$h(${tStar}) = -5\\cdot${tStar * tStar} + ${v}\\cdot${tStar} = ${hMax}$`,
+   430→   430→            `$t_v = \\frac{-${v}}{2\\cdot(-5)} = ${tStar}\\ \\text{s}$<br>$h(${tStar}) = -5\\cdot${tStar * tStar} + ${v}\\cdot${tStar} = ${hMax}$`,
+   431→   431→          ),
+   432→   432→          step(
+   433→   433→            "result",
+   434→   434→            `La altura máxima es $${hMax}\\ \\text{m}$, alcanzada a los $${tStar}\\ \\text{s}$.`,
+   435→   435→            `The maximum height is $${hMax}\\ \\text{m}$, reached at $t = ${tStar}\\ \\text{s}$.`,
+   436→   436→          ),
+   437→   437→        ],
+   438→   438→      };
+   439→   439→    },
+   440→   440→  ),
+   441→   441→
+   442→   442→  /* ---------------------------------------------------------------- */
+   443→   443→  /* Trig ratio with Pythagorean triple (medium, MC)                   */
+   444→   444→  /* ---------------------------------------------------------------- */
+   445→   445→  template(
+   446→   446→    {
+   447→   447→      id: "pcm-trigratio-01",
+   448→   448→      subject: "math",
+   449→   449→      topicId: "precalculus-mixed",
+   450→   450→      subtopicId: "mixed-topics",
+   451→   451→      difficulty: "medium",
+   452→   452→      questionType: "multiple-choice",
+   453→   453→      estimatedTimeSec: 150,
+   454→   454→      tags: ["trig", "pythagorean-triples"],
+   455→   455→      prerequisites: ["trig-foundations"],
+   456→   456→    },
+   457→   457→    (rng) => {
+   458→   458→      const t = rng.pick([
+   459→   459→        { a: 3, b: 4, c: 5 },
+   460→   460→        { a: 5, b: 12, c: 13 },
+   461→   461→        { a: 8, b: 15, c: 17 },
+   462→   462→        { a: 7, b: 24, c: 25 },
+   463→   463→      ]);
+   464→   464→      const ask = rng.pick(["cos", "tan"] as const);
+   465→   465→      const options: McOption[] =
+   466→   466→        ask === "cos"
+   467→   467→          ? [
+   468→   468→              { id: "a", text: L(`$\\frac{${t.b}}{${t.c}}$`, `$\\frac{${t.b}}{${t.c}}$`), correct: true },
+   469→   469→              { id: "b", text: L(`$\\frac{${t.a}}{${t.c}}$`, `$\\frac{${t.a}}{${t.c}}$`), correct: false },
+   470→   470→              { id: "c", text: L(`$\\frac{${t.c}}{${t.b}}$`, `$\\frac{${t.c}}{${t.b}}$`), correct: false },
+   471→   471→              { id: "d", text: L(`$\\frac{${t.b}}{${t.a}}$`, `$\\frac{${t.b}}{${t.a}}$`), correct: false },
+   472→   472→            ]
+   473→   473→          : [
+   474→   474→              { id: "a", text: L(`$\\frac{${t.a}}{${t.b}}$`, `$\\frac{${t.a}}{${t.b}}$`), correct: true },
+   475→   475→              { id: "b", text: L(`$\\frac{${t.b}}{${t.a}}$`, `$\\frac{${t.b}}{${t.a}}$`), correct: false },
+   476→   476→              { id: "c", text: L(`$\\frac{${t.a}}{${t.c}}$`, `$\\frac{${t.a}}{${t.c}}$`), correct: false },
+   477→   477→              { id: "d", text: L(`$\\frac{${t.b}}{${t.c}}$`, `$\\frac{${t.b}}{${t.c}}$`), correct: false },
+   478→   478→            ];
+   479→   479→      const answerFrac = ask === "cos" ? `\\frac{${t.b}}{${t.c}}` : `\\frac{${t.a}}{${t.b}}`;
+   480→   480→      return {
+   481→   481→        skill: L("Razones con ternas pitagóricas", "Ratios with Pythagorean triples"),
+   482→   482→        statement: L(
+   483→   483→          `Si $\\sin\\theta = \\frac{${t.a}}{${t.c}}$ y $\\theta$ es un ángulo agudo, ¿cuánto vale $\\${ask}\\theta$?`,
+   484→   484→          `If $\\sin\\theta = \\frac{${t.a}}{${t.c}}$ and $\\theta$ is acute, what is $\\${ask}\\theta$?`,
+   485→   485→        ),
+   486→   486→        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+   487→   487→        hints: [
+   488→   488→          L(
+   489→   489→            "$\\sin\\theta = \\frac{\\text{opuesto}}{\\text{hipotenusa}}$: marca esos dos lados en un triángulo rectángulo.",
+   490→   490→            "$\\sin\\theta = \\frac{\\text{opposite}}{\\text{hypotenuse}}$: mark those two sides on a right triangle.",
+   491→   491→          ),
+   492→   492→          L(
+   493→   493→            `La hipotenusa mide $${t.c}$ y el cateto opuesto $${t.a}$; halla el tercer lado con Pitágoras.`,
+   494→   494→            `The hypotenuse is $${t.c}$ and the opposite leg is $${t.a}$; find the third side with Pythagoras.`,
+   495→   495→          ),
+   496→   496→          L(
+   497→   497→            `Con los tres lados, $\\cos\\theta = \\frac{\\text{adyacente}}{\\text{hipotenusa}}$ y $\\tan\\theta = \\frac{\\text{opuesto}}{\\text{adyacente}}$.`,
+   498→   498→            `With all three sides, $\\cos\\theta = \\frac{\\text{adjacent}}{\\text{hypotenuse}}$ and $\\tan\\theta = \\frac{\\text{opposite}}{\\text{adjacent}}$.`,
+   499→   499→          ),
+   500→   500→        ],
+   501→   501→        answerDisplay: L(`$\\${ask}\\theta = ${answerFrac}$`, `$\\${ask}\\theta = ${answerFrac}$`),
+   502→   502→        solution: [
+   503→   503→          step(
+   504→   504→            "given",
+   505→   505→            `$\\sin\\theta = \\frac{${t.a}}{${t.c}}$, $\\theta$ agudo.`,
+   506→   506→            `$\\sin\\theta = \\frac{${t.a}}{${t.c}}$, $\\theta$ acute.`,
+   507→   507→          ),
+   508→   508→          step(
+   509→   509→            "approach",
+   510→   510→            "Construimos el triángulo rectángulo asociado y completamos el lado que falta.",
+   511→   511→            "Build the associated right triangle and complete the missing side.",
+   512→   512→          ),
+   513→   513→          step(
+   514→   514→            "calculation",
+   515→   515→            `Hipotenusa $= ${t.c}$, opuesto $= ${t.a}$.<br>Adyacente: $\\sqrt{${t.c}^2 - ${t.a}^2} = \\sqrt{${t.c * t.c} - ${t.a * t.a}} = ${t.b}$.<br>$${ask === "cos" ? `\\cos\\theta = \\frac{${t.b}}{${t.c}}` : `\\tan\\theta = \\frac{${t.a}}{${t.b}}`}$`,
+   516→   516→            `Hypotenuse $= ${t.c}$, opposite $= ${t.a}$.<br>Adjacent: $\\sqrt{${t.c}^2 - ${t.a}^2} = \\sqrt{${t.c * t.c} - ${t.a * t.a}} = ${t.b}$.<br>$${ask === "cos" ? `\\cos\\theta = \\frac{${t.b}}{${t.c}}` : `\\tan\\theta = \\frac{${t.a}}{${t.b}}`}$`,
+   517→   517→          ),
+   518→   518→          step(
+   519→   519→            "result",
+   520→   520→            `$\\${ask}\\theta = ${answerFrac}$.`,
+   521→   521→            `$\\${ask}\\theta = ${answerFrac}$.`,
+   522→   522→          ),
+   523→   523→        ],
+   524→   524→      };
+   525→   525→    },
+   526→   526→  ),
+   527→   527→
+   528→   528→  /* ---------------------------------------------------------------- */
+   529→   529→  /* Radius of a circle through a point (medium)                       */
+   530→   530→  /* ---------------------------------------------------------------- */
+   531→   531→  template(
+   532→   532→    {
+   533→   533→      id: "pcm-geom-01",
+   534→   534→      subject: "math",
+   535→   535→      topicId: "precalculus-mixed",
+   536→   536→      subtopicId: "mixed-topics",
+   537→   537→      difficulty: "medium",
+   538→   538→      questionType: "numeric",
+   539→   539→      estimatedTimeSec: 150,
+   540→   540→      tags: ["circles", "distance", "analytic-geometry"],
+   541→   541→      prerequisites: ["analytic-geometry"],
+   542→   542→    },
+   543→   543→    (rng) => {
+   544→   544→      const off = rng.pick([
+   545→   545→        { dx: 3, dy: 4, r: 5 },
+   546→   546→        { dx: 4, dy: 3, r: 5 },
+   547→   547→        { dx: 6, dy: 8, r: 10 },
+   548→   548→        { dx: 5, dy: 12, r: 13 },
+   549→   549→        { dx: 9, dy: 12, r: 15 },
+   550→   550→      ]);
+   551→   551→      const h = rng.int(-4, 4);
+   552→   552→      const k = rng.int(-4, 4);
+   553→   553→      const px = h + off.dx;
+   554→   554→      const py = k + off.dy;
+   555→   555→      return {
+   556→   556→        skill: L("Radio de una circunferencia", "Radius of a circle"),
+   557→   557→        statement: L(
+   558→   558→          `Una circunferencia tiene centro en $(${h}, ${k})$ y pasa por el punto $(${px}, ${py})$. ¿Cuánto mide su radio $r$?`,
+   559→   559→          `A circle has centre $(${h}, ${k})$ and passes through the point $(${px}, ${py})$. What is its radius $r$?`,
+   560→   560→        ),
+   561→   561→        answer: { kind: "numeric", value: off.r },
+   562→   562→        hints: [
+   563→   563→          L(
+   564→   564→            "El radio es la distancia del centro a cualquier punto de la circunferencia.",
+   565→   565→            "The radius is the distance from the centre to any point on the circle.",
+   566→   566→          ),
+   567→   567→          L(
+   568→   568→            "La distancia entre dos puntos usa las **diferencias** de coordenadas.",
+   569→   569→            "The distance between two points uses the coordinate **differences**.",
+   570→   570→          ),
+   571→   571→          L(
+   572→   572→            `$r = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$: las diferencias aquí son $${off.dx}$ y $${off.dy}$.`,
+   573→   573→            `$r = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$: here the differences are $${off.dx}$ and $${off.dy}$.`,
+   574→   574→          ),
+   575→   575→        ],
+   576→   576→        answerDisplay: L(`$r = ${off.r}$`, `$r = ${off.r}$`),
+   577→   577→        solution: [
+   578→   578→          step(
+   579→   579→            "given",
+   580→   580→            `Centro $(${h}, ${k})$, punto de la circunferencia $(${px}, ${py})$.`,
+   581→   581→            `Centre $(${h}, ${k})$, point on the circle $(${px}, ${py})$.`,
+   582→   582→          ),
+   583→   583→          step(
+   584→   584→            "approach",
+   585→   585→            "El radio es la distancia entre el centro y el punto, con la fórmula de la distancia.",
+   586→   586→            "The radius is the distance between the centre and the point, via the distance formula.",
+   587→   587→          ),
+   588→   588→          step(
+   589→   589→            "calculation",
+   590→   590→            `$r = \\sqrt{(${px} - (${h}))^2 + (${py} - (${k}))^2} = \\sqrt{${off.dx}^2 + ${off.dy}^2} = \\sqrt{${off.dx * off.dx} + ${off.dy * off.dy}} = ${off.r}$`,
+   591→   591→            `$r = \\sqrt{(${px} - (${h}))^2 + (${py} - (${k}))^2} = \\sqrt{${off.dx}^2 + ${off.dy}^2} = \\sqrt{${off.dx * off.dx} + ${off.dy * off.dy}} = ${off.r}$`,
+   592→   592→          ),
+   593→   593→          step(
+   594→   594→            "result",
+   595→   595→            `El radio mide $${off.r}$.`,
+   596→   596→            `The radius is $${off.r}$.`,
+   597→   597→          ),
+   598→   598→        ],
+   599→   599→      };
+   600→   600→    },
+   601→   601→  ),
+   602→   602→
+   603→   603→  /* ---------------------------------------------------------------- */
+   604→   604→  /* Rectangle: area + perimeter → sides (hard)                        */
+   605→   605→  /* ---------------------------------------------------------------- */
+   606→   606→  template(
+   607→   607→    {
+   608→   608→      id: "pcm-syseq-01",
+   609→   609→      subject: "math",
+   610→   610→      topicId: "precalculus-mixed",
+   611→   611→      subtopicId: "multi-step",
+   612→   612→      difficulty: "hard",
+   613→   613→      questionType: "numeric",
+   614→   614→      estimatedTimeSec: 240,
+   615→   615→      tags: ["systems", "quadratics", "geometry"],
+   616→   616→      prerequisites: ["quadratics", "systems"],
+   617→   617→    },
+   618→   618→    (rng) => {
+   619→   619→      const cfg = rng.pick([
+   620→   620→        { w: 5, l: 7 },
+   621→   621→        { w: 6, l: 10 },
+   622→   622→        { w: 4, l: 9 },
+   623→   623→        { w: 7, l: 12 },
+   624→   624→        { w: 8, l: 13 },
+   625→   625→        { w: 5, l: 12 },
+   626→   626→      ]);
+   627→   627→      const area = cfg.w * cfg.l;
+   628→   628→      const per = 2 * (cfg.w + cfg.l);
+   629→   629→      const sum = cfg.w + cfg.l;
+   630→   630→      return {
+   631→   631→        skill: L("Rectángulo con área y perímetro", "Rectangle from area and perimeter"),
+   632→   632→        statement: L(
+   633→   633→          `El área de un rectángulo es $${area}\\ \\text{cm}^2$ y su perímetro es $${per}\\ \\text{cm}$. ¿Cuánto mide su **lado mayor**?`,
+   634→   634→          `A rectangle has area $${area}\\ \\text{cm}^2$ and perimeter $${per}\\ \\text{cm}$. How long is its **longer side**?`,
+   635→   635→        ),
+   636→   636→        answer: { kind: "numeric", value: cfg.l, unitSuffix: "cm" },
+   637→   637→        hints: [
+   638→   638→          L(
+   639→   639→            "Llama $x$ e $y$ a los lados: su suma es el semiperímetro y su producto es el área.",
+   640→   640→            "Call the sides $x$ and $y$: their sum is the semiperimeter and their product is the area.",
+   641→   641→          ),
+   642→   642→          L(
+   643→   643→            `Dos números con suma $${sum}$ y producto $${area}$ son las raíces de $u^2 - ${sum}u + ${area} = 0$.`,
+   644→   644→            `Two numbers with sum $${sum}$ and product $${area}$ are the roots of $u^2 - ${sum}u + ${area} = 0$.`,
+   645→   645→          ),
+   646→   646→          L(
+   647→   647→            "Factoriza la cuadrática (o usa la fórmula) y quédate con la raíz mayor.",
+   648→   648→            "Factor the quadratic (or use the formula) and keep the larger root.",
+   649→   649→          ),
+   650→   650→        ],
+   651→   651→        answerDisplay: L(
+   652→   652→          `Lados: $${cfg.w}\\ \\text{cm}$ y $${cfg.l}\\ \\text{cm}$; el mayor es $${cfg.l}\\ \\text{cm}$`,
+   653→   653→          `Sides: $${cfg.w}\\ \\text{cm}$ and $${cfg.l}\\ \\text{cm}$; the longer one is $${cfg.l}\\ \\text{cm}$`,
+   654→   654→        ),
+   655→   655→        solution: [
+   656→   656→          step(
+   657→   657→            "given",
+   658→   658→            `Área $= ${area}\\ \\text{cm}^2$, perímetro $= ${per}\\ \\text{cm}$.`,
+   659→   659→            `Area $= ${area}\\ \\text{cm}^2$, perimeter $= ${per}\\ \\text{cm}$.`,
+   660→   660→          ),
+   661→   661→          step(
+   662→   662→            "approach",
+   663→   663→            "Planteamos suma y producto de los lados y resolvemos la ecuación cuadrática resultante.",
+   664→   664→            "Set up the sum and product of the sides and solve the resulting quadratic equation.",
+   665→   665→          ),
+   666→   666→          step(
+   667→   667→            "calculation",
+   668→   668→            `$x + y = \\frac{${per}}{2} = ${sum}$, $xy = ${area}$<br>$u^2 - ${sum}u + ${area} = 0$<br>$(u - ${cfg.w})(u - ${cfg.l}) = 0 \\Rightarrow u \\in \\{${cfg.w},\\ ${cfg.l}\\}$`,
+   669→   669→            `$x + y = \\frac{${per}}{2} = ${sum}$, $xy = ${area}$<br>$u^2 - ${sum}u + ${area} = 0$<br>$(u - ${cfg.w})(u - ${cfg.l}) = 0 \\Rightarrow u \\in \\{${cfg.w},\\ ${cfg.l}\\}$`,
+   670→   670→          ),
+   671→   671→          step(
+   672→   672→            "result",
+   673→   673→            `Los lados miden $${cfg.w}\\ \\text{cm}$ y $${cfg.l}\\ \\text{cm}$: el mayor es $${cfg.l}\\ \\text{cm}$.`,
+   674→   674→            `The sides are $${cfg.w}\\ \\text{cm}$ and $${cfg.l}\\ \\text{cm}$: the longer one is $${cfg.l}\\ \\text{cm}$.`,
+   675→   675→          ),
+   676→   676→        ],
+   677→   677→      };
+   678→   678→    },
+   679→   679→  ),
+   680→   680→
+   681→   681→  /* ---------------------------------------------------------------- */
+   682→   682→  /* Logarithmic equation with extraneous root (hard)                  */
+   683→   683→  /* ---------------------------------------------------------------- */
+   684→   684→  template(
+   685→   685→    {
+   686→   686→      id: "pcm-logeq-01",
+   687→   687→      subject: "math",
+   688→   688→      topicId: "precalculus-mixed",
+   689→   689→      subtopicId: "multi-step",
+   690→   690→      difficulty: "hard",
+   691→   691→      questionType: "numeric",
+   692→   692→      estimatedTimeSec: 240,
+   693→   693→      tags: ["logarithms", "equations", "domain"],
+   694→   694→      prerequisites: ["logarithmic"],
+   695→   695→    },
+   696→   696→    (rng) => {
+   697→   697→      const cfg = rng.pick([
+   698→   698→        { x: 4, d: 2, k: 3 },
+   699→   699→        { x: 8, d: 6, k: 4 },
+   700→   700→        { x: 8, d: 4, k: 5 },
+
+[showing lines 1-700 of 702; use offset=701 with limit to continue reading]

@@ -1149,4 +1149,157 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+  /* ================================================================== */
+  /* Curated — Fundamentos ESPOL, §5.6 ejercicio 58 (presión arterial), */
+  /* p. 670. Verified with sympy (period 6/5 s; P=100 at t=0.3, 0.9).   */
+  /* ================================================================== */
+
+  /* 58a — period of the blood-pressure model */
+  template(
+    {
+      id: "trigfn-espol-58a",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "period",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 180,
+      tags: ["modeling", "period", "health"],
+      prerequisites: ["trig-functions"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "5.6 · 58a",
+        page: 670,
+      },
+      reasoning: "modeling",
+    },
+    () => ({
+      skill: L("Periodo de un modelo real", "Period of a real-world model"),
+      statement: L(
+        `En reposo, la presión arterial de una persona (en milímetros de mercurio, en cualquier segundo $t \\geq 0$) puede aproximarse por $$P(t) = -20\\cos\\!\\left(\\frac{5\\pi}{3}t\\right) + 100.$$ ¿Cuál es el **periodo fundamental** de $P$, en segundos?`,
+        `At rest, a person's blood pressure (in millimeters of mercury, at any second $t \\geq 0$) can be approximated by $$P(t) = -20\\cos\\!\\left(\\frac{5\\pi}{3}t\\right) + 100.$$ What is the **fundamental period** of $P$, in seconds?`,
+      ),
+      answer: {
+        kind: "numeric",
+        value: 1.2,
+        tolerance: { mode: "relative", value: 0.02 },
+      },
+      hints: [
+        L(
+          "Para $f(t) = A\\cos(\\omega t) + C$, el periodo es $T = \\frac{2\\pi}{\\omega}$.",
+          "For $f(t) = A\\cos(\\omega t) + C$, the period is $T = \\frac{2\\pi}{\\omega}$.",
+        ),
+        L(
+          "Aquí $\\omega = \\frac{5\\pi}{3}$.",
+          "Here $\\omega = \\frac{5\\pi}{3}$.",
+        ),
+        L(
+          "$T = \\frac{2\\pi}{5\\pi/3} = \\frac{6}{5} = 1{,}2$ segundos (puedes teclear \\`6/5\\` o \\`1,2\\`).",
+          "$T = \\frac{2\\pi}{5\\pi/3} = \\frac{6}{5} = 1.2$ seconds (you may type \\`6/5\\` or \\`1.2\\`).",
+        ),
+      ],
+      answerDisplay: L(
+        `$T = \\frac{6}{5}\\ \\text{s} = 1{,}2\\ \\text{s}$`,
+        `$T = \\frac{6}{5}\\ \\text{s} = 1.2\\ \\text{s}$`,
+      ),
+      solution: [
+        step(
+          "given",
+          "$P(t) = -20\\cos\\!\\left(\\frac{5\\pi}{3}t\\right) + 100$: amplitud $20$, línea media $100$, frecuencia angular $\\omega = \\frac{5\\pi}{3}$.",
+          "$P(t) = -20\\cos\\!\\left(\\frac{5\\pi}{3}t\\right) + 100$: amplitude $20$, midline $100$, angular frequency $\\omega = \\frac{5\\pi}{3}$.",
+        ),
+        step(
+          "approach",
+          "El periodo de un coseno con argumento $\\omega t$ es el $T$ que hace que el argumento avance exactamente $2\\pi$.",
+          "The period of a cosine with argument $\\omega t$ is the $T$ that makes the argument advance exactly $2\\pi$.",
+        ),
+        step(
+          "calculation",
+          `$\\omega T = 2\\pi$<br>$T = \\frac{2\\pi}{5\\pi/3} = \\frac{2\\pi \\cdot 3}{5\\pi} = \\frac{6}{5} = 1{,}2$`,
+          `$\\omega T = 2\\pi$<br>$T = \\frac{2\\pi}{5\\pi/3} = \\frac{2\\pi \\cdot 3}{5\\pi} = \\frac{6}{5} = 1.2$`,
+        ),
+        step(
+          "result",
+          `El periodo fundamental es $\\frac{6}{5} = 1{,}2$ segundos: el ciclo cardíaco se repite cada 1,2 s (50 latidos por minuto en reposo, dato coherente).`,
+          `The fundamental period is $\\frac{6}{5} = 1.2$ seconds: the cardiac cycle repeats every 1.2 s (50 beats per minute at rest — consistent).`,
+        ),
+      ],
+    }),
+  ),
+
+  /* 58d — first t > 0 with P(t) = 100 */
+  template(
+    {
+      id: "trigfn-espol-58d",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "amplitude",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 300,
+      tags: ["modeling", "cosine", "equation"],
+      prerequisites: ["trig-functions"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "5.6 · 58d",
+        page: 670,
+      },
+      reasoning: "modeling",
+    },
+    () => ({
+      skill: L("Modelo: ¿cuándo cruza la línea media?", "Model: when does it cross the midline?"),
+      statement: L(
+        `En reposo, la presión arterial (en mm Hg, en cualquier segundo $t \\geq 0$) se aproxima por $$P(t) = -20\\cos\\!\\left(\\frac{5\\pi}{3}t\\right) + 100.$$ Determina el **primer instante $t > 0$** en que la presión vale exactamente $100$ mm Hg (en segundos).`,
+        `At rest, blood pressure (in mm Hg, at any second $t \\geq 0$) is approximated by $$P(t) = -20\\cos\\!\\left(\\frac{5\\pi}{3}t\\right) + 100.$$ Find the **first instant $t > 0$** at which the pressure equals exactly $100$ mm Hg (in seconds).`,
+      ),
+      answer: {
+        kind: "numeric",
+        value: 0.3,
+        tolerance: { mode: "absolute", value: 0.005 },
+      },
+      hints: [
+        L(
+          "$P(t) = 100$ obliga al coseno a valer cero: $-20\\cos(\\cdot) + 100 = 100$.",
+          "$P(t) = 100$ forces the cosine to vanish: $-20\\cos(\\cdot) + 100 = 100$.",
+        ),
+        L(
+          "$\\cos\\!\\left(\\frac{5\\pi}{3}t\\right) = 0 \\Rightarrow \\frac{5\\pi}{3}t = \\frac{\\pi}{2} + k\\pi$.",
+          "$\\cos\\!\\left(\\frac{5\\pi}{3}t\\right) = 0 \\Rightarrow \\frac{5\\pi}{3}t = \\frac{\\pi}{2} + k\\pi$.",
+        ),
+        L(
+          "$t = \\frac{3}{10} + \\frac{3k}{5}$: el primer positivo es con $k = 0$.",
+          "$t = \\frac{3}{10} + \\frac{3k}{5}$: the first positive one uses $k = 0$.",
+        ),
+      ],
+      answerDisplay: L(
+        `$t = \\frac{3}{10} = 0{,}3\\ \\text{s}$ (y luego $t = 0{,}9\\ \\text{s}$ dentro del primer periodo)`,
+        `$t = \\frac{3}{10} = 0.3\\ \\text{s}$ (then $t = 0.9\\ \\text{s}$ within the first period)`,
+      ),
+      solution: [
+        step(
+          "given",
+          "$P(t) = -20\\cos\\!\\left(\\frac{5\\pi}{3}t\\right) + 100$; pedimos $P(t) = 100$ (la línea media).",
+          "$P(t) = -20\\cos\\!\\left(\\frac{5\\pi}{3}t\\right) + 100$; we want $P(t) = 100$ (the midline).",
+        ),
+        step(
+          "approach",
+          "Igualar a la línea media reduce todo a $\\cos(\\cdot) = 0$: la mitad de la velocidad del coseno son cruces por la media.",
+          "Setting it equal to the midline reduces everything to $\\cos(\\cdot) = 0$: every half-cycle of the cosine crosses the midline.",
+        ),
+        step(
+          "calculation",
+          `$-20\\cos\\!\\left(\\frac{5\\pi}{3}t\\right) + 100 = 100$<br>$\\cos\\!\\left(\\frac{5\\pi}{3}t\\right) = 0$<br>$\\frac{5\\pi}{3}t = \\frac{\\pi}{2} + k\\pi$<br>$t = \\frac{3}{10} + \\frac{3k}{5}$<br>Primer periodo $[0, 1{,}2)$: $t = 0{,}3$ y $t = 0{,}9$`,
+          `$-20\\cos\\!\\left(\\frac{5\\pi}{3}t\\right) + 100 = 100$<br>$\\cos\\!\\left(\\frac{5\\pi}{3}t\\right) = 0$<br>$\\frac{5\\pi}{3}t = \\frac{\\pi}{2} + k\\pi$<br>$t = \\frac{3}{10} + \\frac{3k}{5}$<br>First period $[0, 1.2)$: $t = 0.3$ and $t = 0.9$`,
+        ),
+        step(
+          "result",
+          `El primer instante positivo es $t = \\frac{3}{10} = 0{,}3$ s (dentro del primer periodo vuelve a ocurrir en $t = 0{,}9$ s).`,
+          `The first positive instant is $t = \\frac{3}{10} = 0.3$ s (within the first period it happens again at $t = 0.9$ s).`,
+        ),
+      ],
+    }),
+  ),
+
 ];

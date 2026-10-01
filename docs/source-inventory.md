@@ -52,3 +52,29 @@ definition-hunting | estimation`). El validador del banco
   modelo, no sustitución) — pendiente de fuentes de física específicas o
   autorización para usar el Kompetenzprofil como guía de diseño.
 - Fase 4: topics de cálculo (límites/series/derivadas) para desbloquear el FSP 2020.
+
+## Actualización — importación ESPOL por capítulos (2026-10-01, tarde)
+
+El libro completo (845 págs.) fue descargado del Drive del tutor a
+`/tmp/espol.pdf` y auditado por secciones. Estado de la importación:
+
+| Cap. | Sección | Estado |
+|---|---|---|
+| 3 | §3.9–3.10 (valor absoluto, ecuaciones) | 8 problemas importados (fase previa) |
+| 3 | §3.11 ejercicios 121a, 121c, 126, 127d, 128b, 128c | **6 importados** (desigualdades cuadráticas/radicales + modelado bonos) |
+| 4 | Ejercicios 62, 63, 64 (funciones por tramos) | **3 importados** (costo C(g), propiedades de f, ranking IMG) |
+| 5 | §5.6 ejercicios 1d, 1e, 1f, 1h, 1k, 1l, 1m (ecuaciones) | **7 importados** (suma de soluciones en radianes) |
+| 5 | §5.6 ejercicios 2c, 2d, 2e, 2g (inecuaciones) | **4 importados** (MC con distractores por error) |
+| 5 | §5.6 ejercicio 58 (presión arterial) | **2 importados** (periodo; primer cruce por la línea media) |
+
+Total curado de `fcnm-fundamentos`: **30 plantillas**. Todas verificadas con
+sympy (ver `/home/z/tmp/verify_espol.py`) antes de importar. El OCR del libro
+daña fórmulas; cada transcripción se validó contra las respuestas impresas
+(pp. 799–845) Y con derivación independiente — los ítems con OCR ambiguo
+(p. ej. 111, 127a–c) quedaron FUERA hasta poder confirmar el enunciado
+impreso.
+
+Pendiente del libro (candidatos vistos, aún no importados): §5.6 ej. 59
+(potencias de coseno), §5.5 identidades (necesitan formato "demostración"),
+Ch. 6 FundaRETOS (matrices de Leslie — requiere topic de matrices), ej. 112
+(4x²−4xy−y²=1 literal), ej. 113 (meta-ecuación con cardinalidades).

@@ -1044,4 +1044,251 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+
+  /* ================================================================== */
+  /* Nonlinear systems (Task 17-b) — heavy bridge problems: line ∩      */
+  /* parabola, parabola ∩ circle, and a substitution that yields a      */
+  /* factorable quartic. Original compositions; no source.             */
+  /* ================================================================== */
+
+  /* sys-nonlin-01 — line ∩ parabola: give the intersection point */
+  /* with positive abscissa (substitution → quadratic → back-substitution). */
+  template(
+    {
+      id: "sys-nonlin-01",
+      subject: "math",
+      topicId: "systems",
+      subtopicId: "substitution",
+      difficulty: "hard",
+      questionType: "text",
+      estimatedTimeSec: 240,
+      tags: ["systems", "nonlinear", "quadratics", "substitution", "parabola"],
+      prerequisites: ["quadratics", "linear-equations"],
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const x2 = rng.int(1, 4);
+      const x1 = rng.intExcluding(-5, -1, [-x2]);
+      const m = x1 + x2;
+      const b = -x1 * x2;
+      return {
+        skill: L("Sistema no lineal: recta y parábola", "Nonlinear system: line and parabola"),
+        statement: L(
+          `Resuelve el sistema y escribe el punto de intersección con **abscisa positiva** como par ordenado $(x, y)$, por ejemplo $(2, 4)$: $$\\begin{cases} y = x^2 \\\\ y = ${linExpr(m, b)} \\end{cases}$$`,
+          `Solve the system and write the intersection point with **positive abscissa** as an ordered pair $(x, y)$, e.g. $(2, 4)$: $$\\begin{cases} y = x^2 \\\\ y = ${linExpr(m, b)} \\end{cases}$$`,
+        ),
+        answer: {
+          kind: "text",
+          accepted: [
+            `(${x2}, ${x2 * x2})`,
+            `(${x2},${x2 * x2})`,
+            `( ${x2}, ${x2 * x2} )`,
+            `(${x2} , ${x2 * x2})`,
+            `x = ${x2}, y = ${x2 * x2}`,
+          ],
+        },
+        hints: [
+          L(
+            "Iguala las dos expresiones de $y$: $x^2 = " + linExpr(m, b) + "$ deja una ecuación con una sola incógnita.",
+            "Equate the two expressions for $y$: $x^2 = " + linExpr(m, b) + "$ leaves an equation in one unknown.",
+          ),
+          L(
+            "Te queda una cuadrática con **dos** raíces de distinto signo: el sistema tiene dos puntos de corte.",
+            "You get a quadratic with **two** roots of opposite sign: the system has two intersection points.",
+          ),
+          L(
+            "Para cada raíz, la ordenada sale de $y = x^2$; quédate con el punto de abscisa positiva.",
+            "For each root, the ordinate comes from $y = x^2$; keep the point with positive abscissa.",
+          ),
+        ],
+        answerDisplay: L(
+          `Cortes: $(${x1}, ${x1 * x1})$ y $(${x2}, ${x2 * x2})$; el pedido es $(${x2}, ${x2 * x2})$`,
+          `Intersections: $(${x1}, ${x1 * x1})$ and $(${x2}, ${x2 * x2})$; the requested one is $(${x2}, ${x2 * x2})$`,
+        ),
+        solution: [
+          step(
+            "given",
+          `$$\\begin{cases} y = x^2 \\\\ y = ${linExpr(m, b)} \\end{cases}$$`,
+          `$$\\begin{cases} y = x^2 \\\\ y = ${linExpr(m, b)} \\end{cases}$$`,
+          ),
+          step(
+            "approach",
+            "Sustituimos la recta en la parábola (método de sustitución): resulta una cuadrática, y cada raíz vuelve al sistema para dar la ordenada.",
+            "We substitute the line into the parabola (substitution method): a quadratic results, and each root goes back into the system to give the ordinate.",
+          ),
+          step(
+            "calculation",
+          `Paso 1 (sustitución): $x^2 = ${linExpr(m, b)}$ ⟹ $x^2 ${opTerm(-m, "x")} ${op(-b)} = 0$.<br>Paso 2 (cuadráticas): $(x ${x1 >= 0 ? "- " : "+ "}${Math.abs(x1)})(x - ${x2}) = 0$ ⟹ $x = ${x1}$ o $x = ${x2}$.<br>Paso 3 (vuelta al sistema): con $x = ${x2}$: $y = ${x2}^2 = ${x2 * x2}$ ⟹ punto $(${x2}, ${x2 * x2})$. El otro corte es $(${x1}, ${x1 * x1})$.`,
+          `Paso 1 (substitution): $x^2 = ${linExpr(m, b)}$ ⟹ $x^2 ${opTerm(-m, "x")} ${op(-b)} = 0$.<br>Paso 2 (quadratics): $(x ${x1 >= 0 ? "- " : "+ "}${Math.abs(x1)})(x - ${x2}) = 0$ ⟹ $x = ${x1}$ or $x = ${x2}$.<br>Paso 3 (back into the system): with $x = ${x2}$: $y = ${x2}^2 = ${x2 * x2}$ ⟹ point $(${x2}, ${x2 * x2})$. The other intersection is $(${x1}, ${x1 * x1})$.`,
+          ),
+          step(
+            "result",
+          `El punto de intersección con abscisa positiva es $(${x2}, ${x2 * x2})$.`,
+          `The intersection point with positive abscissa is $(${x2}, ${x2 * x2})$.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* sys-nonlin-02 — parabola ∩ circle: largest ordinate of the */
+  /* intersections (substitution → biquadratic → back-substitution). */
+  template(
+    {
+      id: "sys-nonlin-02",
+      subject: "math",
+      topicId: "systems",
+      subtopicId: "substitution",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 300,
+      tags: ["systems", "nonlinear", "quadratics", "circles", "biquadratic"],
+      prerequisites: ["quadratics", "analytic-geometry"],
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const cfg = rng.pick([
+        { a: 1, b: 2 },
+        { a: 2, b: 3 },
+        { a: 1, b: 4 },
+        { a: 2, b: 5 },
+        { a: 3, b: 4 },
+        { a: 4, b: 5 },
+        { a: 5, b: 6 },
+      ]);
+      const c = (1 + cfg.a * cfg.a + cfg.b * cfg.b) / 2;
+      const r2 = c * c - cfg.a * cfg.a * cfg.b * cfg.b;
+      const yA = cfg.a * cfg.a - c;
+      const yB = cfg.b * cfg.b - c;
+      return {
+        skill: L("Sistema no lineal: parábola y circunferencia", "Nonlinear system: parabola and circle"),
+        statement: L(
+          `Resuelve el sistema y halla la **mayor ordenada** ($y$) entre todos los puntos de intersección: $$\\begin{cases} y = x^2 - ${c} \\\\ x^2 + y^2 = ${r2} \\end{cases}$$`,
+          `Solve the system and find the **largest ordinate** ($y$) among all intersection points: $$\\begin{cases} y = x^2 - ${c} \\\\ x^2 + y^2 = ${r2} \\end{cases}$$`,
+        ),
+        answer: { kind: "numeric", value: yB },
+        hints: [
+          L(
+            "Sustituye $y = x^2 - " + c + "$ en la ecuación de la circunferencia: queda todo en función de $x$.",
+            "Substitute $y = x^2 - " + c + "$ into the circle's equation: everything becomes a function of $x$.",
+          ),
+          L(
+            "Te queda una ecuación **bicuadrada** en $x$ (solo potencias pares): usa el cambio $u = x^2$.",
+            "You get a **biquadratic** equation in $x$ (even powers only): use the change $u = x^2$.",
+          ),
+          L(
+            "Cada valor positivo de $u$ da dos valores de $x$ ($\\pm\\sqrt{u}$); calcula la $y$ correspondiente de cada uno y compara.",
+            "Each positive value of $u$ gives two values of $x$ ($\\pm\\sqrt{u}$); compute the corresponding $y$ of each and compare.",
+          ),
+        ],
+        answerDisplay: L(
+          `Los cortes son $(\\pm${cfg.a}, ${yA})$ y $(\\pm${cfg.b}, ${yB})$; la mayor ordenada es $${yB}$`,
+          `The intersections are $(\\pm${cfg.a}, ${yA})$ and $(\\pm${cfg.b}, ${yB})$; the largest ordinate is $${yB}$`,
+        ),
+        solution: [
+          step(
+            "given",
+          `$$\\begin{cases} y = x^2 - ${c} \\\\ x^2 + y^2 = ${r2} \\end{cases}$$`,
+          `$$\\begin{cases} y = x^2 - ${c} \\\\ x^2 + y^2 = ${r2} \\end{cases}$$`,
+          ),
+          step(
+            "approach",
+            "Sustitución (sistemas) → ecuación bicuadrada → cambio $u = x^2$ (cuadráticas) → y cada solución de $x$ vuelve a $y = x^2 - " + c + "$.",
+            "Substitution (systems) → biquadratic equation → change $u = x^2$ (quadratics) → and each $x$ solution goes back into $y = x^2 - " + c + "$.",
+          ),
+          step(
+            "calculation",
+          `Paso 1 (sustitución): $x^2 + (x^2 - ${c})^2 = ${r2}$.<br>Paso 2 (bicuadradas): con $u = x^2$: $u^2 ${opTerm(1 - 2 * c, "u")} ${op(c * c - r2)} = 0$, que se factoriza como $(u - ${cfg.a * cfg.a})(u - ${cfg.b * cfg.b}) = 0$.<br>Paso 3 (vuelta al sistema): $u = ${cfg.a * cfg.a}$ ⟹ $x = \\pm${cfg.a}$ con $y = ${yA}$; $u = ${cfg.b * cfg.b}$ ⟹ $x = \\pm${cfg.b}$ con $y = ${yB}$.`,
+          `Paso 1 (substitution): $x^2 + (x^2 - ${c})^2 = ${r2}$.<br>Paso 2 (biquadratic): with $u = x^2$: $u^2 ${opTerm(1 - 2 * c, "u")} ${op(c * c - r2)} = 0$, which factors as $(u - ${cfg.a * cfg.a})(u - ${cfg.b * cfg.b}) = 0$.<br>Paso 3 (back into the system): $u = ${cfg.a * cfg.a}$ ⟹ $x = \\pm${cfg.a}$ with $y = ${yA}$; $u = ${cfg.b * cfg.b}$ ⟹ $x = \\pm${cfg.b}$ with $y = ${yB}$.`,
+          ),
+          step(
+            "result",
+          `Los cuatro cortes son $(\\pm${cfg.a}, ${yA})$ y $(\\pm${cfg.b}, ${yB})$; la mayor ordenada es $y = ${yB}$.`,
+          `The four intersections are $(\\pm${cfg.a}, ${yA})$ and $(\\pm${cfg.b}, ${yB})$; the largest ordinate is $y = ${yB}$.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* sys-nonlin-03 — circle ∩ hyperbola: the substitution produces */
+  /* a quartic that factors (x⁴ − R²x² + P² = 0). */
+  template(
+    {
+      id: "sys-nonlin-03",
+      subject: "math",
+      topicId: "systems",
+      subtopicId: "substitution",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 300,
+      tags: ["systems", "nonlinear", "quartic", "factoring", "circles"],
+      prerequisites: ["quadratics", "polynomials"],
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const cfg = rng.pick([
+        { m: 4, n: 3 },
+        { m: 12, n: 5 },
+        { m: 8, n: 6 },
+        { m: 7, n: 5 },
+        { m: 15, n: 8 },
+        { m: 12, n: 9 },
+        { m: 10, n: 8 },
+        { m: 5, n: 3 },
+        { m: 24, n: 7 },
+      ]);
+      const R2 = cfg.m * cfg.m + cfg.n * cfg.n;
+      const P = cfg.m * cfg.n;
+      const P2 = P * P;
+      return {
+        skill: L("Sistema no lineal: circunferencia e hipérbola", "Nonlinear system: circle and hyperbola"),
+        statement: L(
+          `El sistema siguiente tiene varias soluciones reales. De la solución que cumple $x > y > 0$, calcula $x + y$: $$\\begin{cases} x^2 + y^2 = ${R2} \\\\ xy = ${P} \\end{cases}$$`,
+          `The following system has several real solutions. For the solution satisfying $x > y > 0$, compute $x + y$: $$\\begin{cases} x^2 + y^2 = ${R2} \\\\ xy = ${P} \\end{cases}$$`,
+        ),
+        answer: { kind: "numeric", value: cfg.m + cfg.n },
+        hints: [
+          L(
+            "De $xy = " + P + "$, despeja $y = \\frac{" + P + "}{x}$ y sustituye en la circunferencia (o piensa en $(x + y)^2$).",
+            "From $xy = " + P + "$, solve $y = \\frac{" + P + "}{x}$ and substitute into the circle (or think of $(x + y)^2$).",
+          ),
+          L(
+            "Al sustituir queda una **cuártica** en $x$; con el cambio $u = x^2$ se convierte en una cuadrática que se factoriza.",
+            "Substituting leaves a **quartic** in $x$; with the change $u = x^2$ it becomes a quadratic that factors.",
+          ),
+          L(
+            "Cada valor de $x$ da $y = \\frac{" + P + "}{x}$; ordena las soluciones y quédate con la de $x > y > 0$.",
+            "Each value of $x$ gives $y = \\frac{" + P + "}{x}$; sort the solutions and keep the one with $x > y > 0$.",
+          ),
+        ],
+        answerDisplay: L(
+          `Solución con $x > y > 0$: $(${cfg.m}, ${cfg.n})$ ⟹ $x + y = ${cfg.m + cfg.n}$`,
+          `Solution with $x > y > 0$: $(${cfg.m}, ${cfg.n})$ ⟹ $x + y = ${cfg.m + cfg.n}$`,
+        ),
+        solution: [
+          step(
+            "given",
+          `$$\\begin{cases} x^2 + y^2 = ${R2} \\\\ xy = ${P} \\end{cases}$$`,
+          `$$\\begin{cases} x^2 + y^2 = ${R2} \\\\ xy = ${P} \\end{cases}$$`,
+          ),
+          step(
+            "approach",
+            "Sustitución (sistemas): la hipérbola metida en la circunferencia produce una cuártica; con $u = x^2$ (cuadráticas) se factoriza y cada raíz vuelve a $xy = " + P + "$.",
+            "Substitution (systems): putting the hyperbola into the circle produces a quartic; with $u = x^2$ (quadratics) it factors, and each root goes back into $xy = " + P + "$.",
+          ),
+          step(
+            "calculation",
+          `Paso 1 (sustitución): $y = \\frac{${P}}{x}$ en la circunferencia: $x^2 + \\frac{${P2}}{x^2} = ${R2}$; multiplicando por $x^2$: $x^4 - ${R2}x^2 + ${P2} = 0$ (cuártica).<br>Paso 2 (cuártica que se factoriza): con $u = x^2$: $u^2 - ${R2}u + ${P2} = (u - ${cfg.m * cfg.m})(u - ${cfg.n * cfg.n}) = 0$ ⟹ $x = \\pm${cfg.m}, \\ \\pm${cfg.n}$.<br>Paso 3 (vuelta al sistema): $x = ${cfg.m}$ ⟹ $y = \\frac{${P}}{${cfg.m}} = ${cfg.n}$; $x = ${cfg.n}$ ⟹ $y = ${cfg.m}$. Las cuatro soluciones son $(${cfg.m}, ${cfg.n})$, $(${cfg.n}, ${cfg.m})$, $(-${cfg.m}, -${cfg.n})$, $(-${cfg.n}, -${cfg.m})$.`,
+          `Paso 1 (substitution): $y = \\frac{${P}}{x}$ into the circle: $x^2 + \\frac{${P2}}{x^2} = ${R2}$; multiplying by $x^2$: $x^4 - ${R2}x^2 + ${P2} = 0$ (a quartic).<br>Paso 2 (quartic that factors): with $u = x^2$: $u^2 - ${R2}u + ${P2} = (u - ${cfg.m * cfg.m})(u - ${cfg.n * cfg.n}) = 0$ ⟹ $x = \\pm${cfg.m}, \\ \\pm${cfg.n}$.<br>Paso 3 (back into the system): $x = ${cfg.m}$ ⟹ $y = \\frac{${P}}{${cfg.m}} = ${cfg.n}$; $x = ${cfg.n}$ ⟹ $y = ${cfg.m}$. The four solutions are $(${cfg.m}, ${cfg.n})$, $(${cfg.n}, ${cfg.m})$, $(-${cfg.m}, -${cfg.n})$, $(-${cfg.n}, -${cfg.m})$.`,
+          ),
+          step(
+            "result",
+          `La solución con $x > y > 0$ es $(${cfg.m}, ${cfg.n})$, así que $x + y = ${cfg.m} + ${cfg.n} = ${cfg.m + cfg.n}$.`,
+          `The solution with $x > y > 0$ is $(${cfg.m}, ${cfg.n})$, so $x + y = ${cfg.m} + ${cfg.n} = ${cfg.m + cfg.n}$.`,
+          ),
+        ],
+      };
+    },
+  ),
 ];

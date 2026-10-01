@@ -1,0 +1,1102 @@
+     1→/**
+     2→ * MATH · Mixed Pre-Calculus Practice
+     3→ *
+     4→ * Exam-style problems that combine several topics (functions, quadratics,
+     5→ * exponentials, logarithms, trig and geometry) with multi-step reasoning.
+     6→ */
+     7→
+     8→import { template, L, step, tok } from "@/lib/problem";
+     9→import type { ProblemTemplate, McOption } from "@/lib/types";
+    10→
+    11→export const templates: ProblemTemplate[] = [
+    12→  /* ---------------------------------------------------------------- */
+    13→  /* Composition of functions (easy)                                   */
+    14→  /* ---------------------------------------------------------------- */
+    15→  template(
+    16→    {
+    17→      id: "pcm-fncomp-01",
+    18→      subject: "math",
+    19→      topicId: "precalculus-mixed",
+    20→      subtopicId: "mixed-topics",
+    21→      difficulty: "easy",
+    22→      questionType: "numeric",
+    23→      estimatedTimeSec: 90,
+    24→      tags: ["composition", "functions"],
+    25→      prerequisites: ["functions"],
+    26→    },
+    27→    (rng) => {
+    28→      const a = rng.pick([2, 3, 4, 5]);
+    29→      const b = rng.nonZeroInt(-5, 6);
+    30→      const useSqrt = rng.bool();
+    31→      const k = useSqrt ? rng.pick([4, 9, 16, 25]) : rng.int(2, 6);
+    32→      const gLatex = useSqrt ? "g(x) = \\sqrt{x}" : "g(x) = x^2";
+    33→      const gInner = useSqrt ? Math.sqrt(k) : k * k;
+    34→      const value = a * gInner + b;
+    35→      return {
+    36→        skill: L("Composición de funciones", "Composition of functions"),
+    37→        statement: L(
+    38→          `Si $f(x) = ${a}x ${b > 0 ? "+" : "-"} ${Math.abs(b)}$ y $${gLatex}$, calcula $f\\bigl(g(${k})\\bigr)$.`,
+    39→          `If $f(x) = ${a}x ${b > 0 ? "+" : "-"} ${Math.abs(b)}$ and $${gLatex}$, evaluate $f\\bigl(g(${k})\\bigr)$.`,
+    40→        ),
+    41→        answer: { kind: "numeric", value },
+    42→        hints: [
+    43→          L(
+    44→            "Trabaja desde dentro hacia fuera: primero la función interior.",
+    45→            "Work from the inside out: the inner function first.",
+    46→          ),
+    47→          L(
+    48→            `Calcula $g(${k})$.`,
+    49→            `Compute $g(${k})$.`,
+    50→          ),
+    51→          L(
+    52→            "Sustituye ese resultado en $f$.",
+    53→            "Substitute that result into $f$.",
+    54→          ),
+    55→        ],
+    56→        answerDisplay: L(
+    57→          `$f\\bigl(g(${k})\\bigr) = ${value}$`,
+    58→          `$f\\bigl(g(${k})\\bigr) = ${value}$`,
+    59→        ),
+    60→        solution: [
+    61→          step(
+    62→            "given",
+    63→            `$f(x) = ${a}x ${b > 0 ? "+" : "-"} ${Math.abs(b)}$, $${gLatex}$; queremos $f(g(${k}))$.`,
+    64→            `$f(x) = ${a}x ${b > 0 ? "+" : "-"} ${Math.abs(b)}$, $${gLatex}$; we want $f(g(${k}))$.`,
+    65→          ),
+    66→          step(
+    67→            "approach",
+    68→            "Evaluamos la función interior y el resultado lo metemos en la exterior.",
+    69→            "Evaluate the inner function and feed its output into the outer one.",
+    70→          ),
+    71→          step(
+    72→            "calculation",
+    73→            `$g(${k}) = ${gInner}$<br>$f(${gInner}) = ${a}\\cdot${gInner} ${b > 0 ? "+" : "-"} ${Math.abs(b)} = ${value}$`,
+    74→            `$g(${k}) = ${gInner}$<br>$f(${gInner}) = ${a}\\cdot${gInner} ${b > 0 ? "+" : "-"} ${Math.abs(b)} = ${value}$`,
+    75→          ),
+    76→          step(
+    77→            "result",
+    78→            `$f\\bigl(g(${k})\\bigr) = ${value}$.`,
+    79→            `$f\\bigl(g(${k})\\bigr) = ${value}$.`,
+    80→          ),
+    81→        ],
+    82→      };
+    83→    },
+    84→  ),
+    85→
+    86→  /* ---------------------------------------------------------------- */
+    87→  /* Expand a binomial product (easy, expression)                      */
+    88→  /* ---------------------------------------------------------------- */
+    89→  template(
+    90→    {
+    91→      id: "pcm-expand-01",
+    92→      subject: "math",
+    93→      topicId: "precalculus-mixed",
+    94→      subtopicId: "mixed-topics",
+    95→      difficulty: "easy",
+    96→      questionType: "expression",
+    97→      estimatedTimeSec: 90,
+    98→      tags: ["polynomials", "expand"],
+    99→      prerequisites: ["polynomials"],
+   100→    },
+   101→    (rng) => {
+   102→      const a = rng.int(2, 9);
+   103→      const b = rng.int(2, 9);
+   104→      const minus = rng.bool();
+   105→      const c1 = minus ? a - b : a + b;
+   106→      const c0 = minus ? -a * b : a * b;
+   107→      const linTerm =
+   108→        c1 === 0
+   109→          ? ""
+   110→          : c1 === 1
+   111→            ? " + x"
+   112→            : c1 === -1
+   113→              ? " - x"
+   114→              : c1 > 0
+   115→                ? ` + ${c1}x`
+   116→                : ` - ${Math.abs(c1)}x`;
+   117→      const constTerm = c0 > 0 ? ` + ${c0}` : ` - ${Math.abs(c0)}`;
+   118→      const accepted = `x^2${linTerm}${constTerm}`;
+   119→      const latexTerm =
+   120→        c1 === 0
+   121→          ? ""
+   122→          : c1 === 1
+   123→            ? "+ x"
+   124→            : c1 === -1
+   125→              ? "- x"
+   126→              : `${c1 > 0 ? "+" : "-"} ${Math.abs(c1)}x`;
+   127→      return {
+   128→        skill: L("Producto de binomios", "Product of binomials"),
+   129→        statement: L(
+   130→          `Expande y simplifica: $(x + ${a})(x ${minus ? "-" : "+"} ${b})$ (escribe por ejemplo x^2 + 3x - 10).`,
+   131→          `Expand and simplify: $(x + ${a})(x ${minus ? "-" : "+"} ${b})$ (write e.g. x^2 + 3x - 10).`,
+   132→        ),
+   133→        answer: { kind: "expression", accepted: [accepted], variables: ["x"] },
+   134→        hints: [
+   135→          L(
+   136→            "Aplica la propiedad distributiva término a término.",
+   137→            "Apply the distributive property term by term.",
+   138→          ),
+   139→          L(
+   140→            "Los productos cruzado (externo e interno) dan los términos con $x$.",
+   141→            "The cross products (outer and inner) give the $x$ terms.",
+   142→          ),
+   143→          L(
+   144→            "Suma los términos semejantes: los que llevan $x$ y los números.",
+   145→            "Combine like terms: the ones with $x$ and the constants.",
+   146→          ),
+   147→        ],
+   148→        answerDisplay: L(
+   149→          `$x^2 ${latexTerm} ${c0 > 0 ? "+" : "-"} ${Math.abs(c0)}$`,
+   150→          `$x^2 ${latexTerm} ${c0 > 0 ? "+" : "-"} ${Math.abs(c0)}$`,
+   151→        ),
+   152→        solution: [
+   153→          step(
+   154→            "given",
+   155→            `$(x + ${a})(x ${minus ? "-" : "+"} ${b})$`,
+   156→            `$(x + ${a})(x ${minus ? "-" : "+"} ${b})$`,
+   157→          ),
+   158→          step(
+   159→            "approach",
+   160→            "Multiplicamos cada término del primer paréntesis por cada término del segundo y reducimos.",
+   161→            "Multiply each term of the first parenthesis by each term of the second and combine.",
+   162→          ),
+   163→          step(
+   164→            "calculation",
+   165→            `$(x + ${a})(x ${minus ? "-" : "+"} ${b}) = x^2 ${minus ? "-" : "+"} ${b}x + ${a}x ${minus ? "-" : "+"} ${a * b}$<br>$= x^2 ${latexTerm} ${c0 > 0 ? "+" : "-"} ${Math.abs(c0)}$`,
+   166→            `$(x + ${a})(x ${minus ? "-" : "+"} ${b}) = x^2 ${minus ? "-" : "+"} ${b}x + ${a}x ${minus ? "-" : "+"} ${a * b}$<br>$= x^2 ${latexTerm} ${c0 > 0 ? "+" : "-"} ${Math.abs(c0)}$`,
+   167→          ),
+   168→          step(
+   169→            "result",
+   170→            `El resultado es $${accepted}$.`,
+   171→            `The result is $${accepted}$.`,
+   172→          ),
+   173→        ],
+   174→      };
+   175→    },
+   176→  ),
+   177→
+   178→  /* ---------------------------------------------------------------- */
+   179→  /* Exponential growth (medium)                                       */
+   180→  /* ---------------------------------------------------------------- */
+   181→  template(
+   182→    {
+   183→      id: "pcm-expo-01",
+   184→      subject: "math",
+   185→      topicId: "precalculus-mixed",
+   186→      subtopicId: "exam-style",
+   187→      difficulty: "medium",
+   188→      questionType: "numeric",
+   189→      estimatedTimeSec: 120,
+   190→      tags: ["exponential", "growth", "word-problems"],
+   191→      prerequisites: ["exponential"],
+   192→    },
+   193→    (rng) => {
+   194→      const P0 = rng.pick([100, 200, 500, 1000, 2000]);
+   195→      const t = rng.pick([3, 4, 5]);
+   196→      const value = P0 * 2 ** t;
+   197→      return {
+   198→        skill: L("Crecimiento exponencial", "Exponential growth"),
+   199→        statement: L(
+   200→          `Una cultura de bacterias comienza con $${P0}$ bacterias y su población se **duplica** cada hora. ¿Cuántas bacterias hay tras $${t}$ horas?`,
+   201→          `A bacteria culture starts with $${P0}$ bacteria and its population **doubles** every hour. How many bacteria are there after $${t}$ hours?`,
+   202→        ),
+   203→        answer: { kind: "numeric", value },
+   204→        hints: [
+   205→          L(
+   206→            "Cada hora la población se multiplica por $2$: no se suma una cantidad fija.",
+   207→            "Each hour the population is multiplied by $2$: a fixed amount is not added.",
+   208→          ),
+   209→          L(
+   210→            "Tras $t$ horas: $P = P_0\\cdot 2^{t}$.",
+   211→            "After $t$ hours: $P = P_0\\cdot 2^{t}$.",
+   212→          ),
+   213→          L(
+   214→            `Calcula primero $2^{${t}}$.`,
+   215→            `Compute $2^{${t}}$ first.`,
+   216→          ),
+   217→        ],
+   218→        answerDisplay: L(`$P = ${value}$ bacterias`, `$P = ${value}$ bacteria`),
+   219→        solution: [
+   220→          step(
+   221→            "given",
+   222→            `$P_0 = ${P0}$, duplicación cada hora, $t = ${t}\\ \\text{h}$.`,
+   223→            `$P_0 = ${P0}$, doubling every hour, $t = ${t}\\ \\text{h}$.`,
+   224→          ),
+   225→          step(
+   226→            "approach",
+   227→            "Modelo de crecimiento exponencial con base 2.",
+   228→            "Exponential growth model with base 2.",
+   229→          ),
+   230→          step(
+   231→            "calculation",
+   232→            `$P = ${P0}\\cdot 2^{${t}} = ${P0}\\cdot ${2 ** t} = ${value}$`,
+   233→            `$P = ${P0}\\cdot 2^{${t}} = ${P0}\\cdot ${2 ** t} = ${value}$`,
+   234→          ),
+   235→          step(
+   236→            "result",
+   237→            `Tras $${t}$ horas hay $${value}$ bacterias.`,
+   238→            `After $${t}$ hours there are $${value}$ bacteria.`,
+   239→          ),
+   240→        ],
+   241→      };
+   242→    },
+   243→  ),
+   244→
+   245→  /* ---------------------------------------------------------------- */
+   246→  /* Evaluate logs (medium)                                            */
+   247→  /* ---------------------------------------------------------------- */
+   248→  template(
+   249→    {
+   250→      id: "pcm-log-01",
+   251→      subject: "math",
+   252→      topicId: "precalculus-mixed",
+   253→      subtopicId: "exam-style",
+   254→      difficulty: "medium",
+   255→      questionType: "numeric",
+   256→      estimatedTimeSec: 120,
+   257→      tags: ["logarithms"],
+   258→      prerequisites: ["logarithmic"],
+   259→    },
+   260→    (rng) => {
+   261→      const f1 = rng.pick([
+   262→        { b: 2, k: 4 },
+   263→        { b: 2, k: 5 },
+   264→        { b: 2, k: 6 },
+   265→        { b: 3, k: 3 },
+   266→        { b: 3, k: 4 },
+   267→        { b: 5, k: 3 },
+   268→        { b: 10, k: 3 },
+   269→        { b: 10, k: 4 },
+   270→      ]);
+   271→      const f2 = rng.pick([
+   272→        { b: 2, k: 3 },
+   273→        { b: 2, k: 4 },
+   274→        { b: 3, k: 2 },
+   275→        { b: 3, k: 3 },
+   276→        { b: 5, k: 2 },
+   277→        { b: 10, k: 2 },
+   278→        { b: 10, k: 3 },
+   279→      ]);
+   280→      const n1 = f1.b ** f1.k;
+   281→      const n2 = f2.b ** f2.k;
+   282→      const value = f1.k + f2.k;
+   283→      return {
+   284→        skill: L("Evaluar logaritmos", "Evaluating logarithms"),
+   285→        statement: L(
+   286→          `Calcula: $\\log_{${f1.b}} ${n1} + \\log_{${f2.b}} ${n2}$.`,
+   287→          `Evaluate: $\\log_{${f1.b}} ${n1} + \\log_{${f2.b}} ${n2}$.`,
+   288→        ),
+   289→        answer: { kind: "numeric", value },
+   290→        hints: [
+   291→          L(
+   292→            "Un logaritmo pregunta: ¿a qué exponente hay que elevar la base para obtener el argumento?",
+   293→            "A logarithm asks: to which exponent must the base be raised to obtain the argument?",
+   294→          ),
+   295→          L(
+   296→            "Escribe cada argumento como potencia de su base.",
+   297→            "Write each argument as a power of its base.",
+   298→          ),
+   299→          L(
+   300→            "El logaritmo de una potencia de la base es simplemente el exponente.",
+   301→            "The logarithm of a power of the base is just the exponent.",
+   302→          ),
+   303→        ],
+   304→        answerDisplay: L(
+   305→          `$\\log_{${f1.b}} ${n1} + \\log_{${f2.b}} ${n2} = ${value}$`,
+   306→          `$\\log_{${f1.b}} ${n1} + \\log_{${f2.b}} ${n2} = ${value}$`,
+   307→        ),
+   308→        solution: [
+   309→          step(
+   310→            "given",
+   311→            `$\\log_{${f1.b}} ${n1} + \\log_{${f2.b}} ${n2}$`,
+   312→            `$\\log_{${f1.b}} ${n1} + \\log_{${f2.b}} ${n2}$`,
+   313→          ),
+   314→          step(
+   315→            "approach",
+   316→            "Expresamos cada argumento como potencia de la base del logaritmo.",
+   317→            "Write each argument as a power of its logarithm's base.",
+   318→          ),
+   319→          step(
+   320→            "calculation",
+   321→            `${n1} = ${f1.b}^{${f1.k}} \\Rightarrow \\log_{${f1.b}} ${n1} = ${f1.k}$<br>${n2} = ${f2.b}^{${f2.k}} \\Rightarrow \\log_{${f2.b}} ${n2} = ${f2.k}$<br>Suma: $${f1.k} + ${f2.k} = ${value}$`,
+   322→            `${n1} = ${f1.b}^{${f1.k}} \\Rightarrow \\log_{${f1.b}} ${n1} = ${f1.k}$<br>${n2} = ${f2.b}^{${f2.k}} \\Rightarrow \\log_{${f2.b}} ${n2} = ${f2.k}$<br>Sum: $${f1.k} + ${f2.k} = ${value}$`,
+   323→          ),
+   324→          step(
+   325→            "result",
+   326→            `El valor de la expresión es $${value}$.`,
+   327→            `The value of the expression is $${value}$.`,
+   328→          ),
+   329→        ],
+   330→      };
+   331→    },
+   332→  ),
+   333→
+   334→  /* ---------------------------------------------------------------- */
+   335→  /* Quadratic model: maximum height (medium)                          */
+   336→  /* ---------------------------------------------------------------- */
+   337→  template(
+   338→    {
+   339→      id: "pcm-quadapp-01",
+   340→      subject: "math",
+   341→      topicId: "precalculus-mixed",
+   342→      subtopicId: "multi-step",
+   343→      difficulty: "medium",
+   344→      questionType: "numeric",
+   345→      estimatedTimeSec: 180,
+   346→      tags: ["quadratics", "vertex", "modeling"],
+   347→      prerequisites: ["quadratics"],
+   348→    },
+   349→    (rng) => {
+   350→      const v = rng.pick([20, 30, 40, 60]);
+   351→      const tStar = v / 10;
+   352→      const hMax = (v * v) / 20;
+   353→      return {
+   354→        skill: L("Altura máxima de un lanzamiento", "Maximum height of a launch"),
+   355→        statement: L(
+   356→          `Se lanza un objeto verticalmente hacia arriba y su altura (en metros) tras $t$ segundos es $h(t) = -5t^2 + ${v}t$. ¿Qué **altura máxima** alcanza?`,
+   357→          `An object is thrown straight up and its height (in metres) after $t$ seconds is $h(t) = -5t^2 + ${v}t$. What is its **maximum height**?`,
+   358→        ),
+   359→        answer: { kind: "numeric", value: hMax, unitSuffix: "m" },
+   360→        hints: [
+   361→          L(
+   362→            "La altura es una función cuadrática con coeficiente principal negativo: su máximo está en el vértice.",
+   363→            "The height is a quadratic function with negative leading coefficient: its maximum is at the vertex.",
+   364→          ),
+   365→          L(
+   366→            `El tiempo del vértice es $t_v = \\frac{-b}{2a}$ con $a = -5$ y $b = ${v}$.`,
+   367→            `The vertex time is $t_v = \\frac{-b}{2a}$ with $a = -5$ and $b = ${v}$.`,
+   368→          ),
+   369→          L(
+   370→            "Sustituye $t_v$ en $h(t)$.",
+   371→            "Substitute $t_v$ into $h(t)$.",
+   372→          ),
+   373→        ],
+   374→        answerDisplay: L(
+   375→          `Altura máxima $= ${hMax}\\ \\text{m}$`,
+   376→          `Maximum height $= ${hMax}\\ \\text{m}$`,
+   377→        ),
+   378→        solution: [
+   379→          step(
+   380→            "given",
+   381→            `$h(t) = -5t^2 + ${v}t$ (metros, segundos).`,
+   382→            `$h(t) = -5t^2 + ${v}t$ (metres, seconds).`,
+   383→          ),
+   384→          step(
+   385→            "approach",
+   386→            "Hallamos el vértice de la parábola y evaluamos la función allí.",
+   387→            "Find the vertex of the parabola and evaluate the function there.",
+   388→          ),
+   389→          step(
+   390→            "calculation",
+   391→            `$t_v = \\frac{-${v}}{2\\cdot(-5)} = ${tStar}\\ \\text{s}$<br>$h(${tStar}) = -5\\cdot${tStar * tStar} + ${v}\\cdot${tStar} = ${hMax}$`,
+   392→            `$t_v = \\frac{-${v}}{2\\cdot(-5)} = ${tStar}\\ \\text{s}$<br>$h(${tStar}) = -5\\cdot${tStar * tStar} + ${v}\\cdot${tStar} = ${hMax}$`,
+   393→          ),
+   394→          step(
+   395→            "result",
+   396→            `La altura máxima es $${hMax}\\ \\text{m}$, alcanzada a los $${tStar}\\ \\text{s}$.`,
+   397→            `The maximum height is $${hMax}\\ \\text{m}$, reached at $t = ${tStar}\\ \\text{s}$.`,
+   398→          ),
+   399→        ],
+   400→      };
+   401→    },
+   402→  ),
+   403→
+   404→  /* ---------------------------------------------------------------- */
+   405→  /* Trig ratio with Pythagorean triple (medium, MC)                   */
+   406→  /* ---------------------------------------------------------------- */
+   407→  template(
+   408→    {
+   409→      id: "pcm-trigratio-01",
+   410→      subject: "math",
+   411→      topicId: "precalculus-mixed",
+   412→      subtopicId: "mixed-topics",
+   413→      difficulty: "medium",
+   414→      questionType: "multiple-choice",
+   415→      estimatedTimeSec: 150,
+   416→      tags: ["trig", "pythagorean-triples"],
+   417→      prerequisites: ["trig-foundations"],
+   418→    },
+   419→    (rng) => {
+   420→      const t = rng.pick([
+   421→        { a: 3, b: 4, c: 5 },
+   422→        { a: 5, b: 12, c: 13 },
+   423→        { a: 8, b: 15, c: 17 },
+   424→        { a: 7, b: 24, c: 25 },
+   425→      ]);
+   426→      const ask = rng.pick(["cos", "tan"] as const);
+   427→      const options: McOption[] =
+   428→        ask === "cos"
+   429→          ? [
+   430→              { id: "a", text: L(`$\\frac{${t.b}}{${t.c}}$`, `$\\frac{${t.b}}{${t.c}}$`), correct: true },
+   431→              { id: "b", text: L(`$\\frac{${t.a}}{${t.c}}$`, `$\\frac{${t.a}}{${t.c}}$`), correct: false },
+   432→              { id: "c", text: L(`$\\frac{${t.c}}{${t.b}}$`, `$\\frac{${t.c}}{${t.b}}$`), correct: false },
+   433→              { id: "d", text: L(`$\\frac{${t.b}}{${t.a}}$`, `$\\frac{${t.b}}{${t.a}}$`), correct: false },
+   434→            ]
+   435→          : [
+   436→              { id: "a", text: L(`$\\frac{${t.a}}{${t.b}}$`, `$\\frac{${t.a}}{${t.b}}$`), correct: true },
+   437→              { id: "b", text: L(`$\\frac{${t.b}}{${t.a}}$`, `$\\frac{${t.b}}{${t.a}}$`), correct: false },
+   438→              { id: "c", text: L(`$\\frac{${t.a}}{${t.c}}$`, `$\\frac{${t.a}}{${t.c}}$`), correct: false },
+   439→              { id: "d", text: L(`$\\frac{${t.b}}{${t.c}}$`, `$\\frac{${t.b}}{${t.c}}$`), correct: false },
+   440→            ];
+   441→      const answerFrac = ask === "cos" ? `\\frac{${t.b}}{${t.c}}` : `\\frac{${t.a}}{${t.b}}`;
+   442→      return {
+   443→        skill: L("Razones con ternas pitagóricas", "Ratios with Pythagorean triples"),
+   444→        statement: L(
+   445→          `Si $\\sin\\theta = \\frac{${t.a}}{${t.c}}$ y $\\theta$ es un ángulo agudo, ¿cuánto vale $\\${ask}\\theta$?`,
+   446→          `If $\\sin\\theta = \\frac{${t.a}}{${t.c}}$ and $\\theta$ is acute, what is $\\${ask}\\theta$?`,
+   447→        ),
+   448→        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+   449→        hints: [
+   450→          L(
+   451→            "$\\sin\\theta = \\frac{\\text{opuesto}}{\\text{hipotenusa}}$: marca esos dos lados en un triángulo rectángulo.",
+   452→            "$\\sin\\theta = \\frac{\\text{opposite}}{\\text{hypotenuse}}$: mark those two sides on a right triangle.",
+   453→          ),
+   454→          L(
+   455→            `La hipotenusa mide $${t.c}$ y el cateto opuesto $${t.a}$; halla el tercer lado con Pitágoras.`,
+   456→            `The hypotenuse is $${t.c}$ and the opposite leg is $${t.a}$; find the third side with Pythagoras.`,
+   457→          ),
+   458→          L(
+   459→            `Con los tres lados, $\\cos\\theta = \\frac{\\text{adyacente}}{\\text{hipotenusa}}$ y $\\tan\\theta = \\frac{\\text{opuesto}}{\\text{adyacente}}$.`,
+   460→            `With all three sides, $\\cos\\theta = \\frac{\\text{adjacent}}{\\text{hypotenuse}}$ and $\\tan\\theta = \\frac{\\text{opposite}}{\\text{adjacent}}$.`,
+   461→          ),
+   462→        ],
+   463→        answerDisplay: L(`$\\${ask}\\theta = ${answerFrac}$`, `$\\${ask}\\theta = ${answerFrac}$`),
+   464→        solution: [
+   465→          step(
+   466→            "given",
+   467→            `$\\sin\\theta = \\frac{${t.a}}{${t.c}}$, $\\theta$ agudo.`,
+   468→            `$\\sin\\theta = \\frac{${t.a}}{${t.c}}$, $\\theta$ acute.`,
+   469→          ),
+   470→          step(
+   471→            "approach",
+   472→            "Construimos el triángulo rectángulo asociado y completamos el lado que falta.",
+   473→            "Build the associated right triangle and complete the missing side.",
+   474→          ),
+   475→          step(
+   476→            "calculation",
+   477→            `Hipotenusa $= ${t.c}$, opuesto $= ${t.a}$.<br>Adyacente: $\\sqrt{${t.c}^2 - ${t.a}^2} = \\sqrt{${t.c * t.c} - ${t.a * t.a}} = ${t.b}$.<br>$${ask === "cos" ? `\\cos\\theta = \\frac{${t.b}}{${t.c}}` : `\\tan\\theta = \\frac{${t.a}}{${t.b}}`}$`,
+   478→            `Hypotenuse $= ${t.c}$, opposite $= ${t.a}$.<br>Adjacent: $\\sqrt{${t.c}^2 - ${t.a}^2} = \\sqrt{${t.c * t.c} - ${t.a * t.a}} = ${t.b}$.<br>$${ask === "cos" ? `\\cos\\theta = \\frac{${t.b}}{${t.c}}` : `\\tan\\theta = \\frac{${t.a}}{${t.b}}`}$`,
+   479→          ),
+   480→          step(
+   481→            "result",
+   482→            `$\\${ask}\\theta = ${answerFrac}$.`,
+   483→            `$\\${ask}\\theta = ${answerFrac}$.`,
+   484→          ),
+   485→        ],
+   486→      };
+   487→    },
+   488→  ),
+   489→
+   490→  /* ---------------------------------------------------------------- */
+   491→  /* Radius of a circle through a point (medium)                       */
+   492→  /* ---------------------------------------------------------------- */
+   493→  template(
+   494→    {
+   495→      id: "pcm-geom-01",
+   496→      subject: "math",
+   497→      topicId: "precalculus-mixed",
+   498→      subtopicId: "mixed-topics",
+   499→      difficulty: "medium",
+   500→      questionType: "numeric",
+   501→      estimatedTimeSec: 150,
+   502→      tags: ["circles", "distance", "analytic-geometry"],
+   503→      prerequisites: ["analytic-geometry"],
+   504→    },
+   505→    (rng) => {
+   506→      const off = rng.pick([
+   507→        { dx: 3, dy: 4, r: 5 },
+   508→        { dx: 4, dy: 3, r: 5 },
+   509→        { dx: 6, dy: 8, r: 10 },
+   510→        { dx: 5, dy: 12, r: 13 },
+   511→        { dx: 9, dy: 12, r: 15 },
+   512→      ]);
+   513→      const h = rng.int(-4, 4);
+   514→      const k = rng.int(-4, 4);
+   515→      const px = h + off.dx;
+   516→      const py = k + off.dy;
+   517→      return {
+   518→        skill: L("Radio de una circunferencia", "Radius of a circle"),
+   519→        statement: L(
+   520→          `Una circunferencia tiene centro en $(${h}, ${k})$ y pasa por el punto $(${px}, ${py})$. ¿Cuánto mide su radio $r$?`,
+   521→          `A circle has centre $(${h}, ${k})$ and passes through the point $(${px}, ${py})$. What is its radius $r$?`,
+   522→        ),
+   523→        answer: { kind: "numeric", value: off.r },
+   524→        hints: [
+   525→          L(
+   526→            "El radio es la distancia del centro a cualquier punto de la circunferencia.",
+   527→            "The radius is the distance from the centre to any point on the circle.",
+   528→          ),
+   529→          L(
+   530→            "La distancia entre dos puntos usa las **diferencias** de coordenadas.",
+   531→            "The distance between two points uses the coordinate **differences**.",
+   532→          ),
+   533→          L(
+   534→            `$r = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$: las diferencias aquí son $${off.dx}$ y $${off.dy}$.`,
+   535→            `$r = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$: here the differences are $${off.dx}$ and $${off.dy}$.`,
+   536→          ),
+   537→        ],
+   538→        answerDisplay: L(`$r = ${off.r}$`, `$r = ${off.r}$`),
+   539→        solution: [
+   540→          step(
+   541→            "given",
+   542→            `Centro $(${h}, ${k})$, punto de la circunferencia $(${px}, ${py})$.`,
+   543→            `Centre $(${h}, ${k})$, point on the circle $(${px}, ${py})$.`,
+   544→          ),
+   545→          step(
+   546→            "approach",
+   547→            "El radio es la distancia entre el centro y el punto, con la fórmula de la distancia.",
+   548→            "The radius is the distance between the centre and the point, via the distance formula.",
+   549→          ),
+   550→          step(
+   551→            "calculation",
+   552→            `$r = \\sqrt{(${px} - (${h}))^2 + (${py} - (${k}))^2} = \\sqrt{${off.dx}^2 + ${off.dy}^2} = \\sqrt{${off.dx * off.dx} + ${off.dy * off.dy}} = ${off.r}$`,
+   553→            `$r = \\sqrt{(${px} - (${h}))^2 + (${py} - (${k}))^2} = \\sqrt{${off.dx}^2 + ${off.dy}^2} = \\sqrt{${off.dx * off.dx} + ${off.dy * off.dy}} = ${off.r}$`,
+   554→          ),
+   555→          step(
+   556→            "result",
+   557→            `El radio mide $${off.r}$.`,
+   558→            `The radius is $${off.r}$.`,
+   559→          ),
+   560→        ],
+   561→      };
+   562→    },
+   563→  ),
+   564→
+   565→  /* ---------------------------------------------------------------- */
+   566→  /* Rectangle: area + perimeter → sides (hard)                        */
+   567→  /* ---------------------------------------------------------------- */
+   568→  template(
+   569→    {
+   570→      id: "pcm-syseq-01",
+   571→      subject: "math",
+   572→      topicId: "precalculus-mixed",
+   573→      subtopicId: "multi-step",
+   574→      difficulty: "hard",
+   575→      questionType: "numeric",
+   576→      estimatedTimeSec: 240,
+   577→      tags: ["systems", "quadratics", "geometry"],
+   578→      prerequisites: ["quadratics", "systems"],
+   579→    },
+   580→    (rng) => {
+   581→      const cfg = rng.pick([
+   582→        { w: 5, l: 7 },
+   583→        { w: 6, l: 10 },
+   584→        { w: 4, l: 9 },
+   585→        { w: 7, l: 12 },
+   586→        { w: 8, l: 13 },
+   587→        { w: 5, l: 12 },
+   588→      ]);
+   589→      const area = cfg.w * cfg.l;
+   590→      const per = 2 * (cfg.w + cfg.l);
+   591→      const sum = cfg.w + cfg.l;
+   592→      return {
+   593→        skill: L("Rectángulo con área y perímetro", "Rectangle from area and perimeter"),
+   594→        statement: L(
+   595→          `El área de un rectángulo es $${area}\\ \\text{cm}^2$ y su perímetro es $${per}\\ \\text{cm}$. ¿Cuánto mide su **lado mayor**?`,
+   596→          `A rectangle has area $${area}\\ \\text{cm}^2$ and perimeter $${per}\\ \\text{cm}$. How long is its **longer side**?`,
+   597→        ),
+   598→        answer: { kind: "numeric", value: cfg.l, unitSuffix: "cm" },
+   599→        hints: [
+   600→          L(
+   601→            "Llama $x$ e $y$ a los lados: su suma es el semiperímetro y su producto es el área.",
+   602→            "Call the sides $x$ and $y$: their sum is the semiperimeter and their product is the area.",
+   603→          ),
+   604→          L(
+   605→            `Dos números con suma $${sum}$ y producto $${area}$ son las raíces de $u^2 - ${sum}u + ${area} = 0$.`,
+   606→            `Two numbers with sum $${sum}$ and product $${area}$ are the roots of $u^2 - ${sum}u + ${area} = 0$.`,
+   607→          ),
+   608→          L(
+   609→            "Factoriza la cuadrática (o usa la fórmula) y quédate con la raíz mayor.",
+   610→            "Factor the quadratic (or use the formula) and keep the larger root.",
+   611→          ),
+   612→        ],
+   613→        answerDisplay: L(
+   614→          `Lados: $${cfg.w}\\ \\text{cm}$ y $${cfg.l}\\ \\text{cm}$; el mayor es $${cfg.l}\\ \\text{cm}$`,
+   615→          `Sides: $${cfg.w}\\ \\text{cm}$ and $${cfg.l}\\ \\text{cm}$; the longer one is $${cfg.l}\\ \\text{cm}$`,
+   616→        ),
+   617→        solution: [
+   618→          step(
+   619→            "given",
+   620→            `Área $= ${area}\\ \\text{cm}^2$, perímetro $= ${per}\\ \\text{cm}$.`,
+   621→            `Area $= ${area}\\ \\text{cm}^2$, perimeter $= ${per}\\ \\text{cm}$.`,
+   622→          ),
+   623→          step(
+   624→            "approach",
+   625→            "Planteamos suma y producto de los lados y resolvemos la ecuación cuadrática resultante.",
+   626→            "Set up the sum and product of the sides and solve the resulting quadratic equation.",
+   627→          ),
+   628→          step(
+   629→            "calculation",
+   630→            `$x + y = \\frac{${per}}{2} = ${sum}$, $xy = ${area}$<br>$u^2 - ${sum}u + ${area} = 0$<br>$(u - ${cfg.w})(u - ${cfg.l}) = 0 \\Rightarrow u \\in \\{${cfg.w},\\ ${cfg.l}\\}$`,
+   631→            `$x + y = \\frac{${per}}{2} = ${sum}$, $xy = ${area}$<br>$u^2 - ${sum}u + ${area} = 0$<br>$(u - ${cfg.w})(u - ${cfg.l}) = 0 \\Rightarrow u \\in \\{${cfg.w},\\ ${cfg.l}\\}$`,
+   632→          ),
+   633→          step(
+   634→            "result",
+   635→            `Los lados miden $${cfg.w}\\ \\text{cm}$ y $${cfg.l}\\ \\text{cm}$: el mayor es $${cfg.l}\\ \\text{cm}$.`,
+   636→            `The sides are $${cfg.w}\\ \\text{cm}$ and $${cfg.l}\\ \\text{cm}$: the longer one is $${cfg.l}\\ \\text{cm}$.`,
+   637→          ),
+   638→        ],
+   639→      };
+   640→    },
+   641→  ),
+   642→
+   643→  /* ---------------------------------------------------------------- */
+   644→  /* Logarithmic equation with extraneous root (hard)                  */
+   645→  /* ---------------------------------------------------------------- */
+   646→  template(
+   647→    {
+   648→      id: "pcm-logeq-01",
+   649→      subject: "math",
+   650→      topicId: "precalculus-mixed",
+   651→      subtopicId: "multi-step",
+   652→      difficulty: "hard",
+   653→      questionType: "numeric",
+   654→      estimatedTimeSec: 240,
+   655→      tags: ["logarithms", "equations", "domain"],
+   656→      prerequisites: ["logarithmic"],
+   657→    },
+   658→    (rng) => {
+   659→      const cfg = rng.pick([
+   660→        { x: 4, d: 2, k: 3 },
+   661→        { x: 8, d: 6, k: 4 },
+   662→        { x: 8, d: 4, k: 5 },
+   663→        { x: 16, d: 14, k: 5 },
+   664→        { x: 16, d: 12, k: 6 },
+   665→        { x: 16, d: 8, k: 7 },
+   666→        { x: 32, d: 30, k: 6 },
+   667→        { x: 32, d: 24, k: 8 },
+   668→      ]);
+   669→      const pw = 2 ** cfg.k;
+   670→      const otherRoot = cfg.d - cfg.x; // always negative here
+   671→      return {
+   672→        skill: L("Ecuación logarítmica", "Logarithmic equation"),
+   673→        statement: L(
+   674→          `Resuelve $\\log_2 x + \\log_2(x - ${cfg.d}) = ${cfg.k}$ y escribe la solución **válida**.`,
+   675→          `Solve $\\log_2 x + \\log_2(x - ${cfg.d}) = ${cfg.k}$ and write the **valid** solution.`,
+   676→        ),
+   677→        answer: { kind: "numeric", value: cfg.x },
+   678→        hints: [
+   679→          L(
+   680→            "Combina los dos logaritmos en uno con la propiedad del producto.",
+   681→            "Combine the two logarithms into one with the product property.",
+   682→          ),
+   683→          L(
+   684→            `Pasa a forma exponencial: el argumento debe valer $2^{${cfg.k}}$.`,
+   685→            `Rewrite in exponential form: the argument must equal $2^{${cfg.k}}$.`,
+   686→          ),
+   687→          L(
+   688→            `Resuelve la cuadrática y comprueba el dominio: se necesita $x > ${cfg.d}$; una raíz no lo cumple.`,
+   689→            `Solve the quadratic and check the domain: you need $x > ${cfg.d}$; one root fails this.`,
+   690→          ),
+   691→        ],
+   692→        answerDisplay: L(`$x = ${cfg.x}$`, `$x = ${cfg.x}$`),
+   693→        solution: [
+   694→          step(
+   695→            "given",
+   696→            `$\\log_2 x + \\log_2(x - ${cfg.d}) = ${cfg.k}$, con dominio $x > ${cfg.d}$.`,
+   697→            `$\\log_2 x + \\log_2(x - ${cfg.d}) = ${cfg.k}$, with domain $x > ${cfg.d}$.`,
+   698→          ),
+   699→          step(
+   700→            "approach",
+   701→            "Aplicamos la propiedad del producto, pasamos a forma exponencial y resolvemos la cuadrática; al final descartamos la raíz fuera del dominio.",
+   702→            "Apply the product property, rewrite in exponential form, solve the quadratic; finally discard the root outside the domain.",
+   703→          ),
+   704→          step(
+   705→            "calculation",
+   706→            `$\\log_2\\bigl(x(x - ${cfg.d})\\bigr) = ${cfg.k}$<br>$x(x - ${cfg.d}) = ${pw} \\Rightarrow x^2 - ${cfg.d}x - ${pw} = 0$<br>$(x - ${cfg.x})(x + ${cfg.x - cfg.d}) = 0 \\Rightarrow x \\in \\{${cfg.x},\\ ${otherRoot}\\}$<br>${otherRoot} no cumple $x > ${cfg.d}$.`,
+   707→            `$\\log_2\\bigl(x(x - ${cfg.d})\\bigr) = ${cfg.k}$<br>$x(x - ${cfg.d}) = ${pw} \\Rightarrow x^2 - ${cfg.d}x - ${pw} = 0$<br>$(x - ${cfg.x})(x + ${cfg.x - cfg.d}) = 0 \\Rightarrow x \\in \\{${cfg.x},\\ ${otherRoot}\\}$<br>${otherRoot} fails $x > ${cfg.d}$.`,
+   708→          ),
+   709→          step(
+   710→            "result",
+   711→            `La solución válida es $x = ${cfg.x}$ (comprueba: $\\log_2 ${cfg.x} + \\log_2 ${cfg.x - cfg.d} = ${Math.log2(cfg.x)} + ${Math.log2(cfg.x - cfg.d)} = ${cfg.k}$).`,
+   712→            `The valid solution is $x = ${cfg.x}$ (check: $\\log_2 ${cfg.x} + \\log_2 ${cfg.x - cfg.d} = ${Math.log2(cfg.x)} + ${Math.log2(cfg.x - cfg.d)} = ${cfg.k}$).`,
+   713→          ),
+   714→        ],
+   715→      };
+   716→    },
+   717→  ),
+   718→
+   719→  /* ---------------------------------------------------------------- */
+   720→  /* Challenge: compound-interest doubling time                        */
+   721→  /* ---------------------------------------------------------------- */
+   722→  template(
+   723→    {
+   724→      id: "pcm-chal-01",
+   725→      subject: "math",
+   726→      topicId: "precalculus-mixed",
+   727→      subtopicId: "exam-style",
+   728→      difficulty: "challenge",
+   729→      questionType: "numeric",
+   730→      estimatedTimeSec: 300,
+   731→      tags: ["exponential", "compound-interest", "inequalities"],
+   732→      prerequisites: ["exponential", "quadratics"],
+   733→    },
+   734→    (rng) => {
+   735→      const cfg = rng.pick([
+   736→        { r: 10, factor: 1.1 },
+   737→        { r: 20, factor: 1.2 },
+   738→        { r: 25, factor: 1.25 },
+   739→        { r: 50, factor: 1.5 },
+   740→      ]);
+   741→      const C0 = rng.pick([1000, 2000, 5000]);
+   742→      let n = 1;
+   743→      while (cfg.factor ** n < 2) n++;
+   744→      const powers: string[] = [];
+   745→      for (let i = 1; i <= n; i++) {
+   746→        powers.push(`$${tok(cfg.factor)}^{${i}} \\approx ${tok(Number((cfg.factor ** i).toFixed(3)))}$`);
+   747→      }
+   748→      return {
+   749→        skill: L("Tiempo de duplicación", "Doubling time"),
+   750→        statement: L(
+   751→          `Un capital de $${C0}\\,€$ se invierte a interés compuesto del $${cfg.r}\\%$ anual. ¿Cuántos **años completos** deben pasar para que el capital se haya **más que duplicado**?`,
+   752→          `A sum of $${C0}\\,€$ is invested at $${cfg.r}\\%$ compound interest per year. How many **whole years** must pass before the capital has **more than doubled**?`,
+   753→        ),
+   754→        answer: { kind: "numeric", value: n },
+   755→        hints: [
+   756→          L(
+   757→            `Cada año el capital se multiplica por $1 + \\frac{${cfg.r}}{100} = ${tok(cfg.factor)}$.`,
+   758→            `Each year the capital is multiplied by $1 + \\frac{${cfg.r}}{100} = ${tok(cfg.factor)}$.`,
+   759→          ),
+   760→          L(
+   761→            `Busca el menor $n$ con $\\left(${tok(cfg.factor)}\\right)^{n} \\ge 2$; el importe inicial no influye.`,
+   762→            `Find the smallest $n$ with $\\left(${tok(cfg.factor)}\\right)^{n} \\ge 2$; the initial amount does not matter.`,
+   763→          ),
+   764→          L(
+   765→            "Prueba potencias sucesivas hasta superar 2.",
+   766→            "Test successive powers until you pass 2.",
+   767→          ),
+   768→        ],
+   769→        answerDisplay: L(`$n = ${n}$ años`, `$n = ${n}$ years`),
+   770→        solution: [
+   771→          step(
+   772→            "given",
+   773→            `Capital inicial $${C0}\\,€$, interés compuesto del $${cfg.r}\\%$ anual.`,
+   774→            `Initial capital $${C0}\\,€$, $${cfg.r}\\%$ compound interest per year.`,
+   775→          ),
+   776→          step(
+   777→            "approach",
+   778→            `Tras $n$ años el capital es $${C0}\\cdot ${tok(cfg.factor)}^{n}$; el doble sería $${2 * C0}\\,€$. El importe inicial se cancela al comparar.`,
+   779→            `After $n$ years the capital is $${C0}\\cdot ${tok(cfg.factor)}^{n}$; twice as much would be $${2 * C0}\\,€$. The initial amount cancels out in the comparison.`,
+   780→          ),
+   781→          step(
+   782→            "calculation",
+   783→            `${powers.join(", ")}<br>La primera potencia que alcanza o supera $2$ es $${tok(cfg.factor)}^{${n}}$.`,
+   784→            `${powers.join(", ")}<br>The first power that reaches or exceeds $2$ is $${tok(cfg.factor)}^{${n}}$.`,
+   785→          ),
+   786→          step(
+   787→            "result",
+   788→            `Se necesitan $${n}$ años completos para que el capital se haya más que duplicado.`,
+   789→            `It takes $${n}$ whole years for the capital to more than double.`,
+   790→          ),
+   791→        ],
+   792→      };
+   793→    },
+   794→  ),
+   795→
+   796→
+   797→  /* ---------------------------------------------------------------- */
+   798→  /* Curated Phase 2 — FOS/BOS 2010 §4.0 y FOS/BOS 2011 §4            */
+   799→  /* (geometría: sección de semiesfera, estrella de arcos, trébol).   */
+   800→  /* Transcribed as printed; verified independently (incl. Monte      */
+   801→  /* Carlo para la región estrella). Fixed problems.                   */
+   802→  /* ---------------------------------------------------------------- */
+   803→
+   804→  /* FOS/BOS 2010, 4.1 — sección plana de una semiesfera. */
+   805→  template(
+   806→    {
+   807→      id: "pcm-geom-02",
+   808→      subject: "math",
+   809→      topicId: "precalculus-mixed",
+   810→      subtopicId: "exam-style",
+   811→      difficulty: "medium",
+   812→      questionType: "numeric-unit",
+   813→      estimatedTimeSec: 180,
+   814→      tags: ["geometry", "pythagoras", "sphere", "cross-section", "exam"],
+   815→      prerequisites: [],
+   816→      source: {
+   817→        sourceId: "fos-bos-2010-ht",
+   818→        license: "OPEN_LICENSE",
+   819→        exerciseNumber: "4.1",
+   820→      },
+   821→      reasoning: "multi-concept",
+   822→    },
+   823→    (rng) => {
+   824→      return {
+   825→        skill: L("Sección plana de una semiesfera (examen real)", "Plane cross-section of a hemisphere (real exam)"),
+   826→        statement: L(
+   827→          "De una semiesfera de radio $R = 5$ cm se corta la parte superior con un plano paralelo a la base, a una altura de $3$ cm sobre la base. ¿Qué radio $r$ tiene el círculo de corte? (El centro de la esfera está en el centro de la base.)",
+   828→          "From a hemisphere of radius $R = 5$ cm the top is cut off with a plane parallel to the base, at a height of $3$ cm above the base. What radius $r$ does the cut circle have? (The sphere's centre lies at the centre of the base.)",
+   829→        ),
+   830→        answer: {
+   831→          kind: "numeric-unit",
+   832→          value: 4,
+   833→          units: ["cm"],
+   834→        },
+   835→        hints: [
+   836→          L(
+   837→            "Piensa en el corte **lateral** (de perfil): radio del corte, altura y radio de la esfera forman un triángulo rectángulo.",
+   838→            "Think of the **side** view (in profile): the cut radius, the height and the sphere's radius form a right triangle.",
+   839→          ),
+   840→          L(
+   841→            "La hipotenusa es el radio de la esfera $R = 5$: va del centro a cualquier punto del círculo de corte.",
+   842→            "The hypotenuse is the sphere's radius $R = 5$: it goes from the centre to any point of the cut circle.",
+   843→          ),
+   844→          L(
+   845→            "El cateto vertical mide $3$ (la altura del corte sobre el centro). Aplica Pitágoras: $r^2 = R^2 - 3^2$.",
+   846→            "The vertical leg is $3$ (the cut's height above the centre). Apply Pythagoras: $r^2 = R^2 - 3^2$.",
+   847→          ),
+   848→        ],
+   849→        answerDisplay: L("$r = 4$ cm", "$r = 4$ cm"),
+   850→        solution: [
+   851→          step(
+   852→            "given",
+   853→            "Semiesfera de radio $R = 5$ cm (centro de la esfera en el plano de la base); corte horizontal a altura $3$ cm sobre la base.",
+   854→            "Hemisphere of radius $R = 5$ cm (sphere's centre in the base plane); horizontal cut at $3$ cm above the base.",
+   855→          ),
+   856→          step(
+   857→            "approach",
+   858→            "Toda sección plana de una esfera es un círculo. En el triángulo rectángulo del perfil, la hipotenusa es $R$, el cateto vertical es la altura de corte $h$ y el otro cateto es el radio buscado $r$.",
+   859→            "Every plane section of a sphere is a circle. In the profile right triangle, the hypotenuse is $R$, the vertical leg is the cut height $h$ and the other leg is the sought radius $r$.",
+   860→          ),
+   861→          step(
+   862→            "calculation",
+   863→            "Triángulo: $r^2 + h^2 = R^2$.<br>$r^2 = 5^2 - 3^2 = 25 - 9 = 16 \\Rightarrow r = 4$ cm (el radio es positivo).<br>El triángulo es el clásico $3$-$4$-$5$.",
+   864→            "Triangle: $r^2 + h^2 = R^2$.<br>$r^2 = 5^2 - 3^2 = 25 - 9 = 16 \\Rightarrow r = 4$ cm (the radius is positive).<br>The triangle is the classic $3$-$4$-$5$.",
+   865→          ),
+   866→          step(
+   867→            "result",
+   868→            "El círculo de corte tiene radio $r = 4$ cm — Pitágoras sobre la sección de perfil de la esfera.",
+   869→            "The cut circle has radius $r = 4$ cm — Pythagoras on the sphere's profile section.",
+   870→          ),
+   871→        ],
+   872→      };
+   873→    },
+   874→  ),
+   875→
+   876→  /* FOS/BOS 2010, 4.2 — estrella central de cuatro arcos. */
+   877→  template(
+   878→    {
+   879→      id: "pcm-geom-03",
+   880→      subject: "math",
+   881→      topicId: "precalculus-mixed",
+   882→      subtopicId: "exam-style",
+   883→      difficulty: "hard",
+   884→      questionType: "numeric",
+   885→      estimatedTimeSec: 300,
+   886→      tags: ["geometry", "area", "decomposition", "exam"],
+   887→      prerequisites: [],
+   888→      source: {
+   889→        sourceId: "fos-bos-2010-ht",
+   890→        license: "OPEN_LICENSE",
+   891→        exerciseNumber: "4.2",
+   892→      },
+   893→      reasoning: "multi-concept",
+   894→    },
+   895→    (rng) => {
+   896→      return {
+   897→        skill: L("Área de la estrella de cuatro arcos (examen real)", "Area of the four-arc star (real exam)"),
+   898→        statement: L(
+   899→          "En un cuadrado de lado $4$ cm se dibujan cuatro cuartos de círculo iguales de radio $r = 2$ cm, cada uno centrado en una esquina. Los arcos se tocan en los puntos medios de los lados y delimitan la región gris central (un 'rombo curvo'). Calcula el área de la región gris en cm². (Usa $\\pi \\approx 3.1416$; redondea a dos decimales.)",
+   900→          "In a square of side $4$ cm, four equal quarter circles of radius $r = 2$ cm are drawn, each centred at a corner. The arcs touch at the side midpoints and enclose the central gray region (a 'curvy diamond'). Compute the area of the gray region in cm². (Use $\\pi \\approx 3.1416$; round to two decimals.)",
+   901→        ),
+   902→        answer: {
+   903→          kind: "numeric",
+   904→          value: 3.43,
+   905→          tolerance: { mode: "absolute", value: 0.03 },
+   906→        },
+   907→        hints: [
+   908→          L(
+   909→            "Piensa al revés: en lugar de sumar la estrella, resta lo que **no** es estrella.",
+   910→            "Think in reverse: instead of adding up the star, subtract what is **not** star.",
+   911→          ),
+   912→          L(
+   913→            "Los cuatro cuartos de círculo (dos círculos completos en total) cubren el cuadrado salvo la región gris. ¿Se solapan entre ellos? Fíjate en la distancia entre centros vecinos.",
+   914→            "The four quarter circles (two full circles in total) cover the square except the gray region. Do they overlap each other? Look at the distance between neighbouring centres.",
+   915→          ),
+   916→          L(
+   917→            "Centros vecinos distan $4$ cm y las dos radios suman $2 + 2 = 4$: los círculos son **tangentes** (se tocan en un punto, sin solaparse). Área gris $= (2r)^2 - \\pi r^2$.",
+   918→            "Neighbouring centres are $4$ cm apart and the two radii add to $2 + 2 = 4$: the circles are **tangent** (touching at one point, no overlap). Gray area $= (2r)^2 - \\pi r^2$.",
+   919→          ),
+   920→        ],
+   921→        answerDisplay: L(
+   922→          "$A_{gris} = 16 - 4\\pi \\approx 3.43$ cm²",
+   923→          "$A_{gray} = 16 - 4\\pi \\approx 3.43$ cm²",
+   924→        ),
+   925→        solution: [
+   926→          step(
+   927→            "given",
+   928→            "Cuadrado de lado $2r = 4$ cm; cuatro cuartos de círculo de radio $r = 2$ centrados en las esquinas; región gris = 'rombo curvo' central.",
+   929→            "Square of side $2r = 4$ cm; four quarter circles of radius $r = 2$ centred at the corners; gray region = central 'curvy diamond'.",
+   930→          ),
+   931→          step(
+   932→            "approach",
+   933→            "Descomposición por complemento: gris = cuadrado − unión de los cuatro cuartos de círculo. La clave es decidir si los cuartos se solapan (habría que sumar y restar solapes).",
+   934→            "Decomposition by complement: gray = square − union of the four quarter circles. The key is deciding whether the quarters overlap (overlaps would need adding and subtracting).",
+   935→          ),
+   936→          step(
+   937→            "calculation",
+   938→            "Dos centros vecinos (esquinas de un mismo lado) distan $4$ cm; los radios suman $2 + 2 = 4$ cm → los círculos son tangentes exactamente en el punto medio de cada lado: **cero solape**.<br>Unión de los 4 cuartos $= 4 \\cdot \\frac{\\pi r^2}{4} = \\pi r^2 = 4\\pi \\approx 12.566$ cm².<br>Cuadrado $= 4^2 = 16$ cm².<br>Gris $= 16 - 4\\pi \\approx 16 - 12.566 = 3.434 \\approx 3.43$ cm².",
+   939→            "Two neighbouring centres (corners of the same side) are $4$ cm apart; the radii add to $2 + 2 = 4$ cm → the circles are tangent exactly at each side's midpoint: **zero overlap**.<br>Union of the 4 quarters $= 4 \\cdot \\frac{\\pi r^2}{4} = \\pi r^2 = 4\\pi \\approx 12.566$ cm².<br>Square $= 4^2 = 16$ cm².<br>Gray $= 16 - 4\\pi \\approx 16 - 12.566 = 3.434 \\approx 3.43$ cm².",
+   940→          ),
+   941→          step(
+   942→            "result",
+   943→            "$A_{gris} = r^2(4 - \\pi) = 4(4 - \\pi) \\approx 3.43$ cm². La tangencia es lo que hace el problema limpio: sin ella habría intersecciones de lente que sumar.",
+   944→            "$A_{gray} = r^2(4 - \\pi) = 4(4 - \\pi) \\approx 3.43$ cm². The tangency is what keeps the problem clean: without it there would be lens intersections to add.",
+   945→          ),
+   946→        ],
+   947→      };
+   948→    },
+   949→  ),
+   950→
+   951→  /* FOS/BOS 2011, 4.1 — área del trébol (cuadrado + semicírculos). */
+   952→  template(
+   953→    {
+   954→      id: "pcm-geom-04",
+   955→      subject: "math",
+   956→      topicId: "precalculus-mixed",
+   957→      subtopicId: "exam-style",
+   958→      difficulty: "medium",
+   959→      questionType: "numeric",
+   960→      estimatedTimeSec: 240,
+   961→      tags: ["geometry", "area", "semicircles", "exam"],
+   962→      prerequisites: [],
+   963→      source: {
+   964→        sourceId: "fos-bos-2011",
+   965→        license: "OPEN_LICENSE",
+   966→        exerciseNumber: "4.1",
+   967→      },
+   968→      reasoning: "multi-concept",
+   969→    },
+   970→    (rng) => {
+   971→      return {
+   972→        skill: L("Área del trébol: cuadrado + semicírculos (examen real 2011)", "Cloverleaf area: square + semicircles (real 2011 exam)"),
+   973→        statement: L(
+   974→          "Se estampa un «trébol» sobre una placa: un cuadrado de lado $3$ cm con cuatro **semicírculos** pegados a sus lados (cada lado del cuadrado es el **diámetro** de su semicírculo). Calcula el área del trébol en cm². (Usa $\\pi \\approx 3.1416$; redondea a dos decimales.)",
+   975→          "A «cloverleaf» is stamped on a plate: a square of side $3$ cm with four **semicircles** attached to its sides (each side of the square is the **diameter** of its semicircle). Compute the cloverleaf's area in cm². (Use $\\pi \\approx 3.1416$; round to two decimals.)",
+   976→        ),
+   977→        answer: {
+   978→          kind: "numeric",
+   979→          value: 23.14,
+   980→          tolerance: { mode: "absolute", value: 0.03 },
+   981→        },
+   982→        hints: [
+   983→          L(
+   984→            "Descompón: el trébol es un cuadrado más cuatro piezas curvas.",
+   985→            "Decompose: the cloverleaf is a square plus four curved pieces.",
+   986→          ),
+   987→          L(
+   988→            "Cada lado ($3$ cm) es el **diámetro** de su semicírculo, así que el radio mide $1.5$ cm.",
+   989→            "Each side ($3$ cm) is the **diameter** of its semicircle, so the radius is $1.5$ cm.",
+   990→          ),
+   991→          L(
+   992→            "Cuatro semicírculos de radio $1.5$ equivalen a **dos círculos completos**: $2\\pi(1.5)^2 = 4.5\\pi$.",
+   993→            "Four semicircles of radius $1.5$ equal **two full circles**: $2\\pi(1.5)^2 = 4.5\\pi$.",
+   994→          ),
+   995→        ],
+   996→        answerDisplay: L(
+   997→          "$A = 9 + 4.5\\pi \\approx 23.14$ cm²",
+   998→          "$A = 9 + 4.5\\pi \\approx 23.14$ cm²",
+   999→        ),
+  1000→        solution: [
+  1001→          step(
+  1002→            "given",
+  1003→            "Trébol = cuadrado de lado $3$ cm + cuatro semicírculos cuyo diámetro es cada lado → radio $1.5$ cm.",
+  1004→            "Cloverleaf = square of side $3$ cm + four semicircles whose diameter is each side → radius $1.5$ cm.",
+  1005→          ),
+  1006→          step(
+  1007→            "approach",
+  1008→            "Sumar piezas sin que se solapen: el cuadrado y los cuatro semicírculos solo se tocan por los lados.",
+  1009→            "Add non-overlapping pieces: the square and the four semicircles only touch along the sides.",
+  1010→          ),
+  1011→          step(
+  1012→            "calculation",
+  1013→            "Cuadrado: $3^2 = 9$ cm².<br>Semicírculos: $4 \\cdot \\frac{\\pi (1.5)^2}{2} = 4 \\cdot \\frac{2.25\\pi}{2} = 4.5\\pi \\approx 14.137$ cm².<br>Total: $9 + 4.5\\pi \\approx 9 + 14.137 = 23.137 \\approx 23.14$ cm².",
+  1014→            "Square: $3^2 = 9$ cm².<br>Semicircles: $4 \\cdot \\frac{\\pi (1.5)^2}{2} = 4 \\cdot \\frac{2.25\\pi}{2} = 4.5\\pi \\approx 14.137$ cm².<br>Total: $9 + 4.5\\pi \\approx 9 + 14.137 = 23.137 \\approx 23.14$ cm².",
+  1015→          ),
+  1016→          step(
+  1017→            "result",
+  1018→            "$A_{trébol} = 9 + 4.5\\pi \\approx 23.14$ cm² — coincide con el Lösungsvorschlag oficial ($A_{Quadrat} = 9$, $A_{Kreiszone} = 2 \\cdot 1.5^2 \\pi \\approx 14.14$).",
+  1019→            "$A_{cloverleaf} = 9 + 4.5\\pi \\approx 23.14$ cm² — matches the official Lösungsvorschlag ($A_{Quadrat} = 9$, $A_{Kreiszone} = 2 \\cdot 1.5^2 \\pi \\approx 14.14$).",
+  1020→          ),
+  1021→        ],
+  1022→      };
+  1023→    },
+  1024→  ),
+  1025→
+  1026→  /* FOS/BOS 2011, 4.2 — porcentaje de desperdicio. */
+  1027→  template(
+  1028→    {
+  1029→      id: "pcm-geom-05",
+  1030→      subject: "math",
+  1031→      topicId: "precalculus-mixed",
+  1032→      subtopicId: "exam-style",
+  1033→      difficulty: "medium",
+  1034→      questionType: "numeric",
+  1035→      estimatedTimeSec: 180,
+  1036→      tags: ["geometry", "percent", "waste", "exam"],
+  1037→      prerequisites: [],
+  1038→      source: {
+  1039→        sourceId: "fos-bos-2011",
+  1040→        license: "OPEN_LICENSE",
+  1041→        exerciseNumber: "4.2",
+  1042→      },
+  1043→      reasoning: "modeling",
+  1044→    },
+  1045→    (rng) => {
+  1046→      return {
+  1047→        skill: L("Porcentaje de desperdicio (examen real 2011)", "Waste percentage (real 2011 exam)"),
+  1048→        statement: L(
+  1049→          "El trébol del problema anterior (cuadrado de lado $3$ cm + cuatro semicírculos de radio $1.5$ cm) se corta de una placa cuadrada de $6 \\times 6$ cm (el trébol toca justo los cuatro bordes). ¿Qué **porcentaje** de la placa se desperdicia? (Redondea a un decimal.)",
+  1050→          "The previous cloverleaf (square of side $3$ cm + four semicircles of radius $1.5$ cm) is cut from a $6 \\times 6$ cm plate (the cloverleaf just touches all four edges). What **percentage** of the plate is wasted? (Round to one decimal.)",
+  1051→        ),
+  1052→        answer: {
+  1053→          kind: "numeric",
+  1054→          value: 35.7,
+  1055→          tolerance: { mode: "absolute", value: 0.2 },
+  1056→          unitSuffix: "%",
+  1057→        },
+  1058→        hints: [
+  1059→          L(
+  1060→            "Necesitas dos áreas: la del trébol (del problema anterior: $9 + 4.5\\pi$) y la de la placa.",
+  1061→            "You need two areas: the cloverleaf's (from the previous problem: $9 + 4.5\\pi$) and the plate's.",
+  1062→          ),
+  1063→          L(
+  1064→            "La placa mide $6 \\times 6$ porque el trébol ocupa $3 + 1.5 + 1.5$ en cada dirección (cuadrado + dos radios).",
+  1065→            "The plate is $6 \\times 6$ because the cloverleaf spans $3 + 1.5 + 1.5$ in each direction (square + two radii).",
+  1066→          ),
+  1067→          L(
+  1068→            "Desperdicio $= \\dfrac{A_{placa} - A_{trébol}}{A_{placa}} \\cdot 100$.",
+  1069→            "Waste $= \\dfrac{A_{plate} - A_{cloverleaf}}{A_{plate}} \\cdot 100$.",
+  1070→          ),
+  1071→        ],
+  1072→        answerDisplay: L(
+  1073→          "Desperdicio $= \\dfrac{36 - 23.14}{36} \\approx 35.7\\%$",
+  1074→          "Waste $= \\dfrac{36 - 23.14}{36} \\approx 35.7\\%$",
+  1075→        ),
+  1076→        solution: [
+  1077→          step(
+  1078→            "given",
+  1079→            "Trébol con área $9 + 4.5\\pi \\approx 23.14$ cm²; placa cuadrada de $6 \\times 6 = 36$ cm².",
+  1080→            "Cloverleaf with area $9 + 4.5\\pi \\approx 23.14$ cm²; square plate $6 \\times 6 = 36$ cm².",
+  1081→          ),
+  1082→          step(
+  1083→            "approach",
+  1084→            "Modelar la placa: el trébol mide $3 + 1.5 + 1.5 = 6$ de lado total (cuadrado + dos semicírculos que sobresalen), así que la placa mínima es exactamente $36$ cm². El porcentaje se refiere a la placa.",
+  1085→            "Model the plate: the cloverleaf spans $3 + 1.5 + 1.5 = 6$ total per direction (square + two protruding semicircles), so the minimal plate is exactly $36$ cm². The percentage refers to the plate.",
+  1086→          ),
+  1087→          step(
+  1088→            "calculation",
+  1089→            "Desperdicio absoluto: $36 - (9 + 4.5\\pi) \\approx 36 - 23.137 = 12.863$ cm².<br>Porcentaje: $\\dfrac{12.863}{36} \\cdot 100 \\approx 35.73\\% \\approx 35.7\\%$.",
+  1090→            "Absolute waste: $36 - (9 + 4.5\\pi) \\approx 36 - 23.137 = 12.863$ cm².<br>Percentage: $\\dfrac{12.863}{36} \\cdot 100 \\approx 35.73\\% \\approx 35.7\\%$.",
+  1091→          ),
+  1092→          step(
+  1093→            "result",
+  1094→            "Se desperdicia $\\approx 35.7\\%$ de la placa — coincide con el Lösungsvorschlag oficial del 2011.",
+  1095→            "About $35.7\\%$ of the plate is wasted — matches the official 2011 Lösungsvorschlag.",
+  1096→          ),
+  1097→        ],
+  1098→      };
+  1099→    },
+  1100→  ),
+  1101→];
+  1102→

@@ -296,6 +296,7 @@ export function SessionSummary({
             ? t("nav.math")
             : t("nav.physics")
             : t("mixed.subject.both")}
+        {config.mode === "interleaved" ? ` · ${t("interleaved.badge")}` : ""}
         {config.mode === "topic" && config.topicId
           ? ` · ${
               (config.subjects[0] === "physics" ? physicsCurriculum : mathCurriculum).find(

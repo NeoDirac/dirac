@@ -1,0 +1,702 @@
+    34→export const templates: ProblemTemplate[] = [
+    35→  /* ---------------------------------------------------------------- */
+    36→  /* Circuits + power + energy: energy delivered by a resistor        */
+    37→  /* ---------------------------------------------------------------- */
+    38→  template(
+    39→    {
+    40→      id: "pmx-cir-pow-01",
+    41→      subject: "physics",
+    42→      topicId: "physics-mixed",
+    43→      subtopicId: "exam-style",
+    44→      difficulty: "easy",
+    45→      questionType: "numeric-unit",
+    46→      estimatedTimeSec: 150,
+    47→      tags: ["circuits", "power", "energy"],
+    48→      prerequisites: ["circuits"],
+    49→    },
+    50→    (rng) => {
+    51→      const pick = rng.pick([
+    52→        { V: 12, R: 4, tMin: 10 },
+    53→        { V: 6, R: 2, tMin: 10 },
+    54→        { V: 24, R: 6, tMin: 5 },
+    55→        { V: 12, R: 6, tMin: 15 },
+    56→        { V: 24, R: 8, tMin: 10 },
+    57→        { V: 6, R: 3, tMin: 15 },
+    58→        { V: 9, R: 3, tMin: 10 },
+    59→        { V: 12, R: 4, tMin: 5 },
+    60→      ]);
+    61→      const I = r1(pick.V / pick.R);
+    62→      const P = r1(pick.V * I);
+    63→      const E = r1((P * pick.tMin * 60) / 1000); // kJ
+    64→      return {
+    65→        skill: L("Circuito → potencia → energía", "Circuit → power → energy"),
+    66→        statement: L(
+    67→          `Una resistencia de $R = ${pick.R}\\ \\Omega$ se conecta a una pila de $${pick.V}\\ \\text{V}$ durante $${pick.tMin}\\ \\text{min}$. ¿Qué **energía** entrega el circuito en ese tiempo? (en kJ, 2 cifras significativas)`,
+    68→          `A resistor $R = ${pick.R}\\ \\Omega$ is connected to a $${pick.V}\\ \\text{V}$ battery for $${pick.tMin}\\ \\text{min}$. How much **energy** does the circuit deliver in that time? (in kJ, 2 significant figures)`,
+    69→        ),
+    70→        answer: {
+    71→          kind: "numeric-unit",
+    72→          value: E,
+    73→          tolerance: { mode: "sigfig", value: 2 },
+    74→          units: ["kJ"],
+    75→          unitChoices: ["kJ", "J", "kWh", "W"],
+    76→        },
+    77→        hints: [
+    78→          L(
+    79→            "Tres pasos: corriente con Ohm, potencia eléctrica y energía.",
+    80→            "Three steps: current from Ohm's law, electric power, and energy.",
+    81→          ),
+    82→          L(
+    83→            "$I = V/R$, $P = V\\,I$ y $E = P\\,t$ con $t$ en segundos.",
+    84→            "$I = V/R$, $P = V\\,I$ and $E = P\\,t$ with $t$ in seconds.",
+    85→          ),
+    86→          L(
+    87→            "Al final divide entre 1000 para expresar la energía en kilojulios.",
+    88→            "At the end divide by 1000 to express the energy in kilojoules.",
+    89→          ),
+    90→        ],
+    91→        answerDisplay: L(`$E = ${tok(E)}\\ \\text{kJ}$`, `$E = ${tok(E)}\\ \\text{kJ}$`),
+    92→        solution: [
+    93→          step(
+    94→            "given",
+    95→            `$V = ${pick.V}\\ \\text{V}$, $R = ${pick.R}\\ \\Omega$, $t = ${pick.tMin}\\ \\text{min} = ${pick.tMin * 60}\\ \\text{s}$`,
+    96→            `$V = ${pick.V}\\ \\text{V}$, $R = ${pick.R}\\ \\Omega$, $t = ${pick.tMin}\\ \\text{min} = ${pick.tMin * 60}\\ \\text{s}$`,
+    97→          ),
+    98→          step(
+    99→            "approach",
+   100→            "Ohm ($I = V/R$) → potencia ($P = VI$) → energía ($E = Pt$), convirtiendo el tiempo a segundos.",
+   101→            "Ohm ($I = V/R$) → power ($P = VI$) → energy ($E = Pt$), converting time to seconds.",
+   102→          ),
+   103→          step(
+   104→            "calculation",
+   105→            `**Corriente:** $I = \\frac{${pick.V}}{${pick.R}} = ${tok(I)}\\ \\text{A}$<br>**Potencia:** $P = ${pick.V} \\cdot ${tok(I)} = ${tok(P)}\\ \\text{W}$<br>**Energía:** $E = ${tok(P)} \\cdot ${pick.tMin * 60} = ${tok(P * pick.tMin * 60)}\\ \\text{J} = ${tok(E)}\\ \\text{kJ}$`,
+   106→            `**Current:** $I = \\frac{${pick.V}}{${pick.R}} = ${tok(I)}\\ \\text{A}$<br>**Power:** $P = ${pick.V} \\cdot ${tok(I)} = ${tok(P)}\\ \\text{W}$<br>**Energy:** $E = ${tok(P)} \\cdot ${pick.tMin * 60} = ${tok(P * pick.tMin * 60)}\\ \\text{J} = ${tok(E)}\\ \\text{kJ}$`,
+   107→          ),
+   108→          step(
+   109→            "result",
+   110→            `El circuito entrega $${tok(E)}\\ \\text{kJ}$ en ${pick.tMin} minutos.`,
+   111→            `The circuit delivers $${tok(E)}\\ \\text{kJ}$ in ${pick.tMin} minutes.`,
+   112→          ),
+   113→        ],
+   114→      };
+   115→    },
+   116→  ),
+   117→
+   118→  /* ---------------------------------------------------------------- */
+   119→  /* Dynamics + friction: acceleration of a pushed box                */
+   120→  /* ---------------------------------------------------------------- */
+   121→  template(
+   122→    {
+   123→      id: "pmx-kin-fric-01",
+   124→      subject: "physics",
+   125→      topicId: "physics-mixed",
+   126→      subtopicId: "multi-step",
+   127→      difficulty: "easy",
+   128→      questionType: "numeric-unit",
+   129→      estimatedTimeSec: 180,
+   130→      tags: ["newton", "friction", "dynamics"],
+   131→      prerequisites: ["newtonian-mechanics"],
+   132→    },
+   133→    (rng) => {
+   134→      const pick = rng.pick([
+   135→        { m: 10, F: 60, mu: 0.2 },
+   136→        { m: 20, F: 100, mu: 0.3 },
+   137→        { m: 5, F: 40, mu: 0.4 },
+   138→        { m: 10, F: 80, mu: 0.2 },
+   139→        { m: 20, F: 150, mu: 0.4 },
+   140→        { m: 15, F: 90, mu: 0.3 },
+   141→        { m: 10, F: 50, mu: 0.3 },
+   142→        { m: 5, F: 30, mu: 0.2 },
+   143→      ]);
+   144→      const fr = r2(pick.mu * pick.m * G_ACC);
+   145→      const a = r2((pick.F - fr) / pick.m);
+   146→      return {
+   147→        skill: L("Fuerza horizontal + rozamiento", "Horizontal push + friction"),
+   148→        statement: L(
+   149→          `Se empuja una caja de $m = ${pick.m}\\ \\text{kg}$ sobre un suelo horizontal con una fuerza horizontal de $${pick.F}\\ \\text{N}$. El coeficiente de rozamiento cinético es $\\mu = ${tok(pick.mu)}$. Calcula la aceleración de la caja (2 cifras significativas; $g = 9{,}8\\ \\text{m/s}^2$).`,
+   150→          `A $m = ${pick.m}\\ \\text{kg}$ box is pushed along a horizontal floor with a horizontal force of $${pick.F}\\ \\text{N}$. The coefficient of kinetic friction is $\\mu = ${tok(pick.mu)}$. Compute the box's acceleration (2 significant figures; $g = 9.8\\ \\text{m/s}^2$).`,
+   151→        ),
+   152→        diagram: {
+   153→          kind: "free-body",
+   154→          inclineDeg: 0,
+   155→          massLabel: "m",
+   156→          forces: [
+   157→            { label: "F", dx: 1, dy: 0, color: "primary" },
+   158→            { label: "f", dx: -1, dy: 0, color: "secondary" },
+   159→            { label: "N", dx: 0, dy: -1, color: "primary" },
+   160→            { label: "mg", dx: 0, dy: 1, color: "secondary" },
+   161→          ],
+   162→        },
+   163→        diagramLabel: L(
+   164→          "Diagrama de cuerpo libre de la caja: fuerza de empuje F hacia la derecha, rozamiento f hacia la izquierda, normal N hacia arriba y peso mg hacia abajo.",
+   165→          "Free-body diagram of the box: push F to the right, friction f to the left, normal N up, and weight mg down.",
+   166→        ),
+   167→        answer: {
+   168→          kind: "numeric-unit",
+   169→          value: a,
+   170→          tolerance: { mode: "sigfig", value: 2 },
+   171→          units: ["m/s^2"],
+   172→          unitChoices: ["m/s^2", "m/s", "N", "m"],
+   173→        },
+   174→        hints: [
+   175→          L(
+   176→            "Primero el rozamiento: $f = \\mu\\,N = \\mu\\,m\\,g$.",
+   177→            "First the friction: $f = \\mu\\,N = \\mu\\,m\\,g$.",
+   178→          ),
+   179→          L(
+   180→            "Después la segunda ley de Newton en horizontal: $F - f = m\\,a$.",
+   181→            "Then Newton's second law along the horizontal: $F - f = m\\,a$.",
+   182→          ),
+   183→          L(
+   184→            "Despeja $a = \\frac{F - f}{m}$ y sustituye.",
+   185→            "Solve $a = \\frac{F - f}{m}$ and substitute.",
+   186→          ),
+   187→        ],
+   188→        answerDisplay: L(`$a = ${tok(a)}\\ \\text{m/s}^2$`, `$a = ${tok(a)}\\ \\text{m/s}^2$`),
+   189→        solution: [
+   190→          step(
+   191→            "given",
+   192→            `$m = ${pick.m}\\ \\text{kg}$, $F = ${pick.F}\\ \\text{N}$, $\\mu = ${tok(pick.mu)}$, $g = 9{,}8\\ \\text{m/s}^2$`,
+   193→            `$m = ${pick.m}\\ \\text{kg}$, $F = ${pick.F}\\ \\text{N}$, $\\mu = ${tok(pick.mu)}$, $g = 9.8\\ \\text{m/s}^2$`,
+   194→          ),
+   195→          step(
+   196→            "approach",
+   197→            "Rozamiento $f = \\mu m g$ y segunda ley de Newton en el eje horizontal: $F - f = ma$.",
+   198→            "Friction $f = \\mu m g$ and Newton's second law along the horizontal axis: $F - f = ma$.",
+   199→          ),
+   200→          step(
+   201→            "calculation",
+   202→            `$f = ${tok(pick.mu)} \\cdot ${pick.m} \\cdot 9{,}8 = ${tok(fr)}\\ \\text{N}$<br>$a = \\frac{${pick.F} - ${tok(fr)}}{${pick.m}} = ${tok(a)}\\ \\text{m/s}^2$`,
+   203→            `$f = ${tok(pick.mu)} \\cdot ${pick.m} \\cdot 9.8 = ${tok(fr)}\\ \\text{N}$<br>$a = \\frac{${pick.F} - ${tok(fr)}}{${pick.m}} = ${tok(a)}\\ \\text{m/s}^2$`,
+   204→          ),
+   205→          step(
+   206→            "result",
+   207→            `La caja acelera a $${tok(a)}\\ \\text{m/s}^2$.`,
+   208→            `The box accelerates at $${tok(a)}\\ \\text{m/s}^2$.`,
+   209→          ),
+   210→        ],
+   211→      };
+   212→    },
+   213→  ),
+   214→
+   215→  /* ---------------------------------------------------------------- */
+   216→  /* Momentum concept: what is conserved in an inelastic collision    */
+   217→  /* ---------------------------------------------------------------- */
+   218→  template(
+   219→    {
+   220→      id: "pmx-concept-02",
+   221→      subject: "physics",
+   222→      topicId: "physics-mixed",
+   223→      subtopicId: "exam-style",
+   224→      difficulty: "easy",
+   225→      questionType: "text",
+   226→      estimatedTimeSec: 90,
+   227→      tags: ["momentum", "collisions", "conservation", "conceptual"],
+   228→      prerequisites: ["momentum"],
+   229→    },
+   230→    (rng) => {
+   231→      void rng;
+   232→      return {
+   233→        skill: L("Conservación en choques inelásticos", "Conservation in inelastic collisions"),
+   234→        statement: L(
+   235→          "Dos objetos aislados chocan **perfectamente de forma inelástica** (quedan unidos). ¿Qué magnitud se conserva siempre en ese choque: la **energía cinética** o la **cantidad de movimiento**? (Responde con una frase corta.)",
+   236→          "Two isolated objects collide **perfectly inelastically** (they stick together). Which quantity is always conserved in that collision: **kinetic energy** or **momentum**? (Answer with a short phrase.)",
+   237→        ),
+   238→        answer: {
+   239→          kind: "text",
+   240→          accepted: [
+   241→            "cantidad de movimiento",
+   242→            "la cantidad de movimiento",
+   243→            "momentum",
+   244→            "el momentum",
+   245→            "momento lineal",
+   246→            "el momento lineal",
+   247→            "linear momentum",
+   248→            "momentum lineal",
+   249→            "la cantidad de movimiento lineal",
+   250→            "se conserva la cantidad de movimiento",
+   251→          ],
+   252→        },
+   253→        hints: [
+   254→          L(
+   255→            "Un sistema aislado (sin fuerzas externas netas) cumple una ley de conservación muy robusta.",
+   256→            "An isolated system (no net external forces) satisfies one very robust conservation law.",
+   257→          ),
+   258→          L(
+   259→            "En un choque inelástico los cuerpos se deforman y se calientan: parte de la energía mecánica se pierde.",
+   260→            "In an inelastic collision the bodies deform and warm up: part of the mechanical energy is lost.",
+   261→          ),
+   262→          L(
+   263→            "La conservación de esa magnitud solo exige que no haya fuerzas externas.",
+   264→            "The conservation of that quantity only requires the absence of external forces.",
+   265→          ),
+   266→        ],
+   267→        answerDisplay: L(
+   268→          "Se conserva la **cantidad de movimiento**; la energía cinética no (parte se disipa).",
+   269→          "**Momentum** is conserved; kinetic energy is not (part is dissipated).",
+   270→        ),
+   271→        solution: [
+   272→          step(
+   273→            "given",
+   274→            "Choque perfectamente inelástico entre dos objetos aislados.",
+   275→            "Perfectly inelastic collision between two isolated objects.",
+   276→          ),
+   277→          step(
+   278→            "approach",
+   279→            "Comparar las condiciones de las dos conservaciones: momento (sin fuerzas externas) y energía cinética (solo en choques elásticos).",
+   280→            "Compare the conditions of both conservations: momentum (no external forces) and kinetic energy (elastic collisions only).",
+   281→          ),
+   282→          step(
+   283→            "calculation",
+   284→            "Sin fuerzas externas, $\\vec{p}$ total se conserva siempre.<br>Al quedar unidos, los cuerpos se deforman y calientan → la energía cinética total disminuye.",
+   285→            "With no external forces, total $\\vec{p}$ is always conserved.<br>Sticking together deforms and heats the bodies → total kinetic energy decreases.",
+   286→          ),
+   287→          step(
+   288→            "result",
+   289→            "Se conserva la cantidad de movimiento; la energía cinética no.",
+   290→            "Momentum is conserved; kinetic energy is not.",
+   291→          ),
+   292→        ],
+   293→      };
+   294→    },
+   295→  ),
+   296→
+   297→  /* ---------------------------------------------------------------- */
+   298→  /* Projectile + energy: speed at the highest point                  */
+   299→  /* ---------------------------------------------------------------- */
+   300→  template(
+   301→    {
+   302→      id: "pmx-kin-en-01",
+   303→      subject: "physics",
+   304→      topicId: "physics-mixed",
+   305→      subtopicId: "mixed-concepts",
+   306→      difficulty: "medium",
+   307→      questionType: "numeric-unit",
+   308→      estimatedTimeSec: 210,
+   309→      tags: ["projectile", "energy", "components"],
+   310→      prerequisites: ["kinematics", "work-energy"],
+   311→    },
+   312→    (rng) => {
+   313→      const pick = rng.pick([
+   314→        { v0: 20, th: 30, cos: 0.866 },
+   315→        { v0: 20, th: 45, cos: 0.707 },
+   316→        { v0: 25, th: 30, cos: 0.866 },
+   317→        { v0: 15, th: 53, cos: 0.6 },
+   318→        { v0: 30, th: 30, cos: 0.866 },
+   319→        { v0: 20, th: 60, cos: 0.5 },
+   320→        { v0: 25, th: 53, cos: 0.6 },
+   321→        { v0: 10, th: 60, cos: 0.5 },
+   322→      ]);
+   323→      const v = r1(pick.v0 * pick.cos);
+   324→      return {
+   325→        skill: L("Proyectil + energía: rapidez en el punto más alto", "Projectile + energy: speed at the top"),
+   326→        statement: L(
+   327→          `Se lanza una pelota con $v_0 = ${pick.v0}\\ \\text{m/s}$ formando $${pick.th}^{\\circ}$ con la horizontal (se desprecia el rozamiento). ¿Con qué **rapidez** se mueve en el punto más alto de su trayectoria? (2 cifras significativas; $\\cos ${pick.th}^{\\circ} \\approx ${tok(pick.cos)}$)`,
+   328→          `A ball is kicked at $v_0 = ${pick.v0}\\ \\text{m/s}$ at $${pick.th}^{\\circ}$ above the horizontal (neglect air resistance). What is its **speed** at the highest point of the trajectory? (2 significant figures; $\\cos ${pick.th}^{\\circ} \\approx ${tok(pick.cos)}$)`,
+   329→        ),
+   330→        diagram: {
+   331→          kind: "projectile",
+   332→          v0: pick.v0,
+   333→          angleDeg: pick.th,
+   334→          h0: 0,
+   335→          g: 9.8,
+   336→          showAnnotations: true,
+   337→        },
+   338→        diagramLabel: L(
+   339→          `Trayectoria parabólica de la pelota lanzada a ${pick.v0} m/s y ${pick.th} grados.`,
+   340→          `Parabolic trajectory of the ball kicked at ${pick.v0} m/s and ${pick.th} degrees.`,
+   341→        ),
+   342→        answer: {
+   343→          kind: "numeric-unit",
+   344→          value: v,
+   345→          tolerance: { mode: "sigfig", value: 2 },
+   346→          units: ["m/s"],
+   347→          unitChoices: ["m/s", "m/s^2", "m", "km/h"],
+   348→        },
+   349→        hints: [
+   350→          L(
+   351→            "En el punto más alto la componente **vertical** de la velocidad es cero, pero la **horizontal** no.",
+   352→            "At the highest point the **vertical** component of the velocity is zero, but the **horizontal** one is not.",
+   353→          ),
+   354→          L(
+   355→            "No hay fuerza horizontal → la componente horizontal $v_x = v_0\\cos\\theta$ no cambia durante el vuelo.",
+   356→            "There is no horizontal force → the horizontal component $v_x = v_0\\cos\\theta$ never changes during the flight.",
+   357→          ),
+   358→          L(
+   359→            `Sustituye $v_x = ${pick.v0} \\cdot ${tok(pick.cos)}$.`,
+   360→            `Substitute $v_x = ${pick.v0} \\cdot ${tok(pick.cos)}$.`,
+   361→          ),
+   362→        ],
+   363→        answerDisplay: L(`$v_{\\text{cima}} = ${tok(v)}\\ \\text{m/s}$`, `$v_{\\text{top}} = ${tok(v)}\\ \\text{m/s}$`),
+   364→        solution: [
+   365→          step(
+   366→            "given",
+   367→            `$v_0 = ${pick.v0}\\ \\text{m/s}$, $\\theta = ${pick.th}^{\\circ}$, rozamiento nulo; $\\cos ${pick.th}^{\\circ} \\approx ${tok(pick.cos)}$.`,
+   368→            `$v_0 = ${pick.v0}\\ \\text{m/s}$, $\\theta = ${pick.th}^{\\circ}$, no air resistance; $\\cos ${pick.th}^{\\circ} \\approx ${tok(pick.cos)}$.`,
+   369→          ),
+   370→          step(
+   371→            "approach",
+   372→            "Energía: al subir, la energía cinética vertical se convierte en potencial; la horizontal se conserva (no hay fuerza horizontal). En la cima solo queda $v_x$.",
+   373→            "Energy: while rising, the vertical kinetic energy becomes potential; the horizontal one is conserved (no horizontal force). At the top only $v_x$ remains.",
+   374→          ),
+   375→          step(
+   376→            "calculation",
+   377→            `$v_{\\text{cima}} = v_x = v_0\\cos\\theta = ${pick.v0} \\cdot ${tok(pick.cos)} = ${tok(v)}\\ \\text{m/s}$`,
+   378→            `$v_{\\text{top}} = v_x = v_0\\cos\\theta = ${pick.v0} \\cdot ${tok(pick.cos)} = ${tok(v)}\\ \\text{m/s}$`,
+   379→          ),
+   380→          step(
+   381→            "result",
+   382→            `En el punto más alto la pelota se mueve horizontalmente con $${tok(v)}\\ \\text{m/s}$.`,
+   383→            `At the highest point the ball moves horizontally at $${tok(v)}\\ \\text{m/s}$.`,
+   384→          ),
+   385→        ],
+   386→      };
+   387→    },
+   388→  ),
+   389→
+   390→  /* ---------------------------------------------------------------- */
+   391→  /* Conceptual MC: projectile at the apex                            */
+   392→  /* ---------------------------------------------------------------- */
+   393→  template(
+   394→    {
+   395→      id: "pmx-concept-01",
+   396→      subject: "physics",
+   397→      topicId: "physics-mixed",
+   398→      subtopicId: "mixed-concepts",
+   399→      difficulty: "medium",
+   400→      questionType: "multiple-choice",
+   401→      estimatedTimeSec: 120,
+   402→      tags: ["projectile", "energy", "conceptual"],
+   403→      prerequisites: ["kinematics", "work-energy"],
+   404→    },
+   405→    (rng) => {
+   406→      const v0 = rng.pick([15, 20, 25]);
+   407→      const angle = rng.pick([35, 45, 55]);
+   408→      const object = rng.pick([
+   409→        { es: "pelota de fútbol", en: "football" },
+   410→        { es: "piedra", en: "stone" },
+   411→        { es: "pelota de béisbol", en: "baseball" },
+   412→      ]);
+   413→      const options: McOption[] = [
+   414→        {
+   415→          id: "a",
+   416→          text: L(
+   417→            "La velocidad vertical es cero, pero la velocidad total no lo es",
+   418→            "The vertical velocity is zero, but the total velocity is not",
+   419→          ),
+   420→          correct: true,
+   421→        },
+   422→        {
+   423→          id: "b",
+   424→          text: L(
+   425→            "La energía cinética es cero",
+   426→            "The kinetic energy is zero",
+   427→          ),
+   428→          correct: false,
+   429→        },
+   430→        {
+   431→          id: "c",
+   432→          text: L(
+   433→            "La energía mecánica es máxima",
+   434→            "The mechanical energy is maximum",
+   435→          ),
+   436→          correct: false,
+   437→        },
+   438→        {
+   439→          id: "d",
+   440→          text: L(
+   441→            "La energía potencial disminuye al subir",
+   442→            "The potential energy decreases while rising",
+   443→          ),
+   444→          correct: false,
+   445→        },
+   446→      ];
+   447→      return {
+   448→        skill: L("Proyectil en la cima: energía y velocidad", "Projectile at the apex: energy and velocity"),
+   449→        statement: L(
+   450→          `Se lanza una ${object.es} por el aire y se desprecia el rozamiento. Considera el **punto más alto** de su trayectoria. ¿Qué afirmación es correcta?`,
+   451→          `A ${object.en} is launched through the air and air resistance is neglected. Consider the **highest point** of its trajectory. Which statement is correct?`,
+   452→        ),
+   453→        diagram: {
+   454→          kind: "projectile",
+   455→          v0,
+   456→          angleDeg: angle,
+   457→          h0: 0,
+   458→          g: 9.8,
+   459→          showAnnotations: true,
+   460→        },
+   461→        diagramLabel: L(
+   462→          `Trayectoria parabólica de una ${object.es} lanzada a ${v0} m/s con un ángulo de ${angle} grados.`,
+   463→          `Parabolic trajectory of a ${object.en} launched at ${v0} m/s at an angle of ${angle} degrees.`,
+   464→        ),
+   465→        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+   466→        hints: [
+   467→          L(
+   468→            "Piensa por separado en las componentes horizontal y vertical del movimiento.",
+   469→            "Think separately about the horizontal and vertical components of the motion.",
+   470→          ),
+   471→          L(
+   472→            "Sin rozamiento, la energía mecánica total se conserva durante todo el vuelo.",
+   473→            "Without air resistance, the total mechanical energy is conserved during the whole flight.",
+   474→          ),
+   475→          L(
+   476→            "En la cima, ¿qué componente de la velocidad se ha anulado y cuál sigue intacta?",
+   477→            "At the apex, which velocity component has gone to zero and which is untouched?",
+   478→          ),
+   479→        ],
+   480→        answerDisplay: L(
+   481→          "La velocidad vertical es cero, pero la total no (queda la componente horizontal).",
+   482→          "The vertical velocity is zero, but the total one is not (the horizontal component remains).",
+   483→        ),
+   484→        solution: [
+   485→          step(
+   486→            "given",
+   487→            `Proyectil sin rozamiento; analizamos el punto más alto de la trayectoria.`,
+   488→            `Projectile without air resistance; we analyse the highest point of the trajectory.`,
+   489→          ),
+   490→          step(
+   491→            "approach",
+   492→            "Combinamos cinámica 2D (componentes) con la conservación de la energía mecánica.",
+   493→            "We combine 2D kinematics (components) with conservation of mechanical energy.",
+   494→          ),
+   495→          step(
+   496→            "calculation",
+   497→            "En la cima $v_y = 0$, pero $v_x \\neq 0$ → la velocidad total y la energía cinética no son cero.<br>La energía mecánica es constante (no hay rozamiento), no máxima en un punto.<br>Al subir, la altura aumenta → la energía potencial **aumenta**.",
+   498→            "At the apex $v_y = 0$ but $v_x \\neq 0$ → the total speed and kinetic energy are not zero.<br>Mechanical energy is constant (no friction), not maximal at one point.<br>While rising, height increases → potential energy **increases**.",
+   499→          ),
+   500→          step(
+   501→            "result",
+   502→            "La única afirmación correcta es que la velocidad vertical se anula pero la total no.",
+   503→            "The only correct statement is that the vertical velocity vanishes but the total one does not.",
+   504→          ),
+   505→        ],
+   506→      };
+   507→    },
+   508→  ),
+   509→
+   510→  /* ---------------------------------------------------------------- */
+   511→  /* Calorimetry: equilibrium temperature                             */
+   512→  /* ---------------------------------------------------------------- */
+   513→  template(
+   514→    {
+   515→      id: "pmx-thermo-01",
+   516→      subject: "physics",
+   517→      topicId: "physics-mixed",
+   518→      subtopicId: "multi-step",
+   519→      difficulty: "hard",
+   520→      questionType: "numeric-unit",
+   521→      estimatedTimeSec: 300,
+   522→      tags: ["calorimetry", "energy-conservation", "thermal"],
+   523→      prerequisites: ["thermal-physics", "work-energy"],
+   524→    },
+   525→    (rng) => {
+   526→      const pick = rng.pick([
+   527→        { mm: 0.2, cm: 900, Tm: 300, mw: 0.5, Tw: 20 },
+   528→        { mm: 0.5, cm: 400, Tm: 200, mw: 0.5, Tw: 20 },
+   529→        { mm: 0.1, cm: 900, Tm: 400, mw: 0.9, Tw: 25 },
+   530→        { mm: 0.3, cm: 400, Tm: 350, mw: 0.7, Tw: 15 },
+   531→      ]);
+   532→      const Cm = r1(pick.mm * pick.cm);
+   533→      const Cw = r1(pick.mw * C_WATER);
+   534→      const num = r1(Cm * pick.Tm + Cw * pick.Tw);
+   535→      const den = r1(Cm + Cw);
+   536→      const Tf = r1(num / den);
+   537→      return {
+   538→        skill: L("Calorimetría: temperatura de equilibrio", "Calorimetry: equilibrium temperature"),
+   539→        statement: L(
+   540→          `Una pieza de metal de $m_m = ${tok(pick.mm)}\\ \\text{kg}$ y calor específico $c_m = ${pick.cm}\\ \\text{J/(kg·K)}$, inicialmente a $${pick.Tm}\\ ^{\\circ}\\text{C}$, se sumerge en $m_a = ${tok(pick.mw)}\\ \\text{kg}$ de agua a $${pick.Tw}\\ ^{\\circ}\\text{C}$ dentro de un recipiente aislado. Calcula la **temperatura final de equilibrio** (en °C, 2 cifras significativas; $c_{\\text{agua}} = 4186\\ \\text{J/(kg·K)}$).`,
+   541→          `A metal piece of $m_m = ${tok(pick.mm)}\\ \\text{kg}$ and specific heat $c_m = ${pick.cm}\\ \\text{J/(kg·K)}$, initially at $${pick.Tm}\\ ^{\\circ}\\text{C}$, is plunged into $m_w = ${tok(pick.mw)}\\ \\text{kg}$ of water at $${pick.Tw}\\ ^{\\circ}\\text{C}$ inside an insulated container. Compute the **final equilibrium temperature** (in °C, 2 significant figures; $c_{\\text{water}} = 4186\\ \\text{J/(kg·K)}$).`,
+   542→        ),
+   543→        answer: {
+   544→          kind: "numeric-unit",
+   545→          value: Tf,
+   546→          tolerance: { mode: "sigfig", value: 2 },
+   547→          units: ["°C", "C", "celsius", "grados celsius"],
+   548→          unitChoices: ["°C", "K", "°F", "C"],
+   549→        },
+   550→        hints: [
+   551→          L(
+   552→            "En un sistema aislado, el calor que cede el metal caliente es el que gana el agua fría.",
+   553→            "In an insulated system, the heat given up by the hot metal equals the heat gained by the cold water.",
+   554→          ),
+   555→          L(
+   556→            "Plantea $m_m c_m (T_m - T_f) = m_a c_a (T_f - T_a)$ y despeja $T_f$.",
+   557→            "Set $m_m c_m (T_m - T_f) = m_w c_w (T_f - T_w)$ and solve for $T_f$.",
+   558→          ),
+   559→          L(
+   560→            "Puedes agrupar: $T_f = \\frac{m_m c_m T_m + m_a c_a T_a}{m_m c_m + m_a c_a}$.",
+   561→            "You can group: $T_f = \\frac{m_m c_m T_m + m_w c_w T_w}{m_m c_m + m_w c_w}$.",
+   562→          ),
+   563→        ],
+   564→        answerDisplay: L(`$T_f \\approx ${tok(Tf)}\\ ^{\\circ}\\text{C}$`, `$T_f \\approx ${tok(Tf)}\\ ^{\\circ}\\text{C}$`),
+   565→        solution: [
+   566→          step(
+   567→            "given",
+   568→            `Metal: $m_m = ${tok(pick.mm)}\\ \\text{kg}$, $c_m = ${pick.cm}\\ \\text{J/(kg·K)}$, $T_m = ${pick.Tm}\\ ^{\\circ}\\text{C}$.<br>Agua: $m_a = ${tok(pick.mw)}\\ \\text{kg}$, $c_a = 4186\\ \\text{J/(kg·K)}$, $T_a = ${pick.Tw}\\ ^{\\circ}\\text{C}$.`,
+   569→            `Metal: $m_m = ${tok(pick.mm)}\\ \\text{kg}$, $c_m = ${pick.cm}\\ \\text{J/(kg·K)}$, $T_m = ${pick.Tm}\\ ^{\\circ}\\text{C}$.<br>Water: $m_w = ${tok(pick.mw)}\\ \\text{kg}$, $c_w = 4186\\ \\text{J/(kg·K)}$, $T_w = ${pick.Tw}\\ ^{\\circ}\\text{C}$.`,
+   570→          ),
+   571→          step(
+   572→            "approach",
+   573→            "Conservación de la energía térmica: $Q_{\\text{cedido}} = Q_{\\text{ganado}}$, es decir $m_m c_m (T_m - T_f) = m_a c_a (T_f - T_a)$.",
+   574→            "Conservation of thermal energy: $Q_{\\text{lost}} = Q_{\\text{gained}}$, i.e. $m_m c_m (T_m - T_f) = m_w c_w (T_f - T_w)$.",
+   575→          ),
+   576→          step(
+   577→            "calculation",
+   578→            `$m_m c_m = ${tok(Cm)}\\ \\text{J/K}$, $m_a c_a = ${tok(Cw)}\\ \\text{J/K}$<br>$T_f = \\frac{ ${tok(Cm)} \\cdot ${pick.Tm} + ${tok(Cw)} \\cdot ${pick.Tw}}{ ${tok(Cm)} + ${tok(Cw)}} = \\frac{ ${tok(num)}}{ ${tok(den)}} \\approx ${tok(Tf)}\\ ^{\\circ}\\text{C}$`,
+   579→            `$m_m c_m = ${tok(Cm)}\\ \\text{J/K}$, $m_w c_w = ${tok(Cw)}\\ \\text{J/K}$<br>$T_f = \\frac{ ${tok(Cm)} \\cdot ${pick.Tm} + ${tok(Cw)} \\cdot ${pick.Tw}}{ ${tok(Cm)} + ${tok(Cw)}} = \\frac{ ${tok(num)}}{ ${tok(den)}} \\approx ${tok(Tf)}\\ ^{\\circ}\\text{C}$`,
+   580→          ),
+   581→          step(
+   582→            "result",
+   583→            `El sistema alcanza el equilibrio a $\\approx ${tok(Tf)}\\ ^{\\circ}\\text{C}$ (entre las dos temperaturas iniciales, más cerca del agua).`,
+   584→            `The system reaches equilibrium at $\\approx ${tok(Tf)}\\ ^{\\circ}\\text{C}$ (between the two initial temperatures, closer to the water's).`,
+   585→          ),
+   586→        ],
+   587→      };
+   588→    },
+   589→  ),
+   590→
+   591→  /* ---------------------------------------------------------------- */
+   592→  /* SHM + energy: speed at half amplitude                            */
+   593→  /* ---------------------------------------------------------------- */
+   594→  template(
+   595→    {
+   596→      id: "pmx-shm-en-01",
+   597→      subject: "physics",
+   598→      topicId: "physics-mixed",
+   599→      subtopicId: "mixed-concepts",
+   600→      difficulty: "hard",
+   601→      questionType: "numeric-unit",
+   602→      estimatedTimeSec: 240,
+   603→      tags: ["shm", "energy", "spring"],
+   604→      prerequisites: ["oscillations-waves", "work-energy"],
+   605→    },
+   606→    (rng) => {
+   607→      const pick = rng.pick([
+   608→        { m: 0.5, k: 200, A: 0.1 },
+   609→        { m: 1, k: 200, A: 0.2 },
+   610→        { m: 1, k: 500, A: 0.2 },
+   611→        { m: 2, k: 800, A: 0.1 },
+   612→        { m: 0.4, k: 320, A: 0.1 },
+   613→        { m: 0.5, k: 500, A: 0.2 },
+   614→        { m: 0.8, k: 500, A: 0.2 },
+   615→      ]);
+   616→      const E = r2(0.5 * pick.k * pick.A * pick.A);
+   617→      const x = r2(pick.A / 2);
+   618→      const KE = r2(E - 0.5 * pick.k * x * x);
+   619→      const v = r1(Math.sqrt((2 * KE) / pick.m));
+   620→      return {
+   621→        skill: L("MAS + energía: velocidad a mitad de amplitud", "SHM + energy: speed at half amplitude"),
+   622→        statement: L(
+   623→          `Un carrito de $m = ${tok(pick.m)}\\ \\text{kg}$ unido a un muelle de constante $k = ${pick.k}\\ \\text{N/m}$ oscila con amplitud $A = ${tok(pick.A)}\\ \\text{m}$. ¿Qué rapidez tiene cuando está a **media amplitud** ($x = A/2$)? (2 cifras significativas)`,
+   624→          `A cart of $m = ${tok(pick.m)}\\ \\text{kg}$ attached to a spring of constant $k = ${pick.k}\\ \\text{N/m}$ oscillates with amplitude $A = ${tok(pick.A)}\\ \\text{m}$. What is its speed at **half amplitude** ($x = A/2$)? (2 significant figures)`,
+   625→        ),
+   626→        answer: {
+   627→          kind: "numeric-unit",
+   628→          value: v,
+   629→          tolerance: { mode: "sigfig", value: 2 },
+   630→          units: ["m/s"],
+   631→          unitChoices: ["m/s", "m/s^2", "m", "N/m"],
+   632→        },
+   633→        hints: [
+   634→          L(
+   635→            "La energía total del oscilador es $E = \\frac{1}{2}kA^2$ (toda potencial en los extremos).",
+   636→            "The oscillator's total energy is $E = \\frac{1}{2}kA^2$ (all potential at the endpoints).",
+   637→          ),
+   638→          L(
+   639→            "En una posición intermedia: $E = \\frac{1}{2}kx^2 + \\frac{1}{2}mv^2$.",
+   640→            "At an intermediate position: $E = \\frac{1}{2}kx^2 + \\frac{1}{2}mv^2$.",
+   641→          ),
+   642→          L(
+   643→            `Calcula la energía cinética restante y despeja $v = \\sqrt{2E_{\\text{cin}}/m}$.`,
+   644→            `Compute the remaining kinetic energy and solve $v = \\sqrt{2K/m}$.`,
+   645→          ),
+   646→        ],
+   647→        answerDisplay: L(`$v \\approx ${tok(v)}\\ \\text{m/s}$`, `$v \\approx ${tok(v)}\\ \\text{m/s}$`),
+   648→        solution: [
+   649→          step(
+   650→            "given",
+   651→            `$m = ${tok(pick.m)}\\ \\text{kg}$, $k = ${pick.k}\\ \\text{N/m}$, $A = ${tok(pick.A)}\\ \\text{m}$, $x = ${tok(x)}\\ \\text{m}$`,
+   652→            `$m = ${tok(pick.m)}\\ \\text{kg}$, $k = ${pick.k}\\ \\text{N/m}$, $A = ${tok(pick.A)}\\ \\text{m}$, $x = ${tok(x)}\\ \\text{m}$`,
+   653→          ),
+   654→          step(
+   655→            "approach",
+   656→            "Conservación de la energía del oscilador: $\\frac{1}{2}kA^2 = \\frac{1}{2}kx^2 + \\frac{1}{2}mv^2$.",
+   657→            "Conservation of the oscillator's energy: $\\frac{1}{2}kA^2 = \\frac{1}{2}kx^2 + \\frac{1}{2}mv^2$.",
+   658→          ),
+   659→          step(
+   660→            "calculation",
+   661→            `$E = \\frac{1}{2}(${pick.k})(${tok(pick.A)})^2 = ${tok(E)}\\ \\text{J}$<br>$U(x) = \\frac{1}{2}(${pick.k})(${tok(x)})^2 = ${tok(r2(0.5 * pick.k * x * x))}\\ \\text{J}$<br>$E_{\\text{cin}} = ${tok(E)} - ${tok(r2(0.5 * pick.k * x * x))} = ${tok(KE)}\\ \\text{J}$<br>$v = \\sqrt{\\frac{2 \\cdot ${tok(KE)}}{ ${tok(pick.m)}}} \\approx ${tok(v)}\\ \\text{m/s}$`,
+   662→            `$E = \\frac{1}{2}(${pick.k})(${tok(pick.A)})^2 = ${tok(E)}\\ \\text{J}$<br>$U(x) = \\frac{1}{2}(${pick.k})(${tok(x)})^2 = ${tok(r2(0.5 * pick.k * x * x))}\\ \\text{J}$<br>$K = ${tok(E)} - ${tok(r2(0.5 * pick.k * x * x))} = ${tok(KE)}\\ \\text{J}$<br>$v = \\sqrt{\\frac{2 \\cdot ${tok(KE)}}{ ${tok(pick.m)}}} \\approx ${tok(v)}\\ \\text{m/s}$`,
+   663→          ),
+   664→          step(
+   665→            "result",
+   666→            `A media amplitud el carrito se mueve con $\\approx ${tok(v)}\\ \\text{m/s}$.`,
+   667→            `At half amplitude the cart moves at $\\approx ${tok(v)}\\ \\text{m/s}$.`,
+   668→          ),
+   669→        ],
+   670→      };
+   671→    },
+   672→  ),
+   673→
+   674→  /* ---------------------------------------------------------------- */
+   675→  /* Ballistic pendulum (momentum + energy)                           */
+   676→  /* ---------------------------------------------------------------- */
+   677→  template(
+   678→    {
+   679→      id: "pmx-mom-en-01",
+   680→      subject: "physics",
+   681→      topicId: "physics-mixed",
+   682→      subtopicId: "multi-step",
+   683→      difficulty: "hard",
+   684→      questionType: "numeric-unit",
+   685→      estimatedTimeSec: 300,
+   686→      tags: ["momentum", "energy", "ballistic-pendulum"],
+   687→      prerequisites: ["momentum", "work-energy"],
+   688→    },
+   689→    (rng) => {
+   690→      const pick = rng.pick([
+   691→        { m: 0.05, M: 1.95, h: 0.2 },
+   692→        { m: 0.1, M: 1.9, h: 0.2 },
+   693→        { m: 0.02, M: 1.98, h: 0.2 },
+   694→        { m: 0.05, M: 1.95, h: 0.45 },
+   695→        { m: 0.04, M: 1.96, h: 0.2 },
+   696→        { m: 0.05, M: 1.45, h: 0.2 },
+   697→        { m: 0.1, M: 2.4, h: 0.2 },
+   698→        { m: 0.02, M: 1.98, h: 0.8 },
+   699→      ]);
+   700→      const mG = Math.round(pick.m * 1000);
+   701→      const V = r2(Math.sqrt(2 * G_ACC * pick.h));
+   702→      const v = r1(((pick.m + pick.M) / pick.m) * Math.sqrt(2 * G_ACC * pick.h));
+   703→      return {
+   704→        skill: L("Péndulo balístico (momento + energía)", "Ballistic pendulum (momentum + energy)"),
+   705→        statement: L(
+   706→          `Una bala de $${mG}\\ \\text{g}$ se incrusta en un bloque de madera de $${tok(pick.M)}\\ \\text{kg}$ colgado de un hilo (péndulo balístico) y el conjunto sube hasta una altura de $${tok(pick.h)}\\ \\text{m}$. ¿Con qué velocidad iba la bala? (en m/s, 2 cifras significativas; $g = 9{,}8\\ \\text{m/s}^2$)`,
+   707→          `A ${mG}\\ \\text{g}$ bullet embeds itself in a ${tok(pick.M)}\\ \\text{kg}$ wooden block hanging from a string (ballistic pendulum) and the pair rises to a height of $${tok(pick.h)}\\ \\text{m}$. How fast was the bullet going? (in m/s, 2 significant figures; $g = 9.8\\ \\text{m/s}^2$)`,
+   708→        ),
+   709→        answer: {
+   710→          kind: "numeric-unit",
+   711→          value: v,
+   712→          tolerance: { mode: "sigfig", value: 2 },
+   713→          units: ["m/s"],
+   714→          unitChoices: ["m/s", "km/h", "m", "J"],
+   715→        },
+   716→        hints: [
+   717→          L(
+   718→            "Son dos etapas con leyes distintas: el choque (se conserva el momento) y la subida (se conserva la energía).",
+   719→            "Two stages with different laws: the collision (momentum conserved) and the rise (energy conserved).",
+   720→          ),
+   721→          L(
+   722→            "Etapa 2 (energía): $\\frac{1}{2}(m+M)V^2 = (m+M)gh \\Rightarrow V = \\sqrt{2gh}$.",
+   723→            "Stage 2 (energy): $\\frac{1}{2}(m+M)V^2 = (m+M)gh \\Rightarrow V = \\sqrt{2gh}$.",
+   724→          ),
+   725→          L(
+   726→            "Etapa 1 (momento): $mv = (m+M)V \\Rightarrow v = \\frac{m+M}{m}V$.",
+   727→            "Stage 1 (momentum): $mv = (m+M)V \\Rightarrow v = \\frac{m+M}{m}V$.",
+   728→          ),
+   729→        ],
+   730→        answerDisplay: L(`$v \\approx ${tok(v)}\\ \\text{m/s}$`, `$v \\approx ${tok(v)}\\ \\text{m/s}$`),
+   731→        solution: [
+   732→          step(
+   733→            "given",
+
+[showing lines 34-733 of 1963; use offset=734 with limit to continue reading]

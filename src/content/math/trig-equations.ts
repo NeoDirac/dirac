@@ -979,4 +979,840 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+
+  /* ================================================================== */
+  /* Curated — Fundamentos de Matemáticas para Bachillerato (ESPOL),    */
+  /* §5.6 Ecuaciones e inecuaciones trigonométricas, pp. 668–669.       */
+  /* Every answer re-derived and verified with sympy before import.     */
+  /* ================================================================== */
+
+  /* 5.6 · 1d — 2cos²x − sen(2x) = 0 on [0, π]; sum of solutions = 3π/4 */
+  template(
+    {
+      id: "trigeq-espol-1d",
+      subject: "math",
+      topicId: "trig-equations",
+      subtopicId: "intervals",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 300,
+      tags: ["intervals", "double-angle", "factoring", "radians"],
+      prerequisites: ["trig-functions"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "5.6 · 1d",
+        page: 668,
+      },
+      reasoning: "case-analysis",
+    },
+    () => ({
+      skill: L("Ecuación trigonométrica con factor común", "Trig equation with a common factor"),
+      statement: L(
+        `Resuelve $2\\cos^2 x - \\sin(2x) = 0$ en $x \\in [0, \\pi]$ y escribe la **suma de todas las soluciones** en radianes (puedes teclear p. ej. \`3pi/4\` o su valor decimal).`,
+        `Solve $2\\cos^2 x - \\sin(2x) = 0$ on $x \\in [0, \\pi]$ and enter the **sum of all solutions** in radians (you may type e.g. \`3pi/4\` or its decimal value).`,
+      ),
+      answer: {
+        kind: "numeric",
+        value: (3 * Math.PI) / 4,
+        tolerance: { mode: "absolute", value: 0.01 },
+      },
+      hints: [
+        L(
+          "Usa el ángulo doble $\\sin(2x) = 2\\sin x\\cos x$ y busca un factor común.",
+          "Use the double angle $\\sin(2x) = 2\\sin x\\cos x$ and look for a common factor.",
+        ),
+        L(
+          "$2\\cos^2 x - 2\\sin x\\cos x = 2\\cos x(\\cos x - \\sin x) = 0$, así que $\\cos x = 0$ o $\\tan x = 1$.",
+          "$2\\cos^2 x - 2\\sin x\\cos x = 2\\cos x(\\cos x - \\sin x) = 0$, so $\\cos x = 0$ or $\\tan x = 1$.",
+        ),
+        L(
+          "En $[0, \\pi]$: $\\cos x = 0 \\Rightarrow x = \\frac{\\pi}{2}$; $\\tan x = 1 \\Rightarrow x = \\frac{\\pi}{4}$. Suma ambas.",
+          "On $[0, \\pi]$: $\\cos x = 0 \\Rightarrow x = \\frac{\\pi}{2}$; $\\tan x = 1 \\Rightarrow x = \\frac{\\pi}{4}$. Add them up.",
+        ),
+      ],
+      answerDisplay: L(
+        `$x \\in \\left\\{\\frac{\\pi}{4},\\ \\frac{\\pi}{2}\\right\\}$, suma $= \\frac{3\\pi}{4}$`,
+        `$x \\in \\left\\{\\frac{\\pi}{4},\\ \\frac{\\pi}{2}\\right\\}$, sum $= \\frac{3\\pi}{4}$`,
+      ),
+      solution: [
+        step(
+          "given",
+          "$2\\cos^2 x - \\sin(2x) = 0$, con $x \\in [0, \\pi]$.",
+          "$2\\cos^2 x - \\sin(2x) = 0$, with $x \\in [0, \\pi]$.",
+        ),
+        step(
+          "approach",
+          "Un solo bloque no resuelve nada: hay que romper el ángulo doble para que aparezca un factor común.",
+          "No single identity finishes it: break the double angle so a common factor appears.",
+        ),
+        step(
+          "calculation",
+          `$2\\cos^2 x - 2\\sin x\\cos x = 0$<br>$2\\cos x(\\cos x - \\sin x) = 0$<br>$\\cos x = 0 \\Rightarrow x = \\frac{\\pi}{2}$<br>$\\cos x = \\sin x \\Rightarrow \\tan x = 1 \\Rightarrow x = \\frac{\\pi}{4}$`,
+          `$2\\cos^2 x - 2\\sin x\\cos x = 0$<br>$2\\cos x(\\cos x - \\sin x) = 0$<br>$\\cos x = 0 \\Rightarrow x = \\frac{\\pi}{2}$<br>$\\cos x = \\sin x \\Rightarrow \\tan x = 1 \\Rightarrow x = \\frac{\\pi}{4}$`,
+        ),
+        step(
+          "result",
+          `Ambas soluciones están en $[0, \\pi]$: $x \\in \\left\\{\\frac{\\pi}{4}, \\frac{\\pi}{2}\\right\\}$ y su suma es $\\frac{\\pi}{4} + \\frac{\\pi}{2} = \\frac{3\\pi}{4}$.`,
+          `Both solutions lie in $[0, \\pi]$: $x \\in \\left\\{\\frac{\\pi}{4}, \\frac{\\pi}{2}\\right\\}$ and their sum is $\\frac{\\pi}{4} + \\frac{\\pi}{2} = \\frac{3\\pi}{4}$.`,
+        ),
+      ],
+    }),
+  ),
+
+  /* 5.6 · 1f — tan(2x) − 2·sen(x) = 0 on [0, π]; sum = 5π/3 (poles!) */
+  template(
+    {
+      id: "trigeq-espol-1f",
+      subject: "math",
+      topicId: "trig-equations",
+      subtopicId: "intervals",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 360,
+      tags: ["intervals", "tangent", "domain", "radians"],
+      prerequisites: ["trig-functions"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "5.6 · 1f",
+        page: 668,
+      },
+      reasoning: "spurious",
+    },
+    () => ({
+      skill: L("Tangente con restricción de dominio", "Tangent with a domain restriction"),
+      statement: L(
+        `Resuelve $\\tan(2x) - 2\\sin x = 0$ en $x \\in [0, \\pi]$ y escribe la **suma de todas las soluciones** en radianes (p. ej. \`5pi/3\`).`,
+        `Solve $\\tan(2x) - 2\\sin x = 0$ on $x \\in [0, \\pi]$ and enter the **sum of all solutions** in radians (e.g. \`5pi/3\`).`,
+      ),
+      answer: {
+        kind: "numeric",
+        value: (5 * Math.PI) / 3,
+        tolerance: { mode: "absolute", value: 0.01 },
+      },
+      hints: [
+        L(
+          "Antes de multiplicar: ¿dónde está definida la tangente? $\\cos(2x) \\neq 0$.",
+          "Before multiplying: where is the tangent defined? $\\cos(2x) \\neq 0$.",
+        ),
+        L(
+          "Multiplicando por $\\cos(2x)$: $\\sin(2x) = 2\\sin x\\cos(2x)$, y con ángulo doble queda $2\\sin x\\cos x = 2\\sin x(2\\cos^2 x - 1)$.",
+          "Multiplying by $\\cos(2x)$: $\\sin(2x) = 2\\sin x\\cos(2x)$, and with the double angle $2\\sin x\\cos x = 2\\sin x(2\\cos^2 x - 1)$.",
+        ),
+        L(
+          "$\\sin x = 0 \\Rightarrow x = 0, \\pi$; además $2\\cos^2 x - \\cos x - 1 = 0 \\Rightarrow \\cos x = 1$ o $-\\frac{1}{2}$ (es decir $x = \\frac{2\\pi}{3}$).",
+          "$\\sin x = 0 \\Rightarrow x = 0, \\pi$; also $2\\cos^2 x - \\cos x - 1 = 0 \\Rightarrow \\cos x = 1$ or $-\\frac{1}{2}$ (that is, $x = \\frac{2\\pi}{3}$).",
+        ),
+      ],
+      answerDisplay: L(
+        `$x \\in \\left\\{0,\\ \\frac{2\\pi}{3},\\ \\pi\\right\\}$, suma $= \\frac{5\\pi}{3}$`,
+        `$x \\in \\left\\{0,\\ \\frac{2\\pi}{3},\\ \\pi\\right\\}$, sum $= \\frac{5\\pi}{3}$`,
+      ),
+      solution: [
+        step(
+          "given",
+          "$\\tan(2x) - 2\\sin x = 0$, con $x \\in [0, \\pi]$. La tangente exige $\\cos(2x) \\neq 0$.",
+          "$\\tan(2x) - 2\\sin x = 0$, with $x \\in [0, \\pi]$. The tangent requires $\\cos(2x) \\neq 0$.",
+        ),
+        step(
+          "approach",
+          "Se multiplica por $\\cos(2x)$ (válido donde la tangente existe) y se rompe el ángulo doble para factorizar.",
+          "Multiply by $\\cos(2x)$ (valid wherever the tangent exists) and break the double angle to factor.",
+        ),
+        step(
+          "calculation",
+          `$2\\sin x\\cos x = 2\\sin x(2\\cos^2 x - 1)$<br>$\\sin x\\bigl(\\cos x - 2\\cos^2 x + 1\\bigr) = 0$<br>$\\sin x = 0 \\Rightarrow x = 0, \\pi$<br>$2\\cos^2 x - \\cos x - 1 = 0 \\Rightarrow (2\\cos x + 1)(\\cos x - 1) = 0 \\Rightarrow x = \\frac{2\\pi}{3}$ (la raíz $\\cos x = 1$ repite $x = 0$)`,
+          `$2\\sin x\\cos x = 2\\sin x(2\\cos^2 x - 1)$<br>$\\sin x\\bigl(\\cos x - 2\\cos^2 x + 1\\bigr) = 0$<br>$\\sin x = 0 \\Rightarrow x = 0, \\pi$<br>$2\\cos^2 x - \\cos x - 1 = 0 \\Rightarrow (2\\cos x + 1)(\\cos x - 1) = 0 \\Rightarrow x = \\frac{2\\pi}{3}$ (the root $\\cos x = 1$ repeats $x = 0$)`,
+        ),
+        step(
+          "result",
+          `Ninguna solución coincide con los polos ($x = \\frac{\\pi}{4}, \\frac{3\\pi}{4}$, donde $\\cos 2x = 0$), así que el conjunto es $\\left\\{0, \\frac{2\\pi}{3}, \\pi\\right\\}$ y la suma es $\\frac{5\\pi}{3}$.`,
+          `No solution coincides with the poles ($x = \\frac{\\pi}{4}, \\frac{3\\pi}{4}$, where $\\cos 2x = 0$), so the set is $\\left\\{0, \\frac{2\\pi}{3}, \\pi\\right\\}$ and the sum is $\\frac{5\\pi}{3}$.`,
+        ),
+      ],
+    }),
+  ),
+
+  /* 5.6 · 1h — sen(2x) = 1 + cos(2x) on [π, 2π]; sum = 11π/4 */
+  template(
+    {
+      id: "trigeq-espol-1h",
+      subject: "math",
+      topicId: "trig-equations",
+      subtopicId: "intervals",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 300,
+      tags: ["intervals", "double-angle", "radians"],
+      prerequisites: ["trig-functions"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "5.6 · 1h",
+        page: 668,
+      },
+      reasoning: "case-analysis",
+    },
+    () => ({
+      skill: L("Todo en seno y coseno, luego factor común", "Everything in sine and cosine, then factor"),
+      statement: L(
+        `Resuelve $\\sin(2x) = 1 + \\cos(2x)$ en $x \\in [\\pi, 2\\pi]$ y escribe la **suma de todas las soluciones** en radianes (p. ej. \`11pi/4\`).`,
+        `Solve $\\sin(2x) = 1 + \\cos(2x)$ on $x \\in [\\pi, 2\\pi]$ and enter the **sum of all solutions** in radians (e.g. \`11pi/4\`).`,
+      ),
+      answer: {
+        kind: "numeric",
+        value: (11 * Math.PI) / 4,
+        tolerance: { mode: "absolute", value: 0.01 },
+      },
+      hints: [
+        L(
+          "Pasa todo al lado izquierdo: $\\sin(2x) - \\cos(2x) - 1 = 0$.",
+          "Move everything to the left: $\\sin(2x) - \\cos(2x) - 1 = 0$.",
+        ),
+        L(
+          "Con $\\sin(2x) = 2\\sin x\\cos x$ y $\\cos(2x) = 2\\cos^2 x - 1$: $2\\cos x(\\sin x - \\cos x) = 0$.",
+          "With $\\sin(2x) = 2\\sin x\\cos x$ and $\\cos(2x) = 2\\cos^2 x - 1$: $2\\cos x(\\sin x - \\cos x) = 0$.",
+        ),
+        L(
+          "$\\cos x = 0 \\Rightarrow x = \\frac{3\\pi}{2}$; $\\sin x = \\cos x \\Rightarrow x = \\frac{5\\pi}{4}$ (en $[\\pi, 2\\pi]$).",
+          "$\\cos x = 0 \\Rightarrow x = \\frac{3\\pi}{2}$; $\\sin x = \\cos x \\Rightarrow x = \\frac{5\\pi}{4}$ (on $[\\pi, 2\\pi]$).",
+        ),
+      ],
+      answerDisplay: L(
+        `$x \\in \\left\\{\\frac{5\\pi}{4},\\ \\frac{3\\pi}{2}\\right\\}$, suma $= \\frac{11\\pi}{4}$`,
+        `$x \\in \\left\\{\\frac{5\\pi}{4},\\ \\frac{3\\pi}{2}\\right\\}$, sum $= \\frac{11\\pi}{4}$`,
+      ),
+      solution: [
+        step(
+          "given",
+          "$\\sin(2x) = 1 + \\cos(2x)$, con $x \\in [\\pi, 2\\pi]$.",
+          "$\\sin(2x) = 1 + \\cos(2x)$, with $x \\in [\\pi, 2\\pi]$.",
+        ),
+        step(
+          "approach",
+          "Reescribir todo en $\\sin x$ y $\\cos x$ para poder factorizar; el $1$ se cancela con el $-1$ del coseno doble.",
+          "Rewrite everything in $\\sin x$ and $\\cos x$ so it factors; the $1$ cancels against the $-1$ inside the double cosine.",
+        ),
+        step(
+          "calculation",
+          `$2\\sin x\\cos x - 1 - (2\\cos^2 x - 1) = 0$<br>$2\\sin x\\cos x - 2\\cos^2 x = 0$<br>$2\\cos x(\\sin x - \\cos x) = 0$<br>$\\cos x = 0 \\Rightarrow x = \\frac{3\\pi}{2}$; $\\tan x = 1 \\Rightarrow x = \\frac{5\\pi}{4}$`,
+          `$2\\sin x\\cos x - 1 - (2\\cos^2 x - 1) = 0$<br>$2\\sin x\\cos x - 2\\cos^2 x = 0$<br>$2\\cos x(\\sin x - \\cos x) = 0$<br>$\\cos x = 0 \\Rightarrow x = \\frac{3\\pi}{2}$; $\\tan x = 1 \\Rightarrow x = \\frac{5\\pi}{4}$`,
+        ),
+        step(
+          "result",
+          `Ambas están en $[\\pi, 2\\pi]$: $x \\in \\left\\{\\frac{5\\pi}{4}, \\frac{3\\pi}{2}\\right\\}$, suma $= \\frac{11\\pi}{4}$. Comprobación en $x = \\frac{5\\pi}{4}$: $\\sin\\frac{5\\pi}{2} = 1$ y $1 + \\cos\\frac{5\\pi}{2} = 1$ ✓.`,
+          `Both lie in $[\\pi, 2\\pi]$: $x \\in \\left\\{\\frac{5\\pi}{4}, \\frac{3\\pi}{2}\\right\\}$, sum $= \\frac{11\\pi}{4}$. Check at $x = \\frac{5\\pi}{4}$: $\\sin\\frac{5\\pi}{2} = 1$ and $1 + \\cos\\frac{5\\pi}{2} = 1$ ✓.`,
+        ),
+      ],
+    }),
+  ),
+
+  /* 5.6 · 1k — 2sen(2x) − 2senx + 2cosx − 1 = 0 on [−π, π]; sum = −π */
+  template(
+    {
+      id: "trigeq-espol-1k",
+      subject: "math",
+      topicId: "trig-equations",
+      subtopicId: "intervals",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 360,
+      tags: ["intervals", "grouping", "factoring", "radians"],
+      prerequisites: ["trig-functions"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "5.6 · 1k",
+        page: 669,
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L("Agrupar términos para factorizar", "Grouping terms to factor"),
+      statement: L(
+        `Resuelve $2\\sin(2x) - 2\\sin x + 2\\cos x - 1 = 0$ en $x \\in [-\\pi, \\pi]$ y escribe la **suma de todas las soluciones** en radianes (p. ej. \`-pi\`).`,
+        `Solve $2\\sin(2x) - 2\\sin x + 2\\cos x - 1 = 0$ on $x \\in [-\\pi, \\pi]$ and enter the **sum of all solutions** in radians (e.g. \`-pi\`).`,
+      ),
+      answer: {
+        kind: "numeric",
+        value: -Math.PI,
+        tolerance: { mode: "absolute", value: 0.01 },
+      },
+      hints: [
+        L(
+          "No lo expandas todo de golpe: agrupa $(2\\sin(2x) - 2\\sin x) + (2\\cos x - 1)$.",
+          "Don't expand everything at once: group $(2\\sin(2x) - 2\\sin x) + (2\\cos x - 1)$.",
+        ),
+        L(
+          "El primer grupo es $2\\sin x(2\\cos x - 1)$… y el segundo grupo ya es $(2\\cos x - 1)$.",
+          "The first group is $2\\sin x(2\\cos x - 1)$… and the second group is already $(2\\cos x - 1)$.",
+        ),
+        L(
+          "$(2\\cos x - 1)(2\\sin x + 1) = 0$: $\\cos x = \\frac{1}{2} \\Rightarrow x = \\pm\\frac{\\pi}{3}$; $\\sin x = -\\frac{1}{2} \\Rightarrow x = -\\frac{\\pi}{6}, -\\frac{5\\pi}{6}$.",
+          "$(2\\cos x - 1)(2\\sin x + 1) = 0$: $\\cos x = \\frac{1}{2} \\Rightarrow x = \\pm\\frac{\\pi}{3}$; $\\sin x = -\\frac{1}{2} \\Rightarrow x = -\\frac{\\pi}{6}, -\\frac{5\\pi}{6}$.",
+        ),
+      ],
+      answerDisplay: L(
+        `$x \\in \\left\\{-\\frac{5\\pi}{6}, -\\frac{\\pi}{3}, -\\frac{\\pi}{6}, \\frac{\\pi}{3}\\right\\}$, suma $= -\\pi$`,
+        `$x \\in \\left\\{-\\frac{5\\pi}{6}, -\\frac{\\pi}{3}, -\\frac{\\pi}{6}, \\frac{\\pi}{3}\\right\\}$, sum $= -\\pi$`,
+      ),
+      solution: [
+        step(
+          "given",
+          "$2\\sin(2x) - 2\\sin x + 2\\cos x - 1 = 0$, con $x \\in [-\\pi, \\pi]$.",
+          "$2\\sin(2x) - 2\\sin x + 2\\cos x - 1 = 0$, with $x \\in [-\\pi, \\pi]$.",
+        ),
+        step(
+          "approach",
+          "La jugada clave es ver la estructura: $2\\sin(2x) - 2\\sin x$ esconde el factor $2\\cos x - 1$, que es exactamente lo que sobra.",
+          "The key move is seeing the structure: $2\\sin(2x) - 2\\sin x$ hides the factor $2\\cos x - 1$, which is exactly what is left over.",
+        ),
+        step(
+          "calculation",
+          `$2\\sin x(2\\cos x - 1) + (2\\cos x - 1) = 0$<br>$(2\\cos x - 1)(2\\sin x + 1) = 0$<br>$\\cos x = \\frac{1}{2} \\Rightarrow x = \\pm\\frac{\\pi}{3}$<br>$\\sin x = -\\frac{1}{2} \\Rightarrow x = -\\frac{\\pi}{6},\\ -\\frac{5\\pi}{6}$`,
+          `$2\\sin x(2\\cos x - 1) + (2\\cos x - 1) = 0$<br>$(2\\cos x - 1)(2\\sin x + 1) = 0$<br>$\\cos x = \\frac{1}{2} \\Rightarrow x = \\pm\\frac{\\pi}{3}$<br>$\\sin x = -\\frac{1}{2} \\Rightarrow x = -\\frac{\\pi}{6},\\ -\\frac{5\\pi}{6}$`,
+        ),
+        step(
+          "result",
+          `Cuatro soluciones: $\\left\\{-\\frac{5\\pi}{6}, -\\frac{\\pi}{3}, -\\frac{\\pi}{6}, \\frac{\\pi}{3}\\right\\}$; su suma es $-\\pi$.`,
+          `Four solutions: $\\left\\{-\\frac{5\\pi}{6}, -\\frac{\\pi}{3}, -\\frac{\\pi}{6}, \\frac{\\pi}{3}\\right\\}$; their sum is $-\\pi$.`,
+        ),
+      ],
+    }),
+  ),
+
+  /* 5.6 · 1l — 2sen²x = 1 − cos x on [0, 2π]; sum = 4π */
+  template(
+    {
+      id: "trigeq-espol-1l",
+      subject: "math",
+      topicId: "trig-equations",
+      subtopicId: "intervals",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 240,
+      tags: ["intervals", "pythagorean", "quadratic", "radians"],
+      prerequisites: ["trig-functions"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "5.6 · 1l",
+        page: 669,
+      },
+      reasoning: "definition-hunting",
+    },
+    () => ({
+      skill: L("Pitágoras para quedar solo en coseno", "Pythagoras to keep only cosine"),
+      statement: L(
+        `Resuelve $2\\sin^2 x = 1 - \\cos x$ en $x \\in [0, 2\\pi]$ y escribe la **suma de todas las soluciones** en radianes (p. ej. \`4pi\`).`,
+        `Solve $2\\sin^2 x = 1 - \\cos x$ on $x \\in [0, 2\\pi]$ and enter the **sum of all solutions** in radians (e.g. \`4pi\`).`,
+      ),
+      answer: {
+        kind: "numeric",
+        value: 4 * Math.PI,
+        tolerance: { mode: "absolute", value: 0.01 },
+      },
+      hints: [
+        L(
+          "Con $\\sin^2 x = 1 - \\cos^2 x$ la ecuación queda solo en $\\cos x$.",
+          "With $\\sin^2 x = 1 - \\cos^2 x$ the equation stays only in $\\cos x$.",
+        ),
+        L(
+          "$2(1 - \\cos^2 x) = 1 - \\cos x \\Rightarrow 2\\cos^2 x - \\cos x - 1 = 0$.",
+          "$2(1 - \\cos^2 x) = 1 - \\cos x \\Rightarrow 2\\cos^2 x - \\cos x - 1 = 0$.",
+        ),
+        L(
+          "$(2\\cos x + 1)(\\cos x - 1) = 0$: $\\cos x = 1 \\Rightarrow x = 0, 2\\pi$; $\\cos x = -\\frac{1}{2} \\Rightarrow x = \\frac{2\\pi}{3}, \\frac{4\\pi}{3}$.",
+          "$(2\\cos x + 1)(\\cos x - 1) = 0$: $\\cos x = 1 \\Rightarrow x = 0, 2\\pi$; $\\cos x = -\\frac{1}{2} \\Rightarrow x = \\frac{2\\pi}{3}, \\frac{4\\pi}{3}$.",
+        ),
+      ],
+      answerDisplay: L(
+        `$x \\in \\left\\{0, \\frac{2\\pi}{3}, \\frac{4\\pi}{3}, 2\\pi\\right\\}$, suma $= 4\\pi$`,
+        `$x \\in \\left\\{0, \\frac{2\\pi}{3}, \\frac{4\\pi}{3}, 2\\pi\\right\\}$, sum $= 4\\pi$`,
+      ),
+      solution: [
+        step(
+          "given",
+          "$2\\sin^2 x = 1 - \\cos x$, con $x \\in [0, 2\\pi]$ (intervalo cerrado: los extremos cuentan).",
+          "$2\\sin^2 x = 1 - \\cos x$, with $x \\in [0, 2\\pi]$ (closed interval: the endpoints count).",
+        ),
+        step(
+          "approach",
+          "Sustituir $\\sin^2 x$ por $1 - \\cos^2 x$ convierte todo en una cuadrática en $\\cos x$.",
+          "Replacing $\\sin^2 x$ with $1 - \\cos^2 x$ turns it into a quadratic in $\\cos x$.",
+        ),
+        step(
+          "calculation",
+          `$2 - 2\\cos^2 x = 1 - \\cos x$<br>$2\\cos^2 x - \\cos x - 1 = 0$<br>$(2\\cos x + 1)(\\cos x - 1) = 0$<br>$\\cos x = 1 \\Rightarrow x = 0,\\ 2\\pi$; $\\cos x = -\\frac{1}{2} \\Rightarrow x = \\frac{2\\pi}{3},\\ \\frac{4\\pi}{3}$`,
+          `$2 - 2\\cos^2 x = 1 - \\cos x$<br>$2\\cos^2 x - \\cos x - 1 = 0$<br>$(2\\cos x + 1)(\\cos x - 1) = 0$<br>$\\cos x = 1 \\Rightarrow x = 0,\\ 2\\pi$; $\\cos x = -\\frac{1}{2} \\Rightarrow x = \\frac{2\\pi}{3},\\ \\frac{4\\pi}{3}$`,
+        ),
+        step(
+          "result",
+          `Como $0$ y $2\\pi$ pertenecen al intervalo cerrado, hay cuatro soluciones y su suma es $0 + \\frac{2\\pi}{3} + \\frac{4\\pi}{3} + 2\\pi = 4\\pi$.`,
+          `Since $0$ and $2\\pi$ belong to the closed interval, there are four solutions and their sum is $0 + \\frac{2\\pi}{3} + \\frac{4\\pi}{3} + 2\\pi = 4\\pi$.`,
+        ),
+      ],
+    }),
+  ),
+
+  /* 5.6 · 1m — sen(2x)·cos x = 6·sen³x on [0, 2π]; sum = 7π */
+  template(
+    {
+      id: "trigeq-espol-1m",
+      subject: "math",
+      topicId: "trig-equations",
+      subtopicId: "intervals",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 360,
+      tags: ["intervals", "double-angle", "tangent", "radians"],
+      prerequisites: ["trig-functions"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "5.6 · 1m",
+        page: 669,
+      },
+      reasoning: "case-analysis",
+    },
+    () => ({
+      skill: L("Factorizar seno y quedar en tangente", "Factor out sine and reduce to tangent"),
+      statement: L(
+        `Resuelve $\\sin(2x)\\cos x = 6\\sin^3 x$ en $x \\in [0, 2\\pi]$ y escribe la **suma de todas las soluciones** en radianes (p. ej. \`7pi\`).`,
+        `Solve $\\sin(2x)\\cos x = 6\\sin^3 x$ on $x \\in [0, 2\\pi]$ and enter the **sum of all solutions** in radians (e.g. \`7pi\`).`,
+      ),
+      answer: {
+        kind: "numeric",
+        value: 7 * Math.PI,
+        tolerance: { mode: "absolute", value: 0.01 },
+      },
+      hints: [
+        L(
+          "$\\sin(2x)\\cos x = 2\\sin x\\cos^2 x$: saca el factor $\\sin x$.",
+          "$\\sin(2x)\\cos x = 2\\sin x\\cos^2 x$: pull out the factor $\\sin x$.",
+        ),
+        L(
+          "$\\sin x\\,(2\\cos^2 x - 6\\sin^2 x) = 0$. Si $\\sin x \\neq 0$, divide entre $2\\cos^2 x$.",
+          "$\\sin x\\,(2\\cos^2 x - 6\\sin^2 x) = 0$. If $\\sin x \\neq 0$, divide by $2\\cos^2 x$.",
+        ),
+        L(
+          "$\\tan^2 x = \\frac{1}{3} \\Rightarrow \\tan x = \\pm\\frac{\\sqrt{3}}{3} \\Rightarrow x = \\frac{\\pi}{6}, \\frac{5\\pi}{6}, \\frac{7\\pi}{6}, \\frac{11\\pi}{6}$; y con $\\sin x = 0$: $x = 0, \\pi, 2\\pi$.",
+          "$\\tan^2 x = \\frac{1}{3} \\Rightarrow \\tan x = \\pm\\frac{\\sqrt{3}}{3} \\Rightarrow x = \\frac{\\pi}{6}, \\frac{5\\pi}{6}, \\frac{7\\pi}{6}, \\frac{11\\pi}{6}$; and with $\\sin x = 0$: $x = 0, \\pi, 2\\pi$.",
+        ),
+      ],
+      answerDisplay: L(
+        `Siete soluciones en $[0, 2\\pi]$; suma $= 7\\pi$`,
+        `Seven solutions on $[0, 2\\pi]$; sum $= 7\\pi$`,
+      ),
+      solution: [
+        step(
+          "given",
+          "$\\sin(2x)\\cos x = 6\\sin^3 x$, con $x \\in [0, 2\\pi]$.",
+          "$\\sin(2x)\\cos x = 6\\sin^3 x$, with $x \\in [0, 2\\pi]$.",
+        ),
+        step(
+          "approach",
+          "Romper el ángulo doble deja todo en potencias de $\\sin x$ y $\\cos x$; el factor $\\sin x$ separa dos familias de soluciones.",
+          "Breaking the double angle leaves powers of $\\sin x$ and $\\cos x$; the factor $\\sin x$ splits the solutions into two families.",
+        ),
+        step(
+          "calculation",
+          `$2\\sin x\\cos^2 x - 6\\sin^3 x = 0$<br>$\\sin x\\,(2\\cos^2 x - 6\\sin^2 x) = 0$<br>$\\sin x = 0 \\Rightarrow x = 0,\\ \\pi,\\ 2\\pi$<br>$\\cos^2 x = 3\\sin^2 x \\Rightarrow \\tan^2 x = \\frac{1}{3} \\Rightarrow x = \\frac{\\pi}{6},\\ \\frac{5\\pi}{6},\\ \\frac{7\\pi}{6},\\ \\frac{11\\pi}{6}$`,
+          `$2\\sin x\\cos^2 x - 6\\sin^3 x = 0$<br>$\\sin x\\,(2\\cos^2 x - 6\\sin^2 x) = 0$<br>$\\sin x = 0 \\Rightarrow x = 0,\\ \\pi,\\ 2\\pi$<br>$\\cos^2 x = 3\\sin^2 x \\Rightarrow \\tan^2 x = \\frac{1}{3} \\Rightarrow x = \\frac{\\pi}{6},\\ \\frac{5\\pi}{6},\\ \\frac{7\\pi}{6},\\ \\frac{11\\pi}{6}$`,
+        ),
+        step(
+          "result",
+          `Siete soluciones: $\\left\\{0, \\frac{\\pi}{6}, \\frac{5\\pi}{6}, \\pi, \\frac{7\\pi}{6}, \\frac{11\\pi}{6}, 2\\pi\\right\\}$. Comprobación en $x = \\frac{\\pi}{6}$: $\\sin\\frac{\\pi}{3}\\cos\\frac{\\pi}{6} = \\frac{3}{4}$ y $6\\sin^3\\frac{\\pi}{6} = \\frac{6}{8} = \\frac{3}{4}$ ✓. Suma $= 7\\pi$.`,
+          `Seven solutions: $\\left\\{0, \\frac{\\pi}{6}, \\frac{5\\pi}{6}, \\pi, \\frac{7\\pi}{6}, \\frac{11\\pi}{6}, 2\\pi\\right\\}$. Check at $x = \\frac{\\pi}{6}$: $\\sin\\frac{\\pi}{3}\\cos\\frac{\\pi}{6} = \\frac{3}{4}$ and $6\\sin^3\\frac{\\pi}{6} = \\frac{6}{8} = \\frac{3}{4}$ ✓. Sum $= 7\\pi$.`,
+        ),
+      ],
+    }),
+  ),
+
+  /* 5.6 · 1e — cos²x + sen²(x/2) = ½ on [0, 4π); sum = 16π */
+  template(
+    {
+      id: "trigeq-espol-1e",
+      subject: "math",
+      topicId: "trig-equations",
+      subtopicId: "intervals",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 420,
+      tags: ["intervals", "half-angle", "radians"],
+      prerequisites: ["trig-functions"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "5.6 · 1e",
+        page: 668,
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L("Ángulo mitad en un intervalo de dos vueltas", "Half angle on a two-turn interval"),
+      statement: L(
+        `Resuelve $\\cos^2 x + \\sin^2\\!\\left(\\frac{x}{2}\\right) = \\frac{1}{2}$ en $x \\in [0, 4\\pi)$ y escribe la **suma de todas las soluciones** en radianes (p. ej. \`16pi\`).`,
+        `Solve $\\cos^2 x + \\sin^2\\!\\left(\\frac{x}{2}\\right) = \\frac{1}{2}$ on $x \\in [0, 4\\pi)$ and enter the **sum of all solutions** in radians (e.g. \`16pi\`).`,
+      ),
+      answer: {
+        kind: "numeric",
+        value: 16 * Math.PI,
+        tolerance: { mode: "absolute", value: 0.02 },
+      },
+      hints: [
+        L(
+          "El ángulo mitad: $\\sin^2\\!\\left(\\frac{x}{2}\\right) = \\frac{1 - \\cos x}{2}$.",
+          "The half angle: $\\sin^2\\!\\left(\\frac{x}{2}\\right) = \\frac{1 - \\cos x}{2}$.",
+        ),
+        L(
+          "$\\cos^2 x + \\frac{1 - \\cos x}{2} = \\frac{1}{2} \\Rightarrow \\cos^2 x - \\frac{\\cos x}{2} = 0$.",
+          "$\\cos^2 x + \\frac{1 - \\cos x}{2} = \\frac{1}{2} \\Rightarrow \\cos^2 x - \\frac{\\cos x}{2} = 0$.",
+        ),
+        L(
+          "$\\cos x\\,(\\cos x - \\frac{1}{2}) = 0$: $\\cos x = 0 \\Rightarrow$ cuatro soluciones en $[0, 4\\pi)$; $\\cos x = \\frac{1}{2} \\Rightarrow$ otras cuatro.",
+          "$\\cos x\\,(\\cos x - \\frac{1}{2}) = 0$: $\\cos x = 0 \\Rightarrow$ four solutions on $[0, 4\\pi)$; $\\cos x = \\frac{1}{2} \\Rightarrow$ four more.",
+        ),
+      ],
+      answerDisplay: L(
+        `Ocho soluciones en $[0, 4\\pi)$; suma $= 16\\pi$`,
+        `Eight solutions on $[0, 4\\pi)$; sum $= 16\\pi$`,
+      ),
+      solution: [
+        step(
+          "given",
+          "$\\cos^2 x + \\sin^2\\!\\left(\\frac{x}{2}\\right) = \\frac{1}{2}$, con $x \\in [0, 4\\pi)$: ¡dos vueltas completas!",
+          "$\\cos^2 x + \\sin^2\\!\\left(\\frac{x}{2}\\right) = \\frac{1}{2}$, with $x \\in [0, 4\\pi)$: two full turns!",
+        ),
+        step(
+          "approach",
+          "El ángulo medio convierte todo en una ecuación pura de $\\cos x$; después hay que cosechar soluciones en DOS vueltas.",
+          "The half-angle identity turns everything into a pure $\\cos x$ equation; then solutions must be harvested over TWO turns.",
+        ),
+        step(
+          "calculation",
+          `$\\cos^2 x + \\frac{1 - \\cos x}{2} = \\frac{1}{2}$<br>$\\cos^2 x - \\frac{\\cos x}{2} = 0$<br>$\\cos x\\left(\\cos x - \\frac{1}{2}\\right) = 0$<br>$\\cos x = 0 \\Rightarrow x = \\frac{\\pi}{2}, \\frac{3\\pi}{2}, \\frac{5\\pi}{2}, \\frac{7\\pi}{2}$<br>$\\cos x = \\frac{1}{2} \\Rightarrow x = \\frac{\\pi}{3}, \\frac{5\\pi}{3}, \\frac{7\\pi}{3}, \\frac{11\\pi}{3}$`,
+          `$\\cos^2 x + \\frac{1 - \\cos x}{2} = \\frac{1}{2}$<br>$\\cos^2 x - \\frac{\\cos x}{2} = 0$<br>$\\cos x\\left(\\cos x - \\frac{1}{2}\\right) = 0$<br>$\\cos x = 0 \\Rightarrow x = \\frac{\\pi}{2}, \\frac{3\\pi}{2}, \\frac{5\\pi}{2}, \\frac{7\\pi}{2}$<br>$\\cos x = \\frac{1}{2} \\Rightarrow x = \\frac{\\pi}{3}, \\frac{5\\pi}{3}, \\frac{7\\pi}{3}, \\frac{11\\pi}{3}$`,
+        ),
+        step(
+          "result",
+          `Ocho soluciones en total; su suma es $8\\pi$ (familia del coseno cero) $+ 8\\pi$ (familia del $\\frac{1}{2}$) $= 16\\pi$.`,
+          `Eight solutions in total; their sum is $8\\pi$ (zero-cosine family) $+ 8\\pi$ (the $\\frac{1}{2}$ family) $= 16\\pi$.`,
+        ),
+      ],
+    }),
+  ),
+
+  /* 5.6 · 2c — cos x − sen x < −√2/2 on [0, 2π) → (5π/12, 13π/12) */
+  template(
+    {
+      id: "trigeq-espol-2c",
+      subject: "math",
+      topicId: "trig-equations",
+      subtopicId: "intervals",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["inequality", "auxiliary-angle", "intervals"],
+      prerequisites: ["trig-functions"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "5.6 · 2c",
+        page: 669,
+      },
+      reasoning: "case-analysis",
+    },
+    () => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\left(\\frac{5\\pi}{12},\\ \\frac{13\\pi}{12}\\right)$`, `$\\left(\\frac{5\\pi}{12},\\ \\frac{13\\pi}{12}\\right)$`), correct: true },
+        { id: "b", text: L(`$\\left[\\frac{5\\pi}{12},\\ \\frac{13\\pi}{12}\\right]$`, `$\\left[\\frac{5\\pi}{12},\\ \\frac{13\\pi}{12}\\right]$`), correct: false },
+        { id: "c", text: L(`$\\left(\\frac{11\\pi}{12},\\ \\frac{19\\pi}{12}\\right)$`, `$\\left(\\frac{11\\pi}{12},\\ \\frac{19\\pi}{12}\\right)$`), correct: false },
+        { id: "d", text: L(`$\\left(0,\\ \\frac{5\\pi}{12}\\right)\\cup\\left(\\frac{13\\pi}{12},\\ 2\\pi\\right)$`, `$\\left(0,\\ \\frac{5\\pi}{12}\\right)\\cup\\left(\\frac{13\\pi}{12},\\ 2\\pi\\right)$`), correct: false },
+      ];
+      return {
+        skill: L("Inecuación con ángulo auxiliar", "Inequality with an auxiliary angle"),
+        statement: L(
+          `Determina el conjunto de verdad de $p(x):\\ \\cos x - \\sin x < -\\frac{\\sqrt{2}}{2}$ en $x \\in [0, 2\\pi)$.`,
+          `Determine the truth set of $p(x):\\ \\cos x - \\sin x < -\\frac{\\sqrt{2}}{2}$ on $x \\in [0, 2\\pi)$.`,
+        ),
+        answer: { kind: "multiple-choice", options },
+        hints: [
+          L(
+            "Escribe $\\cos x - \\sin x$ como UN solo coseno: $\\sqrt{2}\\cos\\left(x + \\frac{\\pi}{4}\\right)$.",
+            "Write $\\cos x - \\sin x$ as ONE cosine: $\\sqrt{2}\\cos\\left(x + \\frac{\\pi}{4}\\right)$.",
+          ),
+          L(
+            "La inecuación queda $\\cos\\left(x + \\frac{\\pi}{4}\\right) < -\\frac{1}{2}$.",
+            "The inequality becomes $\\cos\\left(x + \\frac{\\pi}{4}\\right) < -\\frac{1}{2}$.",
+          ),
+          L(
+            "$x + \\frac{\\pi}{4} \\in \\left(\\frac{2\\pi}{3}, \\frac{4\\pi}{3}\\right)$; resta $\\frac{\\pi}{4}$ y revisa si los extremos entran (la desigualdad es estricta).",
+            "$x + \\frac{\\pi}{4} \\in \\left(\\frac{2\\pi}{3}, \\frac{4\\pi}{3}\\right)$; subtract $\\frac{\\pi}{4}$ and check whether the endpoints enter (strict inequality).",
+          ),
+        ],
+        answerDisplay: L(
+          `$A_{p(x)} = \\left(\\frac{5\\pi}{12},\\ \\frac{13\\pi}{12}\\right)$`,
+          `$A_{p(x)} = \\left(\\frac{5\\pi}{12},\\ \\frac{13\\pi}{12}\\right)$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$\\cos x - \\sin x < -\\frac{\\sqrt{2}}{2}$, con $x \\in [0, 2\\pi)$.",
+            "$\\cos x - \\sin x < -\\frac{\\sqrt{2}}{2}$, with $x \\in [0, 2\\pi)$.",
+          ),
+          step(
+            "approach",
+            "Combinar seno y coseno en un único coseno desplazado (ángulo auxiliar) para leer la solución de una sola vez.",
+            "Combine sine and cosine into a single shifted cosine (auxiliary angle) to read off the solution at once.",
+          ),
+          step(
+            "calculation",
+            `$\\cos x - \\sin x = \\sqrt{2}\\cos\\left(x + \\frac{\\pi}{4}\\right)$<br>$\\sqrt{2}\\cos\\left(x + \\frac{\\pi}{4}\\right) < -\\frac{\\sqrt{2}}{2} \\Rightarrow \\cos\\left(x + \\frac{\\pi}{4}\\right) < -\\frac{1}{2}$<br>$\\frac{2\\pi}{3} < x + \\frac{\\pi}{4} < \\frac{4\\pi}{3} \\Rightarrow \\frac{5\\pi}{12} < x < \\frac{13\\pi}{12}$`,
+            `$\\cos x - \\sin x = \\sqrt{2}\\cos\\left(x + \\frac{\\pi}{4}\\right)$<br>$\\sqrt{2}\\cos\\left(x + \\frac{\\pi}{4}\\right) < -\\frac{\\sqrt{2}}{2} \\Rightarrow \\cos\\left(x + \\frac{\\pi}{4}\\right) < -\\frac{1}{2}$<br>$\\frac{2\\pi}{3} < x + \\frac{\\pi}{4} < \\frac{4\\pi}{3} \\Rightarrow \\frac{5\\pi}{12} < x < \\frac{13\\pi}{12}$`,
+          ),
+          step(
+            "result",
+            `El conjunto de verdad es $\\left(\\frac{5\\pi}{12}, \\frac{13\\pi}{12}\\right)$, abierto porque la desigualdad es estricta. Comprobación con $x = \\frac{3\\pi}{4}$: $-\\frac{\\sqrt{2}}{2} - \\frac{\\sqrt{2}}{2} = -\\sqrt{2} < -\\frac{\\sqrt{2}}{2}$ ✓.`,
+            `The truth set is $\\left(\\frac{5\\pi}{12}, \\frac{13\\pi}{12}\\right)$, open because the inequality is strict. Check with $x = \\frac{3\\pi}{4}$: $-\\frac{\\sqrt{2}}{2} - \\frac{\\sqrt{2}}{2} = -\\sqrt{2} < -\\frac{\\sqrt{2}}{2}$ ✓.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 5.6 · 2e — sen2x − senx > cos2x − cos²x on (0, π] → (0, π/2) — challenge */
+  template(
+    {
+      id: "trigeq-espol-2e",
+      subject: "math",
+      topicId: "trig-equations",
+      subtopicId: "intervals",
+      difficulty: "challenge",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 480,
+      tags: ["inequality", "double-angle", "factoring", "intervals"],
+      prerequisites: ["trig-functions"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "5.6 · 2e",
+        page: 669,
+      },
+      reasoning: "multi-concept",
+    },
+    () => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$(0,\\ \\frac{\\pi}{2})$`, `$(0,\\ \\frac{\\pi}{2})$`), correct: true },
+        { id: "b", text: L(`$(0,\\ \\pi)$`, `$(0,\\ \\pi)$`), correct: false },
+        { id: "c", text: L(`$(\\frac{\\pi}{2},\\ \\pi]$`, `$(\\frac{\\pi}{2},\\ \\pi]$`), correct: false },
+        { id: "d", text: L(`$\\varnothing$`, `$\\varnothing$`), correct: false },
+      ];
+      return {
+        skill: L("Inecuación trigonométrica de varios pasos", "Multi-step trigonometric inequality"),
+        statement: L(
+          `Determina el conjunto de verdad de $p(x):\\ \\sin(2x) - \\sin x > \\cos(2x) - \\cos^2 x$ en $x \\in (0, \\pi]$.`,
+          `Determine the truth set of $p(x):\\ \\sin(2x) - \\sin x > \\cos(2x) - \\cos^2 x$ on $x \\in (0, \\pi]$.`,
+        ),
+        answer: { kind: "multiple-choice", options },
+        hints: [
+          L(
+            "Reescribe cada lado: $\\sin(2x) - \\sin x = \\sin x\\,(2\\cos x - 1)$ y $\\cos(2x) - \\cos^2 x = -\\sin^2 x$.",
+            "Rewrite each side: $\\sin(2x) - \\sin x = \\sin x\\,(2\\cos x - 1)$ and $\\cos(2x) - \\cos^2 x = -\\sin^2 x$.",
+          ),
+          L(
+            "Pasa todo a la izquierda: $\\sin x\\,(2\\cos x - 1) + \\sin^2 x > 0$, factoriza $\\sin x$ y usa que en $(0, \\pi]$ el seno es positivo.",
+            "Move everything left: $\\sin x\\,(2\\cos x - 1) + \\sin^2 x > 0$, factor out $\\sin x$ and use that sine is positive on $(0, \\pi]$.",
+          ),
+          L(
+            "Queda $2\\cos x + \\sin x - 1 > 0$. Con $t = \\tan\\frac{x}{2}$: $3t^2 - 2t - 1 = 0 \\Rightarrow t = 1$ (o sea $x = \\frac{\\pi}{2}$). Prueba un punto a cada lado.",
+            "It reduces to $2\\cos x + \\sin x - 1 > 0$. With $t = \\tan\\frac{x}{2}$: $3t^2 - 2t - 1 = 0 \\Rightarrow t = 1$ (that is, $x = \\frac{\\pi}{2}$). Test a point on each side.",
+          ),
+        ],
+        answerDisplay: L(
+          `$A_{p(x)} = \\left(0,\\ \\frac{\\pi}{2}\\right)$`,
+          `$A_{p(x)} = \\left(0,\\ \\frac{\\pi}{2}\\right)$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$\\sin(2x) - \\sin x > \\cos(2x) - \\cos^2 x$, con $x \\in (0, \\pi]$.",
+            "$\\sin(2x) - \\sin x > \\cos(2x) - \\cos^2 x$, with $x \\in (0, \\pi]$.",
+          ),
+          step(
+            "approach",
+            "Identidades a ambos lados, todo a la izquierda, factor común $\\sin x$ (positivo en el intervalo) y cambio $t = \\tan\\frac{x}{2}$ para la cota restante.",
+            "Identities on both sides, everything left, common factor $\\sin x$ (positive on the interval) and the substitution $t = \\tan\\frac{x}{2}$ for the remaining bound.",
+          ),
+          step(
+            "calculation",
+            `$\\sin x(2\\cos x - 1) > -\\sin^2 x$<br>$\\sin x\\,(2\\cos x - 1 + \\sin x) > 0$<br>Con $\\sin x > 0$: $2\\cos x + \\sin x - 1 > 0$<br>$t = \\tan\\frac{x}{2}$: $\\frac{2(1 - t^2) + 2t}{1 + t^2} > 1 \\Rightarrow 3t^2 - 2t - 1 < 0 \\Rightarrow -\\frac{1}{3} < t < 1$<br>En $(0, \\pi]$: $t > 0$, así que $0 < t < 1 \\Rightarrow 0 < \\frac{x}{2} < \\frac{\\pi}{4} \\Rightarrow 0 < x < \\frac{\\pi}{2}$`,
+            `$\\sin x(2\\cos x - 1) > -\\sin^2 x$<br>$\\sin x\\,(2\\cos x - 1 + \\sin x) > 0$<br>With $\\sin x > 0$: $2\\cos x + \\sin x - 1 > 0$<br>$t = \\tan\\frac{x}{2}$: $\\frac{2(1 - t^2) + 2t}{1 + t^2} > 1 \\Rightarrow 3t^2 - 2t - 1 < 0 \\Rightarrow -\\frac{1}{3} < t < 1$<br>On $(0, \\pi]$: $t > 0$, so $0 < t < 1 \\Rightarrow 0 < \\frac{x}{2} < \\frac{\\pi}{4} \\Rightarrow 0 < x < \\frac{\\pi}{2}$`,
+          ),
+          step(
+            "result",
+            `El conjunto de verdad es $\\left(0, \\frac{\\pi}{2}\\right)$. Comprobación: en $x = \\frac{\\pi}{4}$, $\\sin\\frac{\\pi}{2} - \\sin\\frac{\\pi}{4} \\approx 0{,}293$ y $\\cos\\frac{\\pi}{2} - \\cos^2\\frac{\\pi}{4} = -0{,}5$ ✓; en $x = \\frac{3\\pi}{4}$ la desigualdad falla.`,
+            `The truth set is $\\left(0, \\frac{\\pi}{2}\\right)$. Check: at $x = \\frac{\\pi}{4}$, $\\sin\\frac{\\pi}{2} - \\sin\\frac{\\pi}{4} \\approx 0.293$ and $\\cos\\frac{\\pi}{2} - \\cos^2\\frac{\\pi}{4} = -0.5$ ✓; at $x = \\frac{3\\pi}{4}$ the inequality fails.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 5.6 · 2g — sgn(sen(2θ) − 1) < 0 on [−π, π] */
+  template(
+    {
+      id: "trigeq-espol-2g",
+      subject: "math",
+      topicId: "trig-equations",
+      subtopicId: "intervals",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["inequality", "sgn", "definition", "intervals"],
+      prerequisites: ["trig-functions"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "5.6 · 2g",
+        page: 669,
+      },
+      reasoning: "definition-hunting",
+    },
+    () => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$[-\\pi, -\\frac{3\\pi}{4})\\cup(-\\frac{3\\pi}{4}, \\frac{\\pi}{4})\\cup(\\frac{\\pi}{4}, \\pi]$`, `$[-\\pi, -\\frac{3\\pi}{4})\\cup(-\\frac{3\\pi}{4}, \\frac{\\pi}{4})\\cup(\\frac{\\pi}{4}, \\pi]$`), correct: true },
+        { id: "b", text: L(`$[-\\pi, \\pi] \\smallsetminus \\left\\{\\frac{\\pi}{4}\\right\\}$`, `$[-\\pi, \\pi] \\smallsetminus \\left\\{\\frac{\\pi}{4}\\right\\}$`), correct: false },
+        { id: "c", text: L(`$[-\\pi, \\pi]$`, `$[-\\pi, \\pi]$`), correct: false },
+        { id: "d", text: L(`$\\varnothing$`, `$\\varnothing$`), correct: false },
+      ];
+      return {
+        skill: L("El signo manda: sgn y sus ceros", "The sign rules: sgn and its zeros"),
+        statement: L(
+          `Determina el conjunto de verdad de $p(\\theta):\\ \\operatorname{sgn}\\bigl(\\sin(2\\theta) - 1\\bigr) < 0$ en $\\theta \\in [-\\pi, \\pi]$.`,
+          `Determine the truth set of $p(\\theta):\\ \\operatorname{sgn}\\bigl(\\sin(2\\theta) - 1\\bigr) < 0$ on $\\theta \\in [-\\pi, \\pi]$.`,
+        ),
+        answer: { kind: "multiple-choice", options },
+        hints: [
+          L(
+            "Por definición, $\\operatorname{sgn}(u) < 0$ equivale exactamente a $u < 0$.",
+            "By definition, $\\operatorname{sgn}(u) < 0$ is exactly equivalent to $u < 0$.",
+          ),
+          L(
+            "Así que necesitas $\\sin(2\\theta) < 1$: casi siempre… excepto donde $\\sin(2\\theta) = 1$ exactamente.",
+            "So you need $\\sin(2\\theta) < 1$: almost everywhere… except where $\\sin(2\\theta) = 1$ exactly.",
+          ),
+          L(
+            "Resuelve $\\sin(2\\theta) = 1$ con $2\\theta \\in [-2\\pi, 2\\pi]$: $2\\theta = \\frac{\\pi}{2}, -\\frac{3\\pi}{2}$, es decir $\\theta = \\frac{\\pi}{4}, -\\frac{3\\pi}{4}$. Esos dos puntos se excluyen.",
+            "Solve $\\sin(2\\theta) = 1$ with $2\\theta \\in [-2\\pi, 2\\pi]$: $2\\theta = \\frac{\\pi}{2}, -\\frac{3\\pi}{2}$, i.e. $\\theta = \\frac{\\pi}{4}, -\\frac{3\\pi}{4}$. Those two points are excluded.",
+          ),
+        ],
+        answerDisplay: L(
+          `Todo $[-\\pi, \\pi]$ salvo $\\theta = \\frac{\\pi}{4}$ y $\\theta = -\\frac{3\\pi}{4}$.`,
+          `All of $[-\\pi, \\pi]$ except $\\theta = \\frac{\\pi}{4}$ and $\\theta = -\\frac{3\\pi}{4}$.`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$\\operatorname{sgn}\\bigl(\\sin(2\\theta) - 1\\bigr) < 0$, con $\\theta \\in [-\\pi, \\pi]$.",
+            "$\\operatorname{sgn}\\bigl(\\sin(2\\theta) - 1\\bigr) < 0$, with $\\theta \\in [-\\pi, \\pi]$.",
+          ),
+          step(
+            "approach",
+            "La función signo es negativa solo cuando su argumento es negativo; el problema se reduce a excluir los puntos donde el argumento se anula.",
+            "The sign function is negative only when its argument is negative; the problem reduces to excluding the points where the argument vanishes.",
+          ),
+          step(
+            "calculation",
+            `$\\operatorname{sgn}(u) < 0 \\Leftrightarrow u < 0 \\Leftrightarrow \\sin(2\\theta) - 1 < 0$<br>$\\sin(2\\theta) = 1 \\Rightarrow 2\\theta = \\frac{\\pi}{2} + 2k\\pi$<br>Con $2\\theta \\in [-2\\pi, 2\\pi]$: $2\\theta = -\\frac{3\\pi}{2}, \\frac{\\pi}{2} \\Rightarrow \\theta = -\\frac{3\\pi}{4}, \\frac{\\pi}{4}$`,
+            `$\\operatorname{sgn}(u) < 0 \\Leftrightarrow u < 0 \\Leftrightarrow \\sin(2\\theta) - 1 < 0$<br>$\\sin(2\\theta) = 1 \\Rightarrow 2\\theta = \\frac{\\pi}{2} + 2k\\pi$<br>With $2\\theta \\in [-2\\pi, 2\\pi]$: $2\\theta = -\\frac{3\\pi}{2}, \\frac{\\pi}{2} \\Rightarrow \\theta = -\\frac{3\\pi}{4}, \\frac{\\pi}{4}$`,
+          ),
+          step(
+            "result",
+            `El conjunto de verdad es $[-\\pi, -\\frac{3\\pi}{4})\\cup(-\\frac{3\\pi}{4}, \\frac{\\pi}{4})\\cup(\\frac{\\pi}{4}, \\pi]$: todo el intervalo menos esos dos puntos (donde el signo vale $0$).`,
+            `The truth set is $[-\\pi, -\\frac{3\\pi}{4})\\cup(-\\frac{3\\pi}{4}, \\frac{\\pi}{4})\\cup(\\frac{\\pi}{4}, \\pi]$: the whole interval minus those two points (where the sign equals $0$).`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 5.6 · 2d — |sen(πθ)·cos(πθ)| ≥ 1/4 on [0, 1] */
+  template(
+    {
+      id: "trigeq-espol-2d",
+      subject: "math",
+      topicId: "trig-equations",
+      subtopicId: "intervals",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 360,
+      tags: ["inequality", "absolute-value", "double-angle", "intervals"],
+      prerequisites: ["trig-functions"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "5.6 · 2d",
+        page: 669,
+      },
+      reasoning: "multi-concept",
+    },
+    () => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\left[\\frac{1}{12}, \\frac{5}{12}\\right]\\cup\\left[\\frac{7}{12}, \\frac{11}{12}\\right]$`, `$\\left[\\frac{1}{12}, \\frac{5}{12}\\right]\\cup\\left[\\frac{7}{12}, \\frac{11}{12}\\right]$`), correct: true },
+        { id: "b", text: L(`$\\left(\\frac{1}{12}, \\frac{5}{12}\\right)\\cup\\left(\\frac{7}{12}, \\frac{11}{12}\\right)$`, `$\\left(\\frac{1}{12}, \\frac{5}{12}\\right)\\cup\\left(\\frac{7}{12}, \\frac{11}{12}\\right)$`), correct: false },
+        { id: "c", text: L(`$\\left[\\frac{1}{12}, \\frac{5}{12}\\right]$`, `$\\left[\\frac{1}{12}, \\frac{5}{12}\\right]$`), correct: false },
+        { id: "d", text: L(`$\\left[\\frac{5}{12}, \\frac{7}{12}\\right]$`, `$\\left[\\frac{5}{12}, \\frac{7}{12}\\right]$`), correct: false },
+      ];
+      return {
+        skill: L("Valor absoluto + ángulo doble en [0, 1]", "Absolute value + double angle on [0, 1]"),
+        statement: L(
+          `Determina el conjunto de verdad de $p(\\theta):\\ \\left|\\sin(\\pi\\theta)\\cos(\\pi\\theta)\\right| \\geq \\frac{1}{4}$ en $\\theta \\in [0, 1]$.`,
+          `Determine the truth set of $p(\\theta):\\ \\left|\\sin(\\pi\\theta)\\cos(\\pi\\theta)\\right| \\geq \\frac{1}{4}$ on $\\theta \\in [0, 1]$.`,
+        ),
+        answer: { kind: "multiple-choice", options },
+        hints: [
+          L(
+            "Ángulo doble al revés: $\\sin(\\pi\\theta)\\cos(\\pi\\theta) = \\frac{1}{2}\\sin(2\\pi\\theta)$.",
+            "Reverse double angle: $\\sin(\\pi\\theta)\\cos(\\pi\\theta) = \\frac{1}{2}\\sin(2\\pi\\theta)$.",
+          ),
+          L(
+            "La inecuación es $\\left|\\sin(2\\pi\\theta)\\right| \\geq \\frac{1}{2}$, con $2\\pi\\theta \\in [0, 2\\pi]$ (una vuelta justa).",
+            "The inequality is $\\left|\\sin(2\\pi\\theta)\\right| \\geq \\frac{1}{2}$, with $2\\pi\\theta \\in [0, 2\\pi]$ (exactly one turn).",
+          ),
+          L(
+            "$\\left|\\sin u\\right| \\geq \\frac{1}{2}$ en $u \\in \\left[\\frac{\\pi}{6}, \\frac{5\\pi}{6}\\right]\\cup\\left[\\frac{7\\pi}{6}, \\frac{11\\pi}{6}\\right]$; divide entre $2\\pi$.",
+            "$\\left|\\sin u\\right| \\geq \\frac{1}{2}$ for $u \\in \\left[\\frac{\\pi}{6}, \\frac{5\\pi}{6}\\right]\\cup\\left[\\frac{7\\pi}{6}, \\frac{11\\pi}{6}\\right]$; divide by $2\\pi$.",
+          ),
+        ],
+        answerDisplay: L(
+          `$A_{p(\\theta)} = \\left[\\frac{1}{12}, \\frac{5}{12}\\right]\\cup\\left[\\frac{7}{12}, \\frac{11}{12}\\right]$`,
+          `$A_{p(\\theta)} = \\left[\\frac{1}{12}, \\frac{5}{12}\\right]\\cup\\left[\\frac{7}{12}, \\frac{11}{12}\\right]$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$\\left|\\sin(\\pi\\theta)\\cos(\\pi\\theta)\\right| \\geq \\frac{1}{4}$, con $\\theta \\in [0, 1]$.",
+            "$\\left|\\sin(\\pi\\theta)\\cos(\\pi\\theta)\\right| \\geq \\frac{1}{4}$, with $\\theta \\in [0, 1]$.",
+          ),
+          step(
+            "approach",
+            "El producto seno·coseno es medio seno doble; el valor absoluto exige resolver la cota en las dos mitades de la vuelta.",
+            "The sine·cosine product is half a double sine; the absolute value forces solving the bound on both halves of the turn.",
+          ),
+          step(
+            "calculation",
+            `$\\left|\\frac{1}{2}\\sin(2\\pi\\theta)\\right| \\geq \\frac{1}{4} \\Rightarrow \\left|\\sin(2\\pi\\theta)\\right| \\geq \\frac{1}{2}$<br>$2\\pi\\theta \\in \\left[\\frac{\\pi}{6}, \\frac{5\\pi}{6}\\right]\\cup\\left[\\frac{7\\pi}{6}, \\frac{11\\pi}{6}\\right]$<br>$\\theta \\in \\left[\\frac{1}{12}, \\frac{5}{12}\\right]\\cup\\left[\\frac{7}{12}, \\frac{11}{12}\\right]$`,
+            `$\\left|\\frac{1}{2}\\sin(2\\pi\\theta)\\right| \\geq \\frac{1}{4} \\Rightarrow \\left|\\sin(2\\pi\\theta)\\right| \\geq \\frac{1}{2}$<br>$2\\pi\\theta \\in \\left[\\frac{\\pi}{6}, \\frac{5\\pi}{6}\\right]\\cup\\left[\\frac{7\\pi}{6}, \\frac{11\\pi}{6}\\right]$<br>$\\theta \\in \\left[\\frac{1}{12}, \\frac{5}{12}\\right]\\cup\\left[\\frac{7}{12}, \\frac{11}{12}\\right]$`,
+          ),
+          step(
+            "result",
+            `El conjunto de verdad es $\\left[\\frac{1}{12}, \\frac{5}{12}\\right]\\cup\\left[\\frac{7}{12}, \\frac{11}{12}\\right]$, cerrado porque la desigualdad admite igualdad. Comprobación con $\\theta = \\frac{1}{4}$: $\\left|\\sin\\frac{\\pi}{4}\\cos\\frac{\\pi}{4}\\right| = \\frac{1}{2} \\geq \\frac{1}{4}$ ✓; con $\\theta = \\frac{1}{2}$: $0 < \\frac{1}{4}$ ✗.`,
+            `The truth set is $\\left[\\frac{1}{12}, \\frac{5}{12}\\right]\\cup\\left[\\frac{7}{12}, \\frac{11}{12}\\right]$, closed because equality is allowed. Check with $\\theta = \\frac{1}{4}$: $\\left|\\sin\\frac{\\pi}{4}\\cos\\frac{\\pi}{4}\\right| = \\frac{1}{2} \\geq \\frac{1}{4}$ ✓; with $\\theta = \\frac{1}{2}$: $0 < \\frac{1}{4}$ ✗.`,
+          ),
+        ],
+      };
+    },
+  ),
 ];

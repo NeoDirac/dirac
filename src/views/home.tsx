@@ -13,6 +13,7 @@ import {
   CheckCircle2,
   ChevronDown,
   History,
+  Layers,
   Lightbulb,
   MessageCircle,
   Sigma,
@@ -261,7 +262,7 @@ function TodayGoalCard({
           </DropdownMenu>
           {!done ? (
             <Button asChild className="gap-2 font-semibold">
-              <a href={sessionHref({ mode: "mixed", subjects: ["math", "physics"], difficulty: "any", count: 5, seed: 0, easyWeighted: true })}>
+              <a href={sessionHref({ mode: "mixed", subjects: ["math", "physics"], difficulty: "any", count: 5, seed: 0 })}>
                 {today === 0 ? t("goal.start") : t("goal.continue")}
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </a>
@@ -430,7 +431,17 @@ export function HomeView() {
     difficulty: "any",
     count: 5,
     seed: 0,
-    easyWeighted: true,
+  });
+
+  // flagship consolidation session — interleaved across both subjects,
+  // weakness-aware, without Foundation-level problems (they are worked in class)
+  const consolidateHref = sessionHref({
+    mode: "interleaved",
+    subjects: ["math", "physics"],
+    difficulty: "any",
+    count: 10,
+    seed: 0,
+    excludeEasy: true,
   });
 
   const steps = [
@@ -556,6 +567,34 @@ export function HomeView() {
             </a>
           </Button>
         </div>
+      </section>
+
+      {/* interleaved consolidation — the answer to "los temas van de forma lineal" */}
+      <section className="mx-auto max-w-6xl px-4 py-14 sm:px-6" aria-labelledby="consolidate-heading">
+        <p className="rule-label">{t("home.section.consolidate")}</p>
+        <a
+          href={consolidateHref}
+          className="group mt-4 block rounded-lg border bg-card p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:border-foreground/25 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:p-8"
+        >
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+            <div className="max-w-2xl">
+              <h2 id="consolidate-heading" className="flex items-center gap-3 font-serif text-2xl font-semibold tracking-tight">
+                <span
+                  className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-subject-physics/25 bg-subject-physics/[0.07] text-subject-physics"
+                  aria-hidden="true"
+                >
+                  <Layers className="h-5 w-5" />
+                </span>
+                {t("interleaved.home.title")}
+              </h2>
+              <p className="mt-2.5 leading-relaxed text-muted-foreground">{t("interleaved.home.desc")}</p>
+            </div>
+            <span className="inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold text-subject-physics">
+              {t("interleaved.home.cta")}
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+            </span>
+          </div>
+        </a>
       </section>
 
       {/* how it works */}

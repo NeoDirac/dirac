@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowRight, Search, Shuffle, SlidersHorizontal, X } from "lucide-react";
+import { ArrowRight, Layers, Search, Shuffle, SlidersHorizontal, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TopicIcon } from "@/components/site/topic-icon";
@@ -62,6 +62,17 @@ export function SubjectView({ subject }: { subject: Subject }) {
     difficulty: "any",
     count: 10,
     seed: 0,
+  });
+
+  // interleaved consolidation for this subject — topics alternate with
+  // discipline, weakest first, without Foundation-level problems
+  const interleavedHref = sessionHref({
+    mode: "interleaved",
+    subjects: [subject],
+    difficulty: "any",
+    count: 10,
+    seed: 0,
+    excludeEasy: true,
   });
 
   /* ------- search + filter over the topic list ------- */
@@ -125,12 +136,20 @@ export function SubjectView({ subject }: { subject: Subject }) {
             {t(subject === "math" ? "subject.subtitle.math" : "subject.subtitle.physics")}
           </p>
         </div>
-        <Button asChild className="shrink-0 gap-2 font-semibold">
-          <a href={mixedHref}>
-            <Shuffle className="h-4 w-4" aria-hidden="true" />
-            {t("subject.startPracticing")}
-          </a>
-        </Button>
+        <div className="flex shrink-0 flex-col gap-2 sm:items-end">
+          <Button asChild className="gap-2 font-semibold">
+            <a href={mixedHref}>
+              <Shuffle className="h-4 w-4" aria-hidden="true" />
+              {t("subject.startPracticing")}
+            </a>
+          </Button>
+          <Button asChild variant="outline" className="gap-2">
+            <a href={interleavedHref}>
+              <Layers className="h-4 w-4 text-subject-physics" aria-hidden="true" />
+              {t("interleaved.subject.cta", { subject: t(subject === "math" ? "nav.math" : "nav.physics") })}
+            </a>
+          </Button>
+        </div>
       </header>
 
       {/* topic search + quick filters */}

@@ -1383,4 +1383,79 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+  /* ================================================================== */
+  /* Curated — Fundamentos ESPOL, §3.11 ejercicio 126 (bonos), p. 324.  */
+  /* Verified with sympy (m >= 35 000).                                 */
+  /* ================================================================== */
+
+  /* 126 — bonds portfolio: minimum mortgage investment */
+  template(
+    {
+      id: "lin-espol-126",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "inequalities",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 240,
+      tags: ["modeling", "inequality", "money", "application"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3.11 · 126",
+        page: 324,
+      },
+      reasoning: "modeling",
+    },
+    () => ({
+      skill: L("Plantear una inecuación de inversión", "Setting up an investment inequality"),
+      statement: L(
+        `La señora Moreno quiere invertir $\\$60\\,000$. Puede escoger bonos del gobierno que ofrecen un interés del $8\\%$ anual, o bonos hipotecarios de mayor riesgo con el $10\\%$ anual. Si reparte todo su dinero entre ambos bonos, ¿cuál es la **cantidad mínima** que debe invertir en los bonos hipotecarios para recibir una ganancia anual de **al menos** $\\$5\\,500$?`,
+        `Mrs. Moreno wants to invest $\\$60,\\!000$. She can choose government bonds paying $8\\%$ annual interest, or higher-risk mortgage bonds paying $10\\%$. If she splits all her money between the two, what is the **minimum amount** she must invest in mortgage bonds to receive an annual gain of **at least** $\\$5,500$?`,
+      ),
+      answer: { kind: "numeric", value: 35000 },
+      hints: [
+        L(
+          "Llama $m$ a lo invertido en bonos hipotecarios: entonces en bonos del gobierno van $(60\\,000 - m)$ dólares.",
+          "Let $m$ be the amount in mortgage bonds: then $(60,\\!000 - m)$ dollars go into government bonds.",
+        ),
+        L(
+          "La ganancia es $0{,}08(60\\,000 - m) + 0{,}10\\,m$ y debe ser $\\geq 5\\,500$.",
+          "The gain is $0.08(60,\\!000 - m) + 0.10\\,m$ and must be $\\geq 5,\\!500$.",
+        ),
+        L(
+          "$4\\,800 + 0{,}02m \\geq 5\\,500 \\Rightarrow 0{,}02m \\geq 700$.",
+          "$4,\\!800 + 0.02m \\geq 5,\\!500 \\Rightarrow 0.02m \\geq 700$.",
+        ),
+      ],
+      answerDisplay: L(
+        `Debe invertir **al menos $\\$35\\,000$** en bonos hipotecarios.`,
+        `She must invest **at least $\\$35,\\!000$** in mortgage bonds.`,
+      ),
+      solution: [
+        step(
+          "given",
+          "Total: $\\$60\\,000$. Gobierno: $8\\%$; hipotecarios: $10\\%$; ganancia requerida $\\geq \\$5\\,500$.",
+          "Total: $\\$60,\\!000$. Government: $8\\%$; mortgage: $10\\%$; required gain $\\geq \\$5,\\!500$.",
+        ),
+        step(
+          "approach",
+          "Modelar con UNA variable (todo lo que no va a hipotecarios va a gobierno) y plantear la inecuación.",
+          "Model with ONE variable (whatever is not in mortgages goes to government bonds) and set up the inequality.",
+        ),
+        step(
+          "calculation",
+          `$0{,}08(60\\,000 - m) + 0{,}10\\,m \\geq 5\\,500$<br>$4\\,800 - 0{,}08m + 0{,}10m \\geq 5\\,500$<br>$0{,}02m \\geq 700$<br>$m \\geq 35\\,000$`,
+          `$0.08(60,\\!000 - m) + 0.10\\,m \\geq 5,\\!500$<br>$4,\\!800 - 0.08m + 0.10m \\geq 5,\\!500$<br>$0.02m \\geq 700$<br>$m \\geq 35,\\!000$`,
+        ),
+        step(
+          "result",
+          `Mínimo $\\$35\\,000$ en bonos hipotecarios (y hasta $\\$25\\,000$ en gobierno). Comprobación: $0{,}08 \\cdot 25\\,000 + 0{,}10 \\cdot 35\\,000 = 2\\,000 + 3\\,500 = 5\\,500$ ✓ exacto.`,
+          `Minimum $\\$35,\\!000$ in mortgage bonds (and up to $\\$25,\\!000$ in government). Check: $0.08 \\cdot 25,\\!000 + 0.10 \\cdot 35,\\!000 = 2,\\!000 + 3,\\!500 = 5,\\!500$ ✓ exactly.`,
+        ),
+      ],
+    }),
+  ),
+
 ];

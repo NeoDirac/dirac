@@ -1,0 +1,1048 @@
+     1→/**
+     2→ * MATH · Systems of linear equations
+     3→ *
+     4→ * Substitution, elimination, graphical solving, systems with parameters and
+     5→ * application problems. Every generator builds the solution (x₀, y₀) first
+     6→ * and derives the equations from it, so all variants are consistent, have a
+     7→ * unique clean answer and never degenerate.
+     8→ */
+     9→
+    10→import { template, L, step } from "@/lib/problem";
+    11→import type { ProblemTemplate, McOption } from "@/lib/types";
+    12→
+    13→/* ---------- string helpers for LaTeX built from parameters ---------- */
+    14→
+    15→/** "+ 5" | "- 5" — joins a signed constant */
+    16→const op = (n: number): string => (n < 0 ? `- ${Math.abs(n)}` : `+ ${n}`);
+    17→
+    18→/** "+ 5x" | "- x" | "+ 2y" — joins a signed term (coefficient 1 omitted) */
+    19→const opTerm = (n: number, v: string): string =>
+    20→  `${n < 0 ? "- " : "+ "}${Math.abs(n) === 1 ? "" : Math.abs(n)}${v}`;
+    21→
+    22→/** "5x" | "-x" | "x" — leading term (coefficient 1 omitted) */
+    23→const lead = (n: number, v: string): string =>
+    24→  `${n < 0 ? "-" : ""}${Math.abs(n) === 1 ? "" : Math.abs(n)}${v}`;
+    25→
+    26→/** "2x - 3" — linear expression in v with slope m and constant p */
+    27→const linExpr = (m: number, p: number, v = "x"): string =>
+    28→  `${lead(m, v)}${p === 0 ? "" : ` ${op(p)}`}`;
+    29→
+    30→/** "7 - 3" | "7 + 3" | "7" — renders a − b with the right sign */
+    31→const minus = (a: number, b: number): string =>
+    32→  b === 0 ? `${a}` : `${a} ${b > 0 ? "-" : "+"} ${Math.abs(b)}`;
+    33→
+    34→export const templates: ProblemTemplate[] = [
+    35→  /* ---------------------------------------------------------------- */
+    36→  /* Substitution                                                     */
+    37→  /* ---------------------------------------------------------------- */
+    38→  template(
+    39→    {
+    40→      id: "sys-sub-01",
+    41→      subject: "math",
+    42→      topicId: "systems",
+    43→      subtopicId: "substitution",
+    44→      difficulty: "easy",
+    45→      questionType: "numeric",
+    46→      estimatedTimeSec: 90,
+    47→      tags: ["systems", "substitution"],
+    48→      prerequisites: ["linear-equations"],
+    49→    },
+    50→    (rng) => {
+    51→      const m = rng.int(1, 2);
+    52→      const p = rng.int(-3, 3);
+    53→      const x0 = rng.nonZeroInt(-3, 3);
+    54→      const y0 = m * x0 + p;
+    55→      const a = rng.int(2, 4);
+    56→      const b = rng.int(2, 4);
+    57→      const c = a * x0 + b * y0;
+    58→      const A = a + b * m; // coefficient of x after substituting
+    59→      return {
+    60→        skill: L("Método de sustitución", "Substitution method"),
+    61→        statement: L(
+    62→          `Resuelve por sustitución y da el valor de $x$: $$\\begin{cases} y = ${linExpr(m, p)} \\\\ ${a}x + ${b}y = ${c} \\end{cases}$$`,
+    63→          `Solve by substitution and give the value of $x$: $$\\begin{cases} y = ${linExpr(m, p)} \\\\ ${a}x + ${b}y = ${c} \\end{cases}$$`,
+    64→        ),
+    65→        answer: { kind: "numeric", value: x0 },
+    66→        hints: [
+    67→          L(
+    68→            "La primera ecuación ya tiene despejada la $y$: úsala en la segunda.",
+    69→            "The first equation already gives $y$: use it in the second one.",
+    70→          ),
+    71→          L(
+    72→            `Sustituye: escribe $${b}\\left(${linExpr(m, p)}\\right)$ en lugar de $${b}y$.`,
+    73→            `Substitute: write $${b}\\left(${linExpr(m, p)}\\right)$ in place of $${b}y$.`,
+    74→          ),
+    75→          L(
+    76→            `Agrupa los términos con $x$ y pasa el número al otro lado.`,
+    77→            `Group the $x$ terms and move the number to the other side.`,
+    78→          ),
+    79→        ],
+    80→        answerDisplay: L(`$x = ${x0}$`, `$x = ${x0}$`),
+    81→        solution: [
+    82→          step(
+    83→            "given",
+    84→            `$$\\begin{cases} y = ${linExpr(m, p)} \\\\ ${a}x + ${b}y = ${c} \\end{cases}$$`,
+    85→            `$$\\begin{cases} y = ${linExpr(m, p)} \\\\ ${a}x + ${b}y = ${c} \\end{cases}$$`,
+    86→          ),
+    87→          step(
+    88→            "approach",
+    89→            "Como la primera ecuación da $y$ en función de $x$, la sustituimos en la segunda y queda una ecuación con una sola incógnita.",
+    90→            "Since the first equation gives $y$ in terms of $x$, we substitute it into the second one and obtain a single-unknown equation.",
+    91→          ),
+    92→          step(
+    93→            "calculation",
+    94→            `$${a}x + ${b}\\left(${linExpr(m, p)}\\right) = ${c}$<br>$${a}x + ${b * m}x ${b * p === 0 ? "" : op(b * p)} = ${c}$<br>$${A}x = ${minus(c, b * p)}$<br>$x = ${x0}$`,
+    95→            `$${a}x + ${b}\\left(${linExpr(m, p)}\\right) = ${c}$<br>$${a}x + ${b * m}x ${b * p === 0 ? "" : op(b * p)} = ${c}$<br>$${A}x = ${minus(c, b * p)}$<br>$x = ${x0}$`,
+    96→          ),
+    97→          step(
+    98→            "result",
+    99→            `La solución es $x = ${x0}$ (y comprobando en la primera ecuación, $y = ${y0}$).`,
+   100→            `The solution is $x = ${x0}$ (and checking in the first equation, $y = ${y0}$).`,
+   101→          ),
+   102→        ],
+   103→      };
+   104→    },
+   105→  ),
+   106→
+   107→  template(
+   108→    {
+   109→      id: "sys-sub-02",
+   110→      subject: "math",
+   111→      topicId: "systems",
+   112→      subtopicId: "substitution",
+   113→      difficulty: "medium",
+   114→      questionType: "text",
+   115→      estimatedTimeSec: 150,
+   116→      tags: ["systems", "substitution", "ordered-pair"],
+   117→      prerequisites: ["linear-equations"],
+   118→    },
+   119→    (rng) => {
+   120→      const d = rng.intExcluding(-4, 4, [0]);
+   121→      const y0 = rng.nonZeroInt(-4, 4);
+   122→      const x0 = y0 + d;
+   123→      const a = rng.int(2, 5);
+   124→      const b = rng.int(2, 5);
+   125→      const c = a * x0 + b * y0;
+   126→      return {
+   127→        skill: L("Sustitución y solución como par ordenado", "Substitution and solution as an ordered pair"),
+   128→        statement: L(
+   129→          `Resuelve el sistema por sustitución y escribe la solución como par ordenado $(x, y)$, por ejemplo (3, -2): $$\\begin{cases} x = y ${op(d)} \\\\ ${a}x + ${b}y = ${c} \\end{cases}$$`,
+   130→          `Solve the system by substitution and write the solution as an ordered pair $(x, y)$, e.g. (3, -2): $$\\begin{cases} x = y ${op(d)} \\\\ ${a}x + ${b}y = ${c} \\end{cases}$$`,
+   131→        ),
+   132→        answer: {
+   133→          kind: "text",
+   134→          accepted: [
+   135→            `(${x0}, ${y0})`,
+   136→            `(${x0},${y0})`,
+   137→            `( ${x0}, ${y0} )`,
+   138→            `(${x0} , ${y0})`,
+   139→          ],
+   140→        },
+   141→        hints: [
+   142→          L(
+   143→            "La primera ecuación ya da $x$ en función de $y$.",
+   144→            "The first equation already gives $x$ in terms of $y$.",
+   145→          ),
+   146→          L(
+   147→            `Sustituye $x = y ${op(d)}$ en la segunda ecuación.`,
+   148→            `Substitute $x = y ${op(d)}$ into the second equation.`,
+   149→          ),
+   150→          L(
+   151→            `Te queda $(${a} + ${b})y = ${minus(c, a * d)}$: despeja $y$ y luego calcula $x$.`,
+   152→            `You get $(${a} + ${b})y = ${minus(c, a * d)}$: solve for $y$ and then compute $x$.`,
+   153→          ),
+   154→        ],
+   155→        answerDisplay: L(`$(x, y) = (${x0}, ${y0})$`, `$(x, y) = (${x0}, ${y0})$`),
+   156→        solution: [
+   157→          step(
+   158→            "given",
+   159→            `$$\\begin{cases} x = y ${op(d)} \\\\ ${a}x + ${b}y = ${c} \\end{cases}$$`,
+   160→            `$$\\begin{cases} x = y ${op(d)} \\\\ ${a}x + ${b}y = ${c} \\end{cases}$$`,
+   161→          ),
+   162→          step(
+   163→            "approach",
+   164→            "Sustituimos la expresión de $x$ en la segunda ecuación para obtener una ecuación solo con $y$.",
+   165→            "We substitute the expression for $x$ into the second equation to get an equation in $y$ only.",
+   166→          ),
+   167→          step(
+   168→            "calculation",
+   169→            `$${a}\\left(y ${op(d)}\\right) + ${b}y = ${c}$<br>$${a}y ${op(a * d)} + ${b}y = ${c}$<br>$${a + b}y = ${minus(c, a * d)}$<br>$y = ${y0}$<br>$x = y ${op(d)} = ${x0}$`,
+   170→            `$${a}\\left(y ${op(d)}\\right) + ${b}y = ${c}$<br>$${a}y ${op(a * d)} + ${b}y = ${c}$<br>$${a + b}y = ${minus(c, a * d)}$<br>$y = ${y0}$<br>$x = y ${op(d)} = ${x0}$`,
+   171→          ),
+   172→          step(
+   173→            "result",
+   174→            `La solución es el par $(${x0}, ${y0})$.`,
+   175→            `The solution is the pair $(${x0}, ${y0})$.`,
+   176→          ),
+   177→        ],
+   178→      };
+   179→    },
+   180→  ),
+   181→
+   182→  /* ---------------------------------------------------------------- */
+   183→  /* Elimination                                                      */
+   184→  /* ---------------------------------------------------------------- */
+   185→  template(
+   186→    {
+   187→      id: "sys-elim-01",
+   188→      subject: "math",
+   189→      topicId: "systems",
+   190→      subtopicId: "elimination",
+   191→      difficulty: "medium",
+   192→      questionType: "numeric",
+   193→      estimatedTimeSec: 120,
+   194→      tags: ["systems", "elimination"],
+   195→      prerequisites: ["linear-equations"],
+   196→    },
+   197→    (rng) => {
+   198→      const a = rng.nonZeroInt(-5, 5);
+   199→      let b = rng.nonZeroInt(-5, 5);
+   200→      if (b === a) b = a === 1 ? 2 : a === -1 ? -2 : a > 0 ? a - 1 : a + 1; // a ≠ b, b ≠ 0
+   201→      const x0 = rng.nonZeroInt(-5, 5);
+   202→      const y0 = rng.nonZeroInt(-5, 5);
+   203→      const e1 = x0 + a * y0;
+   204→      const e2 = x0 + b * y0;
+   205→      return {
+   206→        skill: L("Método de eliminación (resta directa)", "Elimination method (direct subtraction)"),
+   207→        statement: L(
+   208→          `Resuelve por eliminación y da el valor de $y$: $$\\begin{cases} x ${opTerm(a, "y")} = ${e1} \\\\ x ${opTerm(b, "y")} = ${e2} \\end{cases}$$`,
+   209→          `Solve by elimination and give the value of $y$: $$\\begin{cases} x ${opTerm(a, "y")} = ${e1} \\\\ x ${opTerm(b, "y")} = ${e2} \\end{cases}$$`,
+   210→        ),
+   211→        answer: { kind: "numeric", value: y0 },
+   212→        hints: [
+   213→          L(
+   214→            "Las dos ecuaciones tienen el mismo coeficiente en $x$.",
+   215→            "Both equations have the same coefficient for $x$.",
+   216→          ),
+   217→          L(
+   218→            "Resta la segunda ecuación de la primera: la $x$ desaparece.",
+   219→            "Subtract the second equation from the first: the $x$ cancels out.",
+   220→          ),
+   221→          L(
+   222→            `Al restar queda $(${a}) - (${b})$ multiplicando a $y$.`,
+   223→            `After subtracting, $y$ is multiplied by $(${a}) - (${b})$.`,
+   224→          ),
+   225→        ],
+   226→        answerDisplay: L(`$y = ${y0}$`, `$y = ${y0}$`),
+   227→        solution: [
+   228→          step(
+   229→            "given",
+   230→            `$$\\begin{cases} x ${opTerm(a, "y")} = ${e1} \\\\ x ${opTerm(b, "y")} = ${e2} \\end{cases}$$`,
+   231→            `$$\\begin{cases} x ${opTerm(a, "y")} = ${e1} \\\\ x ${opTerm(b, "y")} = ${e2} \\end{cases}$$`,
+   232→          ),
+   233→          step(
+   234→            "approach",
+   235→            "Como el coeficiente de $x$ es el mismo en ambas, restando miembro a miembro eliminamos $x$.",
+   236→            "Since the coefficient of $x$ is the same in both, subtracting side by side eliminates $x$.",
+   237→          ),
+   238→          step(
+   239→            "calculation",
+   240→            `$\\left(x ${opTerm(a, "y")}\\right) - \\left(x ${opTerm(b, "y")}\\right) = ${e1} - (${e2})$<br>$${opTerm(a - b, "y")} = ${e1 - e2}$<br>$y = ${y0}$`,
+   241→            `$\\left(x ${opTerm(a, "y")}\\right) - \\left(x ${opTerm(b, "y")}\\right) = ${e1} - (${e2})$<br>$${opTerm(a - b, "y")} = ${e1 - e2}$<br>$y = ${y0}$`,
+   242→          ),
+   243→          step(
+   244→            "result",
+   245→            `$y = ${y0}$. Sustituyendo en la primera ecuación: $x = ${e1} ${op(-a * y0)} = ${x0}$.`,
+   246→            `$y = ${y0}$. Substituting into the first equation: $x = ${e1} ${op(-a * y0)} = ${x0}$.`,
+   247→          ),
+   248→        ],
+   249→      };
+   250→    },
+   251→  ),
+   252→
+   253→  template(
+   254→    {
+   255→      id: "sys-elim-02",
+   256→      subject: "math",
+   257→      topicId: "systems",
+   258→      subtopicId: "elimination",
+   259→      difficulty: "hard",
+   260→      questionType: "numeric",
+   261→      estimatedTimeSec: 210,
+   262→      tags: ["systems", "elimination"],
+   263→      prerequisites: ["linear-equations"],
+   264→    },
+   265→    (rng) => {
+   266→      const b1 = rng.nonZeroInt(-4, 4);
+   267→      let b2 = rng.nonZeroInt(-4, 4);
+   268→      if (2 * b2 === 3 * b1) b2 = b2 > 0 ? b2 + 1 : b2 - 1; // avoid parallel system
+   269→      const x0 = rng.nonZeroInt(-5, 5);
+   270→      const y0 = rng.nonZeroInt(-5, 5);
+   271→      const c1 = 2 * x0 + b1 * y0;
+   272→      const c2 = 3 * x0 + b2 * y0;
+   273→      return {
+   274→        skill: L("Eliminación multiplicando ambas ecuaciones", "Elimination by multiplying both equations"),
+   275→        statement: L(
+   276→          `Resuelve por eliminación y da el valor de $y$: $$\\begin{cases} 2x ${opTerm(b1, "y")} = ${c1} \\\\ 3x ${opTerm(b2, "y")} = ${c2} \\end{cases}$$`,
+   277→          `Solve by elimination and give the value of $y$: $$\\begin{cases} 2x ${opTerm(b1, "y")} = ${c1} \\\\ 3x ${opTerm(b2, "y")} = ${c2} \\end{cases}$$`,
+   278→        ),
+   279→        answer: { kind: "numeric", value: y0 },
+   280→        hints: [
+   281→          L(
+   282→            "Los coeficientes de $x$ (2 y 3) no coinciden: hay que igualarlos multiplicando.",
+   283→            "The $x$ coefficients (2 and 3) do not match: equal them by multiplying.",
+   284→          ),
+   285→          L(
+   286→            "Multiplica la primera ecuación por 3 y la segunda por 2.",
+   287→            "Multiply the first equation by 3 and the second by 2.",
+   288→          ),
+   289→          L(
+   290→            "Resta las ecuaciones obtenidas: la $x$ se elimina y queda una ecuación en $y$.",
+   291→            "Subtract the resulting equations: $x$ cancels and an equation in $y$ remains.",
+   292→          ),
+   293→        ],
+   294→        answerDisplay: L(`$y = ${y0}$`, `$y = ${y0}$`),
+   295→        solution: [
+   296→          step(
+   297→            "given",
+   298→            `$$\\begin{cases} 2x ${opTerm(b1, "y")} = ${c1} \\\\ 3x ${opTerm(b2, "y")} = ${c2} \\end{cases}$$`,
+   299→            `$$\\begin{cases} 2x ${opTerm(b1, "y")} = ${c1} \\\\ 3x ${opTerm(b2, "y")} = ${c2} \\end{cases}$$`,
+   300→          ),
+   301→          step(
+   302→            "approach",
+   303→            "Igualamos los coeficientes de $x$ (mínimo común múltiplo 6) multiplicando cada ecuación, y luego restamos.",
+   304→            "We match the $x$ coefficients (least common multiple 6) by multiplying each equation, then subtract.",
+   305→          ),
+   306→          step(
+   307→            "calculation",
+   308→            `$3\\times(1):\\ 6x ${opTerm(3 * b1, "y")} = ${3 * c1}$<br>$2\\times(2):\\ 6x ${opTerm(2 * b2, "y")} = ${2 * c2}$<br>Restando: $${opTerm(3 * b1 - 2 * b2, "y")} = ${3 * c1 - 2 * c2}$<br>$y = ${y0}$`,
+   309→            `$3\\times(1):\\ 6x ${opTerm(3 * b1, "y")} = ${3 * c1}$<br>$2\\times(2):\\ 6x ${opTerm(2 * b2, "y")} = ${2 * c2}$<br>Subtracting: $${opTerm(3 * b1 - 2 * b2, "y")} = ${3 * c1 - 2 * c2}$<br>$y = ${y0}$`,
+   310→          ),
+   311→          step(
+   312→            "result",
+   313→            `$y = ${y0}$. Sustituyendo en la segunda ecuación: $3x = ${minus(c2, b2 * y0)}$, luego $x = ${x0}$.`,
+   314→            `$y = ${y0}$. Substituting into the second equation: $3x = ${minus(c2, b2 * y0)}$, so $x = ${x0}$.`,
+   315→          ),
+   316→        ],
+   317→      };
+   318→    },
+   319→  ),
+   320→
+   321→  template(
+   322→    {
+   323→      id: "sys-chal-01",
+   324→      subject: "math",
+   325→      topicId: "systems",
+   326→      subtopicId: "elimination",
+   327→      difficulty: "challenge",
+   328→      questionType: "numeric",
+   329→      estimatedTimeSec: 240,
+   330→      tags: ["systems", "elimination", "insight"],
+   331→      prerequisites: ["linear-equations"],
+   332→    },
+   333→    (rng) => {
+   334→      const x0 = rng.nonZeroInt(-5, 5);
+   335→      const y0 = rng.nonZeroInt(-5, 5);
+   336→      const A = 2 * x0 + y0;
+   337→      const B = x0 + 2 * y0;
+   338→      return {
+   339→        skill: L("Combinar ecuaciones sin resolver el sistema", "Combining equations without solving the system"),
+   340→        statement: L(
+   341→          `Si $2x + y = ${A}$ y $x + 2y = ${B}$, ¿cuánto vale $x + y$? (Puedes resolver el sistema, pero hay un atajo.)`,
+   342→          `If $2x + y = ${A}$ and $x + 2y = ${B}$, what is $x + y$? (You may solve the system, but there is a shortcut.)`,
+   343→        ),
+   344→        answer: { kind: "numeric", value: x0 + y0 },
+   345→        hints: [
+   346→          L(
+   347→            "No te piden $x$ ni $y$ por separado, sino la suma $x + y$.",
+   348→            "You are not asked for $x$ or $y$ separately, but for the sum $x + y$.",
+   349→          ),
+   350→          L(
+   351→            "Suma las dos ecuaciones miembro a miembro y observa los coeficientes.",
+   352→            "Add the two equations side by side and look at the coefficients.",
+   353→          ),
+   354→          L(
+   355→            `La suma da $3x + 3y = ${A} + ${B}$: factoriza el lado izquierdo.`,
+   356→            `The sum gives $3x + 3y = ${A} + ${B}$: factor the left-hand side.`,
+   357→          ),
+   358→        ],
+   359→        answerDisplay: L(`$x + y = ${x0 + y0}$`, `$x + y = ${x0 + y0}$`),
+   360→        solution: [
+   361→          step(
+   362→            "given",
+   363→            `$2x + y = ${A}$<br>$x + 2y = ${B}$`,
+   364→            `$2x + y = ${A}$<br>$x + 2y = ${B}$`,
+   365→          ),
+   366→          step(
+   367→            "approach",
+   368→            "Como los coeficientes son simétricos, sumar ambas ecuaciones produce exactamente $3(x+y)$.",
+   369→            "Because the coefficients are symmetric, adding both equations produces exactly $3(x+y)$.",
+   370→          ),
+   371→          step(
+   372→            "calculation",
+   373→            `$2x + y + x + 2y = ${A} + ${B}$<br>$3x + 3y = ${A + B}$<br>$3(x + y) = ${A + B}$<br>$x + y = \\frac{${A + B}}{3} = ${x0 + y0}$`,
+   374→            `$2x + y + x + 2y = ${A} + ${B}$<br>$3x + 3y = ${A + B}$<br>$3(x + y) = ${A + B}$<br>$x + y = \\frac{${A + B}}{3} = ${x0 + y0}$`,
+   375→          ),
+   376→          step(
+   377→            "result",
+   378→            `$x + y = ${x0 + y0}$, sin necesidad de calcular $x$ ni $y$ por separado.`,
+   379→            `$x + y = ${x0 + y0}$, with no need to find $x$ or $y$ individually.`,
+   380→          ),
+   381→        ],
+   382→      };
+   383→    },
+   384→  ),
+   385→
+   386→  /* ---------------------------------------------------------------- */
+   387→  /* Graphing                                                         */
+   388→  /* ---------------------------------------------------------------- */
+   389→  template(
+   390→    {
+   391→      id: "sys-graph-01",
+   392→      subject: "math",
+   393→      topicId: "systems",
+   394→      subtopicId: "graphing",
+   395→      difficulty: "medium",
+   396→      questionType: "multiple-choice",
+   397→      estimatedTimeSec: 150,
+   398→      tags: ["systems", "graphing", "intersection"],
+   399→      prerequisites: ["linear-equations"],
+   400→    },
+   401→    (rng) => {
+   402→      const x0 = rng.nonZeroInt(-3, 3);
+   403→      const y0 = rng.nonZeroInt(-3, 3);
+   404→      const m1 = rng.nonZeroInt(-3, 3);
+   405→      let m2 = rng.nonZeroInt(-3, 3);
+   406→      if (m2 === m1) m2 = m1 > 0 ? m1 - 1 || -1 : m1 + 1; // m1 ≠ m2
+   407→      if (m2 === 0) m2 = m1 > 0 ? m1 + 1 : m1 - 1;
+   408→      const b1 = y0 - m1 * x0;
+   409→      const b2 = y0 - m2 * x0;
+   410→      const options: McOption[] = [
+   411→        { id: "a", text: L(`$(${x0}, ${y0})$`, `$(${x0}, ${y0})$`), correct: true },
+   412→        {
+   413→          id: "b",
+   414→          text: L(`$(${x0 + 1}, ${y0 + m1})$`, `$(${x0 + 1}, ${y0 + m1})$`),
+   415→          correct: false,
+   416→        },
+   417→        {
+   418→          id: "c",
+   419→          text: L(`$(${x0 + 1}, ${y0 + m2})$`, `$(${x0 + 1}, ${y0 + m2})$`),
+   420→          correct: false,
+   421→        },
+   422→        {
+   423→          id: "d",
+   424→          text: L(`$(${x0 + 2}, ${y0 + 2 * m1})$`, `$(${x0 + 2}, ${y0 + 2 * m1})$`),
+   425→          correct: false,
+   426→        },
+   427→      ];
+   428→      return {
+   429→        skill: L("Leer la solución de un sistema en la gráfica", "Reading the solution of a system from its graph"),
+   430→        statement: L(
+   431→          "La gráfica muestra las dos rectas de un sistema. ¿En qué punto se cortan?",
+   432→          "The graph shows the two lines of a system. At which point do they intersect?",
+   433→        ),
+   434→        diagram: {
+   435→          kind: "function-graph",
+   436→          xMin: -6,
+   437→          xMax: 6,
+   438→          yMin: -6,
+   439→          yMax: 6,
+   440→          curves: [
+   441→            { fn: `${m1}*x + ${b1}`, color: "primary", label: "y₁" },
+   442→            { fn: `${m2}*x + ${b2}`, color: "secondary", label: "y₂" },
+   443→          ],
+   444→          points: [{ x: x0, y: y0 }],
+   445→          showGrid: true,
+   446→          xLabel: "x",
+   447→          yLabel: "y",
+   448→        },
+   449→        diagramLabel: L(
+   450→          `Dos rectas que se cortan en un punto de la cuadrícula con coordenadas enteras.`,
+   451→          `Two straight lines crossing at a grid point with integer coordinates.`,
+   452→        ),
+   453→        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+   454→        hints: [
+   455→          L(
+   456→            "La solución de un sistema es el punto donde las dos rectas se cortan.",
+   457→            "The solution of a system is the point where the two lines meet.",
+   458→          ),
+   459→          L(
+   460→            "Localiza el punto de corte y traza mentalmente líneas hasta los ejes.",
+   461→            "Locate the crossing point and trace mentally down/across to the axes.",
+   462→          ),
+   463→          L(
+   464→            "La primera coordenada se lee en el eje horizontal; la segunda, en el vertical.",
+   465→            "The first coordinate is read on the horizontal axis; the second, on the vertical one.",
+   466→          ),
+   467→        ],
+   468→        answerDisplay: L(`$(${x0}, ${y0})$`, `$(${x0}, ${y0})$`),
+   469→        solution: [
+   470→          step(
+   471→            "given",
+   472→            `Las rectas $y = ${linExpr(m1, b1)}$ y $y = ${linExpr(m2, b2)}$ se cortan en un punto de la cuadrícula.`,
+   473→            `The lines $y = ${linExpr(m1, b1)}$ and $y = ${linExpr(m2, b2)}$ meet at a grid point.`,
+   474→          ),
+   475→          step(
+   476→            "approach",
+   477→            "El punto de corte satisface las dos ecuaciones a la vez: es la solución del sistema.",
+   478→            "The crossing point satisfies both equations at once: it is the solution of the system.",
+   479→          ),
+   480→          step(
+   481→            "calculation",
+   482→            `El punto de corte es $(${x0}, ${y0})$: la primera recta da $y = ${m1} \\cdot (${x0}) ${op(b1)} = ${y0}$ y la segunda, $y = ${m2} \\cdot (${x0}) ${op(b2)} = ${y0}$.`,
+   483→            `The crossing point is $(${x0}, ${y0})$: the first line gives $y = ${m1} \\cdot (${x0}) ${op(b1)} = ${y0}$ and the second, $y = ${m2} \\cdot (${x0}) ${op(b2)} = ${y0}$.`,
+   484→          ),
+   485→          step(
+   486→            "result",
+   487→            `La solución del sistema es $(${x0}, ${y0})$.`,
+   488→            `The solution of the system is $(${x0}, ${y0})$.`,
+   489→          ),
+   490→        ],
+   491→      };
+   492→    },
+   493→  ),
+   494→
+   495→  template(
+   496→    {
+   497→      id: "sys-graph-02",
+   498→      subject: "math",
+   499→      topicId: "systems",
+   500→      subtopicId: "graphing",
+   501→      difficulty: "easy",
+   502→      questionType: "multiple-choice",
+   503→      estimatedTimeSec: 90,
+   504→      tags: ["systems", "graphing", "classification"],
+   505→      prerequisites: ["linear-equations"],
+   506→    },
+   507→    (rng) => {
+   508→      const kind = rng.int(0, 2); // 0 unique · 1 none · 2 infinite
+   509→      const m1 = rng.nonZeroInt(-3, 3);
+   510→      const m2 = kind === 0 ? rng.intExcluding(-3, 3, [0, m1]) : m1;
+   511→      const b1 = rng.int(-4, 4);
+   512→      let b2 = rng.int(-4, 4);
+   513→      if (kind === 1 && b2 === b1) b2 = b1 > 0 ? b1 - 1 : b1 + 1; // parallel, not equal
+   514→      if (kind === 2) b2 = b1;
+   515→      const options: McOption[] = [
+   516→        {
+   517→          id: "a",
+   518→          text: L(
+   519→            "Una solución: las rectas se cortan en un punto",
+   520→            "One solution: the lines meet at a single point",
+   521→          ),
+   522→          correct: kind === 0,
+   523→        },
+   524→        {
+   525→          id: "b",
+   526→          text: L(
+   527→            "Ninguna solución: las rectas son paralelas",
+   528→            "No solution: the lines are parallel",
+   529→          ),
+   530→          correct: kind === 1,
+   531→        },
+   532→        {
+   533→          id: "c",
+   534→          text: L(
+   535→            "Infinitas soluciones: las rectas coinciden",
+   536→            "Infinitely many solutions: the lines coincide",
+   537→          ),
+   538→          correct: kind === 2,
+   539→        },
+   540→      ];
+   541→      return {
+   542→        skill: L("Clasificar un sistema por sus pendientes", "Classifying a system by its slopes"),
+   543→        statement: L(
+   544→          `Sin resolverlo, ¿cuántas soluciones tiene este sistema? $$\\begin{cases} y = ${linExpr(m1, b1)} \\\\ y = ${linExpr(m2, b2)} \\end{cases}$$`,
+   545→          `Without solving it, how many solutions does this system have? $$\\begin{cases} y = ${linExpr(m1, b1)} \\\\ y = ${linExpr(m2, b2)} \\end{cases}$$`,
+   546→        ),
+   547→        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+   548→        hints: [
+   549→          L(
+   550→            "Compara las pendientes (los coeficientes de $x$) de las dos rectas.",
+   551→            "Compare the slopes (the coefficients of $x$) of the two lines.",
+   552→          ),
+   553→          L(
+   554→            "Pendientes distintas → un punto de corte. Pendientes iguales → paralelas o coincidentes.",
+   555→            "Different slopes → one crossing point. Equal slopes → parallel or identical lines.",
+   556→          ),
+   557→          L(
+   558→            "Si las pendientes son iguales, compara las ordenadas en el origen.",
+   559→            "If the slopes are equal, compare the y-intercepts.",
+   560→          ),
+   561→        ],
+   562→        answerDisplay: L(
+   563→          kind === 0
+   564→            ? "Una solución (rectas con pendientes distintas)"
+   565→            : kind === 1
+   566→              ? "Ninguna solución (rectas paralelas)"
+   567→              : "Infinitas soluciones (la misma recta)",
+   568→          kind === 0
+   569→            ? "One solution (lines with different slopes)"
+   570→            : kind === 1
+   571→              ? "No solution (parallel lines)"
+   572→              : "Infinitely many solutions (the same line)",
+   573→        ),
+   574→        solution: [
+   575→          step(
+   576→            "given",
+   577→            `$$\\begin{cases} y = ${linExpr(m1, b1)} \\\\ y = ${linExpr(m2, b2)} \\end{cases}$$`,
+   578→            `$$\\begin{cases} y = ${linExpr(m1, b1)} \\\\ y = ${linExpr(m2, b2)} \\end{cases}$$`,
+   579→          ),
+   580→          step(
+   581→            "approach",
+   582→            "Clasificamos el sistema comparando pendientes $m_1, m_2$ y ordenadas $b_1, b_2$.",
+   583→            "We classify the system by comparing slopes $m_1, m_2$ and intercepts $b_1, b_2$.",
+   584→          ),
+   585→          step(
+   586→            "calculation",
+   587→            kind === 0
+   588→              ? `$m_1 = ${m1} \\ne m_2 = ${m2}$: las rectas no son paralelas, así que se cortan en exactamente un punto.`
+   589→              : kind === 1
+   590→                ? `$m_1 = m_2 = ${m1}$ pero $b_1 = ${b1} \\ne b_2 = ${b2}$: rectas paralelas distintas, sin puntos en común.`
+   591→                : `$m_1 = m_2 = ${m1}$ y $b_1 = b_2 = ${b1}$: es la misma recta escrita dos veces.`,
+   592→            kind === 0
+   593→              ? `$m_1 = ${m1} \\ne m_2 = ${m2}$: the lines are not parallel, so they meet at exactly one point.`
+   594→              : kind === 1
+   595→                ? `$m_1 = m_2 = ${m1}$ but $b_1 = ${b1} \\ne b_2 = ${b2}$: distinct parallel lines, with no common point.`
+   596→                : `$m_1 = m_2 = ${m1}$ and $b_1 = b_2 = ${b1}$: it is the same line written twice.`,
+   597→          ),
+   598→          step(
+   599→            "result",
+   600→            kind === 0
+   601→              ? "El sistema tiene exactamente **una solución**."
+   602→              : kind === 1
+   603→                ? "El sistema **no tiene solución**."
+   604→                : "El sistema tiene **infinitas soluciones**.",
+   605→            kind === 0
+   606→              ? "The system has exactly **one solution**."
+   607→              : kind === 1
+   608→                ? "The system has **no solution**."
+   609→                : "The system has **infinitely many solutions**.",
+   610→          ),
+   611→        ],
+   612→      };
+   613→    },
+   614→  ),
+   615→
+   616→  /* ---------------------------------------------------------------- */
+   617→  /* Systems with parameters                                           */
+   618→  /* ---------------------------------------------------------------- */
+   619→  template(
+   620→    {
+   621→      id: "sys-param-01",
+   622→      subject: "math",
+   623→      topicId: "systems",
+   624→      subtopicId: "parameters",
+   625→      difficulty: "hard",
+   626→      questionType: "numeric",
+   627→      estimatedTimeSec: 240,
+   628→      tags: ["systems", "parameters", "proportionality"],
+   629→      prerequisites: ["linear-equations"],
+   630→    },
+   631→    (rng) => {
+   632→      const b = rng.int(1, 3);
+   633→      const c = rng.int(1, 3);
+   634→      const r = rng.pick([2, 3]);
+   635→      const x0 = rng.nonZeroInt(-4, 4);
+   636→      const y0 = rng.nonZeroInt(-4, 4);
+   637→      const c2 = b * x0 + c * y0;
+   638→      const k = r * b;
+   639→      const a = r * c;
+   640→      const c1 = r * c2;
+   641→      return {
+   642→        skill: L("Parámetro para infinitas soluciones", "Parameter for infinitely many solutions"),
+   643→        statement: L(
+   644→          `¿Para qué valor de $k$ tiene el sistema infinitas soluciones? $$\\begin{cases} kx + ${a}y = ${c1} \\\\ ${b}x + ${c}y = ${c2} \\end{cases}$$`,
+   645→          `For which value of $k$ does the system have infinitely many solutions? $$\\begin{cases} kx + ${a}y = ${c1} \\\\ ${b}x + ${c}y = ${c2} \\end{cases}$$`,
+   646→        ),
+   647→        answer: { kind: "numeric", value: k },
+   648→        hints: [
+   649→          L(
+   650→            "Infinitas soluciones significan que las dos ecuaciones describen **la misma recta**.",
+   651→            "Infinitely many solutions means both equations describe **the same line**.",
+   652→          ),
+   653→          L(
+   654→            "Una ecuación debe ser un múltiplo exacto de la otra: compara los coeficientes.",
+   655→            "One equation must be an exact multiple of the other: compare the coefficients.",
+   656→          ),
+   657→          L(
+   658→            `Los coeficientes de $y$ son ${a} y ${c}: su razón te da el factor de proporcionalidad.`,
+   659→            `The $y$ coefficients are ${a} and ${c}: their ratio gives the proportionality factor.`,
+   660→          ),
+   661→        ],
+   662→        answerDisplay: L(`$k = ${k}$`, `$k = ${k}$`),
+   663→        solution: [
+   664→          step(
+   665→            "given",
+   666→            `$$\\begin{cases} kx + ${a}y = ${c1} \\\\ ${b}x + ${c}y = ${c2} \\end{cases}$$`,
+   667→            `$$\\begin{cases} kx + ${a}y = ${c1} \\\\ ${b}x + ${c}y = ${c2} \\end{cases}$$`,
+   668→          ),
+   669→          step(
+   670→            "approach",
+   671→            "Para que haya infinitas soluciones, la primera ecuación debe ser un múltiplo $r$ de la segunda (misma recta).",
+   672→            "For infinitely many solutions, the first equation must be a multiple $r$ of the second one (same line).",
+   673→          ),
+   674→          step(
+   675→            "calculation",
+   676→            `Con los coeficientes de $y$: $r = \\frac{${a}}{${c}} = ${r}$.<br>Entonces $k = r \\cdot ${b} = ${r} \\cdot ${b} = ${k}$.<br>Comprobación con las constantes: $${r} \\cdot ${c2} = ${c1}$ ✓`,
+   677→            `From the $y$ coefficients: $r = \\frac{${a}}{${c}} = ${r}$.<br>Then $k = r \\cdot ${b} = ${r} \\cdot ${b} = ${k}$.<br>Check with the constants: $${r} \\cdot ${c2} = ${c1}$ ✓`,
+   678→          ),
+   679→          step(
+   680→            "result",
+   681→            `Con $k = ${k}$ la primera ecuación es $${r}$ veces la segunda: el sistema tiene infinitas soluciones.`,
+   682→            `With $k = ${k}$ the first equation is $${r}$ times the second one: the system has infinitely many solutions.`,
+   683→          ),
+   684→        ],
+   685→      };
+   686→    },
+   687→  ),
+   688→
+   689→  template(
+   690→    {
+   691→      id: "sys-param-02",
+   692→      subject: "math",
+   693→      topicId: "systems",
+   694→      subtopicId: "parameters",
+   695→      difficulty: "challenge",
+   696→      questionType: "numeric",
+   697→      estimatedTimeSec: 300,
+   698→      tags: ["systems", "parameters", "parallel"],
+   699→      prerequisites: ["linear-equations"],
+   700→    },
+   701→    (rng) => {
+   702→      const A = rng.pick([2, 3]);
+   703→      const k = rng.int(2, 4);
+   704→      const B = A * k;
+   705→      const c1 = rng.int(2, 9);
+   706→      const delta = rng.pick([1, -1, 2, -2]);
+   707→      const C = A * c1 + delta;
+   708→      return {
+   709→        skill: L("Parámetro para un sistema incompatible", "Parameter for an inconsistent system"),
+   710→        statement: L(
+   711→          `¿Para qué valor de $k$ **no tiene** el sistema ninguna solución? $$\\begin{cases} x + ky = ${c1} \\\\ ${A}x + ${B}y = ${C} \\end{cases}$$`,
+   712→          `For which value of $k$ does the system have **no** solution? $$\\begin{cases} x + ky = ${c1} \\\\ ${A}x + ${B}y = ${C} \\end{cases}$$`,
+   713→        ),
+   714→        answer: { kind: "numeric", value: k },
+   715→        hints: [
+   716→          L(
+   717→            "Sin solución significa rectas **paralelas y distintas**.",
+   718→            "No solution means **parallel and distinct** lines.",
+   719→          ),
+   720→          L(
+   721→            "Paralelas: los coeficientes de $x$ e $y$ son proporcionales, pero las constantes no siguen la proporción.",
+   722→            "Parallel: the $x$ and $y$ coefficients are proportional, but the constants do not follow the same ratio.",
+   723→          ),
+   724→          L(
+   725→            `Plantea la proporción entre los coeficientes de $x$ y de $y$: $\\frac{1}{${A}} = \\frac{k}{${B}}$.`,
+   726→            `Set up the ratio between the $x$ and $y$ coefficients: $\\frac{1}{${A}} = \\frac{k}{${B}}$.`,
+   727→          ),
+   728→        ],
+   729→        answerDisplay: L(`$k = ${k}$`, `$k = ${k}$`),
+   730→        solution: [
+   731→          step(
+   732→            "given",
+   733→            `$$\\begin{cases} x + ky = ${c1} \\\\ ${A}x + ${B}y = ${C} \\end{cases}$$`,
+   734→            `$$\\begin{cases} x + ky = ${c1} \\\\ ${A}x + ${B}y = ${C} \\end{cases}$$`,
+   735→          ),
+   736→          step(
+   737→            "approach",
+   738→            "Un sistema no tiene solución cuando los coeficientes son proporcionales pero las constantes no. Imponemos la proporcionalidad de coeficientes.",
+   739→            "A system has no solution when the coefficients are proportional but the constants are not. We impose proportionality of the coefficients.",
+   740→          ),
+   741→          step(
+   742→            "calculation",
+   743→            `$\\frac{1}{${A}} = \\frac{k}{${B}} \\Rightarrow ${B} = ${A}\\,k \\Rightarrow k = \\frac{${B}}{${A}} = ${k}$<br>Comprobamos las constantes: $${A} \\cdot ${c1} = ${A * c1} \\ne ${C}$, así que las rectas son paralelas y distintas.`,
+   744→            `$\\frac{1}{${A}} = \\frac{k}{${B}} \\Rightarrow ${B} = ${A}\\,k \\Rightarrow k = \\frac{${B}}{${A}} = ${k}$<br>We check the constants: $${A} \\cdot ${c1} = ${A * c1} \\ne ${C}$, so the lines are parallel and distinct.`,
+   745→          ),
+   746→          step(
+   747→            "result",
+   748→            `Con $k = ${k}$ el sistema es incompatible: no tiene ninguna solución.`,
+   749→            `With $k = ${k}$ the system is inconsistent: it has no solution.`,
+   750→          ),
+   751→        ],
+   752→      };
+   753→    },
+   754→  ),
+   755→
+   756→  /* ---------------------------------------------------------------- */
+   757→  /* Applications                                                     */
+   758→  /* ---------------------------------------------------------------- */
+   759→  template(
+   760→    {
+   761→      id: "sys-app-01",
+   762→      subject: "math",
+   763→      topicId: "systems",
+   764→      subtopicId: "applications",
+   765→      difficulty: "medium",
+   766→      questionType: "numeric",
+   767→      estimatedTimeSec: 180,
+   768→      tags: ["systems", "word-problems"],
+   769→      prerequisites: ["linear-equations"],
+   770→    },
+   771→    (rng) => {
+   772→      const pa = rng.int(6, 12);
+   773→      const pc = pa - rng.int(2, 4);
+   774→      const nA = rng.int(3, 8);
+   775→      const nC = rng.int(2, 7);
+   776→      const n = nA + nC;
+   777→      const total = nA * pa + nC * pc;
+   778→      return {
+   779→        skill: L("Plantear un sistema a partir de un enunciado", "Setting up a system from a word problem"),
+   780→        statement: L(
+   781→          `En un cine las entradas de adulto cuestan $${pa}\\,€$ y las de niño $${pc}\\,€$. Una familia compra $${n}$ entradas y paga en total $${total}\\,€$. ¿Cuántas entradas de adulto compraron?`,
+   782→          `At a cinema, adult tickets cost $${pa}\\,€$ and child tickets $${pc}\\,€$. A family buys $${n}$ tickets and pays $${total}\\,€$ in total. How many adult tickets did they buy?`,
+   783→        ),
+   784→        answer: { kind: "numeric", value: nA },
+   785→        hints: [
+   786→          L(
+   787→            "Hay dos incógnitas: número de entradas de cada tipo. Llámalas $x$ e $y$.",
+   788→            "There are two unknowns: the number of tickets of each kind. Call them $x$ and $y$.",
+   789→          ),
+   790→          L(
+   791→            `Una ecuación cuenta las entradas: $x + y = ${n}$. La otra cuenta el dinero: $${pa}x + ${pc}y = ${total}$.`,
+   792→            `One equation counts tickets: $x + y = ${n}$. The other counts money: $${pa}x + ${pc}y = ${total}$.`,
+   793→          ),
+   794→          L(
+   795→            `Multiplica la primera ecuación por $${pc}$ y réstasela a la segunda para eliminar $y$.`,
+   796→            `Multiply the first equation by $${pc}$ and subtract it from the second to eliminate $y$.`,
+   797→          ),
+   798→        ],
+   799→        answerDisplay: L(`$${nA}$ entradas de adulto`, `$${nA}$ adult tickets`),
+   800→        solution: [
+   801→          step(
+   802→            "given",
+   803→            `Precio adulto: $${pa}\\,€$; precio niño: $${pc}\\,€$.<br>Total de entradas: $${n}$. Pago total: $${total}\\,€$.`,
+   804→            `Adult price: $${pa}\\,€$; child price: $${pc}\\,€$.<br>Total tickets: $${n}$. Total paid: $${total}\\,€$.`,
+   805→          ),
+   806→          step(
+   807→            "approach",
+   808→            "Definimos $x$ = entradas de adulto, $y$ = entradas de niño, y planteamos un sistema de dos ecuaciones.",
+   809→            "Let $x$ = adult tickets and $y$ = child tickets, and set up a system of two equations.",
+   810→          ),
+   811→          step(
+   812→            "calculation",
+   813→            `$x + y = ${n}$<br>$${pa}x + ${pc}y = ${total}$<br>Multiplicando la primera por $${pc}$: $${pc}x + ${pc}y = ${pc * n}$<br>Restando: $(${pa} - ${pc})x = ${total - pc * n}$<br>$x = \\frac{${total - pc * n}}{${pa - pc}} = ${nA}$`,
+   814→            `$x + y = ${n}$<br>$${pa}x + ${pc}y = ${total}$<br>Multiplying the first by $${pc}$: $${pc}x + ${pc}y = ${pc * n}$<br>Subtracting: $(${pa} - ${pc})x = ${total - pc * n}$<br>$x = \\frac{${total - pc * n}}{${pa - pc}} = ${nA}$`,
+   815→          ),
+   816→          step(
+   817→            "result",
+   818→            `Compraron $${nA}$ entradas de adulto (y $${nC}$ de niño: $${nA} + ${nC} = ${n}$ ✓).`,
+   819→            `They bought $${nA}$ adult tickets (and $${nC}$ child tickets: $${nA} + ${nC} = ${n}$ ✓).`,
+   820→          ),
+   821→        ],
+   822→      };
+   823→    },
+   824→  ),
+   825→
+   826→  template(
+   827→    {
+   828→      id: "sys-app-02",
+   829→      subject: "math",
+   830→      topicId: "systems",
+   831→      subtopicId: "applications",
+   832→      difficulty: "hard",
+   833→      questionType: "numeric",
+   834→      estimatedTimeSec: 240,
+   835→      tags: ["systems", "word-problems", "digits"],
+   836→      prerequisites: ["linear-equations"],
+   837→    },
+   838→    (rng) => {
+   839→      const diff = rng.int(1, 4); // units − tens
+   840→      const a = rng.int(1, 9 - diff); // tens digit
+   841→      const b = a + diff; // units digit
+   842→      const s = a + b;
+   843→      const delta = 9 * diff;
+   844→      const N = 10 * a + b;
+   845→      return {
+   846→        skill: L("Problema de cifras con sistema", "Digit problem with a system"),
+   847→        statement: L(
+   848→          `La suma de las cifras de un número de dos dígitos es $${s}$. Si intercambias sus cifras, el número aumenta en $${delta}$. ¿Cuál es el número original?`,
+   849→          `The sum of the digits of a two-digit number is $${s}$. If you swap its digits, the number increases by $${delta}$. What is the original number?`,
+   850→        ),
+   851→        answer: { kind: "numeric", value: N },
+   852→        hints: [
+   853→          L(
+   854→            "Llama $x$ a la cifra de las decenas e $y$ a la de las unidades.",
+   855→            "Call $x$ the tens digit and $y$ the units digit.",
+   856→          ),
+   857→          L(
+   858→            `El número es $10x + y$ y el intercambiado es $10y + x$. Una ecuación es $x + y = ${s}$.`,
+   859→            `The number is $10x + y$ and the swapped one is $10y + x$. One equation is $x + y = ${s}$.`,
+   860→          ),
+   861→          L(
+   862→            `La otra ecuación es $10y + x = 10x + y + ${delta}$; simplifícala restando $10x + y$.`,
+   863→            `The other equation is $10y + x = 10x + y + ${delta}$; simplify it by subtracting $10x + y$.`,
+   864→          ),
+   865→        ],
+   866→        answerDisplay: L(`$${N}$`, `$${N}$`),
+   867→        solution: [
+   868→          step(
+   869→            "given",
+   870→            `Suma de cifras: $${s}$. Al intercambiarlas, el número aumenta en $${delta}$.`,
+   871→            `Digit sum: $${s}$. Swapping them increases the number by $${delta}$.`,
+   872→          ),
+   873→          step(
+   874→            "approach",
+   875→            "Con $x$ = decenas e $y$ = unidades, el número es $10x + y$ y el intercambiado $10y + x$; planteamos un sistema.",
+   876→            "With $x$ = tens and $y$ = units, the number is $10x + y$ and the swapped one $10y + x$; we set up a system.",
+   877→          ),
+   878→          step(
+   879→            "calculation",
+   880→            `$x + y = ${s}$<br>$10y + x = 10x + y + ${delta} \\Rightarrow 9y - 9x = ${delta} \\Rightarrow y - x = \\frac{${delta}}{9} = ${diff}$<br>Sumando ambas: $2y = ${s + diff} \\Rightarrow y = ${b}$, y entonces $x = ${a}$.`,
+   881→            `$x + y = ${s}$<br>$10y + x = 10x + y + ${delta} \\Rightarrow 9y - 9x = ${delta} \\Rightarrow y - x = \\frac{${delta}}{9} = ${diff}$<br>Adding both: $2y = ${s + diff} \\Rightarrow y = ${b}$, and then $x = ${a}$.`,
+   882→          ),
+   883→          step(
+   884→            "result",
+   885→            `El número original es $10 \\cdot ${a} + ${b} = ${N}$.`,
+   886→            `The original number is $10 \\cdot ${a} + ${b} = ${N}$.`,
+   887→          ),
+   888→        ],
+   889→      };
+   890→    },
+   891→  ),
+   892→
+   893→
+   894→  /* ---------------------------------------------------------------- */
+   895→  /* Curated Phase 2 — FOS/BOS 2010 §3.3 y FOS/BOS 2011 §3            */
+   896→  /* (sistemas lineales 2x2). Transcribed as printed; verified        */
+   897→  /* independently. Fixed problems — rng only shuffles MC.            */
+   898→  /* ---------------------------------------------------------------- */
+   899→
+   900→  /* FOS/BOS 2010, 3.3 — eliminación con solución negativa grande. */
+   901→  template(
+   902→    {
+   903→      id: "sys-elim-03",
+   904→      subject: "math",
+   905→      topicId: "systems",
+   906→      subtopicId: "elimination",
+   907→      difficulty: "medium",
+   908→      questionType: "multiple-choice",
+   909→      estimatedTimeSec: 180,
+   910→      tags: ["systems", "elimination", "exam"],
+   911→      prerequisites: ["elimination"],
+   912→      source: {
+   913→        sourceId: "fos-bos-2010-ht",
+   914→        license: "OPEN_LICENSE",
+   915→        exerciseNumber: "3.3",
+   916→      },
+   917→      reasoning: "multi-concept",
+   918→    },
+   919→    (rng) => {
+   920→      const options: McOption[] = [
+   921→        { id: "a", text: L("$x = -21,\\ y = 13$", "$x = -21,\\ y = 13$"), correct: true },
+   922→        { id: "b", text: L("$x = 21,\\ y = -13$", "$x = 21,\\ y = -13$"), correct: false },
+   923→        { id: "c", text: L("$x = -13,\\ y = 21$", "$x = -13,\\ y = 21$"), correct: false },
+   924→        { id: "d", text: L("$x = 13,\\ y = -21$", "$x = 13,\\ y = -21$"), correct: false },
+   925→      ];
+   926→      return {
+   927→        skill: L("Sistema 2x2 por eliminación (examen real)", "2x2 system by elimination (real exam)"),
+   928→        statement: L(
+   929→          "Resuelve: $$\\begin{cases} x + y = -8 \\\\ x + 2y = 5 \\end{cases}$$",
+   930→          "Solve: $$\\begin{cases} x + y = -8 \\\\ x + 2y = 5 \\end{cases}$$",
+   931→        ),
+   932→        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+   933→        hints: [
+   934→          L(
+   935→            "Resta la segunda ecuación menos la primera: la $x$ desaparece sola.",
+   936→            "Subtract the first equation from the second: the $x$ cancels by itself.",
+   937→          ),
+   938→          L(
+   939→            "$(x + 2y) - (x + y) = 5 - (-8)$ da $y = 13$.",
+   940→            "$(x + 2y) - (x + y) = 5 - (-8)$ gives $y = 13$.",
+   941→          ),
+   942→          L(
+   943→            "Sustituye en la primera: $x = -8 - 13$.",
+   944→            "Substitute into the first: $x = -8 - 13$.",
+   945→          ),
+   946→        ],
+   947→        answerDisplay: L("$L = \\{(-21,\\; 13)\\}$", "$L = \\{(-21,\\; 13)\\}$"),
+   948→        solution: [
+   949→          step(
+   950→            "given",
+   951→            "El sistema $x + y = -8$, $x + 2y = 5$.",
+   952→            "The system $x + y = -8$, $x + 2y = 5$.",
+   953→          ),
+   954→          step(
+   955→            "approach",
+   956→            "Los coeficientes de $x$ ya coinciden: una resta directa elimina una incógnita (eliminación).",
+   957→            "The $x$ coefficients already match: a direct subtraction eliminates one unknown (elimination).",
+   958→          ),
+   959→          step(
+   960→            "calculation",
+   961→            "II − I: $(x + 2y) - (x + y) = 5 - (-8) \\Rightarrow y = 13$.<br>Con $y = 13$ en I: $x = -8 - 13 = -21$.<br>Verificación: $-21 + 13 = -8$ ✓ y $-21 + 2 \\cdot 13 = 5$ ✓",
+   962→            "II − I: $(x + 2y) - (x + y) = 5 - (-8) \\Rightarrow y = 13$.<br>With $y = 13$ in I: $x = -8 - 13 = -21$.<br>Check: $-21 + 13 = -8$ ✓ and $-21 + 2 \\cdot 13 = 5$ ✓",
+   963→          ),
+   964→          step(
+   965→            "result",
+   966→            "$L = \\{(-21,\\; 13)\\}$.",
+   967→            "$L = \\{(-21,\\; 13)\\}$.",
+   968→          ),
+   969→        ],
+   970→      };
+   971→    },
+   972→  ),
+   973→
+   974→  /* FOS/BOS 2011, 3 — sustitución tras simplificar. */
+   975→  template(
+   976→    {
+   977→      id: "sys-elim-04",
+   978→      subject: "math",
+   979→      topicId: "systems",
+   980→      subtopicId: "elimination",
+   981→      difficulty: "easy",
+   982→      questionType: "multiple-choice",
+   983→      estimatedTimeSec: 150,
+   984→      tags: ["systems", "substitution", "exam"],
+   985→      prerequisites: ["elimination"],
+   986→      source: {
+   987→        sourceId: "fos-bos-2011",
+   988→        license: "OPEN_LICENSE",
+   989→        exerciseNumber: "3",
+   990→      },
+   991→      reasoning: "multi-concept",
+   992→    },
+   993→    (rng) => {
+   994→      const options: McOption[] = [
+   995→        { id: "a", text: L("$x = 5,\\ y = 7$", "$x = 5,\\ y = 7$"), correct: true },
+   996→        { id: "b", text: L("$x = 7,\\ y = 5$", "$x = 7,\\ y = 5$"), correct: false },
+   997→        { id: "c", text: L("$x = 12,\\ y = 7$", "$x = 12,\\ y = 7$"), correct: false },
+   998→        { id: "d", text: L("$x = 4,\\ y = 8$", "$x = 4,\\ y = 8$"), correct: false },
+   999→      ];
+  1000→      return {
+  1001→        skill: L("Sistema 2x2 con simplificación previa (examen real 2011)", "2x2 system with a simplifying step (real 2011 exam)"),
+  1002→        statement: L(
+  1003→          "Resuelve: $$\\begin{cases} 4x + 8y = 76 \\\\ x + y = 12 \\end{cases}$$",
+  1004→          "Solve: $$\\begin{cases} 4x + 8y = 76 \\\\ x + y = 12 \\end{cases}$$",
+  1005→        ),
+  1006→        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+  1007→        hints: [
+  1008→          L(
+  1009→            "Simplifica la primera ecuación dividiendo todo entre $4$.",
+  1010→            "Simplify the first equation by dividing everything by $4$.",
+  1011→          ),
+  1012→          L(
+  1013→            "Queda $x + 2y = 19$ junto a $x + y = 12$: una resta elimina la $x$.",
+  1014→            "You get $x + 2y = 19$ next to $x + y = 12$: one subtraction kills the $x$.",
+  1015→          ),
+  1016→          L(
+  1017→            "$(x + 2y) - (x + y) = 19 - 12 \\Rightarrow y = 7$, y entonces $x = 12 - 7$.",
+  1018→            "$(x + 2y) - (x + y) = 19 - 12 \\Rightarrow y = 7$, and then $x = 12 - 7$.",
+  1019→          ),
+  1020→        ],
+  1021→        answerDisplay: L("$L = \\{(5,\\; 7)\\}$", "$L = \\{(5,\\; 7)\\}$"),
+  1022→        solution: [
+  1023→          step(
+  1024→            "given",
+  1025→            "El sistema $4x + 8y = 76$, $x + y = 12$.",
+  1026→            "The system $4x + 8y = 76$, $x + y = 12$.",
+  1027→          ),
+  1028→          step(
+  1029→            "approach",
+  1030→            "Simplificar antes de operar (dividir entre $4$) reduce la aritmética; después, eliminación directa.",
+  1031→            "Simplify before operating (divide by $4$) to shrink the arithmetic; then eliminate directly.",
+  1032→          ),
+  1033→          step(
+  1034→            "calculation",
+  1035→            "I entre $4$: $x + 2y = 19$.<br>Resta (I simplificada) − II: $y = 19 - 12 = 7$.<br>Con II: $x = 12 - 7 = 5$.<br>Verificación: $4 \\cdot 5 + 8 \\cdot 7 = 20 + 56 = 76$ ✓ y $5 + 7 = 12$ ✓ — coincide con el Lösungsvorschlag oficial.",
+  1036→            "I divided by $4$: $x + 2y = 19$.<br>Subtract (simplified I) − II: $y = 19 - 12 = 7$.<br>With II: $x = 12 - 7 = 5$.<br>Check: $4 \\cdot 5 + 8 \\cdot 7 = 20 + 56 = 76$ ✓ and $5 + 7 = 12$ ✓ — matches the official Lösungsvorschlag.",
+  1037→          ),
+  1038→          step(
+  1039→            "result",
+  1040→            "$L = \\{(5,\\; 7)\\}$.",
+  1041→            "$L = \\{(5,\\; 7)\\}$.",
+  1042→          ),
+  1043→        ],
+  1044→      };
+  1045→    },
+  1046→  ),
+  1047→];
+  1048→

@@ -1,0 +1,651 @@
+     1→"use client";
+     2→
+     3→import Image from "next/image";
+     4→import { useEffect, useState } from "react";
+     5→import { formatDistanceToNow } from "date-fns";
+     6→import { es as dateEs, enUS as dateEn } from "date-fns/locale";
+     7→import {
+     8→  ArrowRight,
+     9→  Atom,
+    10→  BookOpenCheck,
+    11→  Calculator,
+    12→  CalendarClock,
+    13→  CheckCircle2,
+    14→  ChevronDown,
+    15→  History,
+    16→  Lightbulb,
+    17→  MessageCircle,
+    18→  Sigma,
+    19→  Target,
+    20→  Zap,
+    21→} from "lucide-react";
+    22→import { Button } from "@/components/ui/button";
+    23→import {
+    24→  DropdownMenu,
+    25→  DropdownMenuContent,
+    26→  DropdownMenuLabel,
+    27→  DropdownMenuRadioGroup,
+    28→  DropdownMenuRadioItem,
+    29→  DropdownMenuSeparator,
+    30→  DropdownMenuTrigger,
+    31→} from "@/components/ui/dropdown-menu";
+    32→import { useI18n } from "@/lib/i18n/context";
+    33→import { href, sessionHref } from "@/lib/router";
+    34→import { computeStats, loadProgress, type OverallStats } from "@/lib/progress";
+    35→import { dueReviewEntries, type ReviewEntry } from "@/lib/review";
+    36→import { countToday, GOAL_CHOICES, loadDailyGoal, saveDailyGoal } from "@/lib/goal";
+    37→import { siteConfig } from "@/config/site";
+    38→import { mathCurriculum } from "@/content/curriculum/math";
+    39→import { physicsCurriculum } from "@/content/curriculum/physics";
+    40→import { cn } from "@/lib/utils";
+    41→
+    42→function HeroCurve() {
+    43→  // The profe's chalkboard — Dirac notation, drawn by hand.
+    44→  // Board + clay frame + chalk writing + a piece of chalk and an eraser on the tray.
+    45→  const chalk = "#ece5d3";
+    46→  return (
+    47→    <svg
+    48→      viewBox="0 0 420 260"
+    49→      className="hidden h-auto w-full max-w-md lg:block"
+    50→      aria-hidden="true"
+    51→    >
+    52→      <defs>
+    53→        <clipPath id="board-clip">
+    54→          <rect x="10" y="8" width="400" height="226" rx="7" />
+    55→        </clipPath>
+    56→      </defs>
+    57→      {/* clay wooden frame */}
+    58→      <rect x="0" y="0" width="420" height="242" rx="10" fill="#a4552e" />
+    59→      <rect x="10" y="8" width="400" height="226" rx="7" fill="#292420" />
+    60→      {/* faint chalk dust ghosts (older lessons) */}
+    61→      <g clipPath="url(#board-clip)" opacity="0.09">
+    62→        <text x="48" y="200" fontFamily="Georgia, serif" fontStyle="italic" fontSize="20" fill={chalk}>(x+y)² = x² + 2xy + y²</text>
+    63→        <text x="250" y="228" fontFamily="Georgia, serif" fontStyle="italic" fontSize="17" fill={chalk}>v = v₀ + at</text>
+    64→        <circle cx="330" cy="52" r="26" fill="none" stroke={chalk} strokeWidth="2" />
+    65→      </g>
+    66→      {/* the delta spike sketch */}
+    67→      <g clipPath="url(#board-clip)">
+    68→        <line x1="150" y1="180" x2="150" y2="60" stroke={chalk} strokeWidth="2.4" strokeLinecap="round" transform="rotate(-1 150 120)" />
+    69→        <path d="M150,60 l-5,11 h10 z" fill={chalk} transform="rotate(-1 150 120)" />
+    70→        {/* x-axis */}
+    71→        <line x1="86" y1="181" x2="218" y2="178" stroke={chalk} strokeWidth="1.8" strokeLinecap="round" transform="rotate(-1 150 120)" />
+    72→        <path d="M218,178 l-9,-3.5 v7 z" fill={chalk} transform="rotate(-1 150 120)" />
+    73→        <text x="224" y="184" fontFamily="Georgia, serif" fontStyle="italic" fontSize="16" fill={chalk}>x</text>
+    74→        <text x="140" y="52" fontFamily="Georgia, serif" fontStyle="italic" fontSize="17" fill={chalk}>δ(x−a)</text>
+    75→        <text x="141" y="203" fontFamily="Georgia, serif" fontStyle="italic" fontSize="15" fill={chalk}>a</text>
+    76→        {/* chalk circle around the spike — the profe's emphasis */}
+    77→        <ellipse cx="152" cy="132" rx="52" ry="64" fill="none" stroke={chalk} strokeWidth="1.7" opacity="0.85" transform="rotate(-4 152 132)" />
+    78→      </g>
+    79→      {/* the signature equation */}
+    80→      <text
+    81→        x="278"
+    82→        y="132"
+    83→        textAnchor="middle"
+    84→        fontFamily="Georgia, serif"
+    85→        fontStyle="italic"
+    86→        fontSize="21"
+    87→        fill={chalk}
+    88→        transform="rotate(0.6 278 132)"
+    89→      >
+    90→        ∫ δ(x−a) f(x) dx
+    91→      </text>
+    92→      <text x="278" y="164" textAnchor="middle" fontFamily="Georgia, serif" fontStyle="italic" fontSize="21" fill={chalk} transform="rotate(0.6 278 148)">
+    93→        = f(a)
+    94→      </text>
+    95→      {/* bra-ket doodle */}
+    96→      <text x="62" y="70" fontFamily="Georgia, serif" fontStyle="italic" fontSize="19" fill={chalk} opacity="0.92" transform="rotate(-2 62 70)">⟨ψ|φ⟩</text>
+    97→      {/* chalk tray */}
+    98→      <rect x="36" y="242" width="348" height="10" rx="3" fill="#8f4a27" />
+    99→      {/* a piece of chalk */}
+   100→      <rect x="96" y="238" width="34" height="6" rx="3" fill={chalk} transform="rotate(-2 96 238)" />
+   101→      {/* the eraser */}
+   102→      <g transform="rotate(1.5 300 240)">
+   103→        <rect x="284" y="231" width="42" height="12" rx="2.5" fill="#5c4a3a" />
+   104→        <rect x="284" y="231" width="42" height="5" rx="2.5" fill="#3f3129" />
+   105→      </g>
+   106→    </svg>
+   107→  );
+   108→}
+   109→
+   110→/** Spaced-repetition band — topics whose review date has arrived. */
+   111→function ReviewDueCard({ entries }: { entries: ReviewEntry[] }) {
+   112→  const { t, lang, formatNumber } = useI18n();
+   113→  if (entries.length === 0) return null;
+   114→
+   115→  const top = entries.slice(0, 3);
+   116→  const topicFor = (e: ReviewEntry) =>
+   117→    (e.subject === "math" ? mathCurriculum : physicsCurriculum).find((tp) => tp.id === e.topicId);
+   118→  const primaryHref = sessionHref({
+   119→    mode: "topic",
+   120→    subjects: [top[0].subject],
+   121→    topicId: top[0].topicId,
+   122→    difficulty: "any",
+   123→    count: 10,
+   124→    seed: 0,
+   125→  });
+   126→
+   127→  return (
+   128→    <section
+   129→      aria-labelledby="review-due-heading"
+   130→      className="animate-in fade-in slide-in-from-bottom-2 duration-300 border-b border-diff-medium/25 bg-diff-medium/5"
+   131→    >
+   132→      <div className="mx-auto flex max-w-6xl flex-col items-start gap-4 px-4 py-6 sm:px-6 sm:flex-row sm:items-center">
+   133→        <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-diff-medium/15 text-diff-medium">
+   134→          <CalendarClock className="h-5 w-5" aria-hidden="true" />
+   135→        </span>
+   136→        <div className="min-w-0 flex-1">
+   137→          <h2 id="review-due-heading" className="text-sm font-semibold uppercase tracking-wider text-diff-medium">
+   138→            {t("home.reviewDue.title")}
+   139→          </h2>
+   140→          <p className="mt-1.5 text-[15px] font-medium leading-snug">
+   141→            {entries.length === 1
+   142→              ? t("home.reviewDue.one")
+   143→              : t("home.reviewDue.many", { n: formatNumber(entries.length) })}
+   144→          </p>
+   145→          <ul className="mt-2 flex flex-wrap gap-1.5" aria-label={t("home.reviewDue.title")}>
+   146→            {top.map((e) => {
+   147→              const topic = topicFor(e);
+   148→              if (!topic) return null;
+   149→              return (
+   150→                <li key={`${e.subject}:${e.topicId}`}>
+   151→                  <a
+   152→                    href={sessionHref({
+   153→                      mode: "topic",
+   154→                      subjects: [e.subject],
+   155→                      topicId: e.topicId,
+   156→                      difficulty: "any",
+   157→                      count: 10,
+   158→                      seed: 0,
+   159→                    })}
+   160→                    className="inline-flex items-center gap-1.5 rounded-full border border-diff-medium/30 bg-card px-3 py-1 text-xs font-medium text-foreground transition-colors hover:border-diff-medium/60 hover:bg-diff-medium/10"
+   161→                  >
+   162→                    <span
+   163→                      className="inline-block h-1.5 w-1.5 rounded-full bg-diff-medium"
+   164→                      aria-hidden="true"
+   165→                    />
+   166→                    {topic.name[lang]}
+   167→                  </a>
+   168→                </li>
+   169→              );
+   170→            })}
+   171→            {entries.length > 3 ? (
+   172→              <li className="inline-flex items-center px-2 py-1 text-xs text-muted-foreground">
+   173→                +{formatNumber(entries.length - 3)}
+   174→              </li>
+   175→            ) : null}
+   176→          </ul>
+   177→        </div>
+   178→        <Button asChild className="shrink-0 gap-2 font-semibold">
+   179→          <a href={primaryHref}>
+   180→            {t("home.reviewDue.cta")}
+   181→            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+   182→          </a>
+   183→        </Button>
+   184→      </div>
+   185→    </section>
+   186→  );
+   187→}
+   188→
+   189→/** Daily-goal band — a progress ring toward today's problem target. */
+   190→function TodayGoalCard({
+   191→  goal,
+   192→  today,
+   193→  onGoalChange,
+   194→}: {
+   195→  goal: number;
+   196→  today: number;
+   197→  onGoalChange: (n: number) => void;
+   198→}) {
+   199→  const { t, formatNumber } = useI18n();
+   200→  const done = today >= goal;
+   201→  const pct = Math.min(today / goal, 1);
+   202→
+   203→  return (
+   204→    <section
+   205→      aria-labelledby="goal-heading"
+   206→      className={cn(
+   207→        "animate-in fade-in slide-in-from-bottom-2 duration-300 border-b",
+   208→        done ? "border-success/25 bg-success/[0.06]" : "border-primary/20 bg-primary/[0.04]",
+   209→      )}
+   210→    >
+   211→      <div className="mx-auto flex max-w-6xl flex-col items-start gap-4 px-4 py-6 sm:px-6 sm:flex-row sm:items-center">
+   212→        <GoalRing done={done} pct={pct} today={today} goal={goal} />
+   213→        <div className="min-w-0 flex-1">
+   214→          <h2
+   215→            id="goal-heading"
+   216→            className={cn(
+   217→              "text-sm font-semibold uppercase tracking-wider",
+   218→              done ? "text-success" : "text-primary",
+   219→            )}
+   220→          >
+   221→            {t("goal.title")}
+   222→          </h2>
+   223→          <p className="mt-1.5 text-[15px] font-medium leading-snug">
+   224→            {t("goal.of", { done: formatNumber(today), total: formatNumber(goal) })}
+   225→            <span className="ml-2 text-sm font-normal text-muted-foreground">
+   226→              {done
+   227→                ? t("goal.done")
+   228→                : t("goal.remaining", { n: formatNumber(goal - today) })}
+   229→            </span>
+   230→          </p>
+   231→        </div>
+   232→        <div className="flex shrink-0 items-center gap-2">
+   233→          <DropdownMenu>
+   234→            <DropdownMenuTrigger asChild>
+   235→              <Button
+   236→                type="button"
+   237→                variant="ghost"
+   238→                size="sm"
+   239→                className="gap-1 px-2.5 text-xs text-muted-foreground"
+   240→                aria-label={t("goal.edit")}
+   241→              >
+   242→                <Target className="h-3.5 w-3.5" aria-hidden="true" />
+   243→                {t("goal.perDay", { n: formatNumber(goal) })}
+   244→                <ChevronDown className="h-3 w-3" aria-hidden="true" />
+   245→              </Button>
+   246→            </DropdownMenuTrigger>
+   247→            <DropdownMenuContent align="end" className="w-44">
+   248→              <DropdownMenuLabel>{t("goal.set")}</DropdownMenuLabel>
+   249→              <DropdownMenuSeparator />
+   250→              <DropdownMenuRadioGroup
+   251→                value={String(goal)}
+   252→                onValueChange={(v) => onGoalChange(Number(v))}
+   253→              >
+   254→                {GOAL_CHOICES.map((n) => (
+   255→                  <DropdownMenuRadioItem key={n} value={String(n)}>
+   256→                    {t("goal.setTo", { n: formatNumber(n) })}
+   257→                  </DropdownMenuRadioItem>
+   258→                ))}
+   259→              </DropdownMenuRadioGroup>
+   260→            </DropdownMenuContent>
+   261→          </DropdownMenu>
+   262→          {!done ? (
+   263→            <Button asChild className="gap-2 font-semibold">
+   264→              <a href={sessionHref({ mode: "mixed", subjects: ["math", "physics"], difficulty: "any", count: 5, seed: 0, easyWeighted: true })}>
+   265→                {today === 0 ? t("goal.start") : t("goal.continue")}
+   266→                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+   267→              </a>
+   268→            </Button>
+   269→          ) : null}
+   270→        </div>
+   271→      </div>
+   272→    </section>
+   273→  );
+   274→}
+   275→
+   276→/** SVG progress ring — animated stroke + count in the center. */
+   277→function GoalRing({ done, pct, today, goal }: { done: boolean; pct: number; today: number; goal: number }) {
+   278→  const { t, formatNumber } = useI18n();
+   279→  const R = 23;
+   280→  const C = 2 * Math.PI * R;
+   281→  return (
+   282→    <svg
+   283→      viewBox="0 0 56 56"
+   284→      className="h-14 w-14 shrink-0"
+   285→      role="img"
+   286→      aria-label={`${t("goal.ringLabel")}: ${formatNumber(today)}/${formatNumber(goal)}`}
+   287→    >
+   288→      <circle cx="28" cy="28" r={R} fill="none" stroke="var(--border)" strokeWidth="6" />
+   289→      <circle
+   290→        cx="28"
+   291→        cy="28"
+   292→        r={R}
+   293→        fill="none"
+   294→        stroke={done ? "var(--success)" : "var(--primary)"}
+   295→        strokeWidth="6"
+   296→        strokeLinecap="round"
+   297→        strokeDasharray={C}
+   298→        strokeDashoffset={C * (1 - pct)}
+   299→        transform="rotate(-90 28 28)"
+   300→        style={{ transition: "stroke-dashoffset 700ms cubic-bezier(0.22, 1, 0.36, 1)" }}
+   301→      />
+   302→      {done ? (
+   303→        <g fill="none" stroke="var(--success)" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+   304→          <path d="M19 29l6.5 6.5L37 23.5" />
+   305→        </g>
+   306→      ) : (
+   307→        <text
+   308→          x="28"
+   309→          y="32.5"
+   310→          textAnchor="middle"
+   311→          fontSize="16"
+   312→          fontWeight="700"
+   313→          fill="var(--foreground)"
+   314→          style={{ fontVariantNumeric: "tabular-nums" }}
+   315→        >
+   316→          {today}
+   317→        </text>
+   318→      )}
+   319→    </svg>
+   320→  );
+   321→}
+   322→
+   323→/** Smart-resume band — the most recently practiced topic, one click away. */
+   324→function ContinueCard({ stats }: { stats: OverallStats | null }) {
+   325→  const { t, lang, formatNumber } = useI18n();
+   326→
+   327→  const last = (() => {
+   328→    if (!stats) return null;
+   329→    const entries = Object.values(stats.byTopic).filter((s) => s.attempts > 0 && s.lastTs > 0);
+   330→    entries.sort((a, b) => b.lastTs - a.lastTs);
+   331→    return entries[0] ?? null;
+   332→  })();
+   333→  if (!last) return null;
+   334→
+   335→  const curriculum = last.subject === "math" ? mathCurriculum : physicsCurriculum;
+   336→  const topic = curriculum.find((tp) => tp.id === last.topicId);
+   337→  if (!topic) return null;
+   338→
+   339→  const sessionLink = sessionHref({
+   340→    mode: "topic",
+   341→    subjects: [last.subject],
+   342→    topicId: last.topicId,
+   343→    difficulty: "any",
+   344→    count: 10,
+   345→    seed: 0,
+   346→  });
+   347→
+   348→  let ago = "";
+   349→  try {
+   350→    ago = formatDistanceToNow(new Date(last.lastTs), {
+   351→      addSuffix: true,
+   352→      locale: lang === "es" ? dateEs : dateEn,
+   353→    });
+   354→  } catch {
+   355→    /* date-fns guard */
+   356→  }
+   357→
+   358→  return (
+   359→    <section
+   360→      aria-labelledby="continue-heading"
+   361→      className="animate-in fade-in slide-in-from-bottom-2 duration-300 border-b bg-secondary/40"
+   362→    >
+   363→      <div className="mx-auto flex max-w-6xl flex-col items-start gap-4 px-4 py-6 sm:px-6 sm:flex-row sm:items-center">
+   364→        <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+   365→          <History className="h-5 w-5" aria-hidden="true" />
+   366→        </span>
+   367→        <div className="flex-1">
+   368→          <h2 id="continue-heading" className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+   369→            {t("home.continue.title")}
+   370→          </h2>
+   371→          <p className="mt-1 text-lg font-medium leading-snug">
+   372→            <a
+   373→              href={href({ name: "topic", subject: last.subject, topicId: topic.id })}
+   374→              className="transition-colors hover:text-primary"
+   375→            >
+   376→              {topic.name[lang]}
+   377→            </a>
+   378→            <span className="ml-2 text-sm font-normal text-muted-foreground">
+   379→              {last.attempts === 1
+   380→                ? t("progress.topic.oneAttempt")
+   381→                : t("progress.topic.attempts", { n: formatNumber(last.attempts) })}
+   382→              {ago ? ` · ${ago}` : ""}
+   383→            </span>
+   384→          </p>
+   385→        </div>
+   386→        <Button asChild className="shrink-0 gap-2 font-semibold">
+   387→          <a href={sessionLink}>
+   388→            {t("home.continue.cta")}
+   389→            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+   390→          </a>
+   391→        </Button>
+   392→      </div>
+   393→    </section>
+   394→  );
+   395→}
+   396→
+   397→export function HomeView() {
+   398→  const { t, lang } = useI18n();
+   399→  const [stats, setStats] = useState<OverallStats | null>(null);
+   400→  const [reviewDue, setReviewDue] = useState<ReviewEntry[]>([]);
+   401→  const [goal, setGoal] = useState<number | null>(null);
+   402→  const [today, setToday] = useState(0);
+   403→
+   404→  // localStorage is an external system — read async after mount (no hydration
+   405→  // mismatch, and the band gracefully disappears when there's no history)
+   406→  useEffect(() => {
+   407→    let cancelled = false;
+   408→    queueMicrotask(() => {
+   409→      if (!cancelled) {
+   410→        const state = loadProgress();
+   411→        setStats(computeStats(state));
+   412→        setReviewDue(dueReviewEntries());
+   413→        setGoal(loadDailyGoal());
+   414→        setToday(countToday(state.records));
+   415→      }
+   416→    });
+   417→    return () => {
+   418→      cancelled = true;
+   419→    };
+   420→  }, []);
+   421→
+   422→  function handleGoalChange(n: number) {
+   423→    saveDailyGoal(n);
+   424→    setGoal(n);
+   425→  }
+   426→
+   427→  const quickHref = sessionHref({
+   428→    mode: "mixed",
+   429→    subjects: ["math", "physics"],
+   430→    difficulty: "any",
+   431→    count: 5,
+   432→    seed: 0,
+   433→    easyWeighted: true,
+   434→  });
+   435→
+   436→  const steps = [
+   437→    { icon: BookOpenCheck, title: t("home.how.step1.title"), desc: t("home.how.step1.desc") },
+   438→    { icon: CheckCircle2, title: t("home.how.step2.title"), desc: t("home.how.step2.desc") },
+   439→    { icon: Lightbulb, title: t("home.how.step3.title"), desc: t("home.how.step3.desc") },
+   440→    { icon: Sigma, title: t("home.how.step4.title"), desc: t("home.how.step4.desc") },
+   441→  ];
+   442→
+   443→  return (
+   444→    <div>
+   445→      {/* hero */}
+   446→      <section className="bg-paper-grain border-b bg-graph-paper">
+   447→        <div className="relative mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-[1.15fr_1fr] lg:items-center">
+   448→          <div>
+   449→            <p className="flex items-center gap-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-foreground/75">
+   450→              <span className="font-serif text-[16px] italic leading-none text-subject-physics" aria-hidden="true">δ</span>
+   451→              {t("home.hero.badge")}
+   452→            </p>
+   453→            <h1 className="mt-5 font-serif text-[2.55rem] font-semibold leading-[1.12] tracking-tight text-balance sm:text-5xl">
+   454→              {t("home.hero.title1")}
+   455→              <br />
+   456→              <span className="accent-serif text-subject-physics">{t("home.hero.title2")}</span>
+   457→            </h1>
+   458→            <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
+   459→              {t("home.hero.subtitle")}
+   460→            </p>
+   461→            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+   462→              <Button asChild size="lg" className="h-12 px-7 text-[15px] font-semibold">
+   463→                <a href={href({ name: "subject", subject: "math" })}>
+   464→                  {t("home.hero.ctaMain")}
+   465→                  <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+   466→                </a>
+   467→              </Button>
+   468→              <Button asChild size="lg" variant="outline" className="h-12 border-foreground/25 bg-card px-7 text-[15px] shadow-sm hover:border-foreground/40 hover:bg-secondary/60">
+   469→                <a href={quickHref}>{t("home.hero.ctaQuick")}</a>
+   470→              </Button>
+   471→            </div>
+   472→            <dl className="mt-13 grid max-w-lg grid-cols-3 gap-x-8 gap-y-4 border-t pt-6.5">
+   473→              {[
+   474→                { value: String(mathCurriculum.length), label: t("home.hero.stat1") },
+   475→                { value: String(physicsCurriculum.length), label: t("home.hero.stat2") },
+   476→                { value: "∞", label: t("home.hero.stat3") },
+   477→              ].map((s, i) => (
+   478→                <div key={i} className={cn("min-w-0 border-l border-foreground/15 pl-4", i === 0 && "border-l-0 pl-0")}>
+   479→                  <dt className="sr-only">{s.label}</dt>
+   480→                  <dd className="font-serif text-xl font-semibold leading-none tabular-nums text-foreground/85">{s.value}</dd>
+   481→                  <dd className="mt-2 text-xs leading-snug text-muted-foreground">{s.label}</dd>
+   482→                </div>
+   483→              ))}
+   484→            </dl>
+   485→          </div>
+   486→          <HeroCurve />
+   487→        </div>
+   488→      </section>
+   489→
+   490→      {/* spaced repetition — topics whose review date has arrived */}
+   491→      <ReviewDueCard entries={reviewDue} />
+   492→
+   493→      {/* daily goal — progress ring toward today's target */}
+   494→      {goal !== null ? (
+   495→        <TodayGoalCard goal={goal} today={today} onGoalChange={handleGoalChange} />
+   496→      ) : null}
+   497→
+   498→      {/* smart resume — only when there is practice history */}
+   499→      <ContinueCard stats={stats} />
+   500→
+   501→      {/* subjects */}
+   502→      <section className="mx-auto max-w-6xl px-4 py-14 sm:px-6" aria-labelledby="subjects-heading">
+   503→        <p className="rule-label">{t("home.section.subjects")}</p>
+   504→        <h2 id="subjects-heading" className="mt-3 font-serif text-2xl font-semibold tracking-tight sm:text-3xl">
+   505→          {t("home.subjects.title")}
+   506→        </h2>
+   507→        <p className="mt-2 text-muted-foreground">{t("home.subjects.subtitle")}</p>
+   508→        <div className="mt-7 grid gap-5 md:grid-cols-2">
+   509→          <a
+   510→            href={href({ name: "subject", subject: "math" })}
+   511→            className="group rounded-lg border bg-card p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:border-foreground/25 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:p-8"
+   512→          >
+   513→            <span className="inline-flex h-12 w-12 items-center justify-center rounded-lg border border-subject-math/20 bg-subject-math/5 text-subject-math">
+   514→              <Calculator className="h-6 w-6" aria-hidden="true" />
+   515→            </span>
+   516→            <h3 className="mt-4 font-serif text-2xl font-semibold">{t("subject.math.title")}</h3>
+   517→            <p className="mt-2 leading-relaxed text-muted-foreground">{t("home.subjects.mathDesc")}</p>
+   518→            <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-subject-math">
+   519→              {t("home.subjects.explore")}
+   520→              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+   521→            </span>
+   522→          </a>
+   523→          <a
+   524→            href={href({ name: "subject", subject: "physics" })}
+   525→            className="group rounded-lg border bg-card p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:border-foreground/25 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:p-8"
+   526→          >
+   527→            <span className="inline-flex h-12 w-12 items-center justify-center rounded-lg border border-subject-physics/25 bg-subject-physics/[0.07] text-subject-physics">
+   528→              <Atom className="h-6 w-6" aria-hidden="true" />
+   529→            </span>
+   530→            <h3 className="mt-4 font-serif text-2xl font-semibold">{t("subject.physics.title")}</h3>
+   531→            <p className="mt-2 leading-relaxed text-muted-foreground">{t("home.subjects.physicsDesc")}</p>
+   532→            <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-subject-physics">
+   533→              {t("home.subjects.explore")}
+   534→              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+   535→            </span>
+   536→          </a>
+   537→        </div>
+   538→      </section>
+   539→
+   540→      {/* quick practice */}
+   541→      <section className="border-y bg-card/60" aria-labelledby="quick-heading">
+   542→        <div className="mx-auto flex max-w-6xl flex-col items-start gap-4 px-4 py-10 sm:px-6 sm:flex-row sm:items-center">
+   543→          <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+   544→            <Zap className="h-5 w-5" aria-hidden="true" />
+   545→          </span>
+   546→          <div className="flex-1">
+   547→            <h2 id="quick-heading" className="text-lg font-semibold">
+   548→              {t("home.quick.title")}
+   549→            </h2>
+   550→            <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{t("home.quick.desc")}</p>
+   551→          </div>
+   552→          <Button asChild className="shrink-0 font-semibold">
+   553→            <a href={quickHref}>
+   554→              {t("home.quick.start")}
+   555→              <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+   556→            </a>
+   557→          </Button>
+   558→        </div>
+   559→      </section>
+   560→
+   561→      {/* how it works */}
+   562→      <section className="mx-auto max-w-6xl px-4 py-14 sm:px-6" aria-labelledby="how-heading">
+   563→        <p className="rule-label">{t("home.section.method")}</p>
+   564→        <h2 id="how-heading" className="mt-3 font-serif text-2xl font-semibold tracking-tight sm:text-3xl">
+   565→          {t("home.how.title")}
+   566→        </h2>
+   567→        <p className="mt-2 max-w-2xl text-muted-foreground">{t("home.how.desc")}</p>
+   568→        <ol className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+   569→          {steps.map((s, i) => (
+   570→            <li key={i} className="relative rounded-lg border bg-card p-5">
+   571→              <div className="flex items-center justify-between">
+   572→                <s.icon className="h-5 w-5 text-subject-physics" aria-hidden="true" />
+   573→                <span className="font-serif text-3xl font-semibold italic text-border" aria-hidden="true">
+   574→                  {i + 1}
+   575→                </span>
+   576→              </div>
+   577→              <h3 className="mt-4 font-semibold">{s.title}</h3>
+   578→              <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{s.desc}</p>
+   579→            </li>
+   580→          ))}
+   581→        </ol>
+   582→      </section>
+   583→
+   584→      {/* tutor */}
+   585→      <section className="border-t bg-card/60" aria-labelledby="tutor-heading">
+   586→        <div className="mx-auto grid max-w-6xl gap-8 px-4 py-14 sm:px-6 lg:grid-cols-[auto_1fr] lg:items-center">
+   587→          <Image
+   588→            src={siteConfig.photo}
+   589→            alt={`${siteConfig.brandName} — ${siteConfig.tutorName}`}
+   590→            width={160}
+   591→            height={160}
+   592→            className="h-32 w-32 rounded-lg border object-cover sm:h-40 sm:w-40"
+   593→          />
+   594→          <div>
+   595→            <p className="rule-label">{t("home.section.tutor")}</p>
+   596→            <h2 id="tutor-heading" className="mt-3 font-serif text-2xl font-semibold tracking-tight">
+   597→              {t("home.tutor.title")}
+   598→            </h2>
+   599→            <p className="mt-1 text-sm font-medium text-primary">{siteConfig.role[lang]}</p>
+   600→            <p className="mt-4 max-w-2xl leading-relaxed text-muted-foreground">
+   601→              {t("home.tutor.bio1", { tutorName: siteConfig.tutorName })}
+   602→            </p>
+   603→            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+   604→              {t("home.tutor.bio2")}
+   605→            </p>
+   606→            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+   607→              <Button asChild className="gap-2 font-semibold">
+   608→                <a href={`https://wa.me/${siteConfig.whatsapp.number}`} target="_blank" rel="noopener noreferrer">
+   609→                  <MessageCircle className="h-4 w-4" aria-hidden="true" />
+   610→                  {t("home.tutor.cta")}
+   611→                </a>
+   612→              </Button>
+   613→              <span className="font-mono text-sm tabular-nums text-muted-foreground" aria-label={siteConfig.whatsapp.display}>
+   614→                {siteConfig.whatsapp.display}
+   615→              </span>
+   616→            </div>
+   617→          </div>
+   618→        </div>
+   619→      </section>
+   620→
+   621→      {/* CTA — ink band, chalk delta watermark */}
+   622→      <section className="relative overflow-hidden border-t bg-primary text-primary-foreground" aria-labelledby="cta-heading">
+   623→        <span
+   624→          className="pointer-events-none absolute -right-2 -top-10 select-none font-serif text-[11rem] italic leading-none text-primary-foreground/[0.07] sm:text-[15rem]"
+   625→          aria-hidden="true"
+   626→        >
+   627→          δ
+   628→        </span>
+   629→        <div className="relative mx-auto flex max-w-6xl flex-col items-start gap-5 px-4 py-12 sm:px-6 sm:flex-row sm:items-center sm:justify-between">
+   630→          <div>
+   631→            <h2 id="cta-heading" className="font-serif text-2xl font-semibold tracking-tight">
+   632→              {t("home.cta.title")}
+   633→            </h2>
+   634→            <p className="mt-1.5 text-primary-foreground/80">{t("home.cta.desc")}</p>
+   635→          </div>
+   636→          <Button
+   637→            asChild
+   638→            size="lg"
+   639→            className="shrink-0 gap-2 bg-primary-foreground font-semibold text-primary hover:bg-primary-foreground/90"
+   640→          >
+   641→            <a href={`https://wa.me/${siteConfig.whatsapp.number}`} target="_blank" rel="noopener noreferrer">
+   642→              <MessageCircle className="h-4 w-4" aria-hidden="true" />
+   643→              {t("home.cta.button")}
+   644→            </a>
+   645→          </Button>
+   646→        </div>
+   647→      </section>
+   648→    </div>
+   649→  );
+   650→}
+   651→

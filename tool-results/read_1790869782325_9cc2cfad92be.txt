@@ -1,0 +1,422 @@
+  1164→          ),
+  1165→          step(
+  1166→            "approach",
+  1167→            "Cadena completa: **Energía → cantidad de movimiento → rozamiento**. Se resuelve al revés: la distancia de frenado da $V$; la conservación del momento en el choque da $v_1$; la energía en la rampa da $h$. En el choque NO se conserva la energía cinética.",
+  1168→            "Full chain: **Energy → momentum → friction**. Solve it backwards: the braking distance gives $V$; momentum conservation in the collision gives $v_1$; energy on the ramp gives $h$. Kinetic energy is NOT conserved in the collision.",
+  1169→          ),
+  1170→          step(
+  1171→            "calculation",
+  1172→            `**Frenado:** $V = \\sqrt{2\\mu g\\,d} = \\sqrt{2 \\cdot ${tok(pick.mu)} \\cdot 9{,}8 \\cdot ${tok(pick.d)}} = ${tok(V)}\\ \\text{m/s}$<br>**Choque:** $v_1 = \\frac{m_1+m_2}{m_1}V = ${tok(r1(ratio))} \\cdot ${tok(V)} = ${tok(v1)}\\ \\text{m/s}$<br>**Rampa:** $m_1 g h = \\frac{1}{2}m_1 v_1^2 \\Rightarrow h = \\frac{v_1^2}{2g} = \\frac{${tok(r2(v1 * v1))}}{19{,}6} = ${tok(h)}\\ \\text{m}$`,
+  1173→            `**Braking:** $V = \\sqrt{2\\mu g\\,d} = \\sqrt{2 \\cdot ${tok(pick.mu)} \\cdot 9.8 \\cdot ${tok(pick.d)}} = ${tok(V)}\\ \\text{m/s}$<br>**Collision:** $v_1 = \\frac{m_1+m_2}{m_1}V = ${tok(r1(ratio))} \\cdot ${tok(V)} = ${tok(v1)}\\ \\text{m/s}$<br>**Ramp:** $m_1 g h = \\frac{1}{2}m_1 v_1^2 \\Rightarrow h = \\frac{v_1^2}{2g} = \\frac{${tok(r2(v1 * v1))}}{19.6} = ${tok(h)}\\ \\text{m}$`,
+  1174→          ),
+  1175→          step(
+  1176→            "result",
+  1177→            `El primer bloque partió desde $h = ${tok(h)}\\ \\text{m}$. (Comprobación directa: $h = \\mu d\\left(\\frac{m_1+m_2}{m_1}\\right)^2$.)`,
+  1178→            `The first block started from $h = ${tok(h)}\\ \\text{m}$. (Direct check: $h = \\mu d\\left(\\frac{m_1+m_2}{m_1}\\right)^2$.)`,
+  1179→          ),
+  1180→        ],
+  1181→      };
+  1182→    },
+  1183→  ),
+  1184→
+  1185→  /* ---------------------------------------------------------------- */
+  1186→  /* Spring energy → horizontal projectile: range from the table       */
+  1187→  /* ---------------------------------------------------------------- */
+  1188→  template(
+  1189→    {
+  1190→      id: "pmx-spr-proj-01",
+  1191→      subject: "physics",
+  1192→      topicId: "physics-mixed",
+  1193→      subtopicId: "multi-step",
+  1194→      difficulty: "hard",
+  1195→      questionType: "numeric-unit",
+  1196→      estimatedTimeSec: 360,
+  1197→      tags: ["spring", "energy", "projectile", "horizontal-launch"],
+  1198→      prerequisites: ["work-energy", "kinematics"],
+  1199→      reasoning: "multi-concept",
+  1200→    },
+  1201→    (rng) => {
+  1202→      const pick = rng.pick([
+  1203→        { k: 100, x: 0.2, m: 1, H: 1.225 },
+  1204→        { k: 100, x: 0.3, m: 1, H: 1.225 },
+  1205→        { k: 400, x: 0.2, m: 1, H: 1.225 },
+  1206→        { k: 100, x: 0.5, m: 1, H: 1.225 },
+  1207→        { k: 400, x: 0.2, m: 4, H: 1.225 },
+  1208→        { k: 400, x: 0.2, m: 1, H: 4.9 },
+  1209→        { k: 900, x: 0.1, m: 1, H: 4.9 },
+  1210→        { k: 100, x: 0.2, m: 1, H: 4.9 },
+  1211→        { k: 400, x: 0.4, m: 4, H: 4.9 },
+  1212→      ]);
+  1213→      const E = r2(0.5 * pick.k * pick.x * pick.x);
+  1214→      const v = r2(pick.x * Math.sqrt(pick.k / pick.m));
+  1215→      const t = r2(Math.sqrt((2 * pick.H) / G_ACC));
+  1216→      const R = r2(v * t);
+  1217→      return {
+  1218→        skill: L(
+  1219→          "Muelle → tiro horizontal: alcance desde la mesa",
+  1220→          "Spring → horizontal launch: range from the table",
+  1221→        ),
+  1222→        statement: L(
+  1223→          `Un carrito de $m = ${tok(pick.m)}\\ \\text{kg}$ está apoyado en una pista horizontal contra un muelle de constante $k = ${pick.k}\\ \\text{N/m}$ comprimido $x = ${tok(pick.x)}\\ \\text{m}$. Al soltarse, el muelle lo empuja (sin rozamiento) y el carrito sale **horizontalmente** desde el borde de una mesa de altura $H = ${tok(pick.H)}\\ \\text{m}$. ¿A qué distancia del pie de la mesa aterriza? (en m, 2 cifras significativas; $g = 9{,}8\\ \\text{m/s}^2$)`,
+  1224→          `A cart of $m = ${tok(pick.m)}\\ \\text{kg}$ rests on a horizontal track against a spring of constant $k = ${pick.k}\\ \\text{N/m}$ compressed by $x = ${tok(pick.x)}\\ \\text{m}$. When released, the spring pushes it (frictionless) and the cart flies off **horizontally** from the edge of a table of height $H = ${tok(pick.H)}\\ \\text{m}$. How far from the foot of the table does it land? (in m, 2 significant figures; $g = 9.8\\ \\text{m/s}^2$)`,
+  1225→        ),
+  1226→        diagram: {
+  1227→          kind: "projectile",
+  1228→          v0: v,
+  1229→          angleDeg: 0,
+  1230→          h0: pick.H,
+  1231→          g: 9.8,
+  1232→          showAnnotations: true,
+  1233→        },
+  1234→        diagramLabel: L(
+  1235→          `Trayectoria del carrito lanzado horizontalmente a ${tok(v)} m/s desde una mesa de ${tok(pick.H)} m de altura.`,
+  1236→          `Trajectory of the cart launched horizontally at ${tok(v)} m/s from a ${tok(pick.H)} m high table.`,
+  1237→        ),
+  1238→        answer: {
+  1239→          kind: "numeric-unit",
+  1240→          value: R,
+  1241→          tolerance: { mode: "sigfig", value: 2 },
+  1242→          units: ["m"],
+  1243→          unitChoices: ["m", "cm", "m/s", "J"],
+  1244→        },
+  1245→        hints: [
+  1246→          L(
+  1247→            "Dos etapas encadenadas: primero la rapidez de salida del muelle, después el tiro horizontal.",
+  1248→            "Two chained stages: first the launch speed from the spring, then the horizontal projectile.",
+  1249→          ),
+  1250→          L(
+  1251→            "Energía elástica → cinética: $\\frac{1}{2}kx^2 = \\frac{1}{2}mv^2 \\Rightarrow v = x\\sqrt{k/m}$.",
+  1252→            "Elastic → kinetic energy: $\\frac{1}{2}kx^2 = \\frac{1}{2}mv^2 \\Rightarrow v = x\\sqrt{k/m}$.",
+  1253→          ),
+  1254→          L(
+  1255→            "Caída desde la mesa: $t = \\sqrt{2H/g}$ y el alcance es $R = v\\,t$.",
+  1256→            "Fall from the table: $t = \\sqrt{2H/g}$ and the range is $R = v\\,t$.",
+  1257→          ),
+  1258→        ],
+  1259→        answerDisplay: L(`$R = ${tok(R)}\\ \\text{m}$`, `$R = ${tok(R)}\\ \\text{m}$`),
+  1260→        solution: [
+  1261→          step(
+  1262→            "given",
+  1263→            `$k = ${pick.k}\\ \\text{N/m}$, $x = ${tok(pick.x)}\\ \\text{m}$, $m = ${tok(pick.m)}\\ \\text{kg}$, $H = ${tok(pick.H)}\\ \\text{m}$, $g = 9{,}8\\ \\text{m/s}^2$.`,
+  1264→            `$k = ${pick.k}\\ \\text{N/m}$, $x = ${tok(pick.x)}\\ \\text{m}$, $m = ${tok(pick.m)}\\ \\text{kg}$, $H = ${tok(pick.H)}\\ \\text{m}$, $g = 9.8\\ \\text{m/s}^2$.`,
+  1265→          ),
+  1266→          step(
+  1267→            "approach",
+  1268→            "Cadena: **energía elástica del muelle → tiro horizontal**. La rapidez de salida sale de conservar la energía; el alcance, de la caída libre con velocidad horizontal constante.",
+  1269→            "Chain: **spring elastic energy → horizontal projectile**. The launch speed comes from energy conservation; the range, from free fall with constant horizontal velocity.",
+  1270→          ),
+  1271→          step(
+  1272→            "calculation",
+  1273→            `**Muelle:** $\\frac{1}{2}kx^2 = \\frac{1}{2}mv^2 \\Rightarrow v = x\\sqrt{\\frac{k}{m}} = ${tok(pick.x)}\\sqrt{\\frac{${pick.k}}{${tok(pick.m)}}} = ${tok(v)}\\ \\text{m/s}$ (energía almacenada: $${tok(E)}\\ \\text{J}$)<br>**Caída:** $t = \\sqrt{\\frac{2H}{g}} = \\sqrt{\\frac{${tok(r2(2 * pick.H))}}{9{,}8}} = ${tok(t)}\\ \\text{s}$<br>**Alcance:** $R = v\\,t = ${tok(v)} \\cdot ${tok(t)} = ${tok(R)}\\ \\text{m}$`,
+  1274→            `**Spring:** $\\frac{1}{2}kx^2 = \\frac{1}{2}mv^2 \\Rightarrow v = x\\sqrt{\\frac{k}{m}} = ${tok(pick.x)}\\sqrt{\\frac{${pick.k}}{${tok(pick.m)}}} = ${tok(v)}\\ \\text{m/s}$ (stored energy: $${tok(E)}\\ \\text{J}$)<br>**Fall:** $t = \\sqrt{\\frac{2H}{g}} = \\sqrt{\\frac{${tok(r2(2 * pick.H))}}{9.8}} = ${tok(t)}\\ \\text{s}$<br>**Range:** $R = v\\,t = ${tok(v)} \\cdot ${tok(t)} = ${tok(R)}\\ \\text{m}$`,
+  1275→          ),
+  1276→          step(
+  1277→            "result",
+  1278→            `El carrito aterriza a $R = ${tok(R)}\\ \\text{m}$ del pie de la mesa.`,
+  1279→            `The cart lands $R = ${tok(R)}\\ \\text{m}$ from the foot of the table.`,
+  1280→          ),
+  1281→        ],
+  1282→      };
+  1283→    },
+  1284→  ),
+  1285→
+  1286→  /* ---------------------------------------------------------------- */
+  1287→  /* Gravitation + circular + energy: Hohmann transfer boost           */
+  1288→  /* ---------------------------------------------------------------- */
+  1289→  template(
+  1290→    {
+  1291→      id: "pmx-orbit-02",
+  1292→      subject: "physics",
+  1293→      topicId: "physics-mixed",
+  1294→      subtopicId: "exam-style",
+  1295→      difficulty: "challenge",
+  1296→      questionType: "numeric-unit",
+  1297→      estimatedTimeSec: 480,
+  1298→      tags: ["gravitation", "circular-motion", "orbit", "energy-conservation"],
+  1299→      prerequisites: ["circular-gravitation", "work-energy"],
+  1300→      reasoning: "multi-concept",
+  1301→    },
+  1302→    (rng) => {
+  1303→      const pick = rng.pick([
+  1304→        { r1: 1.0e7, r2: 2.5e7 },
+  1305→        { r1: 1.0e7, r2: 4.0e7 },
+  1306→        { r1: 1.6e7, r2: 4.0e7 },
+  1307→        { r1: 2.5e7, r2: 4.0e7 },
+  1308→        { r1: 1.6e7, r2: 2.5e7 },
+  1309→      ]);
+  1310→      const GM = G_CONST * M_EARTH;
+  1311→      const sci = (v: number) => ({
+  1312→        man: Number((v / Math.pow(10, Math.floor(Math.log10(v)))).toPrecision(2)),
+  1313→        exp: Math.floor(Math.log10(v)),
+  1314→      });
+  1315→      const s1 = sci(pick.r1);
+  1316→      const s2 = sci(pick.r2);
+  1317→      const v1 = Math.sqrt(GM / pick.r1);
+  1318→      const vpSq = (2 * GM * pick.r2) / (pick.r1 * (pick.r1 + pick.r2));
+  1319→      const vp = Math.sqrt(vpSq);
+  1320→      const dv = sig3(vp - v1);
+  1321→      return {
+  1322→        skill: L(
+  1323→          "Transferencia entre órbitas: impulso necesario (gravitación + energía)",
+  1324→          "Orbit transfer: required boost (gravitation + energy)",
+  1325→        ),
+  1326→        statement: L(
+  1327→          `Un satélite describe una órbita circular de radio $r_1 = ${tok(s1.man)}\\times10^{${s1.exp}}\\ \\text{m}$ alrededor de la Tierra y debe pasar a una órbita circular de radio $r_2 = ${tok(s2.man)}\\times10^{${s2.exp}}\\ \\text{m}$. Para eso entra en una órbita de transferencia **elíptica** tangente a las dos órbitas. ¿En cuánto debe **aumentar** su rapidez en el instante de iniciar la transferencia? (en m/s, 3 cifras significativas; $G = 6{,}67\\times10^{-11}\\ \\text{N·m}^2/\\text{kg}^2$, $M_{\\text{Tierra}} = 6\\times10^{24}\\ \\text{kg}$)`,
+  1328→          `A satellite moves on a circular orbit of radius $r_1 = ${tok(s1.man)}\\times10^{${s1.exp}}\\ \\text{m}$ around the Earth and must move to a circular orbit of radius $r_2 = ${tok(s2.man)}\\times10^{${s2.exp}}\\ \\text{m}$. To do so it enters an **elliptical** transfer orbit tangent to both circles. By how much must it **increase** its speed at the moment it starts the transfer? (in m/s, 3 significant figures; $G = 6.67\\times10^{-11}\\ \\text{N·m}^2/\\text{kg}^2$, $M_{\\text{Earth}} = 6\\times10^{24}\\ \\text{kg}$)`,
+  1329→        ),
+  1330→        answer: {
+  1331→          kind: "numeric-unit",
+  1332→          value: dv,
+  1333→          tolerance: { mode: "sigfig", value: 3 },
+  1334→          units: ["m/s"],
+  1335→          unitChoices: ["m/s", "km/s", "km/h", "m/s^2"],
+  1336→        },
+  1337→        hints: [
+  1338→          L(
+  1339→            "Necesitas dos rapideces: la de la órbita circular baja ($\\frac{GMm}{r^2} = \\frac{mv^2}{r}$) y la del perigeo de la elipse.",
+  1340→            "You need two speeds: the one on the low circular orbit ($\\frac{GMm}{r^2} = \\frac{mv^2}{r}$) and the one at the perigee of the ellipse.",
+  1341→          ),
+  1342→          L(
+  1343→            "En la elipse se conservan la energía mecánica y el momento angular entre perigeo ($r_1$, $v_p$) y apogeo ($r_2$, $v_a$): $\\frac{1}{2}v_p^2 - \\frac{GM}{r_1} = \\frac{1}{2}v_a^2 - \\frac{GM}{r_2}$ y $r_1 v_p = r_2 v_a$.",
+  1344→            "On the ellipse both mechanical energy and angular momentum are conserved between perigee ($r_1$, $v_p$) and apogee ($r_2$, $v_a$): $\\frac{1}{2}v_p^2 - \\frac{GM}{r_1} = \\frac{1}{2}v_a^2 - \\frac{GM}{r_2}$ and $r_1 v_p = r_2 v_a$.",
+  1345→          ),
+  1346→          L(
+  1347→            "Sustituyendo $v_a = \\frac{r_1}{r_2}v_p$ queda $v_p^2 = \\frac{2GM\\,r_2}{r_1(r_1+r_2)}$; el aumento pedido es $\\Delta v = v_p - v_1$.",
+  1348→            "Substituting $v_a = \\frac{r_1}{r_2}v_p$ leaves $v_p^2 = \\frac{2GM\\,r_2}{r_1(r_1+r_2)}$; the required boost is $\\Delta v = v_p - v_1$.",
+  1349→          ),
+  1350→        ],
+  1351→        answerDisplay: L(`$\\Delta v = ${tok(dv)}\\ \\text{m/s}$`, `$\\Delta v = ${tok(dv)}\\ \\text{m/s}$`),
+  1352→        solution: [
+  1353→          step(
+  1354→            "given",
+  1355→            `$r_1 = ${tok(s1.man)}\\times10^{${s1.exp}}\\ \\text{m}$, $r_2 = ${tok(s2.man)}\\times10^{${s2.exp}}\\ \\text{m}$, $G = 6{,}67\\times10^{-11}\\ \\text{N·m}^2/\\text{kg}^2$, $M = 6\\times10^{24}\\ \\text{kg}$; órbita de transferencia elíptica tangente a ambas.`,
+  1356→            `$r_1 = ${tok(s1.man)}\\times10^{${s1.exp}}\\ \\text{m}$, $r_2 = ${tok(s2.man)}\\times10^{${s2.exp}}\\ \\text{m}$, $G = 6.67\\times10^{-11}\\ \\text{N·m}^2/\\text{kg}^2$, $M = 6\\times10^{24}\\ \\text{kg}$; elliptical transfer orbit tangent to both.`,
+  1357→          ),
+  1358→          step(
+  1359→            "approach",
+  1360→            "Cadena: **gravitación → dinámica circular → conservación (energía + momento angular)** en la elipse, sin cálculo diferencial. Primero $v_1$ en la órbita circular; después $v_p$ en el perigeo de la elipse combinando las dos conservaciones; el impulso es la diferencia.",
+  1361→            "Chain: **gravitation → circular dynamics → conservation (energy + angular momentum)** on the ellipse, no calculus needed. First $v_1$ on the circular orbit; then $v_p$ at the perigee of the ellipse by combining both conservations; the boost is the difference.",
+  1362→          ),
+  1363→          step(
+  1364→            "calculation",
+  1365→            `$GM = 6{,}67\\times10^{-11} \\cdot 6\\times10^{24} \\approx 4{,}0\\times10^{14}\\ \\text{m}^3/\\text{s}^2$<br>**Órbita circular baja:** $v_1 = \\sqrt{\\frac{GM}{r_1}} = ${tok(Math.round(v1))}\\ \\text{m/s}$<br>**Perigeo de la elipse:** con $v_a = \\frac{r_1}{r_2}v_p$ y la energía: $v_p^2 = \\frac{2GM\\,r_2}{r_1(r_1+r_2)} = ${tok((vpSq / 1e7).toFixed(2))}\\times10^{7}\\ \\text{m}^2/\\text{s}^2 \\Rightarrow v_p = ${tok(Math.round(vp))}\\ \\text{m/s}$<br>$\\Delta v = ${tok(Math.round(vp))} - ${tok(Math.round(v1))} = ${tok(Math.round(vp - v1))}\\ \\text{m/s}$`,
+  1366→            `$GM = 6.67\\times10^{-11} \\cdot 6\\times10^{24} \\approx 4.0\\times10^{14}\\ \\text{m}^3/\\text{s}^2$<br>**Low circular orbit:** $v_1 = \\sqrt{\\frac{GM}{r_1}} = ${tok(Math.round(v1))}\\ \\text{m/s}$<br>**Perigee of the ellipse:** with $v_a = \\frac{r_1}{r_2}v_p$ and energy: $v_p^2 = \\frac{2GM\\,r_2}{r_1(r_1+r_2)} = ${tok((vpSq / 1e7).toFixed(2))}\\times10^{7}\\ \\text{m}^2/\\text{s}^2 \\Rightarrow v_p = ${tok(Math.round(vp))}\\ \\text{m/s}$<br>$\\Delta v = ${tok(Math.round(vp))} - ${tok(Math.round(v1))} = ${tok(Math.round(vp - v1))}\\ \\text{m/s}$`,
+  1367→          ),
+  1368→          step(
+  1369→            "result",
+  1370→            `El satélite debe acelerar unos $${tok(dv)}\\ \\text{m/s}$ para entrar en la órbita de transferencia (más adelante necesitará otro impulso para circularizar en $r_2$).`,
+  1371→            `The satellite must speed up by about $${tok(dv)}\\ \\text{m/s}$ to enter the transfer orbit (later it will need another boost to circularise at $r_2$).`,
+  1372→          ),
+  1373→        ],
+  1374→      };
+  1375→    },
+  1376→  ),
+  1377→
+  1378→  /* ---------------------------------------------------------------- */
+  1379→  /* Rotational + collision: disk dropped on a spinning disk           */
+  1380→  /* ---------------------------------------------------------------- */
+  1381→  template(
+  1382→    {
+  1383→      id: "pmx-rot-coll-01",
+  1384→      subject: "physics",
+  1385→      topicId: "physics-mixed",
+  1386→      subtopicId: "multi-step",
+  1387→      difficulty: "hard",
+  1388→      questionType: "numeric-unit",
+  1389→      estimatedTimeSec: 300,
+  1390→      tags: ["rotational-motion", "angular-momentum", "collisions", "energy"],
+  1391→      prerequisites: ["rotational-motion", "momentum"],
+  1392→      reasoning: "multi-concept",
+  1393→    },
+  1394→    (rng) => {
+  1395→      const pick = rng.pick([
+  1396→        { M1: 4, R1: 0.5, w1: 8, M2: 4, R2: 0.5 },
+  1397→        { M1: 2, R1: 0.4, w1: 10, M2: 2, R2: 0.4 },
+  1398→        { M1: 8, R1: 0.5, w1: 6, M2: 4, R2: 0.5 },
+  1399→        { M1: 6, R1: 0.4, w1: 12, M2: 6, R2: 0.4 },
+  1400→        { M1: 2, R1: 0.6, w1: 10, M2: 8, R2: 0.6 },
+  1401→        { M1: 10, R1: 0.3, w1: 16, M2: 10, R2: 0.3 },
+  1402→      ]);
+  1403→      const askOmega = rng.bool();
+  1404→      const I1 = 0.5 * pick.M1 * pick.R1 * pick.R1;
+  1405→      const I2 = 0.5 * pick.M2 * pick.R2 * pick.R2;
+  1406→      const w = I1 * pick.w1 / (I1 + I2);
+  1407→      const Ei = 0.5 * I1 * pick.w1 * pick.w1;
+  1408→      const Ef = 0.5 * (I1 + I2) * w * w;
+  1409→      const dE = r2(Ei - Ef);
+  1410→      if (askOmega) {
+  1411→        return {
+  1412→          skill: L(
+  1413→            "Disco sobre disco giratorio: rapidez angular común",
+  1414→            "Disk dropped on a spinning disk: common angular speed",
+  1415→          ),
+  1416→          statement: L(
+  1417→            `Un disco de $M_1 = ${pick.M1}\\ \\text{kg}$ y radio $R_1 = ${tok(pick.R1)}\\ \\text{m}$ gira con $\\omega_1 = ${pick.w1}\\ \\text{rad/s}$ alrededor de su eje vertical, sin rozamiento con el suelo. Se deja caer suavemente, **coaxial**, un segundo disco de $M_2 = ${pick.M2}\\ \\text{kg}$ y radio $R_2 = ${tok(pick.R2)}\\ \\text{m}$ que estaba en reposo, y ambos quedan girando **juntos** como un solo cuerpo rígido. Calcula la **rapidez angular común** final. (en rad/s, 2 cifras significativas; momento de inercia de un disco: $I = \\frac{1}{2}MR^2$)`,
+  1418→            `A disk of $M_1 = ${pick.M1}\\ \\text{kg}$ and radius $R_1 = ${tok(pick.R1)}\\ \\text{m}$ spins at $\\omega_1 = ${pick.w1}\\ \\text{rad/s}$ about its vertical axis, frictionless. A second disk of $M_2 = ${pick.M2}\\ \\text{kg}$ and radius $R_2 = ${tok(pick.R2)}\\ \\text{m}$, initially at rest, is gently dropped onto it **coaxially**, and the two end up spinning **together** as one rigid body. Compute the final **common angular speed**. (in rad/s, 2 significant figures; moment of inertia of a disk: $I = \\frac{1}{2}MR^2$)`,
+  1419→          ),
+  1420→          answer: {
+  1421→            kind: "numeric-unit",
+  1422→            value: r2(w),
+  1423→            tolerance: { mode: "sigfig", value: 2 },
+  1424→            units: ["rad/s"],
+  1425→            unitChoices: ["rad/s", "rad/s^2", "Hz", "J"],
+  1426→          },
+  1427→          hints: [
+  1428→            L(
+  1429→              "Durante el acoplamiento no hay par externo respecto al eje: el **momento angular** $L = I\\omega$ se conserva (la energía NO).",
+  1430→              "During the coupling there is no external torque about the axis: **angular momentum** $L = I\\omega$ is conserved (energy is NOT).",
+  1431→            ),
+  1432→            L(
+  1433→              `Calcula $I_1 = \\frac{1}{2}M_1R_1^2$ y $I_2 = \\frac{1}{2}M_2R_2^2$, y plantea $I_1\\omega_1 = (I_1+I_2)\\omega$.`,
+  1434→              `Compute $I_1 = \\frac{1}{2}M_1R_1^2$ and $I_2 = \\frac{1}{2}M_2R_2^2$, and set $I_1\\omega_1 = (I_1+I_2)\\omega$.`,
+  1435→            ),
+  1436→            L(
+  1437→              "Despeja $\\omega = \\frac{I_1}{I_1+I_2}\\omega_1$; es el análogo rotacional de un choque perfectamente inelástico.",
+  1438→              "Solve $\\omega = \\frac{I_1}{I_1+I_2}\\omega_1$; it is the rotational analogue of a perfectly inelastic collision.",
+  1439→            ),
+  1440→          ],
+  1441→          answerDisplay: L(`$\\omega = ${tok(r2(w))}\\ \\text{rad/s}$`, `$\\omega = ${tok(r2(w))}\\ \\text{rad/s}$`),
+  1442→          solution: [
+  1443→            step(
+  1444→              "given",
+  1445→              `$M_1 = ${pick.M1}\\ \\text{kg}$, $R_1 = ${tok(pick.R1)}\\ \\text{m}$, $\\omega_1 = ${pick.w1}\\ \\text{rad/s}$; $M_2 = ${pick.M2}\\ \\text{kg}$, $R_2 = ${tok(pick.R2)}\\ \\text{m}$, en reposo; $I = \\frac{1}{2}MR^2$.`,
+  1446→              `$M_1 = ${pick.M1}\\ \\text{kg}$, $R_1 = ${tok(pick.R1)}\\ \\text{m}$, $\\omega_1 = ${pick.w1}\\ \\text{rad/s}$; $M_2 = ${pick.M2}\\ \\text{kg}$, $R_2 = ${tok(pick.R2)}\\ \\text{m}$, at rest; $I = \\frac{1}{2}MR^2$.`,
+  1447→            ),
+  1448→            step(
+  1449→              "approach",
+  1450→              "Choque rotacional: **conservación del momento angular** respecto al eje ($I_1\\omega_1 = (I_1+I_2)\\omega$). La energía cinética rotacional disminuye por el rozamiento interno entre los discos.",
+  1451→              "Rotational collision: **conservation of angular momentum** about the axis ($I_1\\omega_1 = (I_1+I_2)\\omega$). Rotational kinetic energy decreases due to internal friction between the disks.",
+  1452→            ),
+  1453→            step(
+  1454→              "calculation",
+  1455→              `$I_1 = \\frac{1}{2} \\cdot ${pick.M1} \\cdot ${tok(pick.R1)}^2 = ${tok(r2(I1))}\\ \\text{kg·m}^2$; $I_2 = \\frac{1}{2} \\cdot ${pick.M2} \\cdot ${tok(pick.R2)}^2 = ${tok(r2(I2))}\\ \\text{kg·m}^2$<br>$\\omega = \\frac{I_1}{I_1+I_2}\\omega_1 = \\frac{${tok(r2(I1))}}{${tok(r2(I1 + I2))}} \\cdot ${pick.w1} = ${tok(r2(w))}\\ \\text{rad/s}$`,
+  1456→              `$I_1 = \\frac{1}{2} \\cdot ${pick.M1} \\cdot ${tok(pick.R1)}^2 = ${tok(r2(I1))}\\ \\text{kg·m}^2$; $I_2 = \\frac{1}{2} \\cdot ${pick.M2} \\cdot ${tok(pick.R2)}^2 = ${tok(r2(I2))}\\ \\text{kg·m}^2$<br>$\\omega = \\frac{I_1}{I_1+I_2}\\omega_1 = \\frac{${tok(r2(I1))}}{${tok(r2(I1 + I2))}} \\cdot ${pick.w1} = ${tok(r2(w))}\\ \\text{rad/s}$`,
+  1457→            ),
+  1458→            step(
+  1459→              "result",
+  1460→              `Los dos discos giran juntos con $\\omega = ${tok(r2(w))}\\ \\text{rad/s}$, menor que $\\omega_1$: parte de la energía se disipó en el acoplamiento.`,
+  1461→              `The two disks spin together at $\\omega = ${tok(r2(w))}\\ \\text{rad/s}$, less than $\\omega_1$: part of the energy dissipated in the coupling.`,
+  1462→            ),
+  1463→          ],
+  1464→        };
+  1465→      }
+  1466→      return {
+  1467→        skill: L(
+  1468→          "Disco sobre disco giratorio: energía disipada (angular + energía)",
+  1469→          "Disk dropped on a spinning disk: energy dissipated (angular + energy)",
+  1470→        ),
+  1471→        statement: L(
+  1472→          `Un disco de $M_1 = ${pick.M1}\\ \\text{kg}$ y radio $R_1 = ${tok(pick.R1)}\\ \\text{m}$ gira con $\\omega_1 = ${pick.w1}\\ \\text{rad/s}$ alrededor de su eje vertical, sin rozamiento con el suelo. Se deja caer suavemente, **coaxial**, un segundo disco de $M_2 = ${pick.M2}\\ \\text{kg}$ y radio $R_2 = ${tok(pick.R2)}\\ \\text{m}$ que estaba en reposo, y ambos quedan girando **juntos**. ¿Cuánta **energía mecánica** se disipa en el acoplamiento? (en J, 2 cifras significativas; $I = \\frac{1}{2}MR^2$)`,
+  1473→          `A disk of $M_1 = ${pick.M1}\\ \\text{kg}$ and radius $R_1 = ${tok(pick.R1)}\\ \\text{m}$ spins at $\\omega_1 = ${pick.w1}\\ \\text{rad/s}$ about its vertical axis, frictionless. A second disk of $M_2 = ${pick.M2}\\ \\text{kg}$ and radius $R_2 = ${tok(pick.R2)}\\ \\text{m}$, initially at rest, is gently dropped onto it **coaxially**, and the two end up spinning **together**. How much **mechanical energy** is dissipated in the coupling? (in J, 2 significant figures; $I = \\frac{1}{2}MR^2$)`,
+  1474→        ),
+  1475→        answer: {
+  1476→          kind: "numeric-unit",
+  1477→          value: dE,
+  1478→          tolerance: { mode: "sigfig", value: 2 },
+  1479→          units: ["J", "joule", "joules"],
+  1480→          unitChoices: ["J", "kJ", "N", "W"],
+  1481→        },
+  1482→        hints: [
+  1483→          L(
+  1484→            "Primero halla la rapidez angular común: sin par externo, $I_1\\omega_1 = (I_1+I_2)\\omega$.",
+  1485→            "First find the common angular speed: with no external torque, $I_1\\omega_1 = (I_1+I_2)\\omega$.",
+  1486→          ),
+  1487→          L(
+  1488→            "Luego compara energías cinéticas rotacionales: $E_i = \\frac{1}{2}I_1\\omega_1^2$ y $E_f = \\frac{1}{2}(I_1+I_2)\\omega^2$.",
+  1489→            "Then compare rotational kinetic energies: $E_i = \\frac{1}{2}I_1\\omega_1^2$ and $E_f = \\frac{1}{2}(I_1+I_2)\\omega^2$.",
+  1490→          ),
+  1491→          L(
+  1492→            "La energía disipada es la diferencia $E_i - E_f$ (siempre positiva: el acoplamiento es inelástico).",
+  1493→            "The dissipated energy is the difference $E_i - E_f$ (always positive: the coupling is inelastic).",
+  1494→          ),
+  1495→        ],
+  1496→        answerDisplay: L(`$\\Delta E = ${tok(dE)}\\ \\text{J}$`, `$\\Delta E = ${tok(dE)}\\ \\text{J}$`),
+  1497→        solution: [
+  1498→          step(
+  1499→            "given",
+  1500→            `$M_1 = ${pick.M1}\\ \\text{kg}$, $R_1 = ${tok(pick.R1)}\\ \\text{m}$, $\\omega_1 = ${pick.w1}\\ \\text{rad/s}$; $M_2 = ${pick.M2}\\ \\text{kg}$, $R_2 = ${tok(pick.R2)}\\ \\text{m}$, en reposo; $I = \\frac{1}{2}MR^2$.`,
+  1501→            `$M_1 = ${pick.M1}\\ \\text{kg}$, $R_1 = ${tok(pick.R1)}\\ \\text{m}$, $\\omega_1 = ${pick.w1}\\ \\text{rad/s}$; $M_2 = ${pick.M2}\\ \\text{kg}$, $R_2 = ${tok(pick.R2)}\\ \\text{m}$, at rest; $I = \\frac{1}{2}MR^2$.`,
+  1502→          ),
+  1503→          step(
+  1504→            "approach",
+  1505→            "Cadena: **momento angular → energía**. El momento angular se conserva (da $\\omega$); la energía cinética no (la diferencia es lo disipado por el rozamiento entre los discos).",
+  1506→            "Chain: **angular momentum → energy**. Angular momentum is conserved (gives $\\omega$); kinetic energy is not (the difference is what friction between the disks dissipates).",
+  1507→          ),
+  1508→          step(
+  1509→            "calculation",
+  1510→            `$I_1 = ${tok(r2(I1))}\\ \\text{kg·m}^2$, $I_2 = ${tok(r2(I2))}\\ \\text{kg·m}^2$<br>$\\omega = \\frac{I_1}{I_1+I_2}\\omega_1 = \\frac{${tok(r2(I1))}}{${tok(r2(I1 + I2))}} \\cdot ${pick.w1} = ${tok(r2(w))}\\ \\text{rad/s}$<br>$E_i = \\frac{1}{2}I_1\\omega_1^2 = ${tok(r2(Ei))}\\ \\text{J}$; $E_f = \\frac{1}{2}(I_1+I_2)\\omega^2 = ${tok(r2(Ef))}\\ \\text{J}$<br>$\\Delta E = ${tok(r2(Ei))} - ${tok(r2(Ef))} = ${tok(dE)}\\ \\text{J}$`,
+  1511→            `$I_1 = ${tok(r2(I1))}\\ \\text{kg·m}^2$, $I_2 = ${tok(r2(I2))}\\ \\text{kg·m}^2$<br>$\\omega = \\frac{I_1}{I_1+I_2}\\omega_1 = \\frac{${tok(r2(I1))}}{${tok(r2(I1 + I2))}} \\cdot ${pick.w1} = ${tok(r2(w))}\\ \\text{rad/s}$<br>$E_i = \\frac{1}{2}I_1\\omega_1^2 = ${tok(r2(Ei))}\\ \\text{J}$; $E_f = \\frac{1}{2}(I_1+I_2)\\omega^2 = ${tok(r2(Ef))}\\ \\text{J}$<br>$\\Delta E = ${tok(r2(Ei))} - ${tok(r2(Ef))} = ${tok(dE)}\\ \\text{J}$`,
+  1512→          ),
+  1513→          step(
+  1514→            "result",
+  1515→            `Se disipan $${tok(dE)}\\ \\text{J}$ (calor por el rozamiento entre las caras de los discos); el momento angular, en cambio, quedó intacto.`,
+  1516→            `${tok(dE)}\\ \\text{J}$ are dissipated (heat from friction between the disk faces); angular momentum, in contrast, stayed intact.`,
+  1517→          ),
+  1518→        ],
+  1519→      };
+  1520→    },
+  1521→  ),
+  1522→
+  1523→  /* ---------------------------------------------------------------- */
+  1524→  /* Circuits + thermal: resistor heating water                        */
+  1525→  /* ---------------------------------------------------------------- */
+  1526→  template(
+  1527→    {
+  1528→      id: "pmx-cir-therm-01",
+  1529→      subject: "physics",
+  1530→      topicId: "physics-mixed",
+  1531→      subtopicId: "multi-step",
+  1532→      difficulty: "hard",
+  1533→      questionType: "numeric-unit",
+  1534→      estimatedTimeSec: 360,
+  1535→      tags: ["circuits", "power", "thermal", "calorimetry"],
+  1536→      prerequisites: ["circuits", "thermal-physics"],
+  1537→      reasoning: "multi-concept",
+  1538→    },
+  1539→    (rng) => {
+  1540→      const pick = rng.pick([
+  1541→        { V: 12, R: 4, tSec: 300, m: 0.2 },
+  1542→        { V: 24, R: 12, tSec: 600, m: 0.4 },
+  1543→        { V: 9, R: 3, tSec: 300, m: 0.15 },
+  1544→        { V: 6, R: 2, tSec: 600, m: 0.3 },
+  1545→        { V: 24, R: 6, tSec: 300, m: 0.5 },
+  1546→        { V: 12, R: 6, tSec: 900, m: 0.6 },
+  1547→        { V: 24, R: 8, tSec: 750, m: 0.5 },
+  1548→      ]);
+  1549→      const tMin = pick.tSec / 60;
+  1550→      const P = r1((pick.V * pick.V) / pick.R);
+  1551→      const Q = r1(P * pick.tSec);
+  1552→      const dT = sig2(Q / (pick.m * C_WATER));
+  1553→      return {
+  1554→        skill: L(
+  1555→          "Resistencia eléctrica que calienta agua (circuitos + térmica)",
+  1556→          "Electric resistor heating water (circuits + thermal)",
+  1557→        ),
+  1558→        statement: L(
+  1559→          `Un calentador de inmersión es una resistencia de $R = ${pick.R}\\ \\Omega$ conectada a una pila de $${pick.V}\\ \\text{V}$. Se sumerge en un recipiente aislado con $m = ${tok(pick.m)}\\ \\text{kg}$ de agua y funciona durante $t = ${tok(tMin)}\\ \\text{min}$. ¿Cuánto **sube** la temperatura del agua? (el aumento es el mismo en K que en °C; 2 cifras significativas; $c_{\\text{agua}} = 4186\\ \\text{J/(kg·K)}$; desprecia la capacidad térmica del recipiente y las pérdidas)`,
+  1560→          `An immersion heater is a resistor of $R = ${pick.R}\\ \\Omega$ connected to a $${pick.V}\\ \\text{V}$ battery. It is plunged into an insulated container with $m = ${tok(pick.m)}\\ \\text{kg}$ of water and runs for $t = ${tok(tMin)}\\ \\text{min}$. By how much does the water's temperature **rise**? (the rise is the same in K as in °C; 2 significant figures; $c_{\\text{water}} = 4186\\ \\text{J/(kg·K)}$; neglect the container's heat capacity and any losses)`,
+  1561→        ),
+  1562→        answer: {
+  1563→          kind: "numeric-unit",
+  1564→          value: dT,
+  1565→          tolerance: { mode: "sigfig", value: 2 },
+  1566→          units: ["K", "°C", "C", "celsius", "grados celsius"],
+  1567→          unitChoices: ["K", "°C", "J", "W"],
+  1568→        },
+  1569→        hints: [
+  1570→          L(
+  1571→            "Primero la potencia eléctrica disipada: $P = \\frac{V^2}{R}$.",
+  1572→            "First the electric power dissipated: $P = \\frac{V^2}{R}$.",
+  1573→          ),
+  1574→          L(
+  1575→            "La energía entregada es $Q = P\\,t$ con $t$ en segundos; toda ella va al agua.",
+  1576→            "The energy delivered is $Q = P\\,t$ with $t$ in seconds; all of it goes into the water.",
+  1577→          ),
+  1578→          L(
+  1579→            "Calorimetría: $Q = m\\,c\\,\\Delta T \\Rightarrow \\Delta T = \\frac{Q}{mc}$.",
+  1580→            "Calorimetry: $Q = m\\,c\\,\\Delta T \\Rightarrow \\Delta T = \\frac{Q}{mc}$.",
+  1581→          ),
+  1582→        ],
+  1583→        answerDisplay: L(
+
+[showing lines 1164-1583 of 1963; use offset=1584 with limit to continue reading]

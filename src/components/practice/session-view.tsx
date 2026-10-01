@@ -7,7 +7,7 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, Check, Flag, Inbox, Keyboard, MessageCircle, RotateCcw, SkipForward, Timer, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Flag, Inbox, Keyboard, Layers, MessageCircle, RotateCcw, SkipForward, Timer, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -37,7 +37,7 @@ import { useAllTemplates } from "@/lib/use-templates";
 import { buildDeck, findTemplate, instantiateProblem } from "@/lib/session";
 import { loadSession, saveSession, clearSession } from "@/lib/session-persist";
 import { navigate, href, sessionHref } from "@/lib/router";
-import { appendRecord, appendSessionRecord } from "@/lib/progress";
+import { appendRecord, appendSessionRecord, computeStats, loadProgress } from "@/lib/progress";
 import { scheduleFromSession } from "@/lib/review";
 import { useToast } from "@/hooks/use-toast";
 import { checkAnswer, type AnswerSubmission } from "@/lib/validation/answer";
@@ -96,6 +96,22 @@ export function SessionView({ config }: { config: SessionConfig }) {
   const { toast } = useToast();
   const sessionKeyRef = useRef<string | null>(null);
 
+  /** First-try accuracy per subtopic key — the weakness signal that orders
+   *  interleaved sessions (topics you fail come first). With no history it
+   *  degrades gracefully to the plain shuffled round-robin. */
+  const weakSubtopicsOf = useCallback((): Record<string, number> => {
+    try {
+      const stats = computeStats(loadProgress());
+      const out: Record<string, number> = {};
+      for (const [key, st] of Object.entries(stats.bySubtopic)) {
+        if (st.attempts > 0) out[key] = st.firstTryCorrect / st.attempts;
+      }
+      return out;
+    } catch {
+      return {};
+    }
+  }, []);
+
   useEffect(() => {
     if (loading) return;
     // deferred one frame so we never setState synchronously inside the effect
@@ -128,7 +144,14 @@ export function SessionView({ config }: { config: SessionConfig }) {
         return;
       }
       clearSession();
-      const result = buildDeck(cfg, templates, { batchSize: Number.isFinite(cfg.count) ? cfg.count : BATCH });
+      const result = buildDeck(
+        cfg,
+        templates,
+        {
+          batchSize: Number.isFinite(cfg.count) ? cfg.count : BATCH,
+          ...(cfg.mode === "interleaved" ? { weakSubtopics: weakSubtopicsOf() } : {}),
+        },
+      );
       setDeck(result.problems);
       setStates(result.problems.map(() => ({ ...initialProblemState })));
       setRelaxed(result.difficultyRelaxed);
@@ -141,7 +164,7 @@ export function SessionView({ config }: { config: SessionConfig }) {
       setBuiltKey(configKey);
     });
     return () => cancelAnimationFrame(id);
-  }, [loading, templates, configKey, t, toast]);
+  }, [loading, templates, configKey, t, toast, weakSubtopicsOf]);
 
   // mirror the running session so a refresh never loses it — but only once
   // the deck actually belongs to the current config (avoids saving the previous
@@ -217,6 +240,14 @@ export function SessionView({ config }: { config: SessionConfig }) {
     return "";
   }, [config, lang]);
 
+  // interleaved sessions name the topic of every problem — the mixing itself
+  // must be visible ("TEMA · Trigonometría" overline above each card)
+  const currentTopicName = useMemo(() => {
+    if (config.mode !== "interleaved" || !current) return "";
+    const cur = current.subject === "physics" ? physicsCurriculum : mathCurriculum;
+    return cur.find((tp) => tp.id === current.topicId)?.name[lang] ?? "";
+  }, [config.mode, current, lang]);
+
   const subjectLabel =
     config.subjects.length === 1
       ? config.subjects[0] === "math"
@@ -236,10 +267,10 @@ export function SessionView({ config }: { config: SessionConfig }) {
       .replace(/\s+/g, " ")
       .trim();
     const snippet = raw.length > 140 ? `${raw.slice(0, 140)}…` : raw;
-    const where = topicName || subjectLabel;
+    const where = topicName || currentTopicName || subjectLabel;
     const msg = t("practice.askTutor.message", { topic: where, problem: snippet });
     return `${base}?text=${encodeURIComponent(msg)}`;
-  }, [current, lang, t, topicName, subjectLabel]);
+  }, [current, lang, t, topicName, currentTopicName, subjectLabel]);
 
   const backHref =
     (config.mode === "topic" || config.mode === "single") && config.topicId && config.subjects.length === 1
@@ -373,14 +404,20 @@ export function SessionView({ config }: { config: SessionConfig }) {
     }
     if (unlimited) {
       const cfg = JSON.parse(configKey) as SessionConfig;
-      const batch = buildDeck(cfg, templates, { batchIndex: Math.floor(deck.length / BATCH) + 1, batchSize: BATCH });
+      // deck.length is a multiple of BATCH here, so this is the index of the
+      // batch being built (1, 2, 3…) — interleaved streams continue seamlessly
+      const batch = buildDeck(cfg, templates, {
+        batchIndex: Math.floor(deck.length / BATCH),
+        batchSize: BATCH,
+        ...(cfg.mode === "interleaved" ? { weakSubtopics: weakSubtopicsOf() } : {}),
+      });
       setDeck((d) => [...(d ?? []), ...batch.problems]);
       setStates((s) => [...s, ...batch.problems.map(() => ({ ...initialProblemState }))]);
       setIndex((i) => i + 1);
     } else {
       setEnded(true);
     }
-  }, [deck, index, unlimited, configKey, templates]);
+  }, [deck, index, unlimited, configKey, templates, weakSubtopicsOf]);
 
   const handleNewVariant = useCallback(() => {
     if (!current || !deck) return;
@@ -562,6 +599,12 @@ export function SessionView({ config }: { config: SessionConfig }) {
             {topicName ? <span className="text-muted-foreground"> · {topicName}</span> : null}
             {subtopicName ? <span className="text-muted-foreground"> · {subtopicName}</span> : null}
           </span>
+          {config.mode === "interleaved" ? (
+            <span className="inline-flex items-center gap-1 rounded-full border border-subject-physics/30 bg-subject-physics/10 px-2.5 py-0.5 text-xs font-semibold text-subject-physics">
+              <Layers className="h-3 w-3" aria-hidden="true" />
+              {t("interleaved.badge")}
+            </span>
+          ) : null}
           {reviewing ? (
             <span className="inline-flex items-center gap-1 rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary">
               <RotateCcw className="h-3 w-3" aria-hidden="true" />
@@ -648,6 +691,17 @@ export function SessionView({ config }: { config: SessionConfig }) {
         <div className="mb-4 rounded-xl border border-diff-medium/40 bg-diff-medium/10 px-4 py-2.5 text-sm text-diff-medium">
           {t("session.lowStock.desc")}
         </div>
+      ) : null}
+
+      {/* interleaved overline — names the topic so the mixing is visible */}
+      {config.mode === "interleaved" && currentTopicName ? (
+        <p className="mb-2.5 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+          <Layers className="h-3.5 w-3.5 shrink-0 text-subject-physics/70" aria-hidden="true" />
+          <span>
+            {t("interleaved.topicLabel")}{" "}
+            <span className="text-foreground">· {currentTopicName}</span>
+          </span>
+        </p>
       ) : null}
 
       <ProblemView

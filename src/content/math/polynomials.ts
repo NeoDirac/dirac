@@ -1592,4 +1592,243 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+  /* ================================================================== */
+  /* Curated — Fundamentos ESPOL, §3.11 Inecuaciones, pp. 323–324.      */
+  /* Verified with sympy before import.                                 */
+  /* ================================================================== */
+
+  /* 121a — (4x+1)² < (1−2x)(x+4) → (−1, 1/6) */
+  template(
+    {
+      id: "poly-espol-121a",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "inequalities",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["inequality", "expansion", "sign-table"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3.11 · 121a",
+        page: 323,
+      },
+      reasoning: "case-analysis",
+    },
+    () => {
+      const options: McOption[] = [
+        { id: "a", text: L("$(-1,\\ \\frac{1}{6})$", "$(-1,\\ \\frac{1}{6})$"), correct: true },
+        { id: "b", text: L("$(-\\infty, -1)\\cup(\\frac{1}{6}, \\infty)$", "$(-\\infty, -1)\\cup(\\frac{1}{6}, \\infty)$"), correct: false },
+        { id: "c", text: L("$[-1, \\frac{1}{6}]$", "$[-1, \\frac{1}{6}]$"), correct: false },
+        { id: "d", text: L("$(-\\frac{1}{6},\\ 1)$", "$(-\\frac{1}{6},\\ 1)$"), correct: false },
+      ];
+      return {
+        skill: L("Desigualdad cuadrática escondida", "A quadratic inequality in disguise"),
+        statement: L(
+          `Con $x \\in \\mathbb{R}$, determina el conjunto de verdad de $p(x):\\ (4x + 1)^2 < (1 - 2x)(x + 4)$.`,
+          `With $x \\in \\mathbb{R}$, determine the truth set of $p(x):\\ (4x + 1)^2 < (1 - 2x)(x + 4)$.`,
+        ),
+        answer: { kind: "multiple-choice", options },
+        hints: [
+          L(
+            "No hay atajo: expande ambos lados con cuidado (el producto de la derecha lleva signo negativo).",
+            "No shortcut: expand both sides carefully (the right-hand product carries a negative sign).",
+          ),
+          L(
+            "$(4x+1)^2 = 16x^2 + 8x + 1$ y $(1-2x)(x+4) = -2x^2 - 7x + 4$; pasa todo a la izquierda.",
+            "$(4x+1)^2 = 16x^2 + 8x + 1$ and $(1-2x)(x+4) = -2x^2 - 7x + 4$; move everything to the left.",
+          ),
+          L(
+            "$18x^2 + 15x - 3 < 0$, es decir $6x^2 + 5x - 1 < 0 = (6x - 1)(x + 1)$: raíces $-1$ y $\\frac{1}{6}$, parábola hacia arriba.",
+            "$18x^2 + 15x - 3 < 0$, i.e. $6x^2 + 5x - 1 < 0 = (6x - 1)(x + 1)$: roots $-1$ and $\\frac{1}{6}$, upward parabola.",
+          ),
+        ],
+        answerDisplay: L(
+          "$A_{p(x)} = \\left(-1, \\frac{1}{6}\\right)$",
+          "$A_{p(x)} = \\left(-1, \\frac{1}{6}\\right)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$(4x + 1)^2 < (1 - 2x)(x + 4)$, con $x \\in \\mathbb{R}$.",
+            "$(4x + 1)^2 < (1 - 2x)(x + 4)$, with $x \\in \\mathbb{R}$.",
+          ),
+          step(
+            "approach",
+            "Expandir y ordenar para reconocer la cuadrática; luego tabla de signos entre las raíces.",
+            "Expand and order to recognize the quadratic; then a sign table between the roots.",
+          ),
+          step(
+            "calculation",
+            `$16x^2 + 8x + 1 < -2x^2 - 7x + 4$<br>$18x^2 + 15x - 3 < 0 \\Rightarrow 6x^2 + 5x - 1 < 0$<br>$(6x - 1)(x + 1) < 0$<br>Raíces: $x = -1$ y $x = \\frac{1}{6}$; la parábola abre hacia arriba, así que es negativa ENTRE las raíces.`,
+            `$16x^2 + 8x + 1 < -2x^2 - 7x + 4$<br>$18x^2 + 15x - 3 < 0 \\Rightarrow 6x^2 + 5x - 1 < 0$<br>$(6x - 1)(x + 1) < 0$<br>Roots: $x = -1$ and $x = \\frac{1}{6}$; the parabola opens upward, so it is negative BETWEEN the roots.`,
+          ),
+          step(
+            "result",
+            `El conjunto de verdad es $\\left(-1, \\frac{1}{6}\\right)$, abierto por la desigualdad estricta. Comprobación con $x = 0$: $1 < 4$ ✓.`,
+            `The truth set is $\\left(-1, \\frac{1}{6}\\right)$, open due to the strict inequality. Check with $x = 0$: $1 < 4$ ✓.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 121c — x² + 2|x| + 1 ≥ 0 → ℝ */
+  template(
+    {
+      id: "poly-espol-121c",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "inequalities",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 180,
+      tags: ["inequality", "absolute-value", "perfect-square"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3.11 · 121c",
+        page: 323,
+      },
+      reasoning: "definition-hunting",
+    },
+    () => {
+      const options: McOption[] = [
+        { id: "a", text: L("$\\mathbb{R}$", "$\\mathbb{R}$"), correct: true },
+        { id: "b", text: L("$[0, \\infty)$", "$[0, \\infty)$"), correct: false },
+        { id: "c", text: L("$\\varnothing$", "$\\varnothing$"), correct: false },
+        { id: "d", text: L("$\\{-1, 1\\}$", "$\\{-1, 1\\}$"), correct: false },
+      ];
+      return {
+        skill: L("Reconocer el trinomio cuadrado perfecto", "Spot the perfect-square trinomial"),
+        statement: L(
+          `Con $x \\in \\mathbb{R}$, determina el conjunto de verdad de $p(x):\\ x^2 + 2|x| + 1 \\geq 0$.`,
+          `With $x \\in \\mathbb{R}$, determine the truth set of $p(x):\\ x^2 + 2|x| + 1 \\geq 0$.`,
+        ),
+        answer: { kind: "multiple-choice", options },
+        hints: [
+          L(
+            "Antes de atacar por casos: mira la estructura $x^2 + 2|x| + 1$. ¿Te recuerda a $(a + b)^2$?",
+            "Before attacking by cases: look at the structure $x^2 + 2|x| + 1$. Does it remind you of $(a + b)^2$?",
+          ),
+          L(
+            "$x^2 = |x|^2$, así que $x^2 + 2|x| + 1 = (|x| + 1)^2$.",
+            "$x^2 = |x|^2$, so $x^2 + 2|x| + 1 = (|x| + 1)^2$.",
+          ),
+          L(
+            "Un cuadrado nunca es negativo; además $|x| + 1 \\geq 1 > 0$, nunca se anula.",
+            "A square is never negative; moreover $|x| + 1 \\geq 1 > 0$, it never vanishes.",
+          ),
+        ],
+        answerDisplay: L(
+          "$A_{p(x)} = \\mathbb{R}$",
+          "$A_{p(x)} = \\mathbb{R}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$x^2 + 2|x| + 1 \\geq 0$, con $x \\in \\mathbb{R}$.",
+            "$x^2 + 2|x| + 1 \\geq 0$, with $x \\in \\mathbb{R}$.",
+          ),
+          step(
+            "approach",
+            "La vía corta: reconocer el cuadrado perfecto en $|x|$ en lugar de separar casos de signo.",
+            "The short route: recognize the perfect square in $|x|$ instead of splitting sign cases.",
+          ),
+          step(
+            "calculation",
+            `$x^2 = |x|^2$<br>$x^2 + 2|x| + 1 = |x|^2 + 2|x| + 1 = (|x| + 1)^2$<br>$(|x| + 1)^2 \\geq 0$ para todo $x$, y de hecho $|x| + 1 \\geq 1$ así que el cuadrado es $\\geq 1$.`,
+            `$x^2 = |x|^2$<br>$x^2 + 2|x| + 1 = |x|^2 + 2|x| + 1 = (|x| + 1)^2$<br>$(|x| + 1)^2 \\geq 0$ for every $x$; in fact $|x| + 1 \\geq 1$, so the square is $\\geq 1$.`,
+          ),
+          step(
+            "result",
+            `La desigualdad se cumple para todo número real: $A_{p(x)} = \\mathbb{R}$.`,
+            `The inequality holds for every real number: $A_{p(x)} = \\mathbb{R}$.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 127d — −x² + x − 1 < 0 → ℝ */
+  template(
+    {
+      id: "poly-espol-127d",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "inequalities",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 180,
+      tags: ["inequality", "discriminant", "parabola"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3.11 · 127d",
+        page: 324,
+      },
+      reasoning: "definition-hunting",
+    },
+    () => {
+      const options: McOption[] = [
+        { id: "a", text: L("$\\mathbb{R}$", "$\\mathbb{R}$"), correct: true },
+        { id: "b", text: L("$\\varnothing$", "$\\varnothing$"), correct: false },
+        { id: "c", text: L("$(-\\infty, -1)\\cup(1, \\infty)$", "$(-\\infty, -1)\\cup(1, \\infty)$"), correct: false },
+        { id: "d", text: L("$(-1, 1)$", "$(-1, 1)$"), correct: false },
+      ];
+      return {
+        skill: L("Discriminante y dirección de la parábola", "Discriminant and parabola direction"),
+        statement: L(
+          `Con $x \\in \\mathbb{R}$, resuelve la inecuación $-x^2 + x - 1 < 0$.`,
+          `With $x \\in \\mathbb{R}$, solve the inequality $-x^2 + x - 1 < 0$.`,
+        ),
+        answer: { kind: "multiple-choice", options },
+        hints: [
+          L(
+            "¿Dónde corta el eje $x$ la parábola $y = -x^2 + x - 1$? Calcula el discriminante.",
+            "Where does the parabola $y = -x^2 + x - 1$ cross the $x$-axis? Compute the discriminant.",
+          ),
+          L(
+            "$\\Delta = 1^2 - 4(-1)(-1) = -3 < 0$: no hay raíces reales.",
+            "$\\Delta = 1^2 - 4(-1)(-1) = -3 < 0$: there are no real roots.",
+          ),
+          L(
+            "Sin raíces, la parábola no cambia de signo: pruébala en $x = 0$. ¿Es siempre negativa?",
+            "With no roots, the parabola never changes sign: test it at $x = 0$. Is it always negative?",
+          ),
+        ],
+        answerDisplay: L(
+          "La solución es $\\mathbb{R}$: se cumple para todo $x$ real.",
+          "The solution is $\\mathbb{R}$: it holds for every real $x$.",
+        ),
+        solution: [
+          step(
+            "given",
+            "$-x^2 + x - 1 < 0$, con $x \\in \\mathbb{R}$.",
+            "$-x^2 + x - 1 < 0$, with $x \\in \\mathbb{R}$.",
+          ),
+          step(
+            "approach",
+            "Completar el cuadrado (o usar el discriminante) para decidir el signo de la expresión sin resolver raíces.",
+            "Complete the square (or use the discriminant) to decide the sign of the expression without solving for roots.",
+          ),
+          step(
+            "calculation",
+            `$-x^2 + x - 1 = -\\left(x^2 - x + 1\\right) = -\\left(\\left(x - \\frac{1}{2}\\right)^2 + \\frac{3}{4}\\right)$<br>$\\left(x - \\frac{1}{2}\\right)^2 \\geq 0$, así que el paréntesis es $\\geq \\frac{3}{4} > 0$ y con el signo menos la expresión es $\\leq -\\frac{3}{4} < 0$.`,
+            `$-x^2 + x - 1 = -\\left(x^2 - x + 1\\right) = -\\left(\\left(x - \\frac{1}{2}\\right)^2 + \\frac{3}{4}\\right)$<br>$\\left(x - \\frac{1}{2}\\right)^2 \\geq 0$, so the bracket is $\\geq \\frac{3}{4} > 0$ and with the minus sign the expression is $\\leq -\\frac{3}{4} < 0$.`,
+          ),
+          step(
+            "result",
+            `$-x^2 + x - 1 < 0$ para TODO $x$ real: la solución es $\\mathbb{R}$. (El discriminante $\\Delta = -3 < 0$ con coeficiente principal negativo lo confirma.)`,
+            `$-x^2 + x - 1 < 0$ for EVERY real $x$: the solution is $\\mathbb{R}$. (The discriminant $\\Delta = -3 < 0$ with negative leading coefficient confirms it.)`,
+          ),
+        ],
+      };
+    },
+  ),
+
 ];

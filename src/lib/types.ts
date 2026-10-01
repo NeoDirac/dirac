@@ -346,7 +346,7 @@ export interface RngLike {
 /* Sessions & progress                                                 */
 /* ------------------------------------------------------------------ */
 
-export type SessionMode = "topic" | "mixed" | "challenge" | "single";
+export type SessionMode = "topic" | "mixed" | "challenge" | "single" | "interleaved";
 
 export interface SessionConfig {
   mode: SessionMode;
@@ -365,6 +365,9 @@ export interface SessionConfig {
   singleTemplateId?: string;
   /** practice only problems transcribed from real sources (c=1) */
   curatedOnly?: boolean;
+  /** drop difficulty "easy" from the pool — Foundation-level exercises are
+   *  worked in class, the site offers a serious mode without them (ne=1) */
+  excludeEasy?: boolean;
 }
 
 export interface ProblemRecord {

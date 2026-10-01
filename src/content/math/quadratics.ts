@@ -74,8 +74,8 @@ export const templates: ProblemTemplate[] = [
       prerequisites: ["polynomials"],
     },
     (rng) => {
-      const h = rng.nonZeroInt(-4, 4);
-      const k = rng.nonZeroInt(-5, 5);
+      const h = rng.nonZeroInt(-7, 7);
+      const k = rng.nonZeroInt(-8, 8);
       const b = -2 * h;
       const c = h * h + k;
       return {
@@ -149,24 +149,40 @@ export const templates: ProblemTemplate[] = [
       prerequisites: ["polynomials"],
     },
     (rng) => {
-      const r1 = rng.nonZeroInt(-6, 6);
-      let r2 = rng.nonZeroInt(-6, 6);
+      // Leading coefficient a ∈ {1..5}; roots stay distinct nonzero integers in −12..12.
+      const a = rng.pick([1, 2, 3, 4, 5]);
+      const r1 = rng.nonZeroInt(-12, 12);
+      let r2 = rng.nonZeroInt(-12, 12);
       if (r2 === r1) r2 = r1 === 1 ? 2 : r1 === -1 ? -2 : r1 > 0 ? r1 - 1 : r1 + 1; // distinct, nonzero roots
       const lo = Math.min(r1, r2);
       const hi = Math.max(r1, r2);
-      const b = -(r1 + r2);
-      const c = r1 * r2;
+      const shape = rng.pick(["larger", "smaller", "sum"] as const);
+      const b = -a * (r1 + r2);
+      const c = a * r1 * r2;
+      const value = shape === "larger" ? hi : shape === "smaller" ? lo : r1 + r2;
+      const askEs =
+        shape === "larger"
+          ? "la **mayor** de las dos soluciones"
+          : shape === "smaller"
+            ? "la **menor** de las dos soluciones"
+            : "la **suma** de las dos soluciones";
+      const askEn =
+        shape === "larger"
+          ? "the **larger** of the two solutions"
+          : shape === "smaller"
+            ? "the **smaller** of the two solutions"
+            : "the **sum** of the two solutions";
       return {
         skill: L("Resolver factorizando", "Solving by factoring"),
         statement: L(
-          `Resuelve $${poly([1, b, c], ["x^2", "x", ""])} = 0$ y da la **mayor** de las dos soluciones.`,
-          `Solve $${poly([1, b, c], ["x^2", "x", ""])} = 0$ and give the **larger** of the two solutions.`,
+          `Resuelve $${poly([a, b, c], ["x^2", "x", ""])} = 0$ y da ${askEs}.`,
+          `Solve $${poly([a, b, c], ["x^2", "x", ""])} = 0$ and give ${askEn}.`,
         ),
-        answer: { kind: "numeric", value: hi },
+        answer: { kind: "numeric", value },
         hints: [
           L(
-            "Busca dos números que multiplicados den el término independiente y sumados, el coeficiente de $x$ (con su signo).",
-            "Look for two numbers whose product is the constant term and whose sum is the coefficient of $x$ (with its sign).",
+            "Si el coeficiente de $x^2$ no es 1, saca primero el factor común o divide la ecuación entre él; luego busca dos números que multiplicados den el término independiente y sumados, el coeficiente de $x$ (con su signo).",
+            "If the coefficient of $x^2$ is not 1, first take out the common factor or divide the equation by it; then look for two numbers whose product is the constant term and whose sum is the coefficient of $x$ (with its sign).",
           ),
           L(
             "Escribe la ecuación como $(x - r_1)(x - r_2) = 0$.",
@@ -177,27 +193,34 @@ export const templates: ProblemTemplate[] = [
             "A product equals 0 only when one of its factors equals 0.",
           ),
         ],
-        answerDisplay: L(`$x = ${hi}$`, `$x = ${hi}$`),
+        answerDisplay: L(
+          shape === "sum" ? `$x_1 + x_2 = ${value}$` : `$x = ${value}$`,
+          shape === "sum" ? `$x_1 + x_2 = ${value}$` : `$x = ${value}$`,
+        ),
         solution: [
           step(
             "given",
-            `$${poly([1, b, c], ["x^2", "x", ""])} = 0$`,
-            `$${poly([1, b, c], ["x^2", "x", ""])} = 0$`,
+            `$${poly([a, b, c], ["x^2", "x", ""])} = 0$`,
+            `$${poly([a, b, c], ["x^2", "x", ""])} = 0$`,
           ),
           step(
             "approach",
-            "Factorizamos el trinomio y aplicamos la propiedad del producto cero.",
-            "Factor the trinomial and apply the zero-product property.",
+            "Factorizamos el trinomio (con factor común si lo hay) y aplicamos la propiedad del producto cero.",
+            "Factor the trinomial (with a common factor if there is one) and apply the zero-product property.",
           ),
           step(
             "calculation",
-            `$\\left(${linFac(r1)}\\right)\\left(${linFac(r2)}\\right) = 0$<br>${linFac(r1)} = 0 \\Rightarrow x = ${r1}$<br>${linFac(r2)} = 0 \\Rightarrow x = ${r2}$`,
-            `$\\left(${linFac(r1)}\\right)\\left(${linFac(r2)}\\right) = 0$<br>${linFac(r1)} = 0 \\Rightarrow x = ${r1}$<br>${linFac(r2)} = 0 \\Rightarrow x = ${r2}$`,
+            `$${poly([a, b, c], ["x^2", "x", ""])} = ${a === 1 ? "" : a}\\left(${linFac(r1)}\\right)\\left(${linFac(r2)}\\right) = 0$<br>${linFac(r1)} = 0 \\Rightarrow x = ${r1}$<br>${linFac(r2)} = 0 \\Rightarrow x = ${r2}$`,
+            `$${poly([a, b, c], ["x^2", "x", ""])} = ${a === 1 ? "" : a}\\left(${linFac(r1)}\\right)\\left(${linFac(r2)}\\right) = 0$<br>${linFac(r1)} = 0 \\Rightarrow x = ${r1}$<br>${linFac(r2)} = 0 \\Rightarrow x = ${r2}$`,
           ),
           step(
             "result",
-            `Las soluciones son $${lo}$ y $${hi}$; la mayor es $${hi}$.`,
-            `The solutions are $${lo}$ and $${hi}$; the larger one is $${hi}$.`,
+            shape === "sum"
+              ? `Las soluciones son $${lo}$ y $${hi}$; su suma es $${value}$.`
+              : `Las soluciones son $${lo}$ y $${hi}$; la ${shape === "larger" ? "mayor" : "menor"} es $${value}$.`,
+            shape === "sum"
+              ? `The solutions are $${lo}$ and $${hi}$; their sum is $${value}$.`
+              : `The solutions are $${lo}$ and $${hi}$; the ${shape === "larger" ? "larger" : "smaller"} one is $${value}$.`,
           ),
         ],
       };
@@ -217,18 +240,31 @@ export const templates: ProblemTemplate[] = [
       prerequisites: ["factoring"],
     },
     (rng) => {
-      const p = rng.pick([2, 3]);
-      const m = rng.pick(p === 2 ? [1, 3, 5, 7] : [1, 2, 4, 5, 7, 8]);
-      const n = rng.int(1, 5);
+      const p = rng.pick([2, 3, 4, 5]);
+      const m = rng.pick(
+        p === 2
+          ? [1, 3, 5, 7, 9, 11]
+          : p === 3
+            ? [1, 2, 4, 5, 7, 8, 10, 11]
+            : p === 4
+              ? [1, 2, 3, 5, 6, 7, 9, 10, 11]
+              : [1, 2, 3, 4, 6, 7, 8, 9, 11, 12],
+      );
+      const n = rng.int(1, 7);
+      const askNonInteger = rng.bool();
       const b = p * n - m;
       const c = -m * n;
       return {
         skill: L("Factorizar con coeficiente principal distinto de 1", "Factoring with leading coefficient ≠ 1"),
         statement: L(
-          `Resuelve $${poly([p, b, c], ["x^2", "x", ""])} = 0$ y da la solución que **no** es entera (puedes escribirla como fracción, por ejemplo 3/2).`,
-          `Solve $${poly([p, b, c], ["x^2", "x", ""])} = 0$ and give the **non-integer** solution (you may write it as a fraction, e.g. 3/2).`,
+          askNonInteger
+            ? `Resuelve $${poly([p, b, c], ["x^2", "x", ""])} = 0$ y da la solución que **no** es entera (puedes escribirla como fracción, por ejemplo 3/2).`
+            : `Resuelve $${poly([p, b, c], ["x^2", "x", ""])} = 0$ y da la solución **entera**.`,
+          askNonInteger
+            ? `Solve $${poly([p, b, c], ["x^2", "x", ""])} = 0$ and give the **non-integer** solution (you may write it as a fraction, e.g. 3/2).`
+            : `Solve $${poly([p, b, c], ["x^2", "x", ""])} = 0$ and give the **integer** solution.`,
         ),
-        answer: { kind: "numeric", value: m / p },
+        answer: { kind: "numeric", value: askNonInteger ? m / p : -n },
         hints: [
           L(
             "Como el coeficiente principal no es 1, prueba pares de factores del tipo $(\\square\\,x - \\triangle)(x + \\circ)$.",
@@ -243,7 +279,10 @@ export const templates: ProblemTemplate[] = [
             "Setting each factor to zero gives a solution; one is an integer and the other is not.",
           ),
         ],
-        answerDisplay: L(`$x = \\frac{${m}}{${p}}$`, `$x = \\frac{${m}}{${p}}$`),
+        answerDisplay: L(
+          askNonInteger ? `$x = \\frac{${m}}{${p}}$` : `$x = -${n}$`,
+          askNonInteger ? `$x = \\frac{${m}}{${p}}$` : `$x = -${n}$`,
+        ),
         solution: [
           step(
             "given",
@@ -262,8 +301,12 @@ export const templates: ProblemTemplate[] = [
           ),
           step(
             "result",
-            `Las soluciones son $\\frac{${m}}{${p}}$ y $-${n}$; la no entera es $\\frac{${m}}{${p}}$.`,
-            `The solutions are $\\frac{${m}}{${p}}$ and $-${n}$; the non-integer one is $\\frac{${m}}{${p}}$.`,
+            askNonInteger
+              ? `Las soluciones son $\\frac{${m}}{${p}}$ y $-${n}$; la no entera es $\\frac{${m}}{${p}}$.`
+              : `Las soluciones son $\\frac{${m}}{${p}}$ y $-${n}$; la entera es $-${n}$.`,
+            askNonInteger
+              ? `The solutions are $\\frac{${m}}{${p}}$ and $-${n}$; the non-integer one is $\\frac{${m}}{${p}}$.`
+              : `The solutions are $\\frac{${m}}{${p}}$ and $-${n}$; the integer one is $-${n}$.`,
           ),
         ],
       };
@@ -286,9 +329,17 @@ export const templates: ProblemTemplate[] = [
       prerequisites: ["factoring"],
     },
     (rng) => {
-      const a = rng.pick([2, 3]);
-      const t = rng.int(1, 4); // integer (positive) root
-      const m = rng.pick(a === 2 ? [1, 3, 5] : [1, 2, 4, 5]);
+      const a = rng.pick([2, 3, 4, 5]);
+      const t = rng.int(1, 6); // integer (positive) root
+      const m = rng.pick(
+        a === 2
+          ? [1, 3, 5, 7, 9, 11]
+          : a === 3
+            ? [1, 2, 4, 5, 7, 8, 10, 11]
+            : a === 4
+              ? [1, 2, 3, 5, 6, 7, 9, 10, 11]
+              : [1, 2, 3, 4, 6, 7, 8, 9, 11, 12],
+      );
       // roots: t and -m/a → b = -(a·t - m), c = -t·m
       const b = -(a * t - m);
       const c = -t * m;
@@ -357,9 +408,9 @@ export const templates: ProblemTemplate[] = [
       prerequisites: ["polynomials"],
     },
     (rng) => {
-      const a = rng.pick([1, 2]);
-      const b = rng.nonZeroInt(-8, 8);
-      const c = rng.int(-6, 6);
+      const a = rng.pick([1, 2, 3]);
+      const b = rng.nonZeroInt(-12, 12);
+      const c = rng.int(-9, 9);
       const disc = b * b - 4 * a * c;
       return {
         skill: L("Cálculo del discriminante", "Computing the discriminant"),
@@ -423,26 +474,32 @@ export const templates: ProblemTemplate[] = [
     },
     (rng) => {
       const kind = rng.int(0, 2); // 0 two real · 1 double · 2 none
-      let a = 1;
+      const a = rng.pick([1, 2]);
       let b = 0;
       let c = 0;
       if (kind === 0) {
-        const r1 = rng.nonZeroInt(-4, 4);
-        let r2 = rng.nonZeroInt(-4, 4);
+        const r1 = rng.nonZeroInt(-9, 9);
+        let r2 = rng.nonZeroInt(-9, 9);
         if (r2 === r1) r2 = r1 === 1 ? 2 : r1 === -1 ? -2 : r1 > 0 ? r1 - 1 : r1 + 1;
-        b = -(r1 + r2);
-        c = r1 * r2;
+        b = -a * (r1 + r2);
+        c = a * r1 * r2;
       } else if (kind === 1) {
-        const r = rng.nonZeroInt(-4, 4);
-        b = -2 * r;
-        c = r * r;
+        const r = rng.nonZeroInt(-9, 9);
+        b = -2 * a * r;
+        c = a * r * r;
       } else {
-        [b, c] = rng.pick([
+        const [bp, cp] = rng.pick([
           [2, 2],
           [3, 3],
           [4, 5],
           [5, 7],
+          [6, 10],
+          [3, 5],
+          [7, 13],
+          [2, 3],
         ]);
+        b = a * bp;
+        c = a * cp;
       }
       const disc = b * b - 4 * a * c;
       const options: McOption[] = [
@@ -537,9 +594,9 @@ export const templates: ProblemTemplate[] = [
       prerequisites: ["polynomials"],
     },
     (rng) => {
-      const m = rng.nonZeroInt(-5, 5);
+      const m = rng.nonZeroInt(-9, 9);
       const b = 2 * m;
-      const c = rng.int(-8, 8);
+      const c = rng.int(-12, 12);
       return {
         skill: L("Completar el cuadrado", "Completing the square"),
         statement: L(
@@ -604,9 +661,9 @@ export const templates: ProblemTemplate[] = [
       prerequisites: ["polynomials"],
     },
     (rng) => {
-      const a = rng.pick([1, 2, 3]);
-      const h = rng.nonZeroInt(-4, 4);
-      const k = rng.nonZeroInt(-6, 6);
+      const a = rng.pick([1, 2, 3, 4, 5]);
+      const h = rng.nonZeroInt(-7, 7);
+      const k = rng.nonZeroInt(-9, 9);
       const b = -2 * a * h;
       const c = a * h * h + k;
       return {
@@ -673,8 +730,8 @@ export const templates: ProblemTemplate[] = [
       prerequisites: ["polynomials"],
     },
     (rng) => {
-      const h = rng.nonZeroInt(-3, 3);
-      const k = rng.intExcluding(-3, 3, [0, h, -h]);
+      const h = rng.nonZeroInt(-4, 4);
+      const k = rng.intExcluding(-4, 4, [0, h, -h]);
       const options: McOption[] = [
         { id: "a", text: L(`$(${h}, ${k})$`, `$(${h}, ${k})$`), correct: true },
         { id: "b", text: L(`$(${k}, ${h})$`, `$(${k}, ${h})$`), correct: false },
@@ -761,9 +818,9 @@ export const templates: ProblemTemplate[] = [
       prerequisites: ["graphs"],
     },
     (rng) => {
-      const r1 = -rng.int(1, 4); // negative intercept
-      let r2 = rng.int(1, 4); // positive intercept
-      if ((r1 + r2) % 2 !== 0) r2 = r2 === 4 ? 3 : r2 + 1; // same parity
+      const r1 = -rng.int(1, 7); // negative intercept
+      let r2 = rng.int(1, 7); // positive intercept
+      if ((r1 + r2) % 2 !== 0) r2 = r2 === 7 ? 6 : r2 + 1; // same parity
       const xv = (r1 + r2) / 2;
       const yv = ((xv - r1) * (xv - r2)); // negative value at the vertex
       const b = -(r1 + r2);
@@ -776,9 +833,9 @@ export const templates: ProblemTemplate[] = [
         ),
         diagram: {
           kind: "function-graph",
-          xMin: -6,
-          xMax: 6,
-          yMin: -18,
+          xMin: r1 - 2,
+          xMax: r2 + 2,
+          yMin: Math.min(-18, yv - 6),
           yMax: 8,
           curves: [{ fn: `(x - ${r1})*(x - ${r2})`, color: "primary" }],
           points: [
@@ -851,7 +908,7 @@ export const templates: ProblemTemplate[] = [
       prerequisites: ["factoring"],
     },
     (rng) => {
-      const n = rng.int(3, 12);
+      const n = rng.int(3, 15);
       const N = n * (n + 1);
       return {
         skill: L("Números consecutivos con producto dado", "Consecutive integers with a given product"),
@@ -917,7 +974,7 @@ export const templates: ProblemTemplate[] = [
       prerequisites: ["discriminant"],
     },
     (rng) => {
-      const c = rng.pick([4, 9, 16, 25]);
+      const c = rng.pick([4, 9, 16, 25, 36, 49]);
       const k = 2 * Math.sqrt(c);
       return {
         skill: L("Condición de raíz doble al revés", "Double-root condition in reverse"),
@@ -992,6 +1049,14 @@ export const templates: ProblemTemplate[] = [
         [3, -7],
         [1, -6],
         [4, 6],
+        [5, -8],
+        [-4, -9],
+        [7, 2],
+        [-5, 10],
+        [6, -11],
+        [-8, -3],
+        [9, -4],
+        [-10, -2],
       ];
       const [r1, r2] = rng.pick(sets);
       const b = -(r1 + r2);
@@ -1085,6 +1150,14 @@ export const templates: ProblemTemplate[] = [
         { s: 3, o: -7 },
         { s: -2, o: -5 },
         { s: 5, o: 1 },
+        { s: -8, o: 3 },
+        { s: 6, o: -4 },
+        { s: -7, o: -2 },
+        { s: 9, o: -1 },
+        { s: 2, o: -10 },
+        { s: -4, o: -9 },
+        { s: 10, o: 2 },
+        { s: -11, o: 1 },
       ];
       const p = rng.pick(sets);
       const b = -(p.s + p.o);
@@ -1500,6 +1573,385 @@ export const templates: ProblemTemplate[] = [
             "result",
             "Raíces $x_1 \\approx -1.58$ y $x_2 \\approx -2.42$ (redondeadas), vértice $S(-2\\,|\\,2.5)$ — coincide con el Lösungsvorschlag oficial del 2011.",
             "Roots $x_1 \\approx -1.58$ and $x_2 \\approx -2.42$ (rounded), vertex $S(-2\\,|\\,2.5)$ — matches the official 2011 Lösungsvorschlag.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* ---------------------------------------------------------------- */
+  /* Parameters: for which k does x² − kx + (k+q) have two distinct   */
+  /* real roots? Parameterized family of the curated Bayern item.      */
+  /* ---------------------------------------------------------------- */
+  template(
+    {
+      id: "quad-param-02",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "discriminant",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["discriminant", "parameters", "quadratic-inequality"],
+      prerequisites: ["quadratic-formula"],
+      reasoning: "parameters",
+    },
+    (rng) => {
+      // Δ = k² − 4k − 4q = (k − k₁)(k − k₂) with k₁ + k₂ = 4, so both roots
+      // of Δ are integers and q is a positive integer.
+      const t = rng.pick([
+        { k1: 8, k2: -4, q: 8 },
+        { k1: 10, k2: -6, q: 15 },
+        { k1: 12, k2: -8, q: 24 },
+        { k1: 14, k2: -10, q: 35 },
+      ]);
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(`$k < ${t.k2}$ o $k > ${t.k1}$`, `$k < ${t.k2}$ or $k > ${t.k1}$`),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L(`$${t.k2} \\le k \\le ${t.k1}$`, `$${t.k2} \\le k \\le ${t.k1}$`),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L(`Solo $k > ${t.k1}$`, `Only $k > ${t.k1}$`),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L(`Solo $k < ${t.k2}$`, `Only $k < ${t.k2}$`),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L(
+          "Parámetro en una cuadrática: región de k con dos raíces distintas",
+          "Parameter in a quadratic: region of k with two distinct roots",
+        ),
+        statement: L(
+          `¿Para qué valores reales de $k$ tiene la ecuación $$x^2 - kx + k + ${t.q} = 0$$ exactamente dos soluciones reales distintas?`,
+          `For which real values of $k$ does the equation $$x^2 - kx + k + ${t.q} = 0$$ have exactly two distinct real solutions?`,
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "«Exactamente dos soluciones reales distintas» es una condición sobre el **discriminante** de la cuadrática (en $x$).",
+            "“Exactly two distinct real solutions” is a condition on the quadratic's **discriminant** (in $x$).",
+          ),
+          L(
+            `Escribe $\\Delta = k^2 - 4(k + ${t.q})$ y simplifica: $\\Delta = k^2 - 4k - ${4 * t.q}$. Factoriza ese trinomio en $k$.`,
+            `Write $\\Delta = k^2 - 4(k + ${t.q})$ and simplify: $\\Delta = k^2 - 4k - ${4 * t.q}$. Factor that trinomial in $k$.`,
+          ),
+          L(
+            "«Dos distintas» exige $\\Delta > 0$ **estricto**: estudia el signo del producto y describe la región completa.",
+            "“Two distinct” requires **strict** $\\Delta > 0$: study the sign of the product and describe the full region.",
+          ),
+        ],
+        answerDisplay: L(
+          `$k < ${t.k2}$ o $k > ${t.k1}$`,
+          `$k < ${t.k2}$ or $k > ${t.k1}$`,
+        ),
+        solution: [
+          step(
+            "given",
+            `La cuadrática $x^2 - kx + k + ${t.q} = 0$ con $a = 1$, $b = -k$, $c = k + ${t.q}$; se pregunta por cuáles $k$ tiene dos soluciones reales distintas.`,
+            `The quadratic $x^2 - kx + k + ${t.q} = 0$ with $a = 1$, $b = -k$, $c = k + ${t.q}$; the question is for which $k$ it has two distinct real solutions.`,
+          ),
+          step(
+            "approach",
+            "El número de raíces reales distintas lo decide el discriminante: dos distintas ⇔ $\\Delta > 0$ estricto ($\\Delta = 0$ daría una raíz doble).",
+            "The number of distinct real roots is decided by the discriminant: two distinct ⇔ strict $\\Delta > 0$ ($\\Delta = 0$ would give a double root).",
+          ),
+          step(
+            "calculation",
+            `$\\Delta = (-k)^2 - 4 \\cdot 1 \\cdot (k + ${t.q}) = k^2 - 4k - ${4 * t.q} = (k - ${t.k1})(k + ${-t.k2})$<br>$\\Delta > 0 \\iff (k - ${t.k1})(k + ${-t.k2}) > 0$: ambos factores positivos ($k > ${t.k1}$) o ambos negativos ($k < ${t.k2}$).<br>Controles: con $k = 0$ (dentro del intervalo prohibido) $\\Delta = -${4 * t.q} < 0$ ✗; con $k = ${t.k1 + 1} > ${t.k1}$ hay dos raíces ✓; con $k = ${t.k1}$ exactamente, $\\Delta = 0$ (raíz doble, no vale).`,
+            `$\\Delta = (-k)^2 - 4 \\cdot 1 \\cdot (k + ${t.q}) = k^2 - 4k - ${4 * t.q} = (k - ${t.k1})(k + ${-t.k2})$<br>$\\Delta > 0 \\iff (k - ${t.k1})(k + ${-t.k2}) > 0$: both factors positive ($k > ${t.k1}$) or both negative ($k < ${t.k2}$).<br>Sanity checks: with $k = 0$ (inside the forbidden interval) $\\Delta = -${4 * t.q} < 0$ ✗; with $k = ${t.k1 + 1} > ${t.k1}$ there are two roots ✓; with exactly $k = ${t.k1}$, $\\Delta = 0$ (double root, not enough).`,
+          ),
+          step(
+            "result",
+            `Dos soluciones reales distintas $\\iff k \\in (-\\infty, ${t.k2}) \\cup (${t.k1}, \\infty)$.`,
+            `Two distinct real solutions $\\iff k \\in (-\\infty, ${t.k2}) \\cup (${t.k1}, \\infty)$.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* ---------------------------------------------------------------- */
+  /* Challenge: build the equation from sum & difference of the roots  */
+  /* ---------------------------------------------------------------- */
+  template(
+    {
+      id: "quad-roots-04",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "roots",
+      difficulty: "challenge",
+      questionType: "expression",
+      estimatedTimeSec: 270,
+      tags: ["vieta", "roots", "build-equation", "system"],
+      prerequisites: ["factoring"],
+      reasoning: "modeling",
+    },
+    (rng) => {
+      // Hand-curated pairs r1 > r2 (nonzero, distinct, integer sum ≠ 0):
+      // S = r1 + r2 and D = r1 − r2 are the stated constraints.
+      const sets: { r1: number; r2: number }[] = [
+        { r1: 5, r2: 2 },
+        { r1: 6, r2: 1 },
+        { r1: 4, r2: -1 },
+        { r1: 7, r2: -2 },
+        { r1: 1, r2: -4 },
+        { r1: 8, r2: 3 },
+        { r1: 9, r2: -2 },
+        { r1: 2, r2: -7 },
+        { r1: 6, r2: -3 },
+        { r1: 10, r2: -1 },
+        { r1: 3, r2: -8 },
+        { r1: 5, r2: -4 },
+        { r1: 7, r2: 4 },
+        { r1: 2, r2: -9 },
+      ];
+      const p = rng.pick(sets);
+      const S = p.r1 + p.r2;
+      const D = p.r1 - p.r2;
+      const c = p.r1 * p.r2;
+      return {
+        skill: L(
+          "Construir la ecuación desde la suma y la diferencia de raíces",
+          "Building the equation from the sum and difference of the roots",
+        ),
+        statement: L(
+          `Las dos raíces de una ecuación cuadrática mónica suman $${S}$ y se diferencian en $${D}$. Escribe esa ecuación en forma general $x^2 + bx + c = 0$ (por ejemplo, x^2-3x+2).`,
+          `The two roots of a monic quadratic equation add up to $${S}$ and differ by $${D}$. Write that equation in general form $x^2 + bx + c = 0$ (e.g. x^2-3x+2).`,
+        ),
+        answer: {
+          kind: "expression",
+          accepted: [polyAcc([1, -S, c], ["x^2", "x", ""])],
+          variables: ["x"],
+        },
+        hints: [
+          L(
+            "Llama $r_1 > r_2$ a las dos raíces: tienes el sistema $r_1 + r_2 = " +
+              S +
+              "$, $r_1 - r_2 = " +
+              D +
+              "$.",
+            `Call the roots $r_1 > r_2$: you have the system $r_1 + r_2 = ${S}$, $r_1 - r_2 = ${D}$.`,
+          ),
+          L(
+            "Suma y resta las dos ecuaciones del sistema: $r_1 = \\frac{S+D}{2}$ y $r_2 = \\frac{S-D}{2}$ (aquí salen enteras).",
+            "Add and subtract the two equations of the system: $r_1 = \\frac{S+D}{2}$ and $r_2 = \\frac{S-D}{2}$ (here they come out as integers).",
+          ),
+          L(
+            "Vieta para una mónica: $b = -(r_1 + r_2)$ y $c = r_1 \\cdot r_2$.",
+            "Vieta for a monic equation: $b = -(r_1 + r_2)$ and $c = r_1 \\cdot r_2$.",
+          ),
+        ],
+        answerDisplay: L(
+          `$x^2 ${opTerm(-S, "x")} ${op(c)} = 0$`,
+          `$x^2 ${opTerm(-S, "x")} ${op(c)} = 0$`,
+        ),
+        solution: [
+          step(
+            "given",
+            `Restricciones sobre las raíces: $r_1 + r_2 = ${S}$ y $r_1 - r_2 = ${D}$ (con $r_1 > r_2$).`,
+            `Constraints on the roots: $r_1 + r_2 = ${S}$ and $r_1 - r_2 = ${D}$ (with $r_1 > r_2$).`,
+          ),
+          step(
+            "approach",
+            "Modelamos en dos pasos: primero recuperamos las raíces resolviendo el sistema lineal, después construimos la mónica con Vieta: $(x - r_1)(x - r_2) = x^2 - (r_1 + r_2)x + r_1 r_2$.",
+            "We model in two steps: first recover the roots by solving the linear system, then build the monic equation with Vieta: $(x - r_1)(x - r_2) = x^2 - (r_1 + r_2)x + r_1 r_2$.",
+          ),
+          step(
+            "calculation",
+            `$r_1 = \\frac{${S} + ${D}}{2} = ${p.r1}$; $r_2 = \\frac{${S} - ${D}}{2} = ${p.r2}$<br>$b = -(r_1 + r_2) = -(${S}) = ${-S}$<br>$c = r_1 \\cdot r_2 = ${p.r1 < 0 ? `(${p.r1})` : p.r1} \\cdot ${p.r2 < 0 ? `(${p.r2})` : p.r2} = ${c}$<br>Ecuación: $x^2 ${opTerm(-S, "x")} ${op(c)} = \\left(${linFac(p.r1)}\\right)\\left(${linFac(p.r2)}\\right) = 0$`,
+            `$r_1 = \\frac{${S} + ${D}}{2} = ${p.r1}$; $r_2 = \\frac{${S} - ${D}}{2} = ${p.r2}$<br>$b = -(r_1 + r_2) = -(${S}) = ${-S}$<br>$c = r_1 \\cdot r_2 = ${p.r1 < 0 ? `(${p.r1})` : p.r1} \\cdot ${p.r2 < 0 ? `(${p.r2})` : p.r2} = ${c}$<br>Equation: $x^2 ${opTerm(-S, "x")} ${op(c)} = \\left(${linFac(p.r1)}\\right)\\left(${linFac(p.r2)}\\right) = 0$`,
+          ),
+          step(
+            "result",
+            `La ecuación es $x^2 ${opTerm(-S, "x")} ${op(c)} = 0$: sus raíces suman $${S}$ y se diferencian en $${D}$, como pedía el enunciado.`,
+            `The equation is $x^2 ${opTerm(-S, "x")} ${op(c)} = 0$: its roots add up to $${S}$ and differ by $${D}$, as required.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* ---------------------------------------------------------------- */
+  /* Multi-concept: quadratic shares a root with a linear equation     */
+  /* ---------------------------------------------------------------- */
+  template(
+    {
+      id: "quad-common-01",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "roots",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 240,
+      tags: ["vieta", "roots", "linear-equation", "shared-root"],
+      prerequisites: ["factoring"],
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      // s = root shared with the linear equation l·x − l·s = 0;
+      // o = the other root (from the stated Vieta sum S = s + o).
+      const sets: { l: number; s: number; o: number }[] = [
+        { l: 3, s: 4, o: -5 },
+        { l: 1, s: 6, o: -2 },
+        { l: 2, s: -3, o: 7 },
+        { l: 4, s: 5, o: 3 },
+        { l: 2, s: -4, o: -6 },
+        { l: 1, s: 7, o: -10 },
+        { l: 3, s: -5, o: 2 },
+        { l: 5, s: 2, o: 8 },
+        { l: 2, s: 6, o: -9 },
+        { l: 1, s: -7, o: -4 },
+        { l: 4, s: -6, o: 10 },
+        { l: 3, s: 8, o: -12 },
+        { l: 2, s: -8, o: 5 },
+      ];
+      const p = rng.pick(sets);
+      const linConst = -p.l * p.s;
+      const S = p.s + p.o;
+      const c = p.s * p.o;
+      const b = -S;
+      return {
+        skill: L(
+          "Raíz común con una ecuación lineal (lineal + Vieta)",
+          "Root shared with a linear equation (linear + Vieta)",
+        ),
+        statement: L(
+          `La ecuación cuadrática $x^2 + bx + c = 0$ tiene una raíz en común con la ecuación lineal $${p.l}x ${op(linConst)} = 0$, y la suma de sus dos raíces es $${S}$. ¿Cuánto vale el término independiente $c$?`,
+          `The quadratic equation $x^2 + bx + c = 0$ shares one root with the linear equation $${p.l}x ${op(linConst)} = 0$, and the sum of its two roots is $${S}$. What is the constant term $c$?`,
+        ),
+        answer: { kind: "numeric", value: c },
+        hints: [
+          L(
+            "Resuelve primero la ecuación lineal: su solución es la raíz común de la cuadrática.",
+            "Solve the linear equation first: its solution is the root shared with the quadratic.",
+          ),
+          L(
+            "Con $a = 1$, la suma de las dos raíces es $-b$; ya conoces una raíz, así que la otra sale de esa suma.",
+            "With $a = 1$, the sum of the two roots is $-b$; you already know one root, so the other follows from that sum.",
+          ),
+          L(
+            "El término independiente $c$ es el **producto** de las dos raíces.",
+            "The constant term $c$ is the **product** of the two roots.",
+          ),
+        ],
+        answerDisplay: L(`$c = ${c}$`, `$c = ${c}$`),
+        solution: [
+          step(
+            "given",
+            `Raíz común con $${p.l}x ${op(linConst)} = 0$; suma de las dos raíces: $${S}$.`,
+            `Root shared with $${p.l}x ${op(linConst)} = 0$; sum of the two roots: $${S}$.`,
+          ),
+          step(
+            "approach",
+            "Cadena: **ecuación lineal** (raíz común) → **Vieta** (suma para la otra raíz, producto para $c$).",
+            "Chain: **linear equation** (shared root) → **Vieta** (sum for the other root, product for $c$).",
+          ),
+          step(
+            "calculation",
+            `$${p.l}x ${op(linConst)} = 0 \\Rightarrow x = ${p.s}$ (raíz común)<br>$r_2 = ${S} - (${p.s < 0 ? `(${p.s})` : p.s}) = ${p.o}$<br>$c = r_1 \\cdot r_2 = ${p.s < 0 ? `(${p.s})` : p.s} \\cdot ${p.o < 0 ? `(${p.o})` : p.o} = ${c}$`,
+            `$${p.l}x ${op(linConst)} = 0 \\Rightarrow x = ${p.s}$ (shared root)<br>$r_2 = ${S} - (${p.s < 0 ? `(${p.s})` : p.s}) = ${p.o}$<br>$c = r_1 \\cdot r_2 = ${p.s < 0 ? `(${p.s})` : p.s} \\cdot ${p.o < 0 ? `(${p.o})` : p.o} = ${c}$`,
+          ),
+          step(
+            "result",
+            `$c = ${c}$: la ecuación es $x^2 ${opTerm(b, "x")} ${op(c)} = \\left(${linFac(p.s)}\\right)\\left(${linFac(p.o)}\\right) = 0$, que comparte la raíz $${p.s}$ con la lineal.`,
+            `$c = ${c}$: the equation is $x^2 ${opTerm(b, "x")} ${op(c)} = \\left(${linFac(p.s)}\\right)\\left(${linFac(p.o)}\\right) = 0$, which shares the root $${p.s}$ with the linear one.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* ---------------------------------------------------------------- */
+  /* Graphical + parameters: vertex on a given line → positive b       */
+  /* ---------------------------------------------------------------- */
+  template(
+    {
+      id: "quad-vertex-03",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "vertex",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 300,
+      tags: ["vertex", "parameters", "line", "graphical"],
+      prerequisites: ["completing-square"],
+      reasoning: "graphical",
+    },
+    (rng) => {
+      // Curated (a, b, c, m) with the line q = c + b(2m − b)/(4a) through the
+      // vertex; the b-quadratic b² − 2mb + 4a(q − c) = 0 has roots b > 0 and
+      // 2m − b < 0, so the positive one is unique.
+      const sets: { a: number; b: number; c: number; m: number; q: number }[] = [
+        { a: 1, b: 4, c: 1, m: 1, q: -1 },
+        { a: 1, b: 6, c: 2, m: 2, q: -1 },
+        { a: 2, b: 4, c: 1, m: 1, q: 0 },
+        { a: 1, b: 8, c: 3, m: 3, q: -1 },
+        { a: 2, b: 8, c: 2, m: 2, q: -2 },
+        { a: 3, b: 6, c: 5, m: 1, q: 3 },
+        { a: 1, b: 10, c: 4, m: 4, q: -1 },
+        { a: 2, b: 8, c: 5, m: 3, q: 3 },
+      ];
+      const t = rng.pick(sets);
+      const xTex = `${t.a === 1 ? "" : t.a}x^2`;
+      const lineTex = `${t.m === 1 ? "" : t.m}x${t.q === 0 ? "" : ` ${op(t.q)}`}`;
+      const sq = Math.abs(t.b - t.m); // √(m² + 4a(c − q))
+      const other = 2 * t.m - t.b; // negative root
+      return {
+        skill: L(
+          "Vértice sobre una recta: hallar el coeficiente b",
+          "Vertex on a line: finding the coefficient b",
+        ),
+        statement: L(
+          `La parábola $y = ${xTex} + bx + ${t.c}$ tiene su vértice sobre la recta $y = ${lineTex}$. ¿Cuál es el valor **positivo** de $b$?`,
+          `The parabola $y = ${xTex} + bx + ${t.c}$ has its vertex on the line $y = ${lineTex}$. What is the **positive** value of $b$?`,
+        ),
+        answer: { kind: "numeric", value: t.b },
+        hints: [
+          L(
+            "Expresa el vértice en función de $b$: $x_v = -\\frac{b}{2a}$ y $y_v = c - \\frac{b^2}{4a}$.",
+            "Express the vertex in terms of $b$: $x_v = -\\frac{b}{2a}$ and $y_v = c - \\frac{b^2}{4a}$.",
+          ),
+          L(
+            "«El vértice está sobre la recta» se traduce en $y_v = m\\,x_v + q$.",
+            "“The vertex lies on the line” translates to $y_v = m\\,x_v + q$.",
+          ),
+          L(
+            "Al sustituir queda una ecuación cuadrática en $b$: $b^2 - 2mb + 4a(q - c) = 0$; resuélvela con la fórmula cuadrática.",
+            "Substituting leaves a quadratic equation in $b$: $b^2 - 2mb + 4a(q - c) = 0$; solve it with the quadratic formula.",
+          ),
+        ],
+        answerDisplay: L(`$b = ${t.b}$`, `$b = ${t.b}$`),
+        solution: [
+          step(
+            "given",
+            `$y = ${xTex} + bx + ${t.c}$ (con $a = ${t.a}$, $c = ${t.c}$, $b$ desconocido) y la recta $y = ${lineTex}$.`,
+            `$y = ${xTex} + bx + ${t.c}$ (with $a = ${t.a}$, $c = ${t.c}$, unknown $b$) and the line $y = ${lineTex}$.`,
+          ),
+          step(
+            "approach",
+            "Traducción gráfico → álgebra: el vértice $\\left(-\\frac{b}{2a},\\ c - \\frac{b^2}{4a}\\right)$ debe cumplir la ecuación de la recta. Eso da una cuadrática en $b$ con dos soluciones; se pide la positiva.",
+            "Graph → algebra translation: the vertex $\\left(-\\frac{b}{2a},\\ c - \\frac{b^2}{4a}\\right)$ must satisfy the line's equation. That gives a quadratic in $b$ with two solutions; the positive one is requested.",
+          ),
+          step(
+            "calculation",
+            `$x_v = -\\frac{b}{2 \\cdot ${t.a}}$; $y_v = ${t.c} - \\frac{b^2}{4 \\cdot ${t.a}}$<br>Condición: ${t.c} - \\frac{b^2}{${4 * t.a}} = ${t.m === 1 ? "" : t.m}\\left(-\\frac{b}{${2 * t.a}}\\right)${t.q === 0 ? "" : ` ${op(t.q)}`}$<br>Multiplicando por ${4 * t.a}: $b^2 ${opTerm(-2 * t.m, "b")} ${op(4 * t.a * (t.q - t.c))} = 0$<br>$b = ${t.m} \\pm \\sqrt{${t.m * t.m} + ${4 * t.a * (t.c - t.q)}} = ${t.m} \\pm ${sq}$<br>$b = ${t.b}$ (positivo) o $b = ${other}$ (negativo, se descarta)`,
+            `$x_v = -\\frac{b}{2 \\cdot ${t.a}}$; $y_v = ${t.c} - \\frac{b^2}{4 \\cdot ${t.a}}$<br>Condition: ${t.c} - \\frac{b^2}{${4 * t.a}} = ${t.m === 1 ? "" : t.m}\\left(-\\frac{b}{${2 * t.a}}\\right)${t.q === 0 ? "" : ` ${op(t.q)}`}$<br>Multiplying by ${4 * t.a}: $b^2 ${opTerm(-2 * t.m, "b")} ${op(4 * t.a * (t.q - t.c))} = 0$<br>$b = ${t.m} \\pm \\sqrt{${t.m * t.m} + ${4 * t.a * (t.c - t.q)}} = ${t.m} \\pm ${sq}$<br>$b = ${t.b}$ (positive) or $b = ${other}$ (negative, discarded)`,
+          ),
+          step(
+            "result",
+            `$b = ${t.b}$: el vértice queda en $\\left(${-t.b / (2 * t.a)},\\ ${t.c - (t.b * t.b) / (4 * t.a)}\\right)$, que efectivamente está sobre la recta.`,
+            `$b = ${t.b}$: the vertex is at $\\left(${-t.b / (2 * t.a)},\\ ${t.c - (t.b * t.b) / (4 * t.a)}\\right)$, which indeed lies on the line.`,
           ),
         ],
       };

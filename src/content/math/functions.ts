@@ -958,4 +958,235 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+  /* ================================================================== */
+  /* Curated — Fundamentos ESPOL, Cap. 4 Ejercicios Propuestos          */
+  /* (funciones por tramos), items 62–64, pp. 510–511. Verified.        */
+  /* ================================================================== */
+
+  /* 62 — piecewise cost function */
+  template(
+    {
+      id: "fn-espol-62",
+      subject: "math",
+      topicId: "functions",
+      subtopicId: "piecewise",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 180,
+      tags: ["piecewise", "modeling", "money"],
+      prerequisites: ["functions"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4.6 · 62",
+        page: 510,
+      },
+      reasoning: "definition-hunting",
+    },
+    () => ({
+      skill: L("Evaluar una función por tramos", "Evaluating a piecewise function"),
+      statement: L(
+        `El costo $C$ (en dólares) de cierto material según su peso $g$ (en gramos) es $$C(g) = \\begin{cases} 3{,}00\\,g & 0 \\leq g < 20 \\\\ 2{,}50\\,g + 10{,}00 & 20 \\leq g < 40 \\\\ 2{,}00\\,g + 30 & 40 \\leq g \\leq 400 \\end{cases}$$ ¿Cuál es el costo para un pedido de **25 g**?`,
+        `The cost $C$ (in dollars) of a material by weight $g$ (in grams) is $$C(g) = \\begin{cases} 3.00\\,g & 0 \\leq g < 20 \\\\ 2.50\\,g + 10.00 & 20 \\leq g < 40 \\\\ 2.00\\,g + 30 & 40 \\leq g \\leq 400 \\end{cases}$$ What is the cost of a **25 g** order?`,
+      ),
+      answer: { kind: "numeric", value: 72.5, tolerance: { mode: "relative", value: 0.01 } },
+      hints: [
+        L(
+          "¿En qué tramo cae $g = 25$? Revisa las tres condiciones.",
+          "Which branch does $g = 25$ fall into? Check the three conditions.",
+        ),
+        L(
+          "$20 \\leq 25 < 40$: corresponde el tramo del medio.",
+          "$20 \\leq 25 < 40$: the middle branch applies.",
+        ),
+        L(
+          "$C(25) = 2{,}50 \\cdot 25 + 10{,}00$.",
+          "$C(25) = 2.50 \\cdot 25 + 10.00$.",
+        ),
+      ],
+      answerDisplay: L(
+        `$C(25) = \\$72{,}50$`,
+        `$C(25) = \\$72.50$`,
+      ),
+      solution: [
+        step(
+          "given",
+          "Función de costo por tramos; pedido de $g = 25$ g.",
+          "Piecewise cost function; an order of $g = 25$ g.",
+        ),
+        step(
+          "approach",
+          "En una función por tramos, el primer paso siempre es localizar el tramo correcto; los otros dos no se usan.",
+          "In a piecewise function, the first step is always locating the correct branch; the other two play no role.",
+        ),
+        step(
+          "calculation",
+          `$0 \\leq 25 < 20$ falso; $20 \\leq 25 < 40$ verdadero<br>$C(25) = 2{,}50 \\cdot 25 + 10{,}00 = 62{,}50 + 10{,}00 = 72{,}50$`,
+          `$0 \\leq 25 < 20$ false; $20 \\leq 25 < 40$ true<br>$C(25) = 2.50 \\cdot 25 + 10.00 = 62.50 + 10.00 = 72.50$`,
+        ),
+        step(
+          "result",
+          `El pedido de 25 g cuesta $\\$72{,}50$. (Ojo: con 10 g habría sido $\\$30$, el precio por gramo baja al crecer el pedido, pero el cargo fijo sube por tramos.)`,
+          `The 25 g order costs $\\$72.50$. (Note: at 10 g it would have been $\\$30$ — the per-gram price drops as the order grows, but the fixed charge jumps at each threshold.)`,
+        ),
+      ],
+    }),
+  ),
+
+  /* 63 — piecewise f: which statement is true? */
+  template(
+    {
+      id: "fn-espol-63",
+      subject: "math",
+      topicId: "functions",
+      subtopicId: "piecewise",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 360,
+      tags: ["piecewise", "injective", "even", "properties"],
+      prerequisites: ["functions"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4.6 · 63",
+        page: 510,
+      },
+      reasoning: "definition-hunting",
+    },
+    () => {
+      const options: McOption[] = [
+        { id: "a", text: L("$f$ es inyectiva", "$f$ is injective"), correct: false },
+        { id: "b", text: L("$f$ es par", "$f$ is even"), correct: false },
+        { id: "c", text: L("$f(3) + f(4) + f(5) + f(6) = 4\\,f(6)$", "$f(3) + f(4) + f(5) + f(6) = 4\\,f(6)$"), correct: true },
+        { id: "d", text: L("$f(x) < 0$ para todo $x$", "$f(x) < 0$ for every $x$"), correct: false },
+      ];
+      return {
+        skill: L("Auditar las propiedades de una función a trozos", "Auditing the properties of a piecewise function"),
+        statement: L(
+          `Sea $f: [-3, 6] \\to [0, 5]\\cup\\{6\\}$ definida por $$f(x) = \\begin{cases} x^2 - 4 & x \\in [-3, -2)\\cup(2, 3) \\\\ -x^2 + 4 & x \\in [-2, 2] \\\\ 6 & x \\in [3, 6] \\end{cases}$$ ¿Cuál de las siguientes proposiciones es **verdadera**?`,
+          `Let $f: [-3, 6] \\to [0, 5]\\cup\\{6\\}$ be defined by $$f(x) = \\begin{cases} x^2 - 4 & x \\in [-3, -2)\\cup(2, 3) \\\\ -x^2 + 4 & x \\in [-2, 2] \\\\ 6 & x \\in [3, 6] \\end{cases}$$ Which of the following statements is **true**?`,
+        ),
+        answer: { kind: "multiple-choice", options },
+        hints: [
+          L(
+            "Evalúa la opción c) primero: en $[3, 6]$ la función es constante.",
+            "Evaluate option c) first: on $[3, 6]$ the function is constant.",
+          ),
+          L(
+            "Para la inyectiva busca DOS entradas con la misma salida (prueba valores de $x^2 - 4$ y de $-x^2 + 4$).",
+            "For injectivity look for TWO inputs with the same output (try values of $x^2 - 4$ and of $-x^2 + 4$).",
+          ),
+          L(
+            "¿El dominio $[-3, 6]$ es simétrico respecto del 0? Eso decide la paridad.",
+            "Is the domain $[-3, 6]$ symmetric about 0? That settles evenness.",
+          ),
+        ],
+        answerDisplay: L(
+          "La verdadera es $f(3) + f(4) + f(5) + f(6) = 4\\,f(6) = 24$.",
+          "The true one is $f(3) + f(4) + f(5) + f(6) = 4\\,f(6) = 24$.",
+        ),
+        solution: [
+          step(
+            "given",
+            "Función a trozos con dominio $[-3, 6]$ y codominio $[0, 5]\\cup\\{6\\}$.",
+            "Piecewise function with domain $[-3, 6]$ and codomain $[0, 5]\\cup\\{6\\}$.",
+          ),
+          step(
+            "approach",
+            "Cada opción se comprueba con la definición: inyectiva (salidas repetidas), par (dominio simétrico), y evaluaciones directas.",
+            "Each option is checked against the definition: injective (repeated outputs), even (symmetric domain), and direct evaluations.",
+          ),
+          step(
+            "calculation",
+            `c) En $[3,6]$: $f(3) = f(4) = f(5) = f(6) = 6$, así que $f(3)+f(4)+f(5)+f(6) = 24 = 4\\cdot 6 = 4f(6)$ ✓<br>a) $f(-\\sqrt{5}) = 1 = f(\\sqrt{3})$ con $-\\sqrt{5} \\neq \\sqrt{3}$: NO es inyectiva<br>b) El dominio $[-3,6]$ no es simétrico: no puede ser par<br>d) $f(0) = 4 > 0$: es falsa`,
+            `c) On $[3,6]$: $f(3) = f(4) = f(5) = f(6) = 6$, so $f(3)+f(4)+f(5)+f(6) = 24 = 4\\cdot 6 = 4f(6)$ ✓<br>a) $f(-\\sqrt{5}) = 1 = f(\\sqrt{3})$ with $-\\sqrt{5} \\neq \\sqrt{3}$: NOT injective<br>b) The domain $[-3,6]$ is not symmetric: it cannot be even<br>d) $f(0) = 4 > 0$: false`,
+          ),
+          step(
+            "result",
+            `La única proposición verdadera es la c). Además $f$ ES sobreyectiva sobre $[0,5]\\cup\\{6\\}$ (el tramo $x^2-4$ cubre $(0,5]$ con $x=-3$, el tramo central cubre $[0,4]$ y el tercero aporta el $6$).`,
+            `The only true statement is c). Moreover $f$ IS surjective onto $[0,5]\\cup\\{6\\}$ (the $x^2-4$ branch covers $(0,5]$ via $x=-3$, the middle branch covers $[0,4]$, and the third one supplies the $6$).`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 64 — IMG graduation merit ranking */
+  template(
+    {
+      id: "fn-espol-64",
+      subject: "math",
+      topicId: "functions",
+      subtopicId: "piecewise",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 420,
+      tags: ["piecewise", "modeling", "table", "ranking"],
+      prerequisites: ["functions"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4.6 · 64",
+        page: 511,
+      },
+      reasoning: "modeling",
+    },
+    () => {
+      const options: McOption[] = [
+        { id: "a", text: L("Biología Marina", "Marine Biology"), correct: false },
+        { id: "b", text: L("Ing. en Petróleo", "Petroleum Engineering"), correct: true },
+        { id: "c", text: L("Ing. Mecánica", "Mechanical Engineering"), correct: false },
+        { id: "d", text: L("Ing. Ambiental", "Environmental Engineering"), correct: false },
+      ];
+      return {
+        skill: L("Índice de mérito por tramos con tabla", "Table-driven piecewise merit index"),
+        statement: L(
+          `Una IES calcula el Índice de Mérito de Graduación de cada graduado como $\\text{IMG}_i = p_i \\cdot \\operatorname{f}(z_i - t_i)$, donde $t_i$ es la duración oficial de la carrera, $z_i$ el tiempo real hasta graduarse y $p_i$ el promedio, con $$\\operatorname{f}(d) = \\begin{cases} 1{,}0 & d \\leq 0{,}5 \\\\ 0{,}9 & 0{,}5 < d \\leq 1{,}0 \\\\ 0{,}8 & 1{,}0 < d \\leq 1{,}5 \\\\ 0{,}7 & 1{,}5 < d \\leq 2{,}0 \\\\ 0 & d > 2{,}0 \\end{cases}$$ Los mejores alumnos son: Biología Marina ($t = 5$, $z = 7$, $p = 9{,}80$), Ing. en Petróleo ($t = 6$, $z = 6$, $p = 8{,}90$), Ing. Mecánica ($t = 5$, $z = 6$, $p = 8{,}90$) e Ing. Ambiental ($t = 5$, $z = 7$, $p = 9{,}00$). ¿Quién ocupa el **primer lugar**?`,
+          `A higher-education institution computes each graduate's Graduation Merit Index as $\\text{IMG}_i = p_i \\cdot \\operatorname{f}(z_i - t_i)$, where $t_i$ is the official program length, $z_i$ the actual time to graduate and $p_i$ the grade average, with $$\\operatorname{f}(d) = \\begin{cases} 1.0 & d \\leq 0.5 \\\\ 0.9 & 0.5 < d \\leq 1.0 \\\\ 0.8 & 1.0 < d \\leq 1.5 \\\\ 0.7 & 1.5 < d \\leq 2.0 \\\\ 0 & d > 2.0 \\end{cases}$$ The top students are: Marine Biology ($t = 5$, $z = 7$, $p = 9.80$), Petroleum Engineering ($t = 6$, $z = 6$, $p = 8.90$), Mechanical Engineering ($t = 5$, $z = 6$, $p = 8.90$) and Environmental Engineering ($t = 5$, $z = 7$, $p = 9.00$). Who takes **first place**?`,
+        ),
+        answer: { kind: "multiple-choice", options },
+        hints: [
+          L(
+            "Calcula el retraso $d = z_i - t_i$ de cada graduado.",
+            "Compute each graduate's delay $d = z_i - t_i$.",
+          ),
+          L(
+            "Biología y Ambiental: $d = 2{,}0$; Petróleo: $d = 0$; Mecánica: $d = 1{,}0$. Ubica cada uno en la función por tramos.",
+            "Marine Biology and Environmental: $d = 2.0$; Petroleum: $d = 0$; Mechanical: $d = 1.0$. Place each one on the piecewise function.",
+          ),
+          L(
+            "Méritos: Biología $9{,}80 \\cdot 0{,}7$, Petróleo $8{,}90 \\cdot 1{,}0$, Mecánica $8{,}90 \\cdot 0{,}8$, Ambiental $9{,}00 \\cdot 0{,}7$. Compara.",
+            "Merit: Marine Biology $9.80 \\cdot 0.7$, Petroleum $8.90 \\cdot 1.0$, Mechanical $8.90 \\cdot 0.8$, Environmental $9.00 \\cdot 0.7$. Compare.",
+          ),
+        ],
+        answerDisplay: L(
+          "Primer lugar: Ing. en Petróleo (IMG $= 8{,}90$).",
+          "First place: Petroleum Engineering (IMG $= 8.90$).",
+        ),
+        solution: [
+          step(
+            "given",
+            "Cuatro graduados con sus $(t, z, p)$ y la regla por tramos $\\operatorname{f}(d)$.",
+            "Four graduates with their $(t, z, p)$ and the piecewise rule $\\operatorname{f}(d)$.",
+          ),
+          step(
+            "approach",
+            "El promedio más alto NO gana automáticamente: el índice premia graduarse a tiempo. Hay que evaluar la función por tramos para cada caso y luego multiplicar.",
+            "The highest average does NOT win automatically: the index rewards graduating on time. Evaluate the piecewise function per case and then multiply.",
+          ),
+          step(
+            "calculation",
+            `Biología: $d = 7 - 5 = 2{,}0 \\Rightarrow \\operatorname{f} = 0{,}7 \\Rightarrow \\text{IMG} = 9{,}80 \\cdot 0{,}7 = 6{,}86$<br>Petróleo: $d = 6 - 6 = 0 \\Rightarrow \\operatorname{f} = 1{,}0 \\Rightarrow \\text{IMG} = 8{,}90$<br>Mecánica: $d = 6 - 5 = 1{,}0 \\Rightarrow \\operatorname{f} = 0{,}8 \\Rightarrow \\text{IMG} = 8{,}90 \\cdot 0{,}8 = 7{,}12$<br>Ambiental: $d = 7 - 5 = 2{,}0 \\Rightarrow \\operatorname{f} = 0{,}7 \\Rightarrow \\text{IMG} = 9{,}00 \\cdot 0{,}7 = 6{,}30$`,
+            `Marine Biology: $d = 7 - 5 = 2.0 \\Rightarrow \\operatorname{f} = 0.7 \\Rightarrow \\text{IMG} = 9.80 \\cdot 0.7 = 6.86$<br>Petroleum: $d = 6 - 6 = 0 \\Rightarrow \\operatorname{f} = 1.0 \\Rightarrow \\text{IMG} = 8.90$<br>Mechanical: $d = 6 - 5 = 1.0 \\Rightarrow \\operatorname{f} = 0.8 \\Rightarrow \\text{IMG} = 8.90 \\cdot 0.8 = 7.12$<br>Environmental: $d = 7 - 5 = 2.0 \\Rightarrow \\operatorname{f} = 0.7 \\Rightarrow \\text{IMG} = 9.00 \\cdot 0.7 = 6.30$`,
+          ),
+          step(
+            "result",
+            `Orden final: Petróleo ($8{,}90$) > Mecánica ($7{,}12$) > Biología Marina ($6{,}86$) > Ambiental ($6{,}30$). El primer lugar es **Ing. en Petróleo**, a pesar de no tener el promedio más alto.`,
+            `Final ranking: Petroleum ($8.90$) > Mechanical ($7.12$) > Marine Biology ($6.86$) > Environmental ($6.30$). First place goes to **Petroleum Engineering**, despite not having the top average.`,
+          ),
+        ],
+      };
+    },
+  ),
+
 ];

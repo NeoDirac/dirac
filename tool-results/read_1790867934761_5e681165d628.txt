@@ -1,0 +1,717 @@
+     1→"use client";
+     2→
+     3→/**
+     4→ * SessionView — orchestrates a practice session:
+     5→ * loads templates, builds the deck, drives the per-problem state machine,
+     6→ * records anonymous progress, and renders the summary.
+     7→ */
+     8→
+     9→import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+    10→import { ArrowLeft, ArrowRight, Check, Flag, Inbox, Keyboard, MessageCircle, RotateCcw, SkipForward, Timer, X } from "lucide-react";
+    11→import { Button } from "@/components/ui/button";
+    12→import { Progress } from "@/components/ui/progress";
+    13→import { Skeleton } from "@/components/ui/skeleton";
+    14→import {
+    15→  AlertDialog,
+    16→  AlertDialogAction,
+    17→  AlertDialogCancel,
+    18→  AlertDialogContent,
+    19→  AlertDialogDescription,
+    20→  AlertDialogFooter,
+    21→  AlertDialogHeader,
+    22→  AlertDialogTitle,
+    23→  AlertDialogTrigger,
+    24→} from "@/components/ui/alert-dialog";
+    25→import {
+    26→  Dialog,
+    27→  DialogContent,
+    28→  DialogDescription,
+    29→  DialogHeader,
+    30→  DialogTitle,
+    31→} from "@/components/ui/dialog";
+    32→import { ProblemView } from "./problem-view";
+    33→import { SessionSummary } from "./session-summary";
+    34→import { initialProblemState, type ProblemState } from "./state";
+    35→import { useI18n } from "@/lib/i18n/context";
+    36→import { useAllTemplates } from "@/lib/use-templates";
+    37→import { buildDeck, findTemplate, instantiateProblem } from "@/lib/session";
+    38→import { loadSession, saveSession, clearSession } from "@/lib/session-persist";
+    39→import { navigate, href, sessionHref } from "@/lib/router";
+    40→import { appendRecord, appendSessionRecord } from "@/lib/progress";
+    41→import { scheduleFromSession } from "@/lib/review";
+    42→import { useToast } from "@/hooks/use-toast";
+    43→import { checkAnswer, type AnswerSubmission } from "@/lib/validation/answer";
+    44→import { mathCurriculum } from "@/content/curriculum/math";
+    45→import { physicsCurriculum } from "@/content/curriculum/physics";
+    46→import { siteConfig } from "@/config/site";
+    47→import type { Problem, SessionConfig, SessionRecord } from "@/lib/types";
+    48→import { cn, formatClock } from "@/lib/utils";
+    49→
+    50→const BATCH = 10;
+    51→
+    52→/** Quiet link to the profe's WhatsApp — the human escape hatch. */
+    53→function AskTutorLink({ href, label }: { href: string; label: string }) {
+    54→  return (
+    55→    <a
+    56→      href={href}
+    57→      target="_blank"
+    58→      rel="noopener noreferrer"
+    59→      className="inline-flex items-center gap-1.5 text-sm text-muted-foreground underline-offset-4 transition-colors hover:text-subject-physics hover:underline"
+    60→    >
+    61→      <MessageCircle className="h-4 w-4" aria-hidden="true" />
+    62→      {label}
+    63→    </a>
+    64→  );
+    65→}
+    66→
+    67→const SHORTCUTS: { keys: string; labelKey: string }[] = [
+    68→  { keys: "H", labelKey: "practice.shortcuts.hint" },
+    69→  { keys: "N", labelKey: "practice.shortcuts.next" },
+    70→  { keys: "Ctrl ⏎", labelKey: "practice.shortcuts.check" },
+    71→  { keys: "1–9", labelKey: "practice.shortcuts.mc" },
+    72→  { keys: "?", labelKey: "practice.shortcuts.help" },
+    73→];
+    74→
+    75→export function SessionView({ config }: { config: SessionConfig }) {
+    76→  const { t, lang } = useI18n();
+    77→  const { templates, loading } = useAllTemplates();
+    78→  const [deck, setDeck] = useState<Problem[] | null>(null);
+    79→  const [states, setStates] = useState<ProblemState[]>([]);
+    80→  const [index, setIndex] = useState(0);
+    81→  const [checking, setChecking] = useState(false);
+    82→  const [ended, setEnded] = useState(false);
+    83→  const [relaxed, setRelaxed] = useState(false);
+    84→  const [reviewing, setReviewing] = useState(false);
+    85→  const [builtKey, setBuiltKey] = useState<string | null>(null);
+    86→  const [shortcutsOpen, setShortcutsOpen] = useState(false);
+    87→  const [elapsedSec, setElapsedSec] = useState(0);
+    88→  const [times, setTimes] = useState<(number | undefined)[]>([]);
+    89→  const [sessionRecorded, setSessionRecorded] = useState(false);
+    90→  const nextRef = useRef<HTMLButtonElement>(null);
+    91→  const problemStartRef = useRef<number>(Date.now());
+    92→  const configKey = useMemo(() => JSON.stringify(config), [config]);
+    93→
+    94→  const unlimited = !Number.isFinite(config.count);
+    95→
+    96→  const { toast } = useToast();
+    97→  const sessionKeyRef = useRef<string | null>(null);
+    98→
+    99→  useEffect(() => {
+   100→    if (loading) return;
+   101→    // deferred one frame so we never setState synchronously inside the effect
+   102→    const id = requestAnimationFrame(() => {
+   103→      const cfg = JSON.parse(configKey) as SessionConfig;
+   104→      // links generated with seed 0 get a real, shareable seed on entry
+   105→      if (cfg.seed === 0) {
+   106→        navigate(sessionHref({ ...cfg, seed: Math.floor(Math.random() * 2 ** 31) }));
+   107→        return;
+   108→      }
+   109→      // build/restore only once per config (language switches must not re-run it)
+   110→      if (sessionKeyRef.current === configKey) return;
+   111→      sessionKeyRef.current = configKey;
+   112→      // restore an interrupted session (same URL seed) instead of rebuilding
+   113→      const stored = loadSession(configKey);
+   114→      if (stored) {
+   115→        setDeck(stored.problems);
+   116→        setStates(stored.states);
+   117→        setIndex(stored.index);
+   118→        setElapsedSec(stored.elapsedSec ?? 0);
+   119→        setTimes(stored.times ?? []);
+   120→        setEnded(stored.ended);
+   121→        setRelaxed(false);
+   122→        setReviewing(stored.reviewing === true);
+   123→        setSessionRecorded(stored.sessionRecorded === true);
+   124→        setBuiltKey(configKey);
+   125→        toast({
+   126→          description: t("practice.restored"),
+   127→        });
+   128→        return;
+   129→      }
+   130→      clearSession();
+   131→      const result = buildDeck(cfg, templates, { batchSize: Number.isFinite(cfg.count) ? cfg.count : BATCH });
+   132→      setDeck(result.problems);
+   133→      setStates(result.problems.map(() => ({ ...initialProblemState })));
+   134→      setRelaxed(result.difficultyRelaxed);
+   135→      setReviewing(false);
+   136→      setIndex(0);
+   137→      setElapsedSec(0);
+   138→      setTimes([]);
+   139→      setEnded(false);
+   140→      setSessionRecorded(false);
+   141→      setBuiltKey(configKey);
+   142→    });
+   143→    return () => cancelAnimationFrame(id);
+   144→  }, [loading, templates, configKey, t, toast]);
+   145→
+   146→  // mirror the running session so a refresh never loses it — but only once
+   147→  // the deck actually belongs to the current config (avoids saving the previous
+   148→  // session under the new key during the rebuild frame)
+   149→  useEffect(() => {
+   150→    if (!deck || !configKey || builtKey !== configKey) return;
+   151→    saveSession({
+   152→      configKey,
+   153→      index,
+   154→      ended,
+   155→      problems: deck,
+   156→      states,
+   157→      reviewing,
+   158→      elapsedSec,
+   159→      times,
+   160→      sessionRecorded,
+   161→    });
+   162→  }, [deck, states, index, ended, configKey, builtKey, reviewing, elapsedSec, times, sessionRecorded]);
+   163→
+   164→  // live session timer — counts only while the tab is visible and the session
+   165→  // has not ended (an honest "time on task", safe across refresh via persistence)
+   166→  useEffect(() => {
+   167→    if (ended) return;
+   168→    const id = window.setInterval(() => {
+   169→      if (document.visibilityState === "visible") setElapsedSec((s) => s + 1);
+   170→    }, 1000);
+   171→    return () => window.clearInterval(id);
+   172→  }, [ended]);
+   173→
+   174→  // start of the current problem — reset on navigation, new variant or retry
+   175→  useEffect(() => {
+   176→    problemStartRef.current = Date.now();
+   177→  }, [index, deck, reviewing]);
+   178→
+   179→  /** Seconds spent on the current problem so far (whole seconds, min 1). */
+   180→  const currentProblemSec = useCallback(
+   181→    () => Math.max(1, Math.round((Date.now() - problemStartRef.current) / 1000)),
+   182→    [],
+   183→  );
+   184→
+   185→  /** Freeze the seconds spent on the current problem (first resolve only). */
+   186→  const stampTime = useCallback(
+   187→    (secs?: number) => {
+   188→      const value = secs ?? currentProblemSec();
+   189→      setTimes((prev) => {
+   190→        if (prev[index] !== undefined) return prev;
+   191→        const next = [...prev];
+   192→        next[index] = value;
+   193→        return next;
+   194→      });
+   195→    },
+   196→    [index, currentProblemSec],
+   197→  );
+   198→
+   199→  const current = deck?.[index];
+   200→  const currentState = states[index];
+   201→
+   202→  const topicName = useMemo(() => {
+   203→    if (config.mode === "topic" && config.topicId) {
+   204→      const cur = config.subjects[0] === "physics" ? physicsCurriculum : mathCurriculum;
+   205→      const topic = cur.find((tp) => tp.id === config.topicId);
+   206→      return topic?.name[lang] ?? "";
+   207→    }
+   208→    return "";
+   209→  }, [config, lang]);
+   210→
+   211→  const subtopicName = useMemo(() => {
+   212→    if (config.mode === "topic" && config.topicId && config.subtopicId) {
+   213→      const cur = config.subjects[0] === "physics" ? physicsCurriculum : mathCurriculum;
+   214→      const topic = cur.find((tp) => tp.id === config.topicId);
+   215→      return topic?.subtopics.find((st) => st.id === config.subtopicId)?.name[lang] ?? "";
+   216→    }
+   217→    return "";
+   218→  }, [config, lang]);
+   219→
+   220→  const subjectLabel =
+   221→    config.subjects.length === 1
+   222→      ? config.subjects[0] === "math"
+   223→        ? t("nav.math")
+   224→        : t("nav.physics")
+   225→      : t("mixed.subject.both");
+   226→
+   227→  // «¿No sale? Pregúntame» — WhatsApp deep link with the problem the student
+   228→  // is stuck on, so the profe receives context instead of a bare "help".
+   229→  const askTutorHref = useMemo(() => {
+   230→    const base = `https://wa.me/${siteConfig.whatsapp.number}`;
+   231→    if (!current) return base;
+   232→    const raw = current.statement[lang]
+   233→      .replace(/\$\$?/g, "")
+   234→      .replace(/\*\*/g, "")
+   235→      .replace(/\{\{[^}]*\}\}/g, "")
+   236→      .replace(/\s+/g, " ")
+   237→      .trim();
+   238→    const snippet = raw.length > 140 ? `${raw.slice(0, 140)}…` : raw;
+   239→    const where = topicName || subjectLabel;
+   240→    const msg = t("practice.askTutor.message", { topic: where, problem: snippet });
+   241→    return `${base}?text=${encodeURIComponent(msg)}`;
+   242→  }, [current, lang, t, topicName, subjectLabel]);
+   243→
+   244→  const backHref =
+   245→    (config.mode === "topic" || config.mode === "single") && config.topicId && config.subjects.length === 1
+   246→      ? href({ name: "topic", subject: config.subjects[0], topicId: config.topicId })
+   247→      : config.subjects.length === 1
+   248→        ? href({ name: "subject", subject: config.subjects[0] })
+   249→        : href({ name: "practice" });
+   250→
+   251→  /* ---------------------------------------------------------------- */
+   252→  /* state helpers                                                     */
+   253→  /* ---------------------------------------------------------------- */
+   254→
+   255→  const updateState = useCallback(
+   256→    (fn: (s: ProblemState) => ProblemState) => {
+   257→      setStates((prev) => prev.map((s, i) => (i === index ? fn(s) : s)));
+   258→    },
+   259→    [index],
+   260→  );
+   261→
+   262→  const record = useCallback(
+   263→    (problem: Problem, state: ProblemState) => {
+   264→      appendRecord({
+   265→        templateId: problem.templateId,
+   266→        seed: problem.seed,
+   267→        subject: problem.subject,
+   268→        topicId: problem.topicId,
+   269→        subtopicId: problem.subtopicId,
+   270→        difficulty: problem.difficulty,
+   271→        attempts: state.attempts.length,
+   272→        firstTryCorrect: state.attempts[0]?.correct ?? false,
+   273→        eventualCorrect: state.attempts.some((a) => a.correct),
+   274→        hintsUsed: state.hintsRevealed,
+   275→        revealedAnswer: state.answerRevealed,
+   276→        revealedSolution: state.solutionRevealed,
+   277→        timestamp: Date.now(),
+   278→        timeSec: currentProblemSec(),
+   279→      });
+   280→    },
+   281→    [currentProblemSec],
+   282→  );
+   283→
+   284→  const resolveAndRecord = useCallback(
+   285→    (problem: Problem, state: ProblemState, patch: Partial<ProblemState>) => {
+   286→      const next = { ...state, ...patch };
+   287→      if (!next.recorded) {
+   288→        const secs = currentProblemSec();
+   289→        record(problem, next);
+   290→        next.recorded = true;
+   291→        stampTime(secs);
+   292→      }
+   293→      return next;
+   294→    },
+   295→    [record, stampTime, currentProblemSec],
+   296→  );
+   297→
+   298→  /* ---------------------------------------------------------------- */
+   299→  /* actions                                                           */
+   300→  /* ---------------------------------------------------------------- */
+   301→
+   302→  const handleCheck = useCallback(
+   303→    (submission: AnswerSubmission) => {
+   304→      if (!current || !currentState || currentState.status !== "attempting") return;
+   305→      setChecking(true);
+   306→      const outcome = checkAnswer(current, submission);
+   307→      setChecking(false);
+   308→      const correct = outcome.status === "correct";
+   309→      const attempts = [...currentState.attempts, { correct }];
+   310→      if (correct) {
+   311→        const next = resolveAndRecord(current, currentState, {
+   312→          attempts,
+   313→          status: "correct",
+   314→          lastOutcome: outcome,
+   315→        });
+   316→        updateState(() => next);
+   317→        // move keyboard focus to "next problem"
+   318→        setTimeout(() => nextRef.current?.focus(), 80);
+   319→      } else {
+   320→        updateState((s) => ({ ...s, attempts, lastOutcome: outcome }));
+   321→      }
+   322→    },
+   323→    [current, currentState, resolveAndRecord, updateState],
+   324→  );
+   325→
+   326→  const handleRevealAnswer = useCallback(() => {
+   327→    if (!current || !currentState || currentState.status !== "attempting") return;
+   328→    if (currentState.attempts.length < 1) return;
+   329→    const next = resolveAndRecord(current, currentState, {
+   330→      status: "revealed",
+   331→      answerRevealed: true,
+   332→    });
+   333→    updateState(() => next);
+   334→    setTimeout(() => nextRef.current?.focus(), 80);
+   335→  }, [current, currentState, resolveAndRecord, updateState]);
+   336→
+   337→  const handleRevealHint = useCallback(() => {
+   338→    if (!current || !currentState) return;
+   339→    updateState((s) => ({
+   340→      ...s,
+   341→      hintsRevealed: Math.min(s.hintsRevealed + 1, current.hints.length),
+   342→    }));
+   343→  }, [current, currentState, updateState]);
+   344→
+   345→  const handleToggleSolution = useCallback(() => {
+   346→    if (!current || !currentState || currentState.status === "attempting") return;
+   347→    if (currentState.solutionRevealed) {
+   348→      updateState((s) => ({ ...s, solutionRevealed: false }));
+   349→    } else {
+   350→      const next = { ...currentState, solutionRevealed: true };
+   351→      if (!next.recorded) {
+   352→        const secs = currentProblemSec();
+   353→        record(current, next);
+   354→        next.recorded = true;
+   355→        stampTime(secs);
+   356→      }
+   357→      updateState(() => next);
+   358→    }
+   359→  }, [current, currentState, record, stampTime, currentProblemSec, updateState]);
+   360→
+   361→  const handleSkip = useCallback(() => {
+   362→    if (!current || !currentState || currentState.status !== "attempting") return;
+   363→    const next = resolveAndRecord(current, currentState, { status: "skipped" });
+   364→    updateState(() => next);
+   365→    setTimeout(() => nextRef.current?.focus(), 80);
+   366→  }, [current, currentState, resolveAndRecord, updateState]);
+   367→
+   368→  const handleNext = useCallback(() => {
+   369→    if (!deck) return;
+   370→    if (index < deck.length - 1) {
+   371→      setIndex((i) => i + 1);
+   372→      return;
+   373→    }
+   374→    if (unlimited) {
+   375→      const cfg = JSON.parse(configKey) as SessionConfig;
+   376→      const batch = buildDeck(cfg, templates, { batchIndex: Math.floor(deck.length / BATCH) + 1, batchSize: BATCH });
+   377→      setDeck((d) => [...(d ?? []), ...batch.problems]);
+   378→      setStates((s) => [...s, ...batch.problems.map(() => ({ ...initialProblemState }))]);
+   379→      setIndex((i) => i + 1);
+   380→    } else {
+   381→      setEnded(true);
+   382→    }
+   383→  }, [deck, index, unlimited, configKey, templates]);
+   384→
+   385→  const handleNewVariant = useCallback(() => {
+   386→    if (!current || !deck) return;
+   387→    const tpl = findTemplate(templates, current.templateId);
+   388→    if (!tpl) return;
+   389→    const fresh = instantiateProblem(tpl, Math.floor(Math.random() * 2 ** 31) || 7);
+   390→    setDeck((d) => (d ? d.map((p, i) => (i === index ? fresh : p)) : d));
+   391→    setStates((s) => s.map((st, i) => (i === index ? { ...initialProblemState } : st)));
+   392→    // a fresh variant restarts the clock for this slot
+   393→    setTimes((prev) => {
+   394→      if (prev[index] === undefined) return prev;
+   395→      const next = [...prev];
+   396→      next[index] = undefined;
+   397→      return next;
+   398→    });
+   399→  }, [current, deck, index, templates]);
+   400→
+   401→  const handleAgain = useCallback(() => {
+   402→    clearSession();
+   403→    const cfg = JSON.parse(configKey) as SessionConfig;
+   404→    navigate(sessionHref({ ...cfg, seed: Math.floor(Math.random() * 2 ** 31) }));
+   405→  }, [configKey]);
+   406→
+   407→  /** Re-run just the problems that were never solved (wrong, revealed or skipped)
+   408→   *  — same variants, fresh states. */
+   409→  const handleRetryMissed = useCallback(() => {
+   410→    if (!deck) return;
+   411→    const missed = deck.filter((_, i) => !states[i]?.attempts.some((a) => a.correct));
+   412→    if (missed.length === 0) return;
+   413→    setDeck(missed);
+   414→    setStates(missed.map(() => ({ ...initialProblemState })));
+   415→    setTimes([]);
+   416→    setIndex(0);
+   417→    setEnded(false);
+   418→    setSessionRecorded(false);
+   419→    setReviewing(true);
+   420→    window.scrollTo({ top: 0, behavior: "smooth" });
+   421→  }, [deck, states]);
+   422→
+   423→  /* ---------------------------------------------------------------- */
+   424→  /* session history: append one record when the session truly ends    */
+   425→  /* (the sessionRecorded flag is persisted, so reloading an ended      */
+   426→  /* session or its summary never duplicates the entry)                */
+   427→  /* ---------------------------------------------------------------- */
+   428→  useEffect(() => {
+   429→    if (!ended || !deck || deck.length === 0 || sessionRecorded) return;
+   430→    const attempted = states.filter((s) => s.attempts.length > 0).length;
+   431→    const solved = states.filter((s) => s.attempts.some((a) => a.correct)).length;
+   432→    const firstTry = states.filter((s) => s.attempts[0]?.correct).length;
+   433→    const hintsUsed = states.reduce((a, s) => a + s.hintsRevealed, 0);
+   434→    const record: SessionRecord = {
+   435→      endedAt: Date.now(),
+   436→      mode: config.mode,
+   437→      subjects: config.subjects,
+   438→      topicId: config.topicId,
+   439→      subtopicId: config.subtopicId,
+   440→      review: reviewing,
+   441→      problems: deck.length,
+   442→      attempted,
+   443→      solved,
+   444→      firstTryCorrect: firstTry,
+   445→      hintsUsed,
+   446→      elapsedSec: elapsedSec >= 5 ? elapsedSec : undefined,
+   447→    };
+   448→    appendSessionRecord(record);
+   449→    // spaced repetition: focused topic sessions move the review schedule
+   450→    scheduleFromSession(record);
+   451→    setSessionRecorded(true);
+   452→  }, [ended, deck, states, sessionRecorded, config, reviewing, elapsedSec]);
+   453→
+   454→  /* ---------------------------------------------------------------- */
+   455→  /* keyboard shortcuts: H = next hint, N = next problem               */
+   456→  /* (Ctrl/⌘+Enter for checking lives in the AnswerArea form)          */
+   457→  /* ---------------------------------------------------------------- */
+   458→  useEffect(() => {
+   459→    const onKeyDown = (e: KeyboardEvent) => {
+   460→      if (e.defaultPrevented) return;
+   461→      if (e.ctrlKey || e.metaKey || e.altKey) return;
+   462→      const target = e.target as HTMLElement | null;
+   463→      if (
+   464→        target &&
+   465→        (target.tagName === "INPUT" ||
+   466→          target.tagName === "TEXTAREA" ||
+   467→          target.tagName === "SELECT" ||
+   468→          target.isContentEditable)
+   469→      ) {
+   470→        return;
+   471→      }
+   472→      // don't fight with open dialogs / menus
+   473→      if (document.querySelector("[role=dialog], [role=menu]")) return;
+   474→      if (e.key === "?" || e.key === "¿") {
+   475→        e.preventDefault();
+   476→        setShortcutsOpen(true);
+   477→        return;
+   478→      }
+   479→      const key = e.key.toLowerCase();
+   480→      if (key === "h") {
+   481→        if (currentState && currentState.status === "attempting") {
+   482→          e.preventDefault();
+   483→          handleRevealHint();
+   484→        }
+   485→      } else if (key === "n") {
+   486→        if (currentState && currentState.status !== "attempting") {
+   487→          e.preventDefault();
+   488→          handleNext();
+   489→        }
+   490→      }
+   491→    };
+   492→    window.addEventListener("keydown", onKeyDown);
+   493→    return () => window.removeEventListener("keydown", onKeyDown);
+   494→  }, [currentState, handleRevealHint, handleNext]);
+   495→
+   496→  /* ---------------------------------------------------------------- */
+   497→  /* render                                                            */
+   498→  /* ---------------------------------------------------------------- */
+   499→
+   500→  if (loading || (!deck && !ended)) {
+   501→    return (
+   502→      <div className="mx-auto max-w-3xl space-y-4 px-4 py-8 sm:px-6">
+   503→        <Skeleton className="h-10 w-64" />
+   504→        <Skeleton className="h-2 w-full" />
+   505→        <Skeleton className="h-96 w-full rounded-2xl" />
+   506→      </div>
+   507→    );
+   508→  }
+   509→
+   510→  if (ended || !current || !currentState) {
+   511→    if (deck && deck.length === 0) {
+   512→      // no problems matched the requested filters (e.g. an empty level)
+   513→      return (
+   514→        <div className="mx-auto max-w-3xl px-4 py-20 text-center sm:px-6">
+   515→          <Inbox className="mx-auto h-10 w-10 text-muted-foreground/60" aria-hidden="true" />
+   516→          <h1 className="mt-4 font-serif text-2xl font-semibold">{t("session.empty.title")}</h1>
+   517→          <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-muted-foreground">
+   518→            {t("session.empty.desc")}
+   519→          </p>
+   520→          <Button asChild variant="outline" className="mt-6">
+   521→            <a href={backHref}>{t("common.back")}</a>
+   522→          </Button>
+   523→        </div>
+   524→      );
+   525→    }
+   526→    return (
+   527→      <SessionSummary
+   528→        config={config}
+   529→        deck={deck ?? []}
+   530→        states={states}
+   531→        times={times}
+   532→        elapsedSec={elapsedSec}
+   533→        onAgain={handleAgain}
+   534→        onRetryMissed={handleRetryMissed}
+   535→      />
+   536→    );
+   537→  }
+   538→
+   539→  const resolvedCount = states.filter((s) => s.status !== "attempting").length;
+   540→  const correctCount = states.filter((s) => s.status === "correct").length;
+   541→  const missedCount = states.filter(
+   542→    (s) => s.status === "revealed" || s.status === "skipped",
+   543→  ).length;
+   544→  const progress = unlimited ? 0 : (resolvedCount / deck!.length) * 100;
+   545→
+   546→  return (
+   547→    <div className="mx-auto max-w-3xl px-4 py-6 sm:px-6">
+   548→      {/* session header */}
+   549→      <div className="mb-5 space-y-3">
+   550→        <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+   551→          <a
+   552→            href={backHref}
+   553→            className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+   554→          >
+   555→            <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+   556→            {config.mode === "topic" || config.mode === "single"
+   557→              ? t("practice.backToTopic")
+   558→              : t("common.back")}
+   559→          </a>
+   560→          <span className="text-sm font-semibold">
+   561→            {subjectLabel}
+   562→            {topicName ? <span className="text-muted-foreground"> · {topicName}</span> : null}
+   563→            {subtopicName ? <span className="text-muted-foreground"> · {subtopicName}</span> : null}
+   564→          </span>
+   565→          {reviewing ? (
+   566→            <span className="inline-flex items-center gap-1 rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary">
+   567→              <RotateCcw className="h-3 w-3" aria-hidden="true" />
+   568→              {t("session.reviewBadge")}
+   569→            </span>
+   570→          ) : null}
+   571→          <AlertDialog>
+   572→            <AlertDialogTrigger asChild>
+   573→              <Button
+   574→                type="button"
+   575→                variant="ghost"
+   576→                size="sm"
+   577→                className="ml-auto gap-1.5 text-muted-foreground"
+   578→              >
+   579→                <Flag className="h-3.5 w-3.5" aria-hidden="true" />
+   580→                {t("practice.endSession")}
+   581→              </Button>
+   582→            </AlertDialogTrigger>
+   583→            <AlertDialogContent>
+   584→              <AlertDialogHeader>
+   585→                <AlertDialogTitle>{t("summary.endTitle")}</AlertDialogTitle>
+   586→                <AlertDialogDescription>
+   587→                  {t("session.endConfirmDesc")}
+   588→                </AlertDialogDescription>
+   589→              </AlertDialogHeader>
+   590→              <AlertDialogFooter>
+   591→                <AlertDialogCancel>{t("common.cancel")}</AlertDialogCancel>
+   592→                <AlertDialogAction onClick={() => setEnded(true)}>{t("common.confirm")}</AlertDialogAction>
+   593→              </AlertDialogFooter>
+   594→            </AlertDialogContent>
+   595→          </AlertDialog>
+   596→        </div>
+   597→
+   598→        {/* keyboard legend — desktop only, never printed; click or press ? for help */}
+   599→        <button
+   600→          type="button"
+   601→          onClick={() => setShortcutsOpen(true)}
+   602→          className="hidden items-center gap-2.5 text-[11px] text-muted-foreground/80 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-full px-1 sm:flex"
+   603→          aria-label={t("practice.shortcutsHelp.open")}
+   604→        >
+   605→          <span className="font-medium uppercase tracking-wider">{t("practice.shortcuts")}</span>
+   606→          <span className="inline-flex items-center gap-1"><kbd className="kbd-chip">H</kbd>{t("practice.shortcuts.hint")}</span>
+   607→          <span className="inline-flex items-center gap-1"><kbd className="kbd-chip">N</kbd>{t("practice.shortcuts.next")}</span>
+   608→          <span className="inline-flex items-center gap-1"><kbd className="kbd-chip">Ctrl ⏎</kbd>{t("practice.shortcuts.check")}</span>
+   609→          <span className="inline-flex items-center gap-1 opacity-70"><kbd className="kbd-chip">?</kbd></span>
+   610→        </button>
+   611→      </div>
+   612→
+   613→      {/* progress strip — direct child of the tall session column so it can
+   614→          stick below the header on mobile (long problems always show where
+   615→          you are); static on desktop to keep the view quiet */}
+   616→      <div className="sticky top-16 z-20 -mx-4 mb-4 border-b bg-background/90 px-4 py-2 backdrop-blur supports-[backdrop-filter]:bg-background/75 sm:static sm:mx-0 sm:mb-5 sm:border-0 sm:bg-transparent sm:px-0 sm:py-0 sm:backdrop-blur-none">
+   617→        <div className="flex items-center gap-3">
+   618→          <p className="text-sm text-muted-foreground" aria-live="polite">
+   619→            {unlimited
+   620→              ? t("practice.questionUnlimited", { n: index + 1 })
+   621→              : t("practice.questionOf", { current: index + 1, total: deck!.length })}
+   622→          </p>
+   623→          <div className="ml-auto flex items-center gap-2 text-xs font-medium">
+   624→            <span
+   625→              className="inline-flex items-center gap-1 rounded-full bg-muted px-2 py-0.5 tabular-nums text-muted-foreground"
+   626→              title={t("practice.elapsed")}
+   627→              aria-hidden="true"
+   628→            >
+   629→              <Timer className="h-3 w-3" aria-hidden="true" />
+   630→              {formatClock(elapsedSec)}
+   631→            </span>
+   632→            <span className="inline-flex items-center gap-1 rounded-full bg-success/10 px-2 py-0.5 text-success">
+   633→              <Check className="h-3 w-3" aria-hidden="true" />
+   634→              {correctCount} {t("practice.score.correct")}
+   635→            </span>
+   636→            {missedCount > 0 ? (
+   637→              <span className="inline-flex items-center gap-1 rounded-full bg-destructive/10 px-2 py-0.5 text-destructive">
+   638→                <X className="h-3 w-3" aria-hidden="true" />
+   639→                {missedCount} {t("practice.score.incorrect")}
+   640→              </span>
+   641→            ) : null}
+   642→          </div>
+   643→        </div>
+   644→        <Progress value={progress} className="mt-2 h-1.5" aria-label={t("practice.questionOf", { current: index + 1, total: deck!.length })} />
+   645→      </div>
+   646→
+   647→      {relaxed ? (
+   648→        <div className="mb-4 rounded-xl border border-diff-medium/40 bg-diff-medium/10 px-4 py-2.5 text-sm text-diff-medium">
+   649→          {t("session.lowStock.desc")}
+   650→        </div>
+   651→      ) : null}
+   652→
+   653→      <ProblemView
+   654→        problem={current}
+   655→        state={currentState}
+   656→        problemKey={`${current.templateId}:${current.seed}`}
+   657→        number={index + 1}
+   658→        checking={checking}
+   659→        onCheck={handleCheck}
+   660→        onRevealHint={handleRevealHint}
+   661→        onRevealAnswer={handleRevealAnswer}
+   662→        onToggleSolution={handleToggleSolution}
+   663→        onNewVariant={handleNewVariant}
+   664→      />
+   665→
+   666→      {/* bottom actions */}
+   667→      <div className="mt-5 flex flex-col-reverse gap-2 sm:flex-row sm:items-center sm:justify-between">
+   668→        {currentState.status === "attempting" ? (
+   669→          <div className="flex items-center gap-3">
+   670→            <Button type="button" variant="ghost" onClick={handleSkip} className="gap-2 text-muted-foreground">
+   671→              <SkipForward className="h-4 w-4" aria-hidden="true" />
+   672→              {t("practice.skip")}
+   673→            </Button>
+   674→            <AskTutorLink href={askTutorHref} label={t("practice.askTutor")} />
+   675→          </div>
+   676→        ) : (
+   677→          <AskTutorLink href={askTutorHref} label={t("practice.askTutor")} />
+   678→        )}
+   679→        <Button
+   680→          type="button"
+   681→          ref={nextRef}
+   682→          onClick={handleNext}
+   683→          className={cn(
+   684→            "gap-2 text-[15px] font-semibold",
+   685→            currentState.status === "correct" && "bg-success text-success-foreground hover:bg-success/90",
+   686→          )}
+   687→        >
+   688→          {t("practice.next")}
+   689→          <kbd className="kbd-chip" aria-hidden="true">N</kbd>
+   690→          <ArrowRight className="h-4 w-4" aria-hidden="true" />
+   691→        </Button>
+   692→      </div>
+   693→
+   694→      {/* keyboard shortcuts help (press ? or click the legend) */}
+   695→      <Dialog open={shortcutsOpen} onOpenChange={setShortcutsOpen}>
+   696→        <DialogContent className="sm:max-w-md">
+   697→          <DialogHeader>
+   698→            <DialogTitle className="flex items-center gap-2">
+   699→              <Keyboard className="h-5 w-5 text-primary" aria-hidden="true" />
+   700→              {t("practice.shortcutsHelp.title")}
+   701→            </DialogTitle>
+   702→            <DialogDescription>{t("practice.shortcutsHelp.desc")}</DialogDescription>
+   703→          </DialogHeader>
+   704→          <ul className="mt-2 divide-y">
+   705→            {SHORTCUTS.map((sc) => (
+   706→              <li key={sc.keys} className="flex items-center justify-between gap-4 py-2.5 text-sm">
+   707→                <span className="text-muted-foreground">{t(sc.labelKey)}</span>
+   708→                <kbd className="kbd-chip shrink-0 text-xs">{sc.keys}</kbd>
+   709→              </li>
+   710→            ))}
+   711→          </ul>
+   712→        </DialogContent>
+   713→      </Dialog>
+   714→    </div>
+   715→  );
+   716→}
+   717→

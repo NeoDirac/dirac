@@ -91,7 +91,9 @@ export function WorksheetView({ config }: { config: SessionConfig }) {
   }
 
   // warm-up ordering is only meaningful when several difficulty levels coexist
-  const orderable = config.difficulty === "any" && config.mode !== "challenge";
+  // (interleaved decks keep their topic spacing — sorting would undo it)
+  const orderable =
+    config.difficulty === "any" && config.mode !== "challenge" && config.mode !== "interleaved";
   const displayDeck =
     warmup && orderable
       ? [...deck].sort(
@@ -103,7 +105,9 @@ export function WorksheetView({ config }: { config: SessionConfig }) {
     ? topic.name[lang]
     : config.mode === "challenge"
       ? t("worksheet.titleChallenge")
-      : t("worksheet.titleMixed");
+      : config.mode === "interleaved"
+        ? t("worksheet.titleInterleaved")
+        : t("worksheet.titleMixed");
 
   const difficultyLabel =
     config.difficulty === "any"

@@ -1003,6 +1003,167 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+  /* ================================================================== */
+  /* Curated — Fundamentos ESPOL, §3.11 ejercicios 128b y 128c, p. 324. */
+  /* Radical inequalities; verified with sympy before import.          */
+  /* ================================================================== */
+
+  /* 128b — 1 + √(2x+7) < x − 3 → (9, ∞) */
+  template(
+    {
+      id: "rad-espol-128b",
+      subject: "math",
+      topicId: "radicals",
+      subtopicId: "equations",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["inequality", "radical", "domain", "squaring"],
+      prerequisites: ["radicals"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3.11 · 128b",
+        page: 324,
+      },
+      reasoning: "spurious",
+    },
+    () => {
+      const options: McOption[] = [
+        { id: "a", text: L("$(9, \\infty)$", "$(9, \\infty)$"), correct: true },
+        { id: "b", text: L("$[9, \\infty)$", "$[9, \\infty)$"), correct: false },
+        { id: "c", text: L("$\\left[-\\frac{7}{2}, 9\\right)$", "$\\left[-\\frac{7}{2}, 9\\right)$"), correct: false },
+        { id: "d", text: L("$\\varnothing$", "$\\varnothing$"), correct: false },
+      ];
+      return {
+        skill: L("Inecuación con radical: aislar antes de elevar", "Radical inequality: isolate before squaring"),
+        statement: L(
+          `Con $x \\in \\mathbb{R}$, determina el conjunto de verdad de $q(x):\\ 1 + \\sqrt{2x + 7} < x - 3$.`,
+          `With $x \\in \\mathbb{R}$, determine the truth set of $q(x):\\ 1 + \\sqrt{2x + 7} < x - 3$.`,
+        ),
+        answer: { kind: "multiple-choice", options },
+        hints: [
+          L(
+            "Despeja el radical: $\\sqrt{2x + 7} < x - 4$. Como la raíz es $\\geq 0$, ¿qué exiges sobre $x - 4$?",
+            "Isolate the radical: $\\sqrt{2x + 7} < x - 4$. Since the root is $\\geq 0$, what must hold for $x - 4$?",
+          ),
+          L(
+            "Necesitas $x > 4$; solo entonces puedes elevar al cuadrado sin invertir la desigualdad.",
+            "You need $x > 4$; only then may you square both sides without breaking the inequality.",
+          ),
+          L(
+            "$2x + 7 < (x - 4)^2 \\Rightarrow x^2 - 10x + 9 > 0 \\Rightarrow (x - 1)(x - 9) > 0$, y cruzando con $x > 4$…",
+            "$2x + 7 < (x - 4)^2 \\Rightarrow x^2 - 10x + 9 > 0 \\Rightarrow (x - 1)(x - 9) > 0$, and intersecting with $x > 4$…",
+          ),
+        ],
+        answerDisplay: L(
+          "$A_{q(x)} = (9, \\infty)$",
+          "$A_{q(x)} = (9, \\infty)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$1 + \\sqrt{2x + 7} < x - 3$, con $x \\in \\mathbb{R}$ (dominio: $x \\geq -\\frac{7}{2}$).",
+            "$1 + \\sqrt{2x + 7} < x - 3$, with $x \\in \\mathbb{R}$ (domain: $x \\geq -\\frac{7}{2}$).",
+          ),
+          step(
+            "approach",
+            "La trampa clásica: elevar sin aislar y sin exigir que el lado derecho sea positivo. Aquí el orden importa.",
+            "The classic trap: squaring without isolating and without requiring the right side to be positive. Order matters here.",
+          ),
+          step(
+            "calculation",
+            `$\\sqrt{2x + 7} < x - 4$ exige $x - 4 > 0$ (la raíz no es negativa), o sea $x > 4$<br>Con $x > 4$, elevando: $2x + 7 < x^2 - 8x + 16$<br>$x^2 - 10x + 9 > 0 \\Rightarrow (x - 1)(x - 9) > 0 \\Rightarrow x < 1$ o $x > 9$<br>Intersección con $x > 4$: $x > 9$`,
+            `$\\sqrt{2x + 7} < x - 4$ requires $x - 4 > 0$ (the root is non-negative), i.e. $x > 4$<br>With $x > 4$, squaring: $2x + 7 < x^2 - 8x + 16$<br>$x^2 - 10x + 9 > 0 \\Rightarrow (x - 1)(x - 9) > 0 \\Rightarrow x < 1$ or $x > 9$<br>Intersection with $x > 4$: $x > 9$`,
+          ),
+          step(
+            "result",
+            `El conjunto de verdad es $(9, \\infty)$. Comprobación: $x = 10$: $1 + \\sqrt{27} \\approx 6{,}2 < 7$ ✓; en el borde $x = 9$: $1 + \\sqrt{25} = 6 = 9 - 3$, NO se cumple la estricta, por eso el 9 no entra.`,
+            `The truth set is $(9, \\infty)$. Check: $x = 10$: $1 + \\sqrt{27} \\approx 6.2 < 7$ ✓; at the boundary $x = 9$: $1 + \\sqrt{25} = 6 = 9 - 3$, the strict inequality fails, hence 9 is excluded.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 128c — (x−2)/3 ≥ √(x−4) → [4,5] ∪ [8,∞) */
+  template(
+    {
+      id: "rad-espol-128c",
+      subject: "math",
+      topicId: "radicals",
+      subtopicId: "equations",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["inequality", "radical", "domain", "squaring"],
+      prerequisites: ["radicals"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3.11 · 128c",
+        page: 324,
+      },
+      reasoning: "case-analysis",
+    },
+    () => {
+      const options: McOption[] = [
+        { id: "a", text: L("$[4, 5]\\cup[8, \\infty)$", "$[4, 5]\\cup[8, \\infty)$"), correct: true },
+        { id: "b", text: L("$[4, \\infty)$", "$[4, \\infty)$"), correct: false },
+        { id: "c", text: L("$[5, 8]$", "$[5, 8]$"), correct: false },
+        { id: "d", text: L("$(4, 5)\\cup(8, \\infty)$", "$(4, 5)\\cup(8, \\infty)$"), correct: false },
+      ];
+      return {
+        skill: L("Radical a la derecha: dominio antes que nada", "Radical on the right: domain first"),
+        statement: L(
+          `Con $x \\in \\mathbb{R}$, determina el conjunto de verdad de $r(x):\\ \\frac{x - 2}{3} \\geq \\sqrt{x - 4}$.`,
+          `With $x \\in \\mathbb{R}$, determine the truth set of $r(x):\\ \\frac{x - 2}{3} \\geq \\sqrt{x - 4}$.`,
+        ),
+        answer: { kind: "multiple-choice", options },
+        hints: [
+          L(
+            "Dominio primero: $x - 4 \\geq 0$, y además el lado izquierdo debe ser $\\geq 0$ para dominar a una raíz no negativa.",
+            "Domain first: $x - 4 \\geq 0$, and additionally the left side must be $\\geq 0$ to dominate a non-negative root.",
+          ),
+          L(
+            "Con $x \\geq 4$ ambas condiciones se cumplen; eleva al cuadrado: $\\frac{(x-2)^2}{9} \\geq x - 4$.",
+            "With $x \\geq 4$ both conditions hold; square: $\\frac{(x-2)^2}{9} \\geq x - 4$.",
+          ),
+          L(
+            "$x^2 - 4x + 4 \\geq 9x - 36 \\Rightarrow x^2 - 13x + 40 \\geq 0 \\Rightarrow (x - 5)(x - 8) \\geq 0$.",
+            "$x^2 - 4x + 4 \\geq 9x - 36 \\Rightarrow x^2 - 13x + 40 \\geq 0 \\Rightarrow (x - 5)(x - 8) \\geq 0$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$A_{r(x)} = [4, 5]\\cup[8, \\infty)$",
+          "$A_{r(x)} = [4, 5]\\cup[8, \\infty)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$\\frac{x - 2}{3} \\geq \\sqrt{x - 4}$, con $x \\in \\mathbb{R}$.",
+            "$\\frac{x - 2}{3} \\geq \\sqrt{x - 4}$, with $x \\in \\mathbb{R}$.",
+          ),
+          step(
+            "approach",
+            "Asegurar el dominio y el signo del lado izquierdo, recién entonces elevar al cuadrado; al final intersectar con el dominio.",
+            "Secure the domain and the sign of the left side, only then square; finally intersect with the domain.",
+          ),
+          step(
+            "calculation",
+            `Dominio: $x \\geq 4$ (y así $x - 2 > 0$ también)<br>$(x - 2)^2 \\geq 9(x - 4)$<br>$x^2 - 4x + 4 \\geq 9x - 36$<br>$x^2 - 13x + 40 \\geq 0 \\Rightarrow (x - 5)(x - 8) \\geq 0 \\Rightarrow x \\leq 5$ o $x \\geq 8$<br>Con $x \\geq 4$: $[4, 5]\\cup[8, \\infty)$`,
+            `Domain: $x \\geq 4$ (and then $x - 2 > 0$ as well)<br>$(x - 2)^2 \\geq 9(x - 4)$<br>$x^2 - 4x + 4 \\geq 9x - 36$<br>$x^2 - 13x + 40 \\geq 0 \\Rightarrow (x - 5)(x - 8) \\geq 0 \\Rightarrow x \\leq 5$ or $x \\geq 8$<br>With $x \\geq 4$: $[4, 5]\\cup[8, \\infty)$`,
+          ),
+          step(
+            "result",
+            `El conjunto de verdad es $[4, 5]\\cup[8, \\infty)$. Comprobación: $x = 4$: $\\frac{2}{3} \\geq 0$ ✓; $x = 6$: $\\frac{4}{3} < \\sqrt{2} \\approx 1{,}41$ ✗ (está en el hueco); $x = 9$: $\\frac{7}{3} \\approx 2{,}33 \\geq \\sqrt{5} \\approx 2{,}24$ ✓.`,
+            `The truth set is $[4, 5]\\cup[8, \\infty)$. Check: $x = 4$: $\\frac{2}{3} \\geq 0$ ✓; $x = 6$: $\\frac{4}{3} < \\sqrt{2} \\approx 1.41$ ✗ (it is in the gap); $x = 9$: $\\frac{7}{3} \\approx 2.33 \\geq \\sqrt{5} \\approx 2.24$ ✓.`,
+          ),
+        ],
+      };
+    },
+  ),
+
 ];
 
 /** greatest common divisor */
