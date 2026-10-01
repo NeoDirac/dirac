@@ -287,7 +287,7 @@ export interface RngLike {
 /* Sessions & progress                                                 */
 /* ------------------------------------------------------------------ */
 
-export type SessionMode = "topic" | "mixed" | "challenge";
+export type SessionMode = "topic" | "mixed" | "challenge" | "single";
 
 export interface SessionConfig {
   mode: SessionMode;
@@ -302,6 +302,8 @@ export interface SessionConfig {
   easyWeighted?: boolean;
   /** session seed — makes a session deep-linkable and reproducible */
   seed: number;
+  /** single-problem mode: pin the deck to exactly this template */
+  singleTemplateId?: string;
 }
 
 export interface ProblemRecord {

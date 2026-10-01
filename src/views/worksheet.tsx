@@ -57,7 +57,7 @@ export function WorksheetView({ config }: { config: SessionConfig }) {
   }, [loading, templates, configKey, effectiveCount]);
 
   const topic = useMemo(() => {
-    if (config.mode === "topic" && config.topicId) {
+    if ((config.mode === "topic" || config.mode === "single") && config.topicId) {
       const cur = config.subjects[0] === "physics" ? physicsCurriculum : mathCurriculum;
       return cur.find((tp) => tp.id === config.topicId) ?? null;
     }

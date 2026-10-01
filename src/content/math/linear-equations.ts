@@ -5,7 +5,7 @@
  * and the `function-graph` diagram used with multiple-choice questions.
  */
 
-import { template, L, step } from "@/lib/problem";
+import { template, L, step, tok } from "@/lib/problem";
 import type { ProblemTemplate, McOption } from "@/lib/types";
 
 export const templates: ProblemTemplate[] = [
@@ -765,6 +765,260 @@ export const templates: ProblemTemplate[] = [
             "result",
             `El ancho mide $${width}\\ \\text{m}$ y el largo $${length}\\ \\text{m}$. Se pide el ${targetWidth ? "ancho" : "largo"}: $${value}\\ \\text{m}$.`,
             `The width is $${width}\\ \\text{m}$ and the length $${length}\\ \\text{m}$. The requested ${targetWidth ? "width" : "length"} is $${value}\\ \\text{m}$.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* ---------------------------------------------------------------- */
+  /* Linear inequalities: smallest integer solution (7-a top-up)       */
+  /* ---------------------------------------------------------------- */
+  template(
+    {
+      id: "lin-ineq-02",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "inequalities",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 120,
+      tags: ["inequalities", "integers", "number-line"],
+      prerequisites: ["multi-step"],
+    },
+    (rng) => {
+      // Hand-curated sets: every boundary (c − b)/a is a NON-integer, so the
+      // smallest integer solution is unambiguous. The ≤ variants carry a < 0,
+      // so dividing flips the symbol and the solution is still x ≥ boundary.
+      const sets = [
+        { sign: "\\ge", a: 2, b: 3, c: 10 },
+        { sign: "\\le", a: -2, b: 1, c: 8 },
+        { sign: "\\ge", a: 4, b: -1, c: 26 },
+        { sign: "\\le", a: -4, b: 3, c: 16 },
+        { sign: "\\ge", a: 2, b: -5, c: 4 },
+        { sign: "\\le", a: -2, b: -4, c: 7 },
+      ];
+      const p = rng.pick(sets);
+      const flips = p.a < 0;
+      const bound = (p.c - p.b) / p.a;
+      const ans = Math.ceil(bound);
+      return {
+        skill: L("Desigualdades lineales y enteros", "Linear inequalities and integers"),
+        statement: L(
+          `Considera la desigualdad $${p.a}x ${p.b >= 0 ? "+" : "-"} ${Math.abs(p.b)} ${p.sign} ${p.c}$. ¿Cuál es el **menor número entero** que la satisface?`,
+          `Consider the inequality $${p.a}x ${p.b >= 0 ? "+" : "-"} ${Math.abs(p.b)} ${p.sign} ${p.c}$. What is the **smallest integer** that satisfies it?`,
+        ),
+        answer: { kind: "numeric", value: ans },
+        hints: [
+          L(
+            "Despeja $x$ como si fuera una ecuación, pero vigila el signo del coeficiente que multiplica a $x$.",
+            "Isolate $x$ as if it were an equation, but watch the sign of the coefficient multiplying $x$.",
+          ),
+          flips
+            ? L(
+                `Al dividir entre $${p.a}$, que es negativo, la desigualdad **se invierte**: el $${p.sign}$ pasa a ser $\\ge$.`,
+                `When dividing by $${p.a}$, which is negative, the inequality **flips**: the $${p.sign}$ becomes a $\\ge$.`,
+              )
+            : L(
+                `Pasa el término independiente al otro lado y divide entre $${p.a}$; el sentido de la desigualdad no cambia.`,
+                `Move the constant term to the other side and divide by $${p.a}$; the inequality direction does not change.`,
+              ),
+          L(
+            "El extremo de la solución **no** es un entero: sitúalo en la recta numérica y busca el primer entero que quede dentro de la solución.",
+            "The endpoint of the solution is **not** an integer: place it on the number line and find the first integer that lies inside the solution.",
+          ),
+        ],
+        answerDisplay: L(
+          `$x \\ge ${tok(bound)}$, así que el menor entero es $x = ${ans}$`,
+          `$x \\ge ${tok(bound)}$, so the smallest integer is $x = ${ans}$`,
+        ),
+        solution: [
+          step(
+            "given",
+            `$${p.a}x ${p.b >= 0 ? "+" : "-"} ${Math.abs(p.b)} ${p.sign} ${p.c}$`,
+            `$${p.a}x ${p.b >= 0 ? "+" : "-"} ${Math.abs(p.b)} ${p.sign} ${p.c}$`,
+          ),
+          step(
+            "approach",
+            "Aislamos $x$ (invirtiendo el símbolo si dividimos entre un negativo) y después razonamos sobre la recta numérica.",
+            "Isolate $x$ (flipping the symbol if we divide by a negative) and then reason on the number line.",
+          ),
+          step(
+            "calculation",
+            `$${p.a}x ${p.sign} ${p.c} ${p.b >= 0 ? "-" : "+"} ${Math.abs(p.b)} = ${p.c - p.b}$<br>$x \\ge \\frac{${p.c - p.b}}{${p.a}} = ${tok(bound)}$`,
+            `$${p.a}x ${p.sign} ${p.c} ${p.b >= 0 ? "-" : "+"} ${Math.abs(p.b)} = ${p.c - p.b}$<br>$x \\ge \\frac{${p.c - p.b}}{${p.a}} = ${tok(bound)}$`,
+          ),
+          step(
+            "result",
+            `La solución es $x \\ge ${tok(bound)}$: los enteros que la satisfacen son $${ans}, ${ans + 1}, ${ans + 2}, \\ldots$ El menor es $x = ${ans}$.`,
+            `The solution is $x \\ge ${tok(bound)}$: the integers satisfying it are $${ans}, ${ans + 1}, ${ans + 2}, \\ldots$ The smallest one is $x = ${ans}$.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* ---------------------------------------------------------------- */
+  /* Compound inequalities, multiple choice (7-a top-up)               */
+  /* ---------------------------------------------------------------- */
+  template(
+    {
+      id: "lin-ineq-03",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "compound",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["inequalities", "compound", "multiple-choice"],
+      prerequisites: ["multi-step", "inequalities"],
+    },
+    (rng) => {
+      // Hand-curated sets A < a·x + b ≤ B: (A − b) and (B − b) are divisible
+      // by a, so both endpoints of the solution are integers.
+      const sets = [
+        { a: 2, A: 3, b: -1, B: 9 },
+        { a: 2, A: 5, b: -3, B: 15 },
+        { a: 2, A: 1, b: -5, B: 11 },
+        { a: 3, A: 4, b: -2, B: 13 },
+        { a: 3, A: 5, b: -4, B: 17 },
+        { a: 4, A: 3, b: -1, B: 19 },
+        { a: 2, A: 3, b: 5, B: 21 },
+      ];
+      const p = rng.pick(sets);
+      const lo = (p.A - p.b) / p.a;
+      const hi = (p.B - p.b) / p.a;
+      const correct = `$${lo} < x \\le ${hi}$`;
+      const options: McOption[] = [
+        { id: "a", text: L(correct, correct), correct: true },
+        // left endpoint wrongly made inclusive
+        { id: "b", text: L(`$${lo} \\le x \\le ${hi}$`, `$${lo} \\le x \\le ${hi}$`), correct: false },
+        // right endpoint wrongly made exclusive
+        { id: "c", text: L(`$${lo} < x < ${hi}$`, `$${lo} < x < ${hi}$`), correct: false },
+        // division by a never performed
+        { id: "d", text: L(`$${p.A - p.b} < x \\le ${p.B - p.b}$`, `$${p.A - p.b} < x \\le ${p.B - p.b}$`), correct: false },
+      ];
+      return {
+        skill: L("Desigualdades compuestas", "Compound inequalities"),
+        statement: L(
+          `Resuelve la desigualdad compuesta $${p.A} < ${p.a}x ${p.b >= 0 ? "+" : "-"} ${Math.abs(p.b)} \\le ${p.B}$ y elige su solución.`,
+          `Solve the compound inequality $${p.A} < ${p.a}x ${p.b >= 0 ? "+" : "-"} ${Math.abs(p.b)} \\le ${p.B}$ and choose its solution.`,
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Una desigualdad compuesta exige que se cumplan **las dos** a la vez: la expresión central queda atrapada entre los dos extremos.",
+            "A compound inequality requires **both** to hold at once: the middle expression is trapped between the two extremes.",
+          ),
+          L(
+            "Aplica la misma operación a las **tres** partes: primero suma o resta para que en el centro quede solo el término con $x$.",
+            "Apply the same operation to all **three** parts: first add or subtract so that only the $x$-term remains in the middle.",
+          ),
+          L(
+            `Divide las tres partes entre $${p.a}$ y revisa qué extremo lleva $<$ y cuál $\\le$.`,
+            `Divide all three parts by $${p.a}$ and check which endpoint carries $<$ and which one $\\le$.`,
+          ),
+        ],
+        answerDisplay: L(correct, correct),
+        solution: [
+          step(
+            "given",
+            `$${p.A} < ${p.a}x ${p.b >= 0 ? "+" : "-"} ${Math.abs(p.b)} \\le ${p.B}$`,
+            `$${p.A} < ${p.a}x ${p.b >= 0 ? "+" : "-"} ${Math.abs(p.b)} \\le ${p.B}$`,
+          ),
+          step(
+            "approach",
+            "Operamos a la vez sobre las tres partes hasta dejar $x$ sola en el centro; el sentido de cada desigualdad se conserva porque el coeficiente es positivo.",
+            "We operate on all three parts at once until $x$ is alone in the middle; each inequality keeps its direction because the coefficient is positive.",
+          ),
+          step(
+            "calculation",
+            `${p.b < 0 ? `Sumamos $${-p.b}$ a las tres partes` : `Restamos $${p.b}$ a las tres partes`}:<br>$${p.A - p.b} < ${p.a}x \\le ${p.B - p.b}$<br>Dividimos entre $${p.a}$:<br>$\\frac{${p.A - p.b}}{${p.a}} < x \\le \\frac{${p.B - p.b}}{${p.a}}$, es decir, $${lo} < x \\le ${hi}$`,
+            `${p.b < 0 ? `Add $${-p.b}$ to all three parts` : `Subtract $${p.b}$ from all three parts`}:<br>$${p.A - p.b} < ${p.a}x \\le ${p.B - p.b}$<br>Divide by $${p.a}$:<br>$\\frac{${p.A - p.b}}{${p.a}} < x \\le \\frac{${p.B - p.b}}{${p.a}}$, that is, $${lo} < x \\le ${hi}$`,
+          ),
+          step(
+            "result",
+            `La solución es $${lo} < x \\le ${hi}$: por ejemplo, los enteros que la cumplen van de $${lo + 1}$ a $${hi}$.`,
+            `The solution is $${lo} < x \\le ${hi}$: for instance, the integers satisfying it run from $${lo + 1}$ to $${hi}$.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* ---------------------------------------------------------------- */
+  /* Absolute value inequalities: counting integer solutions           */
+  /* ---------------------------------------------------------------- */
+  template(
+    {
+      id: "lin-absi-01",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-inequalities",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 150,
+      tags: ["absolute-value", "inequalities", "counting"],
+      prerequisites: ["multi-step", "inequalities"],
+    },
+    (rng) => {
+      // Hand-curated (a, b) with b ∈ {2, 3}: the open interval (a − b, a + b)
+      // contains exactly 3 or 5 integers.
+      const sets = [
+        { a: 1, b: 2 },
+        { a: -3, b: 2 },
+        { a: 2, b: 3 },
+        { a: -1, b: 3 },
+        { a: 5, b: 2 },
+        { a: 0, b: 3 },
+      ];
+      const p = rng.pick(sets);
+      const count = 2 * p.b - 1;
+      const abs = p.a === 0 ? "|x|" : p.a > 0 ? `|x - ${p.a}|` : `|x + ${-p.a}|`;
+      const ints: number[] = [];
+      for (let v = p.a - p.b + 1; v <= p.a + p.b - 1; v++) ints.push(v);
+      return {
+        skill: L("Desigualdades con valor absoluto", "Absolute value inequalities"),
+        statement: L(
+          `¿Cuántos valores **enteros** de $x$ cumplen la desigualdad $${abs} < ${p.b}$?`,
+          `How many **integer** values of $x$ satisfy the inequality $${abs} < ${p.b}$?`,
+        ),
+        answer: { kind: "numeric", value: count },
+        hints: [
+          L(
+            "$|x - a|$ mide la **distancia** entre $x$ y $a$ en la recta numérica: la desigualdad pide los números cuya distancia a $a$ es menor que $b$.",
+            "$|x - a|$ measures the **distance** between $x$ and $a$ on the number line: the inequality asks for the numbers whose distance to $a$ is smaller than $b$.",
+          ),
+          L(
+            "Sin valor absoluto, la desigualdad se escribe $a - b < x < a + b$ (intervalo abierto).",
+            "Without the absolute value, the inequality reads $a - b < x < a + b$ (open interval).",
+          ),
+          L(
+            "Sustituye tus valores de $a$ y $b$ y cuenta cuántos enteros quedan **estrictamente** entre los dos extremos: los extremos no cuentan.",
+            "Substitute your values of $a$ and $b$ and count how many integers lie **strictly** between the two endpoints: the endpoints do not count.",
+          ),
+        ],
+        answerDisplay: L(`$${count}$ valores enteros`, `$${count}$ integer values`),
+        solution: [
+          step(
+            "given",
+            `La desigualdad $${abs} < ${p.b}$.`,
+            `The inequality $${abs} < ${p.b}$.`,
+          ),
+          step(
+            "approach",
+            "Interpretamos el valor absoluto como distancia y lo reescribimos como desigualdad doble.",
+            "We interpret the absolute value as a distance and rewrite it as a double inequality.",
+          ),
+          step(
+            "calculation",
+            `$${abs} < ${p.b} \\iff ${p.a - p.b} < x < ${p.a + p.b}$<br>Los enteros dentro de ese intervalo abierto son $x \\in \\{${ints.join(", ")}\\}$.`,
+            `$${abs} < ${p.b} \\iff ${p.a - p.b} < x < ${p.a + p.b}$<br>The integers inside that open interval are $x \\in \\{${ints.join(", ")}\\}$.`,
+          ),
+          step(
+            "result",
+            `Hay $${count}$ valores enteros que satisfacen la desigualdad.`,
+            `There are $${count}$ integer values satisfying the inequality.`,
           ),
         ],
       };

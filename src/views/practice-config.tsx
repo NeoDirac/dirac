@@ -117,7 +117,7 @@ export function PracticeConfigView() {
           </div>
         </fieldset>
 
-        <div className="flex flex-col gap-3 sm:flex-row">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
           <Button asChild size="lg" className="flex-1 gap-2 text-[15px] font-semibold">
             <a href={startHref}>
               {t("mixed.start")}
@@ -130,9 +130,12 @@ export function PracticeConfigView() {
               {t("worksheet.printButton")}
             </a>
           </Button>
-          <Button asChild size="lg" variant="ghost" className="text-muted-foreground">
-            <a href={href({ name: "home" })}>{t("common.cancel")}</a>
-          </Button>
+          <a
+            href={href({ name: "home" })}
+            className="py-2 text-center text-sm font-medium text-muted-foreground transition-colors hover:text-foreground sm:px-4"
+          >
+            {t("common.cancel")}
+          </a>
         </div>
       </div>
     </div>

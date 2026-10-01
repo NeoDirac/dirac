@@ -7,7 +7,7 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, Check, Flag, Inbox, SkipForward, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Flag, Inbox, RotateCcw, SkipForward, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -49,6 +49,7 @@ export function SessionView({ config }: { config: SessionConfig }) {
   const [checking, setChecking] = useState(false);
   const [ended, setEnded] = useState(false);
   const [relaxed, setRelaxed] = useState(false);
+  const [reviewing, setReviewing] = useState(false);
   const [builtKey, setBuiltKey] = useState<string | null>(null);
   const nextRef = useRef<HTMLButtonElement>(null);
   const configKey = useMemo(() => JSON.stringify(config), [config]);
@@ -79,6 +80,7 @@ export function SessionView({ config }: { config: SessionConfig }) {
         setIndex(stored.index);
         setEnded(stored.ended);
         setRelaxed(false);
+        setReviewing(stored.reviewing === true);
         setBuiltKey(configKey);
         toast({
           description: t("practice.restored"),
@@ -90,6 +92,7 @@ export function SessionView({ config }: { config: SessionConfig }) {
       setDeck(result.problems);
       setStates(result.problems.map(() => ({ ...initialProblemState })));
       setRelaxed(result.difficultyRelaxed);
+      setReviewing(false);
       setIndex(0);
       setEnded(false);
       setBuiltKey(configKey);
@@ -102,8 +105,8 @@ export function SessionView({ config }: { config: SessionConfig }) {
   // session under the new key during the rebuild frame)
   useEffect(() => {
     if (!deck || !configKey || builtKey !== configKey) return;
-    saveSession({ configKey, index, ended, problems: deck, states });
-  }, [deck, states, index, ended, configKey, builtKey]);
+    saveSession({ configKey, index, ended, problems: deck, states, reviewing });
+  }, [deck, states, index, ended, configKey, builtKey, reviewing]);
 
   const current = deck?.[index];
   const currentState = states[index];
@@ -134,7 +137,7 @@ export function SessionView({ config }: { config: SessionConfig }) {
       : t("mixed.subject.both");
 
   const backHref =
-    config.mode === "topic" && config.topicId && config.subjects.length === 1
+    (config.mode === "topic" || config.mode === "single") && config.topicId && config.subjects.length === 1
       ? href({ name: "topic", subject: config.subjects[0], topicId: config.topicId })
       : config.subjects.length === 1
         ? href({ name: "subject", subject: config.subjects[0] })
@@ -284,6 +287,20 @@ export function SessionView({ config }: { config: SessionConfig }) {
     navigate(sessionHref({ ...cfg, seed: Math.floor(Math.random() * 2 ** 31) }));
   }, [configKey]);
 
+  /** Re-run just the problems that were never solved (wrong, revealed or skipped)
+   *  — same variants, fresh states. */
+  const handleRetryMissed = useCallback(() => {
+    if (!deck) return;
+    const missed = deck.filter((_, i) => !states[i]?.attempts.some((a) => a.correct));
+    if (missed.length === 0) return;
+    setDeck(missed);
+    setStates(missed.map(() => ({ ...initialProblemState })));
+    setIndex(0);
+    setEnded(false);
+    setReviewing(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [deck, states]);
+
   /* ---------------------------------------------------------------- */
   /* keyboard shortcuts: H = next hint, N = next problem               */
   /* (Ctrl/⌘+Enter for checking lives in the AnswerArea form)          */
@@ -357,6 +374,7 @@ export function SessionView({ config }: { config: SessionConfig }) {
         deck={deck ?? []}
         states={states}
         onAgain={handleAgain}
+        onRetryMissed={handleRetryMissed}
       />
     );
   }
@@ -378,13 +396,21 @@ export function SessionView({ config }: { config: SessionConfig }) {
             className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
             <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-            {config.mode === "topic" ? t("practice.backToTopic") : t("common.back")}
+            {config.mode === "topic" || config.mode === "single"
+              ? t("practice.backToTopic")
+              : t("common.back")}
           </a>
           <span className="text-sm font-semibold">
             {subjectLabel}
             {topicName ? <span className="text-muted-foreground"> · {topicName}</span> : null}
             {subtopicName ? <span className="text-muted-foreground"> · {subtopicName}</span> : null}
           </span>
+          {reviewing ? (
+            <span className="inline-flex items-center gap-1 rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary">
+              <RotateCcw className="h-3 w-3" aria-hidden="true" />
+              {t("session.reviewBadge")}
+            </span>
+          ) : null}
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button
@@ -399,9 +425,9 @@ export function SessionView({ config }: { config: SessionConfig }) {
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>{t("summary.unfinished")}</AlertDialogTitle>
+                <AlertDialogTitle>{t("summary.endTitle")}</AlertDialogTitle>
                 <AlertDialogDescription>
-                  {t("answer.confirmDesc")}
+                  {t("session.endConfirmDesc")}
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>

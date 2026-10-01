@@ -18,6 +18,8 @@ export interface PersistedSession {
   ended: boolean;
   problems: Problem[];
   states: ProblemState[];
+  /** true when this deck is a "review missed problems" retry */
+  reviewing?: boolean;
 }
 
 function isProblemLike(v: unknown): v is Problem {

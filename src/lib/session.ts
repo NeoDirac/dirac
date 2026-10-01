@@ -55,6 +55,17 @@ export function buildDeck(
   opts: DeckOptions,
 ): DeckResult {
   const batchIndex = opts.batchIndex ?? 0;
+
+  // single-problem share links: pin the deck to exactly one template+seed
+  if (config.mode === "single" && config.singleTemplateId) {
+    const tpl = templates.find((t) => t.id === config.singleTemplateId);
+    if (!tpl) return { problems: [], difficultyRelaxed: false };
+    return {
+      problems: [instantiateProblem(tpl, config.seed || 1)],
+      difficultyRelaxed: false,
+    };
+  }
+
   let strict = filterTemplates(config, templates);
   let relaxed = false;
 

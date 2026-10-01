@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "**No.**\n\nThere is no small outlined pill badge reading **'Repaso'** with a rotate icon in that location.\n\nInstead, the element present on the right side of the header strip is a **light green (or teal) pill-shaped badge** containing a checkmark icon followed by the text **\"0 correctos\"** (meaning \"0 correct\"). This badge has a solid or lightly filled background with a border, but it does not contain the word \"Repaso\" nor does it feature a rotate/refresh icon.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1790814814,
+  "id": "202610010833329b7b520f2a454dab",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202610010833329b7b520f2a454dab",
+  "usage": {
+    "completion_tokens": 109,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 195,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 304
+  }
+}

@@ -1,0 +1,328 @@
+     1→# Project Worklog — Bilingual Math & Physics Practice Platform
+     2→
+     3→Project: Production-quality educational practice website for a private tutor.
+     4→- Bilingual (ES/EN), Math (algebra → pre-calculus) + Physics (foundations → intro modern physics)
+     5→- Single-route SPA at `/` with hash routing (`#/math`, `#/physics/<topic>`, `#/session?...`, `#/progress`, `#/about`)
+     6→- Attempt-first practice engine: TRY → CHECK → HINT (progressive) → ANSWER → SOLUTION
+     7→- Parameterized problem templates with deterministic seeds; content separated from UI in `src/content/`
+     8→- Answer validation: numeric (tolerance, `,`/`.` decimals, sci notation), expression equivalence (custom parser + sampling), units, MC
+     9→- Anonymous progress in localStorage; KaTeX rendering; SVG parameterized diagrams
+    10→- Stack: Next.js 16 App Router, TypeScript, Tailwind 4, shadcn/ui, katex
+    11→
+    12→## Architecture contracts (do not break)
+    13→
+    14→- Problem schema & factory: `src/lib/problem.ts`, types in `src/lib/types.ts`
+    15→- Seeded RNG: `src/lib/rng.ts` (mulberry32)
+    16→- Validation: `src/lib/validation/*` (answer checking happens ONLY here)
+    17→- i18n: `src/lib/i18n/*` (dictionary + LanguageProvider, fallback es)
+    18→- Curriculum metadata: `src/content/curriculum/{math,physics}.ts` (topic/subtopic ids are the contract for content files)
+    19→- Content: `src/content/{math,physics}/<topicId>.ts` — each exports `export const templates: ProblemTemplate[]`
+    20→- Registry: `src/content/index.ts` (lazy loaders with explicit import map)
+    21→- Content guide for authors: `src/content/GUIDE.md`
+    22→- Bank validation script: `bun run validate:content` (scripts/validate-bank.ts)
+    23→
+    24→---
+    25→Task ID: 1
+    26→Agent: main (Z.ai Code)
+    27→Task: Project setup — inspect repo, install katex, establish architecture, create worklog
+    28→
+    29→Work Log:
+    30→- Inspected repo: Next.js 16.1.3 + Turbopack dev server already running on port 3000 (dev.log clean)
+    31→- Confirmed shadcn/ui full component set, Tailwind 4, tsconfig path alias `@/*`
+    32→- Installed `katex` + `@types/katex`
+    33→- Created this worklog with architecture contracts
+    34→
+    35→Stage Summary:
+    36→- Environment ready; architecture decided (single-route SPA + hash router, content-in-TS-modules, custom validation engine)
+    37→- Next: core libs (schema, RNG, validation), i18n, curriculum metadata, design system, exemplar content
+    38→
+    39→---
+    40→Task ID: 1
+    41→Agent: main (Z.ai Code)
+    42→Task: Core platform — engine, i18n, design system, all views, exemplar content, validation
+    43→
+    44→Work Log:
+    45→- Core libs: src/lib/types.ts (schema incl. solutionSteps union), rng.ts (mulberry32), problem.ts (template/L/step/tok factories), session.ts (deck builder, instantiate, stats)
+    46→- Validation engine: src/lib/validation/{expression,numeric,units,answer}.ts — custom recursive-descent parser + sampling equivalence (no eval), comma/dot decimals, sci notation, sigfig tolerance, unit normalize, MC/text
+    47→- i18n: dictionary (es/en ~230 keys), LanguageProvider (browser detect, es fallback, localStorage), locale number formatting
+    48→- Router: hash-based SPA router (src/lib/router.ts) — plain <a> anchors (next/link pushState does NOT fire hashchange — fixed by codemod)
+    49→- Progress: src/lib/progress.ts localStorage records + stats; session recording on resolution
+    50→- Curriculum metadata: 18 math + 18 physics topics, bilingual, with subtopic ids (the content contract)
+    51→- Content: registry with lazy per-topic imports; 36 topic stubs; 4 high-quality exemplar files (43 templates, 0 validation errors)
+    52→- Design system: warm paper palette + teal(math)/rust(physics) accents, serif headings (Source Serif 4) + Inter, dark mode, graph-paper hero, difficulty meter badges
+    53→- UI: MathText (KaTeX + {{tok}} locale decimals + **bold** + <br>), 6 parameterized SVG diagrams, header (lang/theme/mobile menu), footer, home/subject/topic/practice-config/progress/about views
+    54→- Practice engine: session-view state machine, attempt-first gating (reveal after attempt, solution after resolve), progressive hints, calm feedback, unit-aware partial feedback, new-variant, unlimited batches, summary + stats
+    55→- Validation script scripts/validate-bank.ts (`bun run validate:content`): bilingual completeness, hints 1–3, solution stages, answer specs, MC exactly-one-correct, generator determinism, curriculum id checks, coverage warnings
+    56→- Authoring guide: src/content/GUIDE.md
+    57→
+    58→Bugs found & fixed during self-QA (agent-browser):
+    59→- next/link pushState doesn't fire hashchange → replaced with plain anchors
+    60→- Math.random() in render hrefs caused hydration mismatch → seed 0 links, materialized on session entry
+    61→- solution: bare array vs L10n crash in SolutionPanel → typed union + solutionSteps() resolver (bare arrays now the documented pattern)
+    62→- useRoute read hash during hydration → defer to post-mount rAF
+    63→- React 19 set-state-in-effect lint errors → deferred patterns (rAF/microtask/close-on-click)
+    64→
+    65→Stage Summary:
+    66→- App fully functional end-to-end (verified in browser): home → subject → topic → session → wrong/right answers → hints → reveal → solution → next → summary; language switch works mid-session (content regenerates per locale); progress recorded
+    67→- 43 templates in 4 exemplar topics, validator green (0 errors), lint clean, hydration clean
+    68→- Remaining: fill 32 topic files (Wave 2 agents), then integration QA
+    69→
+    70→---
+    71→Task ID: 2-d
+    72→Agent: general-purpose (content author D)
+    73→Task: Author physics topics physics-foundations, newtonian-mechanics, circular-gravitation, work-energy, momentum, rotational-motion
+    74→
+    75→Work Log:
+    76→- Read worklog, GUIDE.md, exemplars (kinematics.ts, measurement-vectors.ts), curriculum/physics.ts, lib/{problem,types,rng,validation/*}.ts and the diagram components to internalise the authoring contract.
+    77→- Found the 6 target files already fully authored (~1000 lines each, written 21:37–21:50, ids/diagrams/difficulties matching this task's spec exactly) by an earlier unlogged run of Task 2-d; worklog had no 2-d record, so I took ownership: full line-by-line review of all 6 files rather than a blind rewrite.
+    78→- Verified per-file contract compliance: 9–12 templates; ≥2 easy / ≥2 medium / ≥2 hard / ≥1 challenge; ≥2 rng-parameterised generators (all 68 use rng); ≥2 non-numeric templates per topic; ids prefixed pf-/nm-/cg-/we-/mom-/rot-; subtopicIds all exist in curriculum; MC = exactly one correct with unique ids and rng.shuffle; hints 1–3 progressive L()-wrapped, never the final number; solutions staged given→approach→calculation→result with units at every step; sigfig-2 tolerance with values pre-rounded via local sig2(); g = 9{,}8 in Spanish math, G = 6.67e-11 in cg; friction μ dimensionless; normal force ≠ weight handled correctly (nm-fbd-01 teaches N = mg only on horizontal ground; nm-incline-01 draws N ⊥ incline).
+    79→- Recomputed every answer formula by hand across all parameter sets (weights, tensions incl. Atwood & table–pulley, inclines, skid μ, centripetal a/F, v=2πr/T, gravitation F/GM/gR²/GM, orbital speed √(GM/r), loop minimum √(gr), work/KE/PE/spring/conservation/power, impulse (rect + triangle F–t areas), bounce 2mv, inelastic couplings signed, recoil with M−m recoiling mass, 2πn radians, ω=v/r, τ=rF sinθ, I=Σmr², K=½Iω², L=Iω, skater conservation, rolling ¾mv², seesaw m₁d₁=m₂d₂).
+    80→- Pitfall sweep: zero single-backslash LaTeX bugs (unlike measurement-vectors.ts's river template), no Math.random/Date.now in generators, no ${ literal, even $-delimiter parity everywhere, no NaN/undefined tokens.
+    81→- Fixed 4 defects found in review:
+    82→  1. nm-friction-02: v0 and d were picked independently → deduced μ could reach 2.0 (unrealistic, contradicted the "typical tyre on dry asphalt" closing sentence). Replaced with paired skid combos so μ ∈ 0.51–0.68 for every seed.
+    83→  2. we-power-01: closing line said "(unos caballos de vapor: 0,13)" for sub-horsepower variants — grammatically wrong Spanish. Made the horsepower remark conditional (menos de un caballo de vapor / unos $X$ caballos de vapor).
+    84→  3. mom-coll-02: removed a stray unused m2dir property from one combo.
+    85→  4. cg-grav-01: hint 3 claimed the force is "of order 10⁻⁹ N", wrong for extreme variants (actual range 6×10⁻¹⁰–2.7×10⁻⁸ N); corrected to "entre 10⁻¹⁰ y 10⁻⁸ N".
+    86→- Wrote and ran a 340-instantiation audit script (68 templates × 5 seeds × both locales) checking $ parity, {{NaN}}/{{undefined}} tokens and finite answer values in every statement/hint/answerDisplay/solution step: 0 issues. Spot-printed nm-friction-02 μ and we-power-01 result strings across 12 seeds to confirm both fixes behave.
+    87→
+    88→Stage Summary:
+    89→- Files (all 6 complete, filename kept): src/content/physics/{physics-foundations,newtonian-mechanics,circular-gravitation,work-energy,momentum,rotational-motion}.ts
+    90→- Templates: 68 total — physics-foundations 12 (2E/6M/3H/1C; 5 MC, 3 numeric, 4 numeric-unit; 3 diagrams: 2 function-graph + 1 right-triangle) · newtonian-mechanics 11 (3E/3M/4H/1C; 2 MC, 1 numeric, 8 numeric-unit; 3 free-body diagrams incl. one incline) · circular-gravitation 10 (2E/5M/2H/1C; 2 MC, 8 numeric-unit) · work-energy 12 (4E/5M/2H/1C; 1 MC, 1 expression, 1 numeric, 9 numeric-unit) · momentum 11 (3E/4M/3H/1C; 2 MC, 9 numeric-unit; 3 force–time function-graph diagrams) · rotational-motion 12 (4E/5M/2H/1C; 2 MC, 10 numeric-unit)
+    91→- Validation: `bun run validate:content` → 392 templates, 0 errors (sole warning: physics:circuits still empty — belongs to another batch). `bun run lint` → clean, exit 0. tsc: no errors in these 6 files (remaining repo errors are pre-existing in examples/, skills/ and another agent's optics.ts).
+    92→- Next: circuits batch (warning above), then bank-wide integration QA in browser.
+    93→
+    94→---
+    95→Task ID: 2-a
+    96→Agent: general-purpose (content author A)
+    97→Task: Author math topics systems, polynomials, quadratics, rational, radicals, functions
+    98→
+    99→Work Log:
+   100→- Read worklog, GUIDE.md, curriculum contract, and both exemplar files (foundations.ts, linear-equations.ts) plus lib/problem.ts, lib/rng.ts, lib/types.ts, validation engine and scripts/validate-bank.ts
+   101→- Found the six target files already fully populated (apparently from an earlier unlogged run of this same task): took ownership and performed a full line-by-line review of all 70 templates — math correctness of every generator/solution chain, bilingual quality, contract compliance (ids, subtopicIds, difficulty spread, hint progression, MC uniqueness, diagrams, determinism)
+   102→- Verified each generator algebraically (solutions built from chosen roots/answers so every variant is clean; guards for parallel systems, q = −p MC collisions, nonzero denominators, extraneous-root checks)
+   103→- Fixed defects found during review:
+   104→  - poly-spec-02: wrong Spanish terminology "cuadrado de una diferencia" → "diferencia de cuadrados"
+   105→  - poly-fact-01: MC became ambiguous when q = −p (distractor mathematically identical to key) → q now excludes ±p
+   106→  - poly-eq-01: Spanish grammar "la factor" → "el factor"
+   107→  - quad-fact-02: broken mixed LaTeX in Spanish hint → clean $(\square\,x - \triangle)(x + \circ)$ form
+   108→  - quad-app-01: ambiguous word problem (negative consecutive pair also valid) → restricted to consecutive positive integers; solution note updated
+   109→  - quad-vertex-02 → renamed quad-vertex-01 for numbering consistency
+   110→  - rat-div-01: rendered "x - -3" for negative parameters → new sign-aware minusFac() helper
+   111→  - rat-add-01: removed duplicated accepted-expression entry
+   112→  - rad-rat-02: excluded perfect-square radicands (√4, √9, √16) from the conjugate problem
+   113→  - fn-chal-01: rendered "1x"/"-1x" when |b| = 1 → new lead() coefficient formatter
+   114→  - fn-notation-01 / fn-roc-01: parameters now nonzero (avoids "+ 0" display artifacts and a hint that mentions a sum that isn't there)
+   115→  - poly-ineq-01 + rat-ineq-01: added mixed-spacing interval-notation variants (and ∪ forms) to the accepted text answers
+   116→- Ran extra robustness sweep (temp script, deleted after): 70 templates × 500 seeds = 35,000 generations → 0 throws, 0 non-finite answers, 0 duplicate MC option texts, 0 unbalanced $ delimiters
+   117→- Confirmed requirements per topic: 9–12 templates, ≥2 easy / ≥2 medium / ≥2 hard / ≥1 challenge, ≥2 parameterized generators, ≥2 non-numeric question types; function-graph diagrams present in functions (transformation + V-graph reading) and quadratics (vertex reading + intercepts→vertex), plus one in systems (intersection reading)
+   118→
+   119→Stage Summary:
+   120→- Files finalized: src/content/math/{systems,polynomials,quadratics,rational,radicals,functions}.ts — 70 templates total
+   121→  - systems.ts: 11 (2 easy / 4 medium / 3 hard / 2 challenge) — substitution, elimination, graphing, parameters, applications; 1 function-graph diagram
+   122→  - polynomials.ts: 12 (2/7/2/1) — operations, special-products, factoring, equations, remainder-theorem, synthetic-division, inequalities
+   123→  - quadratics.ts: 12 (3/5/3/1) — standard-form, factoring, quadratic-formula, discriminant, completing-square, vertex, graphs, applications; 2 function-graph diagrams
+   124→  - rational.ts: 12 (3/5/3/1) — simplifying, mult-div, add-sub, equations, domain, inequalities
+   125→  - radicals.ts: 11 (3/5/2/1) — simplifying, operations, rationalizing, equations, fractional-exponents
+   126→  - functions.ts: 12 (2/6/3/1) — notation, domain-range, evaluation, composition, inverse, transformations, piecewise, interpreting-graphs, rate-of-change; 2 function-graph diagrams
+   127→- Validation: `bun run validate:content` → 392 templates · 0 errors · 1 warning (physics:circuits has no templates yet — other agent's topic; none of my six topics warn); `bun run lint` → clean; tsc → 0 errors in the six content files (11 pre-existing strict-mode errors elsewhere in src/views + src/lib/validation, outside this task's scope, untouched)
+   128→
+   129→---
+   130→Task ID: 2-e2
+   131→Agent: general-purpose (content author — circuits)
+   132→Task: Author physics topic circuits (the only missing topic in the bank)
+   133→
+   134→Work Log:
+   135→- Read worklog.md, GUIDE.md, the kinematics exemplar, curriculum/physics.ts (circuits subtopics: current, voltage-resistance, ohms-law, series, parallel, kirchhoff, electrical-power), plus lib/{problem,rng,types}.ts, validation/{numeric,units,answer}.ts, validate-bank.ts and the function-graph diagram component (tick/step + locale number formatting) to internalise the authoring contract.
+   136→- Replaced the circuits.ts stub with 12 templates (ids cir-*), designed to cover all 7 subtopics with a 4 easy / 5 medium / 2 hard / 1 challenge spread and both non-numeric types (MC + expression).
+   137→- All parameter sets are hand-curated so every answer is exact at 2 significant figures and every intermediate (currents, voltage drops, equivalent resistances) is clean: Ohm pairs (V = I·R with E-series R), V–I graph triples (I, V=RI), divider triples (V, R1, R2) with V2 = V·R2/(R1+R2) integer, parallel pairs (product/sum clean, e.g. 30∥60=20 Ω, 300∥200=120 Ω), two-branch battery-current sets (I1+I2 clean), two-EMF loop sets ((ε1−ε2)/(R1+R2) clean, incl. realistic 13.5 V charger over 12 V battery), V²/R power pairs, and mixed-network challenge combos (R1 + R2∥R3 → integer R23, clean I and P).
+   138→- Question types: 10 numeric-unit (sigfig-2 tolerance, value pre-rounded via local sig2(), generous unit spellings ["Ω","ohm","ohms","ohmio","ohmios"] etc., distractor unitChoices), 1 parameterized MC (resistance vs length/area ×2/×3 with four distinct factor distractors, rng.shuffled), 1 parameterized expression (P = V²/R or I²R depending on which variable rng picks).
+   139→- Included one parameterized function-graph diagram (cir-ohm-02): linear V–I characteristic through the origin with marked point P, window sized so the line ends at the top-right corner; point label "P" avoids locale-decimal issues, coordinates given in the statement via tok().
+   140→- Hints: 3 per template, progressive (identify → principle/equation → how to substitute), none contains the final number; solutions staged given → approach → calculation → result with units at every step (divider and parallel solutions include a cross-check line, e.g. V1+V2 = V and Req < min(R1,R2)).
+   141→- Self-inflicted bug caught and fixed: the first Write mixed single/double backslashes in ~60 LaTeX escapes (`\varepsilon` → JS vertical-tab escape, `\ ` thin spaces lost); two clumsy Edit passes made it worse (stray `;`/`,`), so I repaired all 60 sequences deterministically with a one-off String.raw Bun script and re-verified with a byte-level grep (0 single-backslash escapes remain).
+   142→- Ran a throwaway multi-seed audit (12 templates × 14 seeds × both locales): $ delimiter parity OK in every statement/hint/answerDisplay/solution step, no {{NaN}}/{{undefined}}/Infinity tokens, all numeric answers finite/positive and exact at 2 s.f., MC exactly-one-correct with unique ids and distinct texts, generation deterministic; also verified variant diversity (all 13 divider combos appear across 60 seeds) and realistic answer ranges. Deleted both temp scripts afterwards.
+   143→- Spot-checked rendered bilingual strings (EN statements, ES/EN solutions) and the diagram JSON for two templates.
+   144→
+   145→Stage Summary:
+   146→- File written: src/content/physics/circuits.ts (12 templates, replacing the empty stub) — the last empty topic in the bank.
+   147→- Counts: easy 4 (current-01 NU, volt-01 MC, ohm-01 NU, power-01 expression) · medium 5 (ohm-02 NU+diagram, series-01 NU, parallel-01 NU, kirch-01 NU, power-02 NU) · hard 2 (parallel-02 NU, kirch-02 NU) · challenge 1 (chal-01 NU). Subtopic coverage: all 7 (current, voltage-resistance, ohms-law ×2, series, parallel ×2, kirchhoff ×2, electrical-power ×3). 11/12 templates rng-parameterized; non-numeric types: multiple-choice + expression.
+   148→- Validation: `bun run validate:content` → 404 templates · 0 errors · 0 warnings (the previous "physics:circuits has NO templates" warning is gone). `bun run lint` → exit 0. tsc → no errors in circuits.ts (11 pre-existing errors elsewhere: examples/, skills/, optics.ts, src/views, src/lib — untouched).
+   149→- Next: bank is now complete at 404 templates; remaining work is bank-wide integration QA in the browser (per Task 2-d note).
+   150→
+   151→---
+   152→Task ID: 3-bc
+   153→Agent: general-purpose (content reviewer B+C)
+   154→Task: Review and fix math topics poly-functions, exponential, logarithmic, sequences, analytic-geometry, trig-foundations, trig-functions, trig-equations, trig-applications, precalculus-mixed
+   155→
+   156→Work Log:
+   157→- Read worklog.md, GUIDE.md, foundations.ts exemplar, curriculum/math.ts, and lib/{problem,types,rng}.ts plus the diagram components (right-triangle side/angle geometry, unit-circle standard position) to internalise the contract before reviewing.
+   158→- Reviewed all 10 target files line by line (106 templates, ~7,700 lines): recomputed every answer formula from the parameters for ≥3 parameter sets (independent brute force for the trig equations), verified solution-step algebra, hint progression (1–3, never the final number), bilingual ES/EN equivalence, MC exactly-one-correct with unique ids and distinct texts, diagram/parameter consistency, determinism, and difficulty coverage.
+   159→- Pitfall sweeps: custom string-literal scanner for single-backslash LaTeX escapes (only false positives in two JSDoc comments — 0 real bugs, unlike circuits' history), tok()-in-comparison grep (0), Math.random/Date.now grep (0), control-character scan of all generated strings (0).
+   160→- MATH DEFECTS found & fixed:
+   161→  1. trig-equations trigeq-basic-01: for cosine the reference angle and the value were mismatched (claimed θ=30° solves cosθ=1/2; cos30°=√3/2). Value now depends on the function: sin30°=1/2 but cos30°=√3/2 (and symmetrically for 60°). Verified by brute force over 400 seeds: marked angle and answer are both true solutions in every variant.
+   162→  2. trig-equations trigeq-int-01: same sin/cos value mismatch, AND the solution claimed "Hay 4 soluciones" listing only 4 u-roots — for k=3 there are 6 (u covers [0°,1080°)). Rewrote to enumerate all 2·k roots per turn and a dynamic count; answer (smallest = ref/k) unchanged and now re-verified by 0.25°-step brute force ×400 seeds.
+   163→  3. trig-equations trigeq-gen-01: cosine general solution used the sine mapping (offered x = ±π/6 + 2πn for cos x = 1/2, whose solutions are ±π/3). Now picks d per function (sin: π/6→1/2, π/3→√3/2; cos: π/3→1/2, π/6→√3/2); answerDisplay and both solution branches re-verified against arcsin/arccos ×400 seeds.
+   164→  4. analytic-geometry ag-dist-02: the n=3 variant asked for k√3 but integer legs (kp)²+(kq)² = k²(p²+q²) can never give 3 (p²+q²=3 has no integer solutions). Replaced the pick list with valid triples p²+q² ∈ {2,5,10,13}; 300 seeds cross-checked statement-points vs k√n answer.
+   165→- TEXT/PARITY defects found & fixed:
+   166→  5. sequences seq-type-01: EN given-step was missing the closing $ of the math span (odd $ count → KaTeX would eat the rest of the line).
+   167→  6. trig-foundations trigf-quad-01: stray unmatched $ in the ES calculation step ("positivo}$<br>") — odd $ count.
+   168→  7. poly-functions pfn-model-02: EN result step had an unclosed math span ("a 10 \times 10\ \text{m}$ square") — added the opening $.
+   169→  8. poly-functions pfn-trans-02: expanded form could render "+ 0" as the constant term (a h² = k cases) — zero constant now omitted.
+   170→  9. exponential exp-chal-01: ES result said "superar el metro establecido" even when the target is 2 m or 5 m → "la altura establecida".
+   171→  10. precalculus-mixed pcm-chal-01: broken Spanish "para que el capital se más que duplique" → "se haya más que duplicado".
+   172→- logarithmic.ts, trig-functions.ts and trig-applications.ts required no fixes (hand-verified all cfg tables: log equation root sets, arcsin/arccos/arctan values, quotient/Pythagorean identity chains, law-of-sines/cosines triples incl. ambiguous SSA cases, two-observation tower heights, 120° ship routes).
+   173→
+   174→Stage Summary:
+   175→- Files touched (targeted fixes only): poly-functions.ts, exponential.ts, sequences.ts, analytic-geometry.ts, trig-foundations.ts, trig-equations.ts, precalculus-mixed.ts. logarithmic.ts, trig-functions.ts, trig-applications.ts reviewed and clean.
+   176→- 106 templates across the 10 topics; every topic ≥2 easy / ≥2 medium / ≥2 hard / ≥1 challenge, ≥2 parameterized generators, and ≥2 non-numeric types (MC + expression everywhere); diagrams: 2 function-graph (poly-functions), 2 function-graph (exponential), 5 unit-circle + 3 right-triangle (trig topics), 1 vectors (trig-applications).
+   177→- Throwaway audit (kept out of src/, deleted after): every template × 30 seeds × both locales = 3,180 generations → 0 exceptions, 0 {{NaN}}/{{undefined}}/undefined/NaN/Infinity tokens, 0 control chars, even $-parity in every statement/hint/answerDisplay/solution step, MC exactly-one-correct + unique ids + distinct texts both locales, all numeric answers finite, generation deterministic (JSON-identical regeneration).
+   178→- Verification: `bun run validate:content` → 404 templates · 0 errors · 0 warnings. `bunx tsc --noEmit` (grep -v examples/skills) → 0 errors. `bun run lint` → exit 0.
+   179→- Next: batch B+C topics are review-green; remaining pre-existing tsc errors live outside these files (src/views, src/lib/validation, examples/, skills/ — other tasks' scope).
+   180→
+   181→---
+   182→Task ID: 3-e
+   183→Agent: general-purpose (content reviewer E)
+   184→Task: Review and fix physics topics fluids, oscillations-waves, thermal-physics, electrostatics
+   185→
+   186→Work Log:
+   187→- Read worklog.md, GUIDE.md, the kinematics exemplar, curriculum/physics.ts, lib/{problem,rng,types}.ts, the validation engine (numeric sigfig window, MC checks), MathText's token/LaTeX pipeline and the diagram components to internalise the authoring contract; then full line-by-line review of all 4 files (47 templates: fluids 12, oscillations-waves 12, thermal-physics 12, electrostatics 11).
+   188→- Physics recomputation: hand-recomputed the answer of EVERY parameter set of every template (not just 3 seeds — all sets are small hand-curated lists): ρ=m/V (2700/7800/8900 blocks), P=F/A, P=ρgh, F_b=ρVg, dam F=P̄·A with P̄=ρg(h/2), floating fraction ρ_obj/ρ_water, A₁v₁=A₂v₂, hose Q=πr²v + fill time (π≈3.14 vs Math.PI within 2 s.f.), Bernoulli ΔP=½ρ(v₂²−v₁²), apparent-weight density ρ=W·ρ_w/F_b; f=1/T, T=1/f, v=fλ, T=2π√(m/k), pendulum L=gT²/(4π²), standing waves λ_n=2L/n and f_n=nv/(2L), string v=√(F/μ) and f₁=v/(2L); T_K=T_C+273, Q=mcΔT, Q=mL_f, ΔL=αL₀ΔT (α 0.9–2.4×10⁻⁵ verified per material), STP V=nRT/P with R=8.314 (22.4 L/mol), mixing T_f=(m₁T₁+m₂T₂)/(m₁+m₂), Charles/Gay-Lussac/Boyle (all 12 process tuples exact), ΔU=Q−W with all four sign conventions, W=PΔV (kPa·L=J), ice+water equilibrium including the "does all ice melt" check; charge sharing (q₁+q₂)/2 with distractor-collision check (q₁=3q₂ etc. impossible in the set), q=Ne in nC, F=kq₁q₂/r², 3-charge superposition F_A−F_C with stated sign convention, E=kq/r², V=kq/r, W=qΔV, U=kq₁q₂/r, proton v=√(2kQe/(m_p r)) (all 8 sets → 2.6–12×10⁶ m/s). All magnitudes realistic; units present at every solution step.
+   189→- Constants audit: ρ_water=1000, g=9.8, c_water=4186, L_f=3.34×10⁵, k=8.99e9, e=1.602e-19 everywhere — one exception found (defect 3 below).
+   190→- Pitfall sweeps: byte-level scan for single-backslash LaTeX corruption (control chars / unpaired backslashes) → 0; no Math.random/Date.now in generators; no `${tok(x) >= …}` string-vs-number comparisons; ids unique; subtopicIds all exist (validator-confirmed); hints 1–3 progressive and never the final number; sigfig-2 values pre-rounded via r2() with rounding stated in statements; difficulty spreads fluids 3E/4M/4H/1C, oscillations 3E/5M/3H/1C, thermal 2E/5M/4H/1C, electrostatics 3E/5M/2H/1C; non-numeric types ≥2 per topic (MC ×6, expression ×4); diagrams: 2 vectors (buoyancy equilibrium, spring-scale submersion), 2 function-graph (x–t cosine reading, P–V isobar) all valid.
+   191→- Defects found & fixed (targeted, count-verified replacements via throwaway bun scripts; an Edit-tool multi-edit failed mid-way once, so remaining fixes were applied deterministically with expected-occurrence counts and re-verified):
+   192→  1. fluids fl-cont-01: Spanish typo "incomprensible" (incomprehensible) → "incompresible" (incompressible) in hint 1.
+   193→  2. oscillations ow-standing-01: two tuples ([3,80,2] and [3,40,1]) give λ=4/3 and 2/3 m, so the calculation step displayed "1.3333333333 m"/"0.6666666667 m" float noise. Replaced with [3,80,1.5] and [3,40,1.5] (λ=1 m, f clean) so every variant is exact.
+   194→  3. thermal tp-ice-01: used c_water=4200 J/(kg·K) and L_f=3.36×10⁵ J/kg, contradicting the file's own header (4186 / 3.34×10⁵), tp-heat-01/02 and the bank constants — a student crossing from tp-heat-01 saw two different c_water values. Aligned to 4186 / 3.34×10⁵ in statement+given+calculation (both locales); answers unchanged at 2 s.f. (28/46/32/39 °C), and the final "T_f = … = value" changed to "≈" since the division is no longer exact.
+   195→  4. electrostatics es-charge-02: the coulomb magnitude was rendered through a raw e-notation token ({{1.6e-9}} → KaTeX draws italic "1,6e−9"); replaced with the file's own mantissa×10^exp style (1,60×10⁻⁹ C) via new qC/cExp/cMan helpers.
+   196→  5. electrostatics es-coul-02 & es-energy-01: raw untokenized decimal interpolations inside math ((K·qa·qb·1e-12).toFixed(4), (dab·dab).toFixed(4), (dbc·dbc).toFixed(4), num.toFixed(4)) rendered "." decimals in Spanish; wrapped in tok(Number(...)) per the GUIDE rule (8 interpolation sites).
+   197→  6. SYSTEMIC in all four files (66 sites): a "{{token}}" written immediately after a LaTeX "{" — e.g. \dfrac{${tok(x)}} → emitted as "{{{x}}}" — defeats MathText's token regex (it captures "{x", fails to parse, and skips the comma conversion), so Spanish students saw "0.2" instead of "0,2" inside \dfrac arguments. Proved by simulating the exact regex, and confirmed the exemplar files never use this pattern. Fixed by inserting a space ({ ${tok(x)} } — LaTeX ignores it, token resolves in both locales). Affected 24 templates (fluids 8 sites, oscillations 22, thermal 10, electrostatics 26).
+   198→- Wrote a throwaway audit script (bun) covering all 47 templates × 30 seeds × both locales = 2,820 generations: 0 exceptions, 0 NaN/undefined/Infinity artifacts, every {{token}} finite and e-notation-free, even $-delimiter parity in es AND en for statements/hints/answerDisplay/solution steps/MC options, MC exactly-one-correct with unique ids and no distractor text equal to the key, deterministic regeneration (double-generate deep-equal), staged solutions given→approach→calculation→result, and every numeric answer inside an independently hand-derived min/max range table (this range check initially flagged 4 templates whose r2-pre-rounded endpoints differ from exact values, e.g. 196000→200000 — verified as intended rounding, table adjusted, no content change). Deleted all throwaway scripts afterwards.
+   199→
+   200→Stage Summary:
+   201→- Files reviewed & fixed (no others touched): src/content/physics/{fluids,oscillations-waves,thermal-physics,electrostatics}.ts — 47 templates total (12+12+12+11), filenames kept, all ids/subtopics unchanged.
+   202→- Fixes: 6 defect classes, 75+ targeted string/data replacements; every fix preserves the template structure, bilingual pairing and answer keys (only tp-ice-01 constants changed, answers identical at stated precision).
+   203→- Verification: `bun run validate:content` → 404 templates · 0 errors · 0 warnings. `bunx tsc --noEmit` (excluding examples/ & skills/) → 0 errors. `bun run lint` → exit 0. Multi-seed × dual-locale audit → 0 failures across 2,820 generations.
+   204→- Next: the brace-adjacent-token locale defect (fix 6) also exists in 11 files owned by other batches (~68 sites: circular-gravitation 12, physics-mixed 10, work-energy 10, optics 8, newtonian-mechanics 6, rotational-motion 6, induction 4, magnetism 4, modern-physics 4, momentum 2, math/exponential 2) — recommend applying the same one-line fix ({${tok( → { ${tok() during bank-wide integration QA. Also note scripts/fix-tokens.ts and scripts/qa-batch-f.ts are leftover scratch files from another agent that could be cleaned up by whoever owns them.
+   205→
+   206→---
+   207→Task ID: 3-f
+   208→Agent: general-purpose (content reviewer F)
+   209→Task: Review and fix physics topics magnetism, induction, optics, modern-physics, physics-mixed
+   210→
+   211→Work Log:
+   212→- Read worklog.md, GUIDE.md, the kinematics exemplar, curriculum/physics.ts, lib/{problem,rng,types}.ts, the validation engine (sigfig window = ±½ unit in the 2nd significant digit of the stored value) and the diagram components (free-body +y is down; incline rises to the right) to internalise the contract; then full line-by-line review of all 5 files (58 templates: magnetism 12, induction 12, optics 12, modern-physics 12, physics-mixed 10).
+   213→- Physics recomputation: hand-recomputed EVERY parameter set of every template (all sets are small hand-curated lists, not just 3 seeds): F=qvB (1.6e-19·v·1e5·B mantissas), F=BIL (all 125 products), B=μ0I/2πr, F/L=μ0I₁I₂/2πd, r=mv/qB, f=qB/2πm (1.52 MHz @0.1 T ✓), mass spectrometer r=√(2mV/q)/B; Φ=BAcosθ (cos 30/45/60 given values), ε=NΔΦ/Δt, ε=BLv, Φ–t slope→emf, transformer Vs=Vp·Ns/Np, generator ε₀=NBAω, rod P=ε²/R; θi=90°−θsurface, plane-mirror 2d, Snell θ₂=asin(sinθ₁/n₂) with stated sine approximations (37°↔0.6, 53°↔0.8 3-4-5), n₂=sinθ₁/sinθ₂ (all 6 sets → 1.50–1.53, glass-like ✓), θc=asin(1/n) (48.8°/41.8°/24.4°/53.1° ✓), 1/f=1/do+1/di (all integer/7.5 image distances), m=−di/do, h'=|m|h; E=hc/λ (3.1 eV @400 nm ✓), KE=hf−φ (all sets E>φ ✓), λ₀=hc/φ, Rydberg λ (656/486/434/410/122/103 nm ✓ Balmer/Lyman), γΔt₀ (0.6c/0.8c exact 3-4-5 triples), E=Δmc², decay (ΔA,ΔZ) signatures (real U-238, Th-234, C-14, Na-22 β⁺, Rn-222, Co-60, Cs-137 chains), φ=E_photon−V₀ (0.98–2.1 eV realistic); mixed: I=V/R→P=VI→E=Pt (all exact kJ), a=(F−μmg)/m, v_apex=v₀cosθ, Tf=(CmTm+CwTw)/(Cm+Cw), v=√(2·KE/m) at A/2 (⅔·½kA² energy split), ballistic pendulum v=(m+M)/m·√(2gh), v_orbit=√(GM/r) (GM=4.0×10¹⁴), d=h/μ (energy bookkeeping). Units and magnitudes realistic at every step.
+   214→- Direction-concept verification (MC keys recomputed by right-hand rule / Lenz): wire field compass directions for both current senses, v×B ±z with electron sign flip, parallel-wire attract/repel + force direction on top/bottom wire, Lenz magnet-and-coil (all 4 pole×approach combos), Lenz changing-field (all 4 out×increasing combos), refraction toward/away + speed, image classification (beyond/2f/between/inside all 12 sets), Bohr emit/absorb, intensity-vs-KE. All correct.
+   215→- Pitfall sweeps: byte-level single-backslash scan (0 — no `\f`/`\t`/`\v` corruption), tok()-in-comparison grep (0 — the previously fixed optics line ~1019 is still clean), Math.random/Date.now grep (0), ids unique, subtopicIds all exist, hints 1–3 progressive and never the final number, sigfig-2 tolerance values pre-rounded with rounding stated in every statement, difficulty spreads verified, MC distractors genuinely distinct from keys in both locales.
+   216→- Defects found & fixed (targeted, structure/ids/answers preserved):
+   217→  1. optics opt-lens-01 (hint 3 + calculation), opt-mirr-01 (calculation), opt-lens-03 (calculation), opt-chal-01 (calculation): the 1/d_i intermediate was rounded to 1 decimal via r1(), so variants displayed mathematically false chains — e.g. "1/20 − 1/60 = 0,0 → d_i = 30 cm" (implied division by zero) or "1/10 − 1/30 = 0,1 → d_i = 15 cm" (0.1 implies d_i = 10); 30/32 parameter sets were affected, hint 3 even showed "d_i = {{0.0}}⁻¹". Replaced with exact-fraction chains (1/d_i = (d_o−f)/(f·d_o) = e.g. 20/300; d_i = f·d_o/(d_o−f)) that are exact for every parameter set (sign flows naturally for the negative virtual-image challenge), and hint 3 now guides through the rearranged form d_o−f/(f·d_o) without the final number.
+   218→  2. optics opt-snell-01 & opt-snell-03 calculation steps: the arcsin argument was displayed at 2 decimals while the answer came from the unrounded value — "arcosen(0,75) ≈ 48,8°" when arcsin(0.75) = 48.6° (0.2–0.3° visible inconsistency in 7/10 variants). Added an r3 helper and now display 3 decimals (0.752 → 48.8°, 0.376 → 22.1°, 0.667 → 41.8°, 0.413 → 24.4°), consistent to 0.05° in every variant (verified numerically in the audit).
+   219→  3. induction ind-flux-02 hint 2: written as a plain double-quoted string containing a literal "${pick.th}" — students saw the raw text "$\theta = ${pick.th}^{∘}$" and an unbalanced math span (odd $ count = 5). Converted to template literals so the angle value interpolates (integer, no tok needed).
+   220→  4. modern-physics mp-nucl-01 EN result step: missing the opening $ of the math span ("{{1.8}}\times10^{-13}\ \text{J}$ are released…", odd $ count) — KaTeX would eat the rest of the line. Added the opening $.
+   221→  5. induction ind-faraday-04: ΔΦ and Δt were interpolated raw inside $…$ math (hint 3, given step, calculation) → dot decimals in Spanish ("0.02/0.1"). Now use tok() with the brace-space convention (0,02/0,1), and the ES diagramLabel endpoint is locale-formatted with units ((0,1 s, 0,02 Wb)); the SVG point label stays raw per the bank-wide exemplar convention (kinematics does the same).
+   222→- Throwaway audit script (scripts/audit-batch-f.ts, deleted after): 58 templates × 7 seeds × both locales — 0 exceptions, deterministic regeneration (double-generate JSON-identical), 0 NaN/undefined/Infinity/control-char artifacts, even $-parity in every statement/hint/answerDisplay/solution step/MC option in BOTH locales, every {{token}} finite/e-notation-free, no brace-adjacent "{{{" regressions, no raw dot-decimals in ES strings, MC exactly-one-correct + unique ids + distinct texts + no distractor equal to the key, plus independent physics recomputation parsed from the rendered EN strings (lens/mirror d_i + fraction-display exactness, lens-03 height chain, Snell arcsin chains, Faraday slope/emf chain, proton radius, mass-spectrometer radius) → 13,804 checks, 0 failures.
+   223→
+   224→Stage Summary:
+   225→- Files touched (targeted fixes only): src/content/physics/optics.ts (defect classes 1–2, 8 display chains), src/content/physics/induction.ts (defects 3 & 5), src/content/physics/modern-physics.ts (defect 4). magnetism.ts and physics-mixed.ts reviewed in full and clean — no changes.
+   226→- Coverage after fixes (unchanged): magnetism 12 (3E/6M/2H/1C), induction 12 (2E/5M/4H/1C), optics 12 (3E/5M/3H/1C), modern-physics 12 (3E/4M/4H/1C), physics-mixed 10 (3E/2M/3H/2C) — every topic ≥2 easy / ≥2 medium / ≥2 hard / ≥1 challenge, ≥2 parameterized generators, ≥2 non-numeric types; physics-mixed items each genuinely combine 2+ areas (circuit+power+energy, dynamics+friction, projectile+energy, calorimetry, SHM+energy, momentum+energy, gravitation+circular, energy+friction). Diagrams verified against component conventions (free-body force directions incl. 30° incline normal, vectors v/B, projectile, Φ–t function graph, Bohr level diagram, mirror right-triangle).
+   227→- Constants verified against the checklist and statement-quoted data: q=1.6×10⁻¹⁹ C, m_p=1.67×10⁻²⁷ kg, μ₀/2π=2×10⁻⁷, h=6.626×10⁻³⁴, c=3×10⁸, 1 eV=1.602×10⁻¹⁹ J, R=1.097×10⁷, n_water=1.33, n_glass=1.5, g=9.8, G=6.67×10⁻¹¹, M_E=6×10²⁴. One cross-file note (no change made): pmx-thermo-01 quotes c_water=4200 while thermal-physics quotes 4186 — both problems are self-consistent with their own stated data; flagged for a future bank-wide constants harmonization pass.
+   228→- Verification: `bun run validate:content` → 404 templates · 0 errors · 0 warnings. `bunx tsc --noEmit` (excluding examples/ & skills/) → 0 errors. `bun run lint` → exit 0. Multi-seed × dual-locale audit → 13,804 checks, 0 failures.
+   229→- Next: batch F topics are review-green. Note: scripts/fix-tokens.ts, scripts/qa-batch-f.ts and scripts/validate-2b-scratch.ts are still leftover scratch files owned by other agents (per task 3-e) — recommend their owners delete them during bank-wide integration QA.
+   230→
+   231→---
+   232→Task ID: 3
+   233→Agent: main (Z.ai Code)
+   234→Task: Integration — content waves, global fixes, end-to-end QA
+   235→
+   236→Work Log:
+   237→- Wave 2 content: 36 topic files populated (404 templates total) across 6 agent batches; batches reviewed line-by-line by 4 reviewer agents (2-a, 2-d, 2-e2, 3-bc, 3-e, 3-f)
+   238→- Reviewer agents found & fixed real defects: trig equation value/angle mismatches, unsolvable distance variants, broken optics lens chains (~30 variants), Snell rounding, LaTeX single-backslash corruption, bilingual gaps, MC key-equal distractors, physics constant drift
+   239→- Global fixes by main: 102 brace-adjacent {{token}} sites (11 files), optics tok() string comparison, c_water harmonized to 4186, TypeScript errors in router/answer/topic/progress/optics all fixed
+   240→- Scratch scripts removed; scripts/ contains only validate-bank.ts
+   241→
+   242→QA (agent-browser, fresh sessions):
+   243→- Homepage ES/EN, language switch mid-session regenerates content per locale
+   244→- Subject pages (18 topics each) with live counts + difficulty dots + progress bars
+   245→- Topic pages: subtopic chips with counts, difficulty/count config, mixed + challenge shortcuts
+   246→- Sessions: expression answers (k*q*Q/r^2 accepted), numeric-unit with decimal comma (0,8 A ✓), wrong-unit partial feedback, MC radio flow, reveal-answer gating (locked before attempt, confirm dialog), progressive hints, staged solutions (Datos/Planteamiento/Cálculo/Resultado), next problem, unlimited extension, session summary with stats
+   247→- Progress dashboard records real attempts (2 attempted, 50% first-try shown during test)
+   248→- Quick practice (mixed math+physics, easy-weighted) works end-to-end
+   249→- Sticky footer verified (sticks on short pages at 1400px viewport, pushes naturally on long), mobile 390px with hamburger menu, dark mode toggle, hydration clean (0 errors fresh load), dev.log clean
+   250→
+   251→Stage Summary:
+   252→- Platform COMPLETE and browser-verified: 404 bilingual templates across 36 topics, all validation gates green (validator 0 errors/0 warnings, tsc 0 app errors, lint clean)
+   253→- Ready for Vercel deployment (single route, static-prerendered, local storage progress)
+   254→- Remaining nice-to-haves: session persistence across refresh, per-problem deep-link sharing UI, teacher-facing analytics (future backend)
+   255→
+   256→---
+   257→Task ID: 4
+   258→Agent: main (Z.ai Code) — scheduled review round 1
+   259→Task: QA sweep + new features (session persistence, MC keyboard shortcuts, circuit diagrams) + animation polish
+   260→
+   261→Work Log:
+   262→- Reviewed worklog (platform complete at Task 3), confirmed all gates green at start: 404 templates/0 errors/0 warnings, tsc 0 app errors, lint clean, server healthy
+   263→- Browser QA re-run of golden path (quadratics: wrong answer → hint → correct k=4 → staged solution → next) — all working, 0 page errors
+   264→- NEW FEATURE 1 — Session persistence across refresh (src/lib/session-persist.ts):
+   265→  - Running session (deck, per-problem states, index, ended) mirrored to sessionStorage on every state change
+   266→  - On reload with the same URL seed the session restores exactly (position, score, attempts, skip/reveal states) with a bilingual "Session restored" toast
+   267→  - Fixed a race found during QA: navigating from an ended session to a new seed briefly saved the old deck under the new key → restored a phantom "Session ended"; now guarded with builtKey state so saves only happen when the deck belongs to the current config
+   268→  - "Practice again" clears storage before re-seeding; ended sessions restore to their summary
+   269→- NEW FEATURE 2 — Multiple-choice keyboard shortcuts:
+   270→  - Keys 1–9 select the nth option (ignored while typing in inputs), numbered badge chips on every option, "choose with keys 1–4" helper text, radio dots replaced by badges with visible :focus-visible ring on the label for a11y
+   271→- NEW FEATURE 3 — Circuit schematic diagram kind (series + parallel):
+   272→  - New CircuitDiagram spec (mode, voltage, resistor labels, optional current arrow) + renderer with battery two-plate symbol, resistor boxes, current arrow
+   273→  - Wired into cir-series-01 and cir-parallel-01 with generated labels (R₁ = 30 Ω…); validator + GUIDE.md updated
+   274→- STYLING POLISH — restrained motion pass (tw-animate-css, reduced-motion respected globally):
+   275→  - Problem card entrance (fade + slide-up), feedback panels, revealed-answer boxes (zoom-in), progressive hint items (slide from left), solution panel (slide from top)
+   276→
+   277→Verification:
+   278→- bun run validate:content → 404 templates · 0 errors · 0 warnings
+   279→- bunx tsc --noEmit (excl. examples/skills) → 0 errors; bun run lint → clean; dev.log → 0 errors
+   280→- agent-browser: restore verified at problem 2/5 with score chip "1 correct"; fresh seed no longer phantom-restores after race fix; MC key "3" selects option 3 (synthetic + real keypress), Check enables; circuit diagram renders (aria-label "Parallel circuit: R₁ = 100 Ω…", 11 SVG shapes); fresh reload → 0 page errors, hydration clean
+   281→
+   282→Stage Summary:
+   283→- Platform stable + 3 new features shipped and browser-verified; session UX now survives accidental refresh (top gap closed)
+   284→- Next-round ideas: per-subtopic practice filters, print-friendly worksheet mode, keyboard shortcut for Check (Ctrl+Enter), more circuit diagrams (kirchhoff loops), thin-topic content top-ups (topics with <10 templates)
+   285→
+   286→---
+   287→Task ID: 5
+   288→Agent: main (Z.ai Code) — scheduled review round 2
+   289→Task: QA sweep + new features (subtopic filters, keyboard shortcuts, worksheet mode, two-loop circuits, streak) + styling polish
+   290→
+   291→Work Log:
+   292→- Reviewed worklog (platform complete at Task 4); all gates green at start (404 templates/0 errors/0 warnings, tsc 0, lint clean)
+   293→- Browser QA re-run of golden path (quadratics: wrong → hint → correct −5/3 → staged solution → next; negative discriminant −8 accepted; ES mid-session switch; progress dashboard with real data) — all working, 0 page errors
+   294→- NEW FEATURE 1 — Per-subtopic practice filter:
+   295→  - SessionConfig gains optional subtopicId; router parses/serializes `u=` param; buildDeck filters by topic+subtopic
+   296→  - Topic page subtopic chips are now toggle buttons (aria-pressed, selected state, disabled when a subtopic has 0 templates); helper text shows focus; session header shows "Topic · Subtopic"
+   297→  - Difficulty availability recomputes for the focused subtopic, with a derived (non-state) fallback to "any" if the chosen level is unavailable — no cascading renders, lint-clean
+   298→  - filterTemplates now honors an explicit topicId/subtopicId restriction in ANY mode (previously topicId was silently ignored in challenge mode deep links)
+   299→- NEW FEATURE 2 — Keyboard shortcuts:
+   300→  - H = next hint, N = next problem (SessionView global handler; ignored while typing in inputs, with modifiers held, or when a dialog/menu is open)
+   301→  - Ctrl/⌘+Enter = check answer from anywhere (AnswerArea window listener, fresh closure per render)
+   302→  - Discreet kbd-chip legend in the session header (desktop only), kbd chips on Hint and Next buttons, ⏎ chip on the Check button; new .kbd-chip utility in globals.css
+   303→- NEW FEATURE 3 — Printable worksheet mode (#/worksheet?...):
+   304→  - New WorksheetView sharing the session params + deterministic seed (shareable URLs, "New variants" mints a fresh seed); capped at 20 problems, finite count only
+   305→  - Print-optimized sheet: brand + topic/subtopic title, difficulty/count meta, Name/Date lines, instructions, numbered problems (difficulty + type + time meta, KaTeX statements, lettered MC options a)–d), compact diagrams, ruled work space), answer key on its own page (break-before:page)
+   306→  - @media print rules: hides site chrome (.site-header/.site-footer/.no-print classes added), forces light paper palette even in dark mode, break-inside-avoid per problem, @page margins; KaTeX print-color-adjust exact
+   307→  - Entry points: "Printable worksheet" outline button on both topic page (respects subtopic+difficulty) and practice-config page
+   308→- NEW FEATURE 4 — Two-loop Kirchhoff circuit diagram + template:
+   309→  - New TwoLoopCircuitDiagram spec (emfLeft/emfRight, [R₁,R₂-middle,R₃] labels, showCurrents) + SVG renderer: two meshes sharing a middle branch, vertical battery symbols, loop-current arrows I₁/I₂ and I₃=I₁+I₂ down the middle (direction-aware arrowheads)
+   310→  - New template cir-kirch-03 (hard, numeric-unit): 7 hand-curated parameter sets where both loop equations and all currents are exact integers; solution shows the 2×2 system, elimination result and a numeric check of the left loop
+   311→  - Verified by throwaway script: 300 seeds → answer matches brute-force 2×2 solve, all loop currents integer, $-parity even everywhere, 0 NaN/undefined; validator + GUIDE.md updated for the new diagram kind
+   312→- NEW FEATURE 5 — Practice streak on progress dashboard: consecutive-day computation from record timestamps (today or yesterday anchored), 6th overview card with Flame icon, grid now 2/3/6 columns
+   313→- NEW FEATURE 6 — Empty-deck state: sessions with no matching problems (e.g. challenge + a subtopic without challenge templates) now show a friendly bilingual empty state + back link instead of a blank summary
+   314→- STYLING POLISH (VLM-assisted critique rounds):
+   315→  - Fixed real bug found by VLM: right battery label in the two-loop diagram overflowed the SVG viewBox (now anchors inward)
+   316→  - Hero decorative graph now reads as a real figure (quiet t, f(t), max., 0 labels, language-neutral)
+   317→  - Worksheet work space deepened (space-y-9 ruled lines) per print-critique feedback
+   318→  - Shortcut legend labels deduplicated (chip shows the key, label no longer repeats it)
+   319→
+   320→Verification (all green):
+   321→- bun run validate:content → 405 templates · 0 errors · 0 warnings (new cir-kirch-03 included)
+   322→- bunx tsc --noEmit (excl. examples/skills) → 0 errors; bun run lint → clean; dev.log → no runtime errors
+   323→- agent-browser: subtopic filter end-to-end (chip → u=discriminant → session header "· Discriminante" → discriminant-only problems); H reveals hint (with input blur), Ctrl+Enter checks 41 ✓, N advances; session restore still works with subtopic configs; empty state renders for impossible filters; worksheet PDF (3 pages: chrome hidden, numbered problems + workspace, answer key on its own page, black-on-white); MC options lettered a)–d); "New variants" reseeds; streak card shows 1 day; difficulty fallback to "All levels" verified; mobile 390px topic + worksheet layouts clean (no overflow, proper wrapping); fresh load 0 console errors
+   324→
+   325→Stage Summary:
+   326→- Platform stable; 5 new user-facing features + 1 robustness fix shipped and browser-verified; bank grew to 405 templates
+   327→- Next-round ideas: thin-topic content top-ups (topics < 10 templates), worksheet difficulty mix option, session summary "review missed problems" mode, per-problem deep-link share button, teacher-facing analytics (future backend)
+   328→

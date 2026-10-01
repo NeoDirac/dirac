@@ -11,8 +11,8 @@
  *   - Feedback is calm and never leaks the answer.
  */
 
-import { useEffect, useRef } from "react";
-import { CheckCircle2, Eye, EyeOff, Lightbulb, RotateCcw, XCircle } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { CheckCircle2, Eye, EyeOff, Lightbulb, Link2, RotateCcw, XCircle } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -33,6 +33,8 @@ import { AnswerArea } from "./answer-area";
 import { HintsSection } from "./hints-section";
 import { SolutionPanel } from "./solution-panel";
 import { useI18n } from "@/lib/i18n/context";
+import { useToast } from "@/hooks/use-toast";
+import { sessionHref } from "@/lib/router";
 import type { AnswerSubmission, CheckOutcome } from "@/lib/validation/answer";
 import type { Problem } from "@/lib/types";
 import type { ProblemState } from "./state";
@@ -117,7 +119,7 @@ function FeedbackPanel({
         {!resolved && attempts >= 1 ? (
           <p className="mt-0.5 flex items-center gap-1 text-sm text-muted-foreground">
             <Lightbulb className="h-3.5 w-3.5" aria-hidden="true" />
-            {t("hints.title")}
+            {t("hints.nudge")}
           </p>
         ) : null}
       </div>
@@ -147,6 +149,8 @@ export function ProblemView({
   onNewVariant: () => void;
 }) {
   const { t, lang } = useI18n();
+  const { toast } = useToast();
+  const [copied, setCopied] = useState(false);
   const resolved = state.status !== "attempting";
   const canRevealAnswer = state.attempts.length >= 1;
   const answerRevealed = state.status === "revealed" || state.answerRevealed;
@@ -155,6 +159,51 @@ export function ProblemView({
   useEffect(() => {
     focusRef.current?.scrollIntoView({ block: "nearest" });
   }, [state.status]);
+
+  /** Deep link that reproduces exactly this variant (template + seed). */
+  async function handleShare() {
+    const hash = sessionHref({
+      mode: "single",
+      subjects: [problem.subject],
+      topicId: problem.topicId,
+      difficulty: "any",
+      count: 1,
+      seed: problem.seed,
+      singleTemplateId: problem.templateId,
+    });
+    const url = `${window.location.origin}${window.location.pathname}${hash}`;
+    try {
+      let copiedOk = false;
+      if (navigator.clipboard && window.isSecureContext) {
+        try {
+          await navigator.clipboard.writeText(url);
+          copiedOk = true;
+        } catch {
+          /* fall through to the legacy path */
+        }
+      }
+      if (!copiedOk) {
+        const ta = document.createElement("textarea");
+        ta.value = url;
+        ta.setAttribute("readonly", "");
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        copiedOk = document.execCommand("copy");
+        document.body.removeChild(ta);
+      }
+      if (copiedOk) {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+        toast({ description: t("share.copied") });
+      } else {
+        toast({ description: t("share.failed") });
+      }
+    } catch {
+      toast({ description: t("share.failed") });
+    }
+  }
 
   return (
     <article
@@ -172,6 +221,25 @@ export function ProblemView({
         <span className="ml-auto hidden text-xs text-muted-foreground sm:block">
           {t("practice.estimated", { n: Math.max(1, Math.round(problem.estimatedTimeSec / 60)) })}
         </span>
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          onClick={handleShare}
+          aria-label={t("share.problem")}
+          title={t("share.problem")}
+          className={cn(
+            "h-8 gap-1.5 px-2.5 text-xs text-muted-foreground transition-colors hover:text-foreground sm:ml-0 ml-auto",
+            copied && "text-success hover:text-success",
+          )}
+        >
+          {copied ? (
+            <CheckCircle2 className="h-3.5 w-3.5" aria-hidden="true" />
+          ) : (
+            <Link2 className="h-3.5 w-3.5" aria-hidden="true" />
+          )}
+          <span className="hidden sm:inline">{copied ? t("share.copiedShort") : t("share.problem")}</span>
+        </Button>
       </div>
 
       <Separator className="my-5" />

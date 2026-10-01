@@ -1023,4 +1023,170 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+
+  /* ---------------------------------------------------------------- */
+  /* Algebraic notation: phrases → expressions (7-a top-up)            */
+  /* ---------------------------------------------------------------- */
+  template(
+    {
+      id: "found-alg-01",
+      subject: "math",
+      topicId: "foundations",
+      subtopicId: "algebraic-notation",
+      difficulty: "easy",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 60,
+      tags: ["translating", "expressions", "word-problems"],
+      prerequisites: [],
+    },
+    (rng) => {
+      // Hand-curated (k, m) for the phrase "k less than m times a number".
+      const sets = [
+        { k: 5, kEs: "cinco", kEn: "five", m: 2, mEs: "el doble de un número", mEn: "twice a number" },
+        { k: 8, kEs: "ocho", kEn: "eight", m: 3, mEs: "el triple de un número", mEn: "three times a number" },
+        { k: 10, kEs: "diez", kEn: "ten", m: 4, mEs: "cuatro veces un número", mEn: "four times a number" },
+        { k: 7, kEs: "siete", kEn: "seven", m: 5, mEs: "cinco veces un número", mEn: "five times a number" },
+        { k: 12, kEs: "doce", kEn: "twelve", m: 2, mEs: "el doble de un número", mEn: "twice a number" },
+        { k: 9, kEs: "nueve", kEn: "nine", m: 6, mEs: "seis veces un número", mEn: "six times a number" },
+        { k: 4, kEs: "cuatro", kEn: "four", m: 3, mEs: "el triple de un número", mEn: "three times a number" },
+      ];
+      const p = rng.pick(sets);
+      const correct = `$${p.m}x - ${p.k}$`;
+      const options: McOption[] = [
+        { id: "a", text: L(correct, correct), correct: true },
+        // order reversed: k − m·x
+        { id: "b", text: L(`$${p.k} - ${p.m}x$`, `$${p.k} - ${p.m}x$`), correct: false },
+        // "less than" wrongly applied before the multiplication
+        { id: "c", text: L(`$${p.m}(x - ${p.k})$`, `$${p.m}(x - ${p.k})$`), correct: false },
+        // subtraction turned into addition
+        { id: "d", text: L(`$${p.m}x + ${p.k}$`, `$${p.m}x + ${p.k}$`), correct: false },
+      ];
+      return {
+        skill: L("Traducir frases a expresiones algebraicas", "Translating phrases into algebraic expressions"),
+        statement: L(
+          `Traduce la frase **«${p.kEs} menos que ${p.mEs}»** a una expresión algebraica que use la variable $x$. ¿Cuál es la expresión correcta?`,
+          `Translate the phrase **"${p.kEn} less than ${p.mEn}"** into an algebraic expression that uses the variable $x$. Which expression is correct?`,
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Traduce primero la parte que va **después** de «menos que»: es la cantidad de la que se va a restar.",
+            "Translate first the part that comes **after** \"less than\": it is the quantity something will be subtracted from.",
+          ),
+          L(
+            `«${p.mEs}» se escribe $${p.m}x$.`,
+            `"${p.mEn}" is written $${p.m}x$.`,
+          ),
+          L(
+            `«${p.kEs} menos que…» indica que a esa cantidad se le resta ${p.kEs}: el número va **al final**, no al principio.`,
+            `"${p.kEn} less than…" means that ${p.kEn} is subtracted from that quantity: the number goes **at the end**, not at the beginning.`,
+          ),
+        ],
+        answerDisplay: L(correct, correct),
+        solution: [
+          step(
+            "given",
+            `La frase «${p.kEs} menos que ${p.mEs}», con la variable $x$.`,
+            `The phrase "${p.kEn} less than ${p.mEn}", with the variable $x$.`,
+          ),
+          step(
+            "approach",
+            "Traducimos por partes: primero la cantidad principal y después lo que se le resta. Ojo: «menos que» **invierte** el orden.",
+            "We translate in pieces: first the main quantity and then what is subtracted from it. Careful: \"less than\" **reverses** the order.",
+          ),
+          step(
+            "calculation",
+            `«${p.mEs}» → $${p.m}x$<br>«${p.kEs} menos que…» → se resta $${p.k}$ al final<br>$${p.m}x - ${p.k}$`,
+            `"${p.mEn}" → $${p.m}x$<br>"${p.kEn} less than…" → subtract $${p.k}$ at the end<br>$${p.m}x - ${p.k}$`,
+          ),
+          step(
+            "result",
+            `La expresión es $${p.m}x - ${p.k}$. El error clásico es escribir $${p.k} - ${p.m}x$, que invierte el orden de la resta.`,
+            `The expression is $${p.m}x - ${p.k}$. The classic mistake is writing $${p.k} - ${p.m}x$, which reverses the order of the subtraction.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* ---------------------------------------------------------------- */
+  /* Simplifying expressions (7-a top-up)                              */
+  /* ---------------------------------------------------------------- */
+  template(
+    {
+      id: "found-simp-01",
+      subject: "math",
+      topicId: "foundations",
+      subtopicId: "simplifying",
+      difficulty: "easy",
+      questionType: "expression",
+      estimatedTimeSec: 75,
+      tags: ["like-terms", "simplify"],
+      prerequisites: [],
+    },
+    (rng) => {
+      // Hand-curated sets with a > c, so the coefficient (a − c) is positive.
+      const sets = [
+        { a: 7, b: 4, c: 2, d: 5 },
+        { a: 5, b: 3, c: 1, d: 6 },
+        { a: 8, b: 2, c: 5, d: 3 },
+        { a: 6, b: 7, c: 4, d: 2 },
+        { a: 9, b: 2, c: 3, d: 4 },
+        { a: 10, b: 3, c: 6, d: 1 },
+        { a: 4, b: 8, c: 1, d: 5 },
+      ];
+      const p = rng.pick(sets);
+      const coef = p.a - p.c;
+      const num = p.b + p.d;
+      return {
+        skill: L("Simplificar combinando términos semejantes", "Simplifying by combining like terms"),
+        statement: L(
+          `Simplifica la expresión combinando términos semejantes: $${p.a}x + ${p.b} - ${p.c}x + ${p.d}$ (por ejemplo, escribe 3x+5 o 3*x+5).`,
+          `Simplify the expression by combining like terms: $${p.a}x + ${p.b} - ${p.c}x + ${p.d}$ (for example, write 3x+5 or 3*x+5).`,
+        ),
+        answer: {
+          kind: "expression",
+          accepted: [`${coef}x + ${num}`, `${coef}*x + ${num}`],
+          variables: ["x"],
+        },
+        hints: [
+          L(
+            "Dos términos solo se pueden combinar si tienen la **misma parte literal**: los términos con $x$ entre sí y los números entre sí.",
+            "Two terms can only be combined if they share the **same variable part**: the $x$ terms with each other, and the numbers with each other.",
+          ),
+          L(
+            `Cuida los signos: el término $-${p.c}x$ se resta y el término $+${p.d}$ se suma.`,
+            `Watch the signs: the term $-${p.c}x$ is subtracted and the term $+${p.d}$ is added.`,
+          ),
+          L(
+            "Resta los coeficientes de $x$ y suma los números: el resultado tiene la forma $Ax + B$ con $A$ y $B$ positivos.",
+            "Subtract the coefficients of $x$ and add the numbers: the result has the form $Ax + B$ with $A$ and $B$ positive.",
+          ),
+        ],
+        answerDisplay: L(`$${coef}x + ${num}$`, `$${coef}x + ${num}$`),
+        solution: [
+          step(
+            "given",
+            `$${p.a}x + ${p.b} - ${p.c}x + ${p.d}$`,
+            `$${p.a}x + ${p.b} - ${p.c}x + ${p.d}$`,
+          ),
+          step(
+            "approach",
+            "Agrupamos los términos semejantes: por un lado los que llevan $x$ y por otro los números.",
+            "Group the like terms: on one side the ones with $x$, on the other the plain numbers.",
+          ),
+          step(
+            "calculation",
+            `$(${p.a}x - ${p.c}x) + (${p.b} + ${p.d}) = ${coef}x + ${num}$`,
+            `$(${p.a}x - ${p.c}x) + (${p.b} + ${p.d}) = ${coef}x + ${num}$`,
+          ),
+          step(
+            "result",
+            `$= ${coef}x + ${num}$`,
+            `$= ${coef}x + ${num}$`,
+          ),
+        ],
+      };
+    },
+  ),
 ];

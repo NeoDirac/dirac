@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "The text in the image says:\n\n**✓ 0 correctos**\n\nThis appears to be Spanish and translates to \"0 correct\" (or \"0 correct answers\" in English), indicating that no items were answered correctly. The checkmark (✓) suggests this is a status indicator or result counter, likely from a quiz, test, or form validation interface.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1790814832,
+  "id": "20261001083350c0126920bbf54dda",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20261001083350c0126920bbf54dda",
+  "usage": {
+    "completion_tokens": 75,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 54,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 129
+  }
+}

@@ -327,6 +327,108 @@ export const templates: ProblemTemplate[] = [
   ),
 
   /* ---------------------------------------------------------------- */
+  /* Vector addition via components (chained displacements)           */
+  /* ---------------------------------------------------------------- */
+  template(
+    {
+      id: "vec-add-02",
+      subject: "physics",
+      topicId: "measurement-vectors",
+      subtopicId: "addition",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 150,
+      tags: ["vector-addition", "components", "pythagoras"],
+      prerequisites: ["components"],
+    },
+    (rng) => {
+      // Hand-curated sets: the sum S = A + B always forms a Pythagorean
+      // triple (3-4-5 / 6-8-10 / 5-12-13 and multiples), so |S| is exact.
+      const sets = [
+        { a1: 3, a2: 1, b1: 0, b2: 3 }, // S = (3, 4), |S| = 5
+        { a1: 2, a2: 4, b1: 4, b2: 4 }, // S = (6, 8), |S| = 10
+        { a1: -5, a2: 3, b1: 10, b2: 9 }, // S = (5, 12), |S| = 13
+        { a1: -3, a2: 6, b1: 12, b2: 6 }, // S = (9, 12), |S| = 15
+        { a1: 4, a2: -3, b1: 5, b2: 3 }, // S = (9, 0), |S| = 9
+        { a1: 2, a2: 1, b1: 10, b2: 15 }, // S = (12, 16), |S| = 20
+      ];
+      const p = rng.pick(sets);
+      const s1 = p.a1 + p.b1;
+      const s2 = p.a2 + p.b2;
+      const mag = Math.round(Math.hypot(s1, s2) * 100) / 100; // exact integer by construction
+      const par = (n: number): string => (n < 0 ? `(${n})` : `${n}`);
+      return {
+        skill: L("Suma de vectores por componentes", "Vector addition by components"),
+        statement: L(
+          `Un robot de reparto sobre un suelo plano realiza dos desplazamientos consecutivos: primero $\\vec{A} = (${p.a1}, ${p.a2})\\ \\text{m}$ y después $\\vec{B} = (${p.b1}, ${p.b2})\\ \\text{m}$ (componentes según los ejes $x$ e $y$). ¿Qué módulo tiene el desplazamiento resultante $\\vec{A} + \\vec{B}$?`,
+          `A delivery robot on a flat floor makes two consecutive displacements: first $\\vec{A} = (${p.a1}, ${p.a2})\\ \\text{m}$ and then $\\vec{B} = (${p.b1}, ${p.b2})\\ \\text{m}$ (components along the $x$ and $y$ axes). What is the magnitude of the resultant displacement $\\vec{A} + \\vec{B}$?`,
+        ),
+        diagram: {
+          kind: "vectors",
+          xMin: Math.min(0, p.a1, s1) - 2,
+          xMax: Math.max(0, p.a1, s1) + 2,
+          yMin: Math.min(0, p.a2, s2) - 2,
+          yMax: Math.max(0, p.a2, s2) + 2,
+          vectors: [
+            { x: p.a1, y: p.a2, label: "A", color: "primary" },
+            { x: p.b1, y: p.b2, label: "B", color: "secondary", from: { x: p.a1, y: p.a2 } },
+            { x: s1, y: s2, label: "A+B", color: "muted" },
+          ],
+          showComponents: false,
+          showGrid: true,
+          xLabel: "x",
+          yLabel: "y",
+        },
+        diagramLabel: L(
+          `Desplazamiento A de (${p.a1}, ${p.a2}) m seguido de B de (${p.b1}, ${p.b2}) m encadenado desde el extremo de A; la resultante A+B va del origen al extremo final.`,
+          `Displacement A of (${p.a1}, ${p.a2}) m followed by B of (${p.b1}, ${p.b2}) m chained from the tip of A; the resultant A+B runs from the origin to the final tip.`,
+        ),
+        answer: { kind: "numeric", value: mag, tolerance: { mode: "relative", value: 0.01 } },
+        hints: [
+          L(
+            "Los desplazamientos son consecutivos: la resultante es su suma vectorial, y los vectores se suman componente a componente.",
+            "The displacements are consecutive: the resultant is their vector sum, and vectors add component by component.",
+          ),
+          L(
+            "Suma por componentes: $\\vec{S} = \\vec{A} + \\vec{B} = (a_1 + b_1,\\ a_2 + b_2)$; el módulo sale del teorema de Pitágoras.",
+            "Add by components: $\\vec{S} = \\vec{A} + \\vec{B} = (a_1 + b_1,\\ a_2 + b_2)$; the magnitude follows from the Pythagorean theorem.",
+          ),
+          L(
+            `Calcula $S_x = ${p.a1} + ${par(p.b1)}$ y $S_y = ${p.a2} + ${par(p.b2)}$, y después aplica $|\\vec{S}| = \\sqrt{S_x^2 + S_y^2}$.`,
+            `Compute $S_x = ${p.a1} + ${par(p.b1)}$ and $S_y = ${p.a2} + ${par(p.b2)}$, then apply $|\\vec{S}| = \\sqrt{S_x^2 + S_y^2}$.`,
+          ),
+        ],
+        answerDisplay: L(
+          `$|\\vec{A} + \\vec{B}| = ${mag}\\ \\text{m}$`,
+          `$|\\vec{A} + \\vec{B}| = ${mag}\\ \\text{m}$`,
+        ),
+        solution: [
+          step(
+            "given",
+            `$\\vec{A} = (${p.a1}, ${p.a2})\\ \\text{m}$, $\\vec{B} = (${p.b1}, ${p.b2})\\ \\text{m}$ (desplazamientos consecutivos)`,
+            `$\\vec{A} = (${p.a1}, ${p.a2})\\ \\text{m}$, $\\vec{B} = (${p.b1}, ${p.b2})\\ \\text{m}$ (consecutive displacements)`,
+          ),
+          step(
+            "approach",
+            "Suma componente a componente y aplica Pitágoras: $\\vec{S} = \\vec{A} + \\vec{B}$, $|\\vec{S}| = \\sqrt{S_x^2 + S_y^2}$.",
+            "Add component by component and apply Pythagoras: $\\vec{S} = \\vec{A} + \\vec{B}$, $|\\vec{S}| = \\sqrt{S_x^2 + S_y^2}$.",
+          ),
+          step(
+            "calculation",
+            `$S_x = ${p.a1} + ${par(p.b1)} = ${s1}\\ \\text{m}$<br>$S_y = ${p.a2} + ${par(p.b2)} = ${s2}\\ \\text{m}$<br>$|\\vec{S}| = \\sqrt{${s1}^2 + ${s2}^2} = \\sqrt{${s1 * s1} + ${s2 * s2}} = \\sqrt{${s1 * s1 + s2 * s2}} = ${mag}\\ \\text{m}$`,
+            `$S_x = ${p.a1} + ${par(p.b1)} = ${s1}\\ \\text{m}$<br>$S_y = ${p.a2} + ${par(p.b2)} = ${s2}\\ \\text{m}$<br>$|\\vec{S}| = \\sqrt{${s1}^2 + ${s2}^2} = \\sqrt{${s1 * s1} + ${s2 * s2}} = \\sqrt{${s1 * s1 + s2 * s2}} = ${mag}\\ \\text{m}$`,
+          ),
+          step(
+            "result",
+            `El desplazamiento resultante tiene módulo $${mag}\\ \\text{m}$.`,
+            `The resultant displacement has magnitude $${mag}\\ \\text{m}$.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* ---------------------------------------------------------------- */
   /* Direction angle                                                  */
   /* ---------------------------------------------------------------- */
   template(
@@ -560,8 +662,8 @@ export const templates: ProblemTemplate[] = [
       return {
         skill: L("Suma de vectores en el cruce de un río", "Vector addition in a river crossing"),
         statement: L(
-          `Un bote cruza un río perpendicular a la orilla con $${pick.b}\ \text{m/s}$ respecto al agua. La corriente arrastraría el bote río abajo a $${pick.c}\ \text{m/s}$. ¿Con qué rapidez se mueve el bote respecto a la orilla?`,
-          `A boat crosses a river perpendicular to the bank at $${pick.b}\ \text{m/s}$ relative to the water. The current would drag the boat downstream at $${pick.c}\ \text{m/s}$. How fast does the boat move relative to the bank?`,
+          `Un bote cruza un río perpendicular a la orilla con $${pick.b}\\ \\text{m/s}$ respecto al agua. La corriente arrastraría el bote río abajo a $${pick.c}\\ \\text{m/s}$. ¿Con qué rapidez se mueve el bote respecto a la orilla?`,
+          `A boat crosses a river perpendicular to the bank at $${pick.b}\\ \\text{m/s}$ relative to the water. The current would drag the boat downstream at $${pick.c}\\ \\text{m/s}$. How fast does the boat move relative to the bank?`,
         ),
         diagram: {
           kind: "vectors",
@@ -604,12 +706,12 @@ export const templates: ProblemTemplate[] = [
             `Apply Pythagoras with $${pick.b}$ and $${pick.c}$.`,
           ),
         ],
-        answerDisplay: L(`$${tok(pick.r)}\ \text{m/s}$`, `$${tok(pick.r)}\ \text{m/s}$`),
+        answerDisplay: L(`$${tok(pick.r)}\\ \\text{m/s}$`, `$${tok(pick.r)}\\ \\text{m/s}$`),
         solution: [
           step(
             "given",
-            `$\vec{v}_{\text{bote}} = ${pick.b}\ \text{m/s}$ (cruzando), $\vec{v}_{\text{río}} = ${pick.c}\ \text{m/s}$ (río abajo)`,
-            `$\vec{v}_{\text{boat}} = ${pick.b}\ \text{m/s}$ (crossing), $\vec{v}_{\text{river}} = ${pick.c}\ \text{m/s}$ (downstream)`,
+            `$\\vec{v}_{\\text{bote}} = ${pick.b}\\ \\text{m/s}$ (cruzando), $\\vec{v}_{\\text{río}} = ${pick.c}\\ \\text{m/s}$ (río abajo)`,
+            `$\\vec{v}_{\\text{boat}} = ${pick.b}\\ \\text{m/s}$ (crossing), $\\vec{v}_{\\text{river}} = ${pick.c}\\ \\text{m/s}$ (downstream)`,
           ),
           step(
             "approach",
@@ -618,13 +720,13 @@ export const templates: ProblemTemplate[] = [
           ),
           step(
             "calculation",
-            `$|\vec{v}| = \sqrt{${pick.b}^2 + ${pick.c}^2} = \sqrt{${pick.b * pick.b} + ${pick.c * pick.c}} = \sqrt{${pick.b * pick.b + pick.c * pick.c}} = ${tok(pick.r)}\ \text{m/s}$`,
-            `$|\vec{v}| = \sqrt{${pick.b}^2 + ${pick.c}^2} = \sqrt{${pick.b * pick.b} + ${pick.c * pick.c}} = \sqrt{${pick.b * pick.b + pick.c * pick.c}} = ${tok(pick.r)}\ \text{m/s}$`,
+            `$|\\vec{v}| = \\sqrt{${pick.b}^2 + ${pick.c}^2} = \\sqrt{${pick.b * pick.b} + ${pick.c * pick.c}} = \\sqrt{${pick.b * pick.b + pick.c * pick.c}} = ${tok(pick.r)}\\ \\text{m/s}$`,
+            `$|\\vec{v}| = \\sqrt{${pick.b}^2 + ${pick.c}^2} = \\sqrt{${pick.b * pick.b} + ${pick.c * pick.c}} = \\sqrt{${pick.b * pick.b + pick.c * pick.c}} = ${tok(pick.r)}\\ \\text{m/s}$`,
           ),
           step(
             "result",
-            `El bote se mueve respecto a la orilla con una rapidez de $${tok(pick.r)}\ \text{m/s}$ (deriva río abajo mientras cruza).`,
-            `The boat moves relative to the bank at $${tok(pick.r)}\ \text{m/s}$ (drifting downstream while crossing).`,
+            `El bote se mueve respecto a la orilla con una rapidez de $${tok(pick.r)}\\ \\text{m/s}$ (deriva río abajo mientras cruza).`,
+            `The boat moves relative to the bank at $${tok(pick.r)}\\ \\text{m/s}$ (drifting downstream while crossing).`,
           ),
         ],
       };

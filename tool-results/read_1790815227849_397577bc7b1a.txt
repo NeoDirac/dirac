@@ -1,0 +1,970 @@
+     1→     1→/**
+     2→     2→ * MATH · Quadratic functions & equations
+     3→     3→ *
+     4→     4→ * Standard/factored form, solving by factoring, the quadratic formula, the
+     5→     5→ * discriminant, completing the square, the vertex, graph reading and
+     6→     6→ * applications. Equations are built from chosen roots so answers are always
+     7→     7→ * clean; two templates read information off a parameterized parabola graph.
+     8→     8→ */
+     9→     9→
+    10→    10→import { template, L, step } from "@/lib/problem";
+    11→    11→import type { ProblemTemplate, McOption } from "@/lib/types";
+    12→    12→
+    13→    13→/* ---------- string helpers (LaTeX built from parameters) ---------- */
+    14→    14→
+    15→    15→/** "+ 5" | "- 5" — joins a signed constant */
+    16→    16→const op = (n: number): string => (n < 0 ? `- ${Math.abs(n)}` : `+ ${n}`);
+    17→    17→
+    18→    18→/** "+ 5x" | "- x" — joins a signed term (coefficient 1 omitted) */
+    19→    19→const opTerm = (n: number, v: string): string =>
+    20→    20→  `${n < 0 ? "- " : "+ "}${Math.abs(n) === 1 ? "" : Math.abs(n)}${v}`;
+    21→    21→
+    22→    22→/** "5x^2" | "-x" | "x" — leading term (coefficient 1 omitted) */
+    23→    23→const lead = (n: number, v: string): string =>
+    24→    24→  `${n < 0 ? "-" : ""}${Math.abs(n) === 1 ? "" : Math.abs(n)}${v}`;
+    25→    25→
+    26→    26→/** LaTeX polynomial from coefficients + variable names, zeros skipped */
+    27→    27→const poly = (cs: number[], vars: string[]): string => {
+    28→    28→  const parts: string[] = [];
+    29→    29→  cs.forEach((c, i) => {
+    30→    30→    if (c === 0) return;
+    31→    31→    const v = vars[i] ?? "";
+    32→    32→    if (parts.length === 0) parts.push(lead(c, v));
+    33→    33→    else parts.push(v ? opTerm(c, v) : op(c));
+    34→    34→  });
+    35→    35→  return parts.length ? parts.join(" ") : "0";
+    36→    36→};
+    37→    37→
+    38→    38→/** plain parser syntax ("5*x^2-3*x+7") for accepted expression answers */
+    39→    39→const polyAcc = (cs: number[], vars: string[]): string => {
+    40→    40→  const parts: string[] = [];
+    41→    41→  cs.forEach((c, i) => {
+    42→    42→    if (c === 0) return;
+    43→    43→    const v = vars[i] ?? "";
+    44→    44→    parts.push(v ? `${c}*${v}` : `${c}`);
+    45→    45→  });
+    46→    46→  return parts.length ? parts.join("+").replace(/\+-/g, "-") : "0";
+    47→    47→};
+    48→    48→
+    49→    49→/** "x - 3" from the root r (factor x − r) */
+    50→    50→const linFac = (r: number): string =>
+    51→    51→  r < 0 ? `x + ${-r}` : r > 0 ? `x - ${r}` : "x";
+    52→    52→
+    53→    53→/** LaTeX vertex form "(x - h)^2 + k" from the vertex (h, k) */
+    54→    54→const vertexForm = (h: number, k: number): string =>
+    55→    55→  `\\left(x ${h < 0 ? "+" : "-"} ${Math.abs(h)}\\right)^2 ${k < 0 ? "-" : "+"} ${Math.abs(k)}`;
+    56→    56→
+    57→    57→/** "x + 3"-style trailing constant: "" when zero, else " + 3" / " - 3" */
+    58→    58→const trail = (n: number): string => (n === 0 ? "" : ` ${op(n)}`);
+    59→    59→
+    60→    60→export const templates: ProblemTemplate[] = [
+    61→    61→  /* ---------------------------------------------------------------- */
+    62→    62→  /* Standard & factored form                                         */
+    63→    63→  /* ---------------------------------------------------------------- */
+    64→    64→  template(
+    65→    65→    {
+    66→    66→      id: "quad-std-01",
+    67→    67→      subject: "math",
+    68→    68→      topicId: "quadratics",
+    69→    69→      subtopicId: "standard-form",
+    70→    70→      difficulty: "easy",
+    71→    71→      questionType: "expression",
+    72→    72→      estimatedTimeSec: 100,
+    73→    73→      tags: ["vertex-form", "expansion"],
+    74→    74→      prerequisites: ["polynomials"],
+    75→    75→    },
+    76→    76→    (rng) => {
+    77→    77→      const h = rng.nonZeroInt(-4, 4);
+    78→    78→      const k = rng.nonZeroInt(-5, 5);
+    79→    79→      const b = -2 * h;
+    80→    80→      const c = h * h + k;
+    81→    81→      return {
+    82→    82→        skill: L("Pasar de forma de vértice a forma general", "From vertex form to standard form"),
+    83→    83→        statement: L(
+    84→    84→          `Expande y escribe en forma general $y = ax^2 + bx + c$: $y = ${vertexForm(h, k)}$ (escribe por ejemplo x^2-4x+7).`,
+    85→    85→          `Expand and write in standard form $y = ax^2 + bx + c$: $y = ${vertexForm(h, k)}$ (write e.g. x^2-4x+7).`,
+    86→    86→        ),
+    87→    87→        answer: {
+    88→    88→          kind: "expression",
+    89→    89→          accepted: [polyAcc([1, b, c], ["x^2", "x", ""])],
+    90→    90→          variables: ["x"],
+    91→    91→        },
+    92→    92→        hints: [
+    93→    93→          L(
+    94→    94→            "Desarrolla el cuadrado con la identidad $(x + a)^2 = x^2 + 2ax + a^2$.",
+    95→    95→            "Expand the square with the identity $(x + a)^2 = x^2 + 2ax + a^2$.",
+    96→    96→          ),
+    97→    97→          L(
+    98→    98→            `El doble producto usa $a = ${-h}$ (lo que se suma o resta dentro del paréntesis).`,
+    99→    99→            `The double product uses $a = ${-h}$ (what is added or subtracted inside the parentheses).`,
+   100→   100→          ),
+   101→   101→          L(
+   102→   102→            "Después suma el término que queda fuera del paréntesis.",
+   103→   103→            "Then add the term outside the parentheses.",
+   104→   104→          ),
+   105→   105→        ],
+   106→   106→        answerDisplay: L(
+   107→   107→          `$y = ${poly([1, b, c], ["x^2", "x", ""])}$`,
+   108→   108→          `$y = ${poly([1, b, c], ["x^2", "x", ""])}$`,
+   109→   109→        ),
+   110→   110→        solution: [
+   111→   111→          step(
+   112→   112→            "given",
+   113→   113→            `$y = ${vertexForm(h, k)}$`,
+   114→   114→            `$y = ${vertexForm(h, k)}$`,
+   115→   115→          ),
+   116→   116→          step(
+   117→   117→            "approach",
+   118→   118→            "Expandimos el binomio al cuadrado y luego sumamos la constante exterior.",
+   119→   119→            "Expand the squared binomial and then add the outside constant.",
+   120→   120→          ),
+   121→   121→          step(
+   122→   122→            "calculation",
+   123→   123→            `$y = x^2 ${op(2 * -h)}x + ${h * h} ${op(k)}$<br>$y = x^2 ${op(b)}x + ${c}$`,
+   124→   124→            `$y = x^2 ${op(2 * -h)}x + ${h * h} ${op(k)}$<br>$y = x^2 ${op(b)}x + ${c}$`,
+   125→   125→          ),
+   126→   126→          step(
+   127→   127→            "result",
+   128→   128→            `$y = ${poly([1, b, c], ["x^2", "x", ""])}$`,
+   129→   129→            `$y = ${poly([1, b, c], ["x^2", "x", ""])}$`,
+   130→   130→          ),
+   131→   131→        ],
+   132→   132→      };
+   133→   133→    },
+   134→   134→  ),
+   135→   135→
+   136→   136→  /* ---------------------------------------------------------------- */
+   137→   137→  /* Solving by factoring                                             */
+   138→   138→  /* ---------------------------------------------------------------- */
+   139→   139→  template(
+   140→   140→    {
+   141→   141→      id: "quad-fact-01",
+   142→   142→      subject: "math",
+   143→   143→      topicId: "quadratics",
+   144→   144→      subtopicId: "factoring",
+   145→   145→      difficulty: "easy",
+   146→   146→      questionType: "numeric",
+   147→   147→      estimatedTimeSec: 100,
+   148→   148→      tags: ["factoring", "zero-product"],
+   149→   149→      prerequisites: ["polynomials"],
+   150→   150→    },
+   151→   151→    (rng) => {
+   152→   152→      const r1 = rng.nonZeroInt(-6, 6);
+   153→   153→      let r2 = rng.nonZeroInt(-6, 6);
+   154→   154→      if (r2 === r1) r2 = r1 === 1 ? 2 : r1 === -1 ? -2 : r1 > 0 ? r1 - 1 : r1 + 1; // distinct, nonzero roots
+   155→   155→      const lo = Math.min(r1, r2);
+   156→   156→      const hi = Math.max(r1, r2);
+   157→   157→      const b = -(r1 + r2);
+   158→   158→      const c = r1 * r2;
+   159→   159→      return {
+   160→   160→        skill: L("Resolver factorizando", "Solving by factoring"),
+   161→   161→        statement: L(
+   162→   162→          `Resuelve $${poly([1, b, c], ["x^2", "x", ""])} = 0$ y da la **mayor** de las dos soluciones.`,
+   163→   163→          `Solve $${poly([1, b, c], ["x^2", "x", ""])} = 0$ and give the **larger** of the two solutions.`,
+   164→   164→        ),
+   165→   165→        answer: { kind: "numeric", value: hi },
+   166→   166→        hints: [
+   167→   167→          L(
+   168→   168→            "Busca dos números que multiplicados den el término independiente y sumados, el coeficiente de $x$ (con su signo).",
+   169→   169→            "Look for two numbers whose product is the constant term and whose sum is the coefficient of $x$ (with its sign).",
+   170→   170→          ),
+   171→   171→          L(
+   172→   172→            "Escribe la ecuación como $(x - r_1)(x - r_2) = 0$.",
+   173→   173→            "Write the equation as $(x - r_1)(x - r_2) = 0$.",
+   174→   174→          ),
+   175→   175→          L(
+   176→   176→            "Un producto vale 0 solo si alguno de sus factores vale 0.",
+   177→   177→            "A product equals 0 only when one of its factors equals 0.",
+   178→   178→          ),
+   179→   179→        ],
+   180→   180→        answerDisplay: L(`$x = ${hi}$`, `$x = ${hi}$`),
+   181→   181→        solution: [
+   182→   182→          step(
+   183→   183→            "given",
+   184→   184→            `$${poly([1, b, c], ["x^2", "x", ""])} = 0$`,
+   185→   185→            `$${poly([1, b, c], ["x^2", "x", ""])} = 0$`,
+   186→   186→          ),
+   187→   187→          step(
+   188→   188→            "approach",
+   189→   189→            "Factorizamos el trinomio y aplicamos la propiedad del producto cero.",
+   190→   190→            "Factor the trinomial and apply the zero-product property.",
+   191→   191→          ),
+   192→   192→          step(
+   193→   193→            "calculation",
+   194→   194→            `$\\left(${linFac(r1)}\\right)\\left(${linFac(r2)}\\right) = 0$<br>${linFac(r1)} = 0 \\Rightarrow x = ${r1}$<br>${linFac(r2)} = 0 \\Rightarrow x = ${r2}$`,
+   195→   195→            `$\\left(${linFac(r1)}\\right)\\left(${linFac(r2)}\\right) = 0$<br>${linFac(r1)} = 0 \\Rightarrow x = ${r1}$<br>${linFac(r2)} = 0 \\Rightarrow x = ${r2}$`,
+   196→   196→          ),
+   197→   197→          step(
+   198→   198→            "result",
+   199→   199→            `Las soluciones son $${lo}$ y $${hi}$; la mayor es $${hi}$.`,
+   200→   200→            `The solutions are $${lo}$ and $${hi}$; the larger one is $${hi}$.`,
+   201→   201→          ),
+   202→   202→        ],
+   203→   203→      };
+   204→   204→    },
+   205→   205→  ),
+   206→   206→
+   207→   207→  template(
+   208→   208→    {
+   209→   209→      id: "quad-fact-02",
+   210→   210→      subject: "math",
+   211→   211→      topicId: "quadratics",
+   212→   212→      subtopicId: "factoring",
+   213→   213→      difficulty: "medium",
+   214→   214→      questionType: "numeric",
+   215→   215→      estimatedTimeSec: 180,
+   216→   216→      tags: ["factoring", "leading-coefficient", "fractions"],
+   217→   217→      prerequisites: ["factoring"],
+   218→   218→    },
+   219→   219→    (rng) => {
+   220→   220→      const p = rng.pick([2, 3]);
+   221→   221→      const m = rng.pick(p === 2 ? [1, 3, 5, 7] : [1, 2, 4, 5, 7, 8]);
+   222→   222→      const n = rng.int(1, 5);
+   223→   223→      const b = p * n - m;
+   224→   224→      const c = -m * n;
+   225→   225→      return {
+   226→   226→        skill: L("Factorizar con coeficiente principal distinto de 1", "Factoring with leading coefficient ≠ 1"),
+   227→   227→        statement: L(
+   228→   228→          `Resuelve $${poly([p, b, c], ["x^2", "x", ""])} = 0$ y da la solución que **no** es entera (puedes escribirla como fracción, por ejemplo 3/2).`,
+   229→   229→          `Solve $${poly([p, b, c], ["x^2", "x", ""])} = 0$ and give the **non-integer** solution (you may write it as a fraction, e.g. 3/2).`,
+   230→   230→        ),
+   231→   231→        answer: { kind: "numeric", value: m / p },
+   232→   232→        hints: [
+   233→   233→          L(
+   234→   234→            "Como el coeficiente principal no es 1, prueba pares de factores del tipo $(\\square\\,x - \\triangle)(x + \\circ)$.",
+   235→   235→            "Since the leading coefficient is not 1, try factor pairs of the form $(\\square\\,x - \\triangle)(x + \\circ)$.",
+   236→   236→          ),
+   237→   237→          L(
+   238→   238→            `El término independiente es $${c}$: uno de los factores acaba en $-${m}$ y el otro en $${n}$.`,
+   239→   239→            `The constant term is $${c}$: one factor ends in $-${m}$ and the other in $${n}$.`,
+   240→   240→          ),
+   241→   241→          L(
+   242→   242→            "Cada factor igualado a cero da una solución; una de ellas es entera y la otra no.",
+   243→   243→            "Setting each factor to zero gives a solution; one is an integer and the other is not.",
+   244→   244→          ),
+   245→   245→        ],
+   246→   246→        answerDisplay: L(`$x = \\frac{${m}}{${p}}$`, `$x = \\frac{${m}}{${p}}$`),
+   247→   247→        solution: [
+   248→   248→          step(
+   249→   249→            "given",
+   250→   250→            `$${poly([p, b, c], ["x^2", "x", ""])} = 0$`,
+   251→   251→            `$${poly([p, b, c], ["x^2", "x", ""])} = 0$`,
+   252→   252→          ),
+   253→   253→          step(
+   254→   254→            "approach",
+   255→   255→            "Factorizamos en dos binomios y aplicamos la propiedad del producto cero.",
+   256→   256→            "Factor into two binomials and apply the zero-product property.",
+   257→   257→          ),
+   258→   258→          step(
+   259→   259→            "calculation",
+   260→   260→            `$\\left(${p}x - ${m}\\right)\\left(x + ${n}\\right) = 0$<br>$${p}x - ${m} = 0 \\Rightarrow x = \\frac{${m}}{${p}}$<br>$x + ${n} = 0 \\Rightarrow x = -${n}$`,
+   261→   261→            `$\\left(${p}x - ${m}\\right)\\left(x + ${n}\\right) = 0$<br>$${p}x - ${m} = 0 \\Rightarrow x = \\frac{${m}}{${p}}$<br>$x + ${n} = 0 \\Rightarrow x = -${n}$`,
+   262→   262→          ),
+   263→   263→          step(
+   264→   264→            "result",
+   265→   265→            `Las soluciones son $\\frac{${m}}{${p}}$ y $-${n}$; la no entera es $\\frac{${m}}{${p}}$.`,
+   266→   266→            `The solutions are $\\frac{${m}}{${p}}$ and $-${n}$; the non-integer one is $\\frac{${m}}{${p}}$.`,
+   267→   267→          ),
+   268→   268→        ],
+   269→   269→      };
+   270→   270→    },
+   271→   271→  ),
+   272→   272→
+   273→   273→  /* ---------------------------------------------------------------- */
+   274→   274→  /* Quadratic formula                                                */
+   275→   275→  /* ---------------------------------------------------------------- */
+   276→   276→  template(
+   277→   277→    {
+   278→   278→      id: "quad-form-01",
+   279→   279→      subject: "math",
+   280→   280→      topicId: "quadratics",
+   281→   281→      subtopicId: "quadratic-formula",
+   282→   282→      difficulty: "medium",
+   283→   283→      questionType: "numeric",
+   284→   284→      estimatedTimeSec: 180,
+   285→   285→      tags: ["quadratic-formula"],
+   286→   286→      prerequisites: ["factoring"],
+   287→   287→    },
+   288→   288→    (rng) => {
+   289→   289→      const a = rng.pick([2, 3]);
+   290→   290→      const t = rng.int(1, 4); // integer (positive) root
+   291→   291→      const m = rng.pick(a === 2 ? [1, 3, 5] : [1, 2, 4, 5]);
+   292→   292→      // roots: t and -m/a → b = -(a·t - m), c = -t·m
+   293→   293→      const b = -(a * t - m);
+   294→   294→      const c = -t * m;
+   295→   295→      const disc = a * t + m; // √(b² - 4ac) = a·t + m
+   296→   296→      return {
+   297→   297→        skill: L("Fórmula cuadrática con raíz fraccionaria", "Quadratic formula with a fractional root"),
+   298→   298→        statement: L(
+   299→   299→          `Resuelve con la fórmula cuadrática $${poly([a, b, c], ["x^2", "x", ""])} = 0$ y da la solución **negativa** (puedes escribirla como fracción, por ejemplo -1/2).`,
+   300→   300→          `Solve $${poly([a, b, c], ["x^2", "x", ""])} = 0$ with the quadratic formula and give the **negative** solution (you may write it as a fraction, e.g. -1/2).`,
+   301→   301→        ),
+   302→   302→        answer: { kind: "numeric", value: -m / a },
+   303→   303→        hints: [
+   304→   304→          L(
+   305→   305→            "Identifica primero $a$, $b$ y $c$ con sus signos.",
+   306→   306→            "First identify $a$, $b$ and $c$ with their signs.",
+   307→   307→          ),
+   308→   308→          L(
+   309→   309→            `Calcula el discriminante $\\Delta = b^2 - 4ac$; en este caso es un cuadrado perfecto ($${disc * disc}$).`,
+   310→   310→            `Compute the discriminant $\\Delta = b^2 - 4ac$; here it is a perfect square ($${disc * disc}$).`,
+   311→   311→          ),
+   312→   312→          L(
+   313→   313→            `Aplica $x = \\frac{-b \\pm \\sqrt{\\Delta}}{2a}$ con el signo $-$ para obtener la solución negativa.`,
+   314→   314→            `Apply $x = \\frac{-b \\pm \\sqrt{\\Delta}}{2a}$ with the $-$ sign to get the negative solution.`,
+   315→   315→          ),
+   316→   316→        ],
+   317→   317→        answerDisplay: L(`$x = -\\frac{${m}}{${a}}$`, `$x = -\\frac{${m}}{${a}}$`),
+   318→   318→        solution: [
+   319→   319→          step(
+   320→   320→            "given",
+   321→   321→            `$${poly([a, b, c], ["x^2", "x", ""])} = 0$, con $a = ${a}$, $b = ${b}$, $c = ${c}$.`,
+   322→   322→            `$${poly([a, b, c], ["x^2", "x", ""])} = 0$, with $a = ${a}$, $b = ${b}$, $c = ${c}$.`,
+   323→   323→          ),
+   324→   324→          step(
+   325→   325→            "approach",
+   326→   326→            "Aplicamos la fórmula cuadrática $x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$.",
+   327→   327→            "We apply the quadratic formula $x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$.",
+   328→   328→          ),
+   329→   329→          step(
+   330→   330→            "calculation",
+   331→   331→            `$\\Delta = (${b})^2 - 4 \\cdot ${a} \\cdot (${c}) = ${b * b} + ${4 * t * m} = ${disc * disc}$<br>$\\sqrt{\\Delta} = ${disc}$<br>$x = \\frac{-(${b}) \\pm ${disc}}{2 \\cdot ${a}} = \\frac{${-b} \\pm ${disc}}{${2 * a}}$<br>$x_1 = \\frac{${-b + disc}}{${2 * a}} = ${t}$, $\\quad x_2 = \\frac{${-b - disc}}{${2 * a}} = -\\frac{${m}}{${a}}$`,
+   332→   332→            `$\\Delta = (${b})^2 - 4 \\cdot ${a} \\cdot (${c}) = ${b * b} + ${4 * t * m} = ${disc * disc}$<br>$\\sqrt{\\Delta} = ${disc}$<br>$x = \\frac{-(${b}) \\pm ${disc}}{2 \\cdot ${a}} = \\frac{${-b} \\pm ${disc}}{${2 * a}}$<br>$x_1 = \\frac{${-b + disc}}{${2 * a}} = ${t}$, $\\quad x_2 = \\frac{${-b - disc}}{${2 * a}} = -\\frac{${m}}{${a}}$`,
+   333→   333→          ),
+   334→   334→          step(
+   335→   335→            "result",
+   336→   336→            `La solución negativa es $x = -\\frac{${m}}{${a}}$.`,
+   337→   337→            `The negative solution is $x = -\\frac{${m}}{${a}}$.`,
+   338→   338→          ),
+   339→   339→        ],
+   340→   340→      };
+   341→   341→    },
+   342→   342→  ),
+   343→   343→
+   344→   344→  /* ---------------------------------------------------------------- */
+   345→   345→  /* Discriminant                                                     */
+   346→   346→  /* ---------------------------------------------------------------- */
+   347→   347→  template(
+   348→   348→    {
+   349→   349→      id: "quad-disc-01",
+   350→   350→      subject: "math",
+   351→   351→      topicId: "quadratics",
+   352→   352→      subtopicId: "discriminant",
+   353→   353→      difficulty: "easy",
+   354→   354→      questionType: "numeric",
+   355→   355→      estimatedTimeSec: 90,
+   356→   356→      tags: ["discriminant"],
+   357→   357→      prerequisites: ["polynomials"],
+   358→   358→    },
+   359→   359→    (rng) => {
+   360→   360→      const a = rng.pick([1, 2]);
+   361→   361→      const b = rng.nonZeroInt(-8, 8);
+   362→   362→      const c = rng.int(-6, 6);
+   363→   363→      const disc = b * b - 4 * a * c;
+   364→   364→      return {
+   365→   365→        skill: L("Cálculo del discriminante", "Computing the discriminant"),
+   366→   366→        statement: L(
+   367→   367→          `Calcula el discriminante de $${poly([a, b, c], ["x^2", "x", ""])} = 0$.`,
+   368→   368→          `Compute the discriminant of $${poly([a, b, c], ["x^2", "x", ""])} = 0$.`,
+   369→   369→        ),
+   370→   370→        answer: { kind: "numeric", value: disc },
+   371→   371→        hints: [
+   372→   372→          L(
+   373→   373→            "El discriminante es la expresión que va dentro de la raíz en la fórmula cuadrática.",
+   374→   374→            "The discriminant is the expression under the square root in the quadratic formula.",
+   375→   375→          ),
+   376→   376→          L(
+   377→   377→            "$\\Delta = b^2 - 4ac$.",
+   378→   378→            "$\\Delta = b^2 - 4ac$.",
+   379→   379→          ),
+   380→   380→          L(
+   381→   381→            `Sustituye con los signos correctos: $b = ${b}$ y $c = ${c}$.`,
+   382→   382→            `Substitute with the correct signs: $b = ${b}$ and $c = ${c}$.`,
+   383→   383→          ),
+   384→   384→        ],
+   385→   385→        answerDisplay: L(`$\\Delta = ${disc}$`, `$\\Delta = ${disc}$`),
+   386→   386→        solution: [
+   387→   387→          step(
+   388→   388→            "given",
+   389→   389→            `$${poly([a, b, c], ["x^2", "x", ""])} = 0$, con $a = ${a}$, $b = ${b}$, $c = ${c}$.`,
+   390→   390→            `$${poly([a, b, c], ["x^2", "x", ""])} = 0$, with $a = ${a}$, $b = ${b}$, $c = ${c}$.`,
+   391→   391→          ),
+   392→   392→          step(
+   393→   393→            "approach",
+   394→   394→            "El discriminante mide \"cuánta raíz hay\": $\\Delta = b^2 - 4ac$.",
+   395→   395→            "The discriminant measures \"how much root there is\": $\\Delta = b^2 - 4ac$.",
+   396→   396→          ),
+   397→   397→          step(
+   398→   398→            "calculation",
+   399→   399→            `$\\Delta = (${b})^2 - 4 \\cdot ${a} \\cdot (${c})$<br>$= ${b * b} ${op(4 * a * c)} = ${disc}$`,
+   400→   400→            `$\\Delta = (${b})^2 - 4 \\cdot ${a} \\cdot (${c})$<br>$= ${b * b} ${op(4 * a * c)} = ${disc}$`,
+   401→   401→          ),
+   402→   402→          step(
+   403→   403→            "result",
+   404→   404→            `$\\Delta = ${disc}$ ${disc > 0 ? "(dos soluciones reales distintas)" : disc === 0 ? "(una solución doble)" : "(sin soluciones reales)"}.`,
+   405→   405→            `$\\Delta = ${disc}$ ${disc > 0 ? "(two distinct real solutions)" : disc === 0 ? "(one double solution)" : "(no real solutions)"}.`,
+   406→   406→          ),
+   407→   407→        ],
+   408→   408→      };
+   409→   409→    },
+   410→   410→  ),
+   411→   411→
+   412→   412→  template(
+   413→   413→    {
+   414→   414→      id: "quad-disc-02",
+   415→   415→      subject: "math",
+   416→   416→      topicId: "quadratics",
+   417→   417→      subtopicId: "discriminant",
+   418→   418→      difficulty: "medium",
+   419→   419→      questionType: "multiple-choice",
+   420→   420→      estimatedTimeSec: 120,
+   421→   421→      tags: ["discriminant", "classification"],
+   422→   422→      prerequisites: ["polynomials"],
+   423→   423→    },
+   424→   424→    (rng) => {
+   425→   425→      const kind = rng.int(0, 2); // 0 two real · 1 double · 2 none
+   426→   426→      let a = 1;
+   427→   427→      let b = 0;
+   428→   428→      let c = 0;
+   429→   429→      if (kind === 0) {
+   430→   430→        const r1 = rng.nonZeroInt(-4, 4);
+   431→   431→        let r2 = rng.nonZeroInt(-4, 4);
+   432→   432→        if (r2 === r1) r2 = r1 === 1 ? 2 : r1 === -1 ? -2 : r1 > 0 ? r1 - 1 : r1 + 1;
+   433→   433→        b = -(r1 + r2);
+   434→   434→        c = r1 * r2;
+   435→   435→      } else if (kind === 1) {
+   436→   436→        const r = rng.nonZeroInt(-4, 4);
+   437→   437→        b = -2 * r;
+   438→   438→        c = r * r;
+   439→   439→      } else {
+   440→   440→        [b, c] = rng.pick([
+   441→   441→          [2, 2],
+   442→   442→          [3, 3],
+   443→   443→          [4, 5],
+   444→   444→          [5, 7],
+   445→   445→        ]);
+   446→   446→      }
+   447→   447→      const disc = b * b - 4 * a * c;
+   448→   448→      const options: McOption[] = [
+   449→   449→        {
+   450→   450→          id: "a",
+   451→   451→          text: L("Dos soluciones reales distintas", "Two distinct real solutions"),
+   452→   452→          correct: disc > 0,
+   453→   453→        },
+   454→   454→        {
+   455→   455→          id: "b",
+   456→   456→          text: L("Exactamente una solución real (doble)", "Exactly one real (double) solution"),
+   457→   457→          correct: disc === 0,
+   458→   458→        },
+   459→   459→        {
+   460→   460→          id: "c",
+   461→   461→          text: L("Ninguna solución real", "No real solutions"),
+   462→   462→          correct: disc < 0,
+   463→   463→        },
+   464→   464→      ];
+   465→   465→      return {
+   466→   466→        skill: L("El discriminante predice el número de soluciones", "The discriminant predicts the number of solutions"),
+   467→   467→        statement: L(
+   468→   468→          `Sin resolverla, ¿cuántas soluciones reales tiene $${poly([a, b, c], ["x^2", "x", ""])} = 0$?`,
+   469→   469→          `Without solving it, how many real solutions does $${poly([a, b, c], ["x^2", "x", ""])} = 0$ have?`,
+   470→   470→        ),
+   471→   471→        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+   472→   472→        hints: [
+   473→   473→          L(
+   474→   474→            "El número de soluciones reales lo decide el signo del discriminante.",
+   475→   475→            "The sign of the discriminant decides the number of real solutions.",
+   476→   476→          ),
+   477→   477→          L(
+   478→   478→            "Calcula $\\Delta = b^2 - 4ac$.",
+   479→   479→            "Compute $\\Delta = b^2 - 4ac$.",
+   480→   480→          ),
+   481→   481→          L(
+   482→   482→            "$\\Delta > 0$: dos; $\\Delta = 0$: una doble; $\\Delta < 0$: ninguna.",
+   483→   483→            "$\\Delta > 0$: two; $\\Delta = 0$: one double; $\\Delta < 0$: none.",
+   484→   484→          ),
+   485→   485→        ],
+   486→   486→        answerDisplay: L(
+   487→   487→          `$\\Delta = ${disc}$ → ${kind === 0 ? "dos soluciones reales" : kind === 1 ? "una solución doble" : "ninguna solución real"}`,
+   488→   488→          `$\\Delta = ${disc}$ → ${kind === 0 ? "two real solutions" : kind === 1 ? "one double solution" : "no real solutions"}`,
+   489→   489→        ),
+   490→   490→        solution: [
+   491→   491→          step(
+   492→   492→            "given",
+   493→   493→            `$${poly([a, b, c], ["x^2", "x", ""])} = 0$, con $a = ${a}$, $b = ${b}$, $c = ${c}$.`,
+   494→   494→            `$${poly([a, b, c], ["x^2", "x", ""])} = 0$, with $a = ${a}$, $b = ${b}$, $c = ${c}$.`,
+   495→   495→          ),
+   496→   496→          step(
+   497→   497→            "approach",
+   498→   498→            "Estudiamos el signo del discriminante $\\Delta = b^2 - 4ac$ sin resolver la ecuación.",
+   499→   499→            "We study the sign of the discriminant $\\Delta = b^2 - 4ac$ without solving the equation.",
+   500→   500→          ),
+   501→   501→          step(
+   502→   502→            "calculation",
+   503→   503→            `$\\Delta = (${b})^2 - 4 \\cdot ${a} \\cdot (${c}) = ${b * b} ${op(4 * a * c)} = ${disc}$<br>${disc > 0 ? "$\\Delta > 0$" : disc === 0 ? "$\\Delta = 0$" : "$\\Delta < 0$"}`,
+   504→   504→            `$\\Delta = (${b})^2 - 4 \\cdot ${a} \\cdot (${c}) = ${b * b} ${op(4 * a * c)} = ${disc}$<br>${disc > 0 ? "$\\Delta > 0$" : disc === 0 ? "$\\Delta = 0$" : "$\\Delta < 0$"}`,
+   505→   505→          ),
+   506→   506→          step(
+   507→   507→            "result",
+   508→   508→            kind === 0
+   509→   509→              ? "Como $\\Delta > 0$, hay **dos** soluciones reales distintas."
+   510→   510→              : kind === 1
+   511→   511→                ? "Como $\\Delta = 0$, hay **una** solución real doble."
+   512→   512→                : "Como $\\Delta < 0$, **no** hay soluciones reales.",
+   513→   513→            kind === 0
+   514→   514→              ? "Since $\\Delta > 0$, there are **two** distinct real solutions."
+   515→   515→              : kind === 1
+   516→   516→                ? "Since $\\Delta = 0$, there is **one** double real solution."
+   517→   517→                : "Since $\\Delta < 0$, there are **no** real solutions.",
+   518→   518→          ),
+   519→   519→        ],
+   520→   520→      };
+   521→   521→    },
+   522→   522→  ),
+   523→   523→
+   524→   524→  /* ---------------------------------------------------------------- */
+   525→   525→  /* Completing the square                                            */
+   526→   526→  /* ---------------------------------------------------------------- */
+   527→   527→  template(
+   528→   528→    {
+   529→   529→      id: "quad-cs-01",
+   530→   530→      subject: "math",
+   531→   531→      topicId: "quadratics",
+   532→   532→      subtopicId: "completing-square",
+   533→   533→      difficulty: "medium",
+   534→   534→      questionType: "numeric",
+   535→   535→      estimatedTimeSec: 150,
+   536→   536→      tags: ["completing-the-square"],
+   537→   537→      prerequisites: ["polynomials"],
+   538→   538→    },
+   539→   539→    (rng) => {
+   540→   540→      const m = rng.nonZeroInt(-5, 5);
+   541→   541→      const b = 2 * m;
+   542→   542→      const c = rng.int(-8, 8);
+   543→   543→      return {
+   544→   544→        skill: L("Completar el cuadrado", "Completing the square"),
+   545→   545→        statement: L(
+   546→   546→          `Para reescribir $${poly([1, b, c], ["x^2", "x", ""])}$ en la forma $(x + p)^2 + q$, ¿qué número hay que **sumar y restar** para completar el cuadrado?`,
+   547→   547→          `To rewrite $${poly([1, b, c], ["x^2", "x", ""])}$ in the form $(x + p)^2 + q$, which number must be **added and subtracted** to complete the square?`,
+   548→   548→        ),
+   549→   549→        answer: { kind: "numeric", value: m * m },
+   550→   550→        hints: [
+   551→   551→          L(
+   552→   552→            "El trinomio cuadrado perfecto empieza con la mitad del coeficiente de $x$.",
+   553→   553→            "The perfect-square trinomial starts from half the coefficient of $x$.",
+   554→   554→          ),
+   555→   555→          L(
+   556→   556→            `Toma la mitad de $${b}$ y eleva al cuadrado.`,
+   557→   557→            `Take half of $${b}$ and square it.`,
+   558→   558→          ),
+   559→   559→          L(
+   560→   560→            "Ese número $p^2$ es lo que se suma (y se resta) para no cambiar la expresión.",
+   561→   561→            "That number $p^2$ is what is added (and subtracted) so the expression does not change.",
+   562→   562→          ),
+   563→   563→        ],
+   564→   564→        answerDisplay: L(`$${m * m}$`, `$${m * m}$`),
+   565→   565→        solution: [
+   566→   566→          step(
+   567→   567→            "given",
+   568→   568→            `$${poly([1, b, c], ["x^2", "x", ""])}$`,
+   569→   569→            `$${poly([1, b, c], ["x^2", "x", ""])}$`,
+   570→   570→          ),
+   571→   571→          step(
+   572→   572→            "approach",
+   573→   573→            "Para completar el cuadrado usamos $p = \\frac{b}{2}$ y sumamos y restamos $p^2$.",
+   574→   574→            "To complete the square we use $p = \\frac{b}{2}$ and add and subtract $p^2$.",
+   575→   575→          ),
+   576→   576→          step(
+   577→   577→            "calculation",
+   578→   578→            `$p = \\frac{${b}}{2} = ${m}$<br>$p^2 = (${m})^2 = ${m * m}$<br>Así, $x^2 ${opTerm(b, "x")} = \\left(x ${op(m)}\\right)^2 - ${m * m}$.`,
+   579→   579→            `$p = \\frac{${b}}{2} = ${m}$<br>$p^2 = (${m})^2 = ${m * m}$<br>Thus, $x^2 ${opTerm(b, "x")} = \\left(x ${op(m)}\\right)^2 - ${m * m}$.`,
+   580→   580→          ),
+   581→   581→          step(
+   582→   582→            "result",
+   583→   583→            `El número buscado es $${m * m}$, y la forma completa es $\\left(x ${op(m)}\\right)^2${trail(c - m * m)}$.`,
+   584→   584→            `The required number is $${m * m}$, and the full form is $\\left(x ${op(m)}\\right)^2${trail(c - m * m)}$.`,
+   585→   585→          ),
+   586→   586→        ],
+   587→   587→      };
+   588→   588→    },
+   589→   589→  ),
+   590→   590→
+   591→   591→  /* ---------------------------------------------------------------- */
+   592→   592→  /* Vertex                                                           */
+   593→   593→  /* ---------------------------------------------------------------- */
+   594→   594→  template(
+   595→   595→    {
+   596→   596→      id: "quad-vertex-01",
+   597→   597→      subject: "math",
+   598→   598→      topicId: "quadratics",
+   599→   599→      subtopicId: "vertex",
+   600→   600→      difficulty: "hard",
+   601→   601→      questionType: "numeric",
+   602→   602→      estimatedTimeSec: 210,
+   603→   603→      tags: ["vertex", "parabola"],
+   604→   604→      prerequisites: ["polynomials"],
+   605→   605→    },
+   606→   606→    (rng) => {
+   607→   607→      const a = rng.pick([1, 2, 3]);
+   608→   608→      const h = rng.nonZeroInt(-4, 4);
+   609→   609→      const k = rng.nonZeroInt(-6, 6);
+   610→   610→      const b = -2 * a * h;
+   611→   611→      const c = a * h * h + k;
+   612→   612→      return {
+   613→   613→        skill: L("Vértice desde la forma general", "Vertex from standard form"),
+   614→   614→        statement: L(
+   615→   615→          `La parábola $y = ${poly([a, b, c], ["x^2", "x", ""])}$ tiene su vértice en $(h, k)$. ¿Cuánto vale la ordenada $k$ del vértice?`,
+   616→   616→          `The parabola $y = ${poly([a, b, c], ["x^2", "x", ""])}$ has its vertex at $(h, k)$. What is the y-coordinate $k$ of the vertex?`,
+   617→   617→        ),
+   618→   618→        answer: { kind: "numeric", value: k },
+   619→   619→        hints: [
+   620→   620→          L(
+   621→   621→            "La primera coordenada del vértice se obtiene con $h = -\\frac{b}{2a}$.",
+   622→   622→            "The first coordinate of the vertex comes from $h = -\\frac{b}{2a}$.",
+   623→   623→          ),
+   624→   624→          L(
+   625→   625→            `Calcula $h$ con $a = ${a}$ y $b = ${b}$; debería salir un número entero.`,
+   626→   626→            `Compute $h$ with $a = ${a}$ and $b = ${b}$; it should come out as an integer.`,
+   627→   627→          ),
+   628→   628→          L(
+   629→   629→            "Después sustituye esa $x$ en la ecuación para obtener la ordenada.",
+   630→   630→            "Then substitute that $x$ into the equation to get the y-coordinate.",
+   631→   631→          ),
+   632→   632→        ],
+   633→   633→        answerDisplay: L(`$k = ${k}$`, `$k = ${k}$`),
+   634→   634→        solution: [
+   635→   635→          step(
+   636→   636→            "given",
+   637→   637→            `$y = ${poly([a, b, c], ["x^2", "x", ""])}$, con $a = ${a}$, $b = ${b}$, $c = ${c}$.`,
+   638→   638→            `$y = ${poly([a, b, c], ["x^2", "x", ""])}$, with $a = ${a}$, $b = ${b}$, $c = ${c}$.`,
+   639→   639→          ),
+   640→   640→          step(
+   641→   641→            "approach",
+   642→   642→            "Usamos la fórmula del vértice: $h = -\\frac{b}{2a}$ y luego $k = y(h)$.",
+   643→   643→            "We use the vertex formula: $h = -\\frac{b}{2a}$ and then $k = y(h)$.",
+   644→   644→          ),
+   645→   645→          step(
+   646→   646→            "calculation",
+   647→   647→            `$h = -\\frac{(${b})}{2 \\cdot ${a}} = ${h}$<br>$k = ${a} \\cdot (${h})^2 ${op(b)} \\cdot (${h}) ${op(c)}$<br>$= ${a * h * h} ${op(b * h)} ${op(c)} = ${k}$`,
+   648→   648→            `$h = -\\frac{(${b})}{2 \\cdot ${a}} = ${h}$<br>$k = ${a} \\cdot (${h})^2 ${op(b)} \\cdot (${h}) ${op(c)}$<br>$= ${a * h * h} ${op(b * h)} ${op(c)} = ${k}$`,
+   649→   649→          ),
+   650→   650→          step(
+   651→   651→            "result",
+   652→   652→            `El vértice es $(${h}, ${k})$; su ordenada es $k = ${k}$.`,
+   653→   653→            `The vertex is $(${h}, ${k})$; its y-coordinate is $k = ${k}$.`,
+   654→   654→          ),
+   655→   655→        ],
+   656→   656→      };
+   657→   657→    },
+   658→   658→  ),
+   659→   659→
+   660→   660→  /* ---------------------------------------------------------------- */
+   661→   661→  /* Graph interpretation                                             */
+   662→   662→  /* ---------------------------------------------------------------- */
+   663→   663→  template(
+   664→   664→    {
+   665→   665→      id: "quad-graph-01",
+   666→   666→      subject: "math",
+   667→   667→      topicId: "quadratics",
+   668→   668→      subtopicId: "graphs",
+   669→   669→      difficulty: "medium",
+   670→   670→      questionType: "multiple-choice",
+   671→   671→      estimatedTimeSec: 150,
+   672→   672→      tags: ["graphs", "vertex", "parabola"],
+   673→   673→      prerequisites: ["polynomials"],
+   674→   674→    },
+   675→   675→    (rng) => {
+   676→   676→      const h = rng.nonZeroInt(-3, 3);
+   677→   677→      const k = rng.intExcluding(-3, 3, [0, h, -h]);
+   678→   678→      const options: McOption[] = [
+   679→   679→        { id: "a", text: L(`$(${h}, ${k})$`, `$(${h}, ${k})$`), correct: true },
+   680→   680→        { id: "b", text: L(`$(${k}, ${h})$`, `$(${k}, ${h})$`), correct: false },
+   681→   681→        { id: "c", text: L(`$(${-h}, ${k})$`, `$(${-h}, ${k})$`), correct: false },
+   682→   682→        { id: "d", text: L(`$(${h}, ${-k})$`, `$(${h}, ${-k})$`), correct: false },
+   683→   683→      ];
+   684→   684→      return {
+   685→   685→        skill: L("Leer el vértice de una parábola", "Reading the vertex of a parabola"),
+   686→   686→        statement: L(
+   687→   687→          "La gráfica muestra una parábola. ¿Cuáles son las coordenadas de su vértice?",
+   688→   688→          "The graph shows a parabola. What are the coordinates of its vertex?",
+   689→   689→        ),
+   690→   690→        diagram: {
+   691→   691→          kind: "function-graph",
+   692→   692→          xMin: -6,
+   693→   693→          xMax: 6,
+   694→   694→          yMin: -8,
+   695→   695→          yMax: 8,
+   696→   696→          curves: [{ fn: `(x - ${h})^2 + ${k}`, color: "primary" }],
+   697→   697→          points: [{ x: h, y: k }],
+   698→   698→          showGrid: true,
+   699→   699→          xLabel: "x",
+   700→   700→          yLabel: "y",
+   701→   701→        },
+   702→   702→        diagramLabel: L(
+   703→   703→          "Parábola con vértice en un punto de la cuadrícula de coordenadas enteras.",
+   704→   704→          "Parabola with its vertex at a grid point with integer coordinates.",
+   705→   705→        ),
+   706→   706→        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+   707→   707→        hints: [
+   708→   708→          L(
+   709→   709→            "El vértice es el punto donde la parábola cambia de dirección.",
+   710→   710→            "The vertex is the point where the parabola turns around.",
+   711→   711→          ),
+   712→   712→          L(
+   713→   713→            "Localiza el punto más bajo (o más alto) de la curva marcado en la gráfica.",
+   714→   714→            "Locate the lowest (or highest) point of the curve marked on the graph.",
+   715→   715→          ),
+   716→   716→          L(
+   717→   717→            "Lee la coordenada horizontal y luego la vertical sobre la cuadrícula.",
+   718→   718→            "Read the horizontal coordinate first and then the vertical one on the grid.",
+   719→   719→          ),
+   720→   720→        ],
+   721→   721→        answerDisplay: L(
+   722→   722→          `Vértice $(${h}, ${k})$, es decir, $y = ${vertexForm(h, k)}$`,
+   723→   723→          `Vertex $(${h}, ${k})$, i.e. $y = ${vertexForm(h, k)}$`,
+   724→   724→        ),
+   725→   725→        solution: [
+   726→   726→          step(
+   727→   727→            "given",
+   728→   728→            `La parábola tiene un único punto marcado: su vértice.`,
+   729→   729→            `The parabola has a single marked point: its vertex.`,
+   730→   730→          ),
+   731→   731→          step(
+   732→   732→            "approach",
+   733→   733→            "Leemos las coordenadas del punto marcado sobre los ejes con la ayuda de la cuadrícula.",
+   734→   734→            "We read the coordinates of the marked point on the axes using the grid.",
+   735→   735→          ),
+   736→   736→          step(
+   737→   737→            "calculation",
+   738→   738→            `El punto marcado está en $x = ${h}$ y $y = ${k}$.<br>Además, la parábola es $y = ${vertexForm(h, k)}$ y su vértice es $(${h}, ${k})$.`,
+   739→   739→            `The marked point lies at $x = ${h}$ and $y = ${k}$.<br>Indeed, the parabola is $y = ${vertexForm(h, k)}$ and its vertex is $(${h}, ${k})$.`,
+   740→   740→          ),
+   741→   741→          step(
+   742→   742→            "result",
+   743→   743→            `El vértice es $(${h}, ${k})$.`,
+   744→   744→            `The vertex is $(${h}, ${k})$.`,
+   745→   745→          ),
+   746→   746→        ],
+   747→   747→      };
+   748→   748→    },
+   749→   749→  ),
+   750→   750→
+   751→   751→  template(
+   752→   752→    {
+   753→   753→      id: "quad-graph-02",
+   754→   754→      subject: "math",
+   755→   755→      topicId: "quadratics",
+   756→   756→      subtopicId: "graphs",
+   757→   757→      difficulty: "hard",
+   758→   758→      questionType: "numeric",
+   759→   759→      estimatedTimeSec: 210,
+   760→   760→      tags: ["graphs", "intercepts", "vertex", "symmetry"],
+   761→   761→      prerequisites: ["graphs"],
+   762→   762→    },
+   763→   763→    (rng) => {
+   764→   764→      const r1 = -rng.int(1, 4); // negative intercept
+   765→   765→      let r2 = rng.int(1, 4); // positive intercept
+   766→   766→      if ((r1 + r2) % 2 !== 0) r2 = r2 === 4 ? 3 : r2 + 1; // same parity
+   767→   767→      const xv = (r1 + r2) / 2;
+   768→   768→      const yv = ((xv - r1) * (xv - r2)); // negative value at the vertex
+   769→   769→      const b = -(r1 + r2);
+   770→   770→      const c = r1 * r2;
+   771→   771→      return {
+   772→   772→        skill: L("Vértice a partir de los cortes con el eje x", "Vertex from the x-intercepts"),
+   773→   773→        statement: L(
+   774→   774→          `La gráfica muestra la parábola $y = ${poly([1, b, c], ["x^2", "x", ""])}$. Usa los cortes con el eje $x$ y la simetría para hallar la **ordenada del vértice**.`,
+   775→   775→          `The graph shows the parabola $y = ${poly([1, b, c], ["x^2", "x", ""])}$. Use the x-intercepts and symmetry to find the **y-coordinate of the vertex**.`,
+   776→   776→        ),
+   777→   777→        diagram: {
+   778→   778→          kind: "function-graph",
+   779→   779→          xMin: -6,
+   780→   780→          xMax: 6,
+   781→   781→          yMin: -18,
+   782→   782→          yMax: 8,
+   783→   783→          curves: [{ fn: `(x - ${r1})*(x - ${r2})`, color: "primary" }],
+   784→   784→          points: [
+   785→   785→            { x: r1, y: 0, label: `(${r1}, 0)` },
+   786→   786→            { x: r2, y: 0, label: `(${r2}, 0)` },
+   787→   787→          ],
+   788→   788→          showGrid: true,
+   789→   789→          xLabel: "x",
+   790→   790→          yLabel: "y",
+   791→   791→        },
+   792→   792→        diagramLabel: L(
+   793→   793→          `Parábola que corta el eje x en ${r1} y en ${r2}.`,
+   794→   794→          `Parabola crossing the x-axis at ${r1} and ${r2}.`,
+   795→   795→        ),
+   796→   796→        answer: { kind: "numeric", value: yv },
+   797→   797→        hints: [
+   798→   798→          L(
+   799→   799→            "El vértice está justo en medio de los dos cortes con el eje $x$, por la simetría de la parábola.",
+   800→   800→            "The vertex lies exactly halfway between the two x-intercepts, because of the parabola's symmetry.",
+   801→   801→          ),
+   802→   802→          L(
+   803→   803→            `Calcula el punto medio de $${r1}$ y $${r2}$: esa es la $x$ del vértice.`,
+   804→   804→            `Compute the midpoint of $${r1}$ and $${r2}$: that is the vertex's $x$.`,
+   805→   805→          ),
+   806→   806→          L(
+   807→   807→            "Sustituye esa $x$ en la ecuación (o lee el valor sobre la gráfica).",
+   808→   808→            "Substitute that $x$ into the equation (or read the value off the graph).",
+   809→   809→          ),
+   810→   810→        ],
+   811→   811→        answerDisplay: L(`Vértice $(${xv}, ${yv})$`, `Vertex $(${xv}, ${yv})$`),
+   812→   812→        solution: [
+   813→   813→          step(
+   814→   814→            "given",
+   815→   815→            `$y = ${poly([1, b, c], ["x^2", "x", ""])}$ con cortes en $x = ${r1}$ y $x = ${r2}$.`,
+   816→   816→            `$y = ${poly([1, b, c], ["x^2", "x", ""])}$ with intercepts at $x = ${r1}$ and $x = ${r2}$.`,
+   817→   817→          ),
+   818→   818→          step(
+   819→   819→            "approach",
+   820→   820→            "Por simetría, el eje de la parábola pasa por el punto medio de los cortes; el vértice está sobre ese eje.",
+   821→   821→            "By symmetry, the axis of the parabola passes through the midpoint of the intercepts; the vertex lies on that axis.",
+   822→   822→          ),
+   823→   823→          step(
+   824→   824→            "calculation",
+   825→   825→            `$x_v = \\frac{${r1} + ${r2}}{2} = ${xv}$<br>Con la forma factorizada $y = \\left(x ${r1 < 0 ? "+" : "-"} ${Math.abs(r1)}\\right)\\left(x ${r2 < 0 ? "+" : "-"} ${Math.abs(r2)}\\right)$:<br>$y_v = \\left(${xv} ${r1 < 0 ? "+" : "-"} ${Math.abs(r1)}\\right)\\left(${xv} ${r2 < 0 ? "+" : "-"} ${Math.abs(r2)}\\right) = ${xv - r1} \\cdot ${xv - r2} = ${yv}$`,
+   826→   826→            `$x_v = \\frac{${r1} + ${r2}}{2} = ${xv}$<br>With the factored form $y = \\left(x ${r1 < 0 ? "+" : "-"} ${Math.abs(r1)}\\right)\\left(x ${r2 < 0 ? "+" : "-"} ${Math.abs(r2)}\\right)$:<br>$y_v = \\left(${xv} ${r1 < 0 ? "+" : "-"} ${Math.abs(r1)}\\right)\\left(${xv} ${r2 < 0 ? "+" : "-"} ${Math.abs(r2)}\\right) = ${xv - r1} \\cdot ${xv - r2} = ${yv}$`,
+   827→   827→          ),
+   828→   828→          step(
+   829→   829→            "result",
+   830→   830→            `El vértice es $(${xv}, ${yv})$; su ordenada es $${yv}$.`,
+   831→   831→            `The vertex is $(${xv}, ${yv})$; its y-coordinate is $${yv}$.`,
+   832→   832→          ),
+   833→   833→        ],
+   834→   834→      };
+   835→   835→    },
+   836→   836→  ),
+   837→   837→
+   838→   838→  /* ---------------------------------------------------------------- */
+   839→   839→  /* Applications                                                     */
+   840→   840→  /* ---------------------------------------------------------------- */
+   841→   841→  template(
+   842→   842→    {
+   843→   843→      id: "quad-app-01",
+   844→   844→      subject: "math",
+   845→   845→      topicId: "quadratics",
+   846→   846→      subtopicId: "applications",
+   847→   847→      difficulty: "hard",
+   848→   848→      questionType: "numeric",
+   849→   849→      estimatedTimeSec: 240,
+   850→   850→      tags: ["word-problems", "consecutive-integers"],
+   851→   851→      prerequisites: ["factoring"],
+   852→   852→    },
+   853→   853→    (rng) => {
+   854→   854→      const n = rng.int(3, 12);
+   855→   855→      const N = n * (n + 1);
+   856→   856→      return {
+   857→   857→        skill: L("Números consecutivos con producto dado", "Consecutive integers with a given product"),
+   858→   858→        statement: L(
+   859→   859→          `El producto de dos números enteros positivos consecutivos es $${N}$. ¿Cuál es el **menor** de los dos?`,
+   860→   860→          `The product of two consecutive positive integers is $${N}$. What is the **smaller** one?`,
+   861→   861→        ),
+   862→   862→        answer: { kind: "numeric", value: n },
+   863→   863→        hints: [
+   864→   864→          L(
+   865→   865→            "Llama $x$ al número menor; el siguiente consecutivo es $x + 1$.",
+   866→   866→            "Call the smaller number $x$; the next consecutive one is $x + 1$.",
+   867→   867→          ),
+   868→   868→          L(
+   869→   869→            `Plantea la ecuación cuadrática $x(x + 1) = ${N}$.`,
+   870→   870→            `Set up the quadratic equation $x(x + 1) = ${N}$.`,
+   871→   871→          ),
+   872→   872→          L(
+   873→   873→            "Pasa todo a un lado y factoriza (o usa la fórmula cuadrática). Una de las soluciones será negativa.",
+   874→   874→            "Move everything to one side and factor (or use the quadratic formula). One solution will be negative.",
+   875→   875→          ),
+   876→   876→        ],
+   877→   877→        answerDisplay: L(`$${n}$`, `$${n}$`),
+   878→   878→        solution: [
+   879→   879→          step(
+   880→   880→            "given",
+   881→   881→            `Dos enteros consecutivos con producto $${N}$.`,
+   882→   882→            `Two consecutive integers with product $${N}$.`,
+   883→   883→          ),
+   884→   884→          step(
+   885→   885→            "approach",
+   886→   886→            "Con $x$ = menor, planteamos $x(x+1) = N$ y resolvemos la cuadrática.",
+   887→   887→            "With $x$ = the smaller one, we set up $x(x+1) = N$ and solve the quadratic.",
+   888→   888→          ),
+   889→   889→          step(
+   890→   890→            "calculation",
+   891→   891→            `$x^2 + x - ${N} = 0$<br>Buscamos dos números que multipliquen $-${N}$ y resten $1$: $${n + 1}$ y $${-n}$.<br>$(x + ${n + 1})(x - ${n}) = 0$<br>$x = -${n + 1}$ (se descarta: los números son positivos) o $x = ${n}$.`,
+   892→   892→            `$x^2 + x - ${N} = 0$<br>We look for two numbers multiplying to $-${N}$ and differing by $1$: $${n + 1}$ and $${-n}$.<br>$(x + ${n + 1})(x - ${n}) = 0$<br>$x = -${n + 1}$ (discarded: the integers are positive) or $x = ${n}$.`,
+   893→   893→          ),
+   894→   894→          step(
+   895→   895→            "result",
+   896→   896→            `Los números son $${n}$ y $${n + 1}$ ($${n} \\cdot ${n + 1} = ${N}$); el menor es $${n}$.`,
+   897→   897→            `The numbers are $${n}$ and $${n + 1}$ ($${n} \\cdot ${n + 1} = ${N}$); the smaller is $${n}$.`,
+   898→   898→          ),
+   899→   899→        ],
+   900→   900→      };
+   901→   901→    },
+   902→   902→  ),
+   903→   903→
+   904→   904→  /* ---------------------------------------------------------------- */
+   905→   905→  /* Challenge: parameter for a double root                           */
+   906→   906→  /* ---------------------------------------------------------------- */
+   907→   907→  template(
+   908→   908→    {
+   909→   909→      id: "quad-chal-01",
+   910→   910→      subject: "math",
+   911→   911→      topicId: "quadratics",
+   912→   912→      subtopicId: "discriminant",
+   913→   913→      difficulty: "challenge",
+   914→   914→      questionType: "numeric",
+   915→   915→      estimatedTimeSec: 270,
+   916→   916→      tags: ["discriminant", "parameters", "reverse-thinking"],
+   917→   917→      prerequisites: ["discriminant"],
+   918→   918→    },
+   919→   919→    (rng) => {
+   920→   920→      const c = rng.pick([4, 9, 16, 25]);
+   921→   921→      const k = 2 * Math.sqrt(c);
+   922→   922→      return {
+   923→   923→        skill: L("Condición de raíz doble al revés", "Double-root condition in reverse"),
+   924→   924→        statement: L(
+   925→   925→          `¿Para qué valor **positivo** de $k$ tiene la ecuación $x^2 + kx + ${c} = 0$ exactamente una solución real?`,
+   926→   926→          `For which **positive** value of $k$ does $x^2 + kx + ${c} = 0$ have exactly one real solution?`,
+   927→   927→        ),
+   928→   928→        answer: { kind: "numeric", value: k },
+   929→   929→        hints: [
+   930→   930→          L(
+   931→   931→            "\"Exactamente una solución real\" significa que la raíz es doble.",
+   932→   932→            "\"Exactly one real solution\" means the root is double.",
+   933→   933→          ),
+   934→   934→          L(
+   935→   935→            "Eso ocurre cuando el discriminante vale exactamente 0.",
+   936→   936→            "That happens when the discriminant is exactly 0.",
+   937→   937→          ),
+   938→   938→          L(
+   939→   939→            `Plantea $k^2 - 4 \\cdot ${c} = 0$ y despeja $k$ (con $k > 0$).`,
+   940→   940→            `Write $k^2 - 4 \\cdot ${c} = 0$ and solve for $k$ (with $k > 0$).`,
+   941→   941→          ),
+   942→   942→        ],
+   943→   943→        answerDisplay: L(`$k = ${k}$`, `$k = ${k}$`),
+   944→   944→        solution: [
+   945→   945→          step(
+   946→   946→            "given",
+   947→   947→            `$x^2 + kx + ${c} = 0$ con $a = 1$, $b = k$, $c = ${c}$.`,
+   948→   948→            `$x^2 + kx + ${c} = 0$ with $a = 1$, $b = k$, $c = ${c}$.`,
+   949→   949→          ),
+   950→   950→          step(
+   951→   951→            "approach",
+   952→   952→            "Una única solución real ⇔ discriminante nulo: $\\Delta = k^2 - 4c = 0$.",
+   953→   953→            "A single real solution ⇔ zero discriminant: $\\Delta = k^2 - 4c = 0$.",
+   954→   954→          ),
+   955→   955→          step(
+   956→   956→            "calculation",
+   957→   957→            `$k^2 - 4 \\cdot ${c} = 0$<br>$k^2 = ${4 * c}$<br>$k = \\pm\\sqrt{${4 * c}} = \\pm ${k}$<br>Se pide el valor positivo.`,
+   958→   958→            `$k^2 - 4 \\cdot ${c} = 0$<br>$k^2 = ${4 * c}$<br>$k = \\pm\\sqrt{${4 * c}} = \\pm ${k}$<br>The positive value is required.`,
+   959→   959→          ),
+   960→   960→          step(
+   961→   961→            "result",
+   962→   962→            `$k = ${k}$: con ese valor, $x^2 + ${k}x + ${c} = \\left(x + ${k / 2}\\right)^2$ tiene la solución doble $x = -${k / 2}$.`,
+   963→   963→            `$k = ${k}$: with this value, $x^2 + ${k}x + ${c} = \\left(x + ${k / 2}\\right)^2$ has the double solution $x = -${k / 2}$.`,
+   964→   964→          ),
+   965→   965→        ],
+   966→   966→      };
+   967→   967→    },
+   968→   968→  ),
+   969→   969→];
+   970→   970→

@@ -201,7 +201,7 @@ export function TopicView({ subject, topicId }: { subject: Subject; topicId: str
             : t("topic.subtopic.hint")}
         </p>
         {prereqTopics.length > 0 ? (
-          <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
+          <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
             <span className="font-medium">{t("topic.prerequisites")}:</span>{" "}
             {prereqTopics.map((p) => p.name[lang]).join(" · ")}
           </p>

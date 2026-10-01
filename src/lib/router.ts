@@ -13,10 +13,11 @@
  *   #/progress  #/about
  *
  * Session/worksheet query params:
- *   m = topic|mixed|challenge   s = math|physics|all (comma list ok)
+ *   m = topic|mixed|challenge|single  s = math|physics|all (comma list ok)
  *   t = topicId                 u = subtopicId (topic sessions only)
  *   d = easy|medium|hard|challenge|any
  *   n = 5|10|20|inf             k = session seed
+ *   tpl = templateId (single-problem share links)
  */
 
 import { useEffect, useState, useCallback } from "react";
@@ -62,7 +63,8 @@ export function parseHash(rawHash: string): Route {
 
 function parseSessionConfig(q: URLSearchParams): SessionConfig {
   const mRaw = q.get("m");
-  const mode: SessionMode = mRaw === "mixed" || mRaw === "challenge" ? mRaw : "topic";
+  const mode: SessionMode =
+    mRaw === "mixed" || mRaw === "challenge" || mRaw === "single" ? mRaw : "topic";
   const subjectsRaw = q.get("s") ?? "math";
   const subjects: Subject[] =
     subjectsRaw === "all"
@@ -77,6 +79,7 @@ function parseSessionConfig(q: URLSearchParams): SessionConfig {
   const subtopicId = q.get("u") ?? undefined;
   const seed = parseInt(q.get("k") ?? "0", 10) || 0;
   const easyWeighted = q.get("w") === "easy";
+  const singleTemplateId = q.get("tpl") ?? undefined;
   return {
     mode,
     subjects: subjects.length ? subjects : ["math"],
@@ -86,6 +89,7 @@ function parseSessionConfig(q: URLSearchParams): SessionConfig {
     count,
     seed,
     easyWeighted,
+    singleTemplateId,
   };
 }
 
@@ -99,6 +103,7 @@ export function sessionHref(config: SessionConfig): string {
   q.set("n", Number.isFinite(config.count) ? String(config.count) : "inf");
   q.set("k", String(config.seed));
   if (config.easyWeighted) q.set("w", "easy");
+  if (config.singleTemplateId) q.set("tpl", config.singleTemplateId);
   return `#/session?${q.toString()}`;
 }
 

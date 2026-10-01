@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "1. **Horizontal overflow/cut-off**: None visible; content fits the 390px width.\n2. **Touch targets**: Buttons/options are adequately sized and spaced for mobile interaction.\n3. **Broken layout**: No issues; the structure, graph, and text are well-aligned and readable.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1790818762,
+  "id": "202610010939207dd612a42215469f",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202610010939207dd612a42215469f",
+  "usage": {
+    "completion_tokens": 61,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 446,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 507
+  }
+}

@@ -966,4 +966,175 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+
+  /* ---------------------------------------------------------------- */
+  /* Roots & Vieta: sum/product of the roots (7-a top-up)              */
+  /* ---------------------------------------------------------------- */
+  template(
+    {
+      id: "quad-roots-01",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "roots",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 120,
+      tags: ["vieta", "roots", "sum-product"],
+      prerequisites: ["factoring"],
+    },
+    (rng) => {
+      // Hand-curated integer root pairs: the equation is built from them, so
+      // both Vieta answers are exact and the roots are always distinct.
+      const sets: [number, number][] = [
+        [2, 5],
+        [-3, 4],
+        [-2, -6],
+        [3, -7],
+        [1, -6],
+        [4, 6],
+      ];
+      const [r1, r2] = rng.pick(sets);
+      const b = -(r1 + r2);
+      const c = r1 * r2;
+      const askSum = rng.bool();
+      const value = askSum ? r1 + r2 : r1 * r2;
+      return {
+        skill: L("Suma y producto de las raíces (Vieta)", "Sum and product of the roots (Vieta)"),
+        statement: L(
+          `La ecuación $${poly([1, b, c], ["x^2", "x", ""])} = 0$ tiene dos soluciones enteras distintas. Sin resolver la ecuación, usa las relaciones de Vieta para hallar ${askSum ? "la **suma**" : "el **producto**"} de sus dos soluciones.`,
+          `The equation $${poly([1, b, c], ["x^2", "x", ""])} = 0$ has two distinct integer solutions. Without solving the equation, use Vieta's formulas to find the **${askSum ? "sum" : "product"}** of its two solutions.`,
+        ),
+        answer: { kind: "numeric", value },
+        hints: [
+          L(
+            "Las relaciones de Vieta conectan los coeficientes con las soluciones sin resolver la ecuación: para $ax^2 + bx + c = 0$ se cumple $x_1 + x_2 = -\\frac{b}{a}$ y $x_1 \\cdot x_2 = \\frac{c}{a}$.",
+            "Vieta's formulas connect the coefficients with the solutions without solving the equation: for $ax^2 + bx + c = 0$, $x_1 + x_2 = -\\frac{b}{a}$ and $x_1 \\cdot x_2 = \\frac{c}{a}$.",
+          ),
+          L(
+            "Mira el coeficiente que acompaña a $x^2$ en tu ecuación: con ese valor de $a$, ambas fórmulas se simplifican mucho.",
+            "Look at the coefficient of $x^2$ in your equation: with that value of $a$, both formulas simplify a lot.",
+          ),
+          askSum
+            ? L(
+                "La suma es el **opuesto** del coeficiente que acompaña a $x$.",
+                "The sum is the **opposite** of the coefficient of $x$.",
+              )
+            : L(
+                "El producto coincide con el **término independiente** de la ecuación.",
+                "The product equals the **constant term** of the equation.",
+              ),
+        ],
+        answerDisplay: L(
+          askSum ? `$x_1 + x_2 = ${value}$` : `$x_1 \\cdot x_2 = ${value}$`,
+          askSum ? `$x_1 + x_2 = ${value}$` : `$x_1 \\cdot x_2 = ${value}$`,
+        ),
+        solution: [
+          step(
+            "given",
+            `$${poly([1, b, c], ["x^2", "x", ""])} = 0$, con $a = 1$, $b = ${b}$ y $c = ${c}$.`,
+            `$${poly([1, b, c], ["x^2", "x", ""])} = 0$, with $a = 1$, $b = ${b}$ and $c = ${c}$.`,
+          ),
+          step(
+            "approach",
+            "Aplicamos las relaciones de Vieta, que dan la suma y el producto de las soluciones a partir de los coeficientes.",
+            "We apply Vieta's formulas, which give the sum and the product of the solutions from the coefficients.",
+          ),
+          step(
+            "calculation",
+            askSum
+              ? `$x_1 + x_2 = -\\frac{b}{a} = -\\frac{${b}}{1} = ${-b}$<br>Comprobación factorizando: $x^2 ${op(b)}x ${op(c)} = \\left(${linFac(r1)}\\right)\\left(${linFac(r2)}\\right) = 0$, con soluciones $${r1}$ y $${r2}$.`
+              : `$x_1 \\cdot x_2 = \\frac{c}{a} = \\frac{${c}}{1} = ${c}$<br>Comprobación factorizando: $x^2 ${op(b)}x ${op(c)} = \\left(${linFac(r1)}\\right)\\left(${linFac(r2)}\\right) = 0$, con soluciones $${r1}$ y $${r2}$.`,
+            askSum
+              ? `$x_1 + x_2 = -\\frac{b}{a} = -\\frac{${b}}{1} = ${-b}$<br>Check by factoring: $x^2 ${op(b)}x ${op(c)} = \\left(${linFac(r1)}\\right)\\left(${linFac(r2)}\\right) = 0$, with solutions $${r1}$ and $${r2}$.`
+              : `$x_1 \\cdot x_2 = \\frac{c}{a} = \\frac{${c}}{1} = ${c}$<br>Check by factoring: $x^2 ${op(b)}x ${op(c)} = \\left(${linFac(r1)}\\right)\\left(${linFac(r2)}\\right) = 0$, with solutions $${r1}$ and $${r2}$.`,
+          ),
+          step(
+            "result",
+            askSum
+              ? `La suma de las dos soluciones es $${value}$.`
+              : `El producto de las dos soluciones es $${value}$.`,
+            `The ${askSum ? "sum" : "product"} of the two solutions is $${value}$.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* ---------------------------------------------------------------- */
+  /* Roots & Vieta: recover the parameter k from one root              */
+  /* ---------------------------------------------------------------- */
+  template(
+    {
+      id: "quad-roots-02",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "roots",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 180,
+      tags: ["vieta", "roots", "parameters"],
+      prerequisites: ["factoring"],
+    },
+    (rng) => {
+      // Hand-curated (stated root, other root): the equation x² + bx + k = 0
+      // is built from both, so k is an exact integer.
+      const sets: { s: number; o: number }[] = [
+        { s: 4, o: 2 },
+        { s: -3, o: 5 },
+        { s: 1, o: -6 },
+        { s: 3, o: -7 },
+        { s: -2, o: -5 },
+        { s: 5, o: 1 },
+      ];
+      const p = rng.pick(sets);
+      const b = -(p.s + p.o);
+      const k = p.s * p.o;
+      const sTex = p.s < 0 ? `(${p.s})` : `${p.s}`;
+      return {
+        skill: L("Recuperar un parámetro con Vieta", "Recovering a parameter with Vieta"),
+        statement: L(
+          `Se sabe que $x = ${p.s}$ es una de las dos soluciones enteras de la ecuación $x^2 ${op(b)}x + k = 0$. ¿Cuál es el valor del parámetro $k$?`,
+          `It is known that $x = ${p.s}$ is one of the two integer solutions of the equation $x^2 ${op(b)}x + k = 0$. What is the value of the parameter $k$?`,
+        ),
+        answer: { kind: "numeric", value: k },
+        hints: [
+          L(
+            "Con $a = 1$, la **suma** de las dos soluciones es el opuesto del coeficiente de $x$.",
+            "With $a = 1$, the **sum** of the two solutions is the opposite of the coefficient of $x$.",
+          ),
+          L(
+            "Ya conoces una solución $x_1$; la otra sale de esa suma: $x_2 = -b - x_1$.",
+            "You already know one solution $x_1$; the other one follows from that sum: $x_2 = -b - x_1$.",
+          ),
+          L(
+            "El parámetro pedido $k$ es el **producto** de las dos soluciones; también puedes sustituir la solución conocida en la ecuación y despejar $k$.",
+            "The requested parameter $k$ is the **product** of the two solutions; you can also substitute the known solution into the equation and solve for $k$.",
+          ),
+        ],
+        answerDisplay: L(`$k = ${k}$`, `$k = ${k}$`),
+        solution: [
+          step(
+            "given",
+            `$x^2 ${op(b)}x + k = 0$ con $b = ${b}$; una solución es $x_1 = ${p.s}$ y existe otra solución entera $x_2$.`,
+            `$x^2 ${op(b)}x + k = 0$ with $b = ${b}$; one solution is $x_1 = ${p.s}$ and there is another integer solution $x_2$.`,
+          ),
+          step(
+            "approach",
+            "Usamos Vieta para la suma (hallar la otra solución) y para el producto (hallar $k$).",
+            "We use Vieta for the sum (to find the other solution) and for the product (to find $k$).",
+          ),
+          step(
+            "calculation",
+            `$x_1 + x_2 = -b = ${-b}$<br>$x_2 = ${-b} - ${sTex} = ${p.o}$<br>$k = x_1 \\cdot x_2 = ${sTex} \\cdot ${p.o < 0 ? `(${p.o})` : p.o} = ${k}$`,
+            `$x_1 + x_2 = -b = ${-b}$<br>$x_2 = ${-b} - ${sTex} = ${p.o}$<br>$k = x_1 \\cdot x_2 = ${sTex} \\cdot ${p.o < 0 ? `(${p.o})` : p.o} = ${k}$`,
+          ),
+          step(
+            "result",
+            `$k = ${k}$. Comprobación sustituyendo $x = ${p.s}$: $${sTex}^2 ${op(b * p.s)} ${op(k)} = 0$.`,
+            `$k = ${k}$. Check by substituting $x = ${p.s}$: $${sTex}^2 ${op(b * p.s)} ${op(k)} = 0$.`,
+          ),
+        ],
+      };
+    },
+  ),
 ];

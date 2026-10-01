@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "1. **No horizontal overflow**: Content fits the 390px width without cut-offs.\n2. **Touch targets are adequate**: Buttons and options have sufficient padding and spacing for easy tapping.\n3. **Layout is stable**: Elements are well-aligned; the graph and text stack correctly without breaking.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1790818765,
+  "id": "20261001093922b279da066e154acb",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20261001093922b279da066e154acb",
+  "usage": {
+    "completion_tokens": 61,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 446,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 507
+  }
+}

@@ -4,7 +4,10 @@
  * Charge quantization and sharing, Coulomb's law, electric field, potential
  * and potential energy. Charges are given in µC with distances of 0.1–1 m so
  * forces come out in the newton range; field/potential answers use scientific
- * notation. Includes MC and expression question types.
+ * notation. Includes MC and expression question types. es-field-03 is a
+ * metre-scale variant that deliberately quotes the rounded constant
+ * k = 9e9 (stated in its own statement) so students practice reading the
+ * given data and entering scientific notation.
  */
 
 import { template, L, step, tok } from "@/lib/problem";
@@ -512,6 +515,93 @@ export const templates: ProblemTemplate[] = [
             positive
               ? "The field points radially outward."
               : "The field points radially inward.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* ---------------------------------------------------------------- */
+  /* Field of a point charge with the rounded constant k = 9×10⁹      */
+  /* (quoted in the statement; es-field-01/02 use the finer 8.99×10⁹. */
+  /* Hand-curated (q, r) pairs give exact E values and the input      */
+  /* hint reminds students the answer box takes scientific notation.) */
+  /* ---------------------------------------------------------------- */
+  template(
+    {
+      id: "es-field-03",
+      subject: "physics",
+      topicId: "electrostatics",
+      subtopicId: "electric-field",
+      difficulty: "medium",
+      questionType: "numeric-unit",
+      estimatedTimeSec: 150,
+      tags: ["electric-field", "point-charge", "scientific-notation"],
+      prerequisites: ["coulomb"],
+    },
+    (rng) => {
+      // Hand-curated (q in µC, r in m) pairs: with k = 9e9 every E is an
+      // exact integer in N/C (e.g. 2 µC at 3 m → 2000 N/C).
+      const [q, r] = rng.pick([
+        [2, 3], [4, 2], [5, 5], [1, 3], [8, 4], [6, 6],
+      ]);
+      const kq = Math.round(9e9 * q * 1e-6); // 9000·q, exact by curation
+      const e = kq / (r * r); // exact integer by curation
+      const s = sciTok(e);
+      return {
+        skill: L(
+          "Campo eléctrico con la constante de Coulomb aproximada",
+          "Electric field with the approximate Coulomb constant",
+        ),
+        statement: L(
+          `¿Cuál es el módulo del campo eléctrico creado por una carga puntual de $q = ${q}\\times 10^{-6}\\ \\text{C}$ en un punto situado a $r = ${r}\\ \\text{m}$ de la carga? (Toma $k = 9\\times 10^{9}\\ \\text{N}\\cdot\\text{m}^2/\\text{C}^2$; resultado en N/C, 2 cifras significativas.)`,
+          `What is the magnitude of the electric field created by a point charge of $q = ${q}\\times 10^{-6}\\ \\text{C}$ at a point $r = ${r}\\ \\text{m}$ away from the charge? (Use $k = 9\\times 10^{9}\\ \\text{N}\\cdot\\text{m}^2/\\text{C}^2$; answer in N/C, 2 significant figures.)`,
+        ),
+        answer: {
+          kind: "numeric-unit",
+          value: e,
+          tolerance: { mode: "sigfig", value: 2 },
+          units: ["N/C", "V/m"],
+          unitChoices: ["N/C", "V/m", "N", "C"],
+        },
+        hints: [
+          L(
+            "Tienes la carga $q$ (ya en coulombs) y la distancia $r$ al punto; la incógnita es el módulo del campo $E$.",
+            "You have the charge $q$ (already in coulombs) and the distance $r$ to the point; the unknown is the magnitude of the field $E$.",
+          ),
+          L(
+            "El campo de una carga puntual es $E = k\\,\\dfrac{q}{r^2}$: decrece con el cuadrado de la distancia.",
+            "The field of a point charge is $E = k\\,\\dfrac{q}{r^2}$: it decreases with the square of the distance.",
+          ),
+          L(
+            `Sustituye: $E = \\dfrac{9\\times 10^{9} \\cdot ${q}\\times 10^{-6}}{(${r})^2}$. El campo de respuesta acepta notación científica (por ejemplo 3*10^4 o 3e4).`,
+            `Substitute: $E = \\dfrac{9\\times 10^{9} \\cdot ${q}\\times 10^{-6}}{(${r})^2}$. The answer box accepts scientific notation (for example 3*10^4 or 3e4).`,
+          ),
+        ],
+        answerDisplay: L(
+          `$E = ${tok(s.man)}\\times 10^{${s.exp}}\\ \\text{N/C}$`,
+          `$E = ${tok(s.man)}\\times 10^{${s.exp}}\\ \\text{N/C}$`,
+        ),
+        solution: [
+          step(
+            "given",
+            `$q = ${q}\\times 10^{-6}\\ \\text{C}$, $r = ${r}\\ \\text{m}$, $k = 9\\times 10^{9}\\ \\text{N}\\cdot\\text{m}^2/\\text{C}^2$.`,
+            `$q = ${q}\\times 10^{-6}\\ \\text{C}$, $r = ${r}\\ \\text{m}$, $k = 9\\times 10^{9}\\ \\text{N}\\cdot\\text{m}^2/\\text{C}^2$.`,
+          ),
+          step(
+            "approach",
+            "Campo eléctrico de una carga puntual: $E = k\\,q / r^2$.",
+            "Electric field of a point charge: $E = k\\,q / r^2$.",
+          ),
+          step(
+            "calculation",
+            `$k\\,q = 9\\times 10^{9} \\cdot ${q}\\times 10^{-6} = ${kq}\\ \\text{N}\\cdot\\text{m}^2/\\text{C}$<br>$E = \\dfrac{${kq}}{(${r})^2} = \\dfrac{${kq}}{${r * r}} = ${e}\\ \\text{N/C} = ${tok(s.man)}\\times 10^{${s.exp}}\\ \\text{N/C}$`,
+            `$k\\,q = 9\\times 10^{9} \\cdot ${q}\\times 10^{-6} = ${kq}\\ \\text{N}\\cdot\\text{m}^2/\\text{C}$<br>$E = \\dfrac{${kq}}{(${r})^2} = \\dfrac{${kq}}{${r * r}} = ${e}\\ \\text{N/C} = ${tok(s.man)}\\times 10^{${s.exp}}\\ \\text{N/C}$`,
+          ),
+          step(
+            "result",
+            `El campo vale $E = ${tok(s.man)}\\times 10^{${s.exp}}\\ \\text{N/C}$ (la unidad V/m es equivalente); como $q > 0$, apunta radialmente hacia fuera.`,
+            `The field is $E = ${tok(s.man)}\\times 10^{${s.exp}}\\ \\text{N/C}$ (the unit V/m is equivalent); since $q > 0$, it points radially outward.`,
           ),
         ],
       };

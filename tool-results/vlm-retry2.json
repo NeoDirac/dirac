@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "**1) Badge visible?**\nNo. The header line displays \"Problema 1 de 5\" and the \"0 correctos\" counter, but there is no 'Repaso' pill badge present in this view.\n\n**2) Well integrated stylistically?**\nN/A. Since the badge is missing, its integration cannot be assessed.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1790814785,
+  "id": "202610010833032304d23f892b4018",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202610010833032304d23f892b4018",
+  "usage": {
+    "completion_tokens": 72,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1290,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 1362
+  }
+}

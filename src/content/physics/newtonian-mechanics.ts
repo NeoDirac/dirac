@@ -900,6 +900,95 @@ export const templates: ProblemTemplate[] = [
   ),
 
   /* ---------------------------------------------------------------- */
+  /* Atwood machine: two-equation derivation                          */
+  /* ---------------------------------------------------------------- */
+  template(
+    {
+      id: "nm-atwood-02",
+      subject: "physics",
+      topicId: "newtonian-mechanics",
+      subtopicId: "connected-systems",
+      difficulty: "hard",
+      questionType: "numeric-unit",
+      estimatedTimeSec: 240,
+      tags: ["connected-systems", "pulley", "atwood", "newtons-laws"],
+      prerequisites: ["tension", "newtons-laws"],
+    },
+    (rng) => {
+      // Hand-curated pairs with m1 > m2: a = (m1 - m2)g/(m1 + m2) is exact
+      // to one decimal with g = 9.8 (and so is the tension check T = m2(g+a)).
+      const pairs = [
+        { m1: 5, m2: 2 }, // a = 4.2, T = 28 N
+        { m1: 9, m2: 5 }, // a = 2.8, T = 63 N
+        { m1: 8, m2: 6 }, // a = 1.4, T = 67.2 N
+        { m1: 6, m2: 1 }, // a = 7, T = 16.8 N
+        { m1: 11, m2: 3 }, // a = 5.6, T = 46.2 N
+        { m1: 12, m2: 4 }, // a = 4.9, T = 58.8 N
+      ];
+      const pick = rng.pick(pairs);
+      const aExact = ((pick.m1 - pick.m2) * G_ACC) / (pick.m1 + pick.m2);
+      const a = sig2(aExact);
+      const T = pick.m2 * (G_ACC + a); // tension check, clean by curation
+      const w1 = pick.m1 * G_ACC;
+      const w2 = pick.m2 * G_ACC;
+      return {
+        skill: L("Máquina de Atwood: dos ecuaciones", "Atwood machine: two equations"),
+        statement: L(
+          `Dos masas cuelgan de los extremos de una cuerda ligera que pasa por una polea ideal sin rozamiento: $m_1 = ${pick.m1}\\ \\text{kg}$ y $m_2 = ${pick.m2}\\ \\text{kg}$, con $m_1 > m_2$. Escribe la segunda ley de Newton para **cada masa por separado** y deduce la **aceleración** $a$ del sistema. ($g = 9{,}8\\ \\text{m/s}^2$, 2 cifras significativas).`,
+          `Two masses hang from the ends of a light rope over an ideal frictionless pulley: $m_1 = ${pick.m1}\\ \\text{kg}$ and $m_2 = ${pick.m2}\\ \\text{kg}$, with $m_1 > m_2$. Write Newton's second law for **each mass separately** and deduce the system's **acceleration** $a$. ($g = 9.8\\ \\text{m/s}^2$, 2 significant figures).`,
+        ),
+        answer: {
+          kind: "numeric-unit",
+          value: a,
+          tolerance: { mode: "sigfig", value: 2 },
+          units: ["m/s^2", "m/s²"],
+          unitChoices: ["m/s^2", "m/s", "N", "kg"],
+        },
+        hints: [
+          L(
+            "La cuerda es ligera e inextensible: ambas masas comparten el mismo módulo de aceleración y la cuerda tiene la misma tensión $T$ en sus dos extremos.",
+            "The rope is light and inextensible: both masses share the same acceleration magnitude and the rope has the same tension $T$ at both ends.",
+          ),
+          L(
+            "Con el sentido del movimiento como positivo: para $m_1$ (que baja), $m_1 g - T = m_1 a$; para $m_2$ (que sube), $T - m_2 g = m_2 a$.",
+            "Taking the direction of motion as positive: for $m_1$ (descending), $m_1 g - T = m_1 a$; for $m_2$ (rising), $T - m_2 g = m_2 a$.",
+          ),
+          L(
+            "Suma las dos ecuaciones: la tensión $T$ se elimina y queda una sola ecuación con la incógnita $a$.",
+            "Add the two equations: the tension $T$ cancels out, leaving a single equation in the unknown $a$.",
+          ),
+        ],
+        answerDisplay: L(
+          `$a = ${tok(a)}\\ \\text{m/s}^2$`,
+          `$a = ${tok(a)}\\ \\text{m/s}^2$`,
+        ),
+        solution: [
+          step(
+            "given",
+            `$m_1 = ${pick.m1}\\ \\text{kg}$, $m_2 = ${pick.m2}\\ \\text{kg}$ ($m_1 > m_2$), $g = 9{,}8\\ \\text{m/s}^2$, polea ideal: misma $a$ y misma $T$.`,
+            `$m_1 = ${pick.m1}\\ \\text{kg}$, $m_2 = ${pick.m2}\\ \\text{kg}$ ($m_1 > m_2$), $g = 9.8\\ \\text{m/s}^2$, ideal pulley: same $a$ and same $T$.`,
+          ),
+          step(
+            "approach",
+            "Segunda ley para cada masa (positivo en el sentido del movimiento): $m_1 g - T = m_1 a$ y $T - m_2 g = m_2 a$; se suman para eliminar $T$.",
+            "Second law for each mass (positive along the motion): $m_1 g - T = m_1 a$ and $T - m_2 g = m_2 a$; add them to eliminate $T$.",
+          ),
+          step(
+            "calculation",
+            `$(m_1 g - T) + (T - m_2 g) = (m_1 + m_2)\\,a \\Rightarrow (m_1 - m_2)\\,g = (m_1 + m_2)\\,a$<br>$a = \\dfrac{(m_1 - m_2)\\,g}{m_1 + m_2} = \\dfrac{(${pick.m1} - ${pick.m2}) \\cdot 9{,}8}{${pick.m1} + ${pick.m2}} = \\dfrac{ ${tok(r1((pick.m1 - pick.m2) * G_ACC))}}{${pick.m1 + pick.m2}} = ${tok(a)}\\ \\text{m/s}^2$`,
+            `$(m_1 g - T) + (T - m_2 g) = (m_1 + m_2)\\,a \\Rightarrow (m_1 - m_2)\\,g = (m_1 + m_2)\\,a$<br>$a = \\dfrac{(m_1 - m_2)\\,g}{m_1 + m_2} = \\dfrac{(${pick.m1} - ${pick.m2}) \\cdot 9.8}{${pick.m1} + ${pick.m2}} = \\dfrac{ ${tok(r1((pick.m1 - pick.m2) * G_ACC))}}{${pick.m1 + pick.m2}} = ${tok(a)}\\ \\text{m/s}^2$`,
+          ),
+          step(
+            "result",
+            `El sistema se mueve con $a = ${tok(a)}\\ \\text{m/s}^2$: $m_1$ baja y $m_2$ sube.<br>Comprobación: de la ecuación de $m_2$, $T = m_2 (g + a) = ${pick.m2} \\cdot (${tok(r1(G_ACC + a))}) = ${tok(r1(T))}\\ \\text{N}$, entre los dos pesos ($${tok(r1(w2))}\\ \\text{N}$ y $${tok(r1(w1))}\\ \\text{N}$), como debe ser.`,
+            `The system moves with $a = ${tok(a)}\\ \\text{m/s}^2$: $m_1$ descends and $m_2$ rises.<br>Check: from $m_2$'s equation, $T = m_2 (g + a) = ${pick.m2} \\cdot (${tok(r1(G_ACC + a))}) = ${tok(r1(T))}\\ \\text{N}$, between the two weights ($${tok(r1(w2))}\\ \\text{N}$ and $${tok(r1(w1))}\\ \\text{N}$), as it must be.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* ---------------------------------------------------------------- */
   /* Challenge: table + pulley, find the tension                       */
   /* ---------------------------------------------------------------- */
   template(

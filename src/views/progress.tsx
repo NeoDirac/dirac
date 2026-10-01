@@ -4,7 +4,7 @@
  * Anonymous progress dashboard (localStorage-backed, no accounts).
  */
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { ArrowRight, Check, Eye, Flame, Lightbulb, RotateCcw, Sigma, Trash2 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { es as dateEs, enUS as dateEn } from "date-fns/locale";
@@ -26,6 +26,7 @@ import { computeStats, loadProgress, resetProgress, type OverallStats } from "@/
 import { mathCurriculum } from "@/content/curriculum/math";
 import { physicsCurriculum } from "@/content/curriculum/physics";
 import type { ProblemRecord, Subject } from "@/lib/types";
+import { cn } from "@/lib/utils";
 
 function timeAgo(ts: number, lang: "es" | "en"): string {
   try {
@@ -49,6 +50,32 @@ function ActivityIcon({ r }: { r: ProblemRecord }) {
     return <Lightbulb className="h-4 w-4" aria-hidden="true" />;
   }
   return <Sigma className="h-4 w-4" aria-hidden="true" />;
+}
+
+/** Uniform overview stat card — accent variant keeps the grid rhythm while
+ *  letting one number (the streak) carry a little color. */
+function StatCard({
+  value,
+  label,
+  accent,
+}: {
+  value: ReactNode;
+  label: string;
+  accent?: boolean;
+}) {
+  return (
+    <div className="rounded-xl border bg-card p-4">
+      <p
+        className={cn(
+          "font-serif text-2xl font-semibold leading-tight",
+          accent && "flex items-center gap-1.5 text-primary",
+        )}
+      >
+        {value}
+      </p>
+      <p className="mt-0.5 text-[11px] leading-snug text-muted-foreground">{label}</p>
+    </div>
+  );
 }
 
 /** Consecutive calendar days (ending today, or yesterday if today is empty)
@@ -165,7 +192,7 @@ export function ProgressView() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6">
-      <header className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+      <header className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="font-serif text-4xl font-semibold tracking-tight">{t("progress.title")}</h1>
           <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted-foreground">
@@ -221,23 +248,18 @@ export function ProgressView() {
         <>
           <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
             {overview.map((o) => (
-              <div key={o.label} className="rounded-xl border bg-card p-4">
-                <p className="font-serif text-2xl font-semibold">{o.value}</p>
-                <p className="mt-0.5 text-[11px] leading-snug text-muted-foreground">{o.label}</p>
-              </div>
+              <StatCard key={o.label} value={o.value} label={o.label} />
             ))}
-            <div
-              className="rounded-xl border bg-primary/5 p-4"
-              title={streak > 0 ? t("progress.streak.today") : undefined}
-            >
-              <p className="flex items-center gap-1.5 font-serif text-2xl font-semibold text-primary">
-                {streak}
-                <Flame className="h-4.5 w-4.5" aria-hidden="true" />
-              </p>
-              <p className="mt-0.5 text-[11px] leading-snug text-muted-foreground">
-                {t("progress.streak")}
-              </p>
-            </div>
+            <StatCard
+              accent
+              value={
+                <>
+                  {streak}
+                  <Flame className="h-4.5 w-4.5" aria-hidden="true" />
+                </>
+              }
+              label={t("progress.streak")}
+            />
           </div>
 
           <h2 className="mb-4 mt-10 text-sm font-semibold uppercase tracking-wider text-muted-foreground">

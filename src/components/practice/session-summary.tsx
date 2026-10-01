@@ -4,7 +4,8 @@
  * Session summary — restrained stats overview + per-problem review list.
  */
 
-import { ArrowLeft, ArrowRight, BarChart3, Check, Eye, RefreshCw, SkipForward } from "lucide-react";
+import { ArrowLeft, ArrowRight, BarChart3, Check, CircleOff, Eye, RefreshCw, SkipForward, Target, XCircle } from "lucide-react";
+import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n/context";
 import { href } from "@/lib/router";
@@ -19,11 +20,13 @@ export function SessionSummary({
   deck,
   states,
   onAgain,
+  onRetryMissed,
 }: {
   config: SessionConfig;
   deck: Problem[];
   states: ProblemState[];
   onAgain: () => void;
+  onRetryMissed: () => void;
 }) {
   const { t, lang } = useI18n();
 
@@ -33,6 +36,7 @@ export function SessionSummary({
   const hints = states.reduce((a, s) => a + s.hintsRevealed, 0);
   const revealed = states.filter((s) => s.status === "revealed").length;
   const skipped = states.filter((s) => s.status === "skipped").length;
+  const missed = deck.filter((_, i) => !states[i]?.attempts.some((a) => a.correct)).length;
 
   const stats = [
     { label: t("summary.attempted"), value: attempted },
@@ -44,7 +48,7 @@ export function SessionSummary({
   ];
 
   const backHref =
-    config.mode === "topic" && config.topicId && config.subjects.length === 1
+    (config.mode === "topic" || config.mode === "single") && config.topicId && config.subjects.length === 1
       ? href({ name: "topic", subject: config.subjects[0], topicId: config.topicId })
       : config.subjects.length === 1
         ? href({ name: "subject", subject: config.subjects[0] })
@@ -55,7 +59,7 @@ export function SessionSummary({
     return cur.find((tp) => tp.id === p.topicId)?.name[lang] ?? p.topicId;
   }
 
-  function statusInfo(s: ProblemState): { icon: React.ReactNode; label: string; className: string } {
+  function statusInfo(s: ProblemState): { icon: ReactNode; label: string; className: string } {
     if (s.status === "correct") {
       return {
         icon: <Check className="h-4 w-4" aria-hidden="true" />,
@@ -68,6 +72,21 @@ export function SessionSummary({
         icon: <Eye className="h-4 w-4" aria-hidden="true" />,
         label: t("summary.status.revealed"),
         className: "text-diff-medium bg-diff-medium/10",
+      };
+    }
+    if (s.status === "attempting") {
+      // the session ended with this problem still open
+      if (s.attempts.length > 0) {
+        return {
+          icon: <XCircle className="h-4 w-4" aria-hidden="true" />,
+          label: t("summary.status.unresolved"),
+          className: "text-destructive bg-destructive/10",
+        };
+      }
+      return {
+        icon: <CircleOff className="h-4 w-4" aria-hidden="true" />,
+        label: t("summary.status.notReached"),
+        className: "text-muted-foreground bg-secondary",
       };
     }
     return {
@@ -117,7 +136,7 @@ export function SessionSummary({
               return (
                 <li
                   key={`${p.templateId}:${p.seed}`}
-                  className="flex items-center gap-3 rounded-xl border bg-card px-4 py-3"
+                  className="flex items-center gap-3 rounded-xl border bg-card px-4 py-3 transition-colors hover:border-ring/50 hover:bg-secondary/40"
                 >
                   <span
                     className={cn(
@@ -143,14 +162,25 @@ export function SessionSummary({
       ) : null}
 
       <div className="mt-8 flex flex-col gap-2 sm:flex-row">
-        <Button type="button" onClick={onAgain} className="gap-2 font-semibold">
+        {missed > 0 ? (
+          <Button type="button" onClick={onRetryMissed} className="gap-2 font-semibold">
+            <Target className="h-4 w-4" aria-hidden="true" />
+            {t("summary.retryMissed", { n: missed })}
+          </Button>
+        ) : null}
+        <Button
+          type="button"
+          onClick={onAgain}
+          variant={missed > 0 ? "outline" : "default"}
+          className={cn("gap-2", missed === 0 && "font-semibold")}
+        >
           <RefreshCw className="h-4 w-4" aria-hidden="true" />
           {t("summary.again")}
         </Button>
         <Button type="button" variant="outline" asChild className="gap-2">
           <a href={backHref}>
             <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-            {config.mode === "topic" ? t("summary.backTopic") : t("summary.backSubject")}
+            {config.mode === "topic" || config.mode === "single" ? t("summary.backTopic") : t("summary.backSubject")}
           </a>
         </Button>
         <Button type="button" variant="ghost" asChild className="gap-2 text-muted-foreground">

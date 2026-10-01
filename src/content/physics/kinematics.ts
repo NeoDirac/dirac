@@ -11,6 +11,82 @@ import type { ProblemTemplate, McOption } from "@/lib/types";
 
 export const templates: ProblemTemplate[] = [
   /* ---------------------------------------------------------------- */
+  /* Position & displacement                                          */
+  /* ---------------------------------------------------------------- */
+  template(
+    {
+      id: "kin-pos-01",
+      subject: "physics",
+      topicId: "kinematics",
+      subtopicId: "position-displacement",
+      difficulty: "easy",
+      questionType: "numeric",
+      estimatedTimeSec: 60,
+      tags: ["position", "displacement"],
+      prerequisites: [],
+    },
+    (rng) => {
+      // Hand-curated integer sets (two with motion toward -x) so Δx is exact.
+      const sets = [
+        { x0: 2, xf: 10, t0: 0, tf: 4 },
+        { x0: -4, xf: 3, t0: 0, tf: 6 },
+        { x0: 5, xf: -7, t0: 2, tf: 8 },
+        { x0: -6, xf: -1, t0: 1, tf: 5 },
+        { x0: 0, xf: 9, t0: 0, tf: 3 },
+        { x0: 12, xf: 3, t0: 0, tf: 5 },
+      ];
+      const p = rng.pick(sets);
+      const dx = p.xf - p.x0;
+      const x0Tex = p.x0 < 0 ? `(${p.x0})` : `${p.x0}`;
+      return {
+        skill: L("Desplazamiento a partir de dos posiciones", "Displacement from two positions"),
+        statement: L(
+          `Un objeto se mueve a lo largo del eje $x$. En el instante $t_0 = ${p.t0}\\ \\text{s}$ está en la posición $x_0 = ${p.x0}\\ \\text{m}$ y en el instante $t_f = ${p.tf}\\ \\text{s}$ está en $x_f = ${p.xf}\\ \\text{m}$. ¿Cuál es su **desplazamiento** $\\Delta x$ entre esos dos instantes, con su signo (positivo = hacia $+x$)?`,
+          `An object moves along the $x$-axis. At time $t_0 = ${p.t0}\\ \\text{s}$ it is at position $x_0 = ${p.x0}\\ \\text{m}$ and at time $t_f = ${p.tf}\\ \\text{s}$ it is at $x_f = ${p.xf}\\ \\text{m}$. What is its **displacement** $\\Delta x$ between those two instants, including its sign (positive = toward $+x$)?`,
+        ),
+        answer: { kind: "numeric", value: dx },
+        hints: [
+          L(
+            "El desplazamiento no es la distancia recorrida: depende solo de la posición inicial y de la final, no del camino.",
+            "Displacement is not the distance travelled: it depends only on the initial and final positions, not on the path.",
+          ),
+          L(
+            "Por definición, $\\Delta x = x_f - x_0$: posición final menos posición inicial, en ese orden.",
+            "By definition, $\\Delta x = x_f - x_0$: final position minus initial position, in that order.",
+          ),
+          L(
+            "Resta conservando los signos: si $x_f < x_0$, el desplazamiento sale negativo (movimiento hacia $-x$).",
+            "Subtract keeping the signs: if $x_f < x_0$, the displacement comes out negative (motion toward $-x$).",
+          ),
+        ],
+        answerDisplay: L(`$\\Delta x = ${dx}\\ \\text{m}$`, `$\\Delta x = ${dx}\\ \\text{m}$`),
+        solution: [
+          step(
+            "given",
+            `$x_0 = ${p.x0}\\ \\text{m}$ (en $t_0 = ${p.t0}\\ \\text{s}$), $x_f = ${p.xf}\\ \\text{m}$ (en $t_f = ${p.tf}\\ \\text{s}$)`,
+            `$x_0 = ${p.x0}\\ \\text{m}$ (at $t_0 = ${p.t0}\\ \\text{s}$), $x_f = ${p.xf}\\ \\text{m}$ (at $t_f = ${p.tf}\\ \\text{s}$)`,
+          ),
+          step(
+            "approach",
+            "El desplazamiento es el cambio de posición: $\\Delta x = x_f - x_0$.",
+            "Displacement is the change in position: $\\Delta x = x_f - x_0$.",
+          ),
+          step(
+            "calculation",
+            `$\\Delta x = x_f - x_0 = ${p.xf} - ${x0Tex} = ${dx}\\ \\text{m}$`,
+            `$\\Delta x = x_f - x_0 = ${p.xf} - ${x0Tex} = ${dx}\\ \\text{m}$`,
+          ),
+          step(
+            "result",
+            `El desplazamiento es $\\Delta x = ${dx}\\ \\text{m}$, ${dx < 0 ? "en el sentido $-x$" : "en el sentido $+x$"}.`,
+            `The displacement is $\\Delta x = ${dx}\\ \\text{m}$, ${dx < 0 ? "in the $-x$ direction" : "in the $+x$ direction"}.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* ---------------------------------------------------------------- */
   /* Average speed / velocity                                         */
   /* ---------------------------------------------------------------- */
   template(
@@ -82,6 +158,189 @@ export const templates: ProblemTemplate[] = [
             "result",
             `La rapidez media es $\\approx {{${vMs}}}\\ \\text{m/s}$.`,
             `The average speed is $\\approx {{${vMs}}}\\ \\text{m/s}$.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* ---------------------------------------------------------------- */
+  /* Average acceleration (with sign)                                 */
+  /* ---------------------------------------------------------------- */
+  template(
+    {
+      id: "kin-acc-01",
+      subject: "physics",
+      topicId: "kinematics",
+      subtopicId: "acceleration",
+      difficulty: "medium",
+      questionType: "numeric-unit",
+      estimatedTimeSec: 120,
+      tags: ["acceleration", "average-acceleration"],
+      prerequisites: ["velocity"],
+    },
+    (rng) => {
+      // Hand-curated integer sets; three are braking (negative a) so the
+      // answer is exact and the sign is meaningful.
+      const sets = [
+        { v0: 10, vf: 22, dt: 6 }, // a = +2
+        { v0: 5, vf: 20, dt: 5 }, // a = +3
+        { v0: 14, vf: 32, dt: 3 }, // a = +6
+        { v0: 24, vf: 12, dt: 4 }, // a = -3 (braking)
+        { v0: 16, vf: 4, dt: 2 }, // a = -6 (braking)
+        { v0: 30, vf: 18, dt: 3 }, // a = -4 (braking)
+      ];
+      const s = rng.pick(sets);
+      const dv = s.vf - s.v0;
+      const a = dv / s.dt;
+      return {
+        skill: L("Aceleración media a partir de dos velocidades", "Average acceleration from two velocities"),
+        statement: L(
+          `Un automóvil circula por una carretera recta y su velocidad pasa de $v_0 = ${s.v0}\\ \\text{m/s}$ a $v_f = ${s.vf}\\ \\text{m/s}$ en un intervalo de $\\Delta t = ${s.dt}\\ \\text{s}$. ¿Cuál es su **aceleración media** en $\\text{m/s}^2$? Da el valor **con signo** (positivo = su rapidez aumenta).`,
+          `A car travels along a straight road and its velocity changes from $v_0 = ${s.v0}\\ \\text{m/s}$ to $v_f = ${s.vf}\\ \\text{m/s}$ over an interval of $\\Delta t = ${s.dt}\\ \\text{s}$. What is its **average acceleration** in $\\text{m/s}^2$? Give the value **including the sign** (positive = its speed increases).`,
+        ),
+        answer: {
+          kind: "numeric-unit",
+          value: a,
+          tolerance: { mode: "sigfig", value: 2 },
+          units: ["m/s^2", "m/s²"],
+          unitChoices: ["m/s^2", "m/s", "km/h", "m"],
+        },
+        hints: [
+          L(
+            "Datos: la velocidad inicial $v_0$, la final $v_f$ y el intervalo $\\Delta t$; te piden la aceleración media.",
+            "Data: the initial velocity $v_0$, the final one $v_f$ and the interval $\\Delta t$; you need the average acceleration.",
+          ),
+          L(
+            "La aceleración media es el cambio de velocidad por unidad de tiempo: $a = \\frac{\\Delta v}{\\Delta t}$.",
+            "Average acceleration is the change in velocity per unit time: $a = \\frac{\\Delta v}{\\Delta t}$.",
+          ),
+          L(
+            "Calcula primero $\\Delta v = v_f - v_0$ conservando el signo y luego divídelo entre $\\Delta t$.",
+            "First compute $\\Delta v = v_f - v_0$ keeping the sign, then divide it by $\\Delta t$.",
+          ),
+        ],
+        answerDisplay: L(`$a = ${a}\\ \\text{m/s}^2$`, `$a = ${a}\\ \\text{m/s}^2$`),
+        solution: [
+          step(
+            "given",
+            `$v_0 = ${s.v0}\\ \\text{m/s}$, $v_f = ${s.vf}\\ \\text{m/s}$, $\\Delta t = ${s.dt}\\ \\text{s}$`,
+            `$v_0 = ${s.v0}\\ \\text{m/s}$, $v_f = ${s.vf}\\ \\text{m/s}$, $\\Delta t = ${s.dt}\\ \\text{s}$`,
+          ),
+          step(
+            "approach",
+            "Aceleración media: $a = \\frac{\\Delta v}{\\Delta t} = \\frac{v_f - v_0}{\\Delta t}$, con su signo.",
+            "Average acceleration: $a = \\frac{\\Delta v}{\\Delta t} = \\frac{v_f - v_0}{\\Delta t}$, keeping the sign.",
+          ),
+          step(
+            "calculation",
+            `$\\Delta v = v_f - v_0 = ${s.vf} - ${s.v0} = ${dv}\\ \\text{m/s}$<br>$a = \\frac{\\Delta v}{\\Delta t} = \\frac{${dv}}{${s.dt}} = ${a}\\ \\text{m/s}^2$`,
+            `$\\Delta v = v_f - v_0 = ${s.vf} - ${s.v0} = ${dv}\\ \\text{m/s}$<br>$a = \\frac{\\Delta v}{\\Delta t} = \\frac{${dv}}{${s.dt}} = ${a}\\ \\text{m/s}^2$`,
+          ),
+          step(
+            "result",
+            `La aceleración media es $a = ${a}\\ \\text{m/s}^2$: ${a > 0 ? "el automóvil aumenta su rapidez" : "el automóvil frena (reduce su rapidez)"}.`,
+            `The average acceleration is $a = ${a}\\ \\text{m/s}^2$: ${a > 0 ? "the car speeds up" : "the car brakes (its speed decreases)"}.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* ---------------------------------------------------------------- */
+  /* Constant velocity: d = v·t (metres or kilometres)                */
+  /* ---------------------------------------------------------------- */
+  template(
+    {
+      id: "kin-cv-01",
+      subject: "physics",
+      topicId: "kinematics",
+      subtopicId: "constant-velocity",
+      difficulty: "easy",
+      questionType: "numeric-unit",
+      estimatedTimeSec: 75,
+      tags: ["constant-velocity", "uniform-motion"],
+      prerequisites: ["velocity"],
+    },
+    (rng) => {
+      // Hand-curated clean sets; the unit (m or km) is part of the variant.
+      const sets: { v: number; t: number; unit: "m" | "km" }[] = [
+        { v: 15, t: 40, unit: "m" }, // 600 m
+        { v: 8, t: 45, unit: "m" }, // 360 m
+        { v: 25, t: 60, unit: "m" }, // 1500 m
+        { v: 10, t: 180, unit: "km" }, // 1.8 km
+        { v: 20, t: 150, unit: "km" }, // 3 km
+        { v: 5, t: 240, unit: "km" }, // 1.2 km
+      ];
+      const s = rng.pick(sets);
+      const isKm = s.unit === "km";
+      const dM = s.v * s.t;
+      const dKm = dM / 1000;
+      const unitEs = isKm ? "kilómetros" : "metros";
+      const unitEn = isKm ? "kilometres" : "metres";
+      return {
+        skill: L("Distancia recorrida con velocidad constante", "Distance travelled at constant velocity"),
+        statement: L(
+          `Un móvil se desplaza en línea recta con **velocidad constante** de $${s.v}\\ \\text{m/s}$ durante $${s.t}\\ \\text{s}$. ¿Qué distancia recorre? Expresa el resultado en **${unitEs}**.`,
+          `An object moves in a straight line at a **constant velocity** of $${s.v}\\ \\text{m/s}$ for $${s.t}\\ \\text{s}$. What distance does it cover? Express the result in **${unitEn}**.`,
+        ),
+        answer: {
+          kind: "numeric-unit",
+          value: isKm ? dKm : dM,
+          tolerance: { mode: "sigfig", value: 2 },
+          units: [s.unit],
+          unitChoices: ["m", "km", "m/s", "s"],
+        },
+        hints: [
+          L(
+            "La velocidad es constante: no cambia durante el trayecto, así que la distancia crece linealmente con el tiempo.",
+            "The velocity is constant: it does not change during the trip, so the distance grows linearly with time.",
+          ),
+          L(
+            "En un movimiento rectilíneo uniforme, $d = v \\cdot t$ (distancia = velocidad × tiempo).",
+            "In uniform straight-line motion, $d = v \\cdot t$ (distance = velocity × time).",
+          ),
+          isKm
+            ? L(
+                `Calcula $d = ${s.v} \\cdot ${s.t}$ en metros y convierte al final: $1\\ \\text{km} = 1000\\ \\text{m}$.`,
+                `Compute $d = ${s.v} \\cdot ${s.t}$ in metres and convert at the end: $1\\ \\text{km} = 1000\\ \\text{m}$.`,
+              )
+            : L(
+                "Sustituye los valores en $d = v\\,t$: el producto sale directamente en metros.",
+                "Substitute into $d = v\\,t$: the product comes out directly in metres.",
+              ),
+        ],
+        answerDisplay: isKm
+          ? L(`$d = ${tok(dKm)}\\ \\text{km}$`, `$d = ${tok(dKm)}\\ \\text{km}$`)
+          : L(`$d = ${dM}\\ \\text{m}$`, `$d = ${dM}\\ \\text{m}$`),
+        solution: [
+          step(
+            "given",
+            `$v = ${s.v}\\ \\text{m/s}$ (constante), $t = ${s.t}\\ \\text{s}$`,
+            `$v = ${s.v}\\ \\text{m/s}$ (constant), $t = ${s.t}\\ \\text{s}$`,
+          ),
+          step(
+            "approach",
+            "Movimiento rectilíneo uniforme: $d = v\\,t$.",
+            "Uniform straight-line motion: $d = v\\,t$.",
+          ),
+          step(
+            "calculation",
+            isKm
+              ? `$d = ${s.v} \\cdot ${s.t} = ${dM}\\ \\text{m} = \\frac{${dM}}{1000}\\ \\text{km} = ${tok(dKm)}\\ \\text{km}$`
+              : `$d = ${s.v} \\cdot ${s.t} = ${dM}\\ \\text{m}$`,
+            isKm
+              ? `$d = ${s.v} \\cdot ${s.t} = ${dM}\\ \\text{m} = \\frac{${dM}}{1000}\\ \\text{km} = ${tok(dKm)}\\ \\text{km}$`
+              : `$d = ${s.v} \\cdot ${s.t} = ${dM}\\ \\text{m}$`,
+          ),
+          step(
+            "result",
+            isKm
+              ? `El móvil recorre $${tok(dKm)}\\ \\text{km}$.`
+              : `El móvil recorre $${dM}\\ \\text{m}$.`,
+            isKm
+              ? `The object covers $${tok(dKm)}\\ \\text{km}$.`
+              : `The object covers $${dM}\\ \\text{m}$.`,
           ),
         ],
       };

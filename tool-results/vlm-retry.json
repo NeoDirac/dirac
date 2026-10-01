@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "The 'Repaso' (review) badge is **missing** from the header. The current layout only displays the site logo, navigation links, and language toggle without any status chip or badge next to the subject title.\n\n**Layout & Polish:**\n*   **Header:** Clean and well-organized with clear navigation.\n*   **Main Content:** The practice card is well-spaced with a professional aesthetic. The input field and \"Comprobar respuesta\" button are clearly styled in the brand's green palette.\n*   **Footer:** Information is neatly categorized into navigation and contact sections.\n\nOverall, the UI is polished and functional, but it fails the specific requirement of displaying the review badge.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1790814765,
+  "id": "2026100108324245c03b4afd6b4324",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "2026100108324245c03b4afd6b4324",
+  "usage": {
+    "completion_tokens": 140,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1314,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 1454
+  }
+}

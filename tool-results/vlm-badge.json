@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "No. There is no pill badge with the text 'Repaso' and a circular-arrow icon in the provided image. The header area displays the text \"Problema 1 de 5\" and a green badge indicating \"0 correctos\", but neither matches the description of a 'Repaso' review badge.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1790814802,
+  "id": "20261001083320810691ee7523494f",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20261001083320810691ee7523494f",
+  "usage": {
+    "completion_tokens": 65,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 395,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 460
+  }
+}
