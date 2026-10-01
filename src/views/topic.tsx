@@ -14,7 +14,7 @@ import { useI18n } from "@/lib/i18n/context";
 import { useSubjectTemplates } from "@/lib/use-templates";
 import { href, sessionHref, worksheetHref } from "@/lib/router";
 import { templateStats } from "@/lib/session";
-import { computeStats, loadProgress, topicKey } from "@/lib/progress";
+import { computeStats, loadProgress, subtopicKey, topicKey } from "@/lib/progress";
 import { mathCurriculum } from "@/content/curriculum/math";
 import { physicsCurriculum } from "@/content/curriculum/physics";
 import type { Difficulty, Subject } from "@/lib/types";
@@ -169,6 +169,17 @@ export function TopicView({ subject, topicId }: { subject: Subject; topicId: str
           {topic.subtopics.map((st) => {
             const selected = subtopic === st.id;
             const n = subCounts.get(st.id) ?? 0;
+            // mastery signal — first-try correct / attempts in this subtopic
+            const stStats = progress.bySubtopic[subtopicKey(subject, topicId, st.id)];
+            const hasMastery = Boolean(stStats && stStats.attempts > 0);
+            const masteryPct = hasMastery && stStats ? stStats.firstTryCorrect / stStats.attempts : 0;
+            const masteryTone = !hasMastery
+              ? ""
+              : masteryPct >= 0.7
+                ? "bg-success/15 text-success"
+                : masteryPct >= 0.4
+                  ? "bg-diff-medium/15 text-diff-medium"
+                  : "bg-destructive/10 text-destructive";
             return (
               <li key={st.id}>
                 <button
@@ -176,7 +187,13 @@ export function TopicView({ subject, topicId }: { subject: Subject; topicId: str
                   onClick={() => setSubtopic(selected ? null : st.id)}
                   aria-pressed={selected}
                   disabled={!loading && n === 0}
-                  title={selected ? t("topic.subtopic.clear") : t("topic.subtopic.practice")}
+                  title={
+                    selected
+                      ? t("topic.subtopic.clear")
+                      : hasMastery && stStats
+                        ? `${t("topic.subtopic.mastery")}: ${stStats.firstTryCorrect}/${stStats.attempts} · ${t("subject.exerciseTypes", { n: formatNumber(n) })}`
+                        : t("topic.subtopic.practice")
+                  }
                   className={cn(
                     "inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-sm transition-all",
                     "hover:border-ring/60 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
@@ -187,7 +204,16 @@ export function TopicView({ subject, topicId }: { subject: Subject; topicId: str
                   )}
                 >
                   {st.name[lang]}
-                  {n ? (
+                  {hasMastery && stStats ? (
+                    <span
+                      className={cn(
+                        "rounded-full px-1.5 text-[11px] font-semibold tabular-nums",
+                        selected ? "bg-primary-foreground/20 text-primary-foreground" : masteryTone,
+                      )}
+                    >
+                      {formatNumber(stStats.firstTryCorrect)}/{formatNumber(stStats.attempts)}
+                    </span>
+                  ) : n ? (
                     <span
                       className={cn(
                         "rounded-full px-1.5 text-[11px] font-semibold",

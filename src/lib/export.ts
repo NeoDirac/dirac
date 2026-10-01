@@ -110,9 +110,9 @@ function fileStamp(): string {
 }
 
 export function downloadRecordsCsv(): void {
-  downloadTextFile(`aula-vega-problems-${fileStamp()}.csv`, buildRecordsCsv());
+  downloadTextFile(`profe-dirac-problems-${fileStamp()}.csv`, buildRecordsCsv());
 }
 
 export function downloadSessionsCsv(): void {
-  downloadTextFile(`aula-vega-sessions-${fileStamp()}.csv`, buildSessionsCsv());
+  downloadTextFile(`profe-dirac-sessions-${fileStamp()}.csv`, buildSessionsCsv());
 }

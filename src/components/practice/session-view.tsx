@@ -654,6 +654,7 @@ export function SessionView({ config }: { config: SessionConfig }) {
         problem={current}
         state={currentState}
         problemKey={`${current.templateId}:${current.seed}`}
+        number={index + 1}
         checking={checking}
         onCheck={handleCheck}
         onRevealHint={handleRevealHint}

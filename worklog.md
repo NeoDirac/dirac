@@ -728,3 +728,39 @@ Stage Summary:
   4. Continuar importación ESPOL por capítulos (trigonometría, geometría analítica, desigualdades).
   5. Cuarentena Bayern ítem 5 + física curada con Kompetenzprofil — requieren decisión del tutor.
   6. Ideas UI vivas: per-subtopic analytics, filtros por reasoning/fuente en la vista de tema.
+
+---
+Task ID: 15
+Agent: main (Z.ai Code) — scheduled review round 10
+Task: QA post-rebranding + fix de restos de marca antigua + función nueva (chips de dominio por subtema) + lote de detalles editoriales (worksheet con contacto del profe, número fantasma de ejercicio, doble línea de cabecera).
+
+Work Log:
+- Gates al inicio: validate 465·0/0, tsc limpio, lint limpio, servidor 3000 OK (dev.log sin 500s nuevos — los 2 visibles son los históricos de Task 14 ya documentados).
+- QA con trampa de errores fresca (window.onerror + unhandledrejection): navegación home→physics→progress→sesión física kinematics k=3 → 0 errores JS. VLM física: paleta cálida sin verde, KaTeX/unidades perfectas, "cuaderno de física clásico".
+- Confeti de celebración y heatmap revisados: usan var(--success)/var(--primary) → se adaptaron solos a latón/tinta en el rebranding. Sin verde residual.
+- BUGS DE REBRANDING INCOMPLETO (Task 14 dejó restos) — ENCONTRADOS Y CORREGIDOS:
+  1. src/lib/export.ts: nombres de CSV "aula-vega-problems/sessions-*.csv" → "profe-dirac-*.csv".
+  2. dictionary.ts "summary.report.title" ES+EN: "…— Aula Vega" → "…— Profe Dirac" (el reporte copiable que el estudiante manda al profe).
+  3. dictionary.ts "worksheet.footer" ES+EN: "Generado con Aula Vega" → "Generado con Profe Dirac".
+  Barrido completo rg -i "vega" → 0 restos reales (solo falso positivo "navega" en trig-applications).
+- NUEVA FUNCIÓN — Chips de dominio por subtema (topic.tsx): los chips de apartado del tema ahora muestran el dominio del estudiante "primer-intento/total" (p.ej. "0/1") con color por umbral — ≥70% latón (success), ≥40% ocre (diff-medium), <40% oxblood (destructive) — reemplazando la píldora de nº de plantillas cuando hay historial (el nº pasa al tooltip junto con "Aciertos al primer intento"). Usa progress.bySubtopic (ya computado; clave subtopicKey importada). Datos reales verificados en vivo: "Discriminante 0/1" tras la sesión de QA previa. i18n topic.subtopic.mastery ES/EN.
+- DETALLES EDITORIALES (worksheet.tsx): (a) encabezado de la hoja impresa ahora "δ PROFE DIRAC" (delta serif itálica en arcilla + tracking amplio); (b) NUEVA línea de contacto bajo las instrucciones: "¿Dudas con la hoja? Escríbeme por WhatsApp: +593 99 959 5175 · asecald@gmail.com" (worksheet.contact ES/EN con {phone}/{email} desde siteConfig) — el WhatsApp del profe llega al PAPEL, como una hoja real de clase.
+- DETALLES EDITORIALES (sesión): número fantasma de ejercicio en la tarjeta del problema — sello serif itálico text-6xl/7xl al 7% de opacidad, esquina sup. derecha, pointer-events-none. ProblemView recibe prop opcional `number`; session-view pasa index+1. Verificado en DOM ("GHOST: 1").
+- DETALLES EDITORIALES (globals.css): doble línea de periódico bajo la cabecera — .site-header { box-shadow: 0 3px 0 -2px var(--border) } (segunda hairline 3px bajo el border-b). Confirmada computada en vivo.
+- QA del lote: tsc limpio, lint limpio, validate 465·0/0. Móvil 390px tema con chips de dominio SIN overflow. VLM 3 vistas: chip 0/1 "claro y distintivo, color rojo indica umbral bajo, integración excelente"; número fantasma "elegante, no estorba, toque académico sofisticado"; hoja "δ PROFE DIRAC confirmado, formal y profesional".
+- Fix menor de proceso: MultiEdit parcial ante old_str no único (primer intento mezcló dictionary keys en topic.tsx) — verificado estado real del archivo antes de reintentar (import y bloque ya aplicados; solo faltaban las claves i18n).
+
+Verification (all green):
+- bunx tsc --noEmit → 0 errores (excl. examples/skills); bun run lint → limpio; bun run validate:content → 465·0/0
+- agent-browser: 0 errores JS con trampa fresca; chips de dominio con datos reales; ghost number en DOM; sombra doble del header computada; móvil sin overflow
+- VLM: 3 vistas nuevas aprobadas con elogios específicos
+
+Stage Summary:
+- Proyecto ESTABLE y evolucionando: el rebranding Task 14 quedó ahora 100% completo (los restos de "Aula Vega" en CSVs/reportes/hojas eran el último rastro) y la plataforma gana su primera superficie de analítica contextual (dominio por subtema donde eliges qué practicar) + artefactos físicos con la identidad del profe (hoja impresa con δ y WhatsApp).
+- Estado: 465 plantillas (40 curadas de 5 fuentes reales), doble idioma, 3 gates verdes, 0 bugs abiertos conocidos.
+- Pendiente / próximos pasos (prioridad):
+  1. Re-auditoría de dificultad del banco legado (solo linear-equations rehecho; orden fijado en DIFFICULTY.md: quadratics → poly-functions → polynomials) — pendiente #1 de contenido.
+  2. Continuar importación ESPOL por capítulos (trigonometría, geometría analítica, desigualdades) — el libro tiene ~15 capítulos por mapear.
+  3. Cuarentena Bayern ítem 5 (desigualdad racional con solución impresa contradictoria) + física curada guiada por Kompetenzprofil — requieren decisión del tutor.
+  4. Foto real del tutor (public/tutor.svg es el ex-libris placeholder) y dominio definitivo (site.url placeholder profedirac.com).
+  5. Ideas UI vivas: filtro por tipo de razonamiento en la vista de tema (la taxonomía ya existe y se muestra con ReasoningBadge), goal-aware celebration, colecciones (Teacher's Picks).

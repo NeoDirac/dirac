@@ -196,6 +196,10 @@
   html {
     scroll-behavior: smooth;
   }
+  /* newspaper double rule under the masthead */
+  .site-header {
+    box-shadow: 0 3px 0 -2px var(--border);
+  }
   body {
     @apply bg-background text-foreground;
     -webkit-font-smoothing: antialiased;

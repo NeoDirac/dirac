@@ -133,6 +133,7 @@ export function ProblemView({
   problem,
   state,
   problemKey,
+  number,
   checking,
   onCheck,
   onRevealHint,
@@ -143,6 +144,8 @@ export function ProblemView({
   problem: Problem;
   state: ProblemState;
   problemKey: string;
+  /** exercise number within the session — textbook-style ghost stamp */
+  number?: number;
   checking: boolean;
   onCheck: (submission: AnswerSubmission) => void;
   onRevealHint: () => void;
@@ -190,6 +193,15 @@ export function ProblemView({
       className="notebook-margin animate-in fade-in slide-in-from-bottom-3 duration-300 rounded-lg border bg-card p-5 pl-7 shadow-sm transition-shadow sm:p-7 sm:pl-9"
       ref={focusRef}
     >
+      {/* ghost exercise number — the stamp of a textbook page */}
+      {typeof number === "number" ? (
+        <span
+          className="pointer-events-none absolute -top-1 right-3 select-none font-serif text-6xl font-semibold italic leading-none text-foreground/[0.07] sm:right-5 sm:text-7xl"
+          aria-hidden="true"
+        >
+          {number}
+        </span>
+      ) : null}
       {/* meta row */}
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
         <DifficultyBadge difficulty={problem.difficulty} />

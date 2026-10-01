@@ -197,7 +197,8 @@ export function WorksheetView({ config }: { config: SessionConfig }) {
         {/* sheet header */}
         <header className="border-b-2 border-foreground/80 pb-4">
           <div className="flex items-baseline justify-between gap-3">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            <p className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+              <span className="font-serif text-[15px] italic leading-none text-subject-physics" aria-hidden="true">δ</span>
               {siteConfig.brandName}
             </p>
             <p className="text-xs text-muted-foreground">
@@ -218,6 +219,9 @@ export function WorksheetView({ config }: { config: SessionConfig }) {
           </div>
           <p className="mt-4 text-[13px] leading-relaxed text-muted-foreground">
             {t("worksheet.instructions")}
+          </p>
+          <p className="mt-2 text-[12px] leading-relaxed text-muted-foreground">
+            {t("worksheet.contact", { phone: siteConfig.whatsapp.display, email: siteConfig.email })}
           </p>
         </header>
 
