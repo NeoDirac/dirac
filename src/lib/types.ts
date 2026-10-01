@@ -278,6 +278,10 @@ export function solutionSteps(
  * - OPEN_LICENSE:        official exam documents an institution publishes
  *                        for public exam preparation (kept with attribution).
  * - PUBLIC_DOMAIN:       no known rights restrictions.
+ * - TUTOR_LICENSED:      a third-party work whose use the tutor has
+ *                        explicitly authorized for this platform (the tutor
+ *                        holds or declares the rights; responsibility for
+ *                        the authorization rests with the tutor).
  * - REQUIRES_REVIEW:     commercial/ambiguous — usable internally as a
  *                        reference for classification and design only.
  */
@@ -285,6 +289,7 @@ export type SourceLicense =
   | "INSTRUCTOR_CREATED"
   | "OPEN_LICENSE"
   | "PUBLIC_DOMAIN"
+  | "TUTOR_LICENSED"
   | "REQUIRES_REVIEW";
 
 /** Per-problem pointer into a registered source (see src/content/sources). */

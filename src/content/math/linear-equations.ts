@@ -1232,4 +1232,155 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+
+  /* ---------------------------------------------------------------- */
+  /* Curated — ESPOL Fundamentos (TUTOR_LICENSED, autorización del     */
+  /* tutor 2026-10-01), sección 3.9 Valor Absoluto, p.222.             */
+  /* ---------------------------------------------------------------- */
+
+  /* ESPOL p.222, autoevaluación 3.9, ex.2b: |pi - 8| + pi. */
+  template(
+    {
+      id: "lin-abs-03",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-equations",
+      difficulty: "easy",
+      questionType: "numeric",
+      estimatedTimeSec: 90,
+      tags: ["absolute-value", "pi", "exact-arithmetic"],
+      prerequisites: ["abs-equations"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3.9 · 2b",
+        page: 222,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      void rng;
+      return {
+        skill: L(
+          "Valor absoluto con $\\pi$: leer el signo antes de calcular (libro ESPOL)",
+          "Absolute value with $\\pi$: read the sign before computing (ESPOL book)",
+        ),
+        statement: L(
+          "Determina el valor numérico de $$|\\pi - 8| + \\pi.$$ (Ejercicio del libro de la ESPOL.)",
+          "Determine the numerical value of $$|\\pi - 8| + \\pi.$$ (Exercise from the ESPOL book.)",
+        ),
+        answer: { kind: "numeric", value: 8 },
+        hints: [
+          L(
+            "El valor absoluto devuelve la distancia a cero: antes de tocar nada, decide el signo de lo que hay **dentro**.",
+            "Absolute value returns the distance to zero: before touching anything, decide the sign of what is **inside**.",
+          ),
+          L(
+            "Compara: ¿$\\pi$ es mayor o menor que $8$? Con eso sabes si $\\pi - 8$ es positivo o negativo.",
+            "Compare: is $\\pi$ greater or smaller than $8$? That tells you whether $\\pi - 8$ is positive or negative.",
+          ),
+          L(
+            "Si $\\pi - 8 < 0$, el valor absoluto invierte el signo de todo lo interior. Al sustituir, los $\\pi$ se cancelan entre sí.",
+            "If $\\pi - 8 < 0$, the absolute value flips the sign of the whole interior. When you substitute, the $\\pi$'s cancel each other.",
+          ),
+        ],
+        answerDisplay: L("$8$", "$8$"),
+        solution: [
+          step(
+            "given",
+            "La expresión $|\\pi - 8| + \\pi$: primero un valor absoluto, después una suma con $\\pi$.",
+            "The expression $|\\pi - 8| + \\pi$: first an absolute value, then a sum with $\\pi$.",
+          ),
+          step(
+            "approach",
+            "El valor absoluto depende del signo del interior. Como $\\pi \\approx 3{,}14 < 8$, se tiene $\\pi - 8 < 0$ y el absoluto invierte el signo.",
+            "The absolute value depends on the sign of the interior. Since $\\pi \\approx 3.14 < 8$, we have $\\pi - 8 < 0$ and the absolute value flips the sign.",
+          ),
+          step(
+            "calculation",
+            "Como $\\pi - 8 < 0$: $|\\pi - 8| = -(\\pi - 8) = 8 - \\pi$. Entonces $$|\\pi - 8| + \\pi = (8 - \\pi) + \\pi = 8.$$",
+            "Since $\\pi - 8 < 0$: $|\\pi - 8| = -(\\pi - 8) = 8 - \\pi$. Then $$|\\pi - 8| + \\pi = (8 - \\pi) + \\pi = 8.$$",
+          ),
+          step(
+            "result",
+            "El valor exacto es $8$: el $\\pi$ desaparece por cancelación. El ejercicio premia leer el signo antes de calcular nada.",
+            "The exact value is $8$: the $\\pi$ vanishes by cancellation. The exercise rewards reading the sign before computing anything.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* ESPOL p.222, autoevaluación 3.9, ex.2a: |1 - |3-5| - |1-7||. */
+  template(
+    {
+      id: "lin-abs-04",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-equations",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 120,
+      tags: ["absolute-value", "nested", "order-of-operations"],
+      prerequisites: ["abs-equations"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3.9 · 2a",
+        page: 222,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      void rng;
+      return {
+        skill: L(
+          "Valor absoluto anidado: evaluar por capas (libro ESPOL)",
+          "Nested absolute value: evaluate layer by layer (ESPOL book)",
+        ),
+        statement: L(
+          "Determina el valor numérico de $$\\left|\\, 1 - |3 - 5| - |1 - 7| \\,\\right|.$$ (Ejercicio del libro de la ESPOL.)",
+          "Determine the numerical value of $$\\left|\\, 1 - |3 - 5| - |1 - 7| \\,\\right|.$$ (Exercise from the ESPOL book.)",
+        ),
+        answer: { kind: "numeric", value: 7 },
+        hints: [
+          L(
+            "Trabaja **de adentro hacia afuera**: primero los dos valores absolutos interiores, y solo al final el exterior.",
+            "Work **from the inside out**: first the two inner absolute values, and only at the end the outer one.",
+          ),
+          L(
+            "Cada interior es la distancia a cero de un número negativo: $|3-5| = |-2|$ y $|1-7| = |-6|$.",
+            "Each inner value is the distance to zero of a negative number: $|3-5| = |-2|$ and $|1-7| = |-6|$.",
+          ),
+          L(
+            "Sustituye ambos resultados dentro del bloque exterior: $1 - 2 - 6$ es negativo, así que el absoluto exterior lo vuelve positivo.",
+            "Substitute both results inside the outer block: $1 - 2 - 6$ is negative, so the outer absolute value makes it positive.",
+          ),
+        ],
+        answerDisplay: L("$7$", "$7$"),
+        solution: [
+          step(
+            "given",
+            "La expresión $\\left|1 - |3-5| - |1-7|\\right|$ tiene tres valores absolutos: dos interiores y uno que envuelve todo.",
+            "The expression $\\left|1 - |3-5| - |1-7|\\right|$ has three absolute values: two inner ones and one wrapping everything.",
+          ),
+          step(
+            "approach",
+            "Evaluar por capas: los interiores primero, sustituir sus resultados, y el exterior al final. Cada $|\\,\\cdot\\,|$ devuelve un resultado no negativo.",
+            "Evaluate in layers: the inner ones first, substitute their results, and the outer one last. Each $|\\,\\cdot\\,|$ returns a non-negative result.",
+          ),
+          step(
+            "calculation",
+            "Interiores: $|3-5| = |-2| = 2$ y $|1-7| = |-6| = 6$. Sustituyendo: $|1 - 2 - 6| = |-7| = 7$.",
+            "Inner ones: $|3-5| = |-2| = 2$ and $|1-7| = |-6| = 6$. Substituting: $|1 - 2 - 6| = |-7| = 7$.",
+          ),
+          step(
+            "result",
+            "El valor numérico es $7$. Con valores absolutos anidados el orden importa: de adentro hacia afuera, sin saltarse capas.",
+            "The numerical value is $7$. With nested absolute values order matters: inside out, skipping no layers.",
+          ),
+        ],
+      };
+    },
+  ),
 ];

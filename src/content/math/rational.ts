@@ -1252,4 +1252,89 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+
+  /* ---------------------------------------------------------------- */
+  /* Curated — ESPOL Fundamentos (TUTOR_LICENSED, autorización del     */
+  /* tutor 2026-10-01), sección 3.7 Expresiones Algebraicas, p.205.    */
+  /* ---------------------------------------------------------------- */
+
+  /* ESPOL p.205, ex.2a: resta de fracciones con factor 1/10. */
+  template(
+    {
+      id: "rat-add-05",
+      subject: "math",
+      topicId: "rational",
+      subtopicId: "add-sub",
+      difficulty: "medium",
+      questionType: "expression",
+      estimatedTimeSec: 240,
+      tags: ["rational-expressions", "common-denominator", "difference-of-squares"],
+      prerequisites: ["add-sub", "simplifying"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3.7 · 2a",
+        page: 205,
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      void rng;
+      return {
+        skill: L(
+          "Simplificar una resta de fracciones algebraicas (libro ESPOL)",
+          "Simplifying a difference of algebraic fractions (ESPOL book)",
+        ),
+        statement: L(
+          "Un estudiante de Cálculo de Variable Real está simplificando su tarea de derivación y llegó a $$\\frac{1}{10}\\left(\\frac{1}{x-5} - \\frac{1}{x+5}\\right).$$ Continúa el proceso de simplificación hasta obtener una única fracción (escríbela, por ejemplo, con la forma 2/(x+1)).",
+          "A Calculus student is simplifying a differentiation result and arrived at $$\\frac{1}{10}\\left(\\frac{1}{x-5} - \\frac{1}{x+5}\\right).$$ Continue the simplification until you obtain a single fraction (write it, e.g., in the form 2/(x+1)).",
+        ),
+        answer: {
+          kind: "expression",
+          accepted: ["1/(x^2-25)", "-1/(25-x^2)"],
+          variables: ["x"],
+        },
+        hints: [
+          L(
+            "La resta de fracciones necesita **un** denominador común: multiplica los denominadores, $(x-5)(x+5)$.",
+            "Subtracting fractions needs **one** common denominator: multiply the denominators, $(x-5)(x+5)$.",
+          ),
+          L(
+            "$\\frac{1}{x-5} - \\frac{1}{x+5} = \\frac{(x+5)-(x-5)}{(x-5)(x+5)}$. El numerador se simplifica solo.",
+            "$\\frac{1}{x-5} - \\frac{1}{x+5} = \\frac{(x+5)-(x-5)}{(x-5)(x+5)}$. The numerator simplifies by itself.",
+          ),
+          L(
+            "Te queda $\\frac{1}{10}$ por una fracción cuyo numerador es $10$: cancela, y en el denominador reconoce la diferencia de cuadrados.",
+            "You are left with $\\frac{1}{10}$ times a fraction whose numerator is $10$: cancel, and recognize the difference of squares in the denominator.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\dfrac{1}{x^2-25}$ (para $x \\ne \\pm 5$)",
+          "$\\dfrac{1}{x^2-25}$ (for $x \\ne \\pm 5$)",
+        ),
+        solution: [
+          step(
+            "given",
+            "La expresión $\\frac{1}{10}\\left(\\frac{1}{x-5}-\\frac{1}{x+5}\\right)$, válida para $x \\ne \\pm 5$.",
+            "The expression $\\frac{1}{10}\\left(\\frac{1}{x-5}-\\frac{1}{x+5}\\right)$, valid for $x \\ne \\pm 5$.",
+          ),
+          step(
+            "approach",
+            "Restar con denominador común, simplificar el numerador y absorber el factor $\\frac{1}{10}$.",
+            "Subtract with a common denominator, simplify the numerator, and absorb the $\\frac{1}{10}$ factor.",
+          ),
+          step(
+            "calculation",
+            "$\\frac{1}{x-5}-\\frac{1}{x+5} = \\frac{(x+5)-(x-5)}{(x-5)(x+5)} = \\frac{10}{x^2-25}$. Entonces: $$\\frac{1}{10} \\cdot \\frac{10}{x^2-25} = \\frac{1}{x^2-25}.$$<br>Control numérico con $x = 6$: $\\frac{1}{10}\\left(1 - \\tfrac{1}{11}\\right) = \\frac{1}{10} \\cdot \\tfrac{10}{11} = \\tfrac{1}{11}$ y $\\tfrac{1}{36-25} = \\tfrac{1}{11}$ ✓",
+            "$\\frac{1}{x-5}-\\frac{1}{x+5} = \\frac{(x+5)-(x-5)}{(x-5)(x+5)} = \\frac{10}{x^2-25}$. Then: $$\\frac{1}{10} \\cdot \\frac{10}{x^2-25} = \\frac{1}{x^2-25}.$$<br>Numeric check at $x = 6$: $\\frac{1}{10}\\left(1 - \\tfrac{1}{11}\\right) = \\frac{1}{10} \\cdot \\tfrac{10}{11} = \\tfrac{1}{11}$ and $\\tfrac{1}{36-25} = \\tfrac{1}{11}$ ✓",
+          ),
+          step(
+            "result",
+            "$\\frac{1}{10}\\left(\\frac{1}{x-5}-\\frac{1}{x+5}\\right) = \\frac{1}{x^2-25}$ para $x \\ne \\pm 5$: el factor $\\frac{1}{10}$ y el $10$ del numerador estaban hechos el uno para el otro.",
+            "$\\frac{1}{10}\\left(\\frac{1}{x-5}-\\frac{1}{x+5}\\right) = \\frac{1}{x^2-25}$ for $x \\ne \\pm 5$: the $\\frac{1}{10}$ factor and the numerator's $10$ were made for each other.",
+          ),
+        ],
+      };
+    },
+  ),
 ];

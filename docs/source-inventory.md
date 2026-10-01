@@ -10,7 +10,7 @@ Auditada el 2026-10-01. 9 archivos (7 PDF + 2 JPEG). Registro máquina:
 |---|---|---|---|---|---|---|
 | 1 | `11_Kompetenzprofil_Physik.pdf` (6 págs.) | marco curricular oficial | DE | OPEN_LICENSE | Studienkolleg T/M | Calibración del nivel de física. Sin problemas. |
 | 2 | `FP-M-2010-HT.pdf` (5 págs., escaneado) | notas trabajadas del tutor | DE/ES | INSTRUCTOR_CREATED | FP / Studienkolleg | **Importación directa**: \|2x−1\|=\|3x+5\| con casos; f(x)=\|2x+1\|−\|3x+2\| vs g(x)=−1; \|2,5x−7,5\| vs 0,5x²−3x+6,5; \|½x−2\|−\|¼+x\| vs −⅓x+2. |
-| 3 | `Fundamentos de Matematicas Para Bachillerato.pdf` (845 págs., 206 MB) | libro de texto | ES | **REQUIRES_REVIEW** (© 2017, FCNM-ESPOL) | Bachillerato ECU | Solo referencia (alineación del plan ecuatoriano; ideas Foundation/Standard). Sin importación literal sin autorización. |
+| 3 | `Fundamentos de Matematicas Para Bachillerato.pdf` (845 págs., 206 MB) | libro de texto | ES | **TUTOR_LICENSED** (© 2017, FCNM-ESPOL — autorización explícita del tutor, 2026-10-01) | Bachillerato ECU | **Importación directa con atribución**: ejercicios del libro verificados programáticamente antes de integrar. |
 | 4 | `Ubungsaufgaben...StandJan18.pdf` (23 págs.) | colección de preparación oficial | DE | OPEN_LICENSE | Studienkolleg Bayern | **Importación directa con atribución**: división de polinomios (§1), desigualdades (§5), parámetros (k: x²−kx+k+3), log (§8), trigonometría. **Ítem 5 en cuarentena**: la solución impresa contradice la re-derivación independiente — requiere revisión manual antes de importar. |
 | 5 | `clase 30-sep.pdf` (5 págs.) | examen FOS/BOS 2010 HT (texto) | DE | OPEN_LICENSE | FOS/BOS | **Importación directa con atribución**: reescritura de términos con dominio, posición de un punto vs parábola, recta∩parábola, LGS, sección de semiesfera, área del trébol. |
 | 6 | `stknew_FSP Mathematik WS 2019-2020.pdf` (4 págs.) | examen FSP 27.01.2020 (texto) | DE | OPEN_LICENSE | Studienkolleg (1.er semestre) | **Referencia del techo superior**. Fuera del alcance actual (límites, series, Taylor, integrales, autovalores, geometría 3D): requiere topics nuevos de cálculo. Registrado para la expansión. |
@@ -35,8 +35,12 @@ definition-hunting | estimation`). El validador del banco
    ((−3, 2) para (2x+1)/(x−2) < 1). No se importa hasta revisión manual del tutor.
 3. **FSP 2020** queda como referencia del nivel Challenge; su importación exige
    crear topics de cálculo (fase posterior, con aprobación del tutor).
-4. **Fundamentos (FCNM-ESPOL)**: solo referencia. El tutor debe confirmar si su
-   uso privado autoriza transcripciones literales; mientras tanto no se importa.
+4. **Fundamentos (FCNM-ESPOL)**: AUTORIZADO — el tutor confirmó el
+   2026-10-01 tener "total permiso para usar los ejercicios del libro de la
+   ESPOL" y asume la responsabilidad de la licencia. Reclassificada a
+   TUTOR_LICENSED: importación directa con atribución, siempre con
+   verificación programática independiente antes de integrar (mismo
+   estándar que las demás fuentes curadas).
 5. Kompetenzprofil Physik: calibra el nivel de física esperado (modelización,
    matematización) para las futuras fases de física.
 

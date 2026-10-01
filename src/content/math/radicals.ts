@@ -821,6 +821,188 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+
+  /* ---------------------------------------------------------------- */
+  /* Curated — ESPOL Fundamentos (TUTOR_LICENSED, autorización del     */
+  /* tutor 2026-10-01), sección 3.7 Expresiones Algebraicas, p.205.    */
+  /* ---------------------------------------------------------------- */
+
+  /* ESPOL p.205, ex.2b: producto con conjugado irracional. */
+  template(
+    {
+      id: "rad-simp-03",
+      subject: "math",
+      topicId: "radicals",
+      subtopicId: "simplifying",
+      difficulty: "hard",
+      questionType: "expression",
+      estimatedTimeSec: 300,
+      tags: ["radicals", "conjugates", "simplification"],
+      prerequisites: ["simplifying", "operations"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3.7 · 2b",
+        page: 205,
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      void rng;
+      return {
+        skill: L(
+          "Simplificación con conjugados irracionales (libro ESPOL)",
+          "Simplification with irrational conjugates (ESPOL book)",
+        ),
+        statement: L(
+          "Otro paso de la tarea de Cálculo que hay que domar: $$\\left(\\frac{1}{x+\\sqrt{x^2+1}}\\right)\\left(1+\\frac{2x}{2\\sqrt{x^2+1}}\\right).$$ Simplifícala todo lo posible (escribe, por ejemplo, con la forma 2/(x+1)).",
+          "Another step from the Calculus homework that needs taming: $$\\left(\\frac{1}{x+\\sqrt{x^2+1}}\\right)\\left(1+\\frac{2x}{2\\sqrt{x^2+1}}\\right).$$ Simplify it as far as possible (write it, e.g., in the form 2/(x+1)).",
+        ),
+        answer: {
+          kind: "expression",
+          accepted: ["1/sqrt(x^2+1)", "(x^2+1)^(-1/2)", "1/(x^2+1)^(1/2)"],
+          variables: ["x"],
+        },
+        hints: [
+          L(
+            "Empieza por el segundo paréntesis: $\\frac{2x}{2\\sqrt{x^2+1}}$ se simplifica a $\\frac{x}{\\sqrt{x^2+1}}$.",
+            "Start with the second parenthesis: $\\frac{2x}{2\\sqrt{x^2+1}}$ simplifies to $\\frac{x}{\\sqrt{x^2+1}}$.",
+          ),
+          L(
+            "Dentro del paréntesis: $1 + \\frac{x}{\\sqrt{x^2+1}} = \\frac{\\sqrt{x^2+1}+x}{\\sqrt{x^2+1}}$ (denominador común $\\sqrt{x^2+1}$).",
+            "Inside the parenthesis: $1 + \\frac{x}{\\sqrt{x^2+1}} = \\frac{\\sqrt{x^2+1}+x}{\\sqrt{x^2+1}}$ (common denominator $\\sqrt{x^2+1}$).",
+          ),
+          L(
+            "Mira la estructura global: el numerador $\\sqrt{x^2+1}+x$ y el denominador $x+\\sqrt{x^2+1}$ del primer factor son **el mismo número**.",
+            "Look at the overall structure: the numerator $\\sqrt{x^2+1}+x$ and the first factor's denominator $x+\\sqrt{x^2+1}$ are **the same number**.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\dfrac{1}{\\sqrt{x^2+1}}$",
+          "$\\dfrac{1}{\\sqrt{x^2+1}}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El producto $\\left(\\frac{1}{x+\\sqrt{x^2+1}}\\right)\\left(1+\\frac{2x}{2\\sqrt{x^2+1}}\\right)$ — un clásico al derivar $\\ln\\left(x+\\sqrt{x^2+1}\\right)$.",
+            "The product $\\left(\\frac{1}{x+\\sqrt{x^2+1}}\\right)\\left(1+\\frac{2x}{2\\sqrt{x^2+1}}\\right)$ — a classic when differentiating $\\ln\\left(x+\\sqrt{x^2+1}\\right)$.",
+          ),
+          step(
+            "approach",
+            "Unificar el segundo paréntesis en una sola fracción y detectar el factor común con el denominador del primero.",
+            "Unify the second parenthesis into a single fraction and spot the common factor with the first one's denominator.",
+          ),
+          step(
+            "calculation",
+            "$1+\\frac{2x}{2\\sqrt{x^2+1}} = 1+\\frac{x}{\\sqrt{x^2+1}} = \\frac{\\sqrt{x^2+1}+x}{\\sqrt{x^2+1}}$. El producto queda $$\\frac{\\sqrt{x^2+1}+x}{\\left(x+\\sqrt{x^2+1}\\right)\\sqrt{x^2+1}} = \\frac{1}{\\sqrt{x^2+1}}.$$<br>Control con $x = 3$: la original da $\\approx 0{,}3162$ y $\\frac{1}{\\sqrt{10}} \\approx 0{,}3162$ ✓",
+            "$1+\\frac{2x}{2\\sqrt{x^2+1}} = 1+\\frac{x}{\\sqrt{x^2+1}} = \\frac{\\sqrt{x^2+1}+x}{\\sqrt{x^2+1}}$. The product becomes $$\\frac{\\sqrt{x^2+1}+x}{\\left(x+\\sqrt{x^2+1}\\right)\\sqrt{x^2+1}} = \\frac{1}{\\sqrt{x^2+1}}.$$<br>Check at $x = 3$: the original gives $\\approx 0.3162$ and $\\frac{1}{\\sqrt{10}} \\approx 0.3162$ ✓",
+          ),
+          step(
+            "result",
+            "$\\dfrac{1}{\\sqrt{x^2+1}}$ — de hecho es la derivada de $\\operatorname{arsinh}(x)$: el ejercicio del libro confirma que la derivación salió bien.",
+            "$\\dfrac{1}{\\sqrt{x^2+1}}$ — in fact this is the derivative of $\\operatorname{arsinh}(x)$: the book's exercise confirms the differentiation came out right.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* ESPOL p.205, ex.3: la expresión-monstruo con potencias de 7. */
+  template(
+    {
+      id: "rad-fexp-03",
+      subject: "math",
+      topicId: "radicals",
+      subtopicId: "fractional-exponents",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["fractional-exponents", "roots", "rational-expressions"],
+      prerequisites: ["fractional-exponents", "simplifying"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3.7 · 3",
+        page: 205,
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L("$k = -\\tfrac{21}{10}$", "$k = -\\tfrac{21}{10}$"),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L("$k = -\\tfrac{7}{10}$", "$k = -\\tfrac{7}{10}$"),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L("$k = -\\tfrac{3}{2}$", "$k = -\\tfrac{3}{2}$"),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L("$k = \\tfrac{21}{10}$", "$k = \\tfrac{21}{10}$"),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L(
+          "Exponentes fraccionarios y raíces encajadas (libro ESPOL)",
+          "Fractional exponents and nested roots (ESPOL book)",
+        ),
+        statement: L(
+          "Simplifica $$F = \\left[\\frac{1}{\\sqrt{343}}\\left(\\sqrt[5]{7^3}\\right)^{\\!\\frac{4}{3}}\\left(\\frac{(x-2)^2}{x^2+x-6} + \\frac{5x^2}{x^3+3x^2}\\right)\\right]^3$$ y responde: si $F = 7^{k}$, ¿cuánto vale $k$? (Ejercicio del libro de la ESPOL; el resultado es exacto.)",
+          "Simplify $$F = \\left[\\frac{1}{\\sqrt{343}}\\left(\\sqrt[5]{7^3}\\right)^{\\!\\frac{4}{3}}\\left(\\frac{(x-2)^2}{x^2+x-6} + \\frac{5x^2}{x^3+3x^2}\\right)\\right]^3$$ and answer: if $F = 7^{k}$, what is $k$? (Exercise from the ESPOL book; the result is exact.)",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Son dos batallas separadas: las potencias de $7$ y la suma de fracciones en $x$. Empieza por las de $7$: como $343 = 7^3$, se tiene $\\frac{1}{\\sqrt{343}} = 7^{-3/2}$, y $\\left(\\sqrt[5]{7^3}\\right)^{4/3} = 7^{4/5}$.",
+            "These are two separate battles: the powers of $7$ and the fraction sum in $x$. Start with the $7$'s: since $343 = 7^3$, we get $\\frac{1}{\\sqrt{343}} = 7^{-3/2}$, and $\\left(\\sqrt[5]{7^3}\\right)^{4/3} = 7^{4/5}$.",
+          ),
+          L(
+            "Para la suma de fracciones: factoriza los denominadores, $x^2+x-6 = (x+3)(x-2)$ y $x^3+3x^2 = x^2(x+3)$, y simplifica cada fracción antes de sumar.",
+            "For the fraction sum: factor the denominators, $x^2+x-6 = (x+3)(x-2)$ and $x^3+3x^2 = x^2(x+3)$, and simplify each fraction before adding.",
+          ),
+          L(
+            "La suma de fracciones vale exactamente $1$ (compruébalo con $x=1$ si dudas). Dentro del corchete queda $7^{-3/2+4/5}$; al final, el exponente $3$ exterior multiplica al de adentro.",
+            "The fraction sum is exactly $1$ (check with $x=1$ if in doubt). Inside the bracket you are left with $7^{-3/2+4/5}$; at the end, the outer exponent $3$ multiplies the inner one.",
+          ),
+        ],
+        answerDisplay: L(
+          "$k = -\\tfrac{21}{10}$, es decir $F = 7^{-21/10}$",
+          "$k = -\\tfrac{21}{10}$, that is $F = 7^{-21/10}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La expresión combina tres piezas: una potencia negativa de $7$ ($7^{-3/2}$), una positiva ($7^{4/5}$) y una suma de fracciones racionales en $x$ — todo elevado al cubo.",
+            "The expression combines three pieces: a negative power of $7$ ($7^{-3/2}$), a positive one ($7^{4/5}$), and a sum of rational fractions in $x$ — all cubed.",
+          ),
+          step(
+            "approach",
+            "Cada pieza a forma exponencial; la suma se evalúa factorizando; los exponentes se suman dentro del corchete y el cubo exterior multiplica.",
+            "Each piece into exponential form; the sum is evaluated by factoring; the exponents add inside the bracket and the outer cube multiplies.",
+          ),
+          step(
+            "calculation",
+            "Fracciones: $\\frac{(x-2)^2}{(x+3)(x-2)} + \\frac{5x^2}{x^2(x+3)} = \\frac{x-2}{x+3} + \\frac{5}{x+3} = \\frac{x+3}{x+3} = 1$ (para $x \\ne 0, 2, -3$).<br>Potencias: $\\left[7^{-3/2} \\cdot 7^{4/5} \\cdot 1\\right]^3 = \\left[7^{-15/10+8/10}\\right]^3 = \\left[7^{-7/10}\\right]^3 = 7^{-21/10}$.",
+            "Fractions: $\\frac{(x-2)^2}{(x+3)(x-2)} + \\frac{5x^2}{x^2(x+3)} = \\frac{x-2}{x+3} + \\frac{5}{x+3} = \\frac{x+3}{x+3} = 1$ (for $x \\ne 0, 2, -3$).<br>Powers: $\\left[7^{-3/2} \\cdot 7^{4/5} \\cdot 1\\right]^3 = \\left[7^{-15/10+8/10}\\right]^3 = \\left[7^{-7/10}\\right]^3 = 7^{-21/10}$.",
+          ),
+          step(
+            "result",
+            "$F = 7^{-21/10}$, o sea $k = -\\tfrac{21}{10} = -2{,}1$. El truco del libro: la suma de fracciones que «complica» la expresión vale exactamente $1$.",
+            "$F = 7^{-21/10}$, so $k = -\\tfrac{21}{10} = -2.1$. The book's trick: the fraction sum that 'complicates' the expression is exactly $1$.",
+          ),
+        ],
+      };
+    },
+  ),
 ];
 
 /** greatest common divisor */

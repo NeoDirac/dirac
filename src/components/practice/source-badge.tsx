@@ -19,6 +19,7 @@ const KIND_LABEL: Record<string, { es: string; en: string }> = {
   exam: { es: "Examen real", en: "Real exam" },
   "problem-collection": { es: "Colección oficial", en: "Official collection" },
   "class-sheet": { es: "Hoja de clase", en: "Class sheet" },
+  textbook: { es: "Libro de texto", en: "Textbook" },
 };
 
 export function SourceBadge({

@@ -49,6 +49,7 @@ import { useI18n } from "@/lib/i18n/context";
 import { useToast } from "@/hooks/use-toast";
 import { href, sessionHref } from "@/lib/router";
 import { ActivityHeatmap, AccuracyTrend } from "@/components/practice/activity-insights";
+import { ProvenancePanel } from "@/components/practice/provenance-panel";
 import {
   computeStats,
   loadProgress,
@@ -628,6 +629,7 @@ export function ProgressView() {
             <div className="mt-4 space-y-4">
               <ActivityHeatmap records={records} />
               <AccuracyTrend records={records} />
+              <ProvenancePanel records={records} />
             </div>
           </div>
 

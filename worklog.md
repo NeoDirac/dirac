@@ -642,3 +642,52 @@ Stage Summary:
   5. Topics de cálculo (límites/series/derivadas/integrales) para desbloquear el FSP 2020 (nivel Challenge real) — requiere decisión del tutor sobre el plan de estudios.
   6. Fundamentos (FCNM-ESPOL): pedir al tutor confirmación de uso privado; mientras tanto solo referencia.
   7. Colecciones (Practice/Challenge/Teacher's Picks), filtros por reasoningType/fuente, y problemas multiparte (estilo FSP) — fases posteriores de UI, tras el contenido.
+
+---
+Task ID: 13
+Agent: main (Z.ai Code) — scheduled review round 8 + tutor ESPOL authorization
+Task: QA de la Fase 2 sin documentar (27 plantillas FOS/BOS+Bayern, SourceBadge, filtro curados) + actualización del registro de fuentes con la autorización del tutor para el libro ESPOL + primer lote curado ESPOL.
+
+Work Log (interino — se amplía al cierre):
+- Contexto: la sesión anterior (Fase 2, commit dab57ba 04:56) importó 27 plantillas curadas (fos-bos-2010-ht: 10, fos-bos-2011: 7, stk-bayern-ubung: 11) en 9 archivos math, creó src/components/practice/source-badge.tsx, el filtro "solo curados" (c=1 en URL, session.ts/router.ts/views/topic.tsx, curatedOnly en types.ts) — pero se cortó ANTES del QA runtime y ANTES de actualizar este worklog. Gates estáticos ya verdes: validate 457·0/0, tsc limpio (solo ruido examples/skills excluido), lint limpio.
+- MENSAJE DEL TUTOR (este chat): "tengo total permiso para usar los ejercicios del libro de la ESPOL… De la cuestión legal me encargo yo" — resuelve el pendiente #6 de la Task 12 y la decisión 4 del inventario (fcnm-fundamentos estaba REQUIRES_REVIEW "solo referencia"). Se procede a reclasificar la fuente e importar el primer lote.
+- QA agent-browser de la Fase 2: home OK; tema logarithmic → BUG: el toggle "solo curados" mostraba las claves crudas topic.curatedOnly/topic.curatedHint (la sesión anterior añadió las claves source.* al diccionario pero NO estas dos — se cortó antes). CORREGIDO: añadidas ambas claves a ES y EN junto al resto del bloque topic.*. Verificado: "Real exam sources only / Verified official exams and collections: 3 real exam problems" y "Solo problemas de fuentes reales / …4 problemas de examen real" (quadratics).
+- Mejora proactiva en source-badge.tsx: añadida etiqueta kind "textbook" (ES "Libro de texto" / EN "Textbook") al KIND_LABEL — necesaria para la fuente ESPOL que entra esta ronda; sin ella el badge mostraría la cadena cruda "textbook".
+- Flujo curado verificado end-to-end (logarithmic, c=1, EN y ES): sesión 1/10 con problema real de Bayern 8.2.5c (log₂(x+2)+log₂x−log₂3=0, raíz espuria) → respuesta −3 rechazada ("Not yet") → Hint 1 (dominio) → respuesta 1 aceptada ("2 attempts") → solución escalonada GIVEN/APPROACH/CALCULATION/RESULT con "is discarded" para −3 → siguiente problema también curado (8.2.1d) → cambio ES a mitad de sesión OK ("Problema 2 de 10", "Comprobar respuesta") → 0 errores de consola. VLM sobre captura del badge: 10/10 (pill limpia, sin overflow, KaTeX correcto).
+- AUTORIZACIÓN ESPOL APLICADA (pendiente #6 de Task 12 resuelto):
+  - types.ts: nueva clase de licencia TUTOR_LICENSED ("obra de terceros cuyo uso el tutor autorizó explícitamente; la responsabilidad de la autorización es del tutor") — válida también en validate-bank.ts.
+  - registry.ts: fcnm-fundamentos REQUIRES_REVIEW → TUTOR_LICENSED, use actualizado con la declaración del tutor (2026-10-01), short "Fundamentos ESPOL"/"ESPOL Fundamentals" (ya no "solo referencia").
+  - docs/source-inventory.md: fila 3 de la tabla y decisión 4 actualizadas (AUTORIZADO).
+- PRIMER LOTE CURADO ESPOL — 8 problemas del libro (Cap. 3 Números Reales), seleccionados tras explorar el PDF con pdftoppm+VLM-OCR (offset PDF = página libro + 27; se descartaron conjuntos/lógica por no existir topic en el currículo, y el FundaRETO del cartero por ser fuera de currículo):
+  1. found-pct-03 (medium/numeric, percentages, p.212 ex.2d): 33% de 45 5/11 = 15 exacto (33/11=3, 500/100=5)
+  2. found-prop-03 (medium/numeric, ratios-proportions, p.213 ex.4a): 180 ejercicios en 3 días con la prima → 2 h/día (15 ej/h por persona)
+  3. found-prop-04 (hard/MC, ratios-proportions, p.213 ex.4b): ganancia del agricultor → 5/6·G (900/1080 kg; se explicitó la proporcionalidad a semilla para dejar el modelo bien planteado — razón documentada)
+  4. lin-abs-03 (easy/numeric, abs-equations, p.222 ex.2b): |π−8|+π = 8 (cancelación del π)
+  5. lin-abs-04 (medium/numeric, abs-equations, p.222 ex.2a): |1−|3−5|−|1−7|| = 7 (evaluación por capas)
+  6. rat-add-05 (medium/expression, add-sub, p.205 ex.2a): (1/10)(1/(x−5)−1/(x+5)) = 1/(x²−25)
+  7. rad-simp-03 (hard/expression, simplifying, p.205 ex.2b): producto con conjugado (x+√(x²+1)) → 1/√(x²+1)
+  8. rad-fexp-03 (hard/MC, fractional-exponents, p.205 ex.3): la expresión-monstruo F = [7^(−3/2)·7^(4/5)·Q(x)]³ con Q(x)=1 → F = 7^(−21/10), preguntada como k en F = 7^k
+  - Verificación independiente ANTES de integrar: /tmp/curated-espol/verify.py → 19/19 checks (fracciones exactas, identidades por muestreo multi-punto, razón 5/6, exponentes, distractores vivos).
+  - Integración por chunks TS crudos (/tmp/curated-espol/chunks/, heredocs citados) + splice de una sola escritura por archivo (radicals.ts anclado al PRIMER "^];" porque tiene helpers gcd después del array — los otros 3 al último). Chequeo de corrupción a nivel FUENTE: 0 backslash-simple en literales (la clase histórica).
+  - Audit dual-locale (/tmp/curated-espol/audit.ts, seeds 1/42/777/123456): 1023 checks, 0 failures — determinismo, ES≠EN, 3 pistas, given→approach→calculation→result, $-paridad, MC 4+1 correcta+distintos+sin fugas, acepta/rechaza (incl. formas equivalentes −1/(25−x²), (x²+1)^(−1/2)), source/reasoning fluyen al Problem, MC fijo estable entre seeds. NOTA: 32 "fallos" iniciales eran de MI propio regex de escape mal diseñado (buscaba backslash-simple en strings runtime, que es correcto que exista); se eliminó el check bogus y se añadió el check a nivel fuente correcto.
+- NUEVA FUNCIÓN 1 — ReasoningBadge (src/components/practice/reasoning-badge.tsx): chip punteado con icono Brain que muestra el razonamiento dominante del problema (la taxonomía existía en los datos pero nunca se mostraba): 8 tipos con etiquetas idiomáticas ES/EN y tooltip explicativo ("Este ejercicio exige separar el problema en casos…"). Integrado en el meta row de problem-view tras el SourceBadge. Clave i18n reasoning.label.
+- NUEVA FUNCIÓN 2 — ProvenancePanel (src/components/practice/provenance-panel.tsx): sección "FUENTES REALES" en el dashboard de progreso que agrega los records por fuente curada (mapa templateId→source vía getAllTemplates): icono por tipo de fuente (examen/colección/libro/hoja), nombre corto, origen, nº de problemas con singular/plural correcto ("1 problema"/"3 problemas"), % al primer intento con meter de color umbral (≥70 success / ≥40 medium / resto destructive) y progressbar accesible. Oculto mientras no haya records curados. Colocado dentro de la sección ACTIVIDAD tras el heatmap y la tendencia.
+- Refinamientos de copy: topic.curatedOnly EN "Real exam sources only"→"Real source problems only"; topic.curatedHint actualizado para incluir libro de texto ("examen, libro o clase real"); plurales ES/EN del panel (problems/problemsPlural, subtitle/subtitlePlural).
+- QA browser de todo lo nuevo: sesión curada foundations c=1 → problema ESPOL 3.8·4a en vivo con badge "Libro de texto: Fundamentos de Matemáticas para Bachillerato… · ej. 3.8 · 4a", respuesta 2 aceptada ("¡Correcto! Bien resuelto"), solución escalonada DATOS/PLANTEAMIENTO/CÁLCULO/RESULTADO; ReasoningBadge verificado en problema Bayern (Definiciones al detalle) — VLM: meta row de 3 chips limpio y coherente; ProvenancePanel verificado ES ("FUENTES REALES · 3 problemas… · 1 problema · 100% al primer intento") y EN ("REAL SOURCES"); móvil 390px dashboard 6/10 (el "corte" señalado era el fold del scroll — artefacto) y problema 8/10 (advertencias especulativas de flex-wrap preexistente); 0 errores de consola en todos los pasos.
+
+Verification (all green):
+- bun run validate:content → 465 templates · 0 errors · 0 warnings · fcnm-fundamentos: 8 · registro: 8 fuentes (0 REQUIRES_REVIEW)
+- bunx tsc --noEmit (excl. examples/skills) → 0 errores; bun run lint → limpio
+- /tmp/curated-espol/verify.py → 19/19; /tmp/curated-espol/audit.ts → 1023 checks, 0 failures
+- agent-browser: flujo curado ESPOL completo (badge → respuesta → solución), ReasoningBadge, ProvenancePanel ES/EN, móvil, consola limpia
+
+Stage Summary:
+- El permiso ESPOL del tutor quedó registrado estructuralmente (TUTOR_LICENSED) y el primer lote de 8 problemas REALES del libro está integrado y verificado: el banco pasa de 457 a 465 plantillas con 40 curadas de 5 fuentes distintas (exámenes FOS/BOS ×2, Bayern, hojas del tutor, libro ESPOL). El registro ya no tiene ninguna fuente en cuarentena.
+- 2 funciones nuevas visibles para el estudiante (ReasoningBadge + ProvenancePanel) que hacen tangible el programa de calidad ("razonamiento > tamaño", "fuente real > variante"): ahora el estudiante VE de dónde viene cada problema y qué tipo de pensamiento exige.
+- Pendiente / próximos pasos (prioridad):
+  1. Continuar la importación ESPOL por capítulos (el libro tiene ~15 capítulos y 845 págs.; siguientes buenos candidatos: trigonometría, geometría analítica, desigualdades — mapear a topics existentes; TOC completo pendiente de extraer más allá del cap. 3).
+  2. Re-auditoría de dificultad del banco legado (solo linear-equations + algunos retoques hechos; falta quadratics completo, poly-functions, polynomials y el resto — orden en DIFFICULTY.md).
+  3. Cuarentena Bayern ítem 5 (desigualdad racional) — requiere decisión del tutor.
+  4. Física curada con razonamiento de modelo (Kompetenzprofil como guía de diseño).
+  5. Topics de cálculo para desbloquear el FSP 2020 (decisión del tutor).
+  6. Ideas UI del worklog anterior aún vivas: per-subtopic analytics, goal-aware celebration en el resumen de sesión, filtros por reasoning/fuente en la vista de tema.

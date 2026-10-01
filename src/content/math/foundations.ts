@@ -1270,4 +1270,253 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+
+  /* ---------------------------------------------------------------- */
+  /* Curated — ESPOL Fundamentos (TUTOR_LICENSED, autorización del     */
+  /* tutor 2026-10-01). Transcribed as printed; independently          */
+  /* verified (/tmp/curated-espol/verify.py).                          */
+  /* ---------------------------------------------------------------- */
+
+  /* ESPOL p.212, autoevaluación 3.8, ex.2d: el 33% de 45 5/11. */
+  template(
+    {
+      id: "found-pct-03",
+      subject: "math",
+      topicId: "foundations",
+      subtopicId: "percentages",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 150,
+      tags: ["percentages", "fractions", "exact-arithmetic"],
+      prerequisites: ["percentages", "fractions"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3.8 · 2d",
+        page: 212,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      void rng;
+      return {
+        skill: L(
+          "Porcentaje exacto de un número mixto (libro ESPOL)",
+          "Exact percentage of a mixed number (ESPOL book)",
+        ),
+        statement: L(
+          "Calcula el $33\\%$ de $45\\tfrac{5}{11}$. (Ejercicio del libro de la ESPOL: el resultado es un número exacto — resuélvelo con fracciones, sin calculadora.)",
+          "Compute $33\\%$ of $45\\tfrac{5}{11}$. (An exercise from the ESPOL book: the result is an exact number — work it out with fractions, no calculator.)",
+        ),
+        answer: { kind: "numeric", value: 15 },
+        hints: [
+          L(
+            "Un porcentaje es una fracción con denominador $100$: «el $33\\%$ de $C$» significa $\\tfrac{33}{100} \\cdot C$.",
+            "A percentage is a fraction with denominator $100$: '$33\\%$ of $C$' means $\\tfrac{33}{100} \\cdot C$.",
+          ),
+          L(
+            "Convierte el número mixto a fracción impropia: $45\\tfrac{5}{11} = \\tfrac{45 \\cdot 11 + 5}{11} = \\tfrac{500}{11}$.",
+            "Turn the mixed number into an improper fraction: $45\\tfrac{5}{11} = \\tfrac{45 \\cdot 11 + 5}{11} = \\tfrac{500}{11}$.",
+          ),
+          L(
+            "Multiplica $\\tfrac{33}{100} \\cdot \\tfrac{500}{11}$ simplificando **antes** de multiplicar: tacha el $33$ con el $11$ y el $500$ con el $100$.",
+            "Multiply $\\tfrac{33}{100} \\cdot \\tfrac{500}{11}$ by simplifying **before** multiplying: cross out the $33$ with the $11$ and the $500$ with the $100$.",
+          ),
+        ],
+        answerDisplay: L("$15$", "$15$"),
+        solution: [
+          step(
+            "given",
+            "El libro pide el $33\\%$ de $45\\tfrac{5}{11}$: una fracción de denominador $100$ aplicada a un número mixto.",
+            "The book asks for $33\\%$ of $45\\tfrac{5}{11}$: a fraction with denominator $100$ applied to a mixed number.",
+          ),
+          step(
+            "approach",
+            "Escribe el porcentaje como fracción, el número mixto como fracción impropia, y simplifica cruzado antes de multiplicar.",
+            "Write the percentage as a fraction and the mixed number as an improper fraction, then cross-simplify before multiplying.",
+          ),
+          step(
+            "calculation",
+            "$33\\% \\text{ de } 45\\tfrac{5}{11} = \\tfrac{33}{100} \\cdot \\tfrac{500}{11} = \\tfrac{33}{11} \\cdot \\tfrac{500}{100} = 3 \\cdot 5 = 15$.",
+            "$33\\% \\text{ of } 45\\tfrac{5}{11} = \\tfrac{33}{100} \\cdot \\tfrac{500}{11} = \\tfrac{33}{11} \\cdot \\tfrac{500}{100} = 3 \\cdot 5 = 15$.",
+          ),
+          step(
+            "result",
+            "El $33\\%$ de $45\\tfrac{5}{11}$ es exactamente $15$. La gracia del ejercicio: como $45\\tfrac{5}{11} = \\tfrac{500}{11}$, el $33$ se cancela con el $11$ y todo queda limpio.",
+            "$33\\%$ of $45\\tfrac{5}{11}$ is exactly $15$. The point of the exercise: since $45\\tfrac{5}{11} = \\tfrac{500}{11}$, the $33$ cancels with the $11$ and everything comes out clean.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* ESPOL p.213, ex.4a: 180 ejercicios en 3 días, con la prima. */
+  template(
+    {
+      id: "found-prop-03",
+      subject: "math",
+      topicId: "foundations",
+      subtopicId: "ratios-proportions",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 240,
+      tags: ["rates", "proportionality", "word-problems"],
+      prerequisites: ["ratios-proportions"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3.8 · 4a",
+        page: 213,
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      void rng;
+      return {
+        skill: L(
+          "Planificar con tasas de trabajo (libro ESPOL)",
+          "Planning with work rates (ESPOL book)",
+        ),
+        statement: L(
+          "Un estudiante debe hacer $180$ ejercicios de matemáticas, relativamente sencillos, en $3$ días. Lo ayudará su prima, que tiene prácticamente las mismas destrezas que él. La última vez él hizo $60$ ejercicios y se demoró $2$ días, trabajando $2$ horas diarias. ¿Cuántas horas al día deberán trabajar **juntos** durante los $3$ días? (Ejercicio del libro de la ESPOL.)",
+          "A student must complete $180$ fairly simple math exercises in $3$ days. His cousin will help him — she has practically the same math skills. Last time he did $60$ exercises and it took him $2$ days, working $2$ hours a day. How many hours a day must they work **together** during the $3$ days? (Exercise from the ESPOL book.)",
+        ),
+        answer: { kind: "numeric", value: 2 },
+        hints: [
+          L(
+            "Con los datos de la última vez, calcula primero la velocidad de trabajo de **una** persona: ejercicios por hora.",
+            "Using last time's data, first compute the work rate of **one** person: exercises per hour.",
+          ),
+          L(
+            "Él hizo $60$ ejercicios en $2$ días de $2$ horas: $4$ horas en total. Su velocidad es $60 \\div 4$ ejercicios por hora.",
+            "He did $60$ exercises in $2$ days of $2$ hours: $4$ hours in total. His rate is $60 \\div 4$ exercises per hour.",
+          ),
+          L(
+            "Juntos trabajan al doble de velocidad. Divide los $180$ ejercicios entre la velocidad conjunta para obtener las horas totales, y reparte entre los $3$ días.",
+            "Together they work at twice the rate. Divide the $180$ exercises by the joint rate to get the total hours, then split them over the $3$ days.",
+          ),
+        ],
+        answerDisplay: L("$2$ horas al día", "$2$ hours a day"),
+        solution: [
+          step(
+            "given",
+            "Objetivo: $180$ ejercicios en $3$ días, dos personas con la misma destreza. Calibración: $60$ ejercicios le tomaron $2$ días a razón de $2$ horas diarias.",
+            "Goal: $180$ exercises in $3$ days, two people with the same skill. Calibration: $60$ exercises took him $2$ days at $2$ hours a day.",
+          ),
+          step(
+            "approach",
+            "Proporcionalidad compuesta: primero la velocidad individual (ejercicios/hora), luego la conjunta, y al final el reparto diario.",
+            "Compound proportionality: first the individual rate (exercises/hour), then the joint one, and finally the daily split.",
+          ),
+          step(
+            "calculation",
+            "Velocidad de uno: $\\tfrac{60 \\text{ ej}}{2 \\cdot 2 \\text{ h}} = 15$ ej/h. Juntos: $2 \\cdot 15 = 30$ ej/h. Horas totales: $\\tfrac{180}{30} = 6$ h. Repartidas en $3$ días: $\\tfrac{6}{3} = 2$ horas diarias.",
+            "One person's rate: $\\tfrac{60 \\text{ ex}}{2 \\cdot 2 \\text{ h}} = 15$ ex/h. Together: $2 \\cdot 15 = 30$ ex/h. Total hours: $\\tfrac{180}{30} = 6$ h. Split over $3$ days: $\\tfrac{6}{3} = 2$ hours a day.",
+          ),
+          step(
+            "result",
+            "Deben trabajar $2$ horas al día cada uno: los mismos horarios que él ya manejaba solo, pero ahora acompañado — y el trabajo se hace igual en los $3$ días.",
+            "They must each work $2$ hours a day: the same schedule he already handled alone, but now with company — and the work still fits in the $3$ days.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* ESPOL p.213, ex.4b: ganancia del agricultor en términos de G. */
+  template(
+    {
+      id: "found-prop-04",
+      subject: "math",
+      topicId: "foundations",
+      subtopicId: "ratios-proportions",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["proportionality", "modeling", "word-problems"],
+      prerequisites: ["ratios-proportions", "percentages"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3.8 · 4b",
+        page: 213,
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L("$\\tfrac{5}{6}G$", "$\\tfrac{5}{6}G$"),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L("$\\tfrac{3}{4}G$", "$\\tfrac{3}{4}G$"),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L("$\\tfrac{9}{10}G$", "$\\tfrac{9}{10}G$"),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L("$\\tfrac{1}{2}G$", "$\\tfrac{1}{2}G$"),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L(
+          "Modelo de proporcionalidad con áreas y densidades (libro ESPOL)",
+          "Proportionality model with areas and densities (ESPOL book)",
+        ),
+        statement: L(
+          "Un agricultor disponía de $12$ hectáreas para el cultivo de arroz que, sembrando a una densidad de $90$ kg de semilla por hectárea, le generaba una ganancia $G$. Hace poco cedió $3$ hectáreas del terreno a su hijo y aumentó la densidad a $100$ kg por hectárea. Suponiendo que la ganancia es proporcional a la cantidad de semilla sembrada, ¿cuál sería la ganancia (en términos de $G$) que teóricamente debería obtener? (Ejercicio del libro de la ESPOL.)",
+          "A farmer had $12$ hectares for rice which, seeded at a density of $90$ kg of seed per hectare, produced a profit $G$. He recently gave $3$ hectares of the land to his son and raised the density to $100$ kg per hectare. Assuming profit is proportional to the amount of seed planted, what profit (in terms of $G$) should he theoretically obtain? (Exercise from the ESPOL book.)",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "¿De qué depende la ganancia en este modelo? Lo único que cambia entre los dos escenarios es la cantidad **total** de semilla sembrada.",
+            "What does profit depend on in this model? The only thing changing between the two scenarios is the **total** amount of seed planted.",
+          ),
+          L(
+            "Cantidad antigua: $12 \\cdot 90 = 1080$ kg. Cantidad nueva: el terreno bajó a $12 - 3$ hectáreas, con la nueva densidad.",
+            "Old amount: $12 \\cdot 90 = 1080$ kg. New amount: the land dropped to $12 - 3$ hectares, with the new density.",
+          ),
+          L(
+            "La ganancia nueva es $G$ por la razón entre kilos nuevos y antiguos. Simplifica $\\tfrac{900}{1080}$ lo más posible.",
+            "The new profit is $G$ times the ratio of new to old kilos. Simplify $\\tfrac{900}{1080}$ as far as it goes.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\tfrac{5}{6}G$",
+          "$\\tfrac{5}{6}G$",
+        ),
+        solution: [
+          step(
+            "given",
+            "Antes: $12$ ha a $90$ kg/ha con ganancia $G$. Ahora: $12 - 3 = 9$ ha a $100$ kg/ha. Modelo: ganancia $\\propto$ kilos de semilla.",
+            "Before: $12$ ha at $90$ kg/ha with profit $G$. Now: $12 - 3 = 9$ ha at $100$ kg/ha. Model: profit $\\propto$ kilos of seed.",
+          ),
+          step(
+            "approach",
+            "Calcular los kilos de cada escenario y tomar la razón nuevo/antiguo: esa fracción multiplica a $G$.",
+            "Compute the kilos in each scenario and take the new/old ratio: that fraction multiplies $G$.",
+          ),
+          step(
+            "calculation",
+            "Antiguo: $12 \\cdot 90 = 1080$ kg. Nuevo: $9 \\cdot 100 = 900$ kg. Razón: $\\tfrac{900}{1080} = \\tfrac{90}{108} = \\tfrac{5}{6}$ (dividiendo por $180$).",
+            "Old: $12 \\cdot 90 = 1080$ kg. New: $9 \\cdot 100 = 900$ kg. Ratio: $\\tfrac{900}{1080} = \\tfrac{90}{108} = \\tfrac{5}{6}$ (dividing by $180$).",
+          ),
+          step(
+            "result",
+            "La ganancia teórica es $\\tfrac{5}{6}G$: ceder $3$ hectáreas cuesta más de lo que la mayor densidad compensa — el modelo lo cuantifica en una sola fracción.",
+            "The theoretical profit is $\\tfrac{5}{6}G$: giving up $3$ hectares costs more than the higher density compensates — the model quantifies it in a single fraction.",
+          ),
+        ],
+      };
+    },
+  ),
 ];

@@ -34,6 +34,7 @@ const VALID_LICENSES: SourceLicense[] = [
   "INSTRUCTOR_CREATED",
   "OPEN_LICENSE",
   "PUBLIC_DOMAIN",
+  "TUTOR_LICENSED",
   "REQUIRES_REVIEW",
 ];
 const VALID_REASONING: ReasoningType[] = [
