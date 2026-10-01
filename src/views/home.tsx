@@ -443,16 +443,16 @@ export function HomeView() {
                 <a href={quickHref}>{t("home.hero.ctaQuick")}</a>
               </Button>
             </div>
-            <dl className="mt-12 flex flex-wrap gap-x-10 gap-y-3 border-t pt-6">
+            <dl className="mt-13 flex flex-wrap gap-x-12 gap-y-4 border-t pt-6.5">
               {[
-                { value: mathCurriculum.length, label: t("home.hero.stat1") },
-                { value: physicsCurriculum.length, label: t("home.hero.stat2") },
+                { value: String(mathCurriculum.length), label: t("home.hero.stat1") },
+                { value: String(physicsCurriculum.length), label: t("home.hero.stat2") },
                 { value: "∞", label: t("home.hero.stat3") },
               ].map((s, i) => (
-                <div key={i}>
+                <div key={i} className="min-w-0">
                   <dt className="sr-only">{s.label}</dt>
                   <dd className="font-serif text-xl font-semibold leading-none tabular-nums text-foreground/80">{s.value}</dd>
-                  <dd className="mt-1.5 text-xs text-muted-foreground">{s.label}</dd>
+                  <dd className="mt-2 text-xs leading-snug text-muted-foreground">{s.label}</dd>
                 </div>
               ))}
             </dl>

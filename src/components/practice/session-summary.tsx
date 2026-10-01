@@ -5,7 +5,7 @@
  */
 
 import { useEffect, useState } from "react";
-import { ArrowLeft, ArrowRight, BarChart3, CalendarClock, Check, CheckCircle2, CircleOff, ClipboardCopy, Eye, Lightbulb, RefreshCw, SkipForward, Target, Timer, XCircle } from "lucide-react";
+import { ArrowLeft, ArrowRight, BarChart3, CalendarClock, Check, CheckCircle2, CircleOff, ClipboardCopy, Eye, Lightbulb, RefreshCw, SkipForward, Target, Timer, Trophy, XCircle } from "lucide-react";
 import type { ReactNode } from "react";
 import { format, formatDistanceToNowStrict } from "date-fns";
 import { es as dateEs, enUS as dateEn } from "date-fns/locale";
@@ -17,8 +17,26 @@ import { mathCurriculum } from "@/content/curriculum/math";
 import { physicsCurriculum } from "@/content/curriculum/physics";
 import type { Problem, SessionConfig } from "@/lib/types";
 import { findReviewEntry } from "@/lib/review";
+import { countToday, loadDailyGoal } from "@/lib/goal";
+import { loadProgress } from "@/lib/progress";
 import type { ProblemState } from "./state";
 import { cn, copyToClipboard, formatDuration } from "@/lib/utils";
+
+/** Fixed confetti layout — deterministic so the render stays pure. */
+const CONFETTI: { x: number; delay: number; dur: number; color: string }[] = [
+  { x: 6, delay: 0, dur: 2600, color: "var(--subject-math)" },
+  { x: 14, delay: 900, dur: 3000, color: "var(--subject-physics)" },
+  { x: 22, delay: 300, dur: 2400, color: "var(--primary)" },
+  { x: 30, delay: 1200, dur: 3200, color: "var(--success)" },
+  { x: 38, delay: 600, dur: 2800, color: "var(--diff-medium)" },
+  { x: 46, delay: 1500, dur: 2600, color: "var(--subject-math)" },
+  { x: 54, delay: 200, dur: 3100, color: "var(--primary)" },
+  { x: 62, delay: 1000, dur: 2700, color: "var(--subject-physics)" },
+  { x: 70, delay: 400, dur: 2500, color: "var(--success)" },
+  { x: 78, delay: 1300, dur: 3000, color: "var(--diff-medium)" },
+  { x: 86, delay: 700, dur: 2800, color: "var(--subject-math)" },
+  { x: 93, delay: 1100, dur: 2600, color: "var(--primary)" },
+];
 
 export function SessionSummary({
   config,
@@ -39,10 +57,11 @@ export function SessionSummary({
   onAgain: () => void;
   onRetryMissed: () => void;
 }) {
-  const { t, lang } = useI18n();
+  const { t, lang, formatNumber } = useI18n();
   const { toast } = useToast();
   const [copied, setCopied] = useState(false);
   const [nextReview, setNextReview] = useState<{ dueAt: number; level: number } | null>(null);
+  const [goalDone, setGoalDone] = useState<{ done: number; total: number } | null>(null);
 
   // focused topic sessions carry a spaced-repetition schedule — read it after
   // mount so the hint survives refreshes of an ended session
@@ -64,6 +83,25 @@ export function SessionSummary({
       cancelled = true;
     };
   }, [isTopicSession, config.subjects, config.topicId]);
+
+  // daily-goal celebration — shown when THIS session pushed today's count to
+  // the goal (records for its problems are already persisted by now)
+  useEffect(() => {
+    let cancelled = false;
+    queueMicrotask(() => {
+      if (cancelled) return;
+      const attemptedInSession = states.filter((s) => s.attempts.length > 0).length;
+      if (attemptedInSession === 0) return;
+      const today = countToday(loadProgress().records);
+      const goal = loadDailyGoal();
+      if (today >= goal && today - attemptedInSession < goal) {
+        setGoalDone({ done: today, total: goal });
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   let reviewIn = "";
   if (nextReview) {
@@ -204,10 +242,55 @@ export function SessionSummary({
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
+      {goalDone ? (
+        <div
+          role="status"
+          aria-live="polite"
+          className="goal-celebration relative mb-6 overflow-hidden rounded-2xl border border-success/40 bg-success/10 px-5 py-5 sm:px-6"
+        >
+          {/* confetti — deterministic positions, decorative only */}
+          <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+            {CONFETTI.map((c, i) => (
+              <span
+                key={i}
+                className="confetti-piece absolute"
+                style={{
+                  left: `${c.x}%`,
+                  backgroundColor: c.color,
+                  animationDelay: `${c.delay}ms`,
+                  animationDuration: `${c.dur}ms`,
+                }}
+              />
+            ))}
+          </div>
+          <div className="relative flex items-start gap-4">
+            <span
+              className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-success/20 text-success"
+              aria-hidden="true"
+            >
+              <Trophy className="h-6 w-6" />
+            </span>
+            <div className="min-w-0">
+              <p className="text-sm font-semibold uppercase tracking-wider text-success">
+                {t("goal.done")}
+              </p>
+              <p className="mt-1 text-[15px] font-medium leading-snug">
+                {t("goal.summary.today", {
+                  done: formatNumber(goalDone.done),
+                  total: formatNumber(goalDone.total),
+                })}
+              </p>
+              <p className="mt-0.5 text-xs text-muted-foreground">
+                {t("goal.summary.keep")}
+              </p>
+            </div>
+          </div>
+        </div>
+      ) : null}
       <h1 className="font-serif text-3xl font-semibold tracking-tight">
         {attempted === states.length && skipped === 0 ? t("summary.title") : t("summary.unfinished")}
       </h1>
-      <p className="mt-2 text-muted-foreground">
+      <p className="mt-3 text-muted-foreground">
         {config.subjects.length === 1
           ? config.subjects[0] === "math"
             ? t("nav.math")
@@ -223,7 +306,7 @@ export function SessionSummary({
       </p>
 
       {nextReview && reviewIn ? (
-        <p className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground">
+        <p className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground">
           <CalendarClock className="h-4 w-4 text-diff-medium" aria-hidden="true" />
           <span>
             <span className="font-medium text-foreground">{t("summary.nextReview")}</span>{" "}
@@ -254,14 +337,14 @@ export function SessionSummary({
 
       <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
         {stats.map((s) => (
-          <div key={s.label} className="rounded-xl border bg-card p-4 transition-all hover:-translate-y-0.5 hover:border-ring/50 hover:shadow-sm">
+          <div key={s.label} className="rounded-xl border bg-card p-4 transition-all hover:-translate-y-0.5 hover:border-ring/50 hover:shadow-sm sm:p-5">
             <div className="flex items-center justify-between gap-2">
               <p className="font-serif text-2xl font-bold leading-tight tabular-nums">{s.value}</p>
               <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-muted text-muted-foreground" aria-hidden="true">
                 <s.icon className="h-4 w-4" />
               </span>
             </div>
-            <p className="mt-1 text-xs leading-snug text-muted-foreground">{s.label}</p>
+            <p className="mt-1.5 text-xs leading-snug text-muted-foreground">{s.label}</p>
           </div>
         ))}
       </div>
@@ -271,7 +354,7 @@ export function SessionSummary({
           <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-muted-foreground">
             {t("summary.listTitle")}
           </h2>
-          <ul className="max-h-96 space-y-2 overflow-y-auto nice-scroll pr-1">
+          <ul className="max-h-96 space-y-2 overflow-y-auto nice-scroll p-1 pr-1.5 pb-2">
             {deck.map((p, i) => {
               const info = statusInfo(states[i] ?? { status: "skipped", attempts: [], hintsRevealed: 0, answerRevealed: false, solutionRevealed: false, recorded: true, lastOutcome: null });
               return (
@@ -289,8 +372,8 @@ export function SessionSummary({
                     {info.icon}
                   </span>
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-medium">{p.skill[lang]}</p>
-                    <p className="truncate text-xs text-muted-foreground">
+                    <p className="text-sm font-medium leading-snug">{p.skill[lang]}</p>
+                    <p className="mt-0.5 text-xs text-muted-foreground">
                       {topicLabel(p)} · {t(`difficulty.${p.difficulty}`)}
                     </p>
                   </div>

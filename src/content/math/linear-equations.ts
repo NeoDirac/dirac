@@ -537,9 +537,9 @@ export const templates: ProblemTemplate[] = [
       subject: "math",
       topicId: "linear-equations",
       subtopicId: "abs-equations",
-      difficulty: "medium",
+      difficulty: "easy",
       questionType: "numeric",
-      estimatedTimeSec: 150,
+      estimatedTimeSec: 90,
       tags: ["absolute-value"],
       prerequisites: ["multi-step"],
     },
@@ -955,9 +955,9 @@ export const templates: ProblemTemplate[] = [
       subject: "math",
       topicId: "linear-equations",
       subtopicId: "abs-inequalities",
-      difficulty: "hard",
+      difficulty: "medium",
       questionType: "numeric",
-      estimatedTimeSec: 150,
+      estimatedTimeSec: 120,
       tags: ["absolute-value", "inequalities", "counting"],
       prerequisites: ["multi-step", "inequalities"],
     },
@@ -1019,6 +1019,214 @@ export const templates: ProblemTemplate[] = [
             "result",
             `Hay $${count}$ valores enteros que satisfacen la desigualdad.`,
             `There are $${count}$ integer values satisfying the inequality.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* ---------------------------------------------------------------- */
+  /* Curated from real sources — content-quality program, Phase 1.     */
+  /* Transcribed as printed; verified programmatically (worklog).      */
+  /* ---------------------------------------------------------------- */
+
+  /* Hoja de clase del tutor (FP-Vorbereitung): |2x−1| = |3x+5|,       */
+  /* resuelta en clase por casos. Fixed problem — rng only shuffles MC. */
+  template(
+    {
+      id: "lin-abs-02",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-equations",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["absolute-value", "case-analysis", "verification"],
+      prerequisites: ["abs-equations", "multi-step"],
+      source: {
+        sourceId: "tutor-fp-sheet-2024",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "1",
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(
+            "$x_1 = -6$ y $x_2 = -\\tfrac{4}{5}$",
+            "$x_1 = -6$ and $x_2 = -\\tfrac{4}{5}$",
+          ),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L("$x_1 = 6$ y $x_2 = \\tfrac{4}{5}$", "$x_1 = 6$ and $x_2 = \\tfrac{4}{5}$"),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L(
+            "Solo tiene una solución: $x = -6$",
+            "It has only one solution: $x = -6$",
+          ),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L(
+            "$x_1 = -6$ y $x_2 = -\\tfrac{5}{4}$",
+            "$x_1 = -6$ and $x_2 = -\\tfrac{5}{4}$",
+          ),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L(
+          "Ecuación con dos valores absolutos",
+          "Equation with two absolute values",
+        ),
+        statement: L(
+          "Resuelve la ecuación $$|2x - 1| = |3x + 5|.$$ (En clase la resolvimos por casos; no olvides verificar ambas soluciones sustituyendo.)",
+          "Solve the equation $$|2x - 1| = |3x + 5|.$$ (We solved it in class by cases; remember to verify both solutions by substitution.)",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "$|A| = |B|$ no significa solo $A = B$: son **dos** casos — igual y opuesto.",
+            "$|A| = |B|$ does not mean only $A = B$: there are **two** cases — equal and opposite.",
+          ),
+          L(
+            "Plantea $2x - 1 = 3x + 5$ y, por separado, $2x - 1 = -(3x + 5)$.",
+            "Set up $2x - 1 = 3x + 5$ and, separately, $2x - 1 = -(3x + 5)$.",
+          ),
+          L(
+            "Caso 1: $-x = 6$. Caso 2: $5x = -4$. Al final, sustituye cada $x$ en los **dos** valores absolutos originales para confirmar.",
+            "Case 1: $-x = 6$. Case 2: $5x = -4$. At the end, substitute each $x$ into the **two** original absolute values to confirm.",
+          ),
+        ],
+        answerDisplay: L(
+          "$x = -6$ o $x = -\\tfrac{4}{5}$",
+          "$x = -6$ or $x = -\\tfrac{4}{5}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La ecuación $|2x-1| = |3x+5|$: dos expresiones cuyo valor absoluto coincide — están a la misma distancia de cero.",
+            "The equation $|2x-1| = |3x+5|$: two expressions whose absolute values agree — they are the same distance from zero.",
+          ),
+          step(
+            "approach",
+            "$|A|=|B| \\iff A = B$ o $A = -B$ (mismo signo o signos opuestos). Dos casos, cada uno con su verificación.",
+            "$|A|=|B| \\iff A = B$ or $A = -B$ (same sign or opposite signs). Two cases, each with its verification.",
+          ),
+          step(
+            "calculation",
+            "**Caso 1** ($2x-1 = 3x+5$): $-x = 6 \\Rightarrow x = -6$. Verificación: $|2(-6)-1| = |-13| = 13$ y $|3(-6)+5| = |-13| = 13$ ✓.<br>**Caso 2** ($2x-1 = -(3x+5)$): $5x = -4 \\Rightarrow x = -\\tfrac{4}{5}$. Verificación: $|2(-\\tfrac45)-1| = |-\\tfrac{13}{5}|$ y $|3(-\\tfrac45)+5| = |\\tfrac{13}{5}|$ ✓.",
+            "**Case 1** ($2x-1 = 3x+5$): $-x = 6 \\Rightarrow x = -6$. Check: $|2(-6)-1| = |-13| = 13$ and $|3(-6)+5| = |-13| = 13$ ✓.<br>**Case 2** ($2x-1 = -(3x+5)$): $5x = -4 \\Rightarrow x = -\\tfrac{4}{5}$. Check: $|2(-\\tfrac45)-1| = |-\\tfrac{13}{5}|$ and $|3(-\\tfrac45)+5| = |\\tfrac{13}{5}|$ ✓.",
+          ),
+          step(
+            "result",
+            "$L = \\{-6,\\; -\\tfrac{4}{5}\\}$. Cada caso aporta una solución y ambas pasan la verificación.",
+            "$L = \\{-6,\\; -\\tfrac{4}{5}\\}$. Each case contributes one solution and both pass verification.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* Hoja de clase del tutor: f(x)=|2x+1|−|3x+2| frente a g(x)=−1,      */
+  /* con comparación gráfico ↔ cálculo. Fixed problem.                   */
+  template(
+    {
+      id: "lin-absi-02",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-inequalities",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["absolute-value", "inequalities", "case-analysis", "graphical"],
+      prerequisites: ["abs-equations", "compound"],
+      source: {
+        sourceId: "tutor-fp-sheet-2024",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "1 (f vs g)",
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L("$(-2,\\; 0)$", "$(-2,\\; 0)$"),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L(
+            "$(-2,\\; -\\tfrac{2}{3}) \\cup (-\\tfrac{2}{3},\\; -\\tfrac{1}{2}) \\cup (-\\tfrac{1}{2},\\; 0)$ (sin los puntos de corte)",
+            "$(-2,\\; -\\tfrac{2}{3}) \\cup (-\\tfrac{2}{3},\\; -\\tfrac{1}{2}) \\cup (-\\tfrac{1}{2},\\; 0)$ (without the breakpoints)",
+          ),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L("$(-\\tfrac{2}{3},\\; -\\tfrac{1}{2})$", "$(-\\tfrac{2}{3},\\; -\\tfrac{1}{2})$"),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L("$(0,\\; +\\infty)$", "$(0,\\; +\\infty)$"),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L(
+          "Desigualdad con dos valores absolutos por intervalos",
+          "Two-absolute-value inequality by intervals",
+        ),
+        statement: L(
+          "Determina analíticamente el conjunto de los $x$ para los que $$f(x) > g(x), \\quad f(x) = |2x+1| - |3x+2|, \\quad g(x) = -1.$$ (En clase además dibujamos $f$ y $g$, sombreados la región y comparamos con este cálculo.)",
+          "Determine analytically the set of all $x$ for which $$f(x) > g(x), \\quad f(x) = |2x+1| - |3x+2|, \\quad g(x) = -1.$$ (In class we also drew $f$ and $g$, shaded the region and compared it with this calculation.)",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Los cambios de comportamiento de $f$ están donde se anulan los argumentos: $2x+1=0$ y $3x+2=0$. Ordénalos.",
+            "The behaviour of $f$ changes where the arguments vanish: $2x+1=0$ and $3x+2=0$. Order them.",
+          ),
+          L(
+            "Con los cortes $x=-\\tfrac{2}{3}$ y $x=-\\tfrac{1}{2}$ obtienes tres tramos. En cada tramo, escribe $f$ **sin** valores absolutos y resuelve $f(x) > -1$.",
+            "With the breakpoints $x=-\\tfrac{2}{3}$ and $x=-\\tfrac{1}{2}$ you get three pieces. On each piece, write $f$ **without** absolute values and solve $f(x) > -1$.",
+          ),
+          L(
+            "Tramos: $x+1$ (si $x<-\\tfrac23$), $-5x-3$ (si $-\\tfrac23 \\le x < -\\tfrac12$), $-x-1$ (si $x \\ge -\\tfrac12$). Interseca cada solución con su propio tramo.",
+            "Pieces: $x+1$ (for $x<-\\tfrac23$), $-5x-3$ (for $-\\tfrac23 \\le x < -\\tfrac12$), $-x-1$ (for $x \\ge -\\tfrac12$). Intersect each solution with its own piece.",
+          ),
+        ],
+        answerDisplay: L("$(-2,\\; 0)$", "$(-2,\\; 0)$"),
+        solution: [
+          step(
+            "given",
+            "$f(x) = |2x+1| - |3x+2|$ frente a $g(x) = -1$. Los cortes del eje real están en $x = -\\tfrac{2}{3}$ (de $3x+2$) y $x = -\\tfrac{1}{2}$ (de $2x+1$), y $-\\tfrac{2}{3} < -\\tfrac{1}{2}$.",
+            "$f(x) = |2x+1| - |3x+2|$ against $g(x) = -1$. The breakpoints are $x = -\\tfrac{2}{3}$ (from $3x+2$) and $x = -\\tfrac{1}{2}$ (from $2x+1$), with $-\\tfrac{2}{3} < -\\tfrac{1}{2}$.",
+          ),
+          step(
+            "approach",
+            "Dividimos $\\mathbb{R}$ en tres intervalos con los cortes. En cada uno, $f$ es lineal (sin valores absolutos); resolvemos $f > -1$ ahí y **interseca** con el propio intervalo.",
+            "We split $\\mathbb{R}$ into three intervals at the breakpoints. On each, $f$ is linear (no absolute values); we solve $f > -1$ there and **intersect** with that interval.",
+          ),
+          step(
+            "calculation",
+            "**1)** $x < -\\tfrac{2}{3}$: $f = x+1$; $x+1 > -1 \\Rightarrow x > -2$, luego $(-2,\\; -\\tfrac{2}{3})$.<br>**2)** $-\\tfrac{2}{3} \\le x < -\\tfrac{1}{2}$: $f = -5x-3$; $-5x-3 > -1 \\Rightarrow x < -\\tfrac{2}{5}$ — todo el tramo cumple: $[-\\tfrac{2}{3},\\; -\\tfrac{1}{2})$.<br>**3)** $x \\ge -\\tfrac{1}{2}$: $f = -x-1$; $-x-1 > -1 \\Rightarrow x < 0$, luego $[-\\tfrac{1}{2},\\; 0)$.",
+            "**1)** $x < -\\tfrac{2}{3}$: $f = x+1$; $x+1 > -1 \\Rightarrow x > -2$, giving $(-2,\\; -\\tfrac{2}{3})$.<br>**2)** $-\\tfrac{2}{3} \\le x < -\\tfrac{1}{2}$: $f = -5x-3$; $-5x-3 > -1 \\Rightarrow x < -\\tfrac{2}{5}$ — the whole piece qualifies: $[-\\tfrac{2}{3},\\; -\\tfrac{1}{2})$.<br>**3)** $x \\ge -\\tfrac{1}{2}$: $f = -x-1$; $-x-1 > -1 \\Rightarrow x < 0$, giving $[-\\tfrac{1}{2},\\; 0)$.",
+          ),
+          step(
+            "result",
+            "Unión de los tres tramos: $(-2, -\\tfrac{2}{3}) \\cup [-\\tfrac{2}{3}, -\\tfrac{1}{2}) \\cup [-\\tfrac{1}{2}, 0) = (-2,\\; 0)$. Los puntos de corte quedan **dentro**: en ellos $f$ vale $\\tfrac{1}{3}$ y $\\tfrac{1}{2}$, ambos $> -1$. En el gráfico: la zona sombreada es exactamente el tramo de $f$ por encima de la recta $y=-1$.",
+            "Union of the three pieces: $(-2, -\\tfrac{2}{3}) \\cup [-\\tfrac{2}{3}, -\\tfrac{1}{2}) \\cup [-\\tfrac{1}{2}, 0) = (-2,\\; 0)$. The breakpoints are **inside**: at them $f$ equals $\\tfrac{1}{3}$ and $\\tfrac{1}{2}$, both $> -1$. On the graph: the shaded region is exactly the stretch of $f$ above the line $y=-1$.",
           ),
         ],
       };

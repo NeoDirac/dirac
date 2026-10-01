@@ -9,7 +9,8 @@
  *   the exact count and date.
  * - AccuracyTrend: first-try accuracy over the last 30 practice days,
  *   drawn with the shared shadcn chart component (recharts) — bars for
- *   volume, a line for accuracy, both language-aware.
+ *   volume, one line for overall accuracy plus thinner per-subject lines
+ *   (math in teal, physics in orange), all language-aware.
  */
 
 import { addDays, format, startOfWeek } from "date-fns";
@@ -24,6 +25,8 @@ import {
 } from "recharts";
 import {
   ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
   type ChartConfig,
@@ -185,11 +188,16 @@ interface TrendPoint {
   label: string; // short axis label
   attempts: number;
   firstTryPct: number | null;
+  mathPct: number | null;
+  physicsPct: number | null;
 }
 
 function buildTrend(records: ProblemRecord[], lang: Lang, days: number): TrendPoint[] {
   const locale = lang === "es" ? dateEs : dateEn;
-  const perDay = new Map<string, { attempts: number; firstTry: number; ts: number }>();
+  const perDay = new Map<
+    string,
+    { attempts: number; firstTry: number; math: number; mathFirst: number; physics: number; physicsFirst: number; ts: number }
+  >();
   const start = addDays(new Date(), -(days - 1));
   for (const r of records) {
     const d = new Date(r.timestamp);
@@ -199,8 +207,23 @@ function buildTrend(records: ProblemRecord[], lang: Lang, days: number): TrendPo
     if (entry) {
       entry.attempts += 1;
       if (r.firstTryCorrect) entry.firstTry += 1;
+      if (r.subject === "math") {
+        entry.math += 1;
+        if (r.firstTryCorrect) entry.mathFirst += 1;
+      } else {
+        entry.physics += 1;
+        if (r.firstTryCorrect) entry.physicsFirst += 1;
+      }
     } else {
-      perDay.set(key, { attempts: 1, firstTry: r.firstTryCorrect ? 1 : 0, ts: d.getTime() });
+      perDay.set(key, {
+        attempts: 1,
+        firstTry: r.firstTryCorrect ? 1 : 0,
+        math: r.subject === "math" ? 1 : 0,
+        mathFirst: r.subject === "math" && r.firstTryCorrect ? 1 : 0,
+        physics: r.subject === "physics" ? 1 : 0,
+        physicsFirst: r.subject === "physics" && r.firstTryCorrect ? 1 : 0,
+        ts: d.getTime(),
+      });
     }
   }
   return [...perDay.values()]
@@ -209,12 +232,20 @@ function buildTrend(records: ProblemRecord[], lang: Lang, days: number): TrendPo
       label: format(e.ts, "d MMM", { locale }),
       attempts: e.attempts,
       firstTryPct: e.attempts > 0 ? Math.round((e.firstTry / e.attempts) * 100) : null,
+      // per-subject accuracy is undefined on days without that subject
+      mathPct: e.math > 0 ? Math.round((e.mathFirst / e.math) * 100) : null,
+      physicsPct: e.physics > 0 ? Math.round((e.physicsFirst / e.physics) * 100) : null,
     }));
 }
 
 export function AccuracyTrend({ records }: { records: ProblemRecord[] }) {
   const { t, lang } = useI18n();
   const data = buildTrend(records, lang, 30);
+
+  // subject lines only make sense when both subjects actually have data
+  const hasMath = data.some((p) => p.mathPct !== null);
+  const hasPhysics = data.some((p) => p.physicsPct !== null);
+  const showSubjects = hasMath && hasPhysics;
 
   const chartConfig = {
     attempts: {
@@ -225,6 +256,18 @@ export function AccuracyTrend({ records }: { records: ProblemRecord[] }) {
       label: t("activity.trend.firstTry"),
       color: "var(--primary)",
     },
+    ...(showSubjects
+      ? {
+          mathPct: {
+            label: t("activity.trend.math"),
+            color: "var(--subject-math)",
+          },
+          physicsPct: {
+            label: t("activity.trend.physics"),
+            color: "var(--subject-physics)",
+          },
+        }
+      : {}),
   } satisfies ChartConfig;
 
   if (data.length < 2) {
@@ -267,6 +310,7 @@ export function AccuracyTrend({ records }: { records: ProblemRecord[] }) {
             width={42}
           />
           <ChartTooltip content={<ChartTooltipContent />} />
+          <ChartLegend content={<ChartLegendContent />} />
           <Bar
             yAxisId="left"
             dataKey="attempts"
@@ -286,6 +330,31 @@ export function AccuracyTrend({ records }: { records: ProblemRecord[] }) {
             activeDot={{ r: 4.5 }}
             connectNulls
           />
+          {showSubjects ? (
+            <Line
+              yAxisId="right"
+              dataKey="mathPct"
+              name={t("activity.trend.math")}
+              stroke="var(--color-mathPct)"
+              strokeWidth={2}
+              dot={{ r: 2.5, strokeWidth: 1, fill: "var(--card)" }}
+              activeDot={{ r: 4 }}
+              connectNulls
+            />
+          ) : null}
+          {showSubjects ? (
+            <Line
+              yAxisId="right"
+              dataKey="physicsPct"
+              name={t("activity.trend.physics")}
+              stroke="var(--color-physicsPct)"
+              strokeWidth={2}
+              strokeDasharray="5 3"
+              dot={{ r: 2.5, strokeWidth: 1, fill: "var(--card)" }}
+              activeDot={{ r: 4 }}
+              connectNulls
+            />
+          ) : null}
         </ComposedChart>
       </ChartContainer>
     </div>

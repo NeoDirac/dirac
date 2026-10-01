@@ -1,0 +1,885 @@
+     1→/**
+     2→ * PHYSICS · Circular Motion & Gravitation
+     3→ *
+     4→ * Centripetal acceleration and force, uniform circular motion, Newton's
+     5→ * law of gravitation and orbital motion. Values use G = 6.67e-11 and
+     6→ * sigfig-2 tolerance; two multiple-choice concept problems included.
+     7→ */
+     8→
+     9→import { template, L, step, tok } from "@/lib/problem";
+    10→import type { ProblemTemplate, McOption } from "@/lib/types";
+    11→
+    12→/* ---------- number helpers (local conventions) ---------- */
+    13→
+    14→/** Round to 1 decimal — intermediate display values. */
+    15→const r1 = (n: number): number => Math.round(n * 10) / 10;
+    16→/** Round to 2 decimals — intermediate display values. */
+    17→const r2 = (n: number): number => Math.round(n * 100) / 100;
+    18→/** Remove floating-point noise (0.30000000000000004 → 0.3). */
+    19→const clean = (n: number): number => Number(n.toPrecision(10));
+    20→/** Round to 2 significant figures, half away from zero (answers with sigfig tolerance). */
+    21→function sig2(n: number): number {
+    22→  if (n === 0) return 0;
+    23→  const exp = Math.floor(Math.log10(Math.abs(n)));
+    24→  const f = Math.pow(10, exp - 1);
+    25→  const scaled = n / f;
+    26→  const r = scaled >= 0 ? Math.floor(scaled + 0.5) : Math.ceil(scaled - 0.5);
+    27→  return clean(r * f);
+    28→}
+    29→
+    30→const G_ACC = 9.8;
+    31→const G_CONST = 6.67e-11;
+    32→
+    33→/** Split a positive number into a 2-sig-fig mantissa (1 ≤ m < 10) and exponent. */
+    34→function sci2(n: number): { mant: number; exp: number } {
+    35→  let exp = Math.floor(Math.log10(Math.abs(n)));
+    36→  let mant = r1(n / Math.pow(10, exp));
+    37→  if (mant >= 10) {
+    38→    mant = 1;
+    39→    exp += 1;
+    40→  }
+    41→  return { mant, exp };
+    42→}
+    43→
+    44→export const templates: ProblemTemplate[] = [
+    45→  /* ---------------------------------------------------------------- */
+    46→  /* rpm → period                                                     */
+    47→  /* ---------------------------------------------------------------- */
+    48→  template(
+    49→    {
+    50→      id: "cg-uniform-01",
+    51→      subject: "physics",
+    52→      topicId: "circular-gravitation",
+    53→      subtopicId: "circular-motion",
+    54→      difficulty: "easy",
+    55→      questionType: "numeric-unit",
+    56→      estimatedTimeSec: 90,
+    57→      tags: ["circular-motion", "period", "rpm"],
+    58→      prerequisites: [],
+    59→    },
+    60→    (rng) => {
+    61→      const rpm = rng.pick([60, 120, 240, 300]);
+    62→      const T = sig2(60 / rpm);
+    63→      return {
+    64→        skill: L("Periodo de un movimiento circular", "Period of circular motion"),
+    65→        statement: L(
+    66→          `Un ventilador gira a $${rpm}\\ \\text{rpm}$ (revoluciones por minuto). ¿Cuánto vale su **periodo** de giro? (2 cifras significativas).`,
+    67→          `A fan spins at $${rpm}\\ \\text{rpm}$ (revolutions per minute). What is its rotation **period**? (2 significant figures).`,
+    68→        ),
+    69→        answer: {
+    70→          kind: "numeric-unit",
+    71→          value: T,
+    72→          tolerance: { mode: "sigfig", value: 2 },
+    73→          units: ["s"],
+    74→          unitChoices: ["s", "min", "Hz", "rad/s"],
+    75→        },
+    76→        hints: [
+    77→          L(
+    78→            "El periodo es el tiempo de **una** vuelta completa.",
+    79→            "The period is the time for **one** full revolution.",
+    80→          ),
+    81→          L(
+    82→            "Convierte las revoluciones por minuto a revoluciones por segundo dividiendo entre 60.",
+    83→            "Convert revolutions per minute to revolutions per second by dividing by 60.",
+    84→          ),
+    85→          L(
+    86→            "El periodo es el inverso de la frecuencia: $T = 1/f$.",
+    87→            "The period is the inverse of the frequency: $T = 1/f$.",
+    88→          ),
+    89→        ],
+    90→        answerDisplay: L(`$T = ${tok(T)}\\ \\text{s}$`, `$T = ${tok(T)}\\ \\text{s}$`),
+    91→        solution: [
+    92→          step(
+    93→            "given",
+    94→            `Frecuencia de giro: $${rpm}\\ \\text{rpm} = \\frac{${rpm}}{60}\\ \\text{Hz}$.`,
+    95→            `Spin frequency: $${rpm}\\ \\text{rpm} = \\frac{${rpm}}{60}\\ \\text{Hz}$.`,
+    96→          ),
+    97→          step(
+    98→            "approach",
+    99→            "Primero pasamos rpm a hertz (vueltas por segundo) y luego usamos $T = 1/f$.",
+   100→            "First convert rpm to hertz (turns per second), then use $T = 1/f$.",
+   101→          ),
+   102→          step(
+   103→            "calculation",
+   104→            `$f = \\frac{${rpm}}{60} = ${tok(r2(rpm / 60))}\\ \\text{Hz}$<br>$T = \\frac{1}{ ${tok(r2(rpm / 60))}} = ${tok(r2(60 / rpm))}\\ \\text{s} \\approx ${tok(T)}\\ \\text{s}$`,
+   105→            `$f = \\frac{${rpm}}{60} = ${tok(r2(rpm / 60))}\\ \\text{Hz}$<br>$T = \\frac{1}{ ${tok(r2(rpm / 60))}} = ${tok(r2(60 / rpm))}\\ \\text{s} \\approx ${tok(T)}\\ \\text{s}$`,
+   106→          ),
+   107→          step(
+   108→            "result",
+   109→            `El ventilador tarda $${tok(T)}\\ \\text{s}$ en dar una vuelta completa.`,
+   110→            `The fan takes $${tok(T)}\\ \\text{s}$ to complete one revolution.`,
+   111→          ),
+   112→        ],
+   113→      };
+   114→    },
+   115→  ),
+   116→
+   117→  /* ---------------------------------------------------------------- */
+   118→  /* Centripetal acceleration a = v²/r                                 */
+   119→  /* ---------------------------------------------------------------- */
+   120→  template(
+   121→    {
+   122→      id: "cg-accel-01",
+   123→      subject: "physics",
+   124→      topicId: "circular-gravitation",
+   125→      subtopicId: "centripetal-acceleration",
+   126→      difficulty: "easy",
+   127→      questionType: "numeric-unit",
+   128→      estimatedTimeSec: 90,
+   129→      tags: ["centripetal-acceleration", "circular-motion"],
+   130→      prerequisites: ["circular-motion"],
+   131→    },
+   132→    (rng) => {
+   133→      const v = rng.pick([4, 6, 8, 10, 12, 15, 18, 20]);
+   134→      const r = rng.pick([10, 20, 25, 40, 50, 80]);
+   135→      const a = sig2((v * v) / r);
+   136→      return {
+   137→        skill: L("Aceleración centrípeta", "Centripetal acceleration"),
+   138→        statement: L(
+   139→          `Un coche toma una curva circular de radio $${r}\\ \\text{m}$ con rapidez constante de $${v}\\ \\text{m/s}$. ¿Cuál es su **aceleración centrípeta**? (2 cifras significativas).`,
+   140→          `A car takes a circular curve of radius $${r}\\ \\text{m}$ at a constant speed of $${v}\\ \\text{m/s}$. What is its **centripetal acceleration**? (2 significant figures).`,
+   141→        ),
+   142→        answer: {
+   143→          kind: "numeric-unit",
+   144→          value: a,
+   145→          tolerance: { mode: "sigfig", value: 2 },
+   146→          units: ["m/s^2", "m/s²"],
+   147→          unitChoices: ["m/s^2", "m/s", "m", "N"],
+   148→        },
+   149→        hints: [
+   150→          L(
+   151→            "Aunque la rapidez sea constante, la dirección de la velocidad cambia: por eso hay aceleración.",
+   152→            "Even at constant speed the velocity direction changes: that is why there is acceleration.",
+   153→          ),
+   154→          L(
+   155→            "La aceleración centrípeta apunta al centro y vale $a = \\frac{v^2}{r}$.",
+   156→            "The centripetal acceleration points to the centre and equals $a = \\frac{v^2}{r}$.",
+   157→          ),
+   158→          L(
+   159→            "Eleva la rapidez al cuadrado y divide entre el radio.",
+   160→            "Square the speed and divide by the radius.",
+   161→          ),
+   162→        ],
+   163→        answerDisplay: L(
+   164→          `$a = ${tok(a)}\\ \\text{m/s}^2$`,
+   165→          `$a = ${tok(a)}\\ \\text{m/s}^2$`,
+   166→        ),
+   167→        solution: [
+   168→          step(
+   169→            "given",
+   170→            `$v = ${v}\\ \\text{m/s}$, $r = ${r}\\ \\text{m}$ (rapidez constante).`,
+   171→            `$v = ${v}\\ \\text{m/s}$, $r = ${r}\\ \\text{m}$ (constant speed).`,
+   172→          ),
+   173→          step(
+   174→            "approach",
+   175→            "Movimiento circular uniforme: la aceleración es centrípeta, $a = v^2/r$.",
+   176→            "Uniform circular motion: the acceleration is centripetal, $a = v^2/r$.",
+   177→          ),
+   178→          step(
+   179→            "calculation",
+   180→            `$a = \\frac{${v}^2}{${r}} = \\frac{${v * v}}{${r}} = ${tok(r2((v * v) / r))}\\ \\text{m/s}^2 \\approx ${tok(a)}\\ \\text{m/s}^2$`,
+   181→            `$a = \\frac{${v}^2}{${r}} = \\frac{${v * v}}{${r}} = ${tok(r2((v * v) / r))}\\ \\text{m/s}^2 \\approx ${tok(a)}\\ \\text{m/s}^2$`,
+   182→          ),
+   183→          step(
+   184→            "result",
+   185→            `La aceleración centrípeta es $\\approx ${tok(a)}\\ \\text{m/s}^2$, dirigida hacia el centro de la curva.`,
+   186→            `The centripetal acceleration is $\\approx ${tok(a)}\\ \\text{m/s}^2$, directed toward the centre of the curve.`,
+   187→          ),
+   188→        ],
+   189→      };
+   190→    },
+   191→  ),
+   192→
+   193→  /* ---------------------------------------------------------------- */
+   194→  /* Centripetal force F = mv²/r                                       */
+   195→  /* ---------------------------------------------------------------- */
+   196→  template(
+   197→    {
+   198→      id: "cg-force-01",
+   199→      subject: "physics",
+   200→      topicId: "circular-gravitation",
+   201→      subtopicId: "centripetal-force",
+   202→      difficulty: "medium",
+   203→      questionType: "numeric-unit",
+   204→      estimatedTimeSec: 150,
+   205→      tags: ["centripetal-force", "circular-motion", "newtons-laws"],
+   206→      prerequisites: ["centripetal-acceleration"],
+   207→    },
+   208→    (rng) => {
+   209→      const m = rng.pick([800, 1000, 1200, 1500]);
+   210→      const v = rng.pick([10, 14, 15, 18, 20, 25]);
+   211→      const r = rng.pick([25, 40, 50, 80, 100]);
+   212→      const F = sig2((m * v * v) / r);
+   213→      return {
+   214→        skill: L("Fuerza centrípeta", "Centripetal force"),
+   215→        statement: L(
+   216→          `Un coche de $${m}\\ \\text{kg}$ toma una curva plana de radio $${r}\\ \\text{m}$ a $${v}\\ \\text{m/s}$. ¿Qué **fuerza centrípeta** se necesita para mantenerlo en la curva? (2 cifras significativas).`,
+   217→          `A $${m}\\ \\text{kg}$ car rounds a flat curve of radius $${r}\\ \\text{m}$ at $${v}\\ \\text{m/s}$. What **centripetal force** is needed to keep it on the curve? (2 significant figures).`,
+   218→        ),
+   219→        answer: {
+   220→          kind: "numeric-unit",
+   221→          value: F,
+   222→          tolerance: { mode: "sigfig", value: 2 },
+   223→          units: ["N"],
+   224→          unitChoices: ["N", "kg", "m/s^2", "J"],
+   225→        },
+   226→        hints: [
+   227→          L(
+   228→            "La fuerza centrípeta es la segunda ley aplicada a la aceleración centrípeta: $F = m\\,a_c$.",
+   229→            "Centripetal force is the second law applied to centripetal acceleration: $F = m\\,a_c$.",
+   230→          ),
+   231→          L(
+   232→            "Sustituye $a_c$ por $\\frac{v^2}{r}$: queda $F = \\frac{m\\,v^2}{r}$.",
+   233→            "Replace $a_c$ with $\\frac{v^2}{r}$: you get $F = \\frac{m\\,v^2}{r}$.",
+   234→          ),
+   235→          L(
+   236→            "En una curva plana, esa fuerza la proporciona el rozamiento de los neumáticos.",
+   237→            "On a flat curve that force is provided by the friction of the tyres.",
+   238→          ),
+   239→        ],
+   240→        answerDisplay: L(`$F \\approx ${tok(F)}\\ \\text{N}$`, `$F \\approx ${tok(F)}\\ \\text{N}$`),
+   241→        solution: [
+   242→          step(
+   243→            "given",
+   244→            `$m = ${m}\\ \\text{kg}$, $v = ${v}\\ \\text{m/s}$, $r = ${r}\\ \\text{m}$.`,
+   245→            `$m = ${m}\\ \\text{kg}$, $v = ${v}\\ \\text{m/s}$, $r = ${r}\\ \\text{m}$.`,
+   246→          ),
+   247→          step(
+   248→            "approach",
+   249→            "Fuerza centrípeta: $F = \\frac{m\\,v^2}{r}$ (segunda ley con $a_c = v^2/r$).",
+   250→            "Centripetal force: $F = \\frac{m\\,v^2}{r}$ (second law with $a_c = v^2/r$).",
+   251→          ),
+   252→          step(
+   253→            "calculation",
+   254→            `$F = \\frac{${m} \\cdot ${v}^2}{${r}} = \\frac{${m} \\cdot ${v * v}}{${r}} = \\frac{${m * v * v}}{${r}} = ${tok(r2((m * v * v) / r))}\\ \\text{N} \\approx ${tok(F)}\\ \\text{N}$`,
+   255→            `$F = \\frac{${m} \\cdot ${v}^2}{${r}} = \\frac{${m} \\cdot ${v * v}}{${r}} = \\frac{${m * v * v}}{${r}} = ${tok(r2((m * v * v) / r))}\\ \\text{N} \\approx ${tok(F)}\\ \\text{N}$`,
+   256→          ),
+   257→          step(
+   258→            "result",
+   259→            `Se necesitan $\\approx ${tok(F)}\\ \\text{N}$ de fuerza centrípeta; en una curva plana los neumáticos deben ejercer ese rozamiento para no derrapar.`,
+   260→            `About $\\approx ${tok(F)}\\ \\text{N}$ of centripetal force are needed; on a flat curve the tyres must supply that friction to avoid skidding.`,
+   261→          ),
+   262→        ],
+   263→      };
+   264→    },
+   265→  ),
+   266→
+   267→  /* ---------------------------------------------------------------- */
+   268→  /* What provides the centripetal force? (concept MC)                 */
+   269→  /* ---------------------------------------------------------------- */
+   270→  template(
+   271→    {
+   272→      id: "cg-concept-01",
+   273→      subject: "physics",
+   274→      topicId: "circular-gravitation",
+   275→      subtopicId: "centripetal-force",
+   276→      difficulty: "medium",
+   277→      questionType: "multiple-choice",
+   278→      estimatedTimeSec: 120,
+   279→      tags: ["centripetal-force", "concept", "free-body-diagrams"],
+   280→      prerequisites: ["centripetal-force"],
+   281→    },
+   282→    (rng) => {
+   283→      const scens = [
+   284→        {
+   285→          es: "Un coche toma una curva plana a rapidez constante",
+   286→          en: "A car rounds a flat curve at constant speed",
+   287→          okEs: "El rozamiento entre los neumáticos y la carretera",
+   288→          okEn: "Friction between the tyres and the road",
+   289→          bad: [
+   290→            {
+   291→              es: "Una fuerza centrífuga que lo empuja hacia afuera",
+   292→              en: "A centrifugal force pushing it outward",
+   293→            },
+   294→            { es: "El peso del coche", en: "The weight of the car" },
+   295→            { es: "El empuje del motor", en: "The push of the engine" },
+   296→          ],
+   297→        },
+   298→        {
+   299→          es: "Una pelota atada a una cuerda gira en círculo horizontal",
+   300→          en: "A ball tied to a string swings in a horizontal circle",
+   301→          okEs: "La tensión de la cuerda",
+   302→          okEn: "The tension in the string",
+   303→          bad: [
+   304→            {
+   305→              es: "Una fuerza centrífuga que la empuja hacia afuera",
+   306→              en: "A centrifugal force pushing it outward",
+   307→            },
+   308→            { es: "El peso de la pelota", en: "The weight of the ball" },
+   309→            { es: "La resistencia del aire", en: "Air resistance" },
+   310→          ],
+   311→        },
+   312→        {
+   313→          es: "La Luna orbita alrededor de la Tierra",
+   314→          en: "The Moon orbits the Earth",
+   315→          okEs: "La fuerza gravitatoria de la Tierra",
+   316→          okEn: "The Earth's gravitational force",
+   317→          bad: [
+   318→            {
+   319→              es: "Una fuerza centrífuga que la aleja",
+   320→              en: "A centrifugal force pulling it away",
+   321→            },
+   322→            { es: "El campo magnético terrestre", en: "The Earth's magnetic field" },
+   323→            { es: "La presión de la luz del Sol", en: "The pressure of sunlight" },
+   324→          ],
+   325→        },
+   326→      ];
+   327→      const pick = rng.pick(scens);
+   328→      const options: McOption[] = [
+   329→        { id: "a", text: L(pick.okEs, pick.okEn), correct: true },
+   330→        { id: "b", text: L(pick.bad[0].es, pick.bad[0].en), correct: false },
+   331→        { id: "c", text: L(pick.bad[1].es, pick.bad[1].en), correct: false },
+   332→        { id: "d", text: L(pick.bad[2].es, pick.bad[2].en), correct: false },
+   333→      ];
+   334→      return {
+   335→        skill: L("Origen de la fuerza centrípeta", "Origin of the centripetal force"),
+   336→        statement: L(
+   337→          `${pick.es}. ¿Qué fuerza real actúa como **fuerza centrípeta** en este caso?`,
+   338→          `${pick.en}. Which real force acts as the **centripetal force** here?`,
+   339→        ),
+   340→        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+   341→        hints: [
+   342→          L(
+   343→            "La fuerza centrípeta apunta hacia el centro del círculo y es necesaria en todo movimiento circular.",
+   344→            "The centripetal force points toward the centre of the circle and is required for any circular motion.",
+   345→          ),
+   346→          L(
+   347→            "No es un tipo nuevo de fuerza: es un **papel** que desempeña alguna fuerza real (rozamiento, tensión, gravedad…).",
+   348→            "It is not a new kind of force: it is a **role** played by a real force (friction, tension, gravity…).",
+   349→          ),
+   350→          L(
+   351→            "Descarta la \"fuerza centrífuga\": vista desde un marco inercial, no es una fuerza que actúe sobre el objeto.",
+   352→            "Discard the \"centrifugal force\": seen from an inertial frame, it is not a force acting on the object.",
+   353→          ),
+   354→        ],
+   355→        answerDisplay: L(pick.okEs, pick.okEn),
+   356→        solution: [
+   357→          step("given", pick.es + ".", pick.en + "."),
+   358→          step(
+   359→            "approach",
+   360→            "Buscamos la fuerza real con componente hacia el centro del círculo.",
+   361→            "Look for the real force with a component toward the centre of the circle.",
+   362→          ),
+   363→          step(
+   364→            "calculation",
+   365→            "Sobre el objeto actúan varias fuerzas; solo la componente radial (hacia el centro) produce la aceleración centrípeta $a_c = v^2/r$.",
+   366→            "Several forces act on the object; only the radial (inward) component produces the centripetal acceleration $a_c = v^2/r$.",
+   367→          ),
+   368→          step(
+   369→            "result",
+   370→            `${pick.okEs}: es la fuerza que apunta hacia el centro y mantiene la trayectoria circular.`,
+   371→            `${pick.okEn}: it is the force pointing to the centre that keeps the path circular.`,
+   372→          ),
+   373→        ],
+   374→      };
+   375→    },
+   376→  ),
+   377→
+   378→  /* ---------------------------------------------------------------- */
+   379→  /* Tangential speed v = 2πr/T                                        */
+   380→  /* ---------------------------------------------------------------- */
+   381→  template(
+   382→    {
+   383→      id: "cg-speed-01",
+   384→      subject: "physics",
+   385→      topicId: "circular-gravitation",
+   386→      subtopicId: "circular-motion",
+   387→      difficulty: "medium",
+   388→      questionType: "numeric-unit",
+   389→      estimatedTimeSec: 150,
+   390→      tags: ["circular-motion", "speed", "period"],
+   391→      prerequisites: ["circular-motion"],
+   392→    },
+   393→    (rng) => {
+   394→      const r = rng.pick([0.5, 1, 1.5, 2]);
+   395→      const T = rng.pick([2, 2.5, 4, 5]);
+   396→      const v = sig2((2 * Math.PI * r) / T);
+   397→      return {
+   398→        skill: L("Rapidez en movimiento circular uniforme", "Speed in uniform circular motion"),
+   399→        statement: L(
+   400→          `Una piedra atada a una cuerda de $${tok(r)}\\ \\text{m}$ gira en círculo horizontal cada $${tok(T)}\\ \\text{s}$. ¿Con qué rapidez se mueve la piedra? (Usa la tecla $\\pi$ de tu calculadora; 2 cifras significativas).`,
+   401→          `A stone tied to a $${tok(r)}\\ \\text{m}$ string swings in a horizontal circle once every $${tok(T)}\\ \\text{s}$. What is the stone's speed? (Use the $\\pi$ key on your calculator; 2 significant figures).`,
+   402→        ),
+   403→        answer: {
+   404→          kind: "numeric-unit",
+   405→          value: v,
+   406→          tolerance: { mode: "sigfig", value: 2 },
+   407→          units: ["m/s"],
+   408→          unitChoices: ["m/s", "m/s^2", "m", "rad/s"],
+   409→        },
+   410→        hints: [
+   411→          L(
+   412→            "En una vuelta, la piedra recorre una distancia igual a la longitud de la circunferencia.",
+   413→            "In one revolution the stone covers a distance equal to the circumference.",
+   414→          ),
+   415→          L(
+   416→            "La circunferencia es $2\\pi r$ y el tiempo de una vuelta es el periodo $T$.",
+   417→            "The circumference is $2\\pi r$ and the time for one revolution is the period $T$.",
+   418→          ),
+   419→          L(
+   420→            "Rapidez = distancia / tiempo: $v = \\frac{2\\pi r}{T}$.",
+   421→            "Speed = distance / time: $v = \\frac{2\\pi r}{T}$.",
+   422→          ),
+   423→        ],
+   424→        answerDisplay: L(`$v \\approx ${tok(v)}\\ \\text{m/s}$`, `$v \\approx ${tok(v)}\\ \\text{m/s}$`),
+   425→        solution: [
+   426→          step(
+   427→            "given",
+   428→            `$r = ${tok(r)}\\ \\text{m}$, $T = ${tok(T)}\\ \\text{s}$.`,
+   429→            `$r = ${tok(r)}\\ \\text{m}$, $T = ${tok(T)}\\ \\text{s}$.`,
+   430→          ),
+   431→          step(
+   432→            "approach",
+   433→            "Una vuelta por periodo: $v = \\frac{\\text{circunferencia}}{\\text{periodo}} = \\frac{2\\pi r}{T}$.",
+   434→            "One revolution per period: $v = \\frac{\\text{circumference}}{\\text{period}} = \\frac{2\\pi r}{T}$.",
+   435→          ),
+   436→          step(
+   437→            "calculation",
+   438→            `$v = \\frac{2\\pi \\cdot ${tok(r)}}{ ${tok(T)}} = \\frac{ ${tok(r2(2 * Math.PI * r))}}{ ${tok(T)}} = ${tok(r2((2 * Math.PI * r) / T))}\\ \\text{m/s} \\approx ${tok(v)}\\ \\text{m/s}$`,
+   439→            `$v = \\frac{2\\pi \\cdot ${tok(r)}}{ ${tok(T)}} = \\frac{ ${tok(r2(2 * Math.PI * r))}}{ ${tok(T)}} = ${tok(r2((2 * Math.PI * r) / T))}\\ \\text{m/s} \\approx ${tok(v)}\\ \\text{m/s}$`,
+   440→          ),
+   441→          step(
+   442→            "result",
+   443→            `La piedra se mueve con una rapidez de $\\approx ${tok(v)}\\ \\text{m/s}$.`,
+   444→            `The stone moves with a speed of $\\approx ${tok(v)}\\ \\text{m/s}$.`,
+   445→          ),
+   446→        ],
+   447→      };
+   448→    },
+   449→  ),
+   450→
+   451→  /* ---------------------------------------------------------------- */
+   452→  /* Geostationary satellite (concept MC)                              */
+   453→  /* ---------------------------------------------------------------- */
+   454→  template(
+   455→    {
+   456→      id: "cg-geo-01",
+   457→      subject: "physics",
+   458→      topicId: "circular-gravitation",
+   459→      subtopicId: "orbital-motion",
+   460→      difficulty: "medium",
+   461→      questionType: "multiple-choice",
+   462→      estimatedTimeSec: 120,
+   463→      tags: ["orbital-motion", "satellites", "concept"],
+   464→      prerequisites: ["gravitational-force"],
+   465→    },
+   466→    (rng) => {
+   467→      const options: McOption[] = [
+   468→        {
+   469→          id: "a",
+   470→          text: L(
+   471→            "Gira con un periodo de 24 h, igual que el de rotación de la Tierra",
+   472→            "It orbits with a 24 h period, matching Earth's rotation period",
+   473→          ),
+   474→          correct: true,
+   475→        },
+   476→        {
+   477→          id: "b",
+   478→          text: L(
+   479→            "Está en reposo absoluto en el espacio",
+   480→            "It is at absolute rest in space",
+   481→          ),
+   482→          correct: false,
+   483→        },
+   484→        {
+   485→          id: "c",
+   486→          text: L(
+   487→            "Su órbita pasa sobre los polos cada 12 h",
+   488→            "Its orbit passes over the poles every 12 h",
+   489→          ),
+   490→          correct: false,
+   491→        },
+   492→        {
+   493→          id: "d",
+   494→          text: L(
+   495→            "Puede estar a cualquier altura y seguir siendo geoestacionario",
+   496→            "It can sit at any altitude and still be geostationary",
+   497→          ),
+   498→          correct: false,
+   499→        },
+   500→      ];
+   501→      return {
+   502→        skill: L("Satélites geoestacionarios", "Geostationary satellites"),
+   503→        statement: L(
+   504→          "Los satélites de telecomunicaciones **geoestacionarios** parecen fijos en el cielo. ¿Qué condición cumple su órbita?",
+   505→          "Geostationary telecommunications satellites appear fixed in the sky. What condition does their orbit satisfy?",
+   506→        ),
+   507→        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+   508→        hints: [
+   509→          L(
+   510→            "\"Geoestacionario\" significa estacionario respecto a la superficie de la Tierra.",
+   511→            "\"Geostationary\" means stationary relative to Earth's surface.",
+   512→          ),
+   513→          L(
+   514→            "Para verse fijo desde el suelo, el satélite debe girar al mismo ritmo que la Tierra.",
+   515→            "To look fixed from the ground, the satellite must rotate at the same rate as Earth.",
+   516→          ),
+   517→          L(
+   518→            "Solo hay una altura de órbita (en el plano ecuatorial) cuyo periodo es exactamente 24 h.",
+   519→            "Only one orbital altitude (over the equatorial plane) gives a period of exactly 24 h.",
+   520→          ),
+   521→        ],
+   522→        answerDisplay: L(
+   523→          "Su periodo es de **24 h** (sincronizado con la rotación terrestre)",
+   524→          "Its period is **24 h** (synchronised with Earth's rotation)",
+   525→        ),
+   526→        solution: [
+   527→          step(
+   528→            "given",
+   529→            "Satélite geoestacionario: debe verse fijo desde un punto de la Tierra.",
+   530→            "Geostationary satellite: it must look fixed from a point on Earth.",
+   531→          ),
+   532→          step(
+   533→            "approach",
+   534→            "Comparamos el periodo orbital con el periodo de rotación de la Tierra.",
+   535→            "Compare the orbital period with Earth's rotation period.",
+   536→          ),
+   537→          step(
+   538→            "calculation",
+   539→            "La Tierra gira una vez cada 24 h; el satélite debe repetir su órbita en ese mismo tiempo, y eso solo ocurre a una altura concreta sobre el ecuador.",
+   540→            "Earth rotates once every 24 h; the satellite must repeat its orbit in that same time, which happens only at one specific altitude above the equator.",
+   541→          ),
+   542→          step(
+   543→            "result",
+   544→            "Un satélite geoestacionario tiene un periodo de 24 h, en órbita ecuatorial; no está en reposo, sino girando con la Tierra.",
+   545→            "A geostationary satellite has a 24 h period, in an equatorial orbit; it is not at rest but rotating with the Earth.",
+   546→          ),
+   547→        ],
+   548→      };
+   549→    },
+   550→  ),
+   551→
+   552→  /* ---------------------------------------------------------------- */
+   553→  /* Newton's law of gravitation between two small masses              */
+   554→  /* ---------------------------------------------------------------- */
+   555→  template(
+   556→    {
+   557→      id: "cg-grav-01",
+   558→      subject: "physics",
+   559→      topicId: "circular-gravitation",
+   560→      subtopicId: "gravitational-force",
+   561→      difficulty: "medium",
+   562→      questionType: "numeric-unit",
+   563→      estimatedTimeSec: 180,
+   564→      tags: ["gravitation", "newton", "scientific-notation"],
+   565→      prerequisites: ["forces"],
+   566→    },
+   567→    (rng) => {
+   568→      const m1 = rng.pick([3, 4, 5, 6, 8]);
+   569→      const m2 = rng.pick([3, 4, 5, 6, 8]);
+   570→      const r = rng.pick([0.4, 0.5, 0.6, 0.8, 1]);
+   571→      const F = (G_CONST * m1 * m2) / (r * r);
+   572→      const { mant, exp } = sci2(F);
+   573→      return {
+   574→        skill: L("Fuerza gravitatoria entre dos masas", "Gravitational force between two masses"),
+   575→        statement: L(
+   576→          `Dos esferas de $${m1}\\ \\text{kg}$ y $${m2}\\ \\text{kg}$ tienen sus centros separados $${tok(r)}\\ \\text{m}$. ¿Con qué fuerza se atraen? Usa $G = 6{,}67\\times10^{-11}\\ \\text{N}\\cdot\\text{m}^2/\\text{kg}^2$ y da el resultado en notación científica (2 cifras significativas).`,
+   577→          `Two spheres of $${m1}\\ \\text{kg}$ and $${m2}\\ \\text{kg}$ have their centres $${tok(r)}\\ \\text{m}$ apart. With what force do they attract each other? Use $G = 6.67\\times10^{-11}\\ \\text{N}\\cdot\\text{m}^2/\\text{kg}^2$ and give the result in scientific notation (2 significant figures).`,
+   578→        ),
+   579→        answer: {
+   580→          kind: "numeric-unit",
+   581→          value: clean(mant * Math.pow(10, exp)),
+   582→          tolerance: { mode: "sigfig", value: 2 },
+   583→          units: ["N"],
+   584→          unitChoices: ["N", "J", "N/m", "N·s"],
+   585→        },
+   586→        hints: [
+   587→          L(
+   588→            "Identifica los datos: $m_1$, $m_2$, $r$ y la constante $G$; la incógnita es $F$.",
+   589→            "Identify the data: $m_1$, $m_2$, $r$ and the constant $G$; the unknown is $F$.",
+   590→          ),
+   591→          L(
+   592→            "La ley de gravitación de Newton es $F = G\\,\\dfrac{m_1 m_2}{r^2}$.",
+   593→            "Newton's law of gravitation is $F = G\\,\\dfrac{m_1 m_2}{r^2}$.",
+   594→          ),
+   595→          L(
+   596→            "Sustituye y opera con potencias de 10: el resultado será muy pequeño (entre $10^{-10}$ y $10^{-8}$ N).",
+   597→            "Substitute and work with powers of ten: the result will be tiny (between $10^{-10}$ and $10^{-8}$ N).",
+   598→          ),
+   599→        ],
+   600→        answerDisplay: L(
+   601→          `$F \\approx ${tok(mant)}\\times10^{${exp}}\\ \\text{N}$`,
+   602→          `$F \\approx ${tok(mant)}\\times10^{${exp}}\\ \\text{N}$`,
+   603→        ),
+   604→        solution: [
+   605→          step(
+   606→            "given",
+   607→            `$m_1 = ${m1}\\ \\text{kg}$, $m_2 = ${m2}\\ \\text{kg}$, $r = ${tok(r)}\\ \\text{m}$, $G = 6{,}67\\times10^{-11}\\ \\text{N}\\cdot\\text{m}^2/\\text{kg}^2$.`,
+   608→            `$m_1 = ${m1}\\ \\text{kg}$, $m_2 = ${m2}\\ \\text{kg}$, $r = ${tok(r)}\\ \\text{m}$, $G = 6.67\\times10^{-11}\\ \\text{N}\\cdot\\text{m}^2/\\text{kg}^2$.`,
+   609→          ),
+   610→          step(
+   611→            "approach",
+   612→            "Aplicamos la ley de gravitación de Newton: $F = G\\,\\dfrac{m_1 m_2}{r^2}$.",
+   613→            "Apply Newton's law of gravitation: $F = G\\,\\dfrac{m_1 m_2}{r^2}$.",
+   614→          ),
+   615→          step(
+   616→            "calculation",
+   617→            `$F = 6{,}67\\times10^{-11} \\cdot \\dfrac{${m1} \\cdot ${m2}}{(${tok(r)})^2} = \\dfrac{6{,}67\\times10^{-11} \\cdot ${m1 * m2}}{ ${tok(r2(r * r))}} \\approx ${tok(mant)}\\times10^{${exp}}\\ \\text{N}$`,
+   618→            `$F = 6.67\\times10^{-11} \\cdot \\dfrac{${m1} \\cdot ${m2}}{(${tok(r)})^2} = \\dfrac{6.67\\times10^{-11} \\cdot ${m1 * m2}}{ ${tok(r2(r * r))}} \\approx ${tok(mant)}\\times10^{${exp}}\\ \\text{N}$`,
+   619→          ),
+   620→          step(
+   621→            "result",
+   622→            `Las esferas se atraen con una fuerza de $\\approx ${tok(mant)}\\times10^{${exp}}\\ \\text{N}$: minúscula, como corresponde a masas de kilogramos.`,
+   623→            `The spheres attract each other with a force of $\\approx ${tok(mant)}\\times10^{${exp}}\\ \\text{N}$: tiny, as expected for kilogram-scale masses.`,
+   624→          ),
+   625→        ],
+   626→      };
+   627→    },
+   628→  ),
+   629→
+   630→  /* ---------------------------------------------------------------- */
+   631→  /* Planet mass from surface gravity                                  */
+   632→  /* ---------------------------------------------------------------- */
+   633→  template(
+   634→    {
+   635→      id: "cg-grav-02",
+   636→      subject: "physics",
+   637→      topicId: "circular-gravitation",
+   638→      subtopicId: "gravitational-force",
+   639→      difficulty: "hard",
+   640→      questionType: "numeric-unit",
+   641→      estimatedTimeSec: 240,
+   642→      tags: ["gravitation", "planets", "scientific-notation"],
+   643→      prerequisites: ["gravitational-force"],
+   644→    },
+   645→    (rng) => {
+   646→      const bodies = [
+   647→        {
+   648→          es: "la Tierra",
+   649→          en: "Earth",
+   650→          g: 9.8,
+   651→          rEs: "6{,}37\\times10^{6}",
+   652→          rEn: "6.37\\times10^{6}",
+   653→          rVal: 6.37e6,
+   654→        },
+   655→        {
+   656→          es: "Marte",
+   657→          en: "Mars",
+   658→          g: 3.7,
+   659→          rEs: "3{,}39\\times10^{6}",
+   660→          rEn: "3.39\\times10^{6}",
+   661→          rVal: 3.39e6,
+   662→        },
+   663→        {
+   664→          es: "la Luna",
+   665→          en: "the Moon",
+   666→          g: 1.6,
+   667→          rEs: "1{,}74\\times10^{6}",
+   668→          rEn: "1.74\\times10^{6}",
+   669→          rVal: 1.74e6,
+   670→        },
+   671→      ];
+   672→      const pick = rng.pick(bodies);
+   673→      const M = (pick.g * pick.rVal * pick.rVal) / G_CONST;
+   674→      const { mant, exp } = sci2(M);
+   675→      return {
+   676→        skill: L("Masa de un planeta a partir de su gravedad", "Planet mass from its surface gravity"),
+   677→        statement: L(
+   678→          `En la superficie de ${pick.es} la gravedad es $g = ${tok(pick.g)}\\ \\text{m/s}^2$ y su radio es $R = ${pick.rEs}\\ \\text{m}$. Usa $G = 6{,}67\\times10^{-11}\\ \\text{N}\\cdot\\text{m}^2/\\text{kg}^2$ para estimar la **masa** del astro (2 cifras significativas).`,
+   679→          `On the surface of ${pick.en}, gravity is $g = ${tok(pick.g)}\\ \\text{m/s}^2$ and its radius is $R = ${pick.rEn}\\ \\text{m}$. Use $G = 6.67\\times10^{-11}\\ \\text{N}\\cdot\\text{m}^2/\\text{kg}^2$ to estimate the body's **mass** (2 significant figures).`,
+   680→        ),
+   681→        answer: {
+   682→          kind: "numeric-unit",
+   683→          value: clean(mant * Math.pow(10, exp)),
+   684→          tolerance: { mode: "sigfig", value: 2 },
+   685→          units: ["kg"],
+   686→          unitChoices: ["kg", "g", "N", "m/s^2"],
+   687→        },
+   688→        hints: [
+   689→          L(
+   690→            "El peso en la superficie es la gravitación universal con $r = R$ (el radio del astro).",
+   691→            "Surface weight is universal gravitation with $r = R$ (the body's radius).",
+   692→          ),
+   693→          L(
+   694→            "Escribe $mg = G\\,\\dfrac{M\\,m}{R^2}$: la masa $m$ del objeto se cancela.",
+   695→            "Write $mg = G\\,\\dfrac{M\\,m}{R^2}$: the object's mass $m$ cancels.",
+   696→          ),
+   697→          L(
+   698→            "Despeja $M = \\dfrac{g\\,R^2}{G}$ y sustituye en notación científica.",
+   699→            "Solve for $M = \\dfrac{g\\,R^2}{G}$ and substitute in scientific notation.",
+   700→          ),
+   701→        ],
+   702→        answerDisplay: L(
+   703→          `$M \\approx ${tok(mant)}\\times10^{${exp}}\\ \\text{kg}$`,
+   704→          `$M \\approx ${tok(mant)}\\times10^{${exp}}\\ \\text{kg}$`,
+   705→        ),
+   706→        solution: [
+   707→          step(
+   708→            "given",
+   709→            `Astro: ${pick.es}; $g = ${tok(pick.g)}\\ \\text{m/s}^2$, $R = ${pick.rEs}\\ \\text{m}$, $G = 6{,}67\\times10^{-11}\\ \\text{N}\\cdot\\text{m}^2/\\text{kg}^2$.`,
+   710→            `Body: ${pick.en}; $g = ${tok(pick.g)}\\ \\text{m/s}^2$, $R = ${pick.rEn}\\ \\text{m}$, $G = 6.67\\times10^{-11}\\ \\text{N}\\cdot\\text{m}^2/\\text{kg}^2$.`,
+   711→          ),
+   712→          step(
+   713→            "approach",
+   714→            "Igualamos peso y gravitación en la superficie: $mg = G\\frac{Mm}{R^2} \\Rightarrow M = \\frac{g R^2}{G}$.",
+   715→            "Equate weight and gravitation at the surface: $mg = G\\frac{Mm}{R^2} \\Rightarrow M = \\frac{g R^2}{G}$.",
+   716→          ),
+   717→          step(
+   718→            "calculation",
+   719→            `$M = \\dfrac{ ${tok(pick.g)} \\cdot (${pick.rEs})^2}{6{,}67\\times10^{-11}} = \\dfrac{ ${tok(pick.g)} \\cdot ${tok(r2((pick.rVal * pick.rVal) / 1e12))}\\times10^{12}}{6{,}67\\times10^{-11}} \\approx ${tok(mant)}\\times10^{${exp}}\\ \\text{kg}$`,
+   720→            `$M = \\dfrac{ ${tok(pick.g)} \\cdot (${pick.rEn})^2}{6.67\\times10^{-11}} = \\dfrac{ ${tok(pick.g)} \\cdot ${tok(r2((pick.rVal * pick.rVal) / 1e12))}\\times10^{12}}{6.67\\times10^{-11}} \\approx ${tok(mant)}\\times10^{${exp}}\\ \\text{kg}$`,
+   721→          ),
+   722→          step(
+   723→            "result",
+   724→            `La masa de ${pick.es} es del orden de $${tok(mant)}\\times10^{${exp}}\\ \\text{kg}$.`,
+   725→            `The mass of ${pick.en} is of order $${tok(mant)}\\times10^{${exp}}\\ \\text{kg}$.`,
+   726→          ),
+   727→        ],
+   728→      };
+   729→    },
+   730→  ),
+   731→
+   732→  /* ---------------------------------------------------------------- */
+   733→  /* Orbital speed of a low satellite                                  */
+   734→  /* ---------------------------------------------------------------- */
+   735→  template(
+   736→    {
+   737→      id: "cg-orbit-01",
+   738→      subject: "physics",
+   739→      topicId: "circular-gravitation",
+   740→      subtopicId: "orbital-motion",
+   741→      difficulty: "hard",
+   742→      questionType: "numeric-unit",
+   743→      estimatedTimeSec: 240,
+   744→      tags: ["orbital-motion", "satellites", "gravitation"],
+   745→      prerequisites: ["gravitational-force", "centripetal-force"],
+   746→    },
+   747→    (rng) => {
+   748→      const h = rng.pick([300, 400, 500, 600]);
+   749→      const r = 6.37e6 + h * 1000;
+   750→      const M = 5.97e24;
+   751→      const GM = G_CONST * M;
+   752→      const v = Math.sqrt(GM / r);
+   753→      return {
+   754→        skill: L("Velocidad orbital de un satélite", "Orbital speed of a satellite"),
+   755→        statement: L(
+   756→          `La Estación Espacial Internacional orbita a unos $${h}\\ \\text{km}$ de altura sobre la Tierra. ¿Con qué **rapidez orbital** se mueve? Datos: $M_T = 5{,}97\\times10^{24}\\ \\text{kg}$, $R_T = 6{,}37\\times10^{6}\\ \\text{m}$, $G = 6{,}67\\times10^{-11}\\ \\text{N}\\cdot\\text{m}^2/\\text{kg}^2$ (2 cifras significativas).`,
+   757→          `The International Space Station orbits about $${h}\\ \\text{km}$ above the Earth. What **orbital speed** does it have? Data: $M_E = 5.97\\times10^{24}\\ \\text{kg}$, $R_E = 6.37\\times10^{6}\\ \\text{m}$, $G = 6.67\\times10^{-11}\\ \\text{N}\\cdot\\text{m}^2/\\text{kg}^2$ (2 significant figures).`,
+   758→        ),
+   759→        answer: {
+   760→          kind: "numeric-unit",
+   761→          value: sig2(v),
+   762→          tolerance: { mode: "sigfig", value: 2 },
+   763→          units: ["m/s"],
+   764→          unitChoices: ["m/s", "km/h", "m/s^2", "m"],
+   765→        },
+   766→        hints: [
+   767→          L(
+   768→            "El radio de la órbita no es la altura: es $r = R_T + h$ (¡en metros!).",
+   769→            "The orbital radius is not the altitude: it is $r = R_E + h$ (in metres!).",
+   770→          ),
+   771→          L(
+   772→            "La gravedad actúa como fuerza centrípeta: $G\\dfrac{M\\,m}{r^2} = \\dfrac{m\\,v^2}{r}$.",
+   773→            "Gravity acts as the centripetal force: $G\\dfrac{M\\,m}{r^2} = \\dfrac{m\\,v^2}{r}$.",
+   774→          ),
+   775→          L(
+   776→            "Simplifica y despeja $v = \\sqrt{\\dfrac{G\\,M}{r}}$; la masa del satélite no interviene.",
+   777→            "Simplify and solve $v = \\sqrt{\\dfrac{G\\,M}{r}}$; the satellite's mass does not appear.",
+   778→          ),
+   779→        ],
+   780→        answerDisplay: L(
+   781→          `$v \\approx ${tok(sig2(v))}\\ \\text{m/s}$`,
+   782→          `$v \\approx ${tok(sig2(v))}\\ \\text{m/s}$`,
+   783→        ),
+   784→        solution: [
+   785→          step(
+   786→            "given",
+   787→            `$h = ${h}\\ \\text{km} = ${h * 1000}\\ \\text{m}$, $R_T = 6{,}37\\times10^{6}\\ \\text{m}$, $M_T = 5{,}97\\times10^{24}\\ \\text{kg}$, $G = 6{,}67\\times10^{-11}$.`,
+   788→            `$h = ${h}\\ \\text{km} = ${h * 1000}\\ \\text{m}$, $R_E = 6.37\\times10^{6}\\ \\text{m}$, $M_E = 5.97\\times10^{24}\\ \\text{kg}$, $G = 6.67\\times10^{-11}$.`,
+   789→          ),
+   790→          step(
+   791→            "approach",
+   792→            "Gravedad = fuerza centrípeta: $G\\frac{Mm}{r^2} = \\frac{mv^2}{r} \\Rightarrow v = \\sqrt{\\frac{GM}{r}}$, con $r = R_T + h$.",
+   793→            "Gravity = centripetal force: $G\\frac{Mm}{r^2} = \\frac{mv^2}{r} \\Rightarrow v = \\sqrt{\\frac{GM}{r}}$, with $r = R_E + h$.",
+   794→          ),
+   795→          step(
+   796→            "calculation",
+   797→            `$r = 6{,}37\\times10^{6} + ${h * 1000} = ${tok(r1(r / 1e6))}\\times10^{6}\\ \\text{m}$<br>$GM = ${tok(r2(GM / 1e14))}\\times10^{14}\\ \\text{m}^3/\\text{s}^2$<br>$v = \\sqrt{\\dfrac{ ${tok(r2(GM / 1e14))}\\times10^{14}}{ ${tok(r1(r / 1e6))}\\times10^{6}}} = \\sqrt{ ${tok(r2((GM / r) / 1e7))}\\times10^{7}} = ${Math.round(v)} \\approx ${tok(sig2(v))}\\ \\text{m/s}$`,
+   798→            `$r = 6.37\\times10^{6} + ${h * 1000} = ${tok(r1(r / 1e6))}\\times10^{6}\\ \\text{m}$<br>$GM = ${tok(r2(GM / 1e14))}\\times10^{14}\\ \\text{m}^3/\\text{s}^2$<br>$v = \\sqrt{\\dfrac{ ${tok(r2(GM / 1e14))}\\times10^{14}}{ ${tok(r1(r / 1e6))}\\times10^{6}}} = \\sqrt{ ${tok(r2((GM / r) / 1e7))}\\times10^{7}} = ${Math.round(v)} \\approx ${tok(sig2(v))}\\ \\text{m/s}$`,
+   799→          ),
+   800→          step(
+   801→            "result",
+   802→            `La estación orbita a $\\approx ${tok(sig2(v))}\\ \\text{m/s}$ (unos $${Math.round((sig2(v) * 3.6) / 100) * 100}\\ \\text{km/h}$): ¡da una vuelta al mundo cada hora y media!`,
+   803→            `The station orbits at $\\approx ${tok(sig2(v))}\\ \\text{m/s}$ (about $${Math.round((sig2(v) * 3.6) / 100) * 100}\\ \\text{km/h}$): it circles the Earth every ninety minutes!`,
+   804→          ),
+   805→        ],
+   806→      };
+   807→    },
+   808→  ),
+   809→
+   810→  /* ---------------------------------------------------------------- */
+   811→  /* Challenge: minimum speed at the top of a loop                     */
+   812→  /* ---------------------------------------------------------------- */
+   813→  template(
+   814→    {
+   815→      id: "cg-chal-01",
+   816→      subject: "physics",
+   817→      topicId: "circular-gravitation",
+   818→      subtopicId: "centripetal-force",
+   819→      difficulty: "challenge",
+   820→      questionType: "numeric-unit",
+   821→      estimatedTimeSec: 300,
+   822→      tags: ["centripetal-force", "vertical-circle", "rollercoaster"],
+   823→      prerequisites: ["centripetal-force", "centripetal-acceleration"],
+   824→    },
+   825→    (rng) => {
+   826→      const r = rng.pick([3, 4, 5, 6, 8, 10, 12]);
+   827→      const v = sig2(Math.sqrt(G_ACC * r));
+   828→      return {
+   829→        skill: L("Mínima rapidez en lo alto de un rizo", "Minimum speed at the top of a loop"),
+   830→        statement: L(
+   831→          `En una montaña rusa, el vagón recorre un rizo vertical de radio $${r}\\ \\text{m}$. ¿Cuál es la **mínima** rapidez en el punto más alto para que el vagón no pierda contacto con la vía? ($g = 9{,}8\\ \\text{m/s}^2$, 2 cifras significativas).`,
+   832→          `On a roller coaster, the car goes around a vertical loop of radius $${r}\\ \\text{m}$. What is the **minimum** speed at the highest point so the car does not lose contact with the track? ($g = 9.8\\ \\text{m/s}^2$, 2 significant figures).`,
+   833→        ),
+   834→        answer: {
+   835→          kind: "numeric-unit",
+   836→          value: v,
+   837→          tolerance: { mode: "sigfig", value: 2 },
+   838→          units: ["m/s"],
+   839→          unitChoices: ["m/s", "m/s^2", "m", "N"],
+   840→        },
+   841→        hints: [
+   842→          L(
+   843→            "En lo alto del rizo, tanto el peso como la normal apuntan hacia el centro (hacia abajo).",
+   844→            "At the top of the loop, both the weight and the normal force point toward the centre (downward).",
+   845→          ),
+   846→          L(
+   847→            "Segunda ley en lo alto: $mg + N = \\dfrac{m\\,v^2}{r}$.",
+   848→            "Second law at the top: $mg + N = \\dfrac{m\\,v^2}{r}$.",
+   849→          ),
+   850→          L(
+   851→            "La rapidez mínima corresponde al caso límite $N = 0$: solo el peso mantiene el círculo.",
+   852→            "The minimum speed corresponds to the limiting case $N = 0$: gravity alone keeps the circular path.",
+   853→          ),
+   854→        ],
+   855→        answerDisplay: L(
+   856→          `$v_{min} \\approx ${tok(v)}\\ \\text{m/s}$`,
+   857→          `$v_{min} \\approx ${tok(v)}\\ \\text{m/s}$`,
+   858→        ),
+   859→        solution: [
+   860→          step(
+   861→            "given",
+   862→            `Rizo vertical de radio $r = ${r}\\ \\text{m}$; en lo alto, $mg$ y $N$ apuntan hacia abajo (al centro); $g = 9{,}8\\ \\text{m/s}^2$.`,
+   863→            `Vertical loop of radius $r = ${r}\\ \\text{m}$; at the top, $mg$ and $N$ point downward (to the centre); $g = 9.8\\ \\text{m/s}^2$.`,
+   864→          ),
+   865→          step(
+   866→            "approach",
+   867→            "En lo alto: $mg + N = \\frac{m v^2}{r}$. El límite de contacto es $N = 0$, y entonces la gravedad sola es la fuerza centrípeta.",
+   868→            "At the top: $mg + N = \\frac{m v^2}{r}$. The contact limit is $N = 0$, where gravity alone is the centripetal force.",
+   869→          ),
+   870→          step(
+   871→            "calculation",
+   872→            `$mg = \\frac{m\\,v_{min}^2}{r} \\Rightarrow v_{min} = \\sqrt{g\\,r}$<br>$v_{min} = \\sqrt{9{,}8 \\cdot ${r}} = \\sqrt{ ${tok(r1(G_ACC * r))}} = ${tok(r2(Math.sqrt(G_ACC * r)))}\\ \\text{m/s} \\approx ${tok(v)}\\ \\text{m/s}$`,
+   873→            `$mg = \\frac{m\\,v_{min}^2}{r} \\Rightarrow v_{min} = \\sqrt{g\\,r}$<br>$v_{min} = \\sqrt{9.8 \\cdot ${r}} = \\sqrt{ ${tok(r1(G_ACC * r))}} = ${tok(r2(Math.sqrt(G_ACC * r)))}\\ \\text{m/s} \\approx ${tok(v)}\\ \\text{m/s}$`,
+   874→          ),
+   875→          step(
+   876→            "result",
+   877→            `La rapidez mínima en lo alto es $\\approx ${tok(v)}\\ \\text{m/s}$; curiosamente no depende de la masa del vagón.`,
+   878→            `The minimum speed at the top is $\\approx ${tok(v)}\\ \\text{m/s}$; interestingly, it does not depend on the car's mass.`,
+   879→          ),
+   880→        ],
+   881→      };
+   882→    },
+   883→  ),
+   884→];
+   885→

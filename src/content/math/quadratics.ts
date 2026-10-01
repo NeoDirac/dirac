@@ -1137,4 +1137,89 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+
+  /* ---------------------------------------------------------------- */
+  /* Curated — Studienkolleg Bayern, Übungsaufgaben (Stand Jan 18),   */
+  /* problema de parámetros con discriminante. Transcribed as printed;*/
+  /* verified: Delta=(k-6)(k+2)>0 iff k<-2 or k>6. Fixed problem.      */
+  /* ---------------------------------------------------------------- */
+  template(
+    {
+      id: "quad-param-01",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "discriminant",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["discriminant", "parameters", "quadratic-inequality"],
+      prerequisites: ["quadratic-formula"],
+      source: {
+        sourceId: "stk-bayern-ubung",
+        license: "OPEN_LICENSE",
+        exerciseNumber: "4 (For which real values of k)",
+      },
+      reasoning: "parameters",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L("$k < -2$ o $k > 6$", "$k < -2$ or $k > 6$"),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L("$-2 < k < 6$", "$-2 < k < 6$"),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L("$k > 6$ únicamente", "$k > 6$ only"),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L("para todo $k$ real", "for every real $k$"),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L("Parámetro en una cuadrática: número de soluciones", "Parameter in a quadratic: number of solutions"),
+        statement: L(
+            "¿Para qué valores reales de $k$ tiene la ecuación $$x^2 - kx + k + 3 = 0$$ exactamente dos soluciones reales distintas?",
+            "For which real values of $k$ does the equation $$x^2 - kx + k + 3 = 0$$ have exactly two distinct real solutions?",
+          ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L("«Exactamente dos soluciones reales distintas» es una condición sobre el **discriminante** de la cuadrática (en $x$).", "“Exactly two distinct real solutions” is a condition on the quadratic's **discriminant** (in $x$)."),
+          L("Escribe $\\Delta = k^2 - 4(k+3)$ y simplifica: $\\Delta = k^2 - 4k - 12$. Factorízalo.", "Write $\\Delta = k^2 - 4(k+3)$ and simplify: $\\Delta = k^2 - 4k - 12$. Factor it."),
+          L("$\\Delta = (k-6)(k+2)$. «Dos distintas» exige $\\Delta > 0$ estricto: resuelve la desigualdad y describe la región.", "$\\Delta = (k-6)(k+2)$. “Two distinct” requires strict $\\Delta > 0$: solve the inequality and describe the region.")
+        ],
+        answerDisplay: L("$k < -2$ o $k > 6$", "$k < -2$ or $k > 6$"),
+        solution: [
+          step(
+            "given",
+            "La cuadrática $x^2 - kx + k + 3 = 0$ con coeficientes $a = 1$, $b = -k$, $c = k+3$; se pregunta por el número de soluciones reales distintas según $k$.",
+            "The quadratic $x^2 - kx + k + 3 = 0$ with $a = 1$, $b = -k$, $c = k+3$; the question is about the number of distinct real solutions as $k$ varies.",
+          ),
+          step(
+            "approach",
+            "El número de raíces reales distintas lo gobierna el discriminante: $\\Delta > 0$ dos distintas, $\\Delta = 0$ una doble, $\\Delta < 0$ ninguna. Como pedimos **dos distintas**, la condición es $\\Delta > 0$ (estricto).",
+            "The number of distinct real roots is governed by the discriminant: $\\Delta > 0$ two distinct, $\\Delta = 0$ one double, $\\Delta < 0$ none. Since we need **two distinct**, the condition is strict $\\Delta > 0$.",
+          ),
+          step(
+            "calculation",
+            "$\\Delta = (-k)^2 - 4\\cdot 1 \\cdot (k+3) = k^2 - 4k - 12 = (k-6)(k+2)$.<br>$\\Delta > 0 \\iff (k-6)(k+2) > 0$: producto positivo ⟺ ambos factores positivos ($k > 6$) o ambos negativos ($k < -2$).<br>Controles: $k = 0 \\in (-2, 6)$ debería fallar — en efecto $x^2 + 3 = 0$ no tiene raíces reales. $k = 7 > 6$ debería valer — $x^2 - 7x + 10 = (x-5)(x-2)$: dos raíces distintas.",
+            "$\\Delta = (-k)^2 - 4\\cdot 1 \\cdot (k+3) = k^2 - 4k - 12 = (k-6)(k+2)$.<br>$\\Delta > 0 \\iff (k-6)(k+2) > 0$: a positive product ⟺ both factors positive ($k > 6$) or both negative ($k < -2$).<br>Sanity checks: $k = 0 \\in (-2, 6)$ should fail — indeed $x^2 + 3 = 0$ has no real roots. $k = 7 > 6$ should work — $x^2 - 7x + 10 = (x-5)(x-2)$: two distinct roots.",
+          ),
+          step(
+            "result",
+            "La ecuación tiene exactamente dos soluciones reales distintas $\\iff k \\in (-\\infty, -2) \\cup (6, \\infty)$.",
+            "The equation has exactly two distinct real solutions $\\iff k \\in (-\\infty, -2) \\cup (6, \\infty)$.",
+          )
+        ],
+      };
+    },
+  ),
 ];

@@ -936,4 +936,89 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+
+  /* ---------------------------------------------------------------- */
+  /* Curated — Kurzkontrolle 1 del tutor (conjuntos): soluciones       */
+  /* reales de un producto de cuatro factores. Transcribed as printed;*/
+  /* verified: L = (-5, -2, 5). Fixed problem.                         */
+  /* ---------------------------------------------------------------- */
+  template(
+    {
+      id: "poly-eq-03",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "equations",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 180,
+      tags: ["zero-product", "real-roots", "difference-of-squares"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "tutor-kurzkontrolle-1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "1",
+      },
+      reasoning: "spurious",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L("$\\{-5,\\; -2,\\; 5\\}$", "$\\{-5,\\; -2,\\; 5\\}$"),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L("$\\{-5,\\; -3,\\; -2,\\; 3,\\; 5\\}$", "$\\{-5,\\; -3,\\; -2,\\; 3,\\; 5\\}$"),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L("$\\{-2,\\; 5\\}$", "$\\{-2,\\; 5\\}$"),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L("$\\{-5,\\; 5\\}$", "$\\{-5,\\; 5\\}$"),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L("Conjunto de soluciones reales de un producto de factores", "Real solution set of a product of factors"),
+        statement: L(
+            "Indica los elementos del conjunto de todas las soluciones **reales** de la ecuación $$(x + 2)\\,(x - 5)\\,(x^2 + 9)\\,(x^2 - 25) = 0.$$",
+            "Give the elements of the set of all **real** solutions of the equation $$(x + 2)\\,(x - 5)\\,(x^2 + 9)\\,(x^2 - 25) = 0.$$",
+          ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L("Un producto se anula si algún factor se anula: analiza cada factor por separado.", "A product vanishes when one of its factors does: analyse each factor separately."),
+          L("$x^2 + 9 = 0$ no tiene soluciones reales (una suma de cuadrados nunca se anula en $\\mathbb{R}$). $x^2 - 25$ es una diferencia de cuadrados.", "$x^2 + 9 = 0$ has no real solutions (a sum of squares never vanishes over $\\mathbb{R}$). $x^2 - 25$ is a difference of squares."),
+          L("Reúne: $x+2=0$ da $-2$; $x-5=0$ da $5$; $x^2-25=0$ da $\\pm 5$. Como es un conjunto, los repetidos cuentan una vez.", "Collect: $x+2=0$ gives $-2$; $x-5=0$ gives $5$; $x^2-25=0$ gives $\\pm 5$. It is a set, so repeated values count once.")
+        ],
+        answerDisplay: L("$\\{-5,\\; -2,\\; 5\\}$", "$\\{-5,\\; -2,\\; 5\\}$"),
+        solution: [
+          step(
+            "given",
+            "La ecuación $(x+2)(x-5)(x^2+9)(x^2-25) = 0$: cuatro factores; se pide el conjunto de soluciones **reales**.",
+            "The equation $(x+2)(x-5)(x^2+9)(x^2-25) = 0$: four factors; we are asked for the set of **real** solutions.",
+          ),
+          step(
+            "approach",
+            "Producto nulo ⟺ algún factor nulo. Resolvemos cada factor sobre $\\mathbb{R}$ y reunimos en un conjunto (sin repeticiones).",
+            "A null product ⟺ some factor is null. We solve each factor over $\\mathbb{R}$ and collect into a set (no repetitions).",
+          ),
+          step(
+            "calculation",
+            "$x + 2 = 0 \\Rightarrow x = -2$.<br>$x - 5 = 0 \\Rightarrow x = 5$.<br>$x^2 + 9 = 0 \\Rightarrow x = \\pm 3i$ — **no reales**: se descartan (en $\\mathbb{R}$, $x^2 + 9 \\ge 9 > 0$).<br>$x^2 - 25 = 0 \\Rightarrow x = \\pm 5$ (diferencia de cuadrados).",
+            "$x + 2 = 0 \\Rightarrow x = -2$.<br>$x - 5 = 0 \\Rightarrow x = 5$.<br>$x^2 + 9 = 0 \\Rightarrow x = \\pm 3i$ — **not real**: discarded (over $\\mathbb{R}$, $x^2 + 9 \\ge 9 > 0$).<br>$x^2 - 25 = 0 \\Rightarrow x = \\pm 5$ (difference of squares).",
+          ),
+          step(
+            "result",
+            "Reuniendo $\\{{-2\\}} \\cup \\{{5\\}} \\cup \\{{-5, 5\\}}$ y deduplicando: $L = \\{{-5,\\; -2,\\; 5\\}}$.",
+            "Collecting $\\{{-2\\}} \\cup \\{{5\\}} \\cup \\{{-5, 5\\}}$ and deduplicating: $L = \\{{-5,\\; -2,\\; 5\\}}$.",
+          )
+        ],
+      };
+    },
+  ),
 ];

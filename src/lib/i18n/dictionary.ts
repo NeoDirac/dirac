@@ -31,9 +31,9 @@ const es: Dictionary = {
   "common.of": "de",
 
   // difficulty
-  "difficulty.easy": "Fácil",
-  "difficulty.medium": "Media",
-  "difficulty.hard": "Difícil",
+  "difficulty.easy": "Fundamento",
+  "difficulty.medium": "Estándar",
+  "difficulty.hard": "Avanzado",
   "difficulty.challenge": "Desafío",
   "difficulty.label": "Dificultad",
 
@@ -58,6 +58,8 @@ const es: Dictionary = {
   "goal.set": "Objetivo diario",
   "goal.setTo": "Poner el objetivo en {n} problemas al día",
   "goal.ringLabel": "Progreso del objetivo de hoy",
+  "goal.summary.today": "Hoy has resuelto {done} de {total} problemas.",
+  "goal.summary.keep": "El hábito se construye día a día — nos vemos mañana.",
   "home.hero.title1": "Practica las matemáticas",
   "home.hero.title2": "y la física que vemos en clase.",
   "home.hero.subtitle":
@@ -290,6 +292,9 @@ const es: Dictionary = {
   "progress.sessions": "Sesiones recientes",
   "progress.review.due": "Repaso pendiente",
   "progress.review.in": "repaso en {t}",
+  "progress.subtopics": "Detalle por subtema",
+  "progress.subtopics.hint": "Ver detalle por subtema",
+  "progress.subtopic.practice": "Practicar este subtema",
   "progress.export": "Exportar",
   "progress.export.label": "Descargar datos (CSV)",
   "progress.export.records": "Problemas (CSV)",
@@ -322,6 +327,8 @@ const es: Dictionary = {
   "activity.trend.subtitle": "Últimos 30 días · volumen y % al primer intento",
   "activity.trend.attempts": "Problemas",
   "activity.trend.firstTry": "Acierto al primer intento",
+  "activity.trend.math": "Matemáticas",
+  "activity.trend.physics": "Física",
   "activity.trend.empty.title": "Aún no hay tendencia",
   "activity.trend.empty.desc": "Practica un par de días y aquí verás tu evolución.",
 
@@ -410,9 +417,9 @@ const en: Dictionary = {
   "common.showLess": "Show less",
   "common.of": "of",
 
-  "difficulty.easy": "Easy",
-  "difficulty.medium": "Medium",
-  "difficulty.hard": "Hard",
+  "difficulty.easy": "Foundation",
+  "difficulty.medium": "Standard",
+  "difficulty.hard": "Advanced",
   "difficulty.challenge": "Challenge",
   "difficulty.label": "Difficulty",
 
@@ -436,6 +443,8 @@ const en: Dictionary = {
   "goal.set": "Daily goal",
   "goal.setTo": "Set the goal to {n} problems per day",
   "goal.ringLabel": "Progress toward today's goal",
+  "goal.summary.today": "You solved {done} of {total} problems today.",
+  "goal.summary.keep": "Habits are built one day at a time — see you tomorrow.",
   "home.hero.title1": "Practice the mathematics",
   "home.hero.title2": "and physics we cover in class.",
   "home.hero.subtitle":
@@ -658,6 +667,9 @@ const en: Dictionary = {
   "progress.sessions": "Recent sessions",
   "progress.review.due": "Review due",
   "progress.review.in": "review in {t}",
+  "progress.subtopics": "Breakdown by subtopic",
+  "progress.subtopics.hint": "Show per-subtopic breakdown",
+  "progress.subtopic.practice": "Practice this subtopic",
   "progress.export": "Export",
   "progress.export.label": "Download data (CSV)",
   "progress.export.records": "Problems (CSV)",
@@ -690,6 +702,8 @@ const en: Dictionary = {
   "activity.trend.subtitle": "Last 30 days · volume and first-try %",
   "activity.trend.attempts": "Problems",
   "activity.trend.firstTry": "First-try accuracy",
+  "activity.trend.math": "Mathematics",
+  "activity.trend.physics": "Physics",
   "activity.trend.empty.title": "No trend yet",
   "activity.trend.empty.desc": "Practice on a couple of days and your progress will show up here.",
 

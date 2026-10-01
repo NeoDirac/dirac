@@ -763,4 +763,89 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+
+  /* ---------------------------------------------------------------- */
+  /* Curated — hoja de clase del tutor (FP notes, p. 4): |·| vs        */
+  /* parábola con análisis por ramas. Fixed problem (as printed;       */
+  /* decimals written as fractions, the tutor's own worked notation). */
+  /* ---------------------------------------------------------------- */
+  template(
+    {
+      id: "pfn-grap-01",
+      subject: "math",
+      topicId: "poly-functions",
+      subtopicId: "graphs",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["absolute-value", "parabola", "case-analysis", "graphical"],
+      prerequisites: ["graphs", "quadratics"],
+      source: {
+        sourceId: "tutor-fp-sheet-2024",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "3",
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L("$(-1,\\; 2) \\cup (4,\\; 7)$", "$(-1,\\; 2) \\cup (4,\\; 7)$"),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L("$(-\\infty,\\; -1) \\cup (2,\\; 4) \\cup (7,\\; \\infty)$", "$(-\\infty,\\; -1) \\cup (2,\\; 4) \\cup (7,\\; \\infty)$"),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L("$(2,\\; 4)$", "$(2,\\; 4)$"),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L("$(-1,\\; 7)$", "$(-1,\\; 7)$"),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L("Valor absoluto frente a parábola: región por ramas", "Absolute value against a parabola: region by branches"),
+        statement: L(
+            "Determina analíticamente el conjunto de los $x$ para los que $$f(x) > g(x), \\quad f(x) = \\left|\\frac{5}{2}x - \\frac{15}{2}\\right|, \\quad g(x) = \\frac{1}{2}x^2 - 3x + \\frac{13}{2}.$$ (En clase dibujamos ambas en $[-3;\\, 8]$, sombreados la región $f > g$ y comparamos con el cálculo.)",
+            "Determine analytically the set of all $x$ for which $$f(x) > g(x), \\quad f(x) = \\left|\\frac{5}{2}x - \\frac{15}{2}\\right|, \\quad g(x) = \\frac{1}{2}x^2 - 3x + \\frac{13}{2}.$$ (In class we drew both on $[-3;\\, 8]$, shaded the $f > g$ region and compared it with the calculation.)",
+          ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L("El vértice de la V está donde se anula el argumento: $\\frac{5}{2}x - \\frac{15}{2} = 0$. Eso parte el eje en dos ramas.", "The vertex of the V sits where the argument vanishes: $\\frac{5}{2}x - \\frac{15}{2} = 0$. That splits the axis into two branches."),
+          L("En cada rama escribe $f$ sin valor absoluto, pasa todo a un lado y obtén una **desigualdad cuadrática**; factorízala para leer el signo.", "On each branch write $f$ without the absolute value, move everything to one side and get a **quadratic inequality**; factor it to read the sign."),
+          L("Rama $x \\ge 3$: $x^2 - 11x + 28 < 0$, o sea $(x-7)(x-4) < 0$. Rama $x < 3$: $x^2 - x - 2 < 0$, o sea $(x-2)(x+1) < 0$. Interseca cada región con su propia rama.", "Branch $x \\ge 3$: $x^2 - 11x + 28 < 0$, i.e. $(x-7)(x-4) < 0$. Branch $x < 3$: $x^2 - x - 2 < 0$, i.e. $(x-2)(x+1) < 0$. Intersect each region with its own branch.")
+        ],
+        answerDisplay: L("$(-1,\\; 2) \\cup (4,\\; 7)$", "$(-1,\\; 2) \\cup (4,\\; 7)$"),
+        solution: [
+          step(
+            "given",
+            "$f(x) = \\left|\\frac{5}{2}x - \\frac{15}{2}\\right|$ es una V con vértice en $x = 3$; $g(x) = \\frac{1}{2}x^2 - 3x + \\frac{13}{2}$ es una parábola.",
+            "$f(x) = \\left|\\frac{5}{2}x - \\frac{15}{2}\\right|$ is a V with vertex at $x = 3$; $g(x) = \\frac{1}{2}x^2 - 3x + \\frac{13}{2}$ is a parabola.",
+          ),
+          step(
+            "approach",
+            "Dos ramas ($x \\ge 3$ y $x < 3$). En cada una, $f(x) > g(x)$ se convierte en una desigualdad cuadrática estricta; factorizo, leo la región de signo y al final interseco con la rama.",
+            "Two branches ($x \\ge 3$ and $x < 3$). On each, $f(x) > g(x)$ becomes a strict quadratic inequality; I factor it, read the sign region and finally intersect with the branch.",
+          ),
+          step(
+            "calculation",
+            "**Rama $x \\ge 3$** ($f = \\frac{5}{2}x - \\frac{15}{2}$): $\\frac{5}{2}x - \\frac{15}{2} > \\frac{1}{2}x^2 - 3x + \\frac{13}{2}$ $\\Rightarrow x^2 - 11x + 28 < 0$, o sea $(x-7)(x-4) < 0 \\Rightarrow x \\in (4,\\, 7)$.<br>**Rama $x < 3$** ($f = -\\frac{5}{2}x + \\frac{15}{2}$): $-\\frac{5}{2}x + \\frac{15}{2} > \\frac{1}{2}x^2 - 3x + \\frac{13}{2}$ $\\Rightarrow x^2 - x - 2 < 0$, o sea $(x-2)(x+1) < 0 \\Rightarrow x \\in (-1,\\, 2)$.<br>En $x = -1, 2, 4, 7$ se tiene exactamente $f = g$ (cortes de las dos curvas), por lo que los cuatro extremos quedan **abiertos**.",
+            "**Branch $x \\ge 3$** ($f = \\frac{5}{2}x - \\frac{15}{2}$): $\\frac{5}{2}x - \\frac{15}{2} > \\frac{1}{2}x^2 - 3x + \\frac{13}{2}$ $\\Rightarrow x^2 - 11x + 28 < 0$, i.e. $(x-7)(x-4) < 0 \\Rightarrow x \\in (4,\\, 7)$.<br>**Branch $x < 3$** ($f = -\\frac{5}{2}x + \\frac{15}{2}$): $-\\frac{5}{2}x + \\frac{15}{2} > \\frac{1}{2}x^2 - 3x + \\frac{13}{2}$ $\\Rightarrow x^2 - x - 2 < 0$, i.e. $(x-2)(x+1) < 0 \\Rightarrow x \\in (-1,\\, 2)$.<br>At $x = -1, 2, 4, 7$ we have exactly $f = g$ (crossings of the two curves), so all four endpoints stay **open**.",
+          ),
+          step(
+            "result",
+            "$f(x) > g(x) \\iff x \\in (-1,\\; 2) \\cup (4,\\; 7)$. En el gráfico: la V queda por encima de la parábola exactamente en esos dos tramos, con cortes en $x = -1, 2, 4, 7$ (compara con tu sombreado).",
+            "$f(x) > g(x) \\iff x \\in (-1,\\; 2) \\cup (4,\\; 7)$. On the graph: the V lies above the parabola exactly on those two stretches, crossing at $x = -1, 2, 4, 7$ (compare with your shading).",
+          )
+        ],
+      };
+    },
+  ),
 ];

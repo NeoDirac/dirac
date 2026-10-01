@@ -1,0 +1,736 @@
+     1→     1→/**
+     2→     2→ * PHYSICS · Measurement & vectors
+     3→     3→ *
+     4→     4→ * Exemplar file: demonstrates the `vectors` diagram and degree unit answers.
+     5→     5→ */
+     6→     6→
+     7→     7→import { template, L, step, tok } from "@/lib/problem";
+     8→     8→import type { ProblemTemplate, McOption } from "@/lib/types";
+     9→     9→
+    10→    10→export const templates: ProblemTemplate[] = [
+    11→    11→  /* ---------------------------------------------------------------- */
+    12→    12→  /* Scalar vs vector                                                 */
+    13→    13→  /* ---------------------------------------------------------------- */
+    14→    14→  template(
+    15→    15→    {
+    16→    16→      id: "vec-scalar-01",
+    17→    17→      subject: "physics",
+    18→    18→      topicId: "measurement-vectors",
+    19→    19→      subtopicId: "scalar-vector",
+    20→    20→      difficulty: "easy",
+    21→    21→      questionType: "multiple-choice",
+    22→    22→      estimatedTimeSec: 60,
+    23→    23→      tags: ["scalars", "vectors"],
+    24→    24→      prerequisites: [],
+    25→    25→    },
+    26→    26→    (rng) => {
+    27→    27→      const pairs: { es: string; en: string; isVector: boolean }[] = [
+    28→    28→        { es: "temperatura", en: "temperature", isVector: false },
+    29→    29→        { es: "masa", en: "mass", isVector: false },
+    30→    30→        { es: "tiempo", en: "time", isVector: false },
+    31→    31→        { es: "velocidad", en: "velocity", isVector: true },
+    32→    32→        { es: "fuerza", en: "force", isVector: true },
+    33→    33→        { es: "desplazamiento", en: "displacement", isVector: true },
+    34→    34→        { es: "energía", en: "energy", isVector: false },
+    35→    35→        { es: "aceleración", en: "acceleration", isVector: true },
+    36→    36→      ];
+    37→    37→      const pick = rng.pick(pairs);
+    38→    38→      const options: McOption[] = [
+    39→    39→        { id: "a", text: L("Escalar", "Scalar"), correct: !pick.isVector },
+    40→    40→        { id: "b", text: L("Vector", "Vector"), correct: pick.isVector },
+    41→    41→      ];
+    42→    42→      return {
+    43→    43→        skill: L("Magnitudes escalares y vectoriales", "Scalar and vector quantities"),
+    44→    44→        statement: L(
+    45→    45→          `¿Qué tipo de magnitud es la **${pick.es}**?`,
+    46→    46→          `Is **${pick.en}** a scalar or a vector quantity?`,
+    47→    47→        ),
+    48→    48→        answer: { kind: "multiple-choice", options },
+    49→    49→        hints: [
+    50→    50→          L(
+    51→    51→            "Un vector tiene módulo, dirección y sentido.",
+    52→    52→            "A vector has magnitude, direction and sense.",
+    53→    53→          ),
+    54→    54→          L(
+    55→    55→            "Pregúntate: ¿tiene sentido hablar de una dirección de esta magnitud?",
+    56→    56→            "Ask yourself: does it make sense to talk about its direction?",
+    57→    57→          ),
+    58→    58→          L(
+    59→    59→            "Si solo se describe con un número, es un escalar.",
+    60→    60→            "If a single number fully describes it, it is a scalar.",
+    61→    61→          ),
+    62→    62→        ],
+    63→    63→        answerDisplay: pick.isVector
+    64→    64→          ? L("Es un **vector** (tiene dirección y sentido).", "It is a **vector** (it has direction and sense).")
+    65→    65→          : L("Es un **escalar** (solo un número la describe).", "It is a **scalar** (a single number describes it)."),
+    66→    66→        solution: [
+    67→    67→          step(
+    68→    68→            "given",
+    69→    69→            `Magnitud: ${pick.es}.`,
+    70→    70→            `Quantity: ${pick.en}.`,
+    71→    71→          ),
+    72→    72→          step(
+    73→    73→            "approach",
+    74→    74→            "Un escalar queda definido con un número y su unidad; un vector además necesita dirección y sentido.",
+    75→    75→            "A scalar is fully defined by a number and unit; a vector additionally needs direction and sense.",
+    76→    76→          ),
+    77→    77→          step(
+    78→    78→            "calculation",
+    79→    79→            pick.isVector
+    80→    80→              ? `La ${pick.es} se define indicando hacia dónde actúa.`
+    81→    81→              : `La ${pick.es} queda completa con un valor numérico.`,
+    82→    82→            pick.isVector
+    83→    83→              ? `A ${pick.en} must state which way it acts.`
+    84→    84→              : `A ${pick.en} is complete with a numeric value.`,
+    85→    85→          ),
+    86→    86→          step(
+    87→    87→            "result",
+    88→    88→            pick.isVector ? "Es un vector." : "Es un escalar.",
+    89→    89→            pick.isVector ? "It is a vector." : "It is a scalar.",
+    90→    90→          ),
+    91→    91→        ],
+    92→    92→      };
+    93→    93→    },
+    94→    94→  ),
+    95→    95→
+    96→    96→  /* ---------------------------------------------------------------- */
+    97→    97→  /* Components                                                       */
+    98→    98→  /* ---------------------------------------------------------------- */
+    99→    99→  template(
+   100→   100→    {
+   101→   101→      id: "vec-comp-01",
+   102→   102→      subject: "physics",
+   103→   103→      topicId: "measurement-vectors",
+   104→   104→      subtopicId: "components",
+   105→   105→      difficulty: "medium",
+   106→   106→      questionType: "numeric",
+   107→   107→      estimatedTimeSec: 120,
+   108→   108→      tags: ["components", "trigonometry"],
+   109→   109→      prerequisites: [],
+   110→   110→    },
+   111→   111→    (rng) => {
+   112→   112→      const angles = [30, 37, 45, 53, 60];
+   113→   113→      const angle = rng.pick(angles);
+   114→   114→      const mag = rng.pick([10, 20, 50, 100]);
+   115→   115→      const cos: Record<number, number> = { 30: 0.866, 37: 0.8, 45: 0.707, 53: 0.6, 60: 0.5 };
+   116→   116→      const value = Math.round(mag * cos[angle] * 100) / 100;
+   117→   117→      return {
+   118→   118→        skill: L("Componente x de un vector", "x-component of a vector"),
+   119→   119→        statement: L(
+   120→   120→          `Un vector de módulo $${mag}$ forma un ángulo de $${angle}^\\circ$ con el eje $x$. Calcula su componente $x$. (Usa $\\cos ${angle}^\\circ \\approx {{${cos[angle]}}}$; redondea a 2 cifras significativas.)`,
+   121→   121→          `A vector of magnitude $${mag}$ makes an angle of $${angle}^\\circ$ with the $x$-axis. Compute its $x$-component. (Use $\\cos ${angle}^\\circ \\approx {{${cos[angle]}}}$; round to 2 significant figures.)`,
+   122→   122→        ),
+   123→   123→        diagram: {
+   124→   124→          kind: "vectors",
+   125→   125→          xMin: -1,
+   126→   126→          xMax: 11,
+   127→   127→          yMin: -1,
+   128→   128→          yMax: Math.max(3, Math.round(mag * 0.9) + 1),
+   129→   129→          vectors: [
+   130→   130→            { x: mag * cos[angle], y: mag * Math.sin((angle * Math.PI) / 180), label: "A", color: "primary" },
+   131→   131→          ],
+   132→   132→          showComponents: true,
+   133→   133→          showGrid: true,
+   134→   134→          xLabel: "x",
+   135→   135→          yLabel: "y",
+   136→   136→        },
+   137→   137→        diagramLabel: L(
+   138→   138→          `Vector A de módulo ${mag} elevado ${angle} grados sobre el eje x, con sus componentes dibujadas.`,
+   139→   139→          `Vector A of magnitude ${mag} raised ${angle} degrees above the x-axis, with components drawn.`,
+   140→   140→        ),
+   141→   141→        answer: {
+   142→   142→          kind: "numeric",
+   143→   143→          value,
+   144→   144→          tolerance: { mode: "sigfig", value: 2 },
+   145→   145→        },
+   146→   146→        hints: [
+   147→   147→          L(
+   148→   148→            "Las componentes se obtienen con seno y coseno del ángulo.",
+   149→   149→            "Components come from the sine and cosine of the angle.",
+   150→   150→          ),
+   151→   151→          L(
+   152→   152→            `La componente $x$ usa el **coseno** porque es el lado contiguo al ángulo.`,
+   153→   153→            `The $x$-component uses the **cosine** because it is the side adjacent to the angle.`,
+   154→   154→          ),
+   155→   155→          L(
+   156→   156→            `$A_x = A\\cos\\theta = ${mag} \\cdot {{${cos[angle]}}}$.`,
+   157→   157→            `$A_x = A\\cos\\theta = ${mag} \\cdot {{${cos[angle]}}}$.`,
+   158→   158→          ),
+   159→   159→        ],
+   160→   160→        answerDisplay: L(`$A_x \\approx {{${value}}}$`, `$A_x \\approx {{${value}}}$`),
+   161→   161→        solution: [
+   162→   162→          step(
+   163→   163→            "given",
+   164→   164→            `$|A| = ${mag}$, $\\theta = ${angle}^\\circ$`,
+   165→   165→            `$|A| = ${mag}$, $\\theta = ${angle}^\\circ$`,
+   166→   166→          ),
+   167→   167→          step(
+   168→   168→            "approach",
+   169→   169→            "Proyección sobre el eje $x$: $A_x = A\\cos\\theta$.",
+   170→   170→            "Projection onto the $x$-axis: $A_x = A\\cos\\theta$.",
+   171→   171→          ),
+   172→   172→          step(
+   173→   173→            "calculation",
+   174→   174→            `$A_x = ${mag} \\cdot {{${cos[angle]}}} = {{${Math.round(mag * cos[angle] * 1000) / 1000}}} \\approx {{${value}}}$`,
+   175→   175→            `$A_x = ${mag} \\cdot {{${cos[angle]}}} = {{${Math.round(mag * cos[angle] * 1000) / 1000}}} \\approx {{${value}}}$`,
+   176→   176→          ),
+   177→   177→          step("result", `$A_x \\approx {{${value}}}$.`, `$A_x \\approx {{${value}}}$.`),
+   178→   178→        ],
+   179→   179→      };
+   180→   180→    },
+   181→   181→  ),
+   182→   182→
+   183→   183→  /* ---------------------------------------------------------------- */
+   184→   184→  /* Magnitude from components                                        */
+   185→   185→  /* ---------------------------------------------------------------- */
+   186→   186→  template(
+   187→   187→    {
+   188→   188→      id: "vec-mag-01",
+   189→   189→      subject: "physics",
+   190→   190→      topicId: "measurement-vectors",
+   191→   191→      subtopicId: "magnitude-direction",
+   192→   192→      difficulty: "medium",
+   193→   193→      questionType: "numeric",
+   194→   194→      estimatedTimeSec: 120,
+   195→   195→      tags: ["pythagoras", "magnitude"],
+   196→   196→      prerequisites: ["components"],
+   197→   197→    },
+   198→   198→    (rng) => {
+   199→   199→      const a = rng.pick([3, 6, 8, 5, 9]);
+   200→   200→      const b = rng.pick([4, 8, 12, 15, 5]);
+   201→   201→      const value = Math.round(Math.hypot(a, b) * 100) / 100;
+   202→   202→      return {
+   203→   203→        skill: L("Módulo a partir de componentes", "Magnitude from components"),
+   204→   204→        statement: L(
+   205→   205→          `Un vector tiene componentes $A_x = ${a}$ y $A_y = ${b}$. ¿Cuál es su módulo?`,
+   206→   206→          `A vector has components $A_x = ${a}$ and $A_y = ${b}$. What is its magnitude?`,
+   207→   207→        ),
+   208→   208→        answer: { kind: "numeric", value, tolerance: { mode: "relative", value: 0.01 } },
+   209→   209→        hints: [
+   210→   210→          L(
+   211→   211→            "Las componentes y el vector forman un triángulo rectángulo.",
+   212→   212→            "The components and the vector form a right triangle.",
+   213→   213→          ),
+   214→   214→          L(
+   215→   215→            "El módulo es la hipotenusa.",
+   216→   216→            "The magnitude is the hypotenuse.",
+   217→   217→          ),
+   218→   218→          L(
+   219→   219→            "Aplica el teorema de Pitágoras.",
+   220→   220→            "Apply the Pythagorean theorem.",
+   221→   221→          ),
+   222→   222→        ],
+   223→   223→        answerDisplay: L(`$|A| = {{${value}}}$`, `$|A| = {{${value}}}$`),
+   224→   224→        solution: [
+   225→   225→          step("given", `$A_x = ${a}$, $A_y = ${b}$`, `$A_x = ${a}$, $A_y = ${b}$`),
+   226→   226→          step(
+   227→   227→            "approach",
+   228→   228→            "$|A| = \\sqrt{A_x^2 + A_y^2}$ (Pitágoras).",
+   229→   229→            "$|A| = \\sqrt{A_x^2 + A_y^2}$ (Pythagoras).",
+   230→   230→          ),
+   231→   231→          step(
+   232→   232→            "calculation",
+   233→   233→            `$|A| = \\sqrt{${a}^2 + ${b}^2} = \\sqrt{${a * a} + ${b * b}} = \\sqrt{${a * a + b * b}} = {{${Math.round(Math.sqrt(a * a + b * b) * 1000) / 1000}}}$`,
+   234→   234→            `$|A| = \\sqrt{${a}^2 + ${b}^2} = \\sqrt{${a * a} + ${b * b}} = \\sqrt{${a * a + b * b}} = {{${Math.round(Math.sqrt(a * a + b * b) * 1000) / 1000}}}$`,
+   235→   235→          ),
+   236→   236→          step("result", `$|A| \\approx {{${value}}}$.`, `$|A| \\approx {{${value}}}$.`),
+   237→   237→        ],
+   238→   238→      };
+   239→   239→    },
+   240→   240→  ),
+   241→   241→
+   242→   242→  /* ---------------------------------------------------------------- */
+   243→   243→  /* Vector addition (perpendicular)                                  */
+   244→   244→  /* ---------------------------------------------------------------- */
+   245→   245→  template(
+   246→   246→    {
+   247→   247→      id: "vec-add-01",
+   248→   248→      subject: "physics",
+   249→   249→      topicId: "measurement-vectors",
+   250→   250→      subtopicId: "addition",
+   251→   251→      difficulty: "medium",
+   252→   252→      questionType: "numeric",
+   253→   253→      estimatedTimeSec: 150,
+   254→   254→      tags: ["vector-addition"],
+   255→   255→      prerequisites: ["magnitude-direction"],
+   256→   256→    },
+   257→   257→    (rng) => {
+   258→   258→      const a = rng.pick([30, 40, 60, 80]);
+   259→   259→      const b = rng.pick([40, 60, 80, 100]);
+   260→   260→      const value = Math.round(Math.hypot(a, b) * 10) / 10;
+   261→   261→      return {
+   262→   262→        skill: L("Suma de vectores perpendiculares", "Adding perpendicular vectors"),
+   263→   263→        statement: L(
+   264→   264→          `Una persona camina $${a}\\ \\text{m}$ hacia el este y luego $${b}\\ \\text{m}$ hacia el norte. ¿Qué módulo tiene el desplazamiento resultante?`,
+   265→   265→          `A person walks $${a}\\ \\text{m}$ east and then $${b}\\ \\text{m}$ north. What is the magnitude of the resulting displacement?`,
+   266→   266→        ),
+   267→   267→        diagram: {
+   268→   268→          kind: "vectors",
+   269→   269→          xMin: -5,
+   270→   270→          xMax: Math.max(a, b) + 10,
+   271→   271→          yMin: -5,
+   272→   272→          yMax: Math.max(a, b) + 10,
+   273→   273→          vectors: [
+   274→   274→            { x: a, y: 0, label: "E", color: "primary" },
+   275→   275→            { x: 0, y: b, label: "N", color: "secondary", from: { x: a, y: 0 } },
+   276→   276→            { x: a, y: b, label: "R", color: "muted" },
+   277→   277→          ],
+   278→   278→          showComponents: false,
+   279→   279→          showGrid: false,
+   280→   280→          xLabel: "E (m)",
+   281→   281→          yLabel: "N (m)",
+   282→   282→        },
+   283→   283→        diagramLabel: L(
+   284→   284→          `Dos desplazamientos perpendiculares de ${a} m al este y ${b} m al norte; la resultante es la diagonal.`,
+   285→   285→          `Two perpendicular displacements of ${a} m east and ${b} m north; the resultant is the diagonal.`,
+   286→   286→        ),
+   287→   287→        answer: { kind: "numeric", value, tolerance: { mode: "relative", value: 0.01 } },
+   288→   288→        hints: [
+   289→   289→          L(
+   290→   290→            "Los dos desplazamientos son perpendiculares.",
+   291→   291→            "The two displacements are perpendicular.",
+   292→   292→          ),
+   293→   293→          L(
+   294→   294→            "La resultante es la diagonal del rectángulo.",
+   295→   295→            "The resultant is the diagonal of the rectangle.",
+   296→   296→          ),
+   297→   297→          L(
+   298→   298→            "Usa Pitágoras con $${a}$ y $${b}$.",
+   299→   299→            "Use Pythagoras with $${a}$ and $${b}$.",
+   300→   300→          ),
+   301→   301→        ],
+   302→   302→        answerDisplay: L(`$|R| \\approx {{${value}}}\\ \\text{m}$`, `$|R| \\approx {{${value}}}\\ \\text{m}$`),
+   303→   303→        solution: [
+   304→   304→          step(
+   305→   305→            "given",
+   306→   306→            `$\\vec{d}_1 = ${a}\\ \\text{m}$ este, $\\vec{d}_2 = ${b}\\ \\text{m}$ norte`,
+   307→   307→            `$\\vec{d}_1 = ${a}\\ \\text{m}$ east, $\\vec{d}_2 = ${b}\\ \\text{m}$ north`,
+   308→   308→          ),
+   309→   309→          step(
+   310→   310→            "approach",
+   311→   311→            "Vectores perpendiculares: $|R| = \\sqrt{d_1^2 + d_2^2}$.",
+   312→   312→            "Perpendicular vectors: $|R| = \\sqrt{d_1^2 + d_2^2}$.",
+   313→   313→          ),
+   314→   314→          step(
+   315→   315→            "calculation",
+   316→   316→            `$|R| = \\sqrt{${a}^2 + ${b}^2} = \\sqrt{${a * a} + ${b * b}} = \\sqrt{${a * a + b * b}} \\approx {{${value}}}\\ \\text{m}$`,
+   317→   317→            `$|R| = \\sqrt{${a}^2 + ${b}^2} = \\sqrt{${a * a} + ${b * b}} = \\sqrt{${a * a + b * b}} \\approx {{${value}}}\\ \\text{m}$`,
+   318→   318→          ),
+   319→   319→          step(
+   320→   320→            "result",
+   321→   321→            `El desplazamiento resultante tiene módulo $\\approx {{${value}}}\\ \\text{m}$.`,
+   322→   322→            `The resulting displacement has magnitude $\\approx {{${value}}}\\ \\text{m}$.`,
+   323→   323→          ),
+   324→   324→        ],
+   325→   325→      };
+   326→   326→    },
+   327→   327→  ),
+   328→   328→
+   329→   329→  /* ---------------------------------------------------------------- */
+   330→   330→  /* Vector addition via components (chained displacements)           */
+   331→   331→  /* ---------------------------------------------------------------- */
+   332→   332→  template(
+   333→   333→    {
+   334→   334→      id: "vec-add-02",
+   335→   335→      subject: "physics",
+   336→   336→      topicId: "measurement-vectors",
+   337→   337→      subtopicId: "addition",
+   338→   338→      difficulty: "medium",
+   339→   339→      questionType: "numeric",
+   340→   340→      estimatedTimeSec: 150,
+   341→   341→      tags: ["vector-addition", "components", "pythagoras"],
+   342→   342→      prerequisites: ["components"],
+   343→   343→    },
+   344→   344→    (rng) => {
+   345→   345→      // Hand-curated sets: the sum S = A + B always forms a Pythagorean
+   346→   346→      // triple (3-4-5 / 6-8-10 / 5-12-13 and multiples), so |S| is exact.
+   347→   347→      const sets = [
+   348→   348→        { a1: 3, a2: 1, b1: 0, b2: 3 }, // S = (3, 4), |S| = 5
+   349→   349→        { a1: 2, a2: 4, b1: 4, b2: 4 }, // S = (6, 8), |S| = 10
+   350→   350→        { a1: -5, a2: 3, b1: 10, b2: 9 }, // S = (5, 12), |S| = 13
+   351→   351→        { a1: -3, a2: 6, b1: 12, b2: 6 }, // S = (9, 12), |S| = 15
+   352→   352→        { a1: 4, a2: -3, b1: 5, b2: 3 }, // S = (9, 0), |S| = 9
+   353→   353→        { a1: 2, a2: 1, b1: 10, b2: 15 }, // S = (12, 16), |S| = 20
+   354→   354→      ];
+   355→   355→      const p = rng.pick(sets);
+   356→   356→      const s1 = p.a1 + p.b1;
+   357→   357→      const s2 = p.a2 + p.b2;
+   358→   358→      const mag = Math.round(Math.hypot(s1, s2) * 100) / 100; // exact integer by construction
+   359→   359→      const par = (n: number): string => (n < 0 ? `(${n})` : `${n}`);
+   360→   360→      return {
+   361→   361→        skill: L("Suma de vectores por componentes", "Vector addition by components"),
+   362→   362→        statement: L(
+   363→   363→          `Un robot de reparto sobre un suelo plano realiza dos desplazamientos consecutivos: primero $\\vec{A} = (${p.a1}, ${p.a2})\\ \\text{m}$ y después $\\vec{B} = (${p.b1}, ${p.b2})\\ \\text{m}$ (componentes según los ejes $x$ e $y$). ¿Qué módulo tiene el desplazamiento resultante $\\vec{A} + \\vec{B}$?`,
+   364→   364→          `A delivery robot on a flat floor makes two consecutive displacements: first $\\vec{A} = (${p.a1}, ${p.a2})\\ \\text{m}$ and then $\\vec{B} = (${p.b1}, ${p.b2})\\ \\text{m}$ (components along the $x$ and $y$ axes). What is the magnitude of the resultant displacement $\\vec{A} + \\vec{B}$?`,
+   365→   365→        ),
+   366→   366→        diagram: {
+   367→   367→          kind: "vectors",
+   368→   368→          xMin: Math.min(0, p.a1, s1) - 2,
+   369→   369→          xMax: Math.max(0, p.a1, s1) + 2,
+   370→   370→          yMin: Math.min(0, p.a2, s2) - 2,
+   371→   371→          yMax: Math.max(0, p.a2, s2) + 2,
+   372→   372→          vectors: [
+   373→   373→            { x: p.a1, y: p.a2, label: "A", color: "primary" },
+   374→   374→            { x: p.b1, y: p.b2, label: "B", color: "secondary", from: { x: p.a1, y: p.a2 } },
+   375→   375→            { x: s1, y: s2, label: "A+B", color: "muted" },
+   376→   376→          ],
+   377→   377→          showComponents: false,
+   378→   378→          showGrid: true,
+   379→   379→          xLabel: "x",
+   380→   380→          yLabel: "y",
+   381→   381→        },
+   382→   382→        diagramLabel: L(
+   383→   383→          `Desplazamiento A de (${p.a1}, ${p.a2}) m seguido de B de (${p.b1}, ${p.b2}) m encadenado desde el extremo de A; la resultante A+B va del origen al extremo final.`,
+   384→   384→          `Displacement A of (${p.a1}, ${p.a2}) m followed by B of (${p.b1}, ${p.b2}) m chained from the tip of A; the resultant A+B runs from the origin to the final tip.`,
+   385→   385→        ),
+   386→   386→        answer: { kind: "numeric", value: mag, tolerance: { mode: "relative", value: 0.01 } },
+   387→   387→        hints: [
+   388→   388→          L(
+   389→   389→            "Los desplazamientos son consecutivos: la resultante es su suma vectorial, y los vectores se suman componente a componente.",
+   390→   390→            "The displacements are consecutive: the resultant is their vector sum, and vectors add component by component.",
+   391→   391→          ),
+   392→   392→          L(
+   393→   393→            "Suma por componentes: $\\vec{S} = \\vec{A} + \\vec{B} = (a_1 + b_1,\\ a_2 + b_2)$; el módulo sale del teorema de Pitágoras.",
+   394→   394→            "Add by components: $\\vec{S} = \\vec{A} + \\vec{B} = (a_1 + b_1,\\ a_2 + b_2)$; the magnitude follows from the Pythagorean theorem.",
+   395→   395→          ),
+   396→   396→          L(
+   397→   397→            `Calcula $S_x = ${p.a1} + ${par(p.b1)}$ y $S_y = ${p.a2} + ${par(p.b2)}$, y después aplica $|\\vec{S}| = \\sqrt{S_x^2 + S_y^2}$.`,
+   398→   398→            `Compute $S_x = ${p.a1} + ${par(p.b1)}$ and $S_y = ${p.a2} + ${par(p.b2)}$, then apply $|\\vec{S}| = \\sqrt{S_x^2 + S_y^2}$.`,
+   399→   399→          ),
+   400→   400→        ],
+   401→   401→        answerDisplay: L(
+   402→   402→          `$|\\vec{A} + \\vec{B}| = ${mag}\\ \\text{m}$`,
+   403→   403→          `$|\\vec{A} + \\vec{B}| = ${mag}\\ \\text{m}$`,
+   404→   404→        ),
+   405→   405→        solution: [
+   406→   406→          step(
+   407→   407→            "given",
+   408→   408→            `$\\vec{A} = (${p.a1}, ${p.a2})\\ \\text{m}$, $\\vec{B} = (${p.b1}, ${p.b2})\\ \\text{m}$ (desplazamientos consecutivos)`,
+   409→   409→            `$\\vec{A} = (${p.a1}, ${p.a2})\\ \\text{m}$, $\\vec{B} = (${p.b1}, ${p.b2})\\ \\text{m}$ (consecutive displacements)`,
+   410→   410→          ),
+   411→   411→          step(
+   412→   412→            "approach",
+   413→   413→            "Suma componente a componente y aplica Pitágoras: $\\vec{S} = \\vec{A} + \\vec{B}$, $|\\vec{S}| = \\sqrt{S_x^2 + S_y^2}$.",
+   414→   414→            "Add component by component and apply Pythagoras: $\\vec{S} = \\vec{A} + \\vec{B}$, $|\\vec{S}| = \\sqrt{S_x^2 + S_y^2}$.",
+   415→   415→          ),
+   416→   416→          step(
+   417→   417→            "calculation",
+   418→   418→            `$S_x = ${p.a1} + ${par(p.b1)} = ${s1}\\ \\text{m}$<br>$S_y = ${p.a2} + ${par(p.b2)} = ${s2}\\ \\text{m}$<br>$|\\vec{S}| = \\sqrt{${s1}^2 + ${s2}^2} = \\sqrt{${s1 * s1} + ${s2 * s2}} = \\sqrt{${s1 * s1 + s2 * s2}} = ${mag}\\ \\text{m}$`,
+   419→   419→            `$S_x = ${p.a1} + ${par(p.b1)} = ${s1}\\ \\text{m}$<br>$S_y = ${p.a2} + ${par(p.b2)} = ${s2}\\ \\text{m}$<br>$|\\vec{S}| = \\sqrt{${s1}^2 + ${s2}^2} = \\sqrt{${s1 * s1} + ${s2 * s2}} = \\sqrt{${s1 * s1 + s2 * s2}} = ${mag}\\ \\text{m}$`,
+   420→   420→          ),
+   421→   421→          step(
+   422→   422→            "result",
+   423→   423→            `El desplazamiento resultante tiene módulo $${mag}\\ \\text{m}$.`,
+   424→   424→            `The resultant displacement has magnitude $${mag}\\ \\text{m}$.`,
+   425→   425→          ),
+   426→   426→        ],
+   427→   427→      };
+   428→   428→    },
+   429→   429→  ),
+   430→   430→
+   431→   431→  /* ---------------------------------------------------------------- */
+   432→   432→  /* Direction angle                                                  */
+   433→   433→  /* ---------------------------------------------------------------- */
+   434→   434→  template(
+   435→   435→    {
+   436→   436→      id: "vec-dir-01",
+   437→   437→      subject: "physics",
+   438→   438→      topicId: "measurement-vectors",
+   439→   439→      subtopicId: "magnitude-direction",
+   440→   440→      difficulty: "hard",
+   441→   441→      questionType: "numeric-unit",
+   442→   442→      estimatedTimeSec: 180,
+   443→   443→      tags: ["direction", "trigonometry"],
+   444→   444→      prerequisites: ["components"],
+   445→   445→    },
+   446→   446→    (rng) => {
+   447→   447→      const triples = [
+   448→   448→        { x: 3, y: 4, ang: 53.1 },
+   449→   449→        { x: 4, y: 3, ang: 36.9 },
+   450→   450→        { x: 6, y: 8, ang: 53.1 },
+   451→   451→        { x: 8, y: 6, ang: 36.9 },
+   452→   452→        { x: 5, y: 12, ang: 67.4 },
+   453→   453→        { x: 12, y: 5, ang: 22.6 },
+   454→   454→      ];
+   455→   455→      const pick = rng.pick(triples);
+   456→   456→      return {
+   457→   457→        skill: L("Dirección de un vector", "Direction of a vector"),
+   458→   458→        statement: L(
+   459→   459→          `Un vector tiene componentes $A_x = ${pick.x}$ y $A_y = ${pick.y}$. ¿Qué ángulo forma con el eje $x$? Da el resultado en grados con una cifra decimal.`,
+   460→   460→          `A vector has components $A_x = ${pick.x}$ and $A_y = ${pick.y}$. What angle does it make with the $x$-axis? Give the result in degrees to one decimal place.`,
+   461→   461→        ),
+   462→   462→        answer: {
+   463→   463→          kind: "numeric-unit",
+   464→   464→          value: pick.ang,
+   465→   465→          tolerance: { mode: "absolute", value: 0.15 },
+   466→   466→          units: ["°", "deg"],
+   467→   467→          unitChoices: ["°", "deg", "rad"],
+   468→   468→        },
+   469→   469→        hints: [
+   470→   470→          L(
+   471→   471→            "Busca el ángulo en el triángulo rectángulo formado por las componentes.",
+   472→   472→            "Find the angle in the right triangle formed by the components.",
+   473→   473→          ),
+   474→   474→          L(
+   475→   475→            "La tangente relaciona el cateto opuesto y el contiguo.",
+   476→   476→            "The tangent relates the opposite and adjacent legs.",
+   477→   477→          ),
+   478→   478→          L(
+   479→   479→            `$\\tan\\theta = \\frac{${pick.y}}{${pick.x}}$, así que $\\theta = \\arctan(...)$.`,
+   480→   480→            `$\\tan\\theta = \\frac{${pick.y}}{${pick.x}}$, so $\\theta = \\arctan(...)$.`,
+   481→   481→          ),
+   482→   482→        ],
+   483→   483→        answerDisplay: L(`$\\theta \\approx {{${pick.ang}}}^{\\circ}$`, `$\\theta \\approx {{${pick.ang}}}^{\\circ}$`),
+   484→   484→        solution: [
+   485→   485→          step(
+   486→   486→            "given",
+   487→   487→            `$A_x = ${pick.x}$, $A_y = ${pick.y}$`,
+   488→   488→            `$A_x = ${pick.x}$, $A_y = ${pick.y}$`,
+   489→   489→          ),
+   490→   490→          step(
+   491→   491→            "approach",
+   492→   492→            "$\\tan\\theta = A_y / A_x$, luego $\\theta = \\arctan(A_y/A_x)$.",
+   493→   493→            "$\\tan\\theta = A_y / A_x$, so $\\theta = \\arctan(A_y/A_x)$.",
+   494→   494→          ),
+   495→   495→          step(
+   496→   496→            "calculation",
+   497→   497→            `$\\theta = \\arctan\\left(\\frac{${pick.y}}{${pick.x}}\\right) = \\arctan({{${Math.round((pick.y / pick.x) * 1000) / 1000}}}) \\approx {{${pick.ang}}}^{\\circ}$`,
+   498→   498→            `$\\theta = \\arctan\\left(\\frac{${pick.y}}{${pick.x}}\\right) = \\arctan({{${Math.round((pick.y / pick.x) * 1000) / 1000}}}) \\approx {{${pick.ang}}}^{\\circ}$`,
+   499→   499→          ),
+   500→   500→          step(
+   501→   501→            "result",
+   502→   502→            `El vector forma $\\approx {{${pick.ang}}}^{\\circ}$ con el eje $x$.`,
+   503→   503→            `The vector makes $\\approx {{${pick.ang}}}^{\\circ}$ with the $x$-axis.`,
+   504→   504→          ),
+   505→   505→        ],
+   506→   506→      };
+   507→   507→    },
+   508→   508→  ),
+   509→   509→
+   510→   510→  /* ---------------------------------------------------------------- */
+   511→   511→  /* Opposite vectors (easy)                                          */
+   512→   512→  /* ---------------------------------------------------------------- */
+   513→   513→  template(
+   514→   514→    {
+   515→   515→      id: "vec-opp-01",
+   516→   516→      subject: "physics",
+   517→   517→      topicId: "measurement-vectors",
+   518→   518→      subtopicId: "addition",
+   519→   519→      difficulty: "easy",
+   520→   520→      questionType: "numeric",
+   521→   521→      estimatedTimeSec: 60,
+   522→   522→      tags: ["vector-addition"],
+   523→   523→      prerequisites: [],
+   524→   524→    },
+   525→   525→    (rng) => {
+   526→   526→      const a = rng.int(3, 15);
+   527→   527→      const diff = rng.pick([-2, -1, 0, 1, 2]);
+   528→   528→      const value = diff;
+   529→   529→      return {
+   530→   530→        skill: L("Suma de vectores opuestos", "Adding opposite vectors"),
+   531→   531→        statement: L(
+   532→   532→          `Dos fuerzas actúan sobre un objeto en la misma recta: $${a}\\ \\text{N}$ hacia la derecha y $${a - diff}\\ \\text{N}$ hacia la izquierda. ¿Cuánto vale la fuerza resultante, con signo (positivo = derecha)?`,
+   533→   533→          `Two forces act on an object along the same line: $${a}\\ \\text{N}$ to the right and $${a - diff}\\ \\text{N}$ to the left. What is the resultant force, with sign (positive = right)?`,
+   534→   534→        ),
+   535→   535→        answer: { kind: "numeric", value },
+   536→   536→        hints: [
+   537→   537→          L(
+   538→   538→            "Asigna signos: derecha positivo, izquierda negativo.",
+   539→   539→            "Assign signs: right positive, left negative.",
+   540→   540→          ),
+   541→   541→          L(
+   542→   542→            `Las fuerzas son $+${a}$ y $-${a - diff}$.`,
+   543→   543→            `The forces are $+${a}$ and $-${a - diff}$.`,
+   544→   544→          ),
+   545→   545→          L("Suma ambos valores con su signo.", "Add both values with their signs."),
+   546→   546→        ],
+   547→   547→        answerDisplay: L(
+   548→   548→          `$F_R = ${value}\\ \\text{N}$ ${value > 0 ? "(hacia la derecha)" : value < 0 ? "(hacia la izquierda)" : "(equilibrio)"}$`,
+   549→   549→          `$F_R = ${value}\\ \\text{N}$ ${value > 0 ? "(to the right)" : value < 0 ? "(to the left)" : "(balanced)"}$`,
+   550→   550→        ),
+   551→   551→        solution: [
+   552→   552→          step(
+   553→   553→            "given",
+   554→   554→            `$F_1 = +${a}\\ \\text{N}$, $F_2 = -${a - diff}\\ \\text{N}$`,
+   555→   555→            `$F_1 = +${a}\\ \\text{N}$, $F_2 = -${a - diff}\\ \\text{N}$`,
+   556→   556→          ),
+   557→   557→          step(
+   558→   558→            "approach",
+   559→   559→            "Sobre una misma recta, la suma vectorial es la suma algebraica.",
+   560→   560→            "Along the same line, vector addition is algebraic addition.",
+   561→   561→          ),
+   562→   562→          step(
+   563→   563→            "calculation",
+   564→   564→            `$F_R = ${a} - ${a - diff} = ${value}\\ \\text{N}$`,
+   565→   565→            `$F_R = ${a} - ${a - diff} = ${value}\\ \\text{N}$`,
+   566→   566→          ),
+   567→   567→          step(
+   568→   568→            "result",
+   569→   569→            `La resultante es $${value}\\ \\text{N}$.`,
+   570→   570→            `The resultant is $${value}\\ \\text{N}$.`,
+   571→   571→          ),
+   572→   572→        ],
+   573→   573→      };
+   574→   574→    },
+   575→   575→  ),
+   576→   576→
+   577→   577→  /* ---------------------------------------------------------------- */
+   578→   578→  /* Unit vectors (expression answer)                                 */
+   579→   579→  /* ---------------------------------------------------------------- */
+   580→   580→  template(
+   581→   581→    {
+   582→   582→      id: "vec-unit-01",
+   583→   583→      subject: "physics",
+   584→   584→      topicId: "measurement-vectors",
+   585→   585→      subtopicId: "unit-vectors",
+   586→   586→      difficulty: "hard",
+   587→   587→      questionType: "expression",
+   588→   588→      estimatedTimeSec: 180,
+   589→   589→      tags: ["unit-vectors", "notation"],
+   590→   590→      prerequisites: ["components"],
+   591→   591→    },
+   592→   592→    (rng) => {
+   593→   593→      const x = rng.nonZeroInt(-6, 6);
+   594→   594→      const y = rng.nonZeroInt(-6, 6);
+   595→   595→      return {
+   596→   596→        skill: L("Notación de vectores unitarios", "Unit-vector notation"),
+   597→   597→        statement: L(
+   598→   598→          `Escribe en notación de vectores unitarios el vector con componentes $A_x = ${x}$ y $A_y = ${y}$ (por ejemplo 3i+4j o 3*i+4*j).`,
+   599→   599→          `Write in unit-vector notation the vector with components $A_x = ${x}$ and $A_y = ${y}$ (e.g. 3i+4j or 3*i+4*j).`,
+   600→   600→        ),
+   601→   601→        answer: {
+   602→   602→          kind: "expression",
+   603→   603→          accepted: [`${x}i + ${y}j`],
+   604→   604→          variables: ["i", "j"],
+   605→   605→        },
+   606→   606→        hints: [
+   607→   607→          L(
+   608→   608→            "Los vectores unitarios $\\hat{i}$ y $\\hat{j}$ apuntan según $x$ e $y$.",
+   609→   609→            "The unit vectors $\\hat{i}$ y $\\hat{j}$ point along $x$ and $y$.",
+   610→   610→          ),
+   611→   611→          L(
+   612→   612→            "Cada componente multiplica a su unitario.",
+   613→   613→            "Each component multiplies its unit vector.",
+   614→   614→          ),
+   615→   615→          L(
+   616→   616→            `La forma es $A_x\\,\\hat{i} + A_y\\,\\hat{j}$.`,
+   617→   617→            `The form is $A_x\\,\\hat{i} + A_y\\,\\hat{j}$.`,
+   618→   618→          ),
+   619→   619→        ],
+   620→   620→        answerDisplay: L(`$\\vec{A} = ${x}\\hat{i} ${y >= 0 ? "+" : "-"} ${Math.abs(y)}\\hat{j}$`, `$\\vec{A} = ${x}\\hat{i} ${y >= 0 ? "+" : "-"} ${Math.abs(y)}\\hat{j}$`),
+   621→   621→        solution: [
+   622→   622→          step("given", `$A_x = ${x}$, $A_y = ${y}$`, `$A_x = ${x}$, $A_y = ${y}$`),
+   623→   623→          step(
+   624→   624→            "approach",
+   625→   625→            "$\\vec{A} = A_x\\hat{i} + A_y\\hat{j}$.",
+   626→   626→            "$\\vec{A} = A_x\\hat{i} + A_y\\hat{j}$.",
+   627→   627→          ),
+   628→   628→          step(
+   629→   629→            "calculation",
+   630→   630→            `$\\vec{A} = ${x}\\hat{i} ${y >= 0 ? "+" : "-"} ${Math.abs(y)}\\hat{j}$`,
+   631→   631→            `$\\vec{A} = ${x}\\hat{i} ${y >= 0 ? "+" : "-"} ${Math.abs(y)}\\hat{j}$`,
+   632→   632→          ),
+   633→   633→          step("result", "Esa es la expresión en unitarios.", "That is the unit-vector expression."),
+   634→   634→        ],
+   635→   635→      };
+   636→   636→    },
+   637→   637→  ),
+   638→   638→
+   639→   639→  /* ---------------------------------------------------------------- */
+   640→   640→  /* Challenge: river crossing                                        */
+   641→   641→  /* ---------------------------------------------------------------- */
+   642→   642→  template(
+   643→   643→    {
+   644→   644→      id: "vec-chal-01",
+   645→   645→      subject: "physics",
+   646→   646→      topicId: "measurement-vectors",
+   647→   647→      subtopicId: "addition",
+   648→   648→      difficulty: "challenge",
+   649→   649→      questionType: "numeric-unit",
+   650→   650→      estimatedTimeSec: 300,
+   651→   651→      tags: ["relative-motion", "vector-addition", "word-problems"],
+   652→   652→      prerequisites: ["addition", "components"],
+   653→   653→    },
+   654→   654→    (rng) => {
+   655→   655→      const triples = [
+   656→   656→        { b: 3, c: 4, r: 5 },
+   657→   657→        { b: 6, c: 8, r: 10 },
+   658→   658→        { b: 9, c: 12, r: 15 },
+   659→   659→        { b: 5, c: 12, r: 13 },
+   660→   660→      ];
+   661→   661→      const pick = rng.pick(triples);
+   662→   662→      return {
+   663→   663→        skill: L("Suma de vectores en el cruce de un río", "Vector addition in a river crossing"),
+   664→   664→        statement: L(
+   665→   665→          `Un bote cruza un río perpendicular a la orilla con $${pick.b}\\ \\text{m/s}$ respecto al agua. La corriente arrastraría el bote río abajo a $${pick.c}\\ \\text{m/s}$. ¿Con qué rapidez se mueve el bote respecto a la orilla?`,
+   666→   666→          `A boat crosses a river perpendicular to the bank at $${pick.b}\\ \\text{m/s}$ relative to the water. The current would drag the boat downstream at $${pick.c}\\ \\text{m/s}$. How fast does the boat move relative to the bank?`,
+   667→   667→        ),
+   668→   668→        diagram: {
+   669→   669→          kind: "vectors",
+   670→   670→          xMin: -1,
+   671→   671→          xMax: Math.max(pick.b, pick.c) + 3,
+   672→   672→          yMin: -1,
+   673→   673→          yMax: Math.max(pick.b, pick.c) + 3,
+   674→   674→          vectors: [
+   675→   675→            { x: 0, y: pick.b, label: "v_bote", color: "primary" },
+   676→   676→            { x: pick.c, y: 0, label: "v_río", color: "secondary" },
+   677→   677→            { x: pick.c, y: pick.b, label: "v_total", color: "muted" },
+   678→   678→          ],
+   679→   679→          showComponents: true,
+   680→   680→          showGrid: true,
+   681→   681→          xLabel: "río abajo (m/s)",
+   682→   682→          yLabel: "cruce (m/s)",
+   683→   683→        },
+   684→   684→        diagramLabel: L(
+   685→   685→          `Tres vectores: el bote hacia la orilla opuesta con ${pick.b} m/s, la corriente río abajo con ${pick.c} m/s y la resultante en diagonal.`,
+   686→   686→          `Three vectors: the boat toward the far bank at ${pick.b} m/s, the current downstream at ${pick.c} m/s, and the diagonal resultant.`,
+   687→   687→        ),
+   688→   688→        answer: {
+   689→   689→          kind: "numeric-unit",
+   690→   690→          value: pick.r,
+   691→   691→          tolerance: { mode: "relative", value: 0.01 },
+   692→   692→          units: ["m/s"],
+   693→   693→          unitChoices: ["m/s", "m/s^2", "m", "km/h"],
+   694→   694→        },
+   695→   695→        hints: [
+   696→   696→          L(
+   697→   697→            "La rapidez respecto a la orilla es el módulo de la suma de las dos velocidades.",
+   698→   698→            "The speed relative to the bank is the magnitude of the sum of both velocities.",
+   699→   699→          ),
+   700→   700→          L(
+   701→   701→            "Las dos velocidades son perpendiculares entre sí.",
+   702→   702→            "The two velocities are perpendicular to each other.",
+   703→   703→          ),
+   704→   704→          L(
+   705→   705→            `Aplica Pitágoras con $${pick.b}$ y $${pick.c}$.`,
+   706→   706→            `Apply Pythagoras with $${pick.b}$ and $${pick.c}$.`,
+   707→   707→          ),
+   708→   708→        ],
+   709→   709→        answerDisplay: L(`$${tok(pick.r)}\\ \\text{m/s}$`, `$${tok(pick.r)}\\ \\text{m/s}$`),
+   710→   710→        solution: [
+   711→   711→          step(
+   712→   712→            "given",
+   713→   713→            `$\\vec{v}_{\\text{bote}} = ${pick.b}\\ \\text{m/s}$ (cruzando), $\\vec{v}_{\\text{río}} = ${pick.c}\\ \\text{m/s}$ (río abajo)`,
+   714→   714→            `$\\vec{v}_{\\text{boat}} = ${pick.b}\\ \\text{m/s}$ (crossing), $\\vec{v}_{\\text{river}} = ${pick.c}\\ \\text{m/s}$ (downstream)`,
+   715→   715→          ),
+   716→   716→          step(
+   717→   717→            "approach",
+   718→   718→            "Las velocidades son perpendiculares: el módulo de la resultante se obtiene con Pitágoras.",
+   719→   719→            "The velocities are perpendicular: get the resultant's magnitude with Pythagoras.",
+   720→   720→          ),
+   721→   721→          step(
+   722→   722→            "calculation",
+   723→   723→            `$|\\vec{v}| = \\sqrt{${pick.b}^2 + ${pick.c}^2} = \\sqrt{${pick.b * pick.b} + ${pick.c * pick.c}} = \\sqrt{${pick.b * pick.b + pick.c * pick.c}} = ${tok(pick.r)}\\ \\text{m/s}$`,
+   724→   724→            `$|\\vec{v}| = \\sqrt{${pick.b}^2 + ${pick.c}^2} = \\sqrt{${pick.b * pick.b} + ${pick.c * pick.c}} = \\sqrt{${pick.b * pick.b + pick.c * pick.c}} = ${tok(pick.r)}\\ \\text{m/s}$`,
+   725→   725→          ),
+   726→   726→          step(
+   727→   727→            "result",
+   728→   728→            `El bote se mueve respecto a la orilla con una rapidez de $${tok(pick.r)}\\ \\text{m/s}$ (deriva río abajo mientras cruza).`,
+   729→   729→            `The boat moves relative to the bank at $${tok(pick.r)}\\ \\text{m/s}$ (drifting downstream while crossing).`,
+   730→   730→          ),
+   731→   731→        ],
+   732→   732→      };
+   733→   733→    },
+   734→   734→  ),
+   735→   735→];
+   736→   736→

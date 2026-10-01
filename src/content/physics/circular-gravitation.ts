@@ -191,6 +191,179 @@ export const templates: ProblemTemplate[] = [
   ),
 
   /* ---------------------------------------------------------------- */
+  /* Centripetal acceleration a = ω²·r (angular speed)                */
+  /* ---------------------------------------------------------------- */
+  template(
+    {
+      id: "cg-accel-02",
+      subject: "physics",
+      topicId: "circular-gravitation",
+      subtopicId: "centripetal-acceleration",
+      difficulty: "easy",
+      questionType: "numeric-unit",
+      estimatedTimeSec: 90,
+      tags: ["centripetal-acceleration", "angular-velocity", "circular-motion"],
+      prerequisites: ["circular-motion"],
+    },
+    (rng) => {
+      // Hand-curated (ω, r): ω²·r is exact, so no rounding is needed at all.
+      const sets = [
+        { w: 0.5, r: 8 },
+        { w: 0.8, r: 5 },
+        { w: 1.2, r: 5 },
+        { w: 1.5, r: 4 },
+        { w: 2, r: 2 },
+        { w: 2, r: 1.5 },
+      ];
+      const p = rng.pick(sets);
+      const w2 = r2(p.w * p.w);
+      const a = clean(w2 * p.r);
+      return {
+        skill: L(
+          "Aceleración centrípeta con velocidad angular",
+          "Centripetal acceleration from angular speed",
+        ),
+        statement: L(
+          `En un carrusel de feria, un caballo describe un círculo horizontal de radio $${tok(p.r)}\\ \\text{m}$ con velocidad angular constante $\\omega = ${tok(p.w)}\\ \\text{rad/s}$. ¿Cuál es su **aceleración centrípeta**? (2 cifras significativas).`,
+          `At a fairground, a merry-go-round horse moves in a horizontal circle of radius $${tok(p.r)}\\ \\text{m}$ at a constant angular speed of $\\omega = ${tok(p.w)}\\ \\text{rad/s}$. What is its **centripetal acceleration**? (2 significant figures).`,
+        ),
+        answer: {
+          kind: "numeric-unit",
+          value: a,
+          tolerance: { mode: "sigfig", value: 2 },
+          units: ["m/s^2", "m/s²"],
+          unitChoices: ["m/s^2", "m/s", "rad/s", "m"],
+        },
+        hints: [
+          L(
+            "Aunque la velocidad angular sea constante, la dirección de la velocidad cambia: por eso hay aceleración centrípeta.",
+            "Even at constant angular speed the direction of the velocity changes: that is why there is a centripetal acceleration.",
+          ),
+          L(
+            "Con la velocidad angular, la aceleración centrípeta vale $a_c = \\omega^2 r$ (equivale a $\\frac{v^2}{r}$ porque $v = \\omega r$).",
+            "In terms of the angular speed, the centripetal acceleration is $a_c = \\omega^2 r$ (equivalent to $\\frac{v^2}{r}$ because $v = \\omega r$).",
+          ),
+          L(
+            "Eleva la velocidad angular al cuadrado y multiplica por el radio.",
+            "Square the angular speed and multiply by the radius.",
+          ),
+        ],
+        answerDisplay: L(
+          `$a_c = ${tok(a)}\\ \\text{m/s}^2$`,
+          `$a_c = ${tok(a)}\\ \\text{m/s}^2$`,
+        ),
+        solution: [
+          step(
+            "given",
+            `$\\omega = ${tok(p.w)}\\ \\text{rad/s}$, $r = ${tok(p.r)}\\ \\text{m}$ (velocidad angular constante).`,
+            `$\\omega = ${tok(p.w)}\\ \\text{rad/s}$, $r = ${tok(p.r)}\\ \\text{m}$ (constant angular speed).`,
+          ),
+          step(
+            "approach",
+            "Movimiento circular uniforme con la velocidad angular como dato: $a_c = \\omega^2 r$.",
+            "Uniform circular motion with the angular speed as data: $a_c = \\omega^2 r$.",
+          ),
+          step(
+            "calculation",
+            `$a_c = ${tok(p.w)}^2 \\cdot ${tok(p.r)} = ${tok(w2)} \\cdot ${tok(p.r)} = ${tok(a)}\\ \\text{m/s}^2$`,
+            `$a_c = ${tok(p.w)}^2 \\cdot ${tok(p.r)} = ${tok(w2)} \\cdot ${tok(p.r)} = ${tok(a)}\\ \\text{m/s}^2$`,
+          ),
+          step(
+            "result",
+            `La aceleración centrípeta es $${tok(a)}\\ \\text{m/s}^2$, dirigida hacia el eje del carrusel.`,
+            `The centripetal acceleration is $${tok(a)}\\ \\text{m/s}^2$, directed toward the merry-go-round's axis.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* ---------------------------------------------------------------- */
+  /* Speed from centripetal acceleration (rearranging)                */
+  /* ---------------------------------------------------------------- */
+  template(
+    {
+      id: "cg-accel-03",
+      subject: "physics",
+      topicId: "circular-gravitation",
+      subtopicId: "centripetal-acceleration",
+      difficulty: "medium",
+      questionType: "numeric-unit",
+      estimatedTimeSec: 120,
+      tags: ["centripetal-acceleration", "circular-motion", "rearranging"],
+      prerequisites: ["circular-motion", "centripetal-acceleration"],
+    },
+    (rng) => {
+      // Hand-curated (a, r): a·r is a perfect square, so v = √(a·r) is exact.
+      const sets = [
+        { a: 8, r: 50 },
+        { a: 5, r: 20 },
+        { a: 2, r: 50 },
+        { a: 8, r: 200 },
+        { a: 4.5, r: 50 },
+        { a: 5, r: 80 },
+      ];
+      const p = rng.pick(sets);
+      const ar = clean(p.a * p.r);
+      const v = sig2(Math.sqrt(ar));
+      return {
+        skill: L("Rapidez a partir de la aceleración centrípeta", "Speed from centripetal acceleration"),
+        statement: L(
+          `Un coche toma una curva circular de radio $${tok(p.r)}\\ \\text{m}$ y sus ocupantes notan una aceleración centrípeta de $${tok(p.a)}\\ \\text{m/s}^2$. ¿Con qué **rapidez** circula el coche? (2 cifras significativas).`,
+          `A car takes a circular curve of radius $${tok(p.r)}\\ \\text{m}$ and its occupants feel a centripetal acceleration of $${tok(p.a)}\\ \\text{m/s}^2$. At what **speed** is the car travelling? (2 significant figures).`,
+        ),
+        answer: {
+          kind: "numeric-unit",
+          value: v,
+          tolerance: { mode: "sigfig", value: 2 },
+          units: ["m/s"],
+          unitChoices: ["m/s", "km/h", "m/s^2", "m"],
+        },
+        hints: [
+          L(
+            "Identifica los datos: el radio y la aceleración centrípeta; la incógnita es la rapidez $v$.",
+            "Identify the data: the radius and the centripetal acceleration; the unknown is the speed $v$.",
+          ),
+          L(
+            "La relación entre las tres magnitudes es $a_c = \\frac{v^2}{r}$.",
+            "The relation between the three quantities is $a_c = \\frac{v^2}{r}$.",
+          ),
+          L(
+            "Despeja $v = \\sqrt{a_c\\,r}$ y sustituye los dos datos.",
+            "Solve for $v = \\sqrt{a_c\\,r}$ and substitute the two data values.",
+          ),
+        ],
+        answerDisplay: L(
+          `$v = ${tok(v)}\\ \\text{m/s}$`,
+          `$v = ${tok(v)}\\ \\text{m/s}$`,
+        ),
+        solution: [
+          step(
+            "given",
+            `$a_c = ${tok(p.a)}\\ \\text{m/s}^2$, $r = ${tok(p.r)}\\ \\text{m}$.`,
+            `$a_c = ${tok(p.a)}\\ \\text{m/s}^2$, $r = ${tok(p.r)}\\ \\text{m}$.`,
+          ),
+          step(
+            "approach",
+            "De $a_c = \\frac{v^2}{r}$ despejamos la rapidez: $v = \\sqrt{a_c\\,r}$.",
+            "From $a_c = \\frac{v^2}{r}$ we solve for the speed: $v = \\sqrt{a_c\\,r}$.",
+          ),
+          step(
+            "calculation",
+            `$v = \\sqrt{ ${tok(p.a)} \\cdot ${tok(p.r)}} = \\sqrt{ ${tok(ar)}} = ${tok(v)}\\ \\text{m/s}$`,
+            `$v = \\sqrt{ ${tok(p.a)} \\cdot ${tok(p.r)}} = \\sqrt{ ${tok(ar)}} = ${tok(v)}\\ \\text{m/s}$`,
+          ),
+          step(
+            "result",
+            `El coche circula a $${tok(v)}\\ \\text{m/s}$ (unos $${Math.round(v * 3.6)}\\ \\text{km/h}$).`,
+            `The car is travelling at $${tok(v)}\\ \\text{m/s}$ (about $${Math.round(v * 3.6)}\\ \\text{km/h}$).`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* ---------------------------------------------------------------- */
   /* Centripetal force F = mv²/r                                       */
   /* ---------------------------------------------------------------- */
   template(

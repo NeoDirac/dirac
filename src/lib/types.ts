@@ -264,6 +264,52 @@ export function solutionSteps(
   return Array.isArray(problem.solution) ? problem.solution : problem.solution[locale];
 }
 
+/* ------------------------------------------------------------------ */
+/* Provenance & reasoning taxonomy (content quality layer)             */
+/* ------------------------------------------------------------------ */
+
+/**
+ * License classification for a source. Governs what may be published:
+ * - INSTRUCTOR_CREATED: the tutor's own exams, sheets and worked notes.
+ * - OPEN_LICENSE:        official exam documents an institution publishes
+ *                        for public exam preparation (kept with attribution).
+ * - PUBLIC_DOMAIN:       no known rights restrictions.
+ * - REQUIRES_REVIEW:     commercial/ambiguous — usable internally as a
+ *                        reference for classification and design only.
+ */
+export type SourceLicense =
+  | "INSTRUCTOR_CREATED"
+  | "OPEN_LICENSE"
+  | "PUBLIC_DOMAIN"
+  | "REQUIRES_REVIEW";
+
+/** Per-problem pointer into a registered source (see src/content/sources). */
+export interface SourceRef {
+  /** key of a record in src/content/sources/registry.ts */
+  sourceId: string;
+  /** license classification the bank entry carries for THIS source */
+  license: SourceLicense;
+  /** exercise number/label as printed in the source ("5.4", "1.", …) */
+  exerciseNumber?: string;
+  /** page in the source document */
+  page?: number;
+}
+
+/**
+ * Intellectual process a problem demands — used for honest difficulty
+ * classification (see src/content/DIFFICULTY.md) and future filtering.
+ * Not a difficulty: a problem carries 1–2 of these.
+ */
+export type ReasoningType =
+  | "case-analysis" // split the domain / several cases must be handled
+  | "parameters" // find values of a parameter with a required behaviour
+  | "spurious" // candidate solutions must be tested and discarded
+  | "graphical" // reading/combining information from graphs
+  | "multi-concept" // chains techniques from different topics
+  | "modeling" // build the model before computing
+  | "definition-hunting" // the key step is unpacking a definition
+  | "estimation"; // bounds / orders of magnitude
+
 export interface ProblemTemplate {
   id: string;
   subject: Subject;
@@ -274,6 +320,10 @@ export interface ProblemTemplate {
   estimatedTimeSec: number;
   tags: string[];
   prerequisites: string[];
+  /** provenance: where this problem comes from (curated entries) */
+  source?: SourceRef;
+  /** dominant intellectual demand (curated entries) */
+  reasoning?: ReasoningType;
   /** deterministic: same seed → same problem (locale-independent) */
   generate(rng: RngLike): ProblemContent;
 }

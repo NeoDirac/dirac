@@ -17,16 +17,35 @@
 
 import { mathCurriculum } from "../src/content/curriculum/math";
 import { physicsCurriculum } from "../src/content/curriculum/physics";
+import { SOURCES, sourceById } from "../src/content/sources/registry";
 import { Rng } from "../src/lib/rng";
 import { parseExpression, collectVars } from "../src/lib/validation/expression";
 import type {
   Difficulty,
   ProblemContent,
   ProblemTemplate,
+  ReasoningType,
   SolutionStage,
+  SourceLicense,
 } from "../src/lib/types";
 
 const VALID_STAGES: SolutionStage[] = ["given", "approach", "calculation", "result"];
+const VALID_LICENSES: SourceLicense[] = [
+  "INSTRUCTOR_CREATED",
+  "OPEN_LICENSE",
+  "PUBLIC_DOMAIN",
+  "REQUIRES_REVIEW",
+];
+const VALID_REASONING: ReasoningType[] = [
+  "case-analysis",
+  "parameters",
+  "spurious",
+  "graphical",
+  "multi-concept",
+  "modeling",
+  "definition-hunting",
+  "estimation",
+];
 
 // static imports of every topic module (script runs under bun)
 const modules: Record<string, { templates: ProblemTemplate[] }> = {
@@ -224,6 +243,29 @@ async function main() {
       hadError = true;
     }
 
+    // provenance: a template that declares a source must point at a registered
+    // one with a valid license; REQUIRES_REVIEW sources may not be transcribed
+    if (t.source) {
+      const rec = sourceById(t.source.sourceId);
+      if (!rec) {
+        error(`${where}: source.sourceId '${t.source.sourceId}' not in the source registry`);
+        hadError = true;
+      } else {
+        if (!VALID_LICENSES.includes(t.source.license)) {
+          error(`${where}: source.license '${t.source.license}' is not a known license class`);
+          hadError = true;
+        }
+        if (rec.license === "REQUIRES_REVIEW" && t.source.license !== "REQUIRES_REVIEW") {
+          error(`${where}: source '${rec.id}' is REQUIRES_REVIEW — verbatim transcription is not allowed`);
+          hadError = true;
+        }
+      }
+    }
+    if (t.reasoning && !VALID_REASONING.includes(t.reasoning)) {
+      error(`${where}: reasoning '${t.reasoning}' is not a known reasoning type`);
+      hadError = true;
+    }
+
     // generate with 3 seeds; also determinism check
     const seeds = [1, 4242, 999983];
     const contents: ProblemContent[] = [];
@@ -266,6 +308,14 @@ async function main() {
   for (const key of curriculumTopics.keys()) {
     if (!byTopic.has(key)) warn(`${key}: has NO templates yet`);
   }
+
+  // provenance summary: how much of the bank is curated from real sources
+  const curated = templates.filter((t) => t.source);
+  const bySourceId = new Map<string, number>();
+  for (const t of curated) bySourceId.set(t.source!.sourceId, (bySourceId.get(t.source!.sourceId) ?? 0) + 1);
+  console.log("\nProvenance:");
+  console.log(`  ${curated.length}/${templates.length} templates carry a source (${[...bySourceId.entries()].map(([id, n]) => `${id}: ${n}`).join(", ") || "none"})`);
+  console.log(`  registry: ${SOURCES.length} sources (${SOURCES.filter((s) => s.license === "REQUIRES_REVIEW").length} REQUIRES_REVIEW)`);
 
   console.log(`\n${templates.length} templates · ${errors} errors · ${warnings} warnings`);
   if (errors > 0) {

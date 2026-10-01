@@ -1,0 +1,667 @@
+     1→/**
+     2→ * MATH · Logarithmic Functions
+     3→ *
+     4→ * Properties, evaluation, exponential/log conversion, equations and
+     5→ * applications. All answers are exact integers built from clean powers.
+     6→ */
+     7→
+     8→import { template, L, step } from "@/lib/problem";
+     9→import type { ProblemTemplate, McOption } from "@/lib/types";
+    10→
+    11→export const templates: ProblemTemplate[] = [
+    12→  /* ---------------------------------------------------------------- */
+    13→  /* Evaluating: log_b(b^k)                                           */
+    14→  /* ---------------------------------------------------------------- */
+    15→  template(
+    16→    {
+    17→      id: "log-eval-01",
+    18→      subject: "math",
+    19→      topicId: "logarithmic",
+    20→      subtopicId: "evaluating",
+    21→      difficulty: "easy",
+    22→      questionType: "numeric",
+    23→      estimatedTimeSec: 60,
+    24→      tags: ["logarithms", "evaluating"],
+    25→      prerequisites: ["exponential"],
+    26→    },
+    27→    (rng) => {
+    28→      const b = rng.pick([2, 10]);
+    29→      const k = b === 2 ? rng.int(2, 8) : rng.int(2, 5);
+    30→      const arg = Math.pow(b, k);
+    31→      return {
+    32→        skill: L("Evaluar un logaritmo", "Evaluating a logarithm"),
+    33→        statement: L(
+    34→          `Calcula: $\\log_{${b}}(${arg})$`,
+    35→          `Evaluate: $\\log_{${b}}(${arg})$`,
+    36→        ),
+    37→        answer: { kind: "numeric", value: k },
+    38→        hints: [
+    39→          L(
+    40→            "El logaritmo responde a la pregunta: ¿la base elevada a qué da ese número?",
+    41→            "A logarithm answers: the base raised to what power gives that number?",
+    42→          ),
+    43→          L(
+    44→            `Busca el exponente: $${b}^{\\,?} = ${arg}$.`,
+    45→            `Look for the exponent: $${b}^{\\,?} = ${arg}$.`,
+    46→          ),
+    47→          L(
+    48→            `Ve probando potencias de $${b}$ hasta alcanzar $${arg}$.`,
+    49→            `Try powers of $${b}$ until you reach $${arg}$.`,
+    50→          ),
+    51→        ],
+    52→        answerDisplay: L(`$\\log_{${b}}(${arg}) = ${k}$`, `$\\log_{${b}}(${arg}) = ${k}$`),
+    53→        solution: [
+    54→          step("given", `$\\log_{${b}}(${arg})$`, `$\\log_{${b}}(${arg})$`),
+    55→          step(
+    56→            "approach",
+    57→            "Usa la definición: $\\log_{b}(y) = x \\iff b^{x} = y$.",
+    58→            "Use the definition: $\\log_{b}(y) = x \\iff b^{x} = y$.",
+    59→          ),
+    60→          step(
+    61→            "calculation",
+    62→            `$${b}^{${k}} = ${arg} \\;\\Rightarrow\\; \\log_{${b}}(${arg}) = ${k}$`,
+    63→            `$${b}^{${k}} = ${arg} \\;\\Rightarrow\\; \\log_{${b}}(${arg}) = ${k}$`,
+    64→          ),
+    65→          step("result", `$\\log_{${b}}(${arg}) = ${k}$`, `$\\log_{${b}}(${arg}) = ${k}$`),
+    66→        ],
+    67→      };
+    68→    },
+    69→  ),
+    70→
+    71→  /* ---------------------------------------------------------------- */
+    72→  /* Properties: sum of logs                                          */
+    73→  /* ---------------------------------------------------------------- */
+    74→  template(
+    75→    {
+    76→      id: "log-prop-01",
+    77→      subject: "math",
+    78→      topicId: "logarithmic",
+    79→      subtopicId: "properties",
+    80→      difficulty: "easy",
+    81→      questionType: "numeric",
+    82→      estimatedTimeSec: 90,
+    83→      tags: ["log-properties", "product-rule"],
+    84→      prerequisites: ["exponential"],
+    85→    },
+    86→    (rng) => {
+    87→      const m = rng.int(2, 6);
+    88→      const n = rng.int(2, 6);
+    89→      const value = m + n;
+    90→      return {
+    91→        skill: L("Suma de logaritmos", "Adding logarithms"),
+    92→        statement: L(
+    93→          `Calcula: $\\log_{2}(${Math.pow(2, m)}) + \\log_{2}(${Math.pow(2, n)})$`,
+    94→          `Evaluate: $\\log_{2}(${Math.pow(2, m)}) + \\log_{2}(${Math.pow(2, n)})$`,
+    95→        ),
+    96→        answer: { kind: "numeric", value },
+    97→        hints: [
+    98→          L(
+    99→            "Puedes evaluar cada logaritmo por separado.",
+   100→            "You can evaluate each logarithm separately.",
+   101→          ),
+   102→          L(
+   103→            "O bien aplica la propiedad del producto: $\\log(u) + \\log(v) = \\log(u \\cdot v)$.",
+   104→            "Or apply the product rule: $\\log(u) + \\log(v) = \\log(u \\cdot v)$.",
+   105→          ),
+   106→          L(
+   107→            `El producto de los argumentos es otra potencia de 2: $${Math.pow(2, m)} \\cdot ${Math.pow(2, n)}$.`,
+   108→            `The product of the arguments is another power of 2: $${Math.pow(2, m)} \\cdot ${Math.pow(2, n)}$.`,
+   109→          ),
+   110→        ],
+   111→        answerDisplay: L(`$${value}$`, `$${value}$`),
+   112→        solution: [
+   113→          step(
+   114→            "given",
+   115→            `$\\log_{2}(${Math.pow(2, m)}) + \\log_{2}(${Math.pow(2, n)})$`,
+   116→            `$\\log_{2}(${Math.pow(2, m)}) + \\log_{2}(${Math.pow(2, n)})$`,
+   117→          ),
+   118→          step(
+   119→            "approach",
+   120→            "Evaluamos cada logaritmo reconociendo potencias de 2 (equivalente a aplicar la propiedad del producto).",
+   121→            "Evaluate each logarithm by recognizing powers of 2 (equivalent to applying the product rule).",
+   122→          ),
+   123→          step(
+   124→            "calculation",
+   125→            `$\\log_{2}(${Math.pow(2, m)}) = ${m}$, $\\quad \\log_{2}(${Math.pow(2, n)}) = ${n}$<br>$${m} + ${n} = ${value}$`,
+   126→            `$\\log_{2}(${Math.pow(2, m)}) = ${m}$, $\\quad \\log_{2}(${Math.pow(2, n)}) = ${n}$<br>$${m} + ${n} = ${value}$`,
+   127→          ),
+   128→          step(
+   129→            "result",
+   130→            `El resultado es $${value}$.`,
+   131→            `The result is $${value}$.`,
+   132→          ),
+   133→        ],
+   134→      };
+   135→    },
+   136→  ),
+   137→
+   138→  /* ---------------------------------------------------------------- */
+   139→  /* Conversion: exponential → logarithmic (MC)                       */
+   140→  /* ---------------------------------------------------------------- */
+   141→  template(
+   142→    {
+   143→      id: "log-conv-01",
+   144→      subject: "math",
+   145→      topicId: "logarithmic",
+   146→      subtopicId: "conversion",
+   147→      difficulty: "medium",
+   148→      questionType: "multiple-choice",
+   149→      estimatedTimeSec: 120,
+   150→      tags: ["conversion", "definition"],
+   151→      prerequisites: ["exponential"],
+   152→    },
+   153→    (rng) => {
+   154→      const b = rng.pick([2, 3, 10]);
+   155→      const options: McOption[] = [
+   156→        { id: "a", text: L(`$x = \\log_{${b}}(y)$`, `$x = \\log_{${b}}(y)$`), correct: true },
+   157→        { id: "b", text: L(`$y = \\log_{${b}}(x)$`, `$y = \\log_{${b}}(x)$`), correct: false },
+   158→        { id: "c", text: L(`$x = ${b}^{y}$`, `$x = ${b}^{y}$`), correct: false },
+   159→        { id: "d", text: L(`$x = \\log_{y}(${b})$`, `$x = \\log_{y}(${b})$`), correct: false },
+   160→      ];
+   161→      return {
+   162→        skill: L("Forma logarítmica de una exponencial", "Logarithmic form of an exponential"),
+   163→        statement: L(
+   164→          `La ecuación exponencial $y = ${b}^{x}$ se puede reescribir en forma logarítmica con $x$ despejado. ¿Cuál es la forma correcta?`,
+   165→          `The exponential equation $y = ${b}^{x}$ can be rewritten in logarithmic form with $x$ isolated. Which is the correct form?`,
+   166→        ),
+   167→        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+   168→        hints: [
+   169→          L(
+   170→            "La definición conecta ambas formas: $b^{x} = y \\iff x = \\log_{b}(y)$.",
+   171→            "The definition links both forms: $b^{x} = y \\iff x = \\log_{b}(y)$.",
+   172→          ),
+   173→          L(
+   174→            `Identifica: base $${b}$, exponente $x$, resultado $y$.`,
+   175→            `Identify: base $${b}$, exponent $x$, result $y$.`,
+   176→          ),
+   177→          L(
+   178→            "El logaritmo de $y$ en base $b$ es precisamente el exponente que falta.",
+   179→            "The logarithm of $y$ base $b$ is exactly the missing exponent.",
+   180→          ),
+   181→        ],
+   182→        answerDisplay: L(`$x = \\log_{${b}}(y)$`, `$x = \\log_{${b}}(y)$`),
+   183→        solution: [
+   184→          step("given", `$y = ${b}^{x}$`, `$y = ${b}^{x}$`),
+   185→          step(
+   186→            "approach",
+   187→            "Aplicamos la definición de logaritmo para despejar el exponente.",
+   188→            "Apply the definition of logarithm to isolate the exponent.",
+   189→          ),
+   190→          step(
+   191→            "calculation",
+   192→            `$${b}^{x} = y \\iff x = \\log_{${b}}(y)$<br>La base $${b}$ queda como base del logaritmo y $y$ como argumento.`,
+   193→            `$${b}^{x} = y \\iff x = \\log_{${b}}(y)$<br>The base $${b}$ becomes the log's base and $y$ its argument.`,
+   194→          ),
+   195→          step("result", `$x = \\log_{${b}}(y)$`, `$x = \\log_{${b}}(y)$`),
+   196→        ],
+   197→      };
+   198→    },
+   199→  ),
+   200→
+   201→  /* ---------------------------------------------------------------- */
+   202→  /* Equations: log_2(x) = k                                          */
+   203→  /* ---------------------------------------------------------------- */
+   204→  template(
+   205→    {
+   206→      id: "log-eq-01",
+   207→      subject: "math",
+   208→      topicId: "logarithmic",
+   209→      subtopicId: "equations",
+   210→      difficulty: "medium",
+   211→      questionType: "numeric",
+   212→      estimatedTimeSec: 120,
+   213→      tags: ["logarithmic-equations"],
+   214→      prerequisites: ["exponential"],
+   215→    },
+   216→    (rng) => {
+   217→      const k = rng.int(3, 8);
+   218→      const value = Math.pow(2, k);
+   219→      return {
+   220→        skill: L("Ecuación logarítmica sencilla", "Simple logarithmic equation"),
+   221→        statement: L(
+   222→          `Resuelve: $\\log_{2}(x) = ${k}$`,
+   223→          `Solve: $\\log_{2}(x) = ${k}$`,
+   224→        ),
+   225→        answer: { kind: "numeric", value },
+   226→        hints: [
+   227→          L(
+   228→            "Pasa la ecuación a forma exponencial.",
+   229→            "Rewrite the equation in exponential form.",
+   230→          ),
+   231→          L(
+   232→            `$\\log_{2}(x) = ${k}$ significa $x = 2^{${k}}$.`,
+   233→            `$\\log_{2}(x) = ${k}$ means $x = 2^{${k}}$.`,
+   234→          ),
+   235→          L(
+   236→            "Calcula la potencia de 2 indicada.",
+   237→            "Compute the indicated power of 2.",
+   238→          ),
+   239→        ],
+   240→        answerDisplay: L(`$x = ${value}$`, `$x = ${value}$`),
+   241→        solution: [
+   242→          step("given", `$\\log_{2}(x) = ${k}$`, `$\\log_{2}(x) = ${k}$`),
+   243→          step(
+   244→            "approach",
+   245→            "Usamos la definición: el logaritmo es el exponente al que se eleva la base.",
+   246→            "Use the definition: the logarithm is the exponent applied to the base.",
+   247→          ),
+   248→          step(
+   249→            "calculation",
+   250→            `$x = 2^{${k}} = ${value}$`,
+   251→            `$x = 2^{${k}} = ${value}$`,
+   252→          ),
+   253→          step("result", `$x = ${value}$`, `$x = ${value}$`),
+   254→        ],
+   255→      };
+   256→    },
+   257→  ),
+   258→
+   259→  /* ---------------------------------------------------------------- */
+   260→  /* Applications: Richter scale ratio                                 */
+   261→  /* ---------------------------------------------------------------- */
+   262→  template(
+   263→    {
+   264→      id: "log-app-01",
+   265→      subject: "math",
+   266→      topicId: "logarithmic",
+   267→      subtopicId: "applications",
+   268→      difficulty: "medium",
+   269→      questionType: "numeric",
+   270→      estimatedTimeSec: 180,
+   271→      tags: ["log-scale", "applications", "richter"],
+   272→      prerequisites: ["exponential"],
+   273→    },
+   274→    (rng) => {
+   275→      const m1 = rng.int(4, 7);
+   276→      const d = rng.pick([2, 3]);
+   277→      const m2 = m1 + d;
+   278→      const value = Math.pow(10, d);
+   279→      return {
+   280→        skill: L("Comparar magnitudes en escala logarítmica", "Comparing magnitudes on a log scale"),
+   281→        statement: L(
+   282→          `En la escala de Richter, la magnitud de un sismo es $M = \\log_{10}(A/A_{0})$, donde $A$ es la amplitud de las ondas. ¿Cuántas veces mayor es la amplitud de un sismo de magnitud $${m2}$ que la de uno de magnitud $${m1}$?`,
+   283→          `On the Richter scale, an earthquake's magnitude is $M = \\log_{10}(A/A_{0})$, where $A$ is the wave amplitude. How many times larger is the amplitude of a magnitude $${m2}$ quake than a magnitude $${m1}$ one?`,
+   284→        ),
+   285→        answer: { kind: "numeric", value },
+   286→        hints: [
+   287→          L(
+   288→            "Despeja la amplitud: la definición da $A = A_{0} \\cdot 10^{M}$.",
+   289→            "Solve for the amplitude: the definition gives $A = A_{0} \\cdot 10^{M}$.",
+   290→          ),
+   291→          L(
+   292→            `Escribe cada amplitud como múltiplo de $A_{0}$.`,
+   293→            `Write each amplitude as a multiple of $A_{0}$.`,
+   294→          ),
+   295→          L(
+   296→            "Divide las dos amplitudes: los $A_{0}$ se cancelan.",
+   297→            "Divide the two amplitudes: the $A_{0}$ factors cancel.",
+   298→          ),
+   299→        ],
+   300→        answerDisplay: L(`$${value}$ veces`, `$${value}$ times`),
+   301→        solution: [
+   302→          step(
+   303→            "given",
+   304→            `Magnitudes: $M_{1} = ${m1}$ y $M_{2} = ${m2}$. Fórmula: $M = \\log_{10}(A/A_{0})$.`,
+   305→            `Magnitudes: $M_{1} = ${m1}$ and $M_{2} = ${m2}$. Formula: $M = \\log_{10}(A/A_{0})$.`,
+   306→          ),
+   307→          step(
+   308→            "approach",
+   309→            "Invertimos el logaritmo para obtener cada amplitud y luego comparamos por división.",
+   310→            "Invert the logarithm to get each amplitude, then compare by division.",
+   311→          ),
+   312→          step(
+   313→            "calculation",
+   314→            `$A_{1} = A_{0} \\cdot 10^{${m1}}$, $\\quad A_{2} = A_{0} \\cdot 10^{${m2}}$<br>$\\frac{A_{2}}{A_{1}} = \\frac{A_{0} \\cdot 10^{${m2}}}{A_{0} \\cdot 10^{${m1}}} = 10^{${m2} - ${m1}} = 10^{${d}} = ${value}$`,
+   315→            `$A_{1} = A_{0} \\cdot 10^{${m1}}$, $\\quad A_{2} = A_{0} \\cdot 10^{${m2}}$<br>$\\frac{A_{2}}{A_{1}} = \\frac{A_{0} \\cdot 10^{${m2}}}{A_{0} \\cdot 10^{${m1}}} = 10^{${m2} - ${m1}} = 10^{${d}} = ${value}$`,
+   316→          ),
+   317→          step(
+   318→            "result",
+   319→            `La amplitud del sismo de magnitud $${m2}$ es $${value}$ veces mayor.`,
+   320→            `The magnitude $${m2}$ quake has an amplitude $${value}$ times larger.`,
+   321→          ),
+   322→        ],
+   323→      };
+   324→    },
+   325→  ),
+   326→
+   327→  /* ---------------------------------------------------------------- */
+   328→  /* Properties: power rule with a variable (expression)              */
+   329→  /* ---------------------------------------------------------------- */
+   330→  template(
+   331→    {
+   332→      id: "log-prop-02",
+   333→      subject: "math",
+   334→      topicId: "logarithmic",
+   335→      subtopicId: "properties",
+   336→      difficulty: "medium",
+   337→      questionType: "expression",
+   338→      estimatedTimeSec: 150,
+   339→      tags: ["log-properties", "power-rule"],
+   340→      prerequisites: ["exponential"],
+   341→    },
+   342→    (rng) => {
+   343→      const m = rng.int(2, 4);
+   344→      return {
+   345→        skill: L("Propiedad de la potencia", "Power rule for logarithms"),
+   346→        statement: L(
+   347→          `Simplifica $\\log_{2}(${Math.pow(2, m)}^{x})$ y escríbelo como expresión en $x$ (por ejemplo: 3x o 3*x).`,
+   348→          `Simplify $\\log_{2}(${Math.pow(2, m)}^{x})$ and write it as an expression in $x$ (e.g. 3x or 3*x).`,
+   349→        ),
+   350→        answer: {
+   351→          kind: "expression",
+   352→          accepted: [`${m}x`, `${m}*x`],
+   353→          variables: ["x"],
+   354→        },
+   355→        hints: [
+   356→          L(
+   357→            "Usa la propiedad de la potencia: $\\log_{b}(u^{p}) = p \\cdot \\log_{b}(u)$.",
+   358→            "Use the power rule: $\\log_{b}(u^{p}) = p \\cdot \\log_{b}(u)$.",
+   359→          ),
+   360→          L(
+   361→            `Aquí $u = ${Math.pow(2, m)}$ y $p = x$.`,
+   362→            `Here $u = ${Math.pow(2, m)}$ and $p = x$.`,
+   363→          ),
+   364→          L(
+   365→            `Calcula $\\log_{2}(${Math.pow(2, m)})$ y multiplica por $x$.`,
+   366→            `Compute $\\log_{2}(${Math.pow(2, m)})$ and multiply by $x$.`,
+   367→          ),
+   368→        ],
+   369→        answerDisplay: L(`$${m}x$`, `$${m}x$`),
+   370→        solution: [
+   371→          step(
+   372→            "given",
+   373→            `$\\log_{2}(${Math.pow(2, m)}^{x})$`,
+   374→            `$\\log_{2}(${Math.pow(2, m)}^{x})$`,
+   375→          ),
+   376→          step(
+   377→            "approach",
+   378→            "Aplicamos la propiedad de la potencia y evaluamos el logaritmo que queda.",
+   379→            "Apply the power rule and evaluate the remaining logarithm.",
+   380→          ),
+   381→          step(
+   382→            "calculation",
+   383→            `$\\log_{2}(${Math.pow(2, m)}^{x}) = x \\cdot \\log_{2}(${Math.pow(2, m)}) = x \\cdot ${m} = ${m}x$`,
+   384→            `$\\log_{2}(${Math.pow(2, m)}^{x}) = x \\cdot \\log_{2}(${Math.pow(2, m)}) = x \\cdot ${m} = ${m}x$`,
+   385→          ),
+   386→          step("result", `$${m}x$`, `$${m}x$`),
+   387→        ],
+   388→      };
+   389→    },
+   390→  ),
+   391→
+   392→  /* ---------------------------------------------------------------- */
+   393→  /* Properties: power rule with numeric exponent                      */
+   394→  /* ---------------------------------------------------------------- */
+   395→  template(
+   396→    {
+   397→      id: "log-prop-03",
+   398→      subject: "math",
+   399→      topicId: "logarithmic",
+   400→      subtopicId: "properties",
+   401→      difficulty: "hard",
+   402→      questionType: "numeric",
+   403→      estimatedTimeSec: 180,
+   404→      tags: ["log-properties", "power-rule"],
+   405→      prerequisites: ["exponential"],
+   406→    },
+   407→    (rng) => {
+   408→      const m = rng.int(2, 5);
+   409→      const p = rng.pick([2, 3]);
+   410→      const value = m * p;
+   411→      return {
+   412→        skill: L("Potencia dentro del logaritmo", "A power inside a logarithm"),
+   413→        statement: L(
+   414→          `Calcula: $\\log_{2}\\left(${Math.pow(2, m)}^{${p}}\\right)$`,
+   415→          `Evaluate: $\\log_{2}\\left(${Math.pow(2, m)}^{${p}}\\right)$`,
+   416→        ),
+   417→        answer: { kind: "numeric", value },
+   418→        hints: [
+   419→          L(
+   420→            "No hace falta calcular la potencia: usa la propiedad $\\log_{b}(u^{p}) = p \\cdot \\log_{b}(u)$.",
+   421→            "You don't need to compute the power: use $\\log_{b}(u^{p}) = p \\cdot \\log_{b}(u)$.",
+   422→          ),
+   423→          L(
+   424→            `El exponente externo es $${p}$: saldrá multiplicando.`,
+   425→            `The outer exponent is $${p}$: it comes out as a factor.`,
+   426→          ),
+   427→          L(
+   428→            `Evalúa $\\log_{2}(${Math.pow(2, m)})$ y multiplica por $${p}$.`,
+   429→            `Evaluate $\\log_{2}(${Math.pow(2, m)})$ and multiply by $${p}$.`,
+   430→          ),
+   431→        ],
+   432→        answerDisplay: L(`$${value}$`, `$${value}$`),
+   433→        solution: [
+   434→          step(
+   435→            "given",
+   436→            `$\\log_{2}\\left(${Math.pow(2, m)}^{${p}}\\right)$`,
+   437→            `$\\log_{2}\\left(${Math.pow(2, m)}^{${p}}\\right)$`,
+   438→          ),
+   439→          step(
+   440→            "approach",
+   441→            "Aplicamos la propiedad de la potencia y después evaluamos el logaritmo de la base.",
+   442→            "Apply the power rule and then evaluate the logarithm of the base.",
+   443→          ),
+   444→          step(
+   445→            "calculation",
+   446→            `$\\log_{2}\\left((${Math.pow(2, m)})^{${p}}\\right) = ${p} \\cdot \\log_{2}(${Math.pow(2, m)}) = ${p} \\cdot ${m} = ${value}$`,
+   447→            `$\\log_{2}\\left((${Math.pow(2, m)})^{${p}}\\right) = ${p} \\cdot \\log_{2}(${Math.pow(2, m)}) = ${p} \\cdot ${m} = ${value}$`,
+   448→          ),
+   449→          step(
+   450→            "result",
+   451→            `El resultado es $${value}$.`,
+   452→            `The result is $${value}$.`,
+   453→          ),
+   454→        ],
+   455→      };
+   456→    },
+   457→  ),
+   458→
+   459→  /* ---------------------------------------------------------------- */
+   460→  /* Equations: log + log with domain rejection                        */
+   461→  /* ---------------------------------------------------------------- */
+   462→  template(
+   463→    {
+   464→      id: "log-eq-02",
+   465→      subject: "math",
+   466→      topicId: "logarithmic",
+   467→      subtopicId: "equations",
+   468→      difficulty: "hard",
+   469→      questionType: "numeric",
+   470→      estimatedTimeSec: 240,
+   471→      tags: ["logarithmic-equations", "domain", "quadratics"],
+   472→      prerequisites: ["exponential"],
+   473→    },
+   474→    (rng) => {
+   475→      // log2(x) + log2(x - c) = s with roots r > 0 and -d < 0
+   476→      const [r, d, c, s] = rng.pick([
+   477→        [8, 1, 7, 3],
+   478→        [8, 2, 6, 4],
+   479→        [8, 4, 4, 5],
+   480→        [16, 2, 14, 5],
+   481→        [4, 2, 2, 3],
+   482→      ]);
+   483→      const t = Math.pow(2, s);
+   484→      return {
+   485→        skill: L("Ecuación con dos logaritmos", "Equation with two logarithms"),
+   486→        statement: L(
+   487→          `Resuelve: $\\log_{2}(x) + \\log_{2}(x - ${c}) = ${s}$`,
+   488→          `Solve: $\\log_{2}(x) + \\log_{2}(x - ${c}) = ${s}$`,
+   489→        ),
+   490→        answer: { kind: "numeric", value: r },
+   491→        hints: [
+   492→          L(
+   493→            "Combina los dos logaritmos en uno solo con la propiedad del producto.",
+   494→            "Combine the two logarithms into one using the product rule.",
+   495→          ),
+   496→          L(
+   497→            `Queda $\\log_{2}\\big(x(x - ${c})\\big) = ${s}$, es decir, $x(x - ${c}) = ${t}$.`,
+   498→            `You get $\\log_{2}\\big(x(x - ${c})\\big) = ${s}$, that is, $x(x - ${c}) = ${t}$.`,
+   499→          ),
+   500→          L(
+   501→            "Resuelve la cuadrática y comprueba qué raíz respeta el dominio de los logaritmos.",
+   502→            "Solve the quadratic and check which root respects the domain of the logarithms.",
+   503→          ),
+   504→        ],
+   505→        answerDisplay: L(`$x = ${r}$`, `$x = ${r}$`),
+   506→        solution: [
+   507→          step(
+   508→            "given",
+   509→            `$\\log_{2}(x) + \\log_{2}(x - ${c}) = ${s}$`,
+   510→            `$\\log_{2}(x) + \\log_{2}(x - ${c}) = ${s}$`,
+   511→          ),
+   512→          step(
+   513→            "approach",
+   514→            "Aplicamos la propiedad del producto, resolvemos la cuadrática y filtramos por el dominio.",
+   515→            "Apply the product rule, solve the quadratic, and filter by the domain.",
+   516→          ),
+   517→          step(
+   518→            "calculation",
+   519→            `$\\log_{2}\\big(x(x - ${c})\\big) = ${s}$<br>$x(x - ${c}) = ${t}$<br>$x^{2} - ${c}x - ${t} = 0$<br>$(x - ${r})(x + ${d}) = 0$<br>$x = ${r}$ o $x = ${-d}$<br>Dominio: $x > 0$ y $x - ${c} > 0$; la raíz $x = ${-d}$ se rechaza.`,
+   520→            `$\\log_{2}\\big(x(x - ${c})\\big) = ${s}$<br>$x(x - ${c}) = ${t}$<br>$x^{2} - ${c}x - ${t} = 0$<br>$(x - ${r})(x + ${d}) = 0$<br>$x = ${r}$ or $x = ${-d}$<br>Domain: $x > 0$ and $x - ${c} > 0$; the root $x = ${-d}$ is rejected.`,
+   521→          ),
+   522→          step(
+   523→            "result",
+   524→            `La única solución válida es $x = ${r}$.`,
+   525→            `The only valid solution is $x = ${r}$.`,
+   526→          ),
+   527→        ],
+   528→      };
+   529→    },
+   530→  ),
+   531→
+   532→  /* ---------------------------------------------------------------- */
+   533→  /* Applications: decay time from a logarithmic formula               */
+   534→  /* ---------------------------------------------------------------- */
+   535→  template(
+   536→    {
+   537→      id: "log-app-02",
+   538→      subject: "math",
+   539→      topicId: "logarithmic",
+   540→      subtopicId: "applications",
+   541→      difficulty: "hard",
+   542→      questionType: "numeric",
+   543→      estimatedTimeSec: 210,
+   544→      tags: ["half-life", "applications", "evaluating"],
+   545→      prerequisites: ["exponential"],
+   546→    },
+   547→    (rng) => {
+   548→      const H = rng.pick([10, 20, 30, 50]);
+   549→      const k = rng.int(4, 7);
+   550→      const value = H * k;
+   551→      return {
+   552→        skill: L("Evaluar una fórmula con logaritmo", "Evaluating a formula with a logarithm"),
+   553→        statement: L(
+   554→          `El tiempo (en años) que tarda una sustancia radiactiva en reducirse de una cantidad $N_{0}$ a una cantidad $N$ es $t = ${H} \\cdot \\log_{2}(N_{0}/N)$. ¿Cuántos años tardará en quedar reducida a $N = \\frac{N_{0}}{${Math.pow(2, k)}}$?`,
+   555→          `The time (in years) for a radioactive substance to decay from an amount $N_{0}$ to an amount $N$ is $t = ${H} \\cdot \\log_{2}(N_{0}/N)$. How many years until it is reduced to $N = \\frac{N_{0}}{${Math.pow(2, k)}}$?`,
+   556→        ),
+   557→        answer: { kind: "numeric", value },
+   558→        hints: [
+   559→          L(
+   560→            "Calcula primero el cociente $N_{0}/N$.",
+   561→            "First compute the ratio $N_{0}/N$.",
+   562→          ),
+   563→          L(
+   564→            `El cociente es $${Math.pow(2, k)} = 2^{${k}}$.`,
+   565→            `The ratio is $${Math.pow(2, k)} = 2^{${k}}$.`,
+   566→          ),
+   567→          L(
+   568→            "Recuerda: $\\log_{2}(2^{k}) = k$.",
+   569→            "Remember: $\\log_{2}(2^{k}) = k$.",
+   570→          ),
+   571→        ],
+   572→        answerDisplay: L(`$t = ${value}$ años`, `$t = ${value}$ years`),
+   573→        solution: [
+   574→          step(
+   575→            "given",
+   576→            `$t = ${H} \\cdot \\log_{2}(N_{0}/N)$ con $N = \\frac{N_{0}}{${Math.pow(2, k)}}$.`,
+   577→            `$t = ${H} \\cdot \\log_{2}(N_{0}/N)$ with $N = \\frac{N_{0}}{${Math.pow(2, k)}}$.`,
+   578→          ),
+   579→          step(
+   580→            "approach",
+   581→            "Sustituimos $N$ y evaluamos el logaritmo del cociente.",
+   582→            "Substitute $N$ and evaluate the logarithm of the ratio.",
+   583→          ),
+   584→          step(
+   585→            "calculation",
+   586→            `$\\frac{N_{0}}{N} = ${Math.pow(2, k)}$<br>$t = ${H} \\cdot \\log_{2}(${Math.pow(2, k)}) = ${H} \\cdot ${k} = ${value}$`,
+   587→            `$\\frac{N_{0}}{N} = ${Math.pow(2, k)}$<br>$t = ${H} \\cdot \\log_{2}(${Math.pow(2, k)}) = ${H} \\cdot ${k} = ${value}$`,
+   588→          ),
+   589→          step(
+   590→            "result",
+   591→            `La sustancia tarda $${value}$ años en reducirse a esa fracción.`,
+   592→            `The substance takes $${value}$ years to decay to that fraction.`,
+   593→          ),
+   594→        ],
+   595→      };
+   596→    },
+   597→  ),
+   598→
+   599→  /* ---------------------------------------------------------------- */
+   600→  /* Challenge: combine power + product rules                          */
+   601→  /* ---------------------------------------------------------------- */
+   602→  template(
+   603→    {
+   604→      id: "log-chal-01",
+   605→      subject: "math",
+   606→      topicId: "logarithmic",
+   607→      subtopicId: "properties",
+   608→      difficulty: "challenge",
+   609→      questionType: "numeric",
+   610→      estimatedTimeSec: 300,
+   611→      tags: ["log-properties", "multi-step"],
+   612→      prerequisites: ["exponential"],
+   613→    },
+   614→    (rng) => {
+   615→      const p = rng.int(2, 5);
+   616→      const q = rng.int(3, 7);
+   617→      const e = rng.pick([2, 3]);
+   618→      const value = e * p + q;
+   619→      return {
+   620→        skill: L("Combinar propiedades de los logaritmos", "Combining logarithm properties"),
+   621→        statement: L(
+   622→          `Sabemos que $\\log_{2}(a) = ${p}$ y $\\log_{2}(b) = ${q}$. Calcula $\\log_{2}\\left(a^{${e}} \\cdot b\\right)$.`,
+   623→          `Given $\\log_{2}(a) = ${p}$ and $\\log_{2}(b) = ${q}$, compute $\\log_{2}\\left(a^{${e}} \\cdot b\\right)$.`,
+   624→        ),
+   625→        answer: { kind: "numeric", value },
+   626→        hints: [
+   627→          L(
+   628→            "Usa primero la propiedad de la potencia y después la del producto.",
+   629→            "Apply the power rule first, then the product rule.",
+   630→          ),
+   631→          L(
+   632→            `$\\log_{2}(a^{${e}}) = ${e} \\cdot \\log_{2}(a)$.`,
+   633→            `$\\log_{2}(a^{${e}}) = ${e} \\cdot \\log_{2}(a)$.`,
+   634→          ),
+   635→          L(
+   636→            "El producto dentro del logaritmo se convierte en una suma de logaritmos.",
+   637→            "A product inside a logarithm becomes a sum of logarithms.",
+   638→          ),
+   639→        ],
+   640→        answerDisplay: L(`$${value}$`, `$${value}$`),
+   641→        solution: [
+   642→          step(
+   643→            "given",
+   644→            `$\\log_{2}(a) = ${p}$, $\\log_{2}(b) = ${q}$. Se pide $\\log_{2}(a^{${e}} \\cdot b)$.`,
+   645→            `$\\log_{2}(a) = ${p}$, $\\log_{2}(b) = ${q}$. Find $\\log_{2}(a^{${e}} \\cdot b)$.`,
+   646→          ),
+   647→          step(
+   648→            "approach",
+   649→            "Descomponemos con la propiedad del producto y luego aplicamos la de la potencia.",
+   650→            "Break it up with the product rule, then apply the power rule.",
+   651→          ),
+   652→          step(
+   653→            "calculation",
+   654→            `$\\log_{2}(a^{${e}} \\cdot b) = \\log_{2}(a^{${e}}) + \\log_{2}(b)$<br>$= ${e} \\cdot \\log_{2}(a) + \\log_{2}(b) = ${e} \\cdot ${p} + ${q} = ${value}$`,
+   655→            `$\\log_{2}(a^{${e}} \\cdot b) = \\log_{2}(a^{${e}}) + \\log_{2}(b)$<br>$= ${e} \\cdot \\log_{2}(a) + \\log_{2}(b) = ${e} \\cdot ${p} + ${q} = ${value}$`,
+   656→          ),
+   657→          step(
+   658→            "result",
+   659→            `$\\log_{2}(a^{${e}} \\cdot b) = ${value}$.`,
+   660→            `$\\log_{2}(a^{${e}} \\cdot b) = ${value}$.`,
+   661→          ),
+   662→        ],
+   663→      };
+   664→    },
+   665→  ),
+   666→];
+   667→

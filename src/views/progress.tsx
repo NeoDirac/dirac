@@ -11,6 +11,7 @@ import {
   CalendarClock,
   Check,
   CheckCircle2,
+  ChevronDown,
   Crosshair,
   Download,
   Eye,
@@ -53,7 +54,9 @@ import {
   loadProgress,
   loadSessions,
   resetProgress,
+  subtopicKey,
   type OverallStats,
+  type SubtopicStats,
 } from "@/lib/progress";
 import { mathCurriculum } from "@/content/curriculum/math";
 import { physicsCurriculum } from "@/content/curriculum/physics";
@@ -204,6 +207,8 @@ export function ProgressView() {
   const [sessions, setSessions] = useState<SessionRecord[]>([]);
   const [reviewEntries, setReviewEntries] = useState<ReviewEntry[]>([]);
   const [records, setRecords] = useState<ProblemRecord[]>([]);
+  /** which topic rows have their subtopic breakdown expanded */
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     // localStorage is an external system — read it async, then update state
@@ -304,6 +309,15 @@ export function ProgressView() {
             const avgSec = s!.timedRecords > 0 ? Math.round(s!.timeSec / s!.timedRecords) : 0;
             const weak = isWeakTopic(s!.attempts, s!.firstTryCorrect);
             const reviewDue = review && review.dueAt <= Date.now();
+            // subtopic drill-down: curriculum order, only subtopics with data
+            const subRows: { st: SubtopicStats; name: string }[] = topic.subtopics
+              .map((sub) => {
+                const st = stats.bySubtopic[subtopicKey(subject, topic.id, sub.id)];
+                return st ? { st, name: sub.name[lang] } : null;
+              })
+              .filter((x): x is { st: SubtopicStats; name: string } => x !== null);
+            const hasSubRows = subRows.length > 1;
+            const isOpen = !!expanded[`${subject}:${topic.id}`];
             let reviewIn = "";
             if (review && !reviewDue) {
               try {
@@ -317,20 +331,42 @@ export function ProgressView() {
             return (
               <li key={topic.id} className="rounded-xl border bg-card px-4 py-3.5 transition-colors hover:border-ring/50">
                 <div className="flex items-center justify-between gap-3">
-                  <a
-                    href={href({ name: "topic", subject, topicId: topic.id })}
-                    className="truncate text-sm font-medium hover:underline"
-                  >
-                    {topic.name[lang]}
-                    {weak ? (
-                      <span
-                        className="ml-2 rounded-full border border-diff-medium/40 bg-diff-medium/10 px-2 py-0.5 align-middle text-[10px] font-semibold uppercase tracking-wide text-diff-medium"
-                        title={t("progress.suggested.title")}
+                  <span className="flex min-w-0 items-center gap-1">
+                    {hasSubRows ? (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setExpanded((prev) => ({
+                            ...prev,
+                            [`${subject}:${topic.id}`]: !prev[`${subject}:${topic.id}`],
+                          }))
+                        }
+                        aria-expanded={isOpen}
+                        aria-controls={`subtopics-${subject}-${topic.id}`}
+                        title={t("progress.subtopics.hint")}
+                        className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                       >
-                        {t("progress.topic.weak")}
-                      </span>
+                        <ChevronDown
+                          className={cn("h-4 w-4 transition-transform", isOpen && "rotate-180")}
+                          aria-hidden="true"
+                        />
+                      </button>
                     ) : null}
-                  </a>
+                    <a
+                      href={href({ name: "topic", subject, topicId: topic.id })}
+                      className="truncate text-sm font-medium hover:underline"
+                    >
+                      {topic.name[lang]}
+                      {weak ? (
+                        <span
+                          className="ml-2 rounded-full border border-diff-medium/40 bg-diff-medium/10 px-2 py-0.5 align-middle text-[10px] font-semibold uppercase tracking-wide text-diff-medium"
+                          title={t("progress.suggested.title")}
+                        >
+                          {t("progress.topic.weak")}
+                        </span>
+                      ) : null}
+                    </a>
+                  </span>
                   <span className="shrink-0 text-xs text-muted-foreground">
                     {s!.attempts === 1
                       ? t("progress.topic.oneAttempt")
@@ -377,6 +413,69 @@ export function ProgressView() {
                     ) : null
                   ) : null}
                 </p>
+
+                {hasSubRows && isOpen ? (
+                  <div id={`subtopics-${subject}-${topic.id}`} className="mt-3 border-t pt-3">
+                    <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                      {t("progress.subtopics")}
+                    </p>
+                    <ul className="space-y-1.5">
+                      {subRows.map(({ st, name }) => {
+                        const subPct = st.firstTryCorrect / st.attempts;
+                        const subWeak = isWeakTopic(st.attempts, st.firstTryCorrect);
+                        return (
+                          <li
+                            key={st.subtopicId}
+                            className="flex items-center gap-3 rounded-lg bg-secondary/40 px-3 py-2 text-xs transition-colors hover:bg-secondary/60"
+                          >
+                            <span className="min-w-0 flex-1 truncate text-[13px]" title={name}>
+                              {name}
+                              {subWeak ? (
+                                <span
+                                  className="ml-1.5 rounded-full border border-diff-medium/40 bg-diff-medium/10 px-1.5 py-0.5 align-middle text-[9px] font-semibold uppercase tracking-wide text-diff-medium"
+                                  title={t("progress.suggested.title")}
+                                >
+                                  {t("progress.topic.weak")}
+                                </span>
+                              ) : null}
+                            </span>
+                            <span
+                              className="hidden h-1 w-20 shrink-0 overflow-hidden rounded-full bg-border sm:block"
+                              aria-hidden="true"
+                            >
+                              <span
+                                className={cn("block h-full rounded-full", accent)}
+                                style={{ width: `${Math.max(5, subPct * 100)}%` }}
+                              />
+                            </span>
+                            <span className="shrink-0 tabular-nums text-muted-foreground">
+                              {t("progress.topic.firstTry", { p: Math.round(subPct * 100) })} ·{" "}
+                              {st.attempts === 1
+                                ? t("progress.topic.oneAttempt")
+                                : t("progress.topic.attempts", { n: formatNumber(st.attempts) })}
+                            </span>
+                            <a
+                              href={sessionHref({
+                                mode: "topic",
+                                subjects: [subject],
+                                topicId: topic.id,
+                                subtopicId: st.subtopicId,
+                                difficulty: "any",
+                                count: 10,
+                                seed: 0,
+                              })}
+                              title={t("progress.subtopic.practice")}
+                              aria-label={`${t("progress.subtopic.practice")}: ${name}`}
+                              className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-background hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                            >
+                              <Target className="h-3.5 w-3.5" aria-hidden="true" />
+                            </a>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                ) : null}
               </li>
             );
           })}

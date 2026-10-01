@@ -94,6 +94,93 @@ export const templates: ProblemTemplate[] = [
   ),
 
   /* ---------------------------------------------------------------- */
+  /* Scalar multiplication of a vector (expression answer)            */
+  /* ---------------------------------------------------------------- */
+  template(
+    {
+      id: "vec-scalar-02",
+      subject: "physics",
+      topicId: "measurement-vectors",
+      subtopicId: "scalar-vector",
+      difficulty: "easy",
+      questionType: "expression",
+      estimatedTimeSec: 90,
+      tags: ["scalar-multiplication", "vectors", "unit-vectors"],
+      prerequisites: ["components"],
+    },
+    (rng) => {
+      // Hand-curated (k, x, y): every component of k·A is a nonzero integer,
+      // so the answer never needs decimal input in either locale.
+      const sets = [
+        { k: 2, x: 3, y: 4 },
+        { k: 3, x: 5, y: 2 },
+        { k: 2, x: -4, y: 1 },
+        { k: 4, x: 2, y: -3 },
+        { k: -2, x: 3, y: 5 },
+        { k: -3, x: 1, y: 4 },
+        { k: 5, x: -2, y: -2 },
+      ];
+      const p = rng.pick(sets);
+      const rx = p.k * p.x;
+      const ry = p.k * p.y;
+      const signed = (n: number): string => (n >= 0 ? `+ ${n}` : `- ${Math.abs(n)}`);
+      const vecA = `${p.x}\\hat{i} ${signed(p.y)}\\hat{j}`;
+      return {
+        skill: L("Producto de un escalar por un vector", "Scalar multiplication of a vector"),
+        statement: L(
+          `Dado el vector $\\vec{A} = ${vecA}$, calcula el vector $${p.k}\\vec{A}$. Escribe el resultado en la forma $a\\,i + b\\,j$ (también se acepta $a*i + b*j$).`,
+          `Given the vector $\\vec{A} = ${vecA}$, compute the vector $${p.k}\\vec{A}$. Write the result in the form $a\\,i + b\\,j$ ($a*i + b*j$ is also accepted).`,
+        ),
+        answer: {
+          kind: "expression",
+          accepted: [`${rx}i ${signed(ry)}j`],
+          variables: ["i", "j"],
+        },
+        hints: [
+          L(
+            "Multiplicar un vector por un escalar multiplica **cada componente** por ese número.",
+            "Multiplying a vector by a scalar multiplies **each component** by that number.",
+          ),
+          L(
+            "Si el escalar es negativo, el vector resultante apunta en sentido contrario: sus componentes cambian de signo.",
+            "If the scalar is negative, the resulting vector points the opposite way: its components flip sign.",
+          ),
+          L(
+            "Aplica el escalar a las dos componentes: $k\\,\\vec{A} = (k\\,A_x)\\,\\hat{i} + (k\\,A_y)\\,\\hat{j}$.",
+            "Apply the scalar to both components: $k\\,\\vec{A} = (k\\,A_x)\\,\\hat{i} + (k\\,A_y)\\,\\hat{j}$.",
+          ),
+        ],
+        answerDisplay: L(
+          `$${p.k}\\vec{A} = ${rx}\\hat{i} ${signed(ry)}\\hat{j}$`,
+          `$${p.k}\\vec{A} = ${rx}\\hat{i} ${signed(ry)}\\hat{j}$`,
+        ),
+        solution: [
+          step(
+            "given",
+            `$\\vec{A} = ${vecA}$, $k = ${p.k}$`,
+            `$\\vec{A} = ${vecA}$, $k = ${p.k}$`,
+          ),
+          step(
+            "approach",
+            "El producto de un escalar por un vector escala cada componente: $k\\,\\vec{A} = k\\,A_x\\,\\hat{i} + k\\,A_y\\,\\hat{j}$.",
+            "The product of a scalar and a vector scales each component: $k\\,\\vec{A} = k\\,A_x\\,\\hat{i} + k\\,A_y\\,\\hat{j}$.",
+          ),
+          step(
+            "calculation",
+            `$${p.k}\\vec{A} = ${p.k}\\cdot(${vecA}) = ${rx}\\hat{i} ${signed(ry)}\\hat{j}$`,
+            `$${p.k}\\vec{A} = ${p.k}\\cdot(${vecA}) = ${rx}\\hat{i} ${signed(ry)}\\hat{j}$`,
+          ),
+          step(
+            "result",
+            `El vector resultante es $${rx}\\hat{i} ${signed(ry)}\\hat{j}$${p.k < 0 ? "; al ser $k$ negativo, apunta en sentido contrario a $\\vec{A}$" : "; apunta en la misma dirección y sentido que $\\vec{A}$"}.`,
+            `The resulting vector is $${rx}\\hat{i} ${signed(ry)}\\hat{j}$${p.k < 0 ? "; since $k$ is negative, it points opposite to $\\vec{A}$" : "; it points in the same direction and sense as $\\vec{A}$"}.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* ---------------------------------------------------------------- */
   /* Components                                                       */
   /* ---------------------------------------------------------------- */
   template(
@@ -175,6 +262,201 @@ export const templates: ProblemTemplate[] = [
             `$A_x = ${mag} \\cdot {{${cos[angle]}}} = {{${Math.round(mag * cos[angle] * 1000) / 1000}}} \\approx {{${value}}}$`,
           ),
           step("result", `$A_x \\approx {{${value}}}$.`, `$A_x \\approx {{${value}}}$.`),
+        ],
+      };
+    },
+  ),
+
+  /* ---------------------------------------------------------------- */
+  /* Components of a vector at an angle (multiple choice)             */
+  /* ---------------------------------------------------------------- */
+  template(
+    {
+      id: "vec-comp-02",
+      subject: "physics",
+      topicId: "measurement-vectors",
+      subtopicId: "components",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 120,
+      tags: ["components", "trigonometry", "multiple-choice"],
+      prerequisites: [],
+    },
+    (rng) => {
+      // Hand-curated (angle, magnitude) pairs with the trig values quoted in
+      // the statement: both components are exact or carry at most two
+      // decimals, and cos θ ≠ sin θ so the four options stay distinct.
+      const sets = [
+        { angle: 37, mag: 10, cos: 0.8, sin: 0.6 },
+        { angle: 37, mag: 50, cos: 0.8, sin: 0.6 },
+        { angle: 53, mag: 20, cos: 0.6, sin: 0.8 },
+        { angle: 53, mag: 5, cos: 0.6, sin: 0.8 },
+        { angle: 30, mag: 100, cos: 0.866, sin: 0.5 },
+        { angle: 30, mag: 10, cos: 0.866, sin: 0.5 },
+        { angle: 60, mag: 20, cos: 0.5, sin: 0.866 },
+        { angle: 60, mag: 50, cos: 0.5, sin: 0.866 },
+      ];
+      const p = rng.pick(sets);
+      const ax = Math.round(p.mag * p.cos * 100) / 100;
+      const ay = Math.round(p.mag * p.sin * 100) / 100;
+      const pair = (a: number, b: number): string => `(${tok(a)},\\ ${tok(b)})`;
+      const options: McOption[] = [
+        { id: "a", text: L(`$${pair(ax, ay)}$`, `$${pair(ax, ay)}$`), correct: true },
+        // sine and cosine swapped between the axes
+        { id: "b", text: L(`$${pair(ay, ax)}$`, `$${pair(ay, ax)}$`), correct: false },
+        // cosine used for both components
+        { id: "c", text: L(`$${pair(ax, ax)}$`, `$${pair(ax, ax)}$`), correct: false },
+        // sine used for both components
+        { id: "d", text: L(`$${pair(ay, ay)}$`, `$${pair(ay, ay)}$`), correct: false },
+      ];
+      return {
+        skill: L("Componentes de un vector con ángulo", "Components of a vector at an angle"),
+        statement: L(
+          `Un vector de módulo $${p.mag}$ forma un ángulo de $${p.angle}^\\circ$ con el eje $x$. ¿Cuáles son sus componentes $x$ e $y$? (Usa $\\cos ${p.angle}^\\circ \\approx ${tok(p.cos)}$ y $\\sin ${p.angle}^\\circ \\approx ${tok(p.sin)}$.)`,
+          `A vector of magnitude $${p.mag}$ makes an angle of $${p.angle}^\\circ$ with the $x$-axis. What are its $x$ and $y$ components? (Use $\\cos ${p.angle}^\\circ \\approx ${tok(p.cos)}$ and $\\sin ${p.angle}^\\circ \\approx ${tok(p.sin)}$.)`,
+        ),
+        diagram: {
+          kind: "vectors",
+          xMin: -2,
+          xMax: Math.round(ax) + 3,
+          yMin: -2,
+          yMax: Math.round(ay) + 3,
+          vectors: [
+            { x: ax, y: ay, label: "A", color: "primary" },
+          ],
+          showComponents: true,
+          showGrid: true,
+          xLabel: "x",
+          yLabel: "y",
+        },
+        diagramLabel: L(
+          `Vector A de módulo ${p.mag} elevado ${p.angle} grados sobre el eje x, con sus componentes dibujadas.`,
+          `Vector A of magnitude ${p.mag} raised ${p.angle} degrees above the x-axis, with its components drawn.`,
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Cada componente es la proyección del vector sobre un eje.",
+            "Each component is the projection of the vector onto an axis.",
+          ),
+          L(
+            "La componente $x$ usa el **coseno** del ángulo y la componente $y$ el **seno**: $A_x = A\\cos\\theta$, $A_y = A\\sin\\theta$.",
+            "The $x$-component uses the **cosine** of the angle and the $y$-component the **sine**: $A_x = A\\cos\\theta$, $A_y = A\\sin\\theta$.",
+          ),
+          L(
+            "Multiplica el módulo por cada valor trigonométrico dado en el enunciado.",
+            "Multiply the magnitude by each trigonometric value given in the statement.",
+          ),
+        ],
+        answerDisplay: L(
+          `$(A_x, A_y) = ${pair(ax, ay)}$`,
+          `$(A_x, A_y) = ${pair(ax, ay)}$`,
+        ),
+        solution: [
+          step(
+            "given",
+            `$|A| = ${p.mag}$, $\\theta = ${p.angle}^\\circ$, $\\cos\\theta \\approx ${tok(p.cos)}$, $\\sin\\theta \\approx ${tok(p.sin)}$`,
+            `$|A| = ${p.mag}$, $\\theta = ${p.angle}^\\circ$, $\\cos\\theta \\approx ${tok(p.cos)}$, $\\sin\\theta \\approx ${tok(p.sin)}$`,
+          ),
+          step(
+            "approach",
+            "Proyección sobre cada eje: $A_x = A\\cos\\theta$ (lado contiguo al ángulo) y $A_y = A\\sin\\theta$ (lado opuesto).",
+            "Projection onto each axis: $A_x = A\\cos\\theta$ (side adjacent to the angle) and $A_y = A\\sin\\theta$ (opposite side).",
+          ),
+          step(
+            "calculation",
+            `$A_x = ${p.mag} \\cdot ${tok(p.cos)} = ${tok(ax)}$<br>$A_y = ${p.mag} \\cdot ${tok(p.sin)} = ${tok(ay)}$`,
+            `$A_x = ${p.mag} \\cdot ${tok(p.cos)} = ${tok(ax)}$<br>$A_y = ${p.mag} \\cdot ${tok(p.sin)} = ${tok(ay)}$`,
+          ),
+          step(
+            "result",
+            `Las componentes son $A_x = ${tok(ax)}$ y $A_y = ${tok(ay)}$.`,
+            `The components are $A_x = ${tok(ax)}$ and $A_y = ${tok(ay)}$.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* ---------------------------------------------------------------- */
+  /* Angle from components (multiple choice)                          */
+  /* ---------------------------------------------------------------- */
+  template(
+    {
+      id: "vec-comp-03",
+      subject: "physics",
+      topicId: "measurement-vectors",
+      subtopicId: "components",
+      difficulty: "easy",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 90,
+      tags: ["components", "direction", "trigonometry", "multiple-choice"],
+      prerequisites: ["components"],
+    },
+    (rng) => {
+      // Hand-curated component pairs from Pythagorean triples; the correct
+      // option is the arctangent of the ratio rounded to the nearest degree.
+      const sets = [
+        { x: 3, y: 4, hyp: 5, ang: 53, tan: 1.33, cosv: 0.6 },
+        { x: 4, y: 3, hyp: 5, ang: 37, tan: 0.75, cosv: 0.8 },
+        { x: 6, y: 8, hyp: 10, ang: 53, tan: 1.33, cosv: 0.6 },
+        { x: 8, y: 6, hyp: 10, ang: 37, tan: 0.75, cosv: 0.8 },
+        { x: 5, y: 12, hyp: 13, ang: 67, tan: 2.4, cosv: 0.38 },
+        { x: 12, y: 5, hyp: 13, ang: 23, tan: 0.42, cosv: 0.92 },
+      ];
+      const p = rng.pick(sets);
+      const options: McOption[] = [
+        { id: "a", text: L(`$${p.ang}^{\\circ}$`, `$${p.ang}^{\\circ}$`), correct: true },
+        // ratio flipped: arctan(A_x/A_y)
+        { id: "b", text: L(`$${90 - p.ang}^{\\circ}$`, `$${90 - p.ang}^{\\circ}$`), correct: false },
+        // supplementary angle
+        { id: "c", text: L(`$${180 - p.ang}^{\\circ}$`, `$${180 - p.ang}^{\\circ}$`), correct: false },
+        // assumed both components equal
+        { id: "d", text: L(`$45^{\\circ}$`, `$45^{\\circ}$`), correct: false },
+      ];
+      return {
+        skill: L("Ángulo de un vector a partir de sus componentes", "Angle of a vector from its components"),
+        statement: L(
+          `Un vector tiene componentes $A_x = ${p.x}$ y $A_y = ${p.y}$. ¿Qué ángulo forma **aproximadamente** con el eje $x$?`,
+          `A vector has components $A_x = ${p.x}$ and $A_y = ${p.y}$. What angle does it make, **approximately**, with the $x$-axis?`,
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Las componentes y el vector forman un triángulo rectángulo: $A_x$ y $A_y$ son los catetos.",
+            "The components and the vector form a right triangle: $A_x$ and $A_y$ are the legs.",
+          ),
+          L(
+            "El ángulo con el eje $x$ cumple $\\tan\\theta = \\frac{A_y}{A_x}$ (opuesto entre contiguo).",
+            "The angle with the $x$-axis satisfies $\\tan\\theta = \\frac{A_y}{A_x}$ (opposite over adjacent).",
+          ),
+          L(
+            "Calcula el cociente $A_y / A_x$ y reconoce qué ángulo conocido tiene esa tangente.",
+            "Compute the ratio $A_y / A_x$ and recognize which familiar angle has that tangent.",
+          ),
+        ],
+        answerDisplay: L(`$\\theta \\approx ${tok(p.ang)}^{\\circ}$`, `$\\theta \\approx ${tok(p.ang)}^{\\circ}$`),
+        solution: [
+          step(
+            "given",
+            `$A_x = ${p.x}$, $A_y = ${p.y}$`,
+            `$A_x = ${p.x}$, $A_y = ${p.y}$`,
+          ),
+          step(
+            "approach",
+            "El ángulo con el eje $x$ sale de la tangente: $\\tan\\theta = \\frac{A_y}{A_x}$.",
+            "The angle with the $x$-axis comes from the tangent: $\\tan\\theta = \\frac{A_y}{A_x}$.",
+          ),
+          step(
+            "calculation",
+            `$\\tan\\theta = \\frac{${p.y}}{${p.x}} = ${tok(p.tan)} \\Rightarrow \\theta \\approx ${tok(p.ang)}^{\\circ}$<br>Comprobación con el módulo: $|A| = ${p.hyp}$ y $\\cos\\theta = \\frac{${p.x}}{${p.hyp}} = ${tok(p.cosv)}$`,
+            `$\\tan\\theta = \\frac{${p.y}}{${p.x}} = ${tok(p.tan)} \\Rightarrow \\theta \\approx ${tok(p.ang)}^{\\circ}$<br>Cross-check with the magnitude: $|A| = ${p.hyp}$ and $\\cos\\theta = \\frac{${p.x}}{${p.hyp}} = ${tok(p.cosv)}$`,
+          ),
+          step(
+            "result",
+            `El vector forma $\\approx ${tok(p.ang)}^{\\circ}$ con el eje $x$ (por encima del eje, en el primer cuadrante).`,
+            `The vector makes $\\approx ${tok(p.ang)}^{\\circ}$ with the $x$-axis (above the axis, in the first quadrant).`,
+          ),
         ],
       };
     },
@@ -508,6 +790,108 @@ export const templates: ProblemTemplate[] = [
   ),
 
   /* ---------------------------------------------------------------- */
+  /* Magnitude of a difference vector (positions)                     */
+  /* ---------------------------------------------------------------- */
+  template(
+    {
+      id: "vec-mag-02",
+      subject: "physics",
+      topicId: "measurement-vectors",
+      subtopicId: "magnitude-direction",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 150,
+      tags: ["magnitude", "vector-difference", "pythagoras"],
+      prerequisites: ["components"],
+    },
+    (rng) => {
+      // Hand-curated position pairs whose difference vector always forms a
+      // Pythagorean triple, so |r1 − r2| is an exact integer.
+      const sets = [
+        { a1: 5, a2: 6, b1: 2, b2: 2 },
+        { a1: 9, a2: 10, b1: 3, b2: 2 },
+        { a1: 8, a2: 14, b1: 3, b2: 2 },
+        { a1: 15, a2: 8, b1: 3, b2: 3 },
+        { a1: 4, a2: 1, b1: 1, b2: 5 },
+        { a1: 9, a2: 4, b1: 1, b2: 10 },
+      ];
+      const p = rng.pick(sets);
+      const d1 = p.a1 - p.b1;
+      const d2 = p.a2 - p.b2;
+      const dist = Math.round(Math.hypot(d1, d2) * 100) / 100; // exact integer by construction
+      const par = (n: number): string => (n < 0 ? `(${n})` : `${n}`);
+      return {
+        skill: L("Módulo de una diferencia de vectores", "Magnitude of a vector difference"),
+        statement: L(
+          `Dos drones despegan del mismo punto. Al cabo de un rato, el dron 1 está en la posición $\\vec{r}_1 = (${p.a1}, ${p.a2})\\ \\text{m}$ y el dron 2 en $\\vec{r}_2 = (${p.b1}, ${p.b2})\\ \\text{m}$ (componentes $x$ e $y$). ¿Qué **distancia** separa los dos drones?`,
+          `Two drones take off from the same point. After a while, drone 1 is at position $\\vec{r}_1 = (${p.a1}, ${p.a2})\\ \\text{m}$ and drone 2 at $\\vec{r}_2 = (${p.b1}, ${p.b2})\\ \\text{m}$ ($x$ and $y$ components). What **distance** separates the two drones?`,
+        ),
+        diagram: {
+          kind: "vectors",
+          xMin: Math.min(0, p.a1, p.b1) - 2,
+          xMax: Math.max(p.a1, p.b1) + 2,
+          yMin: Math.min(0, p.a2, p.b2) - 2,
+          yMax: Math.max(p.a2, p.b2) + 2,
+          vectors: [
+            { x: p.a1, y: p.a2, label: "r1", color: "primary" },
+            { x: p.b1, y: p.b2, label: "r2", color: "secondary" },
+            { x: d1, y: d2, label: "r1-r2", color: "muted", from: { x: p.b1, y: p.b2 } },
+          ],
+          showComponents: false,
+          showGrid: true,
+          xLabel: "x",
+          yLabel: "y",
+        },
+        diagramLabel: L(
+          `Vectores de posición r1 y r2 trazados desde el origen; el vector diferencia r1−r2 va del extremo de r2 al extremo de r1.`,
+          `Position vectors r1 and r2 drawn from the origin; the difference vector r1−r2 runs from the tip of r2 to the tip of r1.`,
+        ),
+        answer: { kind: "numeric", value: dist, tolerance: { mode: "relative", value: 0.01 } },
+        hints: [
+          L(
+            "La distancia entre dos puntos es el módulo del vector que va de uno al otro.",
+            "The distance between two points is the magnitude of the vector running from one to the other.",
+          ),
+          L(
+            "Ese vector es la **diferencia** de posiciones: $\\vec{D} = \\vec{r}_1 - \\vec{r}_2$, componente a componente.",
+            "That vector is the **difference** of the positions: $\\vec{D} = \\vec{r}_1 - \\vec{r}_2$, component by component.",
+          ),
+          L(
+            "Resta componente a componente y aplica Pitágoras: $|\\vec{D}| = \\sqrt{D_x^2 + D_y^2}$.",
+            "Subtract component by component and apply Pythagoras: $|\\vec{D}| = \\sqrt{D_x^2 + D_y^2}$.",
+          ),
+        ],
+        answerDisplay: L(
+          `$|\\vec{r}_1 - \\vec{r}_2| = ${dist}\\ \\text{m}$`,
+          `$|\\vec{r}_1 - \\vec{r}_2| = ${dist}\\ \\text{m}$`,
+        ),
+        solution: [
+          step(
+            "given",
+            `$\\vec{r}_1 = (${p.a1}, ${p.a2})\\ \\text{m}$, $\\vec{r}_2 = (${p.b1}, ${p.b2})\\ \\text{m}$`,
+            `$\\vec{r}_1 = (${p.a1}, ${p.a2})\\ \\text{m}$, $\\vec{r}_2 = (${p.b1}, ${p.b2})\\ \\text{m}$`,
+          ),
+          step(
+            "approach",
+            "El vector que une las dos posiciones es la diferencia $\\vec{r}_1 - \\vec{r}_2$; su módulo es la distancia buscada (Pitágoras).",
+            "The vector joining the two positions is the difference $\\vec{r}_1 - \\vec{r}_2$; its magnitude is the distance sought (Pythagoras).",
+          ),
+          step(
+            "calculation",
+            `$D_x = ${p.a1} - ${p.b1} = ${d1}\\ \\text{m}$<br>$D_y = ${p.a2} - ${p.b2} = ${d2}\\ \\text{m}$<br>$|\\vec{D}| = \\sqrt{${d1}^2 + ${par(d2)}^2} = \\sqrt{${d1 * d1} + ${d2 * d2}} = \\sqrt{${d1 * d1 + d2 * d2}} = ${dist}\\ \\text{m}$`,
+            `$D_x = ${p.a1} - ${p.b1} = ${d1}\\ \\text{m}$<br>$D_y = ${p.a2} - ${p.b2} = ${d2}\\ \\text{m}$<br>$|\\vec{D}| = \\sqrt{${d1}^2 + ${par(d2)}^2} = \\sqrt{${d1 * d1} + ${d2 * d2}} = \\sqrt{${d1 * d1 + d2 * d2}} = ${dist}\\ \\text{m}$`,
+          ),
+          step(
+            "result",
+            `Los drones están separados $${dist}\\ \\text{m}$; el vector $\\vec{r}_1 - \\vec{r}_2$ apunta de la posición del dron 2 hacia la del dron 1.`,
+            `The drones are $${dist}\\ \\text{m}$ apart; the vector $\\vec{r}_1 - \\vec{r}_2$ points from drone 2's position toward drone 1's.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* ---------------------------------------------------------------- */
   /* Opposite vectors (easy)                                          */
   /* ---------------------------------------------------------------- */
   template(
@@ -631,6 +1015,104 @@ export const templates: ProblemTemplate[] = [
             `$\\vec{A} = ${x}\\hat{i} ${y >= 0 ? "+" : "-"} ${Math.abs(y)}\\hat{j}$`,
           ),
           step("result", "Esa es la expresión en unitarios.", "That is the unit-vector expression."),
+        ],
+      };
+    },
+  ),
+
+  /* ---------------------------------------------------------------- */
+  /* Unit vector of a given vector (multiple choice)                  */
+  /* ---------------------------------------------------------------- */
+  template(
+    {
+      id: "vec-unit-02",
+      subject: "physics",
+      topicId: "measurement-vectors",
+      subtopicId: "unit-vectors",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 120,
+      tags: ["unit-vectors", "normalization", "multiple-choice"],
+      prerequisites: ["components", "magnitude-direction"],
+    },
+    (rng) => {
+      // Hand-curated components from 3-4-5 / 6-8-10 triples: the magnitude is
+      // a clean integer and the unit-vector components are exact (±0.6/±0.8).
+      const sets = [
+        { x: 3, y: 4, mag: 5 },
+        { x: 4, y: 3, mag: 5 },
+        { x: 6, y: 8, mag: 10 },
+        { x: 8, y: 6, mag: 10 },
+        { x: -3, y: 4, mag: 5 },
+        { x: 6, y: -8, mag: 10 },
+      ];
+      const p = rng.pick(sets);
+      const ux = p.x / p.mag;
+      const uy = p.y / p.mag;
+      const par = (n: number): string => (n < 0 ? `(${n})` : `${n}`);
+      const pair = (a: number, b: number): string => `(${tok(a)},\\ ${tok(b)})`;
+      const options: McOption[] = [
+        { id: "a", text: L(`$${pair(ux, uy)}$`, `$${pair(ux, uy)}$`), correct: true },
+        // components swapped
+        { id: "b", text: L(`$${pair(uy, ux)}$`, `$${pair(uy, ux)}$`), correct: false },
+        // forgot to divide by the magnitude
+        { id: "c", text: L(`$${pair(p.x, p.y)}$`, `$${pair(p.x, p.y)}$`), correct: false },
+        // divided by the squared magnitude instead
+        {
+          id: "d",
+          text: L(
+            `$${pair(p.x / (p.mag * p.mag), p.y / (p.mag * p.mag))}$`,
+            `$${pair(p.x / (p.mag * p.mag), p.y / (p.mag * p.mag))}$`,
+          ),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L("Vector unitario de un vector dado", "Unit vector of a given vector"),
+        statement: L(
+          `Un vector tiene componentes $A_x = ${p.x}$ y $A_y = ${p.y}$. ¿Cuál es el **vector unitario** $\\hat{u}$ que apunta en la misma dirección y sentido que $\\vec{A}$?`,
+          `A vector has components $A_x = ${p.x}$ and $A_y = ${p.y}$. Which **unit vector** $\\hat{u}$ points in the same direction and sense as $\\vec{A}$?`,
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Un vector unitario tiene módulo $1$ y apunta igual que $\\vec{A}$.",
+            "A unit vector has magnitude $1$ and points the same way as $\\vec{A}$.",
+          ),
+          L(
+            "Primero calcula el módulo del vector con Pitágoras: $|A| = \\sqrt{A_x^2 + A_y^2}$.",
+            "First compute the magnitude of the vector with Pythagoras: $|A| = \\sqrt{A_x^2 + A_y^2}$.",
+          ),
+          L(
+            "Después divide cada componente entre ese módulo: $\\hat{u} = \\frac{\\vec{A}}{|A|}$.",
+            "Then divide each component by that magnitude: $\\hat{u} = \\frac{\\vec{A}}{|A|}$.",
+          ),
+        ],
+        answerDisplay: L(
+          `$\\hat{u} = ${pair(ux, uy)}$`,
+          `$\\hat{u} = ${pair(ux, uy)}$`,
+        ),
+        solution: [
+          step(
+            "given",
+            `$A_x = ${p.x}$, $A_y = ${p.y}$`,
+            `$A_x = ${p.x}$, $A_y = ${p.y}$`,
+          ),
+          step(
+            "approach",
+            "El vector unitario es el vector dividido por su propio módulo: $\\hat{u} = \\frac{\\vec{A}}{|A|}$; primero calculamos $|A|$.",
+            "The unit vector is the vector divided by its own magnitude: $\\hat{u} = \\frac{\\vec{A}}{|A|}$; we first compute $|A|$.",
+          ),
+          step(
+            "calculation",
+            `$|A| = \\sqrt{${par(p.x)}^2 + ${par(p.y)}^2} = \\sqrt{${p.x * p.x} + ${p.y * p.y}} = \\sqrt{${p.x * p.x + p.y * p.y}} = ${p.mag}$<br>$\\hat{u} = \\frac{(${par(p.x)}, ${par(p.y)})}{${p.mag}} = ${pair(ux, uy)}$`,
+            `$|A| = \\sqrt{${par(p.x)}^2 + ${par(p.y)}^2} = \\sqrt{${p.x * p.x} + ${p.y * p.y}} = \\sqrt{${p.x * p.x + p.y * p.y}} = ${p.mag}$<br>$\\hat{u} = \\frac{(${par(p.x)}, ${par(p.y)})}{${p.mag}} = ${pair(ux, uy)}$`,
+          ),
+          step(
+            "result",
+            `$\\hat{u} = ${pair(ux, uy)}$, y su módulo es $\\sqrt{ ${tok(0.36)} + ${tok(0.64)}} = 1$, como corresponde a un vector unitario.`,
+            `$\\hat{u} = ${pair(ux, uy)}$, and its magnitude is $\\sqrt{ ${tok(0.36)} + ${tok(0.64)}} = 1$, as a unit vector must be.`,
+          ),
         ],
       };
     },

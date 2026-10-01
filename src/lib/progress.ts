@@ -114,6 +114,18 @@ export interface TopicStats {
   timedRecords: number;
 }
 
+/** Per-subtopic drill-down — powers the expandable breakdown rows on the
+ * dashboard. Records already carry subtopicId, so nothing extra is stored. */
+export interface SubtopicStats {
+  subject: Subject;
+  topicId: string;
+  subtopicId: string;
+  attempts: number;
+  firstTryCorrect: number;
+  eventualCorrect: number;
+  lastTs: number;
+}
+
 export interface OverallStats {
   attempted: number;
   firstTryCorrect: number;
@@ -124,13 +136,19 @@ export interface OverallStats {
   /** total stamped seconds across all records */
   timeSec: number;
   byTopic: Record<string, TopicStats>;
+  /** key: `${subject}:${topicId}:${subtopicId}` */
+  bySubtopic: Record<string, SubtopicStats>;
   recent: ProblemRecord[];
 }
 
 export const topicKey = (subject: Subject, topicId: string) => `${subject}:${topicId}`;
 
+export const subtopicKey = (subject: Subject, topicId: string, subtopicId: string) =>
+  `${subject}:${topicId}:${subtopicId}`;
+
 export function computeStats(state: ProgressState): OverallStats {
   const byTopic: Record<string, TopicStats> = {};
+  const bySubtopic: Record<string, SubtopicStats> = {};
   for (const r of state.records) {
     const key = topicKey(r.subject, r.topicId);
     let s = byTopic[key];
@@ -161,6 +179,25 @@ export function computeStats(state: ProgressState): OverallStats {
       s.timedRecords += 1;
     }
     s.lastTs = Math.max(s.lastTs, r.timestamp);
+
+    const stKey = subtopicKey(r.subject, r.topicId, r.subtopicId);
+    let st = bySubtopic[stKey];
+    if (!st) {
+      st = {
+        subject: r.subject,
+        topicId: r.topicId,
+        subtopicId: r.subtopicId,
+        attempts: 0,
+        firstTryCorrect: 0,
+        eventualCorrect: 0,
+        lastTs: 0,
+      };
+      bySubtopic[stKey] = st;
+    }
+    st.attempts += 1;
+    if (r.firstTryCorrect) st.firstTryCorrect += 1;
+    if (r.eventualCorrect) st.eventualCorrect += 1;
+    st.lastTs = Math.max(st.lastTs, r.timestamp);
   }
   const attempted = state.records.length;
   const firstTryCorrect = state.records.filter((r) => r.firstTryCorrect).length;
@@ -181,6 +218,7 @@ export function computeStats(state: ProgressState): OverallStats {
     solutionsViewed,
     timeSec,
     byTopic,
+    bySubtopic,
     recent: [...state.records].reverse().slice(0, 12),
   };
 }

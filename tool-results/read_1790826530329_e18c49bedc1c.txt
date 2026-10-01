@@ -1,0 +1,983 @@
+     1→/**
+     2→ * MATH · Trigonometric Equations
+     3→ *
+     4→ * Solving trig equations on [0°, 360°) and [0, 2π): basic equations,
+     5→ * equations that need identities, solutions on intervals and general
+     6→ * solutions. Includes a unit-circle diagram, MC and expression types.
+     7→ */
+     8→
+     9→import { template, L, step } from "@/lib/problem";
+    10→import type { ProblemTemplate, McOption } from "@/lib/types";
+    11→
+    12→/* ------------------------------------------------------------------ */
+    13→/* helpers                                                             */
+    14→/* ------------------------------------------------------------------ */
+    15→
+    16→const gcd = (a: number, b: number): number => (b === 0 ? Math.abs(a) : gcd(b, a % b));
+    17→
+    18→/** LaTeX for the reduced fraction (n/d)·π, e.g. piFrac(2, 3) → "\frac{2\pi}{3}" */
+    19→const piFrac = (n: number, d: number): string => {
+    20→  const g = gcd(n, d) || 1;
+    21→  const nn = n / g;
+    22→  const dd = d / g;
+    23→  if (dd === 1) return nn === 1 ? "\\pi" : `${nn}\\pi`;
+    24→  if (nn === 1) return `\\frac{\\pi}{${dd}}`;
+    25→  return `\\frac{${nn}\\pi}{${dd}}`;
+    26→};
+    27→
+    28→/** Plain-text expression for (n/d)·π accepted by the expression checker */
+    29→const piExpr = (n: number, d: number): string => {
+    30→  const g = gcd(n, d) || 1;
+    31→  const nn = n / g;
+    32→  const dd = d / g;
+    33→  if (dd === 1) return nn === 1 ? "pi" : `${nn}*pi`;
+    34→  return `${nn}*pi/${dd}`;
+    35→};
+    36→
+    37→export const templates: ProblemTemplate[] = [
+    38→  /* ---------------------------------------------------------------- */
+    39→  /* Basic: two solutions, one shown on the unit circle (easy)         */
+    40→  /* ---------------------------------------------------------------- */
+    41→  template(
+    42→    {
+    43→      id: "trigeq-basic-01",
+    44→      subject: "math",
+    45→      topicId: "trig-equations",
+    46→      subtopicId: "basic",
+    47→      difficulty: "easy",
+    48→      questionType: "numeric",
+    49→      estimatedTimeSec: 90,
+    50→      tags: ["unit-circle", "symmetry", "degrees"],
+    51→      prerequisites: ["trig-functions"],
+    52→    },
+    53→    (rng) => {
+    54→      const useSin = rng.bool();
+    55→      const ref = rng.pick([30, 45, 60]);
+    56→      // the value must match the function: sin 30° = 1/2 but cos 30° = √3/2
+    57→      const valLatex =
+    58→        ref === 30
+    59→          ? useSin
+    60→            ? "\\frac{1}{2}"
+    61→            : "\\frac{\\sqrt{3}}{2}"
+    62→          : ref === 45
+    63→            ? "\\frac{\\sqrt{2}}{2}"
+    64→            : useSin
+    65→              ? "\\frac{\\sqrt{3}}{2}"
+    66→              : "\\frac{1}{2}";
+    67→      const fn = useSin ? "\\sin" : "\\cos";
+    68→      const other = useSin ? 180 - ref : 360 - ref;
+    69→      return {
+    70→        skill: L("Simetría en la circunferencia unitaria", "Symmetry on the unit circle"),
+    71→        statement: L(
+    72→          `La figura marca una solución $\\theta = ${ref}^\\circ$ de la ecuación $${fn}\\theta = ${valLatex}$ en el intervalo $[0^\\circ, 360^\\circ)$. ¿Cuál es la **otra** solución? (Da el resultado en grados.)`,
+    73→          `The figure marks one solution $\\theta = ${ref}^\\circ$ of the equation $${fn}\\theta = ${valLatex}$ on the interval $[0^\\circ, 360^\\circ)$. What is the **other** solution? (Give the result in degrees.)`,
+    74→        ),
+    75→        diagram: {
+    76→          kind: "unit-circle",
+    77→          angleDeg: ref,
+    78→          showPoint: true,
+    79→          angleLabel: `θ = ${ref}°`,
+    80→        },
+    81→        diagramLabel: L(
+    82→          `Circunferencia unitaria con el ángulo θ = ${ref}° marcado y su punto (cos θ, sin θ).`,
+    83→          `Unit circle with the angle θ = ${ref}° marked and its point (cos θ, sin θ).`,
+    84→        ),
+    85→        answer: {
+    86→          kind: "numeric",
+    87→          value: other,
+    88→          tolerance: { mode: "absolute", value: 0.001 },
+    89→          unitSuffix: "°",
+    90→        },
+    91→        hints: [
+    92→          L(
+    93→            `Las dos soluciones tienen el mismo ${useSin ? "seno" : "coseno"}: piensa en la simetría de la circunferencia.`,
+    94→            `Both solutions have the same ${useSin ? "sine" : "cosine"}: think about the symmetry of the circle.`,
+    95→          ),
+    96→          useSin
+    97→            ? L(
+    98→                "El seno se repite en ángulos suplementarios: $\\theta_2 = 180^\\circ - \\theta_1$ (simetría respecto al eje $y$).",
+    99→                "Sine repeats at supplementary angles: $\\theta_2 = 180^\\circ - \\theta_1$ (symmetry about the $y$-axis).",
+   100→              )
+   101→            : L(
+   102→                "El coseno se repite en ángulos simétricos: $\\theta_2 = 360^\\circ - \\theta_1$ (simetría respecto al eje $x$).",
+   103→                "Cosine repeats at symmetric angles: $\\theta_2 = 360^\\circ - \\theta_1$ (symmetry about the $x$-axis).",
+   104→              ),
+   105→          L(
+   106→            `Sustituye $\\theta_1 = ${ref}^\\circ$ en la fórmula del método.`,
+   107→            `Substitute $\\theta_1 = ${ref}^\\circ$ into the formula of the method.`,
+   108→          ),
+   109→        ],
+   110→        answerDisplay: L(
+   111→          `$\\theta_2 = ${other}^\\circ$`,
+   112→          `$\\theta_2 = ${other}^\\circ$`,
+   113→        ),
+   114→        solution: [
+   115→          step(
+   116→            "given",
+   117→            `$${fn}\\theta = ${valLatex}$ en $[0^\\circ, 360^\\circ)$, con $\\theta_1 = ${ref}^\\circ$ ya conocida.`,
+   118→            `$${fn}\\theta = ${valLatex}$ on $[0^\\circ, 360^\\circ)$, with $\\theta_1 = ${ref}^\\circ$ already known.`,
+   119→          ),
+   120→          step(
+   121→            "approach",
+   122→            useSin
+   123→              ? "Dos ángulos con el mismo seno son suplementarios o difieren en una vuelta completa; dentro de $[0^\\circ, 360^\\circ)$ la otra solución es $180^\\circ - \\theta_1$."
+   124→              : "Dos ángulos con el mismo coseno son simétricos respecto al eje $x$; dentro de $[0^\\circ, 360^\\circ)$ la otra solución es $360^\\circ - \\theta_1$.",
+   125→            useSin
+   126→              ? "Two angles with the same sine are supplementary or differ by a full turn; within $[0^\\circ, 360^\\circ)$ the other solution is $180^\\circ - \\theta_1$."
+   127→              : "Two angles with the same cosine are mirror images across the $x$-axis; within $[0^\\circ, 360^\\circ)$ the other solution is $360^\\circ - \\theta_1$.",
+   128→          ),
+   129→          step(
+   130→            "calculation",
+   131→            useSin
+   132→              ? `$\\theta_2 = 180^\\circ - ${ref}^\\circ = ${other}^\\circ$<br>Comprobación: $\\sin ${other}^\\circ = \\sin ${ref}^\\circ = ${valLatex}$`
+   133→              : `$\\theta_2 = 360^\\circ - ${ref}^\\circ = ${other}^\\circ$<br>Comprobación: $\\cos ${other}^\\circ = \\cos ${ref}^\\circ = ${valLatex}$`,
+   134→            useSin
+   135→              ? `$\\theta_2 = 180^\\circ - ${ref}^\\circ = ${other}^\\circ$<br>Check: $\\sin ${other}^\\circ = \\sin ${ref}^\\circ = ${valLatex}$`
+   136→              : `$\\theta_2 = 360^\\circ - ${ref}^\\circ = ${other}^\\circ$<br>Check: $\\cos ${other}^\\circ = \\cos ${ref}^\\circ = ${valLatex}$`,
+   137→          ),
+   138→          step(
+   139→            "result",
+   140→            `Las soluciones son $${ref}^\\circ$ y $${other}^\\circ$; la que se pide es $${other}^\\circ$.`,
+   141→            `The solutions are $${ref}^\\circ$ and $${other}^\\circ$; the requested one is $${other}^\\circ$.`,
+   142→          ),
+   143→        ],
+   144→      };
+   145→    },
+   146→  ),
+   147→
+   148→  /* ---------------------------------------------------------------- */
+   149→  /* Basic: extreme values (easy)                                      */
+   150→  /* ---------------------------------------------------------------- */
+   151→  template(
+   152→    {
+   153→      id: "trigeq-basic-02",
+   154→      subject: "math",
+   155→      topicId: "trig-equations",
+   156→      subtopicId: "basic",
+   157→      difficulty: "easy",
+   158→      questionType: "numeric",
+   159→      estimatedTimeSec: 60,
+   160→      tags: ["unit-circle", "extreme-values"],
+   161→      prerequisites: ["trig-functions"],
+   162→    },
+   163→    (rng) => {
+   164→      const cfg = rng.pick([
+   165→        { eq: "\\sin\\theta = 1", sol: 90, why: "el seno vale 1 solo en la parte más alta de la circunferencia", whyEn: "sine equals 1 only at the very top of the circle" },
+   166→        { eq: "\\cos\\theta = -1", sol: 180, why: "el coseno vale −1 solo en el punto más a la izquierda", whyEn: "cosine equals −1 only at the leftmost point" },
+   167→        { eq: "\\sin\\theta = -1", sol: 270, why: "el seno vale −1 solo en la parte más baja de la circunferencia", whyEn: "sine equals −1 only at the very bottom of the circle" },
+   168→        { eq: "\\cos\\theta = 1", sol: 0, why: "el coseno vale 1 solo en el punto más a la derecha", whyEn: "cosine equals 1 only at the rightmost point" },
+   169→      ]);
+   170→      return {
+   171→        skill: L("Valores extremos en la circunferencia", "Extreme values on the circle"),
+   172→        statement: L(
+   173→          `Resuelve en $[0^\\circ, 360^\\circ)$: $${cfg.eq}$. (La ecuación tiene una única solución; dala en grados.)`,
+   174→          `Solve on $[0^\\circ, 360^\\circ)$: $${cfg.eq}$. (The equation has a single solution; give it in degrees.)`,
+   175→        ),
+   176→        answer: {
+   177→          kind: "numeric",
+   178→          value: cfg.sol,
+   179→          tolerance: { mode: "absolute", value: 0.001 },
+   180→          unitSuffix: "°",
+   181→        },
+   182→        hints: [
+   183→          L(
+   184→            "Piensa en la circunferencia unitaria: las coordenadas de cada punto son $(\\cos\\theta, \\sin\\theta)$.",
+   185→            "Think of the unit circle: the coordinates of each point are $(\\cos\\theta, \\sin\\theta)$.",
+   186→          ),
+   187→          L(
+   188→            `Los valores $1$ y $-1$ solo se alcanzan en un punto de la circunferencia: ${cfg.why}.`,
+   189→            `The values $1$ and $-1$ are reached at exactly one point of the circle: ${cfg.whyEn}.`,
+   190→          ),
+   191→          L(
+   192→            "Comprueba que ese ángulo pertenece al intervalo $[0^\\circ, 360^\\circ)$.",
+   193→            "Check that this angle belongs to the interval $[0^\\circ, 360^\\circ)$.",
+   194→          ),
+   195→        ],
+   196→        answerDisplay: L(`$\\theta = ${cfg.sol}^\\circ$`, `$\\theta = ${cfg.sol}^\\circ$`),
+   197→        solution: [
+   198→          step("given", `$${cfg.eq}$, con $0^\\circ \\le \\theta < 360^\\circ$`, `$${cfg.eq}$, with $0^\\circ \\le \\theta < 360^\\circ$`),
+   199→          step(
+   200→            "approach",
+   201→            "El seno es la coordenada $y$ y el coseno la coordenada $x$ del punto de la circunferencia unitaria; los valores extremos se alcanzan en un único punto.",
+   202→            "Sine is the $y$-coordinate and cosine the $x$-coordinate of the point on the unit circle; extreme values occur at a single point.",
+   203→          ),
+   204→          step(
+   205→            "calculation",
+   206→            `$${cfg.eq}$ solo ocurre cuando $\\theta = ${cfg.sol}^\\circ$.`,
+   207→            `$${cfg.eq}$ happens only when $\\theta = ${cfg.sol}^\\circ$.`,
+   208→          ),
+   209→          step(
+   210→            "result",
+   211→            `La solución única es $\\theta = ${cfg.sol}^\\circ$.`,
+   212→            `The single solution is $\\theta = ${cfg.sol}^\\circ$.`,
+   213→          ),
+   214→        ],
+   215→      };
+   216→    },
+   217→  ),
+   218→
+   219→  /* ---------------------------------------------------------------- */
+   220→  /* Basic with a coefficient (medium)                                 */
+   221→  /* ---------------------------------------------------------------- */
+   222→  template(
+   223→    {
+   224→      id: "trigeq-basic-03",
+   225→      subject: "math",
+   226→      topicId: "trig-equations",
+   227→      subtopicId: "basic",
+   228→      difficulty: "medium",
+   229→      questionType: "numeric",
+   230→      estimatedTimeSec: 150,
+   231→      tags: ["two-step", "special-angles"],
+   232→      prerequisites: ["trig-functions"],
+   233→    },
+   234→    (rng) => {
+   235→      const cfg = rng.pick([
+   236→        { eq: "2\\sin\\theta - 1 = 0", val: "\\frac{1}{2}", ref: 30, sols: [30, 150] },
+   237→        { eq: "2\\sin\\theta - \\sqrt{2} = 0", val: "\\frac{\\sqrt{2}}{2}", ref: 45, sols: [45, 135] },
+   238→        { eq: "\\sin\\theta - \\frac{\\sqrt{3}}{2} = 0", val: "\\frac{\\sqrt{3}}{2}", ref: 60, sols: [60, 120] },
+   239→        { eq: "2\\sin\\theta + 1 = 0", val: "-\\frac{1}{2}", ref: 30, sols: [210, 330] },
+   240→        { eq: "2\\sin\\theta + \\sqrt{2} = 0", val: "-\\frac{\\sqrt{2}}{2}", ref: 45, sols: [225, 315] },
+   241→        { eq: "\\sin\\theta + \\frac{\\sqrt{3}}{2} = 0", val: "-\\frac{\\sqrt{3}}{2}", ref: 60, sols: [240, 300] },
+   242→        { eq: "2\\cos\\theta - 1 = 0", val: "\\frac{1}{2}", ref: 60, sols: [60, 300] },
+   243→        { eq: "\\cos\\theta - \\frac{\\sqrt{2}}{2} = 0", val: "\\frac{\\sqrt{2}}{2}", ref: 45, sols: [45, 315] },
+   244→        { eq: "2\\cos\\theta + 1 = 0", val: "-\\frac{1}{2}", ref: 60, sols: [120, 240] },
+   245→        { eq: "2\\cos\\theta + \\sqrt{2} = 0", val: "-\\frac{\\sqrt{2}}{2}", ref: 45, sols: [135, 225] },
+   246→        { eq: "2\\cos\\theta + \\sqrt{3} = 0", val: "-\\frac{\\sqrt{3}}{2}", ref: 30, sols: [150, 210] },
+   247→      ]);
+   248→      const askSmallest = rng.bool();
+   249→      const value = askSmallest ? cfg.sols[0] : cfg.sols[1];
+   250→      return {
+   251→        skill: L("Ecuaciones trigonométricas en dos pasos", "Two-step trig equations"),
+   252→        statement: L(
+   253→          `Resuelve $${cfg.eq}$ en $[0^\\circ, 360^\\circ)$ y escribe la ${askSmallest ? "**menor**" : "**mayor**"} de sus soluciones (en grados).`,
+   254→          `Solve $${cfg.eq}$ on $[0^\\circ, 360^\\circ)$ and write the ${askSmallest ? "**smaller**" : "**larger**"} of its solutions (in degrees).`,
+   255→        ),
+   256→        answer: {
+   257→          kind: "numeric",
+   258→          value,
+   259→          tolerance: { mode: "absolute", value: 0.001 },
+   260→          unitSuffix: "°",
+   261→        },
+   262→        hints: [
+   263→          L(
+   264→            "Primero aisla la función trigonométrica: queda $\\sin\\theta$ o $\\cos\\theta$ igual a un número.",
+   265→            "First isolate the trig function: you get $\\sin\\theta$ or $\\cos\\theta$ equal to a number.",
+   266→          ),
+   267→          L(
+   268→            `El ángulo de referencia cuyo seno o coseno tiene ese valor absoluto es $${cfg.ref}^\\circ$.`,
+   269→            `The reference angle whose sine or cosine has that absolute value is $${cfg.ref}^\\circ$.`,
+   270→          ),
+   271→          L(
+   272→            "El **signo** del valor indica en qué cuadrantes están las soluciones (seno: I y II si es positivo; coseno: I y IV si es positivo).",
+   273→            "The **sign** of the value tells you the quadrants of the solutions (sine: I and II if positive; cosine: I and IV if positive).",
+   274→          ),
+   275→        ],
+   276→        answerDisplay: L(
+   277→          `$\\theta = ${cfg.sols[0]}^\\circ$ o $\\theta = ${cfg.sols[1]}^\\circ$`,
+   278→          `$\\theta = ${cfg.sols[0]}^\\circ$ or $\\theta = ${cfg.sols[1]}^\\circ$`,
+   279→        ),
+   280→        solution: [
+   281→          step("given", `$${cfg.eq}$, con $0^\\circ \\le \\theta < 360^\\circ$`, `$${cfg.eq}$, with $0^\\circ \\le \\theta < 360^\\circ$`),
+   282→          step(
+   283→            "approach",
+   284→            "Aislamos la función trigonométrica, hallamos el ángulo de referencia y lo colocamos en los cuadrantes correctos según el signo.",
+   285→            "Isolate the trig function, find the reference angle, and place it in the correct quadrants according to the sign.",
+   286→          ),
+   287→          step(
+   288→            "calculation",
+   289→            `$\\sin\\theta = ${cfg.val}$ o $\\cos\\theta = ${cfg.val}$ (según la ecuación)<br>Ángulo de referencia: $${cfg.ref}^\\circ$<br>Soluciones: $\\theta = ${cfg.sols[0]}^\\circ$ y $\\theta = ${cfg.sols[1]}^\\circ$`,
+   290→            `$\\sin\\theta = ${cfg.val}$ or $\\cos\\theta = ${cfg.val}$ (depending on the equation)<br>Reference angle: $${cfg.ref}^\\circ$<br>Solutions: $\\theta = ${cfg.sols[0]}^\\circ$ and $\\theta = ${cfg.sols[1]}^\\circ$`,
+   291→          ),
+   292→          step(
+   293→            "result",
+   294→            `La ${askSmallest ? "menor" : "mayor"} solución es $${value}^\\circ$.`,
+   295→            `The ${askSmallest ? "smaller" : "larger"} solution is $${value}^\\circ$.`,
+   296→          ),
+   297→        ],
+   298→      };
+   299→    },
+   300→  ),
+   301→
+   302→  /* ---------------------------------------------------------------- */
+   303→  /* Interval with frequency kθ (medium)                               */
+   304→  /* ---------------------------------------------------------------- */
+   305→  template(
+   306→    {
+   307→      id: "trigeq-int-01",
+   308→      subject: "math",
+   309→      topicId: "trig-equations",
+   310→      subtopicId: "intervals",
+   311→      difficulty: "medium",
+   312→      questionType: "numeric",
+   313→      estimatedTimeSec: 180,
+   314→      tags: ["intervals", "frequency", "degrees"],
+   315→      prerequisites: ["trig-functions"],
+   316→    },
+   317→    (rng) => {
+   318→      const k = rng.pick([2, 3]);
+   319→      const useSin = rng.bool();
+   320→      const ref = rng.pick([30, 45, 60]);
+   321→      // the value must match the function: sin 30° = 1/2 but cos 30° = √3/2
+   322→      const valLatex =
+   323→        ref === 30
+   324→          ? useSin
+   325→            ? "\\frac{1}{2}"
+   326→            : "\\frac{\\sqrt{3}}{2}"
+   327→          : ref === 45
+   328→            ? "\\frac{\\sqrt{2}}{2}"
+   329→            : useSin
+   330→              ? "\\frac{\\sqrt{3}}{2}"
+   331→              : "\\frac{1}{2}";
+   332→      const fn = useSin ? "\\sin" : "\\cos";
+   333→      // all u-solutions of fn(u) = valLatex on [0°, 360k°): two per full turn
+   334→      const us: number[] = [];
+   335→      for (let t = 0; t < k; t++) {
+   336→        if (useSin) {
+   337→          us.push(360 * t + ref, 360 * t + 180 - ref);
+   338→        } else {
+   339→          us.push(360 * t + ref, 360 * t + 360 - ref);
+   340→        }
+   341→      }
+   342→      us.sort((a, b) => a - b);
+   343→      const thetas = us.map((u) => u / k);
+   344→      const smallest = thetas[0];
+   345→      return {
+   346→        skill: L("Ecuaciones con ángulo múltiple", "Equations with a multiple angle"),
+   347→        statement: L(
+   348→          `Resuelve $${fn}(${k}\\theta) = ${valLatex}$ para $0^\\circ \\le \\theta < 360^\\circ$ y escribe la **menor** solución (en grados).`,
+   349→          `Solve $${fn}(${k}\\theta) = ${valLatex}$ for $0^\\circ \\le \\theta < 360^\\circ$ and write the **smallest** solution (in degrees).`,
+   350→        ),
+   351→        answer: {
+   352→          kind: "numeric",
+   353→          value: smallest,
+   354→          tolerance: { mode: "absolute", value: 0.001 },
+   355→          unitSuffix: "°",
+   356→        },
+   357→        hints: [
+   358→          L(
+   359→            `Sustituye $u = ${k}\\theta$: cuando $\\theta$ recorre $[0^\\circ, 360^\\circ)$, $u$ recorre $[0^\\circ, ${360 * k}^\\circ)$.`,
+   360→            `Substitute $u = ${k}\\theta$: as $\\theta$ runs over $[0^\\circ, 360^\\circ)$, $u$ runs over $[0^\\circ, ${360 * k}^\\circ)$.`,
+   361→          ),
+   362→          L(
+   363→            `En cada vuelta completa, $${fn} u = ${valLatex}$ tiene dos soluciones: el ángulo de referencia $${ref}^\\circ$ y su compañero de cuadrante.`,
+   364→            `On each full turn, $${fn} u = ${valLatex}$ has two solutions: the reference angle $${ref}^\\circ$ and its quadrant partner.`,
+   365→          ),
+   366→          L(
+   367→            `Divide cada solución de $u$ entre $${k}$ para volver a $\\theta$.`,
+   368→            `Divide each solution for $u$ by $${k}$ to return to $\\theta$.`,
+   369→          ),
+   370→        ],
+   371→        answerDisplay: L(
+   372→          `La menor solución es $${smallest}^\\circ$`,
+   373→          `The smallest solution is $${smallest}^\\circ$`,
+   374→        ),
+   375→        solution: [
+   376→          step(
+   377→            "given",
+   378→            `$${fn}(${k}\\theta) = ${valLatex}$, $0^\\circ \\le \\theta < 360^\\circ$`,
+   379→            `$${fn}(${k}\\theta) = ${valLatex}$, $0^\\circ \\le \\theta < 360^\\circ$`,
+   380→          ),
+   381→          step(
+   382→            "approach",
+   383→            `Con $u = ${k}\\theta$, el intervalo para $u$ es $[0^\\circ, ${360 * k}^\\circ)$: hay que buscar soluciones en ${k === 2 ? "dos" : "tres"} vueltas.`,
+   384→            `With $u = ${k}\\theta$, the interval for $u$ is $[0^\\circ, ${360 * k}^\\circ)$: solutions must be sought over ${k === 2 ? "two" : "three"} turns.`,
+   385→          ),
+   386→          step(
+   387→            "calculation",
+   388→            `$u = ${us.join("^\\circ,\\ ")}^\\circ$<br>$\\theta = \\frac{u}{${k}}$: $${thetas.join("^\\circ,\\ ")}^\\circ$`,
+   389→            `$u = ${us.join("^\\circ,\\ ")}^\\circ$<br>$\\theta = \\frac{u}{${k}}$: $${thetas.join("^\\circ,\\ ")}^\\circ$`,
+   390→          ),
+   391→          step(
+   392→            "result",
+   393→            `Hay ${thetas.length} soluciones; la menor es $${smallest}^\\circ$.`,
+   394→            `There are ${thetas.length} solutions; the smallest is $${smallest}^\\circ$.`,
+   395→          ),
+   396→        ],
+   397→      };
+   398→    },
+   399→  ),
+   400→
+   401→  /* ---------------------------------------------------------------- */
+   402→  /* Equation with identity → factorable (medium)                      */
+   403→  /* ---------------------------------------------------------------- */
+   404→  template(
+   405→    {
+   406→      id: "trigeq-ident-01",
+   407→      subject: "math",
+   408→      topicId: "trig-equations",
+   409→      subtopicId: "with-identities",
+   410→      difficulty: "medium",
+   411→      questionType: "numeric",
+   412→      estimatedTimeSec: 210,
+   413→      tags: ["identities", "factoring"],
+   414→      prerequisites: ["trig-functions"],
+   415→    },
+   416→    (rng) => {
+   417→      const useSinSq = rng.bool();
+   418→      // sin²θ + cosθ = 1  →  θ ∈ {0, 90, 270}
+   419→      // cos²θ + sinθ = 1  →  θ ∈ {0, 90, 180}
+   420→      const eq = useSinSq ? "\\sin^2\\theta + \\cos\\theta = 1" : "\\cos^2\\theta + \\sin\\theta = 1";
+   421→      const largest = useSinSq ? 270 : 180;
+   422→      const allSols = useSinSq ? "0^\\circ, 90^\\circ, 270^\\circ" : "0^\\circ, 90^\\circ, 180^\\circ";
+   423→      return {
+   424→        skill: L("Identidad + factorización", "Identity + factoring"),
+   425→        statement: L(
+   426→          `Resuelve $${eq}$ en $[0^\\circ, 360^\\circ)$ y escribe la **mayor** de las soluciones (en grados).`,
+   427→          `Solve $${eq}$ on $[0^\\circ, 360^\\circ)$ and write the **largest** of the solutions (in degrees).`,
+   428→        ),
+   429→        answer: {
+   430→          kind: "numeric",
+   431→          value: largest,
+   432→          tolerance: { mode: "absolute", value: 0.001 },
+   433→          unitSuffix: "°",
+   434→        },
+   435→        hints: [
+   436→          L(
+   437→            "La ecuación mezcla $\\sin^2$ y $\\cos$ (o al revés): usa la identidad pitagórica para dejar una sola función.",
+   438→            "The equation mixes $\\sin^2$ and $\\cos$ (or the other way round): use the Pythagorean identity to keep a single function.",
+   439→          ),
+   440→          L(
+   441→            useSinSq
+   442→              ? "Sustituye $\\sin^2\\theta = 1 - \\cos^2\\theta$."
+   443→              : "Sustituye $\\cos^2\\theta = 1 - \\sin^2\\theta$.",
+   444→            useSinSq
+   445→              ? "Substitute $\\sin^2\\theta = 1 - \\cos^2\\theta$."
+   446→              : "Substitute $\\cos^2\\theta = 1 - \\sin^2\\theta$.",
+   447→          ),
+   448→          L(
+   449→            "Tras simplificar aparecerá un producto igual a cero: resuelve cada factor por separado.",
+   450→            "After simplifying, a product equal to zero appears: solve each factor separately.",
+   451→          ),
+   452→        ],
+   453→        answerDisplay: L(
+   454→          `Soluciones: $${allSols}$; la mayor es $${largest}^\\circ$`,
+   455→          `Solutions: $${allSols}$; the largest is $${largest}^\\circ$`,
+   456→        ),
+   457→        solution: [
+   458→          step("given", `$${eq}$, con $0^\\circ \\le \\theta < 360^\\circ$`, `$${eq}$, with $0^\\circ \\le \\theta < 360^\\circ$`),
+   459→          step(
+   460→            "approach",
+   461→            "Reemplazamos el cuadrado con la identidad pitagórica y factorizamos.",
+   462→            "Replace the squared term using the Pythagorean identity and factor.",
+   463→          ),
+   464→          step(
+   465→            "calculation",
+   466→            useSinSq
+   467→              ? `$\\sin^2\\theta + \\cos\\theta = 1$<br>$1 - \\cos^2\\theta + \\cos\\theta = 1$<br>$-\\cos^2\\theta + \\cos\\theta = 0$<br>$\\cos\\theta\\,(1 - \\cos\\theta) = 0$<br>$\\cos\\theta = 0 \\Rightarrow \\theta = 90^\\circ, 270^\\circ$; $\\cos\\theta = 1 \\Rightarrow \\theta = 0^\\circ$`
+   468→              : `$\\cos^2\\theta + \\sin\\theta = 1$<br>$1 - \\sin^2\\theta + \\sin\\theta = 1$<br>$-\\sin^2\\theta + \\sin\\theta = 0$<br>$\\sin\\theta\\,(1 - \\sin\\theta) = 0$<br>$\\sin\\theta = 0 \\Rightarrow \\theta = 0^\\circ, 180^\\circ$; $\\sin\\theta = 1 \\Rightarrow \\theta = 90^\\circ$`,
+   469→            useSinSq
+   470→              ? `$\\sin^2\\theta + \\cos\\theta = 1$<br>$1 - \\cos^2\\theta + \\cos\\theta = 1$<br>$-\\cos^2\\theta + \\cos\\theta = 0$<br>$\\cos\\theta\\,(1 - \\cos\\theta) = 0$<br>$\\cos\\theta = 0 \\Rightarrow \\theta = 90^\\circ, 270^\\circ$; $\\cos\\theta = 1 \\Rightarrow \\theta = 0^\\circ$`
+   471→              : `$\\cos^2\\theta + \\sin\\theta = 1$<br>$1 - \\sin^2\\theta + \\sin\\theta = 1$<br>$-\\sin^2\\theta + \\sin\\theta = 0$<br>$\\sin\\theta\\,(1 - \\sin\\theta) = 0$<br>$\\sin\\theta = 0 \\Rightarrow \\theta = 0^\\circ, 180^\\circ$; $\\sin\\theta = 1 \\Rightarrow \\theta = 90^\\circ$`,
+   472→          ),
+   473→          step(
+   474→            "result",
+   475→            `Las soluciones son $${allSols}$; la mayor es $${largest}^\\circ$.`,
+   476→            `The solutions are $${allSols}$; the largest is $${largest}^\\circ$.`,
+   477→          ),
+   478→        ],
+   479→      };
+   480→    },
+   481→  ),
+   482→
+   483→  /* ---------------------------------------------------------------- */
+   484→  /* General solution (medium, MC)                                     */
+   485→  /* ---------------------------------------------------------------- */
+   486→  template(
+   487→    {
+   488→      id: "trigeq-gen-01",
+   489→      subject: "math",
+   490→      topicId: "trig-equations",
+   491→      subtopicId: "general",
+   492→      difficulty: "medium",
+   493→      questionType: "multiple-choice",
+   494→      estimatedTimeSec: 150,
+   495→      tags: ["general-solution", "radians"],
+   496→      prerequisites: ["trig-functions"],
+   497→    },
+   498→    (rng) => {
+   499→      const useSin = rng.bool();
+   500→      // π/d must be the reference angle OF THAT FUNCTION: sin(π/6)=1/2, cos(π/3)=1/2, cos(π/6)=√3/2
+   501→      const ref = useSin
+   502→        ? rng.pick([
+   503→            { d: 6, v: "\\frac{1}{2}" },
+   504→            { d: 4, v: "\\frac{\\sqrt{2}}{2}" },
+   505→            { d: 3, v: "\\frac{\\sqrt{3}}{2}" },
+   506→          ])
+   507→        : rng.pick([
+   508→            { d: 3, v: "\\frac{1}{2}" },
+   509→            { d: 4, v: "\\frac{\\sqrt{2}}{2}" },
+   510→            { d: 6, v: "\\frac{\\sqrt{3}}{2}" },
+   511→          ]);
+   512→      const fn = useSin ? "\\sin" : "\\cos";
+   513→      const p1 = piFrac(1, ref.d);
+   514→      const p2 = piFrac(ref.d - 1, ref.d);
+   515→      const withSin = (period: string) =>
+   516→        L(
+   517→          `$x = ${p1} ${period}$ o $x = ${p2} ${period}$, $n \\in \\mathbb{Z}$`,
+   518→          `$x = ${p1} ${period}$ or $x = ${p2} ${period}$, $n \\in \\mathbb{Z}$`,
+   519→        );
+   520→      const withCos = (period: string) =>
+   521→        L(`$x = \\pm ${p1} ${period}$, $n \\in \\mathbb{Z}$`, `$x = \\pm ${p1} ${period}$, $n \\in \\mathbb{Z}$`);
+   522→      const options: McOption[] = useSin
+   523→        ? [
+   524→            { id: "a", text: withSin("+ 2\\pi n"), correct: true },
+   525→            { id: "b", text: withSin("+ \\pi n"), correct: false },
+   526→            { id: "c", text: withCos("+ 2\\pi n"), correct: false },
+   527→            {
+   528→              id: "d",
+   529→              text: L(
+   530→                `$x = ${p1} + 2\\pi n$, $n \\in \\mathbb{Z}$`,
+   531→                `$x = ${p1} + 2\\pi n$, $n \\in \\mathbb{Z}$`,
+   532→              ),
+   533→              correct: false,
+   534→            },
+   535→          ]
+   536→        : [
+   537→            { id: "a", text: withCos("+ 2\\pi n"), correct: true },
+   538→            { id: "b", text: withCos("+ \\pi n"), correct: false },
+   539→            {
+   540→              id: "c",
+   541→              text: L(
+   542→                `$x = ${p1} + \\pi n$, $n \\in \\mathbb{Z}$`,
+   543→                `$x = ${p1} + \\pi n$, $n \\in \\mathbb{Z}$`,
+   544→              ),
+   545→              correct: false,
+   546→            },
+   547→            { id: "d", text: withSin("+ 2\\pi n"), correct: false },
+   548→          ];
+   549→      const correctDisplay = useSin
+   550→        ? `$x = ${p1} + 2\\pi n$ o $x = ${p2} + 2\\pi n$, $n \\in \\mathbb{Z}$`
+   551→        : `$x = \\pm ${p1} + 2\\pi n$, $n \\in \\mathbb{Z}$`;
+   552→      return {
+   553→        skill: L("Solución general", "General solution"),
+   554→        statement: L(
+   555→          `¿Cuál es la **solución general** de $${fn} x = ${ref.v}$ (todas las soluciones reales)?`,
+   556→          `What is the **general solution** of $${fn} x = ${ref.v}$ (all real solutions)?`,
+   557→        ),
+   558→        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+   559→        hints: [
+   560→          L(
+   561→            "Dentro de un periodo $[0, 2\\pi)$ hay dos soluciones.",
+   562→            "Within one period $[0, 2\\pi)$ there are two solutions.",
+   563→          ),
+   564→          L(
+   565→            useSin
+   566→              ? `En $[0, 2\\pi)$: $x = ${p1}$ y $x = ${p2}$.`
+   567→              : `En $[0, 2\\pi)$: $x = ${p1}$ y $x = -${p1}$.`,
+   568→            useSin
+   569→              ? `On $[0, 2\\pi)$: $x = ${p1}$ and $x = ${p2}$.`
+   570→              : `On $[0, 2\\pi)$: $x = ${p1}$ and $x = -${p1}$.`,
+   571→          ),
+   572→          L(
+   573→            "Todas las demás se obtienen sumando múltiplos del periodo $2\\pi$.",
+   574→            "All the others are obtained by adding multiples of the period $2\\pi$.",
+   575→          ),
+   576→        ],
+   577→        answerDisplay: L(correctDisplay, correctDisplay),
+   578→        solution: [
+   579→          step("given", `$${fn} x = ${ref.v}$`, `$${fn} x = ${ref.v}$`),
+   580→          step(
+   581→            "approach",
+   582→            "Hallamos las dos soluciones de un periodo y las repetimos sumando $2\\pi n$.",
+   583→            "Find the two solutions within one period and repeat them by adding $2\\pi n$.",
+   584→          ),
+   585→          step(
+   586→            "calculation",
+   587→            useSin
+   588→              ? `En $[0, 2\\pi)$: $x = ${p1}$ y $x = ${p2}$.<br>Añadiendo periodos: $x = ${p1} + 2\\pi n$ o $x = ${p2} + 2\\pi n$`
+   589→              : `En $[0, 2\\pi)$: $x = \\pm ${p1}$.<br>Añadiendo periodos: $x = \\pm ${p1} + 2\\pi n$`,
+   590→            useSin
+   591→              ? `On $[0, 2\\pi)$: $x = ${p1}$ and $x = ${p2}$.<br>Adding periods: $x = ${p1} + 2\\pi n$ or $x = ${p2} + 2\\pi n$`
+   592→              : `On $[0, 2\\pi)$: $x = \\pm ${p1}$.<br>Adding periods: $x = \\pm ${p1} + 2\\pi n$`,
+   593→          ),
+   594→          step(
+   595→            "result",
+   596→            `${correctDisplay}.`,
+   597→            `${correctDisplay}.`,
+   598→          ),
+   599→        ],
+   600→      };
+   601→    },
+   602→  ),
+   603→
+   604→  /* ---------------------------------------------------------------- */
+   605→  /* Counting solutions with frequency (hard)                          */
+   606→  /* ---------------------------------------------------------------- */
+   607→  template(
+   608→    {
+   609→      id: "trigeq-int-02",
+   610→      subject: "math",
+   611→      topicId: "trig-equations",
+   612→      subtopicId: "intervals",
+   613→      difficulty: "hard",
+   614→      questionType: "numeric",
+   615→      estimatedTimeSec: 210,
+   616→      tags: ["intervals", "counting", "radians"],
+   617→      prerequisites: ["trig-functions"],
+   618→    },
+   619→    (rng) => {
+   620→      const k = rng.pick([1, 2, 3]);
+   621→      const cfg = rng.pick([
+   622→        { fn: "\\sin", v: "\\frac{1}{2}", a1: "\\frac{\\pi}{6}", a2: "\\frac{5\\pi}{6}", extreme: false },
+   623→        { fn: "\\sin", v: "\\frac{\\sqrt{2}}{2}", a1: "\\frac{\\pi}{4}", a2: "\\frac{3\\pi}{4}", extreme: false },
+   624→        { fn: "\\sin", v: "\\frac{\\sqrt{3}}{2}", a1: "\\frac{\\pi}{3}", a2: "\\frac{2\\pi}{3}", extreme: false },
+   625→        { fn: "\\sin", v: "-\\frac{1}{2}", a1: "\\frac{7\\pi}{6}", a2: "\\frac{11\\pi}{6}", extreme: false },
+   626→        { fn: "\\cos", v: "\\frac{1}{2}", a1: "\\frac{\\pi}{3}", a2: "\\frac{5\\pi}{3}", extreme: false },
+   627→        { fn: "\\cos", v: "\\frac{\\sqrt{2}}{2}", a1: "\\frac{\\pi}{4}", a2: "\\frac{7\\pi}{4}", extreme: false },
+   628→        { fn: "\\cos", v: "-\\frac{1}{2}", a1: "\\frac{2\\pi}{3}", a2: "\\frac{4\\pi}{3}", extreme: false },
+   629→        { fn: "\\sin", v: "1", a1: "\\frac{\\pi}{2}", a2: "", extreme: true },
+   630→        { fn: "\\sin", v: "-1", a1: "\\frac{3\\pi}{2}", a2: "", extreme: true },
+   631→        { fn: "\\cos", v: "1", a1: "0", a2: "", extreme: true },
+   632→        { fn: "\\cos", v: "-1", a1: "\\pi", a2: "", extreme: true },
+   633→      ]);
+   634→      const count = cfg.extreme ? k : 2 * k;
+   635→      return {
+   636→        skill: L("Contar soluciones con frecuencia", "Counting solutions with frequency"),
+   637→        statement: L(
+   638→          `¿Cuántas soluciones tiene la ecuación $${cfg.fn}(${k === 1 ? "" : k}x) = ${cfg.v}$ en el intervalo $[0, 2\\pi)$?`,
+   639→          `How many solutions does the equation $${cfg.fn}(${k === 1 ? "" : k}x) = ${cfg.v}$ have on the interval $[0, 2\\pi)$?`,
+   640→        ),
+   641→        answer: { kind: "numeric", value: count },
+   642→        hints: [
+   643→          L(
+   644→            `Sustituye $u = ${k === 1 ? "x" : `${k}x`}$: cuando $x$ recorre $[0, 2\\pi)$, $u$ recorre ${k === 1 ? "una vuelta completa" : `$${k}$ vueltas completas`}.`,
+   645→            `Substitute $u = ${k === 1 ? "x" : `${k}x`}$: as $x$ runs over $[0, 2\\pi)$, $u$ covers ${k === 1 ? "one full turn" : `$${k}$ full turns`}.`,
+   646→          ),
+   647→          L(
+   648→            cfg.extreme
+   649→              ? "El valor $1$ o $-1$ solo se alcanza **una** vez por vuelta."
+   650→              : "Un valor estrictamente entre $-1$ y $1$ se alcanza **dos** veces por vuelta.",
+   651→            cfg.extreme
+   652→              ? "The value $1$ or $-1$ is reached only **once** per turn."
+   653→              : "A value strictly between $-1$ and $1$ is reached **twice** per turn.",
+   654→          ),
+   655→          L(
+   656→            `Multiplica el número de soluciones por vuelta por el número de vueltas (${k}).`,
+   657→            `Multiply the number of solutions per turn by the number of turns (${k}).`,
+   658→          ),
+   659→        ],
+   660→        answerDisplay: L(
+   661→          `$${count}$ solucion${count === 1 ? "" : "es"} en $[0, 2\\pi)$`,
+   662→          `$${count}$ solution${count === 1 ? "" : "s"} on $[0, 2\\pi)$`,
+   663→        ),
+   664→        solution: [
+   665→          step(
+   666→            "given",
+   667→            `$${cfg.fn}(${k === 1 ? "" : k}x) = ${cfg.v}$ en $[0, 2\\pi)$`,
+   668→            `$${cfg.fn}(${k === 1 ? "" : k}x) = ${cfg.v}$ on $[0, 2\\pi)$`,
+   669→          ),
+   670→          step(
+   671→            "approach",
+   672→            `Con $u = ${k === 1 ? "x" : `${k}x`}$, el intervalo de $u$ es $[0, ${k}\\cdot 2\\pi)$: ${k === 1 ? "una" : `${k}`} vuelta${k === 1 ? "" : "s"} de la circunferencia.`,
+   673→            `With $u = ${k === 1 ? "x" : `${k}x`}$, the interval for $u$ is $[0, ${k}\\cdot 2\\pi)$: ${k === 1 ? "one" : `${k}`} full turn${k === 1 ? "" : "s"} of the circle.`,
+   674→          ),
+   675→          step(
+   676→            "calculation",
+   677→            cfg.extreme
+   678→              ? `En cada vuelta, $${cfg.fn} u = ${cfg.v}$ ocurre una sola vez (en $u = ${cfg.a1}$).<br>Número de vueltas: $${k}$ → $${k} \\cdot 1 = ${count}$ soluciones.`
+   679→              : `En cada vuelta, $${cfg.fn} u = ${cfg.v}$ ocurre dos veces (en $u = ${cfg.a1}$ y $u = ${cfg.a2}$).<br>Número de vueltas: $${k}$ → $${k} \\cdot 2 = ${count}$ soluciones.`,
+   680→            cfg.extreme
+   681→              ? `On each turn, $${cfg.fn} u = ${cfg.v}$ happens exactly once (at $u = ${cfg.a1}$).<br>Number of turns: $${k}$ → $${k} \\cdot 1 = ${count}$ solutions.`
+   682→              : `On each turn, $${cfg.fn} u = ${cfg.v}$ happens twice (at $u = ${cfg.a1}$ and $u = ${cfg.a2}$).<br>Number of turns: $${k}$ → $${k} \\cdot 2 = ${count}$ solutions.`,
+   683→          ),
+   684→          step(
+   685→            "result",
+   686→            `La ecuación tiene $${count}$ soluciones en $[0, 2\\pi)$.`,
+   687→            `The equation has $${count}$ solutions on $[0, 2\\pi)$.`,
+   688→          ),
+   689→        ],
+   690→      };
+   691→    },
+   692→  ),
+   693→
+   694→  /* ---------------------------------------------------------------- */
+   695→  /* Quadratic in sin/cos → count solutions (hard)                     */
+   696→  /* ---------------------------------------------------------------- */
+   697→  template(
+   698→    {
+   699→      id: "trigeq-ident-02",
+   700→      subject: "math",
+   701→      topicId: "trig-equations",
+   702→      subtopicId: "with-identities",
+   703→      difficulty: "hard",
+   704→      questionType: "numeric",
+   705→      estimatedTimeSec: 240,
+   706→      tags: ["quadratic", "factoring", "counting"],
+   707→      prerequisites: ["trig-functions"],
+   708→    },
+   709→    (rng) => {
+   710→      const cfg = rng.pick([
+   711→        {
+   712→          eq: "\\sin^2\\theta = \\frac{1}{4}",
+   713→          work: "$\\sin\\theta = \\pm\\frac{1}{2}$",
+   714→          sols: [30, 150, 210, 330],
+   715→        },
+   716→        {
+   717→          eq: "\\cos^2\\theta = \\frac{1}{4}",
+   718→          work: "$\\cos\\theta = \\pm\\frac{1}{2}$",
+   719→          sols: [60, 120, 240, 300],
+   720→        },
+   721→        {
+   722→          eq: "2\\sin^2\\theta - 1 = 0",
+   723→          work: "$\\sin\\theta = \\pm\\frac{\\sqrt{2}}{2}$",
+   724→          sols: [45, 135, 225, 315],
+   725→        },
+   726→        {
+   727→          eq: "\\sin^2\\theta - 1 = 0",
+   728→          work: "$\\sin\\theta = \\pm 1$",
+   729→          sols: [90, 270],
+   730→        },
+   731→        {
+   732→          eq: "\\cos^2\\theta - 1 = 0",
+   733→          work: "$\\cos\\theta = \\pm 1$",
+   734→          sols: [0, 180],
+   735→        },
+   736→        {
+   737→          eq: "\\sin^2\\theta + \\sin\\theta = 0",
+   738→          work: "$\\sin\\theta\\,(\\sin\\theta + 1) = 0 \\;\\Rightarrow\\; \\sin\\theta \\in \\{0,\\ -1\\}$",
+   739→          sols: [0, 180, 270],
+   740→        },
+   741→        {
+   742→          eq: "2\\sin^2\\theta - 3\\sin\\theta + 1 = 0",
+   743→          work: "$(2\\sin\\theta - 1)(\\sin\\theta - 1) = 0 \\;\\Rightarrow\\; \\sin\\theta \\in \\left\\{\\frac{1}{2},\\ 1\\right\\}$",
+   744→          sols: [30, 90, 150],
+   745→        },
+   746→        {
+   747→          eq: "2\\cos^2\\theta + \\cos\\theta - 1 = 0",
+   748→          work: "$(2\\cos\\theta - 1)(\\cos\\theta + 1) = 0 \\;\\Rightarrow\\; \\cos\\theta \\in \\left\\{\\frac{1}{2},\\ -1\\right\\}$",
+   749→          sols: [60, 180, 300],
+   750→        },
+   751→      ]);
+   752→      const count = cfg.sols.length;
+   753→      const solsLatex = `$${cfg.sols.join("^\\circ, ")}^\\circ$`;
+   754→      return {
+   755→        skill: L("Ecuaciones cuadráticas trigonométricas", "Trigonometric quadratic equations"),
+   756→        statement: L(
+   757→          `¿Cuántas soluciones tiene la ecuación $${cfg.eq}$ en el intervalo $[0^\\circ, 360^\\circ)$?`,
+   758→          `How many solutions does the equation $${cfg.eq}$ have on the interval $[0^\\circ, 360^\\circ)$?`,
+   759→        ),
+   760→        answer: { kind: "numeric", value: count },
+   761→        hints: [
+   762→          L(
+   763→            "Trata la ecuación como una ecuación cuadrática (o de raíces) en $\\sin\\theta$ o $\\cos\\theta$.",
+   764→            "Treat the equation as a quadratic (or a root equation) in $\\sin\\theta$ or $\\cos\\theta$.",
+   765→          ),
+   766→          L(
+   767→            "Halla todos los valores posibles de la función trigonométrica.",
+   768→            "Find all possible values of the trig function.",
+   769→          ),
+   770→          L(
+   771→            "Cada valor entre $-1$ y $1$ (sin ser $\\pm 1$) produce **dos** ángulos en $[0^\\circ, 360^\\circ)$; los valores $\\pm 1$ producen solo uno.",
+   772→            "Each value between $-1$ and $1$ (other than $\\pm 1$) produces **two** angles on $[0^\\circ, 360^\\circ)$; the values $\\pm 1$ produce only one.",
+   773→          ),
+   774→        ],
+   775→        answerDisplay: L(
+   776→          `$${count}$ soluciones: ${solsLatex}`,
+   777→          `$${count}$ solutions: ${solsLatex}`,
+   778→        ),
+   779→        solution: [
+   780→          step("given", `$${cfg.eq}$, con $0^\\circ \\le \\theta < 360^\\circ$`, `$${cfg.eq}$, with $0^\\circ \\le \\theta < 360^\\circ$`),
+   781→          step(
+   782→            "approach",
+   783→            "Resolvemos para la función trigonométrica (factorizando o extrayendo raíces) y contamos los ángulos de cada valor.",
+   784→            "Solve for the trig function (by factoring or taking roots) and count the angles for each value.",
+   785→          ),
+   786→          step(
+   787→            "calculation",
+   788→            `${cfg.work}<br>Las soluciones son $${cfg.sols.join("^\\circ, ")}^\\circ$.`,
+   789→            `${cfg.work}<br>The solutions are $${cfg.sols.join("^\\circ, ")}^\\circ$.`,
+   790→          ),
+   791→          step(
+   792→            "result",
+   793→            `En total hay $${count}$ soluciones en $[0^\\circ, 360^\\circ)$.`,
+   794→            `Altogether there are $${count}$ solutions on $[0^\\circ, 360^\\circ)$.`,
+   795→          ),
+   796→        ],
+   797→      };
+   798→    },
+   799→  ),
+   800→
+   801→  /* ---------------------------------------------------------------- */
+   802→  /* sin x = k·cos x → smallest positive (hard, expression)            */
+   803→  /* ---------------------------------------------------------------- */
+   804→  template(
+   805→    {
+   806→      id: "trigeq-gen-02",
+   807→      subject: "math",
+   808→      topicId: "trig-equations",
+   809→      subtopicId: "general",
+   810→      difficulty: "hard",
+   811→      questionType: "expression",
+   812→      estimatedTimeSec: 240,
+   813→      tags: ["tangent", "radians", "exact-values"],
+   814→      prerequisites: ["trig-functions"],
+   815→    },
+   816→    (rng) => {
+   817→      const cfg = rng.pick([
+   818→        { eq: "\\sin x = \\cos x", tan: "1", ref: { n: 1, d: 4 }, sols: { n: 1, d: 4 } },
+   819→        { eq: "\\sin x = \\sqrt{3}\\cos x", tan: "\\sqrt{3}", ref: { n: 1, d: 3 }, sols: { n: 1, d: 3 } },
+   820→        { eq: "\\sqrt{3}\\sin x = \\cos x", tan: "\\frac{\\sqrt{3}}{3}", ref: { n: 1, d: 6 }, sols: { n: 1, d: 6 } },
+   821→        { eq: "\\sin x = -\\cos x", tan: "-1", ref: { n: 3, d: 4 }, sols: { n: 3, d: 4 } },
+   822→        { eq: "\\sqrt{3}\\sin x = -\\cos x", tan: "-\\frac{\\sqrt{3}}{3}", ref: { n: 5, d: 6 }, sols: { n: 5, d: 6 } },
+   823→      ]);
+   824→      const ansLatex = piFrac(cfg.sols.n, cfg.sols.d);
+   825→      const secondLatex = piFrac(cfg.sols.n + cfg.sols.d, cfg.sols.d);
+   826→      return {
+   827→        skill: L("Reducir a tangente", "Reducing to a tangent"),
+   828→        statement: L(
+   829→          `Resuelve $${cfg.eq}$ y escribe la **menor solución positiva** en $[0, 2\\pi)$, en forma exacta con $\\pi$ (por ejemplo pi/5).`,
+   830→          `Solve $${cfg.eq}$ and write the **smallest positive solution** on $[0, 2\\pi)$, in exact form with $\\pi$ (e.g. pi/5).`,
+   831→        ),
+   832→        answer: {
+   833→          kind: "expression",
+   834→          accepted: [piExpr(cfg.sols.n, cfg.sols.d)],
+   835→          variables: [],
+   836→        },
+   837→        hints: [
+   838→          L(
+   839→            "Si $\\cos x = 0$ la ecuación falla, así que puedes dividir ambos lados entre $\\cos x$.",
+   840→            "If $\\cos x = 0$ the equation fails, so you may divide both sides by $\\cos x$.",
+   841→          ),
+   842→          L(
+   843→            `Obtendrás $\\tan x = ${cfg.tan}$ (tangente positiva: cuadrantes I y III; negativa: II y IV).`,
+   844→            `You will get $\\tan x = ${cfg.tan}$ (positive tangent: quadrants I and III; negative: II and IV).`,
+   845→          ),
+   846→          L(
+   847→            "La menor solución positiva es el ángulo de referencia (tangente positiva) o $\\pi$ menos el de referencia (tangente negativa).",
+   848→            "The smallest positive solution is the reference angle (positive tangent) or $\\pi$ minus the reference angle (negative tangent).",
+   849→          ),
+   850→        ],
+   851→        answerDisplay: L(`$x = ${ansLatex}$`, `$x = ${ansLatex}$`),
+   852→        solution: [
+   853→          step("given", `$${cfg.eq}$, con $0 \\le x < 2\\pi$`, `$${cfg.eq}$, with $0 \\le x < 2\\pi$`),
+   854→          step(
+   855→            "approach",
+   856→            "Dividimos entre $\\cos x$ para reducir la ecuación a una tangente.",
+   857→            "Divide by $\\cos x$ to reduce the equation to a tangent.",
+   858→          ),
+   859→          step(
+   860→            "calculation",
+   861→            `$\\tan x = ${cfg.tan}$<br>Soluciones en $[0, 2\\pi)$: $x = ${ansLatex}$ y $x = ${secondLatex}$`,
+   862→            `$\\tan x = ${cfg.tan}$<br>Solutions on $[0, 2\\pi)$: $x = ${ansLatex}$ and $x = ${secondLatex}$`,
+   863→          ),
+   864→          step(
+   865→            "result",
+   866→            `La menor solución positiva es $x = ${ansLatex}$ (la otra es ${secondLatex}, que es mayor).`,
+   867→            `The smallest positive solution is $x = ${ansLatex}$ (the other one is ${secondLatex}, which is larger).`,
+   868→          ),
+   869→        ],
+   870→      };
+   871→    },
+   872→  ),
+   873→
+   874→  /* ---------------------------------------------------------------- */
+   875→  /* Challenge: mixed sin²/cos quadratic                               */
+   876→  /* ---------------------------------------------------------------- */
+   877→  template(
+   878→    {
+   879→      id: "trigeq-chal-01",
+   880→      subject: "math",
+   881→      topicId: "trig-equations",
+   882→      subtopicId: "with-identities",
+   883→      difficulty: "challenge",
+   884→      questionType: "numeric",
+   885→      estimatedTimeSec: 300,
+   886→      tags: ["identities", "quadratic", "multi-step"],
+   887→      prerequisites: ["trig-functions"],
+   888→    },
+   889→    (rng) => {
+   890→      const variant = rng.pick(["sinCos", "cosSin"] as const);
+   891→      const ask = rng.pick(["count", "smallest", "largest"] as const);
+   892→      // A: 2sin²θ + cosθ − 1 = 0 → cosθ = 1 or −1/2 → {0, 120, 240}
+   893→      // B: 2cos²θ + sinθ − 1 = 0 → sinθ = 1 or −1/2 → {90, 210, 330}
+   894→      const eq = variant === "sinCos"
+   895→        ? "2\\sin^2\\theta + \\cos\\theta - 1 = 0"
+   896→        : "2\\cos^2\\theta + \\sin\\theta - 1 = 0";
+   897→      const sols = variant === "sinCos" ? [0, 120, 240] : [90, 210, 330];
+   898→      const value = ask === "count" ? sols.length : ask === "smallest" ? sols[0] : sols[2];
+   899→      const askEs =
+   900→        ask === "count"
+   901→          ? "di cuántas soluciones tiene"
+   902→          : ask === "smallest"
+   903→            ? "escribe la menor de las soluciones (en grados)"
+   904→            : "escribe la mayor de las soluciones (en grados)";
+   905→      const askEn =
+   906→        ask === "count"
+   907→          ? "state how many solutions it has"
+   908→          : ask === "smallest"
+   909→            ? "write the smallest solution (in degrees)"
+   910→            : "write the largest solution (in degrees)";
+   911→      return {
+   912→        skill: L("Ecuación mixta con identidad", "Mixed equation with an identity"),
+   913→        statement: L(
+   914→          `Resuelve $${eq}$ en $[0^\\circ, 360^\\circ)$ y ${askEs}.`,
+   915→          `Solve $${eq}$ on $[0^\\circ, 360^\\circ)$ and ${askEn}.`,
+   916→        ),
+   917→        answer: {
+   918→          kind: "numeric",
+   919→          value,
+   920→          tolerance: { mode: "absolute", value: 0.001 },
+   921→          unitSuffix: "°",
+   922→        },
+   923→        hints: [
+   924→          L(
+   925→            "La ecuación mezcla $\\sin^2\\theta$ con $\\cos\\theta$ (o al revés): primero deja una sola función.",
+   926→            "The equation mixes $\\sin^2\\theta$ with $\\cos\\theta$ (or the other way round): first reduce to a single function.",
+   927→          ),
+   928→          L(
+   929→            variant === "sinCos"
+   930→              ? "Sustituye $\\sin^2\\theta = 1 - \\cos^2\\theta$ y obtendrás una cuadrática en $\\cos\\theta$."
+   931→              : "Sustituye $\\cos^2\\theta = 1 - \\sin^2\\theta$ y obtendrás una cuadrática en $\\sin\\theta$.",
+   932→            variant === "sinCos"
+   933→              ? "Substitute $\\sin^2\\theta = 1 - \\cos^2\\theta$ and you will get a quadratic in $\\cos\\theta$."
+   934→              : "Substitute $\\cos^2\\theta = 1 - \\sin^2\\theta$ and you will get a quadratic in $\\sin\\theta$.",
+   935→          ),
+   936→          L(
+   937→            "Factoriza la cuadrática y resuelve cada factor; recoge todos los ángulos del intervalo.",
+   938→            "Factor the quadratic and solve each factor; collect all angles in the interval.",
+   939→          ),
+   940→        ],
+   941→        answerDisplay: L(
+   942→          `Soluciones: $${sols.join("^\\circ, ")}^\\circ$`,
+   943→          `Solutions: $${sols.join("^\\circ, ")}^\\circ$`,
+   944→        ),
+   945→        solution: [
+   946→          step(
+   947→            "given",
+   948→            `$${eq}$, con $0^\\circ \\le \\theta < 360^\\circ$`,
+   949→            `$${eq}$, with $0^\\circ \\le \\theta < 360^\\circ$`,
+   950→          ),
+   951→          step(
+   952→            "approach",
+   953→            "Usamos la identidad pitagórica para dejar una sola función y resolvemos la cuadrática resultante.",
+   954→            "Use the Pythagorean identity to keep a single function, then solve the resulting quadratic.",
+   955→          ),
+   956→          step(
+   957→            "calculation",
+   958→            variant === "sinCos"
+   959→              ? `$2(1 - \\cos^2\\theta) + \\cos\\theta - 1 = 0$<br>$-2\\cos^2\\theta + \\cos\\theta + 1 = 0$<br>$(2\\cos\\theta + 1)(\\cos\\theta - 1) = 0$<br>$\\cos\\theta = -\\frac{1}{2} \\Rightarrow \\theta = 120^\\circ, 240^\\circ$; $\\cos\\theta = 1 \\Rightarrow \\theta = 0^\\circ$`
+   960→              : `$2(1 - \\sin^2\\theta) + \\sin\\theta - 1 = 0$<br>$-2\\sin^2\\theta + \\sin\\theta + 1 = 0$<br>$(2\\sin\\theta + 1)(\\sin\\theta - 1) = 0$<br>$\\sin\\theta = -\\frac{1}{2} \\Rightarrow \\theta = 210^\\circ, 330^\\circ$; $\\sin\\theta = 1 \\Rightarrow \\theta = 90^\\circ$`,
+   961→            variant === "sinCos"
+   962→              ? `$2(1 - \\cos^2\\theta) + \\cos\\theta - 1 = 0$<br>$-2\\cos^2\\theta + \\cos\\theta + 1 = 0$<br>$(2\\cos\\theta + 1)(\\cos\\theta - 1) = 0$<br>$\\cos\\theta = -\\frac{1}{2} \\Rightarrow \\theta = 120^\\circ, 240^\\circ$; $\\cos\\theta = 1 \\Rightarrow \\theta = 0^\\circ$`
+   963→              : `$2(1 - \\sin^2\\theta) + \\sin\\theta - 1 = 0$<br>$-2\\sin^2\\theta + \\sin\\theta + 1 = 0$<br>$(2\\sin\\theta + 1)(\\sin\\theta - 1) = 0$<br>$\\sin\\theta = -\\frac{1}{2} \\Rightarrow \\theta = 210^\\circ, 330^\\circ$; $\\sin\\theta = 1 \\Rightarrow \\theta = 90^\\circ$`,
+   964→          ),
+   965→          step(
+   966→            "result",
+   967→            ask === "count"
+   968→              ? `Las soluciones son $${sols.join("^\\circ, ")}^\\circ$: en total $${sols.length}$.`
+   969→              : ask === "smallest"
+   970→                ? `Las soluciones son $${sols.join("^\\circ, ")}^\\circ$; la menor es $${sols[0]}^\\circ$.`
+   971→                : `Las soluciones son $${sols.join("^\\circ, ")}^\\circ$; la mayor es $${sols[2]}^\\circ$.`,
+   972→            ask === "count"
+   973→              ? `The solutions are $${sols.join("^\\circ, ")}^\\circ$: $${sols.length}$ in total.`
+   974→              : ask === "smallest"
+   975→                ? `The solutions are $${sols.join("^\\circ, ")}^\\circ$; the smallest is $${sols[0]}^\\circ$.`
+   976→                : `The solutions are $${sols.join("^\\circ, ")}^\\circ$; the largest is $${sols[2]}^\\circ$.`,
+   977→          ),
+   978→        ],
+   979→      };
+   980→    },
+   981→  ),
+   982→];
+   983→
