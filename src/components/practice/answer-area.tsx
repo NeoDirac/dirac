@@ -226,7 +226,7 @@ export function AnswerArea({ problem, disabled, checking, onSubmit }: AnswerArea
       ) : (
         <div className="space-y-1.5">
           <Label htmlFor={`${formId}-value`}>{t("input.yourAnswer")}</Label>
-          <div className="flex items-stretch gap-2">
+          <div className="flex items-stretch gap-2 sm:max-w-xs">
             <Input
               id={`${formId}-value`}
               ref={valueRef}

@@ -452,3 +452,43 @@ Verification (all green):
 Stage Summary:
 - Platform stable; 3 new user-facing features shipped and browser-verified (time tracking, smart resume, shortcuts help) + subject-card alignment fix
 - Next-round ideas: teacher-facing analytics (future backend), worksheet difficulty-mix option, constants harmonization pass (k = 9×10⁹ vs 8.99×10⁹), more multi-concept templates, per-problem time in progress dashboard records (persist timeSec in ProblemRecord for cross-session analytics)
+
+---
+Task ID: 8
+Agent: main (Z.ai Code) — scheduled review round 5
+Task: QA sweep + new features (per-problem time analytics, session history, copy-results report, weak-topic suggestions) + VLM-guided styling polish
+
+Work Log:
+- Reviewed worklog (round 7 complete: 418 templates, time tracking, smart resume, shortcuts help); all gates green at start (validate 418·0/0, tsc clean, lint clean, dev.log healthy)
+- QA via agent-browser (fresh storage, ES+EN): golden path (quadratics: wrong 5 → feedback nudge → Hint 1/2 → correct 4/3 accepted as "3 attempts" → staged solution GIVEN… → next), mid-session language switch to ES (Problema 2 de 10, Comprobar respuesta), session refresh restore (same seed, 0 errors), end-session dialog with correct copy, session summary with per-problem times/statuses, progress dashboard, worksheet mode, dark mode, mobile 390px (no overflow), physics circuits session (V–I graph problem), invalid topic id → graceful error page (correct behavior). No bugs found this round
+- Verified the flagged constants issue from round 7-b: k = 9×10⁹ vs 8.99×10⁹ in electrostatics is deliberate and documented (each statement quotes its own constant; es-field-03 hand-curated for exact answers) — no change needed
+- NEW FEATURE 1 — Per-problem time persistence (timeSec in ProblemRecord):
+  - ProblemRecord gains optional timeSec; session-view computes it at the moment of recording (currentProblemSec helper) so record + stampTime share one measurement; resolveAndRecord/toggleSolution pass the frozen seconds
+  - TopicStats/OverallStats aggregate timeSec/timedRecords; progress.ts gains SessionRecord/SessionLogState types + loadSessions/appendSessionRecord (localStorage key aula-practice-sessions, cap 40); resetProgress also clears the session log
+  - Browser-verified: records carry timeSec (43s for the answered problem, 1s for skips); dashboard "Time practiced" stat card + "≈ 9s per problem" in topic rows + per-problem time chips in recent activity
+- NEW FEATURE 2 — Recent sessions history:
+  - One SessionRecord appended when a session truly ends (mode, subjects, topic, review flag, problems/attempted/solved/firstTry/hints/elapsedSec); sessionRecorded flag persisted in PersistedSession so reloads never duplicate; retry-missed resets the flag so a review session logs as its own entry (review: true → "Repaso/Review" pill)
+  - Dashboard gains "Sesiones recientes/Recent sessions" section (last 8): date (locale-aware), subject · topic label, solved/total, first-try %, elapsed time chip, score-tinted icon
+  - Browser-verified: original session + review session both logged with correct review badge
+- NEW FEATURE 3 — Copy results to clipboard (share with tutor):
+  - SessionSummary "Copiar resultados/Copy results" outline button with ✓ 2s success state; builds a plain-text report (title + locale date, subject · topic, solved/first-try/hints, time line when tracked, numbered per-problem list with status + time); shared copyToClipboard helper extracted to lib/utils.ts (clipboard API + execCommand fallback) and problem-view share link refactored onto it
+  - Browser-verified via clipboard stub: full ES report captured with correct statuses and times; toast shown
+- NEW FEATURE 4 — Weak-topic detection + practice suggestion:
+  - isWeakTopic (≥3 attempts, <50% first-try) drives an amber "Refuerza/Needs work" badge on topic rows and a "Sugerencia de práctica/Practice suggestion" band above PROGRESS BY TOPIC (weakest qualifying topic, its stats, primary CTA into a 10-problem session)
+  - Browser-verified: band appears for quadratics (20% · 5 attempts) in both languages; absent when no weak topics
+- STYLING POLISH (VLM-guided, initial ratings 7.5 → final 8.5-9):
+  - Progress dashboard: StatCard redesign (quiet icon chip, font-bold tabular numbers, min-height, hover border) now 8 cards in a 2/4-col responsive grid incl. new "Time practiced" and "Answers revealed"; SectionHeader with trailing hairline rule; mt-12 section rhythm; destructive reset button now outline + bg-destructive/5 tint; activity rows gap-2.5 + hover; per-problem time in activity rows
+  - Session summary: same icon-card treatment for the 6 stats (font-bold, icon chips, items-center alignment); action row wraps (sm:flex-wrap) to fit the new Copy button
+  - Home hero: subtitle mt-6, CTAs mt-9, stats row mt-12 with border-t separator, de-emphasized numbers (text-xl foreground/80 instead of primary 2xl), quick-practice outline button gets stronger border/shadow/hover
+  - Answer input: plain numeric input constrained to sm:max-w-xs (no more full-width single-number field)
+  - VLM final: home 8.5/10, session 9/10, summary 9/10 (dark, controlled), dashboard cards aligned, contrast excellent
+
+Verification (all green):
+- bun run validate:content → 418 templates · 0 errors · 0 warnings
+- bunx tsc --noEmit (excl. examples/skills) → 0 errors; bun run lint → clean; dev.log → no runtime errors
+- agent-browser: full navigation journey (home → math → physics → topic → practice → about → progress) 0 console errors, no horizontal overflow at 1280px and 390px; MC numeric-key answering (press 1 → select → check → correct) after blurring focused input (guard correctly ignores keys while typing); timeSec + session log verified in localStorage; copy-results clipboard stub verified; retry-missed creates a second review session record; suggestion band + weak badges in ES/EN; dark mode summary 9/10
+
+Stage Summary:
+- Platform stable; zero bugs found in QA; 4 new features shipped and browser-verified (time analytics in records/dashboard, session history with review badges, tutor-facing copy-results report, weak-topic suggestions)
+- Data layer now fully self-contained for a future backend sync (records carry timeSec; sessions are self-contained events)
+- Next-round ideas: teacher-facing analytics (export CSV of records/sessions), worksheet difficulty-mix option, more Kirchhoff/multi-concept templates, topic search/filter on subject pages, spaced-repetition scheduling ("review due today" based on first-try misses)

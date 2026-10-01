@@ -4,16 +4,20 @@
  * Session summary — restrained stats overview + per-problem review list.
  */
 
-import { ArrowLeft, ArrowRight, BarChart3, Check, CircleOff, Eye, RefreshCw, SkipForward, Target, Timer, XCircle } from "lucide-react";
+import { useState } from "react";
+import { ArrowLeft, ArrowRight, BarChart3, Check, CheckCircle2, CircleOff, ClipboardCopy, Eye, Lightbulb, RefreshCw, SkipForward, Target, Timer, XCircle } from "lucide-react";
 import type { ReactNode } from "react";
+import { format } from "date-fns";
+import { es as dateEs, enUS as dateEn } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 import { useI18n } from "@/lib/i18n/context";
 import { href } from "@/lib/router";
 import { mathCurriculum } from "@/content/curriculum/math";
 import { physicsCurriculum } from "@/content/curriculum/physics";
 import type { Problem, SessionConfig } from "@/lib/types";
 import type { ProblemState } from "./state";
-import { cn, formatDuration } from "@/lib/utils";
+import { cn, copyToClipboard, formatDuration } from "@/lib/utils";
 
 export function SessionSummary({
   config,
@@ -35,6 +39,8 @@ export function SessionSummary({
   onRetryMissed: () => void;
 }) {
   const { t, lang } = useI18n();
+  const { toast } = useToast();
+  const [copied, setCopied] = useState(false);
 
   const attempted = states.filter((s) => s.attempts.length > 0).length;
   const firstTry = states.filter((s) => s.attempts[0]?.correct).length;
@@ -50,12 +56,12 @@ export function SessionSummary({
   const estimatedSec = deck.reduce((a, p) => a + p.estimatedTimeSec, 0);
 
   const stats = [
-    { label: t("summary.attempted"), value: attempted },
-    { label: t("summary.firstTry"), value: firstTry },
-    { label: t("summary.eventual"), value: solved },
-    { label: t("summary.hintsUsed"), value: hints },
-    { label: t("summary.revealed"), value: revealed },
-    { label: t("summary.skipped"), value: skipped },
+    { label: t("summary.attempted"), value: attempted, icon: Target },
+    { label: t("summary.firstTry"), value: firstTry, icon: Check },
+    { label: t("summary.eventual"), value: solved, icon: CheckCircle2 },
+    { label: t("summary.hintsUsed"), value: hints, icon: Lightbulb },
+    { label: t("summary.revealed"), value: revealed, icon: Eye },
+    { label: t("summary.skipped"), value: skipped, icon: SkipForward },
   ];
 
   const backHref =
@@ -107,6 +113,60 @@ export function SessionSummary({
     };
   }
 
+  /** Plain-text status label for the clipboard report. */
+  function statusLabel(s: ProblemState): string {
+    return statusInfo(s).label;
+  }
+
+  /** Shareable plain-text report — a student can paste it to their tutor. */
+  async function handleCopyResults() {
+    const dateStr = format(new Date(), "EEE d MMM yyyy, HH:mm", {
+      locale: lang === "es" ? dateEs : dateEn,
+    });
+    const subjectStr =
+      config.subjects.length === 1
+        ? config.subjects[0] === "math"
+          ? t("nav.math")
+          : t("nav.physics")
+        : t("mixed.subject.both");
+    const topicStr =
+      config.mode === "topic" && config.topicId
+        ? ` · ${
+            (config.subjects[0] === "physics" ? physicsCurriculum : mathCurriculum).find(
+              (tp) => tp.id === config.topicId,
+            )?.name[lang] ?? ""
+          }`
+        : "";
+    const lines: string[] = [
+      `${t("summary.report.title")} — ${dateStr}`,
+      `${subjectStr}${topicStr}`,
+      "",
+      `${t("summary.report.score")}: ${solved}/${states.length} · ${t("summary.report.firstTry")}: ${firstTry}/${states.length} · ${t("summary.hintsUsed")}: ${hints}`,
+    ];
+    if (showTime) {
+      lines.push(
+        `${t("summary.time")}: ${formatDuration(elapsedSec ?? 0)}${
+          avgTime > 0 ? ` · ${t("summary.timeAvg", { t: formatDuration(avgTime) })}` : ""
+        }`,
+      );
+    }
+    lines.push("", t("summary.listTitle"), "");
+    deck.forEach((p, i) => {
+      const st = states[i];
+      const status = st ? statusLabel(st) : "—";
+      const time = typeof times?.[i] === "number" ? ` (${formatDuration(times[i]!, { compact: true })})` : "";
+      lines.push(`${i + 1}. ${p.skill[lang]} — ${status}${time}`);
+    });
+    const ok = await copyToClipboard(lines.join("\n"));
+    if (ok) {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+      toast({ description: t("summary.report.copied") });
+    } else {
+      toast({ description: t("share.failed") });
+    }
+  }
+
   return (
     <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
       <h1 className="font-serif text-3xl font-semibold tracking-tight">
@@ -148,9 +208,14 @@ export function SessionSummary({
 
       <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
         {stats.map((s) => (
-          <div key={s.label} className="rounded-xl border bg-card p-4">
-            <p className="font-serif text-2xl font-semibold">{s.value}</p>
-            <p className="mt-0.5 text-xs text-muted-foreground">{s.label}</p>
+          <div key={s.label} className="rounded-xl border bg-card p-4 transition-colors hover:border-ring/50">
+            <div className="flex items-center justify-between gap-2">
+              <p className="font-serif text-2xl font-bold leading-tight tabular-nums">{s.value}</p>
+              <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-muted text-muted-foreground" aria-hidden="true">
+                <s.icon className="h-4 w-4" />
+              </span>
+            </div>
+            <p className="mt-1 text-xs leading-snug text-muted-foreground">{s.label}</p>
           </div>
         ))}
       </div>
@@ -200,7 +265,7 @@ export function SessionSummary({
         </section>
       ) : null}
 
-      <div className="mt-8 flex flex-col gap-2 sm:flex-row">
+      <div className="mt-8 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
         {missed > 0 ? (
           <Button type="button" onClick={onRetryMissed} className="gap-2 font-semibold">
             <Target className="h-4 w-4" aria-hidden="true" />
@@ -215,6 +280,19 @@ export function SessionSummary({
         >
           <RefreshCw className="h-4 w-4" aria-hidden="true" />
           {t("summary.again")}
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={handleCopyResults}
+          className={cn("gap-2", copied && "border-success/60 text-success hover:text-success")}
+        >
+          {copied ? (
+            <Check className="h-4 w-4" aria-hidden="true" />
+          ) : (
+            <ClipboardCopy className="h-4 w-4" aria-hidden="true" />
+          )}
+          {copied ? t("summary.report.copiedShort") : t("summary.report.copy")}
         </Button>
         <Button type="button" variant="outline" asChild className="gap-2">
           <a href={backHref}>

@@ -38,7 +38,7 @@ import { sessionHref } from "@/lib/router";
 import type { AnswerSubmission, CheckOutcome } from "@/lib/validation/answer";
 import type { Problem } from "@/lib/types";
 import type { ProblemState } from "./state";
-import { cn } from "@/lib/utils";
+import { cn, copyToClipboard } from "@/lib/utils";
 
 function FeedbackPanel({
   outcome,
@@ -172,35 +172,12 @@ export function ProblemView({
       singleTemplateId: problem.templateId,
     });
     const url = `${window.location.origin}${window.location.pathname}${hash}`;
-    try {
-      let copiedOk = false;
-      if (navigator.clipboard && window.isSecureContext) {
-        try {
-          await navigator.clipboard.writeText(url);
-          copiedOk = true;
-        } catch {
-          /* fall through to the legacy path */
-        }
-      }
-      if (!copiedOk) {
-        const ta = document.createElement("textarea");
-        ta.value = url;
-        ta.setAttribute("readonly", "");
-        ta.style.position = "fixed";
-        ta.style.opacity = "0";
-        document.body.appendChild(ta);
-        ta.select();
-        copiedOk = document.execCommand("copy");
-        document.body.removeChild(ta);
-      }
-      if (copiedOk) {
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-        toast({ description: t("share.copied") });
-      } else {
-        toast({ description: t("share.failed") });
-      }
-    } catch {
+    const copiedOk = await copyToClipboard(url);
+    if (copiedOk) {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+      toast({ description: t("share.copied") });
+    } else {
       toast({ description: t("share.failed") });
     }
   }

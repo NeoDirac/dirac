@@ -4,10 +4,19 @@
  * backend sync (records are self-contained events).
  */
 
-import type { Difficulty, ProblemRecord, ProgressState, Subject } from "./types";
+import type {
+  Difficulty,
+  ProblemRecord,
+  ProgressState,
+  SessionLogState,
+  SessionRecord,
+  Subject,
+} from "./types";
 
 const STORAGE_KEY = "aula-practice-progress";
+const SESSIONS_KEY = "aula-practice-sessions";
 const MAX_RECORDS = 800;
+const MAX_SESSIONS = 40;
 
 export function loadProgress(): ProgressState {
   if (typeof window === "undefined") return { version: 1, records: [] };
@@ -45,9 +54,41 @@ export function resetProgress(): void {
   if (typeof window === "undefined") return;
   try {
     window.localStorage.removeItem(STORAGE_KEY);
+    window.localStorage.removeItem(SESSIONS_KEY);
   } catch {
     /* ignore */
   }
+}
+
+/* ------------------------------------------------------------------ */
+/* Session log (one entry per finished session)                       */
+/* ------------------------------------------------------------------ */
+
+export function loadSessions(): SessionLogState {
+  if (typeof window === "undefined") return { version: 1, sessions: [] };
+  try {
+    const raw = window.localStorage.getItem(SESSIONS_KEY);
+    if (!raw) return { version: 1, sessions: [] };
+    const parsed = JSON.parse(raw) as SessionLogState;
+    if (!parsed || !Array.isArray(parsed.sessions)) return { version: 1, sessions: [] };
+    return { version: 1, sessions: parsed.sessions.slice(-MAX_SESSIONS) };
+  } catch {
+    return { version: 1, sessions: [] };
+  }
+}
+
+export function appendSessionRecord(record: SessionRecord): SessionLogState {
+  const state = loadSessions();
+  state.sessions.push(record);
+  try {
+    window.localStorage.setItem(
+      SESSIONS_KEY,
+      JSON.stringify({ version: 1, sessions: state.sessions.slice(-MAX_SESSIONS) }),
+    );
+  } catch {
+    /* storage full / private mode — practice still works */
+  }
+  return state;
 }
 
 /* ------------------------------------------------------------------ */
@@ -64,6 +105,10 @@ export interface TopicStats {
   revealedAnswers: number;
   solutionsViewed: number;
   lastTs: number;
+  /** total seconds across stamped records (0 when nothing was timed) */
+  timeSec: number;
+  /** how many records carried a time stamp */
+  timedRecords: number;
 }
 
 export interface OverallStats {
@@ -73,6 +118,8 @@ export interface OverallStats {
   hintsUsed: number;
   revealedAnswers: number;
   solutionsViewed: number;
+  /** total stamped seconds across all records */
+  timeSec: number;
   byTopic: Record<string, TopicStats>;
   recent: ProblemRecord[];
 }
@@ -95,6 +142,8 @@ export function computeStats(state: ProgressState): OverallStats {
         revealedAnswers: 0,
         solutionsViewed: 0,
         lastTs: 0,
+        timeSec: 0,
+        timedRecords: 0,
       };
       byTopic[key] = s;
     }
@@ -104,6 +153,10 @@ export function computeStats(state: ProgressState): OverallStats {
     s.hintsUsed += r.hintsUsed;
     if (r.revealedAnswer) s.revealedAnswers += 1;
     if (r.revealedSolution) s.solutionsViewed += 1;
+    if (typeof r.timeSec === "number" && r.timeSec > 0) {
+      s.timeSec += r.timeSec;
+      s.timedRecords += 1;
+    }
     s.lastTs = Math.max(s.lastTs, r.timestamp);
   }
   const attempted = state.records.length;
@@ -112,6 +165,10 @@ export function computeStats(state: ProgressState): OverallStats {
   const hintsUsed = state.records.reduce((a, r) => a + r.hintsUsed, 0);
   const revealedAnswers = state.records.filter((r) => r.revealedAnswer).length;
   const solutionsViewed = state.records.filter((r) => r.revealedSolution).length;
+  const timeSec = state.records.reduce(
+    (a, r) => a + (typeof r.timeSec === "number" ? r.timeSec : 0),
+    0,
+  );
   return {
     attempted,
     firstTryCorrect,
@@ -119,6 +176,7 @@ export function computeStats(state: ProgressState): OverallStats {
     hintsUsed,
     revealedAnswers,
     solutionsViewed,
+    timeSec,
     byTopic,
     recent: [...state.records].reverse().slice(0, 12),
   };

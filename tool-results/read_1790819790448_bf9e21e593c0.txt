@@ -1,0 +1,176 @@
+     1→   280→- agent-browser: restore verified at problem 2/5 with score chip "1 correct"; fresh seed no longer phantom-restores after race fix; MC key "3" selects option 3 (synthetic + real keypress), Check enables; circuit diagram renders (aria-label "Parallel circuit: R₁ = 100 Ω…", 11 SVG shapes); fresh reload → 0 page errors, hydration clean
+     2→   281→
+     3→   282→Stage Summary:
+     4→   283→- Platform stable + 3 new features shipped and browser-verified; session UX now survives accidental refresh (top gap closed)
+     5→   284→- Next-round ideas: per-subtopic practice filters, print-friendly worksheet mode, keyboard shortcut for Check (Ctrl+Enter), more circuit diagrams (kirchhoff loops), thin-topic content top-ups (topics with <10 templates)
+     6→   285→
+     7→   286→---
+     8→   287→Task ID: 5
+     9→   288→Agent: main (Z.ai Code) — scheduled review round 2
+    10→   289→Task: QA sweep + new features (subtopic filters, keyboard shortcuts, worksheet mode, two-loop circuits, streak) + styling polish
+    11→   290→
+    12→   291→Work Log:
+    13→   292→- Reviewed worklog (platform complete at Task 4); all gates green at start (404 templates/0 errors/0 warnings, tsc 0, lint clean)
+    14→   293→- Browser QA re-run of golden path (quadratics: wrong → hint → correct −5/3 → staged solution → next; negative discriminant −8 accepted; ES mid-session switch; progress dashboard with real data) — all working, 0 page errors
+    15→   294→- NEW FEATURE 1 — Per-subtopic practice filter:
+    16→   295→  - SessionConfig gains optional subtopicId; router parses/serializes `u=` param; buildDeck filters by topic+subtopic
+    17→   296→  - Topic page subtopic chips are now toggle buttons (aria-pressed, selected state, disabled when a subtopic has 0 templates); helper text shows focus; session header shows "Topic · Subtopic"
+    18→   297→  - Difficulty availability recomputes for the focused subtopic, with a derived (non-state) fallback to "any" if the chosen level is unavailable — no cascading renders, lint-clean
+    19→   298→  - filterTemplates now honors an explicit topicId/subtopicId restriction in ANY mode (previously topicId was silently ignored in challenge mode deep links)
+    20→   299→- NEW FEATURE 2 — Keyboard shortcuts:
+    21→   300→  - H = next hint, N = next problem (SessionView global handler; ignored while typing in inputs, with modifiers held, or when a dialog/menu is open)
+    22→   301→  - Ctrl/⌘+Enter = check answer from anywhere (AnswerArea window listener, fresh closure per render)
+    23→   302→  - Discreet kbd-chip legend in the session header (desktop only), kbd chips on Hint and Next buttons, ⏎ chip on the Check button; new .kbd-chip utility in globals.css
+    24→   303→- NEW FEATURE 3 — Printable worksheet mode (#/worksheet?...):
+    25→   304→  - New WorksheetView sharing the session params + deterministic seed (shareable URLs, "New variants" mints a fresh seed); capped at 20 problems, finite count only
+    26→   305→  - Print-optimized sheet: brand + topic/subtopic title, difficulty/count meta, Name/Date lines, instructions, numbered problems (difficulty + type + time meta, KaTeX statements, lettered MC options a)–d), compact diagrams, ruled work space), answer key on its own page (break-before:page)
+    27→   306→  - @media print rules: hides site chrome (.site-header/.site-footer/.no-print classes added), forces light paper palette even in dark mode, break-inside-avoid per problem, @page margins; KaTeX print-color-adjust exact
+    28→   307→  - Entry points: "Printable worksheet" outline button on both topic page (respects subtopic+difficulty) and practice-config page
+    29→   308→- NEW FEATURE 4 — Two-loop Kirchhoff circuit diagram + template:
+    30→   309→  - New TwoLoopCircuitDiagram spec (emfLeft/emfRight, [R₁,R₂-middle,R₃] labels, showCurrents) + SVG renderer: two meshes sharing a middle branch, vertical battery symbols, loop-current arrows I₁/I₂ and I₃=I₁+I₂ down the middle (direction-aware arrowheads)
+    31→   310→  - New template cir-kirch-03 (hard, numeric-unit): 7 hand-curated parameter sets where both loop equations and all currents are exact integers; solution shows the 2×2 system, elimination result and a numeric check of the left loop
+    32→   311→  - Verified by throwaway script: 300 seeds → answer matches brute-force 2×2 solve, all loop currents integer, $-parity even everywhere, 0 NaN/undefined; validator + GUIDE.md updated for the new diagram kind
+    33→   312→- NEW FEATURE 5 — Practice streak on progress dashboard: consecutive-day computation from record timestamps (today or yesterday anchored), 6th overview card with Flame icon, grid now 2/3/6 columns
+    34→   313→- NEW FEATURE 6 — Empty-deck state: sessions with no matching problems (e.g. challenge + a subtopic without challenge templates) now show a friendly bilingual empty state + back link instead of a blank summary
+    35→   314→- STYLING POLISH (VLM-assisted critique rounds):
+    36→   315→  - Fixed real bug found by VLM: right battery label in the two-loop diagram overflowed the SVG viewBox (now anchors inward)
+    37→   316→  - Hero decorative graph now reads as a real figure (quiet t, f(t), max., 0 labels, language-neutral)
+    38→   317→  - Worksheet work space deepened (space-y-9 ruled lines) per print-critique feedback
+    39→   318→  - Shortcut legend labels deduplicated (chip shows the key, label no longer repeats it)
+    40→   319→
+    41→   320→Verification (all green):
+    42→   321→- bun run validate:content → 405 templates · 0 errors · 0 warnings (new cir-kirch-03 included)
+    43→   322→- bunx tsc --noEmit (excl. examples/skills) → 0 errors; bun run lint → clean; dev.log → no runtime errors
+    44→   323→- agent-browser: subtopic filter end-to-end (chip → u=discriminant → session header "· Discriminante" → discriminant-only problems); H reveals hint (with input blur), Ctrl+Enter checks 41 ✓, N advances; session restore still works with subtopic configs; empty state renders for impossible filters; worksheet PDF (3 pages: chrome hidden, numbered problems + workspace, answer key on its own page, black-on-white); MC options lettered a)–d); "New variants" reseeds; streak card shows 1 day; difficulty fallback to "All levels" verified; mobile 390px topic + worksheet layouts clean (no overflow, proper wrapping); fresh load 0 console errors
+    45→   324→
+    46→   325→Stage Summary:
+    47→   326→- Platform stable; 5 new user-facing features + 1 robustness fix shipped and browser-verified; bank grew to 405 templates
+    48→   327→- Next-round ideas: thin-topic content top-ups (topics < 10 templates), worksheet difficulty mix option, session summary "review missed problems" mode, per-problem deep-link share button, teacher-facing analytics (future backend)
+    49→   328→
+    50→   329→---
+    51→   330→Task ID: 7-b
+    52→   331→Agent: general-purpose (physics content top-up)
+    53→   332→Task: Add 6 physics problem templates to existing files (kinematics ×3, measurement-vectors ×1, newtonian-mechanics ×1, electrostatics ×1) per the thin-topic/empty-subtopic content plan.
+    54→   333→
+    55→   334→Work Log:
+    56→   335→- Read worklog.md (Tasks 1–5 + reviewer notes 2-d/2-e2/3-bc/3-e/3-f: constants audit, brace-adjacent-token rule, single-backslash corruption class, sigfig-2 conventions), GUIDE.md, lib/{problem,rng,types}.ts, validation/{numeric,units,answer}.ts, validate-bank.ts, the Vectors diagram renderer and MathText token pipeline, then the four target files in full.
+    57→   336→- IDs follow each file's own prefix convention (task suggested nwt-/est-/mv- but the files use nm-/es-/vec-; nm-atwood-01 exists so the new one is nm-atwood-02 with a deliberately different angle):
+    58→   337→  1. kin-pos-01 (easy/numeric, position-displacement — was EMPTY subtopic): Δx = x_f − x_0 from two positions at two times; 6 hand-curated integer sets incl. two negative-direction cases (Δx = −12, −9); sign convention stated in both locales; no diagram (task allows plain numeric).
+    59→   338→  2. kin-acc-01 (medium/numeric-unit, acceleration — was EMPTY): a = Δv/Δt from integer v₀, v_f, Δt; 6 sets, three braking (a = −3, −6, −4); "con signo" / "including the sign" explicitly in both statements; units ["m/s^2","m/s²"], sigfig-2.
+    60→   339→  3. kin-cv-01 (easy/numeric-unit, constant-velocity — was EMPTY): d = v·t with 6 clean sets; the requested unit (m or km) is part of the variant and stated in the statement ("Expresa el resultado en…" / "Express the result in…"); km answers 1.8 / 3 / 1.2 via tok().
+    61→   340→  4. vec-add-02 (medium/numeric, measurement-vectors/addition — thinnest topic, 8→9): |A⃗+B⃗| by components with chained-displacement robot context; 6 curated sets whose sums are 3-4-5 / 6-8-10 / 5-12-13 triples (|S| = 5, 10, 13, 15, 9, 20 exact); vectors diagram (A from origin, B chained from A's tip, A+B diagonal, grid on), bounds derived from the three chain vertices; relative-0.01 tolerance matching vec-add-01.
+    62→   341→  5. nm-atwood-02 (hard/numeric-unit, connected-systems): Atwood machine with m₁ > m₂ and the mandated a = (m₁−m₂)g/(m₁+m₂); differentiated from nm-atwood-01 (which uses the whole-system shortcut with m₂ > m₁) by instructing the per-mass second-law derivation — hints and solution build the two equations, add them to eliminate T, and the result step cross-checks T = m₂(g+a) between the two weights (all curated so a and T are exact to one decimal: a ∈ {4.2, 2.8, 1.4, 7, 5.6, 4.9}); g = 9.8 quoted, sigfig-2, units copied from atwood-01.
+    63→   342→  6. es-field-03 (medium/numeric-unit, electric-field): E = kq/r² with the task-mandated rounded constant k = 9×10⁹ quoted in the statement (file header + banner comment document that es-field-01/02 use the finer 8.99×10⁹ — problem is self-consistent with its stated data; a student using 8.99×10⁹ still lands inside the sigfig-2 window); 6 curated (q µC, r m) pairs give exact integer E ∈ {2000, 9000, 1800, 1000, 4500, 1500} N/C; sci-notation answerDisplay via the file's sciTok; hint 3 carries the scientific-notation input guidance (3*10^4 / 3e4); units ["N/C","V/m"].
+    64→   343→- Self-inflicted defect caught and fixed: the first write of vec-add-02/es-field-03 and parts of kin-pos-01/kin-acc-01 used single-backslash LaTeX escapes in TS strings (`$\Delta`, `\vec`, `\times`, `\dfrac`, `\,`, `\ ` → dropped backslashes / vertical-tab corruption — the exact defect class reviewers 3-bc/3-e swept for). Detected by the throwaway audit (a rendered statement showed "$Delta t = 4$"); repaired deterministically with a one-off bun script that doubles every un-doubled backslash in the 3 affected files (16 + 126 + 102 = 244 escapes), after grepping that all un-doubled backslashes were confined to my inserted lines. Re-verified: 0 single-backslash escapes remain, 0 control characters in any rendered string, rendered spot-checks (\vec, \Delta, \times chains) all correct.
+    65→   344→- Throwaway audit (scripts/audit-7b.ts, deleted after): 6 templates × 10 seeds × both locales → 7,500 checks, 0 failures: no throw, deterministic double-generate, exactly 3 hints, staged given→approach→calculation→result, finite answers, non-empty units, hints never contain the answer token, even $-parity + no NaN/undefined/Infinity + no control chars + valid {{tokens}} + no raw dot-decimals in ES math, plus INDEPENDENT physics recomputation parsed from rendered EN statements (Δx, a = Δv/Δt, d = v·t with unit, |A⃗+B⃗| via hypot, Atwood a with sigfig-2 window + clean-one-decimal + m₁>m₂, E = kq/r² with k = 9×10⁹ + exactness), curated-set membership, sign/rounding/constant-quoted assertions (g = 9{,}8/9.8, k = 9×10⁹, "con signo"), and a source-level single-backslash guard on the 4 files.
+    66→   345→- Verification: `bun run validate:content` → 411 templates · 0 errors · 0 warnings (405 baseline + my 6; the parallel math agent's 7 templates had not fully landed at last count — lin-ineq-01 visible, others pending; expected final 418). `bunx tsc --noEmit` → 0 errors in src/ (only pre-existing errors under examples/, skills/, and scripts/thin-analysis.ts — an untracked scratch file from the planning agent, not mine, recommend its owner deletes it). `bun run lint` → clean. Bank ids unique (dup scan over all content files: only the GUIDE.md doc example and MC option letters match).
+    67→   346→
+    68→   347→Stage Summary:
+    69→   348→- Files touched (only the 4 in scope): src/content/physics/kinematics.ts (10→13 templates; position-displacement, acceleration, constant-velocity subtopics no longer empty), measurement-vectors.ts (8→9), newtonian-mechanics.ts (11→12), electrostatics.ts (11→12) — plus worklog.md; throwaway audit script deleted.
+    70→   349→- Templates added: kin-pos-01 (easy/numeric, position-displacement), kin-acc-01 (medium/numeric-unit, acceleration), kin-cv-01 (easy/numeric-unit, constant-velocity), vec-add-02 (medium/numeric, addition, vectors diagram), nm-atwood-02 (hard/numeric-unit, connected-systems), es-field-03 (medium/numeric-unit, electric-field).
+    71→   350→- All gates green for my scope: validator 411 · 0/0, tsc clean in src, lint clean, 7,500-check audit 0 failures.
+    72→   351→- Notes for future reviewers: (1) id prefixes follow file conventions (nm-/es-/vec-), not the task's speculative nwt-/est-/mv-; (2) es-field-03 deliberately quotes k = 9×10⁹ (mandated) while es-field-01/02 quote 8.99×10⁹ — both self-consistent, flagged here for any bank-wide constants harmonization pass; (3) scripts/thin-analysis.ts is an untracked planning scratch file that breaks tsc (Bun global) — its owner should delete it.
+    73→   352→
+    74→   353→---
+    75→   354→Task ID: 7-a
+    76→   355→Agent: general-purpose (math content top-up)
+    77→   356→Task: Add 7 math problem templates to existing files (quadratics ×2, linear-equations ×3, foundations ×2) covering the empty subtopics roots, inequalities, compound, abs-inequalities, algebraic-notation and simplifying, per the thin-topic/empty-subtopic content plan.
+    78→   357→
+    79→   358→Work Log:
+    80→   359→- Read worklog.md (architecture contracts + Task 7-b physics top-up working pattern), GUIDE.md, lib/{problem,rng,types}.ts, validate-bank.ts, the MathText token pipeline (locale-aware {{n}} tokens, ES math {,} decimals), then the three target files (helpers, exemplars, MC/text/expression conventions, existing id prefixes).
+    81→   360→- ID deviation (mandatory, collision): the task-specified `lin-ineq-01` already exists in linear-equations.ts (subtopic interval-notation, text type) — so the two new inequality templates are numbered **lin-ineq-02** (subtopic `inequalities`) and **lin-ineq-03** (subtopic `compound`). All other task ids were free and used as given.
+    82→   361→- Templates added (all with hand-curated rng.pick parameter sets, 3 progressive answer-free hints, 4 staged given→approach→calculation→result steps, bilingual L() everywhere):
+    83→   362→  1. quad-roots-01 (medium/numeric, quadratics/roots — was EMPTY): Vieta sum-or-product (rng.bool() parameterized) on x² + bx + c built from 6 curated integer root pairs (b = −(r₁+r₂), c = r₁r₂; one pair gives b = −1, rendered via the file's poly/op/linFac helpers which omit the 1); solution shows x₁+x₂ = −b/a, x₁·x₂ = c/a with a = 1 plus a factoring cross-check.
+    84→   363→  2. quad-roots-02 (hard/numeric, quadratics/roots): x² + bx + k = 0 with one stated integer root, 6 curated (stated, other) pairs; Vieta-sum route to the second root, then k = product; result step cross-checks by substituting the stated root (s² + bs + k = 0).
+    85→   364→  3. lin-ineq-02 (medium/numeric, linear-equations/inequalities — was EMPTY): a·x + b ≤ c / ≥ c asking for the smallest integer solution; 6 curated sets whose boundary (c−b)/a is always a NON-integer (3.5, −3.5, 6.75, −3.25, 4.5, −5.5 — unambiguous in both languages); the ≤ variants use a < 0 so the flip is exercised and the solution is still x ≥ boundary; decimals rendered via tok() → ES "3,5"; answer = ceil(boundary).
+    86→   365→  4. lin-ineq-03 (hard/multiple-choice, linear-equations/compound — was EMPTY): solve A < a·x + b ≤ B, 7 curated sets (a ∈ {2,3,4}, one with positive b and a negative endpoint) with integer solution endpoints; 4 MC options in inequality form: correct, left-endpoint inclusivity flip, right-endpoint exclusivity flip, and forgot-to-divide (A−b < x ≤ B−b) — pairwise distinct as strings in both locales; rng.shuffle(options).
+    87→   366→  5. lin-absi-01 (hard/numeric, linear-equations/abs-inequalities — was EMPTY): |x − a| < b with 6 curated (a, b), b ∈ {2,3} so the open interval (a−b, a+b) holds exactly 3 or 5 integers (within the 3–6 spec; integer a, b forces odd counts); |x| rendering for a = 0; solution lists the integer set explicitly.
+    88→   367→  6. found-alg-01 (easy/multiple-choice, foundations/algebraic-notation — was EMPTY): translate "k less than m times a number" (bilingual phrase sets incl. «el doble/el triple») to m·x − k; distractors are the classic mistranslations k − mx, m(x − k), mx + k (all distinct for m ≥ 2, k ≥ 4).
+    89→   368→  7. found-simp-01 (easy/expression, foundations/simplifying — was EMPTY): combine like terms a·x + b − c·x + d over 7 curated sets with a > c; accepted in both bank spellings ["6x + 9", "6*x + 9"] (implicit form per found-like-01/found-dist-01, explicit `*` parser form per the task example — dual-form convention already used by logarithmic.ts).
+    90→   369→- ES grammar fix during self-review (before any gate run): "la producto" → "el producto" gender agreement in the quad-roots-01 statement/result; hint 2 of quad-roots-01 rephrased to avoid a bare "$a = 1$" that would coincidentally equal the answer 1 in the (−3, 4) sum variant.
+    91→   370→- Throwaway audit (scripts/audit-7a.ts, DELETED after): 7 templates × 24 seeds × both locales → 7,670 checks, 0 failures: deterministic double-generate, exactly 3 hints, staged given→approach→calculation→result, no NaN/undefined/Infinity, no control characters, even $-parity on statement/hints/answerDisplay/solution/MC options, well-formed {{number}} tokens with no stray braces, no raw dot-decimals in ES math spans, MC exactly-one-correct + 4 pairwise-distinct texts per locale + expected distractor set, meta (subtopic/difficulty/type) match, hints never contain the final answer (numeric leak regex with digit-boundary lookarounds, MC/expression text containment), INDEPENDENT numeric recomputation parsed from rendered EN statements (Vieta −b / c, k = −(s²+bs) substitution route, ceil((c−b)/a) with non-integer boundary assertion, compound endpoints (A−b)/a & (B−b)/a vs the correct option text, brute-force count of integers with |x−a| < b, like-term recomputation vs accepted), curated-set membership for every template, plus a source-level single-backslash guard on the 3 files (0 hits). Separate coverage sweep confirmed every curated set (and both askSum variants, 12 total for quad-roots-01) is reachable within seeds 1–2000.
+    92→   371→- Verification: `bun run validate:content` → **418 templates · 0 errors · 0 warnings** (411 from 7-b's count + my 7). `bunx tsc --noEmit` → 0 errors in src/ (only the 4 pre-existing errors under examples/ and skills/, out of scope; scripts/thin-analysis.ts from 7-b's notes is already gone). `bun run lint` → clean. Bank ids unique (validator duplicate check passes; physics ids untouched).
+    93→   372→
+    94→   373→Stage Summary:
+    95→   374→- Files touched (only the 3 in scope): src/content/math/quadratics.ts (12→14 templates; `roots` subtopic no longer empty), linear-equations.ts (11→14; `inequalities`, `compound`, `abs-inequalities` no longer empty — plus adding tok to the file's problem-helper import), foundations.ts (15→17; `algebraic-notation`, `simplifying` no longer empty) — plus worklog.md; throwaway audit script deleted.
+    96→   375→- Templates added: quad-roots-01 (medium/numeric, Vieta sum/product), quad-roots-02 (hard/numeric, recover k from one root), lin-ineq-02 (medium/numeric, smallest integer satisfying a·x + b ≤/≥ c), lin-ineq-03 (hard/MC, compound inequality), lin-absi-01 (hard/numeric, count integers in |x − a| < b), found-alg-01 (easy/MC, phrase → expression), found-simp-01 (easy/expression, combine like terms).
+    97→   376→- All gates green: validator 418 · 0/0, tsc clean in src, lint clean, 7,670-check audit 0 failures, all curated variants reachable.
+    98→   377→- Notes for future reviewers: (1) task ids lin-ineq-01/02 were renumbered to lin-ineq-02/03 because lin-ineq-01 already existed (interval-notation); (2) found-simp-01 intentionally neighbours found-like-01 (like-terms subtopic) — same shape by task spec but curated sets, guaranteed a > c, and dual accepted spellings; (3) lin-absi-01 answers are always odd (3 or 5) — a mathematical consequence of integer a, b in |x − a| < b, already within the task's 3–6 window.
+    99→   378→
+   100→   379→---
+   101→   380→Task ID: 6
+   102→   381→Agent: main (Z.ai Code) — scheduled review round 3
+   103→   382→Task: QA sweep + bug fixes + new features (review-missed retry mode, per-problem share deep links, thin-topic content top-ups) + styling polish
+   104→   383→
+   105→   384→Work Log:
+   106→   385→- Reviewed worklog (platform complete at Task 5); all gates green at start (405 templates · 0/0, tsc clean, lint clean, dev.log healthy)
+   107→   386→- QA via agent-browser (fresh storage, ES+EN): homepage, subject pages, topic pages with subtopic chips, golden session path (wrong answer → H hints after input blur → correct → staged GIVEN/APPROACH/CALCULATION/RESULT solution → N next), language switch mid-session, reveal-answer gating + confirm dialog, worksheet + print PDF (3 pages, VLM-approved print design), dark mode, fresh-load 0 console errors
+   108→   387→- BUGS FOUND & FIXED:
+   109→   388→  1. End-session confirm dialog showed the reveal-answer warning copy ("Piénsalo un momento más…") — wrong dictionary key reused. New keys summary.endTitle/session.endConfirmDesc (ES+EN), session-view now uses them; verified in browser
+   110→   389→  2. Wrong-answer feedback nudge duplicated the hints section heading ("Need help?" twice in a row) — new hints.nudge copy ("¿Atascado? Las pistas de abajo te guían…"), problem-view updated
+   111→   390→  3. Session summary labeled every non-resolved problem "Skipped" even when it was attempted-but-wrong (unresolved) or never reached — two new statuses with icons: summary.status.unresolved (XCircle, destructive) and summary.status.notReached (CircleOff); verified in browser with a mixed-status session
+   112→   391→- NEW FEATURE 1 — Review missed problems (retry mode):
+   113→   392→  - SessionSummary computes missed = problems with no correct attempt; when > 0 a primary "Repasar los fallados (n) / Review missed (n)" button (Target icon) appears and "Practice again" is demoted to outline
+   114→   393→  - handleRetryMissed in SessionView: filters deck to missed problems (same variants/seeds), resets states, index 0, reviewing flag on; "Repaso/Review" pill badge with RotateCcw icon in the session header; reviewing persisted in sessionStorage (restores across refresh)
+   115→   394→  - Browser-verified end-to-end: summary → retry → badge → fresh attempts; refresh-safe
+   116→   395→- NEW FEATURE 2 — Per-problem share deep links:
+   117→   396→  - SessionMode gains "single"; SessionConfig.singleTemplateId; router parses/serializes tpl= param; buildDeck pins single-mode decks to exactly (template, seed) — deterministic variants
+   118→   397→  - Share button (Link2 icon) in the problem card meta row: copies origin+pathname+hash URL; clipboard API with legacy execCommand textarea fallback; success/error toasts + 2s ✓ state; icon-only on mobile
+   119→   398→  - Single sessions render "Problema 1 de 1", back link goes to the topic, "Practice again" mints a new variant; worksheet view also resolves single-mode titles
+   120→   399→  - Browser-verified: URL format captured via clipboard stub, deep link reproduces the exact variant after reload (determinism check via sessionStorage text compare), full answer→summary flow
+   121→   400→- NEW FEATURE 3 — Thin-topic content top-ups (+13 templates → 418 total, delegated to two parallel agents):
+   122→   401→  - Task 7-a (math, 7): quad-roots-01/02 (Vieta sum/product + recover k — `roots` subtopic was EMPTY, chip now enabled with count 2), lin-ineq-02 (smallest integer solution), lin-ineq-03 (compound MC), lin-absi-01 (count integers in |x−a|<b) — inequalities/compound/abs-inequalities subtopics were EMPTY; found-alg-01 (phrase→expression MC), found-simp-01 (like terms expression) — algebraic-notation/simplifying were EMPTY. Note: ids renumbered vs spec (lin-ineq-01 already existed)
+   123→   402→  - Task 7-b (physics, 6): kin-pos-01 (displacement), kin-acc-01 (average acceleration), kin-cv-01 (constant velocity) — position-displacement/acceleration/constant-velocity subtopics were EMPTY; vec-add-02 (vector addition via components, vectors diagram), nm-atwood-02 (Atwood acceleration), es-field-03 (point-charge E field)
+   124→   403→  - Both agents ran multi-seed dual-locale audits (7,670 + 7,500 checks) with independent recomputation — 0 failures; validator 418 · 0 errors · 0 warnings
+   125→   404→- STYLING POLISH (VLM-guided, screenshots at 1280×800 + 390×844):
+   126→   405→  - Progress dashboard: uniform StatCard component (streak card no longer breaks the grid — same bg-card, primary-colored number + Flame), header alignment sm:items-center
+   127→   406→  - Practice config: Cancel is now a centered text link instead of a third full-height ghost button (cleaner action row hierarchy)
+   128→   407→  - Footer: bg-card/50 → bg-muted/40 for clearer section separation
+   129→   408→  - Topic page: prerequisites spacing harmonized (mt-4 → mt-3)
+   130→   409→  - Summary list: hover state (border-ring/50 + bg-secondary/40), stronger not-attempted tint (bg-secondary)
+   131→   410→  - VLM ratings after polish: summary/progress/practice-config all 8/10 with no blocking issues; mobile pass: no overflow, adequate touch targets, share button 36×32px visible
+   132→   411→
+   133→   412→Verification (all green):
+   134→   413→- bun run validate:content → 418 templates · 0 errors · 0 warnings
+   135→   414→- bunx tsc --noEmit (excl. examples/skills) → 0 errors; bun run lint → clean; dev.log → no runtime errors
+   136→   415→- agent-browser: golden path, retry mode, share deep link (determinism verified), roots subtopic chip enabled → focused session shows Vieta problems, fresh-load full navigation (home → math → physics → session) 0 errors, mobile 390px no overflow
+   137→   416→
+   138→   417→Stage Summary:
+   139→   418→- Platform stable; 1 real UX bug fixed (end-session dialog), 2 labeling/copy issues fixed, 3 new features shipped (retry missed, share links, +13 templates → 418), styling polished with VLM critiques
+   140→   419→- Next-round ideas: teacher-facing analytics (future backend), worksheet difficulty-mix option, more Kirchhoff/multi-concept templates, constants harmonization pass (k = 9×10⁹ vs 8.99×10⁹, flagged by 7-b)
+   141→   420→
+   142→   421→---
+   143→   422→Task ID: 7
+   144→   423→Agent: main (Z.ai Code) — scheduled review round 4
+   145→   424→Task: QA sweep + new features (session time tracking, smart-resume home card, shortcuts help dialog) + styling polish
+   146→   425→
+   147→   426→Work Log:
+   148→   427→- Reviewed worklog (round 6 complete: 418 templates, retry/share features); all gates green at start (validate 418·0/0, tsc clean, lint clean, dev.log healthy)
+   149→   428→- QA via agent-browser (fresh storage): golden path incl. wrong → hints (H after blur) → reveal answer + confirm dialog → staged solution → next; retry-missed flow with badge; share deep-link (single mode); language switch ES/EN mid-session and on summary; progress dashboard; worksheet; dark mode; 0 console errors. No bugs found this round (one test-script artifact: MC problems have no text input, so a scripted "fill+check" was a no-op — app behavior correct)
+   150→   429→- NEW FEATURE 1 — Session time tracking:
+   151→   430→  - Live timer chip in the session header (Timer icon, mm:ss, tabular-nums, title="Session time"); ticks only while document is visible and the session has not ended (honest time-on-task, no wall-clock drift across refresh)
+   152→   431→  - Per-problem times: problemStartRef resets on navigation/new-variant/retry; stamped once at first resolve (correct, reveal, skip, or first solution view) into a times[] array persisted with the session; new-variant resets its slot for re-measurement
+   153→   432→  - Session summary gains a time line under the title: "Time practiced: X · ≈ Y estimated · Z per problem" (estimated = Σ estimatedTimeSec of the deck; avg over stamped problems) + per-problem compact time chips (desktop, title="Time on this problem") in the detail list; hidden when < 5s (old sessions show nothing)
+   154→   433→  - formatDuration/formatClock helpers in lib/utils.ts; PersistedSession extended with elapsedSec/times (optional, backward-compatible restores)
+   155→   434→  - Browser-verified: live tick (0:10), summary line "Tiempo de práctica: 1 min 16 s · ≈ 24 min 50 s estimado · 1 min 7 s por problema", per-problem chip "1m 7s", exact restore after refresh ("1 min 16 s" preserved), EN copy check
+   156→   435→- NEW FEATURE 2 — Smart-resume "Continue practicing" card on home:
+   157→   436→  - ContinueCard component reads progress after mount (no hydration mismatch): finds the topic with the most recent lastTs, renders a banded section between hero and subjects — History icon, "Pick up where you left off / Sigue donde lo dejaste", topic name links to topic page, "{n} attempts · {timeAgo}" meta (date-fns locale-aware), primary "Keep practicing / Seguir practicando" CTA straight into a fresh 10-problem topic session; gracefully absent with no history
+   158→   437→  - Browser-verified: band appears with real progress data, CTA navigates into a working session, EN copy correct, mobile layout clean (VLM: "clean and professional, excellent hierarchy")
+   159→   438→- NEW FEATURE 3 — Keyboard shortcuts help dialog:
+   160→   439→  - Press ? (or ¿ on Spanish layouts) during a session, or click the shortcuts legend (now a real button with focus ring), opens a Dialog listing all 5 shortcuts: H hint, N next, Ctrl⏎ check, 1–9 MC choice, ? help
+   161→   440→  - SHORTCUTS table in session-view; dictionary keys ES/EN; ignores open dialogs/typing per existing guard
+   162→   441→  - Browser-verified: opens via keypress and legend click, Esc closes, fits 390px viewport, correct ES copy
+   163→   442→- STYLING POLISH (VLM-guided):
+   164→   443→  - Subject page topic cards: fixed-height trailing slot (h-7) for the progress bar so every card is identical height whether or not there's progress (VLM confirmed uniform alignment after fix, light+dark); decorative card numbers text-border → text-muted-foreground/30 for legibility; progress caption gets truncate
+   165→   444→  - Dialog overlay bg-black/50 → /60 for stronger focus (shortcuts + all dialogs)
+   166→   445→  - VLM ratings: continue card, shortcuts dialog, time summary, subject light/dark, session with timer all 8/10; mobile pass clean (no overflow, no broken layouts, dialogs fit)
+   167→   446→
+   168→   447→Verification (all green):
+   169→   448→- bun run validate:content → 418 templates · 0 errors · 0 warnings
+   170→   449→- bunx tsc --noEmit (excl. examples/skills) → 0 errors; bun run lint → clean; dev.log → no runtime errors
+   171→   450→- agent-browser: fresh-storage full navigation (home → math → physics topic → session → progress → about) 0 errors; mobile 390px home/session/continue band/dialogs clean; MC numeric-key answering verified in passing (key 1 selects + Ctrl⏎ checks)
+   172→   451→
+   173→   452→Stage Summary:
+   174→   453→- Platform stable; 3 new user-facing features shipped and browser-verified (time tracking, smart resume, shortcuts help) + subject-card alignment fix
+   175→   454→- Next-round ideas: teacher-facing analytics (future backend), worksheet difficulty-mix option, constants harmonization pass (k = 9×10⁹ vs 8.99×10⁹), more multi-concept templates, per-problem time in progress dashboard records (persist timeSec in ProblemRecord for cross-session analytics)
+   176→   455→

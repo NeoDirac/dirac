@@ -24,6 +24,9 @@ export interface PersistedSession {
   elapsedSec?: number;
   /** seconds spent per problem index (undefined slots = still open) */
   times?: (number | undefined)[];
+  /** true once this session has been written to the localStorage session log —
+   *  prevents duplicate history entries when an ended session is reloaded */
+  sessionRecorded?: boolean;
 }
 
 function isProblemLike(v: unknown): v is Problem {

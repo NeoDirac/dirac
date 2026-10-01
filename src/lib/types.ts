@@ -321,9 +321,38 @@ export interface ProblemRecord {
   revealedSolution: boolean;
   /** ms epoch */
   timestamp: number;
+  /** seconds spent on the problem before it was resolved (first resolve only;
+   *  absent in records written before time tracking existed) */
+  timeSec?: number;
 }
 
 export interface ProgressState {
   version: 1;
   records: ProblemRecord[];
+}
+
+/** One finished practice session — appended when a session ends, kept for the
+ *  dashboard's session history. Self-contained so it survives schema growth. */
+export interface SessionRecord {
+  /** ms epoch of the moment the session ended */
+  endedAt: number;
+  /** session mode for label/badge rendering */
+  mode: SessionConfig["mode"];
+  subjects: Subject[];
+  topicId?: string;
+  subtopicId?: string;
+  /** true when this record describes a retry of previously missed problems */
+  review: boolean;
+  problems: number;
+  attempted: number;
+  solved: number;
+  firstTryCorrect: number;
+  hintsUsed: number;
+  /** total active seconds (absent in very old records) */
+  elapsedSec?: number;
+}
+
+export interface SessionLogState {
+  version: 1;
+  sessions: SessionRecord[];
 }

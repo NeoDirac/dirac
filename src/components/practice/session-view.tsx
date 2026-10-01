@@ -37,7 +37,7 @@ import { useAllTemplates } from "@/lib/use-templates";
 import { buildDeck, findTemplate, instantiateProblem } from "@/lib/session";
 import { loadSession, saveSession, clearSession } from "@/lib/session-persist";
 import { navigate, href, sessionHref } from "@/lib/router";
-import { appendRecord } from "@/lib/progress";
+import { appendRecord, appendSessionRecord } from "@/lib/progress";
 import { useToast } from "@/hooks/use-toast";
 import { checkAnswer, type AnswerSubmission } from "@/lib/validation/answer";
 import { mathCurriculum } from "@/content/curriculum/math";
@@ -69,6 +69,7 @@ export function SessionView({ config }: { config: SessionConfig }) {
   const [shortcutsOpen, setShortcutsOpen] = useState(false);
   const [elapsedSec, setElapsedSec] = useState(0);
   const [times, setTimes] = useState<(number | undefined)[]>([]);
+  const [sessionRecorded, setSessionRecorded] = useState(false);
   const nextRef = useRef<HTMLButtonElement>(null);
   const problemStartRef = useRef<number>(Date.now());
   const configKey = useMemo(() => JSON.stringify(config), [config]);
@@ -102,6 +103,7 @@ export function SessionView({ config }: { config: SessionConfig }) {
         setEnded(stored.ended);
         setRelaxed(false);
         setReviewing(stored.reviewing === true);
+        setSessionRecorded(stored.sessionRecorded === true);
         setBuiltKey(configKey);
         toast({
           description: t("practice.restored"),
@@ -118,6 +120,7 @@ export function SessionView({ config }: { config: SessionConfig }) {
       setElapsedSec(0);
       setTimes([]);
       setEnded(false);
+      setSessionRecorded(false);
       setBuiltKey(configKey);
     });
     return () => cancelAnimationFrame(id);
@@ -128,8 +131,18 @@ export function SessionView({ config }: { config: SessionConfig }) {
   // session under the new key during the rebuild frame)
   useEffect(() => {
     if (!deck || !configKey || builtKey !== configKey) return;
-    saveSession({ configKey, index, ended, problems: deck, states, reviewing, elapsedSec, times });
-  }, [deck, states, index, ended, configKey, builtKey, reviewing, elapsedSec, times]);
+    saveSession({
+      configKey,
+      index,
+      ended,
+      problems: deck,
+      states,
+      reviewing,
+      elapsedSec,
+      times,
+      sessionRecorded,
+    });
+  }, [deck, states, index, ended, configKey, builtKey, reviewing, elapsedSec, times, sessionRecorded]);
 
   // live session timer — counts only while the tab is visible and the session
   // has not ended (an honest "time on task", safe across refresh via persistence)
@@ -146,15 +159,25 @@ export function SessionView({ config }: { config: SessionConfig }) {
     problemStartRef.current = Date.now();
   }, [index, deck, reviewing]);
 
+  /** Seconds spent on the current problem so far (whole seconds, min 1). */
+  const currentProblemSec = useCallback(
+    () => Math.max(1, Math.round((Date.now() - problemStartRef.current) / 1000)),
+    [],
+  );
+
   /** Freeze the seconds spent on the current problem (first resolve only). */
-  const stampTime = useCallback(() => {
-    setTimes((prev) => {
-      if (prev[index] !== undefined) return prev;
-      const next = [...prev];
-      next[index] = Math.max(1, Math.round((Date.now() - problemStartRef.current) / 1000));
-      return next;
-    });
-  }, [index]);
+  const stampTime = useCallback(
+    (secs?: number) => {
+      const value = secs ?? currentProblemSec();
+      setTimes((prev) => {
+        if (prev[index] !== undefined) return prev;
+        const next = [...prev];
+        next[index] = value;
+        return next;
+      });
+    },
+    [index, currentProblemSec],
+  );
 
   const current = deck?.[index];
   const currentState = states[index];
@@ -218,22 +241,24 @@ export function SessionView({ config }: { config: SessionConfig }) {
         revealedAnswer: state.answerRevealed,
         revealedSolution: state.solutionRevealed,
         timestamp: Date.now(),
+        timeSec: currentProblemSec(),
       });
     },
-    [],
+    [currentProblemSec],
   );
 
   const resolveAndRecord = useCallback(
     (problem: Problem, state: ProblemState, patch: Partial<ProblemState>) => {
       const next = { ...state, ...patch };
       if (!next.recorded) {
+        const secs = currentProblemSec();
         record(problem, next);
         next.recorded = true;
-        stampTime();
+        stampTime(secs);
       }
       return next;
     },
-    [record, stampTime],
+    [record, stampTime, currentProblemSec],
   );
 
   /* ---------------------------------------------------------------- */
@@ -290,13 +315,14 @@ export function SessionView({ config }: { config: SessionConfig }) {
     } else {
       const next = { ...currentState, solutionRevealed: true };
       if (!next.recorded) {
+        const secs = currentProblemSec();
         record(current, next);
         next.recorded = true;
-        stampTime();
+        stampTime(secs);
       }
       updateState(() => next);
     }
-  }, [current, currentState, record, stampTime, updateState]);
+  }, [current, currentState, record, stampTime, currentProblemSec, updateState]);
 
   const handleSkip = useCallback(() => {
     if (!current || !currentState || currentState.status !== "attempting") return;
@@ -355,9 +381,38 @@ export function SessionView({ config }: { config: SessionConfig }) {
     setTimes([]);
     setIndex(0);
     setEnded(false);
+    setSessionRecorded(false);
     setReviewing(true);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [deck, states]);
+
+  /* ---------------------------------------------------------------- */
+  /* session history: append one record when the session truly ends    */
+  /* (the sessionRecorded flag is persisted, so reloading an ended      */
+  /* session or its summary never duplicates the entry)                */
+  /* ---------------------------------------------------------------- */
+  useEffect(() => {
+    if (!ended || !deck || deck.length === 0 || sessionRecorded) return;
+    const attempted = states.filter((s) => s.attempts.length > 0).length;
+    const solved = states.filter((s) => s.attempts.some((a) => a.correct)).length;
+    const firstTry = states.filter((s) => s.attempts[0]?.correct).length;
+    const hintsUsed = states.reduce((a, s) => a + s.hintsRevealed, 0);
+    appendSessionRecord({
+      endedAt: Date.now(),
+      mode: config.mode,
+      subjects: config.subjects,
+      topicId: config.topicId,
+      subtopicId: config.subtopicId,
+      review: reviewing,
+      problems: deck.length,
+      attempted,
+      solved,
+      firstTryCorrect: firstTry,
+      hintsUsed,
+      elapsedSec: elapsedSec >= 5 ? elapsedSec : undefined,
+    });
+    setSessionRecorded(true);
+  }, [ended, deck, states, sessionRecorded, config, reviewing, elapsedSec]);
 
   /* ---------------------------------------------------------------- */
   /* keyboard shortcuts: H = next hint, N = next problem               */

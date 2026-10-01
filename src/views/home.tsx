@@ -188,21 +188,21 @@ export function HomeView() {
               <br />
               <span className="text-primary">{t("home.hero.title2")}</span>
             </h1>
-            <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted-foreground">
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
               {t("home.hero.subtitle")}
             </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
               <Button asChild size="lg" className="h-12 px-7 text-[15px] font-semibold">
                 <a href={href({ name: "subject", subject: "math" })}>
                   {t("home.hero.ctaMain")}
                   <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
                 </a>
               </Button>
-              <Button asChild size="lg" variant="outline" className="h-12 px-7 text-[15px]">
+              <Button asChild size="lg" variant="outline" className="h-12 border-foreground/25 bg-card px-7 text-[15px] shadow-sm hover:border-foreground/40 hover:bg-secondary/60">
                 <a href={quickHref}>{t("home.hero.ctaQuick")}</a>
               </Button>
             </div>
-            <dl className="mt-10 flex flex-wrap gap-x-10 gap-y-3">
+            <dl className="mt-12 flex flex-wrap gap-x-10 gap-y-3 border-t pt-6">
               {[
                 { value: mathCurriculum.length, label: t("home.hero.stat1") },
                 { value: physicsCurriculum.length, label: t("home.hero.stat2") },
@@ -210,8 +210,8 @@ export function HomeView() {
               ].map((s, i) => (
                 <div key={i}>
                   <dt className="sr-only">{s.label}</dt>
-                  <dd className="font-serif text-2xl font-semibold text-primary">{s.value}</dd>
-                  <dd className="text-xs text-muted-foreground">{s.label}</dd>
+                  <dd className="font-serif text-xl font-semibold leading-none tabular-nums text-foreground/80">{s.value}</dd>
+                  <dd className="mt-1.5 text-xs text-muted-foreground">{s.label}</dd>
                 </div>
               ))}
             </dl>
