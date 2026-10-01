@@ -6,7 +6,7 @@
  */
 
 import { useEffect, useState } from "react";
-import { ArrowLeft, ArrowRight, Infinity as InfinityIcon, Printer, Shuffle, Swords } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookMarked, Infinity as InfinityIcon, Printer, Shuffle, Swords } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { TopicIcon } from "@/components/site/topic-icon";
@@ -41,6 +41,7 @@ export function TopicView({ subject, topicId }: { subject: Subject; topicId: str
   const [difficulty, setDifficulty] = useState<Difficulty | "any">("any");
   const [count, setCount] = useState<number>(10);
   const [subtopic, setSubtopic] = useState<string | null>(null);
+  const [curatedOnly, setCuratedOnly] = useState(false);
 
   const curriculum = subject === "math" ? mathCurriculum : physicsCurriculum;
   const topic = curriculum.find((tp) => tp.id === topicId);
@@ -81,6 +82,10 @@ export function TopicView({ subject, topicId }: { subject: Subject; topicId: str
 
   const selectedSubtopic = topic.subtopics.find((st) => st.id === subtopic) ?? null;
 
+  // curated (real-source) problems available under the current focus
+  const curatedCount = activeTemplates.filter((tp) => tp.source).length;
+  const effectiveCuratedOnly = curatedOnly && curatedCount > 0;
+
   const startHref = sessionHref({
     mode: "topic",
     subjects: [subject],
@@ -89,6 +94,7 @@ export function TopicView({ subject, topicId }: { subject: Subject; topicId: str
     difficulty: effectiveDifficulty,
     count,
     seed: 0,
+    curatedOnly: effectiveCuratedOnly || undefined,
   });
 
   const printHref = worksheetHref({
@@ -99,6 +105,7 @@ export function TopicView({ subject, topicId }: { subject: Subject; topicId: str
     difficulty: effectiveDifficulty,
     count: Number.isFinite(count) ? count : 10,
     seed: 0,
+    curatedOnly: effectiveCuratedOnly || undefined,
   });
 
   const mixedHref = sessionHref({
@@ -269,6 +276,43 @@ export function TopicView({ subject, topicId }: { subject: Subject; topicId: str
               ))}
             </div>
           </fieldset>
+
+          {curatedCount > 0 ? (
+            <div className="rounded-xl border border-primary/20 bg-primary/5 px-4 py-3">
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-start gap-2.5">
+                  <BookMarked className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
+                  <div>
+                    <p className="text-sm font-medium text-foreground">{t("topic.curatedOnly")}</p>
+                    <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">
+                      {t("topic.curatedHint", { n: formatNumber(curatedCount) })}
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  role="switch"
+                  aria-checked={curatedOnly}
+                  onClick={() => setCuratedOnly(!curatedOnly)}
+                  className={cn(
+                    "relative inline-flex h-6 w-11 shrink-0 items-center rounded-full border transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                    curatedOnly
+                      ? "border-primary bg-primary"
+                      : "border-border bg-secondary",
+                  )}
+                >
+                  <span
+                    aria-hidden="true"
+                    className={cn(
+                      "inline-block h-4.5 w-4.5 rounded-full bg-background shadow-sm transition-transform",
+                      "h-[18px] w-[18px]",
+                      curatedOnly ? "translate-x-[22px]" : "translate-x-[3px]",
+                    )}
+                  />
+                </button>
+              </div>
+            </div>
+          ) : null}
 
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
             <Button asChild size="lg" className="gap-2 text-[15px] font-semibold sm:px-10">

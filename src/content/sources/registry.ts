@@ -14,6 +14,7 @@
  */
 
 import type { SourceLicense } from "@/lib/types";
+import { l10n } from "@/lib/types";
 
 export interface SourceRecord {
   id: string;
@@ -29,6 +30,8 @@ export interface SourceRecord {
   /** topics it covers (keywords for curation) */
   topics: string[];
   level: string;
+  /** compact bilingual label for the source badge shown on problems */
+  short: { es: string; en: string };
 }
 
 export const SOURCES: SourceRecord[] = [
@@ -43,6 +46,7 @@ export const SOURCES: SourceRecord[] = [
     use: "Direct incorporation: three absolute-value problems (two-abs equations, piecewise |a|−|b| vs constant/line, |·| vs parabola) with the tutor's own worked case analyses.",
     topics: ["valor absoluto", "ecuaciones", "desigualdades", "gráficas", "parábolas"],
     level: "Bachillerato avanzado / Studienkolleg (FSP)",
+    short: l10n("Hoja de clase del tutor", "Tutor's class sheet"),
   },
   {
     id: "tutor-kurzkontrolle-1",
@@ -54,6 +58,7 @@ export const SOURCES: SourceRecord[] = [
     use: "Direct incorporation: real-solution-set problem (x+2)(x−5)(x²+9)(x²−25)=0; 3-set Venn survey problem; set operations. Remaining items pending verification pass.",
     topics: ["conjuntos", "ecuaciones polinómicas", "soluciones reales"],
     level: "Bachillerato avanzado / Studienkolleg",
+    short: l10n("Kurzkontrolle del tutor", "Tutor's short quiz"),
   },
   {
     id: "stk-bayern-ubung",
@@ -73,6 +78,7 @@ export const SOURCES: SourceRecord[] = [
       "geometría",
     ],
     level: "Studienkolleg (G-Kurs) / FOS-BOS",
+    short: l10n("Übungsaufgaben Bayern", "Bayern prep collection"),
   },
   {
     id: "fos-bos-2010-ht",
@@ -84,6 +90,7 @@ export const SOURCES: SourceRecord[] = [
     use: "Direct incorporation with attribution: term rewriting with domain, vertex/position of a point vs parabola, line∩parabola, LGS, hemisphere cross-section, cloverleaf area.",
     topics: ["fracciones algebraicas", "rectas y parábolas", "sistemas", "geometría"],
     level: "FOS/BOS (Bachillerato avanzado)",
+    short: l10n("Examen FOS/BOS 2010", "FOS/BOS 2010 exam"),
   },
   {
     id: "fos-bos-2011",
@@ -95,6 +102,7 @@ export const SOURCES: SourceRecord[] = [
     use: "Direct incorporation after OCR verification: rational simplification with domain, parabola roots/vertex, LGS, wahr/falsch statements about lines. Scanned — every transcribed item needs the programmatic check before import.",
     topics: ["fracciones algebraicas", "parábolas", "sistemas", "geometría (Kleeblatt)"],
     level: "FOS/BOS (Bachillerato avanzado)",
+    short: l10n("Examen FOS/BOS 2011", "FOS/BOS 2011 exam"),
   },
   {
     id: "stk-fsp-2020",
@@ -107,6 +115,7 @@ export const SOURCES: SourceRecord[] = [
     use: "Reference for the top tier. Out of current curriculum scope (límites, series, Taylor, integrales, autovalores, proyecciones): requires new precalculus→calculus topics before import. Registered now for the expansion plan.",
     topics: ["límites", "series", "integrales", "Taylor", "álgebra lineal", "geometría 3D"],
     level: "Studienkolleg T-Kurs (primer semestre universitario)",
+    short: l10n("FSP 2020 (referencia)", "FSP 2020 (reference)"),
   },
   {
     id: "fcnm-fundamentos",
@@ -119,6 +128,7 @@ export const SOURCES: SourceRecord[] = [
     use: "Reference only: alignment of the Spanish bachillerato syllabus (álg. básica → precalc) and source of Foundation/Standard ideas. Commercial-style academic publication (© 2017): no verbatim import without the tutor's clearance.",
     topics: ["álgebra", "funciones", "trigonometría", "geometría analítica"],
     level: "Bachillerato (ECU), clases de repaso",
+    short: l10n("Fundamentos ESPOL (solo referencia)", "ESPOL textbook (reference only)"),
   },
   {
     id: "kompetenzprofil-physik",
@@ -130,6 +140,7 @@ export const SOURCES: SourceRecord[] = [
     use: "Calibration only: defines the required physics competence level (model building, mathematisation) for the Studienkolleg audience. No problems to import.",
     topics: ["estándares de física"],
     level: "Studienkolleg T/M",
+    short: l10n("Kompetenzprofil Physik", "Physics competence profile"),
   },
 ];
 

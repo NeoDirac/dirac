@@ -928,4 +928,328 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+
+
+  /* ---------------------------------------------------------------- */
+  /* Curated Phase 2 — FOS/BOS 2010 Haupttermin & FOS/BOS 2011,       */
+  /* apartado 1.0 (Termumformungen). Transcribed as printed (2010     */
+  /* es texto nativo; 2011 es escaneado, transcrito vía OCR y         */
+  /* cotejado con el Lösungsvorschlag oficial). Verificación          */
+  /* independiente en /tmp/curated-p2/verify.py. Problemas fijos.     */
+  /* ---------------------------------------------------------------- */
+
+  /* FOS/BOS 2010, 1.1 — simplificación con dominio. */
+  template(
+    {
+      id: "rat-simp-03",
+      subject: "math",
+      topicId: "rational",
+      subtopicId: "simplifying",
+      difficulty: "medium",
+      questionType: "expression",
+      estimatedTimeSec: 240,
+      tags: ["rational-expressions", "factoring", "domain"],
+      prerequisites: ["simplifying"],
+      source: {
+        sourceId: "fos-bos-2010-ht",
+        license: "OPEN_LICENSE",
+        exerciseNumber: "1.1",
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      return {
+        skill: L("Simplificar una fracción algebraica (examen real)", "Simplifying an algebraic fraction (real exam)"),
+        statement: L(
+          "Simplifica todo lo posible (dominio $x \\ne \\pm 2$; escribe una fracción, por ejemplo 2/(x+1)): $$\\frac{2x + 4}{8 - 2x^2}$$",
+          "Simplify as far as possible (domain $x \\ne \\pm 2$; write a fraction, e.g. 2/(x+1)): $$\\frac{2x + 4}{8 - 2x^2}$$",
+        ),
+        answer: {
+          kind: "expression",
+          accepted: ["1/(2-x)", "-1/(x-2)", "1/(2 - x)"],
+          variables: ["x"],
+        },
+        hints: [
+          L(
+            "Factoriza numerador y denominador por separado antes de tocar nada.",
+            "Factor numerator and denominator separately before touching anything.",
+          ),
+          L(
+            "$2x + 4 = 2(x + 2)$ y $8 - 2x^2 = 2\\left(4 - x^2\\right) = 2(2 - x)(2 + x)$.",
+            "$2x + 4 = 2(x + 2)$ and $8 - 2x^2 = 2\\left(4 - x^2\\right) = 2(2 - x)(2 + x)$.",
+          ),
+          L(
+            "Cancela el $2$ y el factor $(x + 2)$. Los valores $x = \\pm 2$ siguen **excluidos** aunque ya no aparezcan.",
+            "Cancel the $2$ and the $(x + 2)$ factor. The values $x = \\pm 2$ stay **excluded** even though they no longer appear.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\dfrac{1}{2 - x}$ (equivalente a $-\\dfrac{1}{x-2}$)",
+          "$\\dfrac{1}{2 - x}$ (equivalent to $-\\dfrac{1}{x-2}$)",
+        ),
+        solution: [
+          step(
+            "given",
+            "La fracción $\\frac{2x+4}{8-2x^2}$ con dominio $x \\ne \\pm 2$ (el denominador se anula en $x = \\pm 2$).",
+            "The fraction $\\frac{2x+4}{8-2x^2}$ with domain $x \\ne \\pm 2$ (the denominator vanishes at $x = \\pm 2$).",
+          ),
+          step(
+            "approach",
+            "Factorizar arriba y abajo, cancelar factores comunes y anotar el dominio que la expresión original impone.",
+            "Factor top and bottom, cancel common factors, and record the domain the original expression imposes.",
+          ),
+          step(
+            "calculation",
+            "$\\dfrac{2x+4}{8-2x^2} = \\dfrac{2(x+2)}{2(2-x)(2+x)} = \\dfrac{2(x+2)}{2(2-x)(x+2)} = \\dfrac{1}{2-x}$.<br>El signo también se puede reorganizar: $\\dfrac{1}{2-x} = -\\dfrac{1}{x-2}$.<br>Control numérico con $x = 1$: $\\frac{6}{6} = 1$ y $\\frac{1}{2-1} = 1$ ✓",
+            "$\\dfrac{2x+4}{8-2x^2} = \\dfrac{2(x+2)}{2(2-x)(2+x)} = \\dfrac{2(x+2)}{2(2-x)(x+2)} = \\dfrac{1}{2-x}$.<br>The sign can also be rearranged: $\\dfrac{1}{2-x} = -\\dfrac{1}{x-2}$.<br>Numeric check at $x = 1$: $\\frac{6}{6} = 1$ and $\\frac{1}{2-1} = 1$ ✓",
+          ),
+          step(
+            "result",
+            "$\\dfrac{2x+4}{8-2x^2} = \\dfrac{1}{2-x}$ para todo $x \\ne \\pm 2$: el dominio viaja con la expresión original, no con la simplificada.",
+            "$\\dfrac{2x+4}{8-2x^2} = \\dfrac{1}{2-x}$ for all $x \\ne \\pm 2$: the domain travels with the original expression, not the simplified one.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* FOS/BOS 2010, 1.2 — resta con denominadores parecidos. */
+  template(
+    {
+      id: "rat-add-03",
+      subject: "math",
+      topicId: "rational",
+      subtopicId: "add-sub",
+      difficulty: "medium",
+      questionType: "expression",
+      estimatedTimeSec: 240,
+      tags: ["rational-expressions", "lcd", "exam"],
+      prerequisites: ["add-sub"],
+      source: {
+        sourceId: "fos-bos-2010-ht",
+        license: "OPEN_LICENSE",
+        exerciseNumber: "1.2",
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      return {
+        skill: L("Resta de fracciones algebraicas (examen real)", "Subtracting algebraic fractions (real exam)"),
+        statement: L(
+          "Reúne en una sola fracción y simplifica (dominio $x \\ne -3,\\ 3$; escribe por ejemplo 4(x-6)/(x^2-9)): $$\\frac{6}{x + 3} - \\frac{4}{2x - 6}$$",
+          "Combine into a single fraction and simplify (domain $x \\ne -3,\\ 3$; write e.g. 4(x-6)/(x^2-9)): $$\\frac{6}{x + 3} - \\frac{4}{2x - 6}$$",
+        ),
+        answer: {
+          kind: "expression",
+          accepted: ["(4x - 24)/(x^2 - 9)", "4(x - 6)/(x^2 - 9)", "(4x-24)/(x^2-9)", "4(x-6)/((x+3)(x-3))"],
+          variables: ["x"],
+        },
+        hints: [
+          L(
+            "Simplifica el segundo denominador primero: $2x - 6 = 2(x - 3)$.",
+            "Simplify the second denominator first: $2x - 6 = 2(x - 3)$.",
+          ),
+          L(
+            "Con $\\frac{4}{2(x-3)} = \\frac{2}{x-3}$, el común denominador es $(x + 3)(x - 3)$.",
+            "With $\\frac{4}{2(x-3)} = \\frac{2}{x-3}$, the common denominator is $(x + 3)(x - 3)$.",
+          ),
+          L(
+            "Numerador combinado: $6(x - 3) - 2(x + 3)$. Desarrolla con cuidado los dos productos.",
+            "Combined numerator: $6(x - 3) - 2(x + 3)$. Expand both products carefully.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\dfrac{4x - 24}{x^2 - 9} = \\dfrac{4(x-6)}{(x+3)(x-3)}$",
+          "$\\dfrac{4x - 24}{x^2 - 9} = \\dfrac{4(x-6)}{(x+3)(x-3)}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La resta $\\frac{6}{x+3} - \\frac{4}{2x-6}$ con dominio $x \\ne -3,\\ 3$.",
+            "The subtraction $\\frac{6}{x+3} - \\frac{4}{2x-6}$ with domain $x \\ne -3,\\ 3$.",
+          ),
+          step(
+            "approach",
+            "Simplificar el segundo denominador, poner ambas fracciones sobre $(x+3)(x-3)$ y restar numeradores.",
+            "Simplify the second denominator, put both fractions over $(x+3)(x-3)$ and subtract numerators.",
+          ),
+          step(
+            "calculation",
+            "$\\dfrac{4}{2x-6} = \\dfrac{4}{2(x-3)} = \\dfrac{2}{x-3}$.<br>$\\dfrac{6}{x+3} - \\dfrac{2}{x-3} = \\dfrac{6(x-3) - 2(x+3)}{(x+3)(x-3)} = \\dfrac{6x - 18 - 2x - 6}{x^2 - 9} = \\dfrac{4x - 24}{x^2 - 9}$.<br>Control numérico con $x = 0$: $\\frac{6}{3} - \\frac{4}{-6} = 2 + \\frac{2}{3} = \\frac{8}{3}$ y $\\frac{-24}{-9} = \\frac{8}{3}$ ✓",
+            "$\\dfrac{4}{2x-6} = \\dfrac{4}{2(x-3)} = \\dfrac{2}{x-3}$.<br>$\\dfrac{6}{x+3} - \\dfrac{2}{x-3} = \\dfrac{6(x-3) - 2(x+3)}{(x+3)(x-3)} = \\dfrac{6x - 18 - 2x - 6}{x^2 - 9} = \\dfrac{4x - 24}{x^2 - 9}$.<br>Numeric check at $x = 0$: $\\frac{6}{3} - \\frac{4}{-6} = 2 + \\frac{2}{3} = \\frac{8}{3}$ and $\\frac{-24}{-9} = \\frac{8}{3}$ ✓",
+          ),
+          step(
+            "result",
+            "$\\dfrac{6}{x+3} - \\dfrac{4}{2x-6} = \\dfrac{4(x-6)}{(x+3)(x-3)}$, válida para $x \\ne \\pm 3$.",
+            "$\\dfrac{6}{x+3} - \\dfrac{4}{2x-6} = \\dfrac{4(x-6)}{(x+3)(x-3)}$, valid for $x \\ne \\pm 3$.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* FOS/BOS 2011, 1.1 — división de fracciones con agujero en x = -3. */
+  template(
+    {
+      id: "rat-simp-04",
+      subject: "math",
+      topicId: "rational",
+      subtopicId: "simplifying",
+      difficulty: "medium",
+      questionType: "expression",
+      estimatedTimeSec: 240,
+      tags: ["rational-expressions", "division", "domain", "exam"],
+      prerequisites: ["simplifying"],
+      source: {
+        sourceId: "fos-bos-2011",
+        license: "OPEN_LICENSE",
+        exerciseNumber: "1.1",
+      },
+      reasoning: "spurious",
+    },
+    (rng) => {
+      return {
+        skill: L("División de fracciones algebraicas (examen real 2011)", "Dividing algebraic fractions (real 2011 exam)"),
+        statement: L(
+          "Simplifica todo lo posible (dominio $x \\ne -3,\\ 3$; escribe una fracción, por ejemplo 2/(x+1)): $$\\frac{x + 3}{x^2 - 9} \\div \\frac{x + 3}{2x + 6}$$",
+          "Simplify as far as possible (domain $x \\ne -3,\\ 3$; write a fraction, e.g. 2/(x+1)): $$\\frac{x + 3}{x^2 - 9} \\div \\frac{x + 3}{2x + 6}$$",
+        ),
+        answer: {
+          kind: "expression",
+          accepted: ["2/(x-3)", "2/(x - 3)", "-2/(3-x)"],
+          variables: ["x"],
+        },
+        hints: [
+          L(
+            "Dividir por una fracción es multiplicar por su **recíproco**.",
+            "Dividing by a fraction is multiplying by its **reciprocal**.",
+          ),
+          L(
+            "Factoriza todo: $x^2 - 9 = (x-3)(x+3)$ y $2x + 6 = 2(x+3)$.",
+            "Factor everything: $x^2 - 9 = (x-3)(x+3)$ and $2x + 6 = 2(x+3)$.",
+          ),
+          L(
+            "Cancela los $(x+3)$ — que **no** son cero, porque $x \\ne -3$ — y quédate con $\\frac{2}{x-3}$.",
+            "Cancel the $(x+3)$ factors — which are **not** zero, since $x \\ne -3$ — and you are left with $\\frac{2}{x-3}$.",
+          ),
+        ],
+        answerDisplay: L("$\\dfrac{2}{x - 3}$", "$\\dfrac{2}{x - 3}$"),
+        solution: [
+          step(
+            "given",
+            "$\\frac{x+3}{x^2-9} \\div \\frac{x+3}{2x+6}$; el dominio excluye $x = \\pm 3$ (por $x^2 - 9$) y también $x = -3$ (por $2x+6$): $x \\ne -3,\\ 3$.",
+            "$\\frac{x+3}{x^2-9} \\div \\frac{x+3}{2x+6}$; the domain excludes $x = \\pm 3$ (from $x^2 - 9$) and also $x = -3$ (from $2x+6$): $x \\ne -3,\\ 3$.",
+          ),
+          step(
+            "approach",
+            "Convertir la división en multiplicación por el recíproco, factorizar las diferencias de cuadrados y cancelar.",
+            "Turn the division into multiplication by the reciprocal, factor the differences of squares and cancel.",
+          ),
+          step(
+            "calculation",
+            "$\\dfrac{x+3}{x^2-9} \\cdot \\dfrac{2x+6}{x+3} = \\dfrac{x+3}{(x-3)(x+3)} \\cdot \\dfrac{2(x+3)}{x+3}$.<br>Cancela $(x+3)$ dos veces (nunca es cero en el dominio): $= \\dfrac{2}{x-3}$.<br>Control numérico con $x = 0$: $\\frac{3}{-9} \\div \\frac{3}{6} = -\\frac{1}{3} \\cdot 2 = -\\frac{2}{3}$ y $\\frac{2}{-3} = -\\frac{2}{3}$ ✓",
+            "$\\dfrac{x+3}{x^2-9} \\cdot \\dfrac{2x+6}{x+3} = \\dfrac{x+3}{(x-3)(x+3)} \\cdot \\dfrac{2(x+3)}{x+3}$.<br>Cancel $(x+3)$ twice (never zero in the domain): $= \\dfrac{2}{x-3}$.<br>Numeric check at $x = 0$: $\\frac{3}{-9} \\div \\frac{3}{6} = -\\frac{1}{3} \\cdot 2 = -\\frac{2}{3}$ and $\\frac{2}{-3} = -\\frac{2}{3}$ ✓",
+          ),
+          step(
+            "result",
+            "$\\dfrac{x+3}{x^2-9} \\div \\dfrac{x+3}{2x+6} = \\dfrac{2}{x-3}$ para $x \\ne -3,\\ 3$ — coincide con el Lösungsvorschlag oficial del examen.",
+            "$\\dfrac{x+3}{x^2-9} \\div \\dfrac{x+3}{2x+6} = \\dfrac{2}{x-3}$ for $x \\ne -3,\\ 3$ — matches the exam's official Lösungsvorschlag.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* FOS/BOS 2011, 1.2 — resta con mcd 84a³b³. */
+  template(
+    {
+      id: "rat-add-04",
+      subject: "math",
+      topicId: "rational",
+      subtopicId: "add-sub",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["rational-expressions", "lcd", "two-variables", "exam"],
+      prerequisites: ["add-sub"],
+      source: {
+        sourceId: "fos-bos-2011",
+        license: "OPEN_LICENSE",
+        exerciseNumber: "1.2",
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L("$\\dfrac{4a^2 + 7b^2}{84a^3b^3}$", "$\\dfrac{4a^2 + 7b^2}{84a^3b^3}$"),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L("$\\dfrac{4a^2 - 7b^2}{84a^3b^3}$", "$\\dfrac{4a^2 - 7b^2}{84a^3b^3}$"),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L("$\\dfrac{1}{3ab}$", "$\\dfrac{1}{3ab}$"),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L("$\\dfrac{4a^2 + 7b^2}{33a^4b^4}$", "$\\dfrac{4a^2 + 7b^2}{33a^4b^4}$"),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L("Resta con mcd en dos variables (examen real 2011)", "Subtraction with an LCD in two variables (real 2011 exam)"),
+        statement: L(
+          "Reúne en una sola fracción (dominio $a, b \\ne 0$; $a, b \\in \\mathbb{R}$): $$\\frac{4a^2 + 1}{12a^3b} - \\frac{7b^2 - 1}{21ab^3}$$ Elige el resultado correcto.",
+          "Combine into a single fraction (domain $a, b \\ne 0$; $a, b \\in \\mathbb{R}$): $$\\frac{4a^2 + 1}{12a^3b} - \\frac{7b^2 - 1}{21ab^3}$$ Choose the correct result.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "El mínimo común denominador combina la parte numérica y las potencias de $a$ y $b$.",
+            "The least common denominator combines the numeric part and the powers of $a$ and $b$.",
+          ),
+          L(
+            "$12 = 4 \\cdot 3$ y $21 = 7 \\cdot 3$: mcm numérico $84$. Potencias máximas: $a^3$ y $b^3$. Así que el mcd es $84a^3b^3$.",
+            "$12 = 4 \\cdot 3$ and $21 = 7 \\cdot 3$: numeric lcm $84$. Highest powers: $a^3$ and $b^3$. So the LCD is $84a^3b^3$.",
+          ),
+          L(
+            "Numerador: $7b^2(4a^2 + 1) - 4a^2(7b^2 - 1)$. Desarrolla **los dos** productos completos antes de restar.",
+            "Numerator: $7b^2(4a^2 + 1) - 4a^2(7b^2 - 1)$. Expand **both** complete products before subtracting.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\dfrac{4a^2 + 7b^2}{84a^3b^3}$",
+          "$\\dfrac{4a^2 + 7b^2}{84a^3b^3}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La resta $\\frac{4a^2+1}{12a^3b} - \\frac{7b^2-1}{21ab^3}$ con $a, b \\ne 0$.",
+            "The subtraction $\\frac{4a^2+1}{12a^3b} - \\frac{7b^2-1}{21ab^3}$ with $a, b \\ne 0$.",
+          ),
+          step(
+            "approach",
+            "Mínimo común denominador por factores primos y potencias máximas; luego amplificar cada fracción y restar con cuidado los signos.",
+            "Least common denominator via prime factors and highest powers; then scale each fraction and subtract minding the signs.",
+          ),
+          step(
+            "calculation",
+            "mcd $= 84a^3b^3$ ($12a^3b \\cdot 7b^2$ y $21ab^3 \\cdot 4a^2$).<br>Numerador: $7b^2(4a^2 + 1) - 4a^2(7b^2 - 1) = 28a^2b^2 + 7b^2 - 28a^2b^2 + 4a^2 = 7b^2 + 4a^2$.<br>Los términos $28a^2b^2$ se cancelan entre sí y los restos se juntan: $= \\dfrac{4a^2 + 7b^2}{84a^3b^3}$.<br>La opción $\\frac{1}{3ab}$ es la trampa clásica: sale de cancelar como si los $+1$ y $-1$ no existieran.",
+            "LCD $= 84a^3b^3$ ($12a^3b \\cdot 7b^2$ and $21ab^3 \\cdot 4a^2$).<br>Numerator: $7b^2(4a^2 + 1) - 4a^2(7b^2 - 1) = 28a^2b^2 + 7b^2 - 28a^2b^2 + 4a^2 = 7b^2 + 4a^2$.<br>The $28a^2b^2$ terms cancel each other and the remainders join: $= \\dfrac{4a^2 + 7b^2}{84a^3b^3}$.<br>The option $\\frac{1}{3ab}$ is the classic trap: it comes from cancelling as if the $+1$ and $-1$ did not exist.",
+          ),
+          step(
+            "result",
+            "$\\dfrac{4a^2+1}{12a^3b} - \\dfrac{7b^2-1}{21ab^3} = \\dfrac{4a^2 + 7b^2}{84a^3b^3}$ — coincide con el Lösungsvorschlag oficial.",
+            "$\\dfrac{4a^2+1}{12a^3b} - \\dfrac{7b^2-1}{21ab^3} = \\dfrac{4a^2 + 7b^2}{84a^3b^3}$ — matches the official Lösungsvorschlag.",
+          ),
+        ],
+      };
+    },
+  ),
 ];

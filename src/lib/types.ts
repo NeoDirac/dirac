@@ -254,6 +254,10 @@ export interface Problem extends ProblemContent {
   estimatedTimeSec: number;
   tags: string[];
   prerequisites: string[];
+  /** provenance carried over from the template (curated problems only) */
+  source?: SourceRef;
+  /** dominant reasoning process (curated problems carry it) */
+  reasoning?: ReasoningType;
 }
 
 /** Resolves the per-locale solution steps (bare arrays are accepted). */
@@ -354,6 +358,8 @@ export interface SessionConfig {
   seed: number;
   /** single-problem mode: pin the deck to exactly this template */
   singleTemplateId?: string;
+  /** practice only problems transcribed from real sources (c=1) */
+  curatedOnly?: boolean;
 }
 
 export interface ProblemRecord {

@@ -18,6 +18,7 @@
  *   d = easy|medium|hard|challenge|any
  *   n = 5|10|20|inf             k = session seed
  *   tpl = templateId (single-problem share links)
+ *   c = 1 (curated only — problems transcribed from real sources)
  */
 
 import { useEffect, useState, useCallback } from "react";
@@ -80,6 +81,7 @@ function parseSessionConfig(q: URLSearchParams): SessionConfig {
   const seed = parseInt(q.get("k") ?? "0", 10) || 0;
   const easyWeighted = q.get("w") === "easy";
   const singleTemplateId = q.get("tpl") ?? undefined;
+  const curatedOnly = q.get("c") === "1";
   return {
     mode,
     subjects: subjects.length ? subjects : ["math"],
@@ -90,6 +92,7 @@ function parseSessionConfig(q: URLSearchParams): SessionConfig {
     seed,
     easyWeighted,
     singleTemplateId,
+    curatedOnly,
   };
 }
 
@@ -104,6 +107,7 @@ export function sessionHref(config: SessionConfig): string {
   q.set("k", String(config.seed));
   if (config.easyWeighted) q.set("w", "easy");
   if (config.singleTemplateId) q.set("tpl", config.singleTemplateId);
+  if (config.curatedOnly) q.set("c", "1");
   return `#/session?${q.toString()}`;
 }
 

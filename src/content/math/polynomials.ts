@@ -1021,4 +1021,575 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+
+
+  /* ---------------------------------------------------------------- */
+  /* Curated Phase 2 — Übungsaufgaben Studienkolleg Bayern            */
+  /* (Stand Jan 18). Transcribed as printed; every answer verified     */
+  /* independently (grid-scan / expansion) before integration; see     */
+  /* /tmp/curated-p2/verify.py and the worklog. Fixed problems —       */
+  /* rng only shuffles MC options.                                     */
+  /* ---------------------------------------------------------------- */
+
+  /* §1.1 a) — división larga con divisor cuadrático. */
+  template(
+    {
+      id: "poly-div-01",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "synthetic-division",
+      difficulty: "medium",
+      questionType: "expression",
+      estimatedTimeSec: 240,
+      tags: ["polynomial-division", "long-division"],
+      prerequisites: ["operations"],
+      source: {
+        sourceId: "stk-bayern-ubung",
+        license: "OPEN_LICENSE",
+        exerciseNumber: "1.1 a)",
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      return {
+        skill: L("División de polinomios (divisor cuadrático)", "Polynomial division (quadratic divisor)"),
+        statement: L(
+          "Divide (la división es exacta): $$\\left(5x^3 - 16x^2 + 58x - 11\\right) : \\left(x^2 - 3x + 11\\right)$$ Escribe el cociente como polinomio en $x$ (por ejemplo 3x + 2 o 3*x+2).",
+          "Divide (the division is exact): $$\\left(5x^3 - 16x^2 + 58x - 11\\right) \\div \\left(x^2 - 3x + 11\\right)$$ Write the quotient as a polynomial in $x$ (e.g. 3x + 2 or 3*x+2).",
+        ),
+        answer: {
+          kind: "expression",
+          accepted: ["5x - 1", "5*x - 1", "5x-1"],
+          variables: ["x"],
+        },
+        hints: [
+          L(
+            "Empieza por los términos de mayor grado: ¿qué multiplicado por $x^2$ produce $5x^3$?",
+            "Start with the leading terms: what times $x^2$ produces $5x^3$?",
+          ),
+          L(
+            "El primer término del cociente es $5x$. Multiplica el divisor completo por $5x$ y réstalo del dividendo.",
+            "The first term of the quotient is $5x$. Multiply the whole divisor by $5x$ and subtract it from the dividend.",
+          ),
+          L(
+            "Tras restar queda $-x^2 + 3x - 11$: el siguiente término del cociente es $-1$, y la resta final da $0$ (división exacta).",
+            "After subtracting, $-x^2 + 3x - 11$ remains: the next term of the quotient is $-1$, and the final subtraction gives $0$ (exact division).",
+          ),
+        ],
+        answerDisplay: L("Cociente $= 5x - 1$", "Quotient $= 5x - 1$"),
+        solution: [
+          step(
+            "given",
+            "Dividendo $5x^3 - 16x^2 + 58x - 11$; divisor $x^2 - 3x + 11$ (grado 2, así que el cociente tendrá grado 1).",
+            "Dividend $5x^3 - 16x^2 + 58x - 11$; divisor $x^2 - 3x + 11$ (degree 2, so the quotient has degree 1).",
+          ),
+          step(
+            "approach",
+            "División larga: alinea término a término, divide los grados mayores, multiplica, resta y baja. La división es exacta: el resto debe ser $0$.",
+            "Long division: align term by term, divide the leading degrees, multiply, subtract and bring down. The division is exact: the remainder must be $0$.",
+          ),
+          step(
+            "calculation",
+            "$5x^3 \\div x^2 = 5x$. Resta: $5x^3 - 16x^2 + 58x - 11 - 5x\\left(x^2 - 3x + 11\\right) = -x^2 + 3x - 11$.<br>$-x^2 \\div x^2 = -1$. Resta: $-x^2 + 3x - 11 - (-1)\\left(x^2 - 3x + 11\\right) = 0$.<br>Verificación: $\\left(x^2 - 3x + 11\\right)(5x - 1) = 5x^3 - 15x^2 + 55x - x^2 + 3x - 11 = 5x^3 - 16x^2 + 58x - 11$ ✓",
+            "$5x^3 \\div x^2 = 5x$. Subtract: $5x^3 - 16x^2 + 58x - 11 - 5x\\left(x^2 - 3x + 11\\right) = -x^2 + 3x - 11$.<br>$-x^2 \\div x^2 = -1$. Subtract: $-x^2 + 3x - 11 - (-1)\\left(x^2 - 3x + 11\\right) = 0$.<br>Check: $\\left(x^2 - 3x + 11\\right)(5x - 1) = 5x^3 - 15x^2 + 55x - x^2 + 3x - 11 = 5x^3 - 16x^2 + 58x - 11$ ✓",
+          ),
+          step(
+            "result",
+            "Cociente $= 5x - 1$ (resto $0$).",
+            "Quotient $= 5x - 1$ (remainder $0$).",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* §1.1 c) — diferencia de cuadrados que hace la división evidente. */
+  template(
+    {
+      id: "poly-div-02",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "synthetic-division",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 180,
+      tags: ["polynomial-division", "difference-of-squares"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "stk-bayern-ubung",
+        license: "OPEN_LICENSE",
+        exerciseNumber: "1.1 c)",
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L("$x^3 - x^2 + x - 1$", "$x^3 - x^2 + x - 1$"),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L("$x^3 + x^2 + x + 1$", "$x^3 + x^2 + x + 1$"),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L("$x^3 - x^2 - x + 1$", "$x^3 - x^2 - x + 1$"),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L("$x^3 + x^2 - x - 1$", "$x^3 + x^2 - x - 1$"),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L("División con diferencia de cuadrados", "Division with a difference of squares"),
+        statement: L(
+          "Divide (la división es exacta): $$\\left(x^4 - 1\\right) : \\left(x + 1\\right)$$ Elige el cociente correcto.",
+          "Divide (the division is exact): $$\\left(x^4 - 1\\right) \\div \\left(x + 1\\right)$$ Choose the correct quotient.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Antes de dividir a ciegas, factoriza el dividendo: $x^4 - 1$ es una **diferencia de cuadrados**.",
+            "Before dividing blindly, factor the dividend: $x^4 - 1$ is a **difference of squares**.",
+          ),
+          L(
+            "$x^4 - 1 = \\left(x^2 - 1\\right)\\left(x^2 + 1\\right) = (x-1)(x+1)\\left(x^2 + 1\\right)$.",
+            "$x^4 - 1 = \\left(x^2 - 1\\right)\\left(x^2 + 1\\right) = (x-1)(x+1)\\left(x^2 + 1\\right)$.",
+          ),
+          L(
+            "Cancela el factor $(x+1)$ con el divisor y expande lo que queda.",
+            "Cancel the $(x+1)$ factor with the divisor and expand what is left.",
+          ),
+        ],
+        answerDisplay: L("Cociente $= x^3 - x^2 + x - 1$", "Quotient $= x^3 - x^2 + x - 1$"),
+        solution: [
+          step(
+            "given",
+            "Dividendo $x^4 - 1$; divisor $x + 1$.",
+            "Dividend $x^4 - 1$; divisor $x + 1$.",
+          ),
+          step(
+            "approach",
+            "Un camino corto: factorizar el dividendo y cancelar el divisor; un camino largo: división larga término a término. Ambos deben coincidir.",
+            "One short route: factor the dividend and cancel the divisor; one long route: term-by-term long division. Both must agree.",
+          ),
+          step(
+            "calculation",
+            "$x^4 - 1 = (x-1)(x+1)\\left(x^2 + 1\\right)$, así que $\\dfrac{x^4-1}{x+1} = (x-1)\\left(x^2 + 1\\right) = x^3 + x^2 - x^2 - x + x + 1$… con cuidado: $(x-1)\\left(x^2+1\\right) = x^3 + x - x^2 - 1 = x^3 - x^2 + x - 1$.<br>Por división larga: $x^4 \\div x = x^3$; resta $x^4 + x^3$ → $-x^3 - 1$; $-x^3 \\div x = -x^2$; resta $-x^3 - x^2$ → $x^2 - 1$; $x^2 \\div x = x$; resta $x^2 + x$ → $-x - 1$; $-x \\div x = -1$; resta $-x - 1$ → $0$.",
+            "$x^4 - 1 = (x-1)(x+1)\\left(x^2 + 1\\right)$, so $\\dfrac{x^4-1}{x+1} = (x-1)\\left(x^2 + 1\\right) = x^3 - x^2 + x - 1$.<br>By long division: $x^4 \\div x = x^3$; subtract $x^4 + x^3$ → $-x^3 - 1$; $-x^3 \\div x = -x^2$; subtract $-x^3 - x^2$ → $x^2 - 1$; $x^2 \\div x = x$; subtract $x^2 + x$ → $-x - 1$; $-x \\div x = -1$; subtract $-x - 1$ → $0$.",
+          ),
+          step(
+            "result",
+            "Cociente $= x^3 - x^2 + x - 1$ (resto $0$). La opción $x^3 + x^2 + x + 1$ corresponde a dividir entre $x - 1$: ¡cuidado con los signos!",
+            "Quotient $= x^3 - x^2 + x - 1$ (remainder $0$). The option $x^3 + x^2 + x + 1$ corresponds to dividing by $x - 1$: mind the signs!",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* §1.1 f) — divisor de cinco términos (suma geométrica). */
+  template(
+    {
+      id: "poly-div-03",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "synthetic-division",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["polynomial-division", "two-variables", "structure"],
+      prerequisites: ["operations", "factoring"],
+      source: {
+        sourceId: "stk-bayern-ubung",
+        license: "OPEN_LICENSE",
+        exerciseNumber: "1.1 f)",
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$x^2 - y^2$", "$x^2 - y^2$"), correct: true },
+        { id: "b", text: L("$x^2 + y^2$", "$x^2 + y^2$"), correct: false },
+        { id: "c", text: L("$x - y$", "$x - y$"), correct: false },
+        { id: "d", text: L("$x + y$", "$x + y$"), correct: false },
+      ];
+      return {
+        skill: L("División en dos variables con estructura oculta", "Two-variable division with hidden structure"),
+        statement: L(
+          "Divide (la división es exacta): $$\\left(x^6 + x^5y - xy^5 - y^6\\right) : \\left(x^4 + x^3y + x^2y^2 + xy^3 + y^4\\right)$$ Elige el cociente correcto.",
+          "Divide (the division is exact): $$\\left(x^6 + x^5y - xy^5 - y^6\\right) \\div \\left(x^4 + x^3y + x^2y^2 + xy^3 + y^4\\right)$$ Choose the correct quotient.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "El divisor tiene cinco términos con un patrón regular: parece una **suma geométrica**.",
+            "The divisor has five terms with a regular pattern: it looks like a **geometric sum**.",
+          ),
+          L(
+            "El divisor coincide con $\\dfrac{x^5 - y^5}{x - y}$ (búscalo: multiplica el divisor por $(x - y)$ y casi todo se cancela).",
+            "The divisor equals $\\dfrac{x^5 - y^5}{x - y}$ (check it: multiply the divisor by $(x - y)$ and almost everything cancels).",
+          ),
+          L(
+            "El dividendo también se reescribe: $x^6 + x^5y - xy^5 - y^6 = (x + y)\\left(x^5 - y^5\\right)$. Cancela y simplifica.",
+            "The dividend rewrites too: $x^6 + x^5y - xy^5 - y^6 = (x + y)\\left(x^5 - y^5\\right)$. Cancel and simplify.",
+          ),
+        ],
+        answerDisplay: L("Cociente $= x^2 - y^2$", "Quotient $= x^2 - y^2$"),
+        solution: [
+          step(
+            "given",
+            "Dividendo $x^6 + x^5y - xy^5 - y^6$; divisor $x^4 + x^3y + x^2y^2 + xy^3 + y^4$ — dos variables, grados 6 y 4.",
+            "Dividend $x^6 + x^5y - xy^5 - y^6$; divisor $x^4 + x^3y + x^2y^2 + xy^3 + y^4$ — two variables, degrees 6 and 4.",
+          ),
+          step(
+            "approach",
+            "División larga en dos variables funciona, pero el patrón ahorra trabajo: el divisor es la suma geométrica $\\frac{x^5 - y^5}{x - y}$ y el dividendo se factoriza por grupos.",
+            "Long division in two variables works, but the pattern saves work: the divisor is the geometric sum $\\frac{x^5 - y^5}{x - y}$ and the dividend factors by grouping.",
+          ),
+          step(
+            "calculation",
+            "Dividendo: $x^5(x + y) - y^5(x + y) = (x + y)\\left(x^5 - y^5\\right)$.<br>Divisor: $(x - y)\\left(x^4 + x^3y + x^2y^2 + xy^3 + y^4\\right) = x^5 - y^5$.<br>Cociente: $\\dfrac{(x + y)\\left(x^5 - y^5\\right)}{\\left(x^5 - y^5\\right)/(x - y)} = (x + y)(x - y) = x^2 - y^2$.<br>Verificación por multiplicación directa: $\\left(x^2 - y^2\\right) \\cdot \\text{divisor} = x^6 + x^5y - xy^5 - y^6$ ✓",
+            "Dividend: $x^5(x + y) - y^5(x + y) = (x + y)\\left(x^5 - y^5\\right)$.<br>Divisor: $(x - y)\\left(x^4 + x^3y + x^2y^2 + xy^3 + y^4\\right) = x^5 - y^5$.<br>Quotient: $\\dfrac{(x + y)\\left(x^5 - y^5\\right)}{\\left(x^5 - y^5\\right)/(x - y)} = (x + y)(x - y) = x^2 - y^2$.<br>Direct multiplication check: $\\left(x^2 - y^2\\right) \\cdot \\text{divisor} = x^6 + x^5y - xy^5 - y^6$ ✓",
+          ),
+          step(
+            "result",
+            "Cociente $= x^2 - y^2$ (resto $0$). El examen también se resuelve con división larga pura: el primer término sería $x^6 \\div x^4 = x^2$.",
+            "Quotient $= x^2 - y^2$ (remainder $0$). The exam can also be solved by pure long division: the first term would be $x^6 \\div x^4 = x^2$.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* §1.2 a) — ecuación cúbica con raíz doble. */
+  template(
+    {
+      id: "poly-eq-04",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "equations",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["cubic", "rational-roots", "double-root"],
+      prerequisites: ["equations", "factoring"],
+      source: {
+        sourceId: "stk-bayern-ubung",
+        license: "OPEN_LICENSE",
+        exerciseNumber: "1.2 a)",
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$L = \\{-1,\\; 2\\}$", "$L = \\{-1,\\; 2\\}$"), correct: true },
+        { id: "b", text: L("$L = \\{-1,\\; -2\\}$", "$L = \\{-1,\\; -2\\}$"), correct: false },
+        { id: "c", text: L("$L = \\{1,\\; 2\\}$", "$L = \\{1,\\; 2\\}$"), correct: false },
+        { id: "d", text: L("$L = \\{2\\}$", "$L = \\{2\\}$"), correct: false },
+      ];
+      return {
+        skill: L("Ecuación cúbica con raíz doble", "Cubic equation with a double root"),
+        statement: L(
+          "Resuelve sobre $\\mathbb{R}$: $$x^3 - 3x^2 + 4 = 0$$",
+          "Solve over $\\mathbb{R}$: $$x^3 - 3x^2 + 4 = 0$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Prueba candidatos racionales pequeños (divisores del término independiente, $\\pm 1, \\pm 2, \\pm 4$).",
+            "Try small rational candidates (divisors of the constant term, $\\pm 1, \\pm 2, \\pm 4$).",
+          ),
+          L(
+            "$P(-1) = -1 - 3 + 4 = 0$ ✓, así que $(x + 1)$ es factor. Divide con Ruffini.",
+            "$P(-1) = -1 - 3 + 4 = 0$ ✓, so $(x + 1)$ is a factor. Divide using synthetic division.",
+          ),
+          L(
+            "El cociente es $x^2 - 4x + 4$: un **cuadrado perfecto**.",
+            "The quotient is $x^2 - 4x + 4$: a **perfect square**.",
+          ),
+        ],
+        answerDisplay: L("$L = \\{-1,\\; 2\\}$ (el $2$ es raíz doble)", "$L = \\{-1,\\; 2\\}$ ($2$ is a double root)"),
+        solution: [
+          step(
+            "given",
+            "La cúbica $x^3 - 3x^2 + 4 = 0$ con coeficientes enteros.",
+            "The cubic $x^3 - 3x^2 + 4 = 0$ with integer coefficients.",
+          ),
+          step(
+            "approach",
+            "Raíz racional de prueba + Ruffini + factorización del cociente. Toda cúbica con coeficientes reales tiene al menos una raíz real.",
+            "Trial rational root + synthetic division + factoring the quotient. Every cubic with real coefficients has at least one real root.",
+          ),
+          step(
+            "calculation",
+            "$P(-1) = -1 - 3 + 4 = 0$ ✓. Ruffini con $-1$ sobre $[1, -3, 0, 4]$ baja $1$; $1 \\cdot (-1) = -1$; $-3 + (-1) = -4$; $-4 \\cdot (-1) = 4$; $0 + 4 = 4$; $4 \\cdot (-1) = -4$; $4 + (-4) = 0$.<br>Cociente: $x^2 - 4x + 4 = (x - 2)^2 \\Rightarrow x = 2$ (doble).",
+            "$P(-1) = -1 - 3 + 4 = 0$ ✓. Synthetic division with $-1$ on $[1, -3, 0, 4]$ brings down $1$; $1 \\cdot (-1) = -1$; $-3 + (-1) = -4$; $-4 \\cdot (-1) = 4$; $0 + 4 = 4$; $4 \\cdot (-1) = -4$; $4 + (-4) = 0$.<br>Quotient: $x^2 - 4x + 4 = (x - 2)^2 \\Rightarrow x = 2$ (double).",
+          ),
+          step(
+            "result",
+            "$x^3 - 3x^2 + 4 = (x + 1)(x - 2)^2$, así que $L = \\{-1,\\; 2\\}$. La raíz doble cuenta una sola vez en el conjunto de soluciones.",
+            "$x^3 - 3x^2 + 4 = (x + 1)(x - 2)^2$, so $L = \\{-1,\\; 2\\}$. The double root counts once in the solution set.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* §5 a) — desigualdad cuadrática con coeficiente principal negativo. */
+  template(
+    {
+      id: "poly-ineq-02",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "inequalities",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 180,
+      tags: ["inequalities", "sign-analysis", "quadratic"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "stk-bayern-ubung",
+        license: "OPEN_LICENSE",
+        exerciseNumber: "5 a)",
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L("$(-\\infty, -4) \\cup (0, \\infty)$", "$(-\\infty, -4) \\cup (0, \\infty)$"),
+          correct: true,
+        },
+        { id: "b", text: L("$(-4, 0)$", "$(-4, 0)$"), correct: false },
+        { id: "c", text: L("$[-4, 0]$", "$[-4, 0]$"), correct: false },
+        {
+          id: "d",
+          text: L("$(-\\infty, -4] \\cup [0, \\infty)$", "$(-\\infty, -4] \\cup [0, \\infty)$"),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L("Desigualdad cuadrática (coeficiente principal negativo)", "Quadratic inequality (negative leading coefficient)"),
+        statement: L(
+          "Resuelve y elige la solución en notación de intervalos: $$-x^2 < 4x$$",
+          "Solve and choose the solution in interval notation: $$-x^2 < 4x$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Reordena: pasa todo al mismo lado antes de analizar el signo.",
+            "Rearrange: move everything to one side before analysing the sign.",
+          ),
+          L(
+            "$-x^2 - 4x < 0$. Si multiplicas por $-1$, la desigualdad **se invierte**: $x^2 + 4x > 0$.",
+            "$-x^2 - 4x < 0$. Multiplying by $-1$ **flips** the inequality: $x^2 + 4x > 0$.",
+          ),
+          L(
+            "$x(x + 4) > 0$: producto positivo **fuera** de las raíces, y como la desigualdad es estricta, las raíces no cuentan.",
+            "$x(x + 4) > 0$: the product is positive **outside** the roots, and since the inequality is strict the roots do not count.",
+          ),
+        ],
+        answerDisplay: L(
+          "$L = (-\\infty, -4) \\cup (0, \\infty)$",
+          "$L = (-\\infty, -4) \\cup (0, \\infty)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La desigualdad $-x^2 < 4x$ con parábola que abre hacia abajo.",
+            "The inequality $-x^2 < 4x$ with a downward-opening parabola.",
+          ),
+          step(
+            "approach",
+            "Cero de un lado, factorizar y tabla de signos (o lectura de la parábola). El signo del coeficiente principal obliga a ir con cuidado.",
+            "Zero on one side, factor, and a sign table (or read the parabola). The leading coefficient's sign demands care.",
+          ),
+          step(
+            "calculation",
+            "$-x^2 - 4x < 0 \\iff x^2 + 4x > 0 \\iff x(x + 4) > 0$.<br>Las raíces $x = -4$ y $x = 0$ parten la recta en tres regiones: para $x < -4$ ambos factores son negativos (producto positivo); para $-4 < x < 0$, signos opuestos (negativo); para $x > 0$, ambos positivos (positivo). En $x = -4$ y $x = 0$ el producto vale $0$, que no es $> 0$.",
+            "$-x^2 - 4x < 0 \\iff x^2 + 4x > 0 \\iff x(x + 4) > 0$.<br>The roots $x = -4$ and $x = 0$ split the line into three regions: for $x < -4$ both factors are negative (positive product); for $-4 < x < 0$, opposite signs (negative); for $x > 0$, both positive (positive). At $x = -4$ and $x = 0$ the product is $0$, which is not $> 0$.",
+          ),
+          step(
+            "result",
+            "$L = (-\\infty, -4) \\cup (0, \\infty)$, con extremos **abiertos** por la desigualdad estricta.",
+            "$L = (-\\infty, -4) \\cup (0, \\infty)$, with **open** endpoints due to the strict inequality.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* §5 d) — cuadrado perfecto ≤ constante: lectura como distancia. */
+  template(
+    {
+      id: "poly-ineq-03",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "inequalities",
+      difficulty: "easy",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 120,
+      tags: ["inequalities", "absolute-value", "distance"],
+      prerequisites: [],
+      source: {
+        sourceId: "stk-bayern-ubung",
+        license: "OPEN_LICENSE",
+        exerciseNumber: "5 d)",
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$[3,\\; 7]$", "$[3,\\; 7]$"), correct: true },
+        { id: "b", text: L("$(3,\\; 7)$", "$(3,\\; 7)$"), correct: false },
+        {
+          id: "c",
+          text: L("$(-\\infty, 3] \\cup [7, \\infty)$", "$(-\\infty, 3] \\cup [7, \\infty)$"),
+          correct: false,
+        },
+        { id: "d", text: L("$[4,\\; 6]$", "$[4,\\; 6]$"), correct: false },
+      ];
+      return {
+        skill: L("Cuadrado perfecto acotado por una constante", "Perfect square bounded by a constant"),
+        statement: L(
+          "Resuelve y elige la solución en notación de intervalos: $$(x - 5)^2 \\le 4$$",
+          "Solve and choose the solution in interval notation: $$(x - 5)^2 \\le 4$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Un cuadrado nunca es negativo: $(x-5)^2$ mide una **distancia al cuadrado**.",
+            "A square is never negative: $(x-5)^2$ measures a **squared distance**.",
+          ),
+          L(
+            "$(x - 5)^2 \\le 4$ equivale a $|x - 5| \\le 2$.",
+            "$(x - 5)^2 \\le 4$ is equivalent to $|x - 5| \\le 2$.",
+          ),
+          L(
+            "Distancia entre $x$ y $5$ de **como mucho** $2$: ¿qué intervalo describe eso? (La desigualdad admite igualdad: los extremos cuentan.)",
+            "Distance between $x$ and $5$ of **at most** $2$: which interval describes that? (Equality is allowed: the endpoints count.)",
+          ),
+        ],
+        answerDisplay: L("$L = [3,\\; 7]$", "$L = [3,\\; 7]$"),
+        solution: [
+          step(
+            "given",
+            "La desigualdad $(x - 5)^2 \\le 4$.",
+            "The inequality $(x - 5)^2 \\le 4$.",
+          ),
+          step(
+            "approach",
+            "Leer el cuadrado como valor absoluto evita expandrir y factorizar: $a^2 \\le b^2 \\iff |a| \\le b$ (con $b \\ge 0$).",
+            "Reading the square as an absolute value avoids expanding and factoring: $a^2 \\le b^2 \\iff |a| \\le b$ (with $b \\ge 0$).",
+          ),
+          step(
+            "calculation",
+            "$(x - 5)^2 \\le 4 \\iff |x - 5| \\le 2 \\iff -2 \\le x - 5 \\le 2$.<br>Sumando $5$ en las tres partes: $3 \\le x \\le 7$.<br>Comprobación de extremos: $(3-5)^2 = 4$ ✓ y $(7-5)^2 = 4$ ✓ (se incluyen, pues vale $\\le$). En $x = 4$: $(4-5)^2 = 1 \\le 4$ ✓ dentro.",
+            "$(x - 5)^2 \\le 4 \\iff |x - 5| \\le 2 \\iff -2 \\le x - 5 \\le 2$.<br>Adding $5$ throughout: $3 \\le x \\le 7$.<br>Endpoint check: $(3-5)^2 = 4$ ✓ and $(7-5)^2 = 4$ ✓ (included, since it is $\\le$). At $x = 4$: $(4-5)^2 = 1 \\le 4$ ✓ inside.",
+          ),
+          step(
+            "result",
+            "$L = [3,\\; 7]$, cerrado en ambos extremos porque la desigualdad admite igualdad.",
+            "$L = [3,\\; 7]$, closed at both endpoints because equality is allowed.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* §5 j) — trinomio que factoriza con raíces enteras. */
+  template(
+    {
+      id: "poly-ineq-04",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "inequalities",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 180,
+      tags: ["inequalities", "factoring", "sign-analysis"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "stk-bayern-ubung",
+        license: "OPEN_LICENSE",
+        exerciseNumber: "5 j)",
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L("$(-\\infty, -9) \\cup (3, \\infty)$", "$(-\\infty, -9) \\cup (3, \\infty)$"),
+          correct: true,
+        },
+        { id: "b", text: L("$(-9,\\; 3)$", "$(-9,\\; 3)$"), correct: false },
+        {
+          id: "c",
+          text: L("$(-\\infty, -3) \\cup (9, \\infty)$", "$(-\\infty, -3) \\cup (9, \\infty)$"),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L("$(-\\infty, -9] \\cup [3, \\infty)$", "$(-\\infty, -9] \\cup [3, \\infty)$"),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L("Desigualdad cuadrática por factorización", "Quadratic inequality by factoring"),
+        statement: L(
+          "Resuelve y elige la solución en notación de intervalos: $$x^2 + 6x - 27 > 0$$",
+          "Solve and choose the solution in interval notation: $$x^2 + 6x - 27 > 0$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Factoriza el trinomio: busca dos números cuyo producto sea $-27$ y cuya suma sea $6$.",
+            "Factor the trinomial: look for two numbers whose product is $-27$ and whose sum is $6$.",
+          ),
+          L(
+            "$x^2 + 6x - 27 = (x + 9)(x - 3)$.",
+            "$x^2 + 6x - 27 = (x + 9)(x - 3)$.",
+          ),
+          L(
+            "Producto **positivo estricto**: la parábola abre hacia arriba, así que es positivo fuera de las raíces — y las raíces mismas no cuentan.",
+            "**Strictly positive** product: the parabola opens upward, so it is positive outside the roots — and the roots themselves do not count.",
+          ),
+        ],
+        answerDisplay: L(
+          "$L = (-\\infty, -9) \\cup (3, \\infty)$",
+          "$L = (-\\infty, -9) \\cup (3, \\infty)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La desigualdad $x^2 + 6x - 27 > 0$.",
+            "The inequality $x^2 + 6x - 27 > 0$.",
+          ),
+          step(
+            "approach",
+            "Factorizar y hacer análisis de signos por regiones (o leer la parábola hacia arriba).",
+            "Factor and do a region-by-region sign analysis (or read the upward parabola).",
+          ),
+          step(
+            "calculation",
+            "$x^2 + 6x - 27 = (x + 9)(x - 3)$, con raíces $x = -9$ y $x = 3$.<br>Para $x < -9$: $(x+9) < 0$, $(x-3) < 0$ → producto $> 0$ ✓.<br>Para $-9 < x < 3$: signos opuestos → producto $< 0$.<br>Para $x > 3$: ambos positivos → producto $> 0$ ✓.<br>En $x = -9$ y $x = 3$: producto $= 0$, que no es $> 0$.",
+            "$x^2 + 6x - 27 = (x + 9)(x - 3)$, with roots $x = -9$ and $x = 3$.<br>For $x < -9$: $(x+9) < 0$, $(x-3) < 0$ → product $> 0$ ✓.<br>For $-9 < x < 3$: opposite signs → product $< 0$.<br>For $x > 3$: both positive → product $> 0$ ✓.<br>At $x = -9$ and $x = 3$: product $= 0$, which is not $> 0$.",
+          ),
+          step(
+            "result",
+            "$L = (-\\infty, -9) \\cup (3, \\infty)$, con extremos abiertos por la desigualdad estricta.",
+            "$L = (-\\infty, -9) \\cup (3, \\infty)$, with open endpoints due to the strict inequality.",
+          ),
+        ],
+      };
+    },
+  ),
 ];

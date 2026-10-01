@@ -1189,4 +1189,85 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+
+
+  /* ---------------------------------------------------------------- */
+  /* Curated Phase 2 — FOS/BOS 2010 HT, 1.3 (leyes de exponentes      */
+  /* con exponentes negativos). Transcribed as printed; verified      */
+  /* independently (identidad en 5 puntos). Fixed problem.             */
+  /* ---------------------------------------------------------------- */
+
+  template(
+    {
+      id: "found-pow-02",
+      subject: "math",
+      topicId: "foundations",
+      subtopicId: "powers",
+      difficulty: "medium",
+      questionType: "expression",
+      estimatedTimeSec: 180,
+      tags: ["exponent-laws", "negative-exponents", "exam"],
+      prerequisites: ["powers"],
+      source: {
+        sourceId: "fos-bos-2010-ht",
+        license: "OPEN_LICENSE",
+        exerciseNumber: "1.3",
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      return {
+        skill: L("Potencias de productos con exponentes negativos (examen real)", "Powers of products with negative exponents (real exam)"),
+        statement: L(
+          "Simplifica todo lo posible (con $a, b \\ne 0$; escribe por ejemplo 1/(a^2*b^3) o a^-2*b^-3): $$\\left(a^2 b^{-5}\\right)^3 \\cdot \\left(b^3 a^{-2}\\right)^4$$",
+          "Simplify as far as possible (with $a, b \\ne 0$; write e.g. 1/(a^2*b^3) or a^-2*b^-3): $$\\left(a^2 b^{-5}\\right)^3 \\cdot \\left(b^3 a^{-2}\\right)^4$$",
+        ),
+        answer: {
+          kind: "expression",
+          accepted: ["1/(a^2*b^3)", "1/(a^2b^3)", "a^-2*b^-3", "1/(a^2*b^3)"],
+          variables: ["a", "b"],
+        },
+        hints: [
+          L(
+            "Potencia de un producto: cada factor se eleva por separado. Exponente negativo = recíproco.",
+            "Power of a product: each factor is raised separately. A negative exponent means the reciprocal.",
+          ),
+          L(
+            "$(a^2)^3 = a^6$, $(b^{-5})^3 = b^{-15}$, $(b^3)^4 = b^{12}$, $(a^{-2})^4 = a^{-8}$.",
+            "$(a^2)^3 = a^6$, $(b^{-5})^3 = b^{-15}$, $(b^3)^4 = b^{12}$, $(a^{-2})^4 = a^{-8}$.",
+          ),
+          L(
+            "Multiplicar es sumar exponentes de igual base: $a^{6 + (-8)}$ y $b^{-15 + 12}$.",
+            "Multiplying adds exponents of the same base: $a^{6 + (-8)}$ and $b^{-15 + 12}$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$a^{-2} b^{-3} = \\dfrac{1}{a^2 b^3}$",
+          "$a^{-2} b^{-3} = \\dfrac{1}{a^2 b^3}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El producto $\\left(a^2 b^{-5}\\right)^3 \\cdot \\left(b^3 a^{-2}\\right)^4$ con $a, b \\ne 0$ (por eso $a$ y $b$ pueden ir en denominadores).",
+            "The product $\\left(a^2 b^{-5}\\right)^3 \\cdot \\left(b^3 a^{-2}\\right)^4$ with $a, b \\ne 0$ (so $a$ and $b$ may appear in denominators).",
+          ),
+          step(
+            "approach",
+            "Primero la potencia del producto (multiplicar exponentes), después el producto de potencias (sumar exponentes por base).",
+            "First the power of the product (multiply exponents), then the product of powers (add exponents per base).",
+          ),
+          step(
+            "calculation",
+            "$\\left(a^2 b^{-5}\\right)^3 = a^6 b^{-15}$ y $\\left(b^3 a^{-2}\\right)^4 = b^{12} a^{-8}$.<br>Producto: $a^6 a^{-8} \\cdot b^{-15} b^{12} = a^{6-8} b^{-15+12} = a^{-2} b^{-3}$.<br>Con exponentes positivos: $a^{-2} b^{-3} = \\dfrac{1}{a^2 b^3}$.<br>Control numérico con $a = 2$, $b = 3$: original $= (4 \\cdot 3^{-5})^3 \\cdot (27 \\cdot \\frac{1}{4})^4$… más rápido: $\\frac{1}{4 \\cdot 27} = \\frac{1}{108}$ y comprobando con la calculadora ambos lados dan $\\approx 0.00926$ ✓",
+            "$\\left(a^2 b^{-5}\\right)^3 = a^6 b^{-15}$ and $\\left(b^3 a^{-2}\\right)^4 = b^{12} a^{-8}$.<br>Product: $a^6 a^{-8} \\cdot b^{-15} b^{12} = a^{6-8} b^{-15+12} = a^{-2} b^{-3}$.<br>With positive exponents: $a^{-2} b^{-3} = \\dfrac{1}{a^2 b^3}$.<br>Numeric check at $a = 2$, $b = 3$: both sides evaluate to $\\frac{1}{4 \\cdot 27} = \\frac{1}{108} \\approx 0.00926$ ✓",
+          ),
+          step(
+            "result",
+            "$\\left(a^2 b^{-5}\\right)^3 \\cdot \\left(b^3 a^{-2}\\right)^4 = \\dfrac{1}{a^2 b^3}$ — dos leyes de exponentes y un cambio de signo global.",
+            "$\\left(a^2 b^{-5}\\right)^3 \\cdot \\left(b^3 a^{-2}\\right)^4 = \\dfrac{1}{a^2 b^3}$ — two exponent laws and one global sign flip.",
+          ),
+        ],
+      };
+    },
+  ),
 ];

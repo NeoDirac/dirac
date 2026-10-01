@@ -733,4 +733,91 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+
+
+  /* ---------------------------------------------------------------- */
+  /* Curated Phase 2 — FOS/BOS 2011, 6 f) (bisectriz vs recta,        */
+  /* del bloque wahr/falsch). Transcribed; verified independently.    */
+  /* Fixed problem — rng only shuffles MC.                            */
+  /* ---------------------------------------------------------------- */
+
+  template(
+    {
+      id: "ag-slope-02",
+      subject: "math",
+      topicId: "analytic-geometry",
+      subtopicId: "slope",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 120,
+      tags: ["slope", "parallel", "perpendicular", "angle-bisector", "exam"],
+      prerequisites: ["slope"],
+      source: {
+        sourceId: "fos-bos-2011",
+        license: "OPEN_LICENSE",
+        exerciseNumber: "6 f)",
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("Son perpendiculares", "They are perpendicular"), correct: true },
+        { id: "b", text: L("Son paralelas", "They are parallel"), correct: false },
+        { id: "c", text: L("Son la misma recta", "They are the same line"), correct: false },
+        {
+          id: "d",
+          text: L("Se cortan, pero sin ser perpendiculares", "They intersect, but not perpendicularly"),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L("Bisectriz de cuadrantes frente a una recta (examen real 2011)", "Quadrant bisector vs a line (real 2011 exam)"),
+        statement: L(
+          "La bisectriz del primer y tercer cuadrante es la recta $y = x$. ¿Qué relación tiene con la recta $g: y = -x + 1.5$?",
+          "The bisector of the first and third quadrants is the line $y = x$. What is its relation to the line $g: y = -x + 1.5$?",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Para dos rectas no verticales, toda la relación se lee en las **pendientes**.",
+            "For two non-vertical lines, the whole relationship is read off the **slopes**.",
+          ),
+          L(
+            "Bisectriz: pendiente $1$. Recta $g$: pendiente $-1$.",
+            "Bisector: slope $1$. Line $g$: slope $-1$.",
+          ),
+          L(
+            "Dos rectas son perpendiculares exactamente cuando el producto de sus pendientes vale $-1$; paralelas cuando las pendientes coinciden.",
+            "Two lines are perpendicular exactly when the product of their slopes is $-1$; parallel when the slopes match.",
+          ),
+        ],
+        answerDisplay: L(
+          "Son **perpendiculares**: $1 \\cdot (-1) = -1$.",
+          "They are **perpendicular**: $1 \\cdot (-1) = -1$.",
+        ),
+        solution: [
+          step(
+            "given",
+            "Bisectriz $y = x$ (pendiente $m_1 = 1$) y $g: y = -x + 1.5$ (pendiente $m_2 = -1$).",
+            "Bisector $y = x$ (slope $m_1 = 1$) and $g: y = -x + 1.5$ (slope $m_2 = -1$).",
+          ),
+          step(
+            "approach",
+            "Criterios por pendientes: paralelas ⟺ $m_1 = m_2$; perpendiculares ⟺ $m_1 m_2 = -1$ (rectas no verticales).",
+            "Slope criteria: parallel ⟺ $m_1 = m_2$; perpendicular ⟺ $m_1 m_2 = -1$ (non-vertical lines).",
+          ),
+          step(
+            "calculation",
+            "$m_1 = 1 \\ne -1 = m_2$: no son paralelas (ni la misma recta, pues además las ordenadas difieren).<br>$m_1 \\cdot m_2 = 1 \\cdot (-1) = -1$: perpendiculares ✓<br>Punto de corte para referencia: $x = -x + 1.5 \\Rightarrow x = 0.75$ → $(0.75,\\ 0.75)$, y ahí se cruzan en ángulo recto.",
+            "$m_1 = 1 \\ne -1 = m_2$: not parallel (nor the same line, since the intercepts also differ).<br>$m_1 \\cdot m_2 = 1 \\cdot (-1) = -1$: perpendicular ✓<br>Intersection point for reference: $x = -x + 1.5 \\Rightarrow x = 0.75$ → $(0.75,\\ 0.75)$, where they cross at a right angle.",
+          ),
+          step(
+            "result",
+            "Son perpendiculares. En el examen original (wahr/falsch) la afirmación «la bisectriz es paralela a $g$» era **falsa** — esta es la relación correcta.",
+            "They are perpendicular. In the original exam (true/false) the statement «the bisector is parallel to $g$» was **false** — this is the correct relationship.",
+          ),
+        ],
+      };
+    },
+  ),
 ];

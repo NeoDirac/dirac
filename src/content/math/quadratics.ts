@@ -1222,4 +1222,287 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+
+
+  /* ---------------------------------------------------------------- */
+  /* Curated Phase 2 — FOS/BOS 2010 HT §2.0 y FOS/BOS 2011 §2         */
+  /* (vértice, posición de un punto, raíces con redondeo).            */
+  /* Transcribed as printed; verified independently. Fixed problems.  */
+  /* ---------------------------------------------------------------- */
+
+  /* FOS/BOS 2010, 2.2 — vértice desde la forma general. */
+  template(
+    {
+      id: "quad-vertex-02",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "vertex",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 180,
+      tags: ["vertex", "general-form", "exam"],
+      prerequisites: ["completing-square"],
+      source: {
+        sourceId: "fos-bos-2010-ht",
+        license: "OPEN_LICENSE",
+        exerciseNumber: "2.2",
+      },
+      reasoning: "graphical",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$S(1\\,|\\,1)$", "$S(1\\,|\\,1)$"), correct: true },
+        { id: "b", text: L("$S(1\\,|\\,-1)$", "$S(1\\,|\\,-1)$"), correct: false },
+        { id: "c", text: L("$S(2\\,|\\,-2)$", "$S(2\\,|\\,-2)$"), correct: false },
+        { id: "d", text: L("$S(-1\\,|\\,1)$", "$S(-1\\,|\\,1)$"), correct: false },
+      ];
+      return {
+        skill: L("Vértice desde la forma general (examen real)", "Vertex from the general form (real exam)"),
+        statement: L(
+          "Calcula el vértice de la parábola con ecuación $$y = -3x^2 + 6x - 2$$",
+          "Compute the vertex of the parabola with equation $$y = -3x^2 + 6x - 2$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "De la forma general a la de vértice: completa el cuadrado, o usa $x_S = -\\frac{b}{2a}$.",
+            "From the general form to the vertex form: complete the square, or use $x_S = -\\frac{b}{2a}$.",
+          ),
+          L(
+            "Aquí $a = -3$ y $b = 6$: $x_S = -\\frac{6}{2 \\cdot (-3)} = 1$.",
+            "Here $a = -3$ and $b = 6$: $x_S = -\\frac{6}{2 \\cdot (-3)} = 1$.",
+          ),
+          L(
+            "Sustituye en la ecuación para la altura: $y_S = -3(1)^2 + 6(1) - 2$.",
+            "Substitute back for the height: $y_S = -3(1)^2 + 6(1) - 2$.",
+          ),
+        ],
+        answerDisplay: L("$S(1\\,|\\,1)$, con forma de vértice $y = -3(x-1)^2 + 1$", "$S(1\\,|\\,1)$, vertex form $y = -3(x-1)^2 + 1$"),
+        solution: [
+          step(
+            "given",
+            "La parábola $y = -3x^2 + 6x - 2$ en forma general ($a = -3$, $b = 6$, $c = -2$; abre hacia abajo).",
+            "The parabola $y = -3x^2 + 6x - 2$ in general form ($a = -3$, $b = 6$, $c = -2$; opens downward).",
+          ),
+          step(
+            "approach",
+            "El vértice está en el eje de simetría $x_S = -\\frac{b}{2a}$; su altura se obtiene sustituyendo. Alternativa: completar el cuadrado para leer $S$ directamente.",
+            "The vertex lies on the symmetry axis $x_S = -\\frac{b}{2a}$; its height comes from substitution. Alternative: complete the square to read $S$ directly.",
+          ),
+          step(
+            "calculation",
+            "$x_S = -\\dfrac{6}{2(-3)} = -\\dfrac{6}{-6} = 1$.<br>$y_S = -3(1)^2 + 6(1) - 2 = -3 + 6 - 2 = 1$.<br>Completando el cuadrado: $y = -3\\left(x^2 - 2x\\right) - 2 = -3\\left(x - 1\\right)^2 + 3 - 2 = -3(x-1)^2 + 1$ ✓ mismo vértice.",
+            "$x_S = -\\dfrac{6}{2(-3)} = -\\dfrac{6}{-6} = 1$.<br>$y_S = -3(1)^2 + 6(1) - 2 = -3 + 6 - 2 = 1$.<br>Completing the square: $y = -3\\left(x^2 - 2x\\right) - 2 = -3\\left(x - 1\\right)^2 + 3 - 2 = -3(x-1)^2 + 1$ ✓ same vertex.",
+          ),
+          step(
+            "result",
+            "$S(1\\,|\\,1)$. Como $a = -3 < 0$, es un **máximo** — la parábola abre hacia abajo.",
+            "$S(1\\,|\\,1)$. Since $a = -3 < 0$, it is a **maximum** — the parabola opens downward.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* FOS/BOS 2010, 2.3 — posición de un punto frente a la parábola. */
+  template(
+    {
+      id: "quad-graph-03",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "graphs",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["point-position", "substitution", "graph", "exam"],
+      prerequisites: ["standard-form"],
+      source: {
+        sourceId: "fos-bos-2010-ht",
+        license: "OPEN_LICENSE",
+        exerciseNumber: "2.3",
+      },
+      reasoning: "graphical",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("Debajo de la parábola", "Below the parabola"), correct: true },
+        { id: "b", text: L("Encima de la parábola", "Above the parabola"), correct: false },
+        { id: "c", text: L("Exactamente sobre la parábola", "Exactly on the parabola"), correct: false },
+        {
+          id: "d",
+          text: L("No se puede decidir sin dibujar", "Cannot be decided without drawing"),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L("Posición de un punto frente a una parábola (examen real)", "Position of a point vs a parabola (real exam)"),
+        statement: L(
+          "¿El punto $A(-1\\,|\\,10)$ está encima, debajo o exactamente sobre la parábola con ecuación $$y = \\frac{1}{2}(x - 3)(x - 5)\\,?$$",
+          "Is the point $A(-1\\,|\\,10)$ above, below or exactly on the parabola with equation $$y = \\frac{1}{2}(x - 3)(x - 5)\\,?$$",
+        ),
+        diagram: {
+          kind: "function-graph",
+          xMin: -4,
+          xMax: 9,
+          yMin: -2,
+          yMax: 16,
+          curves: [{ fn: "0.5*(x-3)*(x-5)", color: "primary" }],
+          points: [{ x: -1, y: 10, label: "A(-1, 10)" }],
+          showGrid: true,
+          xLabel: "x",
+          yLabel: "y",
+        },
+        diagramLabel: L(
+          "Parábola que abre hacia arriba con raíces en x = 3 y x = 5; el punto A está en (-1, 10).",
+          "Upward-opening parabola with roots at x = 3 and x = 5; the point A is at (-1, 10).",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Sustituye la $x$ de $A$ en la ecuación de la parábola y compara alturas.",
+            "Substitute $A$'s $x$ into the parabola's equation and compare heights.",
+          ),
+          L(
+            "$y_{\\text{parábola}}(-1) = \\frac{1}{2}(-1-3)(-1-5) = \\frac{1}{2}(-4)(-6) = 12$.",
+            "$y_{\\text{parabola}}(-1) = \\frac{1}{2}(-1-3)(-1-5) = \\frac{1}{2}(-4)(-6) = 12$.",
+          ),
+          L(
+            "La altura de $A$ es $10$. ¿$10$ está por encima o por debajo de $12$ en esa misma $x$?",
+            "$A$'s height is $10$. Is $10$ above or below $12$ at that same $x$?",
+          ),
+        ],
+        answerDisplay: L(
+          "$A$ está **debajo**: la parábola pasa por $(-1, 12)$ y $10 < 12$.",
+          "$A$ lies **below**: the parabola passes through $(-1, 12)$ and $10 < 12$.",
+        ),
+        solution: [
+          step(
+            "given",
+            "El punto $A(-1\\,|\\,10)$ y la parábola $y = \\frac{1}{2}(x-3)(x-5)$ (forma factorizada: raíces $3$ y $5$, abre hacia arriba).",
+            "The point $A(-1\\,|\\,10)$ and the parabola $y = \\frac{1}{2}(x-3)(x-5)$ (factored form: roots $3$ and $5$, opens upward).",
+          ),
+          step(
+            "approach",
+            "La posición relativa se decide **calculando**: evalúa la parábola en la $x$ del punto y compara con su $y$. El gráfico solo confirma.",
+            "The relative position is decided **by computing**: evaluate the parabola at the point's $x$ and compare with its $y$. The graph only confirms.",
+          ),
+          step(
+            "calculation",
+            "$y_p(-1) = \\frac{1}{2}(-4)(-6) = \\frac{1}{2} \\cdot 24 = 12$.<br>El punto de la parábola con $x = -1$ es $(-1\\,|\\,12)$; el punto dado es $(-1\\,|\\,10)$.<br>Como $10 < 12$, $A$ queda por **debajo** de la curva en esa vertical.",
+            "$y_p(-1) = \\frac{1}{2}(-4)(-6) = \\frac{1}{2} \\cdot 24 = 12$.<br>The parabola's point at $x = -1$ is $(-1\\,|\\,12)$; the given point is $(-1\\,|\\,10)$.<br>Since $10 < 12$, $A$ lies **below** the curve on that vertical line.",
+          ),
+          step(
+            "result",
+            "$A$ está debajo de la parábola. (Contexto: el vértice está en $(4\\,|\\,-\\frac{1}{2})$, el mínimo — por eso la curva sube rápido hacia ambos lados.)",
+            "$A$ is below the parabola. (Context: the vertex is at $(4\\,|\\,-\\frac{1}{2})$, the minimum — that is why the curve climbs fast on both sides.)",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* FOS/BOS 2011, 2 — raíces con redondeo y vértice. */
+  template(
+    {
+      id: "quad-roots-03",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "roots",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["quadratic-formula", "rounding", "vertex", "exam"],
+      prerequisites: ["quadratic-formula", "vertex"],
+      source: {
+        sourceId: "fos-bos-2011",
+        license: "OPEN_LICENSE",
+        exerciseNumber: "2",
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(
+            "Raíces $\\approx -2.42$ y $-1.58$; $S(-2\\,|\\,2.5)$",
+            "Roots $\\approx -2.42$ and $-1.58$; $S(-2\\,|\\,2.5)$",
+          ),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L(
+            "Raíces $\\approx -2.42$ y $-1.58$; $S(-2\\,|\\,-2.5)$",
+            "Roots $\\approx -2.42$ and $-1.58$; $S(-2\\,|\\,-2.5)$",
+          ),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L(
+            "Raíces $\\approx 2.42$ y $1.58$; $S(2\\,|\\,2.5)$",
+            "Roots $\\approx 2.42$ and $1.58$; $S(2\\,|\\,2.5)$",
+          ),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L(
+            "Raíces $\\approx -2.58$ y $-1.42$; $S(-2\\,|\\,2.5)$",
+            "Roots $\\approx -2.58$ and $-1.42$; $S(-2\\,|\\,2.5)$",
+          ),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L("Raíces con redondeo y vértice (examen real 2011)", "Roots with rounding and vertex (real 2011 exam)"),
+        statement: L(
+          "La parábola $P$ tiene ecuación $p(x) = -14x^2 - 56x - 53.5$ con $x \\in \\mathbb{R}$. Halla sus raíces y las coordenadas del vértice. (Si hace falta, redondea a **dos** decimales.)",
+          "The parabola $P$ has equation $p(x) = -14x^2 - 56x - 53.5$ with $x \\in \\mathbb{R}$. Find its roots and the vertex coordinates. (If needed, round to **two** decimals.)",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Los coeficientes son grandes pero la parábola es normal: simplifica dividiendo toda la ecuación entre $-2$.",
+            "The coefficients are large but the parabola is ordinary: simplify by dividing the whole equation by $-2$.",
+          ),
+          L(
+            "Tras dividir entre $-2$: $7x^2 + 28x + 26.75 = 0$. El discriminante queda pequeño y positivo.",
+            "After dividing by $-2$: $7x^2 + 28x + 26.75 = 0$. The discriminant comes out small and positive.",
+          ),
+          L(
+            "$\\Delta = 28^2 - 4 \\cdot 7 \\cdot 26.75 = 35$, así que $x_{1,2} = \\frac{-28 \\pm \\sqrt{35}}{14}$. Para el vértice: $x_S = -\\frac{28}{2 \\cdot 7}$.",
+            "$\\Delta = 28^2 - 4 \\cdot 7 \\cdot 26.75 = 35$, so $x_{1,2} = \\frac{-28 \\pm \\sqrt{35}}{14}$. For the vertex: $x_S = -\\frac{28}{2 \\cdot 7}$.",
+          ),
+        ],
+        answerDisplay: L(
+          "Raíces $\\approx -2.42$ y $-1.58$; vértice $S(-2\\,|\\,2.5)$",
+          "Roots $\\approx -2.42$ and $-1.58$; vertex $S(-2\\,|\\,2.5)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$p(x) = -14x^2 - 56x - 53.5$; abre hacia abajo. Con el objetivo de raíces y vértice, y redondeo a dos decimales.",
+            "$p(x) = -14x^2 - 56x - 53.5$; opens downward. Goal: roots and vertex, rounding to two decimals.",
+          ),
+          step(
+            "approach",
+            "Reducir el tamaño de los números dividiendo entre $-2$, aplicar la fórmula cuadrática y la fórmula del vértice. El redondeo es la parte final, no un sustituto del cálculo.",
+            "Shrink the numbers by dividing by $-2$, apply the quadratic formula and the vertex formula. Rounding is the final step, not a substitute for computing.",
+          ),
+          step(
+            "calculation",
+            "Entre $-2$: $7x^2 + 28x + 26.75 = 0$ con $\\Delta = 28^2 - 4 \\cdot 7 \\cdot 26.75 = 784 - 749 = 35$.<br>$x_{1,2} = \\dfrac{-28 \\pm \\sqrt{35}}{14} = \\dfrac{-28 \\pm 5.916}{14}$ → $x_1 \\approx -1.58$, $x_2 \\approx -2.42$.<br>Vértice: $x_S = -\\dfrac{28}{2 \\cdot 7} = -2$; $p(-2) = -14 \\cdot 4 + 112 - 53.5 = 2.5$ → $S(-2\\,|\\,2.5)$.<br>Congruencia: vértice por encima del eje ($2.5 > 0$) con parábola hacia abajo ⟹ dos raíces reales a ambos lados de $x = -2$ ✓",
+            "By $-2$: $7x^2 + 28x + 26.75 = 0$ with $\\Delta = 28^2 - 4 \\cdot 7 \\cdot 26.75 = 784 - 749 = 35$.<br>$x_{1,2} = \\dfrac{-28 \\pm \\sqrt{35}}{14} = \\dfrac{-28 \\pm 5.916}{14}$ → $x_1 \\approx -1.58$, $x_2 \\approx -2.42$.<br>Vertex: $x_S = -\\dfrac{28}{2 \\cdot 7} = -2$; $p(-2) = -14 \\cdot 4 + 112 - 53.5 = 2.5$ → $S(-2\\,|\\,2.5)$.<br>Consistency: vertex above the axis ($2.5 > 0$) with a downward parabola ⟹ two real roots on both sides of $x = -2$ ✓",
+          ),
+          step(
+            "result",
+            "Raíces $x_1 \\approx -1.58$ y $x_2 \\approx -2.42$ (redondeadas), vértice $S(-2\\,|\\,2.5)$ — coincide con el Lösungsvorschlag oficial del 2011.",
+            "Roots $x_1 \\approx -1.58$ and $x_2 \\approx -2.42$ (rounded), vertex $S(-2\\,|\\,2.5)$ — matches the official 2011 Lösungsvorschlag.",
+          ),
+        ],
+      };
+    },
+  ),
 ];

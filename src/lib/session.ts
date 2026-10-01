@@ -36,6 +36,9 @@ function filterTemplates(config: SessionConfig, templates: ProblemTemplate[]): P
   } else if (config.difficulty !== "any") {
     pool = pool.filter((t) => t.difficulty === config.difficulty);
   }
+  if (config.curatedOnly) {
+    pool = pool.filter((t) => Boolean(t.source));
+  }
   return pool;
 }
 
@@ -112,6 +115,8 @@ export function buildDeck(
       estimatedTimeSec: pick.estimatedTimeSec,
       tags: pick.tags,
       prerequisites: pick.prerequisites,
+      source: pick.source,
+      reasoning: pick.reasoning,
     });
   }
   return { problems, difficultyRelaxed: relaxed };
@@ -140,6 +145,8 @@ export function instantiateProblem(
     estimatedTimeSec: template.estimatedTimeSec,
     tags: template.tags,
     prerequisites: template.prerequisites,
+    source: template.source,
+    reasoning: template.reasoning,
   };
 }
 

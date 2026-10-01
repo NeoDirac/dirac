@@ -792,4 +792,310 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+
+
+  /* ---------------------------------------------------------------- */
+  /* Curated Phase 2 — FOS/BOS 2010 §4.0 y FOS/BOS 2011 §4            */
+  /* (geometría: sección de semiesfera, estrella de arcos, trébol).   */
+  /* Transcribed as printed; verified independently (incl. Monte      */
+  /* Carlo para la región estrella). Fixed problems.                   */
+  /* ---------------------------------------------------------------- */
+
+  /* FOS/BOS 2010, 4.1 — sección plana de una semiesfera. */
+  template(
+    {
+      id: "pcm-geom-02",
+      subject: "math",
+      topicId: "precalculus-mixed",
+      subtopicId: "exam-style",
+      difficulty: "medium",
+      questionType: "numeric-unit",
+      estimatedTimeSec: 180,
+      tags: ["geometry", "pythagoras", "sphere", "cross-section", "exam"],
+      prerequisites: [],
+      source: {
+        sourceId: "fos-bos-2010-ht",
+        license: "OPEN_LICENSE",
+        exerciseNumber: "4.1",
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      return {
+        skill: L("Sección plana de una semiesfera (examen real)", "Plane cross-section of a hemisphere (real exam)"),
+        statement: L(
+          "De una semiesfera de radio $R = 5$ cm se corta la parte superior con un plano paralelo a la base, a una altura de $3$ cm sobre la base. ¿Qué radio $r$ tiene el círculo de corte? (El centro de la esfera está en el centro de la base.)",
+          "From a hemisphere of radius $R = 5$ cm the top is cut off with a plane parallel to the base, at a height of $3$ cm above the base. What radius $r$ does the cut circle have? (The sphere's centre lies at the centre of the base.)",
+        ),
+        answer: {
+          kind: "numeric-unit",
+          value: 4,
+          units: ["cm"],
+        },
+        hints: [
+          L(
+            "Piensa en el corte **lateral** (de perfil): radio del corte, altura y radio de la esfera forman un triángulo rectángulo.",
+            "Think of the **side** view (in profile): the cut radius, the height and the sphere's radius form a right triangle.",
+          ),
+          L(
+            "La hipotenusa es el radio de la esfera $R = 5$: va del centro a cualquier punto del círculo de corte.",
+            "The hypotenuse is the sphere's radius $R = 5$: it goes from the centre to any point of the cut circle.",
+          ),
+          L(
+            "El cateto vertical mide $3$ (la altura del corte sobre el centro). Aplica Pitágoras: $r^2 = R^2 - 3^2$.",
+            "The vertical leg is $3$ (the cut's height above the centre). Apply Pythagoras: $r^2 = R^2 - 3^2$.",
+          ),
+        ],
+        answerDisplay: L("$r = 4$ cm", "$r = 4$ cm"),
+        solution: [
+          step(
+            "given",
+            "Semiesfera de radio $R = 5$ cm (centro de la esfera en el plano de la base); corte horizontal a altura $3$ cm sobre la base.",
+            "Hemisphere of radius $R = 5$ cm (sphere's centre in the base plane); horizontal cut at $3$ cm above the base.",
+          ),
+          step(
+            "approach",
+            "Toda sección plana de una esfera es un círculo. En el triángulo rectángulo del perfil, la hipotenusa es $R$, el cateto vertical es la altura de corte $h$ y el otro cateto es el radio buscado $r$.",
+            "Every plane section of a sphere is a circle. In the profile right triangle, the hypotenuse is $R$, the vertical leg is the cut height $h$ and the other leg is the sought radius $r$.",
+          ),
+          step(
+            "calculation",
+            "Triángulo: $r^2 + h^2 = R^2$.<br>$r^2 = 5^2 - 3^2 = 25 - 9 = 16 \\Rightarrow r = 4$ cm (el radio es positivo).<br>El triángulo es el clásico $3$-$4$-$5$.",
+            "Triangle: $r^2 + h^2 = R^2$.<br>$r^2 = 5^2 - 3^2 = 25 - 9 = 16 \\Rightarrow r = 4$ cm (the radius is positive).<br>The triangle is the classic $3$-$4$-$5$.",
+          ),
+          step(
+            "result",
+            "El círculo de corte tiene radio $r = 4$ cm — Pitágoras sobre la sección de perfil de la esfera.",
+            "The cut circle has radius $r = 4$ cm — Pythagoras on the sphere's profile section.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* FOS/BOS 2010, 4.2 — estrella central de cuatro arcos. */
+  template(
+    {
+      id: "pcm-geom-03",
+      subject: "math",
+      topicId: "precalculus-mixed",
+      subtopicId: "exam-style",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 300,
+      tags: ["geometry", "area", "decomposition", "exam"],
+      prerequisites: [],
+      source: {
+        sourceId: "fos-bos-2010-ht",
+        license: "OPEN_LICENSE",
+        exerciseNumber: "4.2",
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      return {
+        skill: L("Área de la estrella de cuatro arcos (examen real)", "Area of the four-arc star (real exam)"),
+        statement: L(
+          "En un cuadrado de lado $4$ cm se dibujan cuatro cuartos de círculo iguales de radio $r = 2$ cm, cada uno centrado en una esquina. Los arcos se tocan en los puntos medios de los lados y delimitan la región gris central (un 'rombo curvo'). Calcula el área de la región gris en cm². (Usa $\\pi \\approx 3.1416$; redondea a dos decimales.)",
+          "In a square of side $4$ cm, four equal quarter circles of radius $r = 2$ cm are drawn, each centred at a corner. The arcs touch at the side midpoints and enclose the central gray region (a 'curvy diamond'). Compute the area of the gray region in cm². (Use $\\pi \\approx 3.1416$; round to two decimals.)",
+        ),
+        answer: {
+          kind: "numeric",
+          value: 3.43,
+          tolerance: { mode: "absolute", value: 0.03 },
+        },
+        hints: [
+          L(
+            "Piensa al revés: en lugar de sumar la estrella, resta lo que **no** es estrella.",
+            "Think in reverse: instead of adding up the star, subtract what is **not** star.",
+          ),
+          L(
+            "Los cuatro cuartos de círculo (dos círculos completos en total) cubren el cuadrado salvo la región gris. ¿Se solapan entre ellos? Fíjate en la distancia entre centros vecinos.",
+            "The four quarter circles (two full circles in total) cover the square except the gray region. Do they overlap each other? Look at the distance between neighbouring centres.",
+          ),
+          L(
+            "Centros vecinos distan $4$ cm y las dos radios suman $2 + 2 = 4$: los círculos son **tangentes** (se tocan en un punto, sin solaparse). Área gris $= (2r)^2 - \\pi r^2$.",
+            "Neighbouring centres are $4$ cm apart and the two radii add to $2 + 2 = 4$: the circles are **tangent** (touching at one point, no overlap). Gray area $= (2r)^2 - \\pi r^2$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$A_{gris} = 16 - 4\\pi \\approx 3.43$ cm²",
+          "$A_{gray} = 16 - 4\\pi \\approx 3.43$ cm²",
+        ),
+        solution: [
+          step(
+            "given",
+            "Cuadrado de lado $2r = 4$ cm; cuatro cuartos de círculo de radio $r = 2$ centrados en las esquinas; región gris = 'rombo curvo' central.",
+            "Square of side $2r = 4$ cm; four quarter circles of radius $r = 2$ centred at the corners; gray region = central 'curvy diamond'.",
+          ),
+          step(
+            "approach",
+            "Descomposición por complemento: gris = cuadrado − unión de los cuatro cuartos de círculo. La clave es decidir si los cuartos se solapan (habría que sumar y restar solapes).",
+            "Decomposition by complement: gray = square − union of the four quarter circles. The key is deciding whether the quarters overlap (overlaps would need adding and subtracting).",
+          ),
+          step(
+            "calculation",
+            "Dos centros vecinos (esquinas de un mismo lado) distan $4$ cm; los radios suman $2 + 2 = 4$ cm → los círculos son tangentes exactamente en el punto medio de cada lado: **cero solape**.<br>Unión de los 4 cuartos $= 4 \\cdot \\frac{\\pi r^2}{4} = \\pi r^2 = 4\\pi \\approx 12.566$ cm².<br>Cuadrado $= 4^2 = 16$ cm².<br>Gris $= 16 - 4\\pi \\approx 16 - 12.566 = 3.434 \\approx 3.43$ cm².",
+            "Two neighbouring centres (corners of the same side) are $4$ cm apart; the radii add to $2 + 2 = 4$ cm → the circles are tangent exactly at each side's midpoint: **zero overlap**.<br>Union of the 4 quarters $= 4 \\cdot \\frac{\\pi r^2}{4} = \\pi r^2 = 4\\pi \\approx 12.566$ cm².<br>Square $= 4^2 = 16$ cm².<br>Gray $= 16 - 4\\pi \\approx 16 - 12.566 = 3.434 \\approx 3.43$ cm².",
+          ),
+          step(
+            "result",
+            "$A_{gris} = r^2(4 - \\pi) = 4(4 - \\pi) \\approx 3.43$ cm². La tangencia es lo que hace el problema limpio: sin ella habría intersecciones de lente que sumar.",
+            "$A_{gray} = r^2(4 - \\pi) = 4(4 - \\pi) \\approx 3.43$ cm². The tangency is what keeps the problem clean: without it there would be lens intersections to add.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* FOS/BOS 2011, 4.1 — área del trébol (cuadrado + semicírculos). */
+  template(
+    {
+      id: "pcm-geom-04",
+      subject: "math",
+      topicId: "precalculus-mixed",
+      subtopicId: "exam-style",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 240,
+      tags: ["geometry", "area", "semicircles", "exam"],
+      prerequisites: [],
+      source: {
+        sourceId: "fos-bos-2011",
+        license: "OPEN_LICENSE",
+        exerciseNumber: "4.1",
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      return {
+        skill: L("Área del trébol: cuadrado + semicírculos (examen real 2011)", "Cloverleaf area: square + semicircles (real 2011 exam)"),
+        statement: L(
+          "Se estampa un «trébol» sobre una placa: un cuadrado de lado $3$ cm con cuatro **semicírculos** pegados a sus lados (cada lado del cuadrado es el **diámetro** de su semicírculo). Calcula el área del trébol en cm². (Usa $\\pi \\approx 3.1416$; redondea a dos decimales.)",
+          "A «cloverleaf» is stamped on a plate: a square of side $3$ cm with four **semicircles** attached to its sides (each side of the square is the **diameter** of its semicircle). Compute the cloverleaf's area in cm². (Use $\\pi \\approx 3.1416$; round to two decimals.)",
+        ),
+        answer: {
+          kind: "numeric",
+          value: 23.14,
+          tolerance: { mode: "absolute", value: 0.03 },
+        },
+        hints: [
+          L(
+            "Descompón: el trébol es un cuadrado más cuatro piezas curvas.",
+            "Decompose: the cloverleaf is a square plus four curved pieces.",
+          ),
+          L(
+            "Cada lado ($3$ cm) es el **diámetro** de su semicírculo, así que el radio mide $1.5$ cm.",
+            "Each side ($3$ cm) is the **diameter** of its semicircle, so the radius is $1.5$ cm.",
+          ),
+          L(
+            "Cuatro semicírculos de radio $1.5$ equivalen a **dos círculos completos**: $2\\pi(1.5)^2 = 4.5\\pi$.",
+            "Four semicircles of radius $1.5$ equal **two full circles**: $2\\pi(1.5)^2 = 4.5\\pi$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$A = 9 + 4.5\\pi \\approx 23.14$ cm²",
+          "$A = 9 + 4.5\\pi \\approx 23.14$ cm²",
+        ),
+        solution: [
+          step(
+            "given",
+            "Trébol = cuadrado de lado $3$ cm + cuatro semicírculos cuyo diámetro es cada lado → radio $1.5$ cm.",
+            "Cloverleaf = square of side $3$ cm + four semicircles whose diameter is each side → radius $1.5$ cm.",
+          ),
+          step(
+            "approach",
+            "Sumar piezas sin que se solapen: el cuadrado y los cuatro semicírculos solo se tocan por los lados.",
+            "Add non-overlapping pieces: the square and the four semicircles only touch along the sides.",
+          ),
+          step(
+            "calculation",
+            "Cuadrado: $3^2 = 9$ cm².<br>Semicírculos: $4 \\cdot \\frac{\\pi (1.5)^2}{2} = 4 \\cdot \\frac{2.25\\pi}{2} = 4.5\\pi \\approx 14.137$ cm².<br>Total: $9 + 4.5\\pi \\approx 9 + 14.137 = 23.137 \\approx 23.14$ cm².",
+            "Square: $3^2 = 9$ cm².<br>Semicircles: $4 \\cdot \\frac{\\pi (1.5)^2}{2} = 4 \\cdot \\frac{2.25\\pi}{2} = 4.5\\pi \\approx 14.137$ cm².<br>Total: $9 + 4.5\\pi \\approx 9 + 14.137 = 23.137 \\approx 23.14$ cm².",
+          ),
+          step(
+            "result",
+            "$A_{trébol} = 9 + 4.5\\pi \\approx 23.14$ cm² — coincide con el Lösungsvorschlag oficial ($A_{Quadrat} = 9$, $A_{Kreiszone} = 2 \\cdot 1.5^2 \\pi \\approx 14.14$).",
+            "$A_{cloverleaf} = 9 + 4.5\\pi \\approx 23.14$ cm² — matches the official Lösungsvorschlag ($A_{Quadrat} = 9$, $A_{Kreiszone} = 2 \\cdot 1.5^2 \\pi \\approx 14.14$).",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* FOS/BOS 2011, 4.2 — porcentaje de desperdicio. */
+  template(
+    {
+      id: "pcm-geom-05",
+      subject: "math",
+      topicId: "precalculus-mixed",
+      subtopicId: "exam-style",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 180,
+      tags: ["geometry", "percent", "waste", "exam"],
+      prerequisites: [],
+      source: {
+        sourceId: "fos-bos-2011",
+        license: "OPEN_LICENSE",
+        exerciseNumber: "4.2",
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      return {
+        skill: L("Porcentaje de desperdicio (examen real 2011)", "Waste percentage (real 2011 exam)"),
+        statement: L(
+          "El trébol del problema anterior (cuadrado de lado $3$ cm + cuatro semicírculos de radio $1.5$ cm) se corta de una placa cuadrada de $6 \\times 6$ cm (el trébol toca justo los cuatro bordes). ¿Qué **porcentaje** de la placa se desperdicia? (Redondea a un decimal.)",
+          "The previous cloverleaf (square of side $3$ cm + four semicircles of radius $1.5$ cm) is cut from a $6 \\times 6$ cm plate (the cloverleaf just touches all four edges). What **percentage** of the plate is wasted? (Round to one decimal.)",
+        ),
+        answer: {
+          kind: "numeric",
+          value: 35.7,
+          tolerance: { mode: "absolute", value: 0.2 },
+          unitSuffix: "%",
+        },
+        hints: [
+          L(
+            "Necesitas dos áreas: la del trébol (del problema anterior: $9 + 4.5\\pi$) y la de la placa.",
+            "You need two areas: the cloverleaf's (from the previous problem: $9 + 4.5\\pi$) and the plate's.",
+          ),
+          L(
+            "La placa mide $6 \\times 6$ porque el trébol ocupa $3 + 1.5 + 1.5$ en cada dirección (cuadrado + dos radios).",
+            "The plate is $6 \\times 6$ because the cloverleaf spans $3 + 1.5 + 1.5$ in each direction (square + two radii).",
+          ),
+          L(
+            "Desperdicio $= \\dfrac{A_{placa} - A_{trébol}}{A_{placa}} \\cdot 100$.",
+            "Waste $= \\dfrac{A_{plate} - A_{cloverleaf}}{A_{plate}} \\cdot 100$.",
+          ),
+        ],
+        answerDisplay: L(
+          "Desperdicio $= \\dfrac{36 - 23.14}{36} \\approx 35.7\\%$",
+          "Waste $= \\dfrac{36 - 23.14}{36} \\approx 35.7\\%$",
+        ),
+        solution: [
+          step(
+            "given",
+            "Trébol con área $9 + 4.5\\pi \\approx 23.14$ cm²; placa cuadrada de $6 \\times 6 = 36$ cm².",
+            "Cloverleaf with area $9 + 4.5\\pi \\approx 23.14$ cm²; square plate $6 \\times 6 = 36$ cm².",
+          ),
+          step(
+            "approach",
+            "Modelar la placa: el trébol mide $3 + 1.5 + 1.5 = 6$ de lado total (cuadrado + dos semicírculos que sobresalen), así que la placa mínima es exactamente $36$ cm². El porcentaje se refiere a la placa.",
+            "Model the plate: the cloverleaf spans $3 + 1.5 + 1.5 = 6$ total per direction (square + two protruding semicircles), so the minimal plate is exactly $36$ cm². The percentage refers to the plate.",
+          ),
+          step(
+            "calculation",
+            "Desperdicio absoluto: $36 - (9 + 4.5\\pi) \\approx 36 - 23.137 = 12.863$ cm².<br>Porcentaje: $\\dfrac{12.863}{36} \\cdot 100 \\approx 35.73\\% \\approx 35.7\\%$.",
+            "Absolute waste: $36 - (9 + 4.5\\pi) \\approx 36 - 23.137 = 12.863$ cm².<br>Percentage: $\\dfrac{12.863}{36} \\cdot 100 \\approx 35.73\\% \\approx 35.7\\%$.",
+          ),
+          step(
+            "result",
+            "Se desperdicia $\\approx 35.7\\%$ de la placa — coincide con el Lösungsvorschlag oficial del 2011.",
+            "About $35.7\\%$ of the plate is wasted — matches the official 2011 Lösungsvorschlag.",
+          ),
+        ],
+      };
+    },
+  ),
 ];

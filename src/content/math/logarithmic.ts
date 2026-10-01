@@ -663,4 +663,215 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+
+
+  /* ---------------------------------------------------------------- */
+  /* Curated Phase 2 — Übungsaufgaben Studienkolleg Bayern, §8        */
+  /* (logaritmos). Transcribed as printed; verified independently     */
+  /* before integration. Fixed problems — rng only shuffles MC.       */
+  /* ---------------------------------------------------------------- */
+
+  /* §8.2.1 d) — evaluación por definición con base fraccionaria. */
+  template(
+    {
+      id: "log-eval-02",
+      subject: "math",
+      topicId: "logarithmic",
+      subtopicId: "evaluating",
+      difficulty: "easy",
+      questionType: "numeric",
+      estimatedTimeSec: 90,
+      tags: ["logarithms", "definition", "negative-exponent"],
+      prerequisites: ["conversion"],
+      source: {
+        sourceId: "stk-bayern-ubung",
+        license: "OPEN_LICENSE",
+        exerciseNumber: "8.2.1 d)",
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      return {
+        skill: L("Evaluar un logaritmo con base fraccionaria", "Evaluating a log with a fractional base"),
+        statement: L(
+          "Calcula: $$\\log_{1/3} 81$$",
+          "Evaluate: $$\\log_{1/3} 81$$",
+        ),
+        answer: { kind: "numeric", value: -4 },
+        hints: [
+          L(
+            "Desenvuelve la definición: $\\log_b a$ responde a la pregunta «$b$ elevado a **¿qué?** da $a$».",
+            "Unpack the definition: $\\log_b a$ answers the question «$b$ raised to **what?** gives $a$».",
+          ),
+          L(
+            "Escribe $\\left(\\frac{1}{3}\\right)^x = 81$ y convierte la base: $\\frac{1}{3} = 3^{-1}$.",
+            "Write $\\left(\\frac{1}{3}\\right)^x = 81$ and convert the base: $\\frac{1}{3} = 3^{-1}$.",
+          ),
+          L(
+            "Con base $3$: $3^{-x} = 81 = 3^4$, así que $-x = 4$.",
+            "With base $3$: $3^{-x} = 81 = 3^4$, so $-x = 4$.",
+          ),
+        ],
+        answerDisplay: L("$\\log_{1/3} 81 = -4$", "$\\log_{1/3} 81 = -4$"),
+        solution: [
+          step(
+            "given",
+            "La base es la fracción $\\frac{1}{3}$ y el argumento es $81 = 3^4$.",
+            "The base is the fraction $\\frac{1}{3}$ and the argument is $81 = 3^4$.",
+          ),
+          step(
+            "approach",
+            "Definición de logaritmo: $\\log_b a = x \\iff b^x = a$. Convierte la base a una potencia de $3$ para comparar exponentes.",
+            "Logarithm definition: $\\log_b a = x \\iff b^x = a$. Convert the base to a power of $3$ to compare exponents.",
+          ),
+          step(
+            "calculation",
+            "$\\log_{1/3} 81 = x \\iff \\left(\\frac{1}{3}\\right)^x = 81 \\iff \\left(3^{-1}\\right)^x = 3^4 \\iff 3^{-x} = 3^4$.<br>Igualando exponentes: $-x = 4 \\Rightarrow x = -4$.<br>Verificación: $\\left(\\frac{1}{3}\\right)^{-4} = 3^4 = 81$ ✓",
+            "$\\log_{1/3} 81 = x \\iff \\left(\\frac{1}{3}\\right)^x = 81 \\iff \\left(3^{-1}\\right)^x = 3^4 \\iff 3^{-x} = 3^4$.<br>Equating exponents: $-x = 4 \\Rightarrow x = -4$.<br>Check: $\\left(\\frac{1}{3}\\right)^{-4} = 3^4 = 81$ ✓",
+          ),
+          step(
+            "result",
+            "$\\log_{1/3} 81 = -4$: una base menor que $1$ con argumento mayor que $1$ siempre da un logaritmo **negativo**.",
+            "$\\log_{1/3} 81 = -4$: a base below $1$ with an argument above $1$ always gives a **negative** logarithm.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* §8.2.5 c) — ecuación logarítmica con raíz espuria. */
+  template(
+    {
+      id: "log-eq-03",
+      subject: "math",
+      topicId: "logarithmic",
+      subtopicId: "equations",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 240,
+      tags: ["logarithms", "equations", "domain", "spurious-root"],
+      prerequisites: ["properties"],
+      source: {
+        sourceId: "stk-bayern-ubung",
+        license: "OPEN_LICENSE",
+        exerciseNumber: "8.2.5 c)",
+      },
+      reasoning: "spurious",
+    },
+    (rng) => {
+      return {
+        skill: L("Ecuación logarítmica con raíz espuria", "Logarithmic equation with a spurious root"),
+        statement: L(
+          "Resuelve sobre $\\mathbb{R}$ (¡cuida el dominio!): $$\\log_2 (x + 2) + \\log_2 x - \\log_2 3 = 0$$",
+          "Solve over $\\mathbb{R}$ (mind the domain!): $$\\log_2 (x + 2) + \\log_2 x - \\log_2 3 = 0$$",
+        ),
+        answer: { kind: "numeric", value: 1 },
+        hints: [
+          L(
+            "Antes de tocar nada, escribe el dominio: se necesita $x > 0$ y $x + 2 > 0$.",
+            "Before anything else, write the domain: you need $x > 0$ and $x + 2 > 0$.",
+          ),
+          L(
+            "Reúne los tres logaritmos en uno solo con las propiedades (suma = producto, resta = cociente).",
+            "Combine the three logarithms into one using the properties (sum = product, difference = quotient).",
+          ),
+          L(
+            "Queda $\\log_2 \\frac{x(x+2)}{3} = 0$: un logaritmo vale $0$ exactamente cuando su argumento vale $1$. Resuelve $x(x+2) = 3$ y **filtra** con el dominio.",
+            "You get $\\log_2 \\frac{x(x+2)}{3} = 0$: a logarithm equals $0$ exactly when its argument equals $1$. Solve $x(x+2) = 3$ and **filter** with the domain.",
+          ),
+        ],
+        answerDisplay: L("$L = \\{1\\}$ (la raíz $-3$ se descarta)", "$L = \\{1\\}$ (the root $-3$ is discarded)"),
+        solution: [
+          step(
+            "given",
+            "La ecuación $\\log_2(x+2) + \\log_2 x - \\log_2 3 = 0$; dominio: $x > 0$ y $x + 2 > 0$, es decir $x > 0$.",
+            "The equation $\\log_2(x+2) + \\log_2 x - \\log_2 3 = 0$; domain: $x > 0$ and $x + 2 > 0$, i.e. $x > 0$.",
+          ),
+          step(
+            "approach",
+            "Combinar en un único logaritmo, aplicar $\\log_b u = 0 \\iff u = 1$ y resolver la ecuación cuadrática resultante. Toda candidata debe pasar el filtro del dominio.",
+            "Combine into a single logarithm, apply $\\log_b u = 0 \\iff u = 1$ and solve the resulting quadratic. Every candidate must pass the domain filter.",
+          ),
+          step(
+            "calculation",
+            "$\\log_2 \\frac{x(x+2)}{3} = 0 \\iff \\frac{x(x+2)}{3} = 1 \\iff x^2 + 2x - 3 = 0$.<br>Factorizando: $(x + 3)(x - 1) = 0 \\Rightarrow x = -3$ o $x = 1$.<br>Filtro del dominio ($x > 0$): $x = -3$ **se descarta**. $x = 1$ vale.<br>Verificación con $x = 1$: $\\log_2 3 + \\log_2 1 - \\log_2 3 = 0$ ✓",
+            "$\\log_2 \\frac{x(x+2)}{3} = 0 \\iff \\frac{x(x+2)}{3} = 1 \\iff x^2 + 2x - 3 = 0$.<br>Factoring: $(x + 3)(x - 1) = 0 \\Rightarrow x = -3$ or $x = 1$.<br>Domain filter ($x > 0$): $x = -3$ **is discarded**. $x = 1$ works.<br>Check with $x = 1$: $\\log_2 3 + \\log_2 1 - \\log_2 3 = 0$ ✓",
+          ),
+          step(
+            "result",
+            "$L = \\{1\\}$. La raíz $-3$ es espuria: nació del álgebra, pero $\\log_2(-3)$ no existe — por eso el dominio se escribe **antes** de resolver.",
+            "$L = \\{1\\}$. The root $-3$ is spurious: it was born from the algebra, but $\\log_2(-3)$ does not exist — that is why the domain is written **before** solving.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* §8.2.5 d) — logaritmos de igual base: igualar argumentos. */
+  template(
+    {
+      id: "log-eq-04",
+      subject: "math",
+      topicId: "logarithmic",
+      subtopicId: "equations",
+      difficulty: "easy",
+      questionType: "numeric",
+      estimatedTimeSec: 150,
+      tags: ["logarithms", "equations", "domain"],
+      prerequisites: ["properties"],
+      source: {
+        sourceId: "stk-bayern-ubung",
+        license: "OPEN_LICENSE",
+        exerciseNumber: "8.2.5 d)",
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      return {
+        skill: L("Logaritmos de igual base a ambos lados", "Same-base logarithms on both sides"),
+        statement: L(
+          "Resuelve sobre $\\mathbb{R}$: $$\\log (3x - 5) = \\lg (2x + 6)$$ (ambos logaritmos están en base 10; $\\lg$ y $\\log$ significan lo mismo aquí).",
+          "Solve over $\\mathbb{R}$: $$\\log (3x - 5) = \\lg (2x + 6)$$ (both logarithms are base 10; $\\lg$ and $\\log$ mean the same here).",
+        ),
+        answer: { kind: "numeric", value: 11 },
+        hints: [
+          L(
+            "Misma base a ambos lados: el logaritmo es **inyectivo**, así que dos logaritmos iguales tienen argumentos iguales.",
+            "Same base on both sides: the logarithm is **injective**, so two equal logarithms have equal arguments.",
+          ),
+          L(
+            "$3x - 5 = 2x + 6$: queda una ecuación lineal.",
+            "$3x - 5 = 2x + 6$: a linear equation remains.",
+          ),
+          L(
+            "Comprueba al final que ambos argumentos siguen siendo positivos con tu solución.",
+            "Check at the end that both arguments remain positive with your solution.",
+          ),
+        ],
+        answerDisplay: L("$L = \\{11\\}$", "$L = \\{11\\}$"),
+        solution: [
+          step(
+            "given",
+            "$\\log(3x - 5) = \\lg(2x + 6)$, ambos en base 10. Dominio: $3x - 5 > 0$ y $2x + 6 > 0$, es decir $x > \\frac{5}{3}$.",
+            "$\\log(3x - 5) = \\lg(2x + 6)$, both base 10. Domain: $3x - 5 > 0$ and $2x + 6 > 0$, i.e. $x > \\frac{5}{3}$.",
+          ),
+          step(
+            "approach",
+            "Con la misma base, iguala directamente los argumentos (inyectividad del logaritmo) y resuelve la ecuación lineal.",
+            "With the same base, equate the arguments directly (injectivity of the logarithm) and solve the linear equation.",
+          ),
+          step(
+            "calculation",
+            "$3x - 5 = 2x + 6 \\Rightarrow x = 11$.<br>Filtro del dominio: $x = 11 > \\frac{5}{3}$ ✓.<br>Verificación: $\\log(3 \\cdot 11 - 5) = \\log 28$ y $\\lg(2 \\cdot 11 + 6) = \\lg 28$ ✓ — el mismo argumento, luego el mismo logaritmo.",
+            "$3x - 5 = 2x + 6 \\Rightarrow x = 11$.<br>Domain filter: $x = 11 > \\frac{5}{3}$ ✓.<br>Check: $\\log(3 \\cdot 11 - 5) = \\log 28$ and $\\lg(2 \\cdot 11 + 6) = \\lg 28$ ✓ — the same argument, hence the same logarithm.",
+          ),
+          step(
+            "result",
+            "$L = \\{11\\}$.",
+            "$L = \\{11\\}$.",
+          ),
+        ],
+      };
+    },
+  ),
 ];

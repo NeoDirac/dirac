@@ -848,4 +848,219 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+
+
+  /* ---------------------------------------------------------------- */
+  /* Curated Phase 2 — FOS/BOS 2010 HT §3.0 (recta y parábola).       */
+  /* Transcribed as printed; verified independently. Fixed problems.  */
+  /* ---------------------------------------------------------------- */
+
+  /* 3.1 — recta que corta a la parábola en dos abscisas dadas. */
+  template(
+    {
+      id: "pfn-comp-02",
+      subject: "math",
+      topicId: "poly-functions",
+      subtopicId: "comparisons",
+      difficulty: "hard",
+      questionType: "expression",
+      estimatedTimeSec: 300,
+      tags: ["line", "parabola", "intersection", "exam"],
+      prerequisites: ["graphs"],
+      source: {
+        sourceId: "fos-bos-2010-ht",
+        license: "OPEN_LICENSE",
+        exerciseNumber: "3.1",
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      return {
+        skill: L("Recta que corta a una parábola en abscisas dadas (examen real)", "Line cutting a parabola at given abscissas (real exam)"),
+        statement: L(
+          "La parábola $p$ tiene ecuación $y = (x + 2)^2 + 2$. Una recta $g$ corta a $p$ exactamente en $x = -3$ y en $x = 0$. Halla la ecuación de $g$ (escribe solo el lado derecho, por ejemplo 2x + 3).",
+          "The parabola $p$ has equation $y = (x + 2)^2 + 2$. A line $g$ cuts $p$ exactly at $x = -3$ and at $x = 0$. Find the equation of $g$ (write only the right-hand side, e.g. 2x + 3).",
+        ),
+        diagram: {
+          kind: "function-graph",
+          xMin: -5,
+          xMax: 2,
+          yMin: 0,
+          yMax: 12,
+          curves: [
+            { fn: "(x+2)^2+2", color: "primary" },
+            { fn: "x+6", color: "secondary", dashed: true },
+          ],
+          points: [
+            { x: -3, y: 3, label: "(-3, 3)" },
+            { x: 0, y: 6, label: "(0, 6)" },
+          ],
+          showGrid: true,
+          xLabel: "x",
+          yLabel: "y",
+        },
+        diagramLabel: L(
+          "Parábola con vértice en (-2, 2) y recta que la corta en (-3, 3) y (0, 6).",
+          "Parabola with vertex at (-2, 2) and a line cutting it at (-3, 3) and (0, 6).",
+        ),
+        answer: {
+          kind: "expression",
+          accepted: ["x+6", "x + 6", "1*x+6"],
+          variables: ["x"],
+        },
+        hints: [
+          L(
+            "Los puntos comunes pertenecen a la parábola **y** a la recta: primero calcula su altura con la parábola.",
+            "The common points belong to the parabola **and** the line: first compute their height using the parabola.",
+          ),
+          L(
+            "$p(-3) = (-3+2)^2 + 2 = 3$ y $p(0) = (0+2)^2 + 2 = 6$. Así que $g$ pasa por $(-3, 3)$ y $(0, 6)$.",
+            "$p(-3) = (-3+2)^2 + 2 = 3$ and $p(0) = (0+2)^2 + 2 = 6$. So $g$ passes through $(-3, 3)$ and $(0, 6)$.",
+          ),
+          L(
+            "Con dos puntos: pendiente $m = \\frac{6 - 3}{0 - (-3)}$ y ordenada en el origen (el segundo punto está en $x = 0$…).",
+            "With two points: slope $m = \\frac{6 - 3}{0 - (-3)}$ and the intercept (the second point sits at $x = 0$…).",
+          ),
+        ],
+        answerDisplay: L("$g:\\ y = x + 6$", "$g:\\ y = x + 6$"),
+        solution: [
+          step(
+            "given",
+            "Parábola $p: y = (x+2)^2 + 2$ (vértice $(-2, 2)$, abre hacia arriba); $g$ corta a $p$ en $x = -3$ y $x = 0$.",
+            "Parabola $p: y = (x+2)^2 + 2$ (vertex $(-2, 2)$, opens upward); $g$ cuts $p$ at $x = -3$ and $x = 0$.",
+          ),
+          step(
+            "approach",
+            "En cada corte las coordenadas coinciden: obtén los dos puntos con la parábola y construye la recta que pasa por ambos.",
+            "At each intersection the coordinates agree: get the two points from the parabola and build the line through both.",
+          ),
+          step(
+            "calculation",
+            "$p(-3) = (-1)^2 + 2 = 3$ → punto $(-3, 3)$.<br>$p(0) = 2^2 + 2 = 6$ → punto $(0, 6)$.<br>Pendiente: $m = \\dfrac{6 - 3}{0 - (-3)} = \\dfrac{3}{3} = 1$.<br>Ordenada: el punto $(0, 6)$ ya la da: $b = 6$.<br>Así que $g: y = x + 6$.<br>Verificación: $(-3) + 6 = 3$ ✓ y $(0) + 6 = 6$ ✓ — ambos puntos cumplen la recta y la parábola.",
+            "$p(-3) = (-1)^2 + 2 = 3$ → point $(-3, 3)$.<br>$p(0) = 2^2 + 2 = 6$ → point $(0, 6)$.<br>Slope: $m = \\dfrac{6 - 3}{0 - (-3)} = \\dfrac{3}{3} = 1$.<br>Intercept: the point $(0, 6)$ gives it directly: $b = 6$.<br>Hence $g: y = x + 6$.<br>Check: $(-3) + 6 = 3$ ✓ and $(0) + 6 = 6$ ✓ — both points satisfy the line and the parabola.",
+          ),
+          step(
+            "result",
+            "$g:\\ y = x + 6$. (Intersección algebraica opcional: $(x+2)^2 + 2 = x + 6 \\iff x^2 + 3x = 0 \\iff x(x+3) = 0$ → exactamente $x = -3, 0$ ✓)",
+            "$g:\\ y = x + 6$. (Optional algebraic intersection: $(x+2)^2 + 2 = x + 6 \\iff x^2 + 3x = 0 \\iff x(x+3) = 0$ → exactly $x = -3, 0$ ✓)",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 3.2 — intersecciones recta ∩ parábola. */
+  template(
+    {
+      id: "pfn-comp-03",
+      subject: "math",
+      topicId: "poly-functions",
+      subtopicId: "comparisons",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["line", "parabola", "intersection", "exam"],
+      prerequisites: ["graphs", "quadratics"],
+      source: {
+        sourceId: "fos-bos-2010-ht",
+        license: "OPEN_LICENSE",
+        exerciseNumber: "3.2",
+      },
+      reasoning: "graphical",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L("$S_1(-1\\,|\\,\\tfrac{7}{4})$ y $S_2(4\\,|\\,-2)$", "$S_1(-1\\,|\\,\\tfrac{7}{4})$ and $S_2(4\\,|\\,-2)$"),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L("$S_1(-1\\,|\\,-\\tfrac{7}{4})$ y $S_2(4\\,|\\,2)$", "$S_1(-1\\,|\\,-\\tfrac{7}{4})$ and $S_2(4\\,|\\,2)$"),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L("$S_1(1\\,|\\,\\tfrac{7}{4})$ y $S_2(-4\\,|\\,-2)$", "$S_1(1\\,|\\,\\tfrac{7}{4})$ and $S_2(-4\\,|\\,-2)$"),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L("$S_1(-1\\,|\\,\\tfrac{7}{4})$ y $S_2(4\\,|\\,2)$", "$S_1(-1\\,|\\,\\tfrac{7}{4})$ and $S_2(4\\,|\\,2)$"),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L("Intersecciones recta ∩ parábola (examen real)", "Line ∩ parabola intersections (real exam)"),
+        statement: L(
+          "Calcula las coordenadas de los puntos comunes de la parábola $p: y = -\\frac{1}{4}x^2 + 2$ y la recta $g: y = -\\frac{3}{4}x + 1$.",
+          "Compute the coordinates of the common points of the parabola $p: y = -\\frac{1}{4}x^2 + 2$ and the line $g: y = -\\frac{3}{4}x + 1$.",
+        ),
+        diagram: {
+          kind: "function-graph",
+          xMin: -3,
+          xMax: 6,
+          yMin: -4,
+          yMax: 4,
+          curves: [
+            { fn: "-0.25*x^2+2", color: "primary" },
+            { fn: "-0.75*x+1", color: "secondary", dashed: true },
+          ],
+          points: [
+            { x: -1, y: 1.75, label: "(-1, 1.75)" },
+            { x: 4, y: -2, label: "(4, -2)" },
+          ],
+          showGrid: true,
+          xLabel: "x",
+          yLabel: "y",
+        },
+        diagramLabel: L(
+          "Parábola que abre hacia abajo con vértice en (0, 2) y recta decreciente que la corta en dos puntos.",
+          "Downward-opening parabola with vertex at (0, 2) and a decreasing line cutting it at two points.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "En los cortes ambas órdenadas coinciden: iguala $-\\frac{x^2}{4} + 2$ con $-\\frac{3x}{4} + 1$.",
+            "At the intersections both ordinates agree: set $-\\frac{x^2}{4} + 2$ equal to $-\\frac{3x}{4} + 1$.",
+          ),
+          L(
+            "Multiplica todo por $4$ para quitar denominadores: $-x^2 + 8 = -3x + 4$, es decir $x^2 - 3x - 4 = 0$.",
+            "Multiply through by $4$ to clear denominators: $-x^2 + 8 = -3x + 4$, i.e. $x^2 - 3x - 4 = 0$.",
+          ),
+          L(
+            "Factoriza $x^2 - 3x - 4 = (x - 4)(x + 1)$. Para las alturas, sustituye cada $x$ en la **recta** (es lo más corto).",
+            "Factor $x^2 - 3x - 4 = (x - 4)(x + 1)$. For the heights, substitute each $x$ into the **line** (shortest route).",
+          ),
+        ],
+        answerDisplay: L(
+          "$S_1\\left(-1\\,|\\,\\tfrac{7}{4}\\right)$ y $S_2(4\\,|\\,-2)$",
+          "$S_1\\left(-1\\,|\\,\\tfrac{7}{4}\\right)$ and $S_2(4\\,|\\,-2)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "Parábola $p: y = -\\frac{1}{4}x^2 + 2$ (vértice $(0, 2)$, abre hacia abajo) y recta $g: y = -\\frac{3}{4}x + 1$ (decreciente).",
+            "Parabola $p: y = -\\frac{1}{4}x^2 + 2$ (vertex $(0, 2)$, opens downward) and line $g: y = -\\frac{3}{4}x + 1$ (decreasing).",
+          ),
+          step(
+            "approach",
+            "Igualar las dos expresiones, resolver la cuadrática en $x$ y recuperar cada altura sustituyendo en la recta. El gráfico anticipa exactamente dos cortes.",
+            "Set the two expressions equal, solve the quadratic in $x$ and recover each height by substituting into the line. The graph anticipates exactly two cuts.",
+          ),
+          step(
+            "calculation",
+            "$-\\frac{x^2}{4} + 2 = -\\frac{3x}{4} + 1$; multiplicando por $4$: $-x^2 + 8 = -3x + 4 \\Rightarrow x^2 - 3x - 4 = 0$.<br>Factorizando: $(x - 4)(x + 1) = 0 \\Rightarrow x = -1$ o $x = 4$.<br>Alturas con la recta: $g(-1) = \\frac{3}{4} + 1 = \\frac{7}{4}$ y $g(4) = -3 + 1 = -2$.<br>Verificación con la parábola: $p(-1) = -\\frac{1}{4} + 2 = \\frac{7}{4}$ ✓; $p(4) = -4 + 2 = -2$ ✓",
+            "$-\\frac{x^2}{4} + 2 = -\\frac{3x}{4} + 1$; multiplying by $4$: $-x^2 + 8 = -3x + 4 \\Rightarrow x^2 - 3x - 4 = 0$.<br>Factoring: $(x - 4)(x + 1) = 0 \\Rightarrow x = -1$ or $x = 4$.<br>Heights via the line: $g(-1) = \\frac{3}{4} + 1 = \\frac{7}{4}$ and $g(4) = -3 + 1 = -2$.<br>Check with the parabola: $p(-1) = -\\frac{1}{4} + 2 = \\frac{7}{4}$ ✓; $p(4) = -4 + 2 = -2$ ✓",
+          ),
+          step(
+            "result",
+            "$S_1\\left(-1\\,|\\,\\tfrac{7}{4}\\right)$ y $S_2(4\\,|\\,-2)$ — dos cortes, como el gráfico mostraba.",
+            "$S_1\\left(-1\\,|\\,\\tfrac{7}{4}\\right)$ and $S_2(4\\,|\\,-2)$ — two cuts, as the graph showed.",
+          ),
+        ],
+      };
+    },
+  ),
 ];

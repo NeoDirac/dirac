@@ -889,4 +889,159 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+
+
+  /* ---------------------------------------------------------------- */
+  /* Curated Phase 2 — FOS/BOS 2010 §3.3 y FOS/BOS 2011 §3            */
+  /* (sistemas lineales 2x2). Transcribed as printed; verified        */
+  /* independently. Fixed problems — rng only shuffles MC.            */
+  /* ---------------------------------------------------------------- */
+
+  /* FOS/BOS 2010, 3.3 — eliminación con solución negativa grande. */
+  template(
+    {
+      id: "sys-elim-03",
+      subject: "math",
+      topicId: "systems",
+      subtopicId: "elimination",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 180,
+      tags: ["systems", "elimination", "exam"],
+      prerequisites: ["elimination"],
+      source: {
+        sourceId: "fos-bos-2010-ht",
+        license: "OPEN_LICENSE",
+        exerciseNumber: "3.3",
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$x = -21,\\ y = 13$", "$x = -21,\\ y = 13$"), correct: true },
+        { id: "b", text: L("$x = 21,\\ y = -13$", "$x = 21,\\ y = -13$"), correct: false },
+        { id: "c", text: L("$x = -13,\\ y = 21$", "$x = -13,\\ y = 21$"), correct: false },
+        { id: "d", text: L("$x = 13,\\ y = -21$", "$x = 13,\\ y = -21$"), correct: false },
+      ];
+      return {
+        skill: L("Sistema 2x2 por eliminación (examen real)", "2x2 system by elimination (real exam)"),
+        statement: L(
+          "Resuelve: $$\\begin{cases} x + y = -8 \\\\ x + 2y = 5 \\end{cases}$$",
+          "Solve: $$\\begin{cases} x + y = -8 \\\\ x + 2y = 5 \\end{cases}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Resta la segunda ecuación menos la primera: la $x$ desaparece sola.",
+            "Subtract the first equation from the second: the $x$ cancels by itself.",
+          ),
+          L(
+            "$(x + 2y) - (x + y) = 5 - (-8)$ da $y = 13$.",
+            "$(x + 2y) - (x + y) = 5 - (-8)$ gives $y = 13$.",
+          ),
+          L(
+            "Sustituye en la primera: $x = -8 - 13$.",
+            "Substitute into the first: $x = -8 - 13$.",
+          ),
+        ],
+        answerDisplay: L("$L = \\{(-21,\\; 13)\\}$", "$L = \\{(-21,\\; 13)\\}$"),
+        solution: [
+          step(
+            "given",
+            "El sistema $x + y = -8$, $x + 2y = 5$.",
+            "The system $x + y = -8$, $x + 2y = 5$.",
+          ),
+          step(
+            "approach",
+            "Los coeficientes de $x$ ya coinciden: una resta directa elimina una incógnita (eliminación).",
+            "The $x$ coefficients already match: a direct subtraction eliminates one unknown (elimination).",
+          ),
+          step(
+            "calculation",
+            "II − I: $(x + 2y) - (x + y) = 5 - (-8) \\Rightarrow y = 13$.<br>Con $y = 13$ en I: $x = -8 - 13 = -21$.<br>Verificación: $-21 + 13 = -8$ ✓ y $-21 + 2 \\cdot 13 = 5$ ✓",
+            "II − I: $(x + 2y) - (x + y) = 5 - (-8) \\Rightarrow y = 13$.<br>With $y = 13$ in I: $x = -8 - 13 = -21$.<br>Check: $-21 + 13 = -8$ ✓ and $-21 + 2 \\cdot 13 = 5$ ✓",
+          ),
+          step(
+            "result",
+            "$L = \\{(-21,\\; 13)\\}$.",
+            "$L = \\{(-21,\\; 13)\\}$.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* FOS/BOS 2011, 3 — sustitución tras simplificar. */
+  template(
+    {
+      id: "sys-elim-04",
+      subject: "math",
+      topicId: "systems",
+      subtopicId: "elimination",
+      difficulty: "easy",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["systems", "substitution", "exam"],
+      prerequisites: ["elimination"],
+      source: {
+        sourceId: "fos-bos-2011",
+        license: "OPEN_LICENSE",
+        exerciseNumber: "3",
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$x = 5,\\ y = 7$", "$x = 5,\\ y = 7$"), correct: true },
+        { id: "b", text: L("$x = 7,\\ y = 5$", "$x = 7,\\ y = 5$"), correct: false },
+        { id: "c", text: L("$x = 12,\\ y = 7$", "$x = 12,\\ y = 7$"), correct: false },
+        { id: "d", text: L("$x = 4,\\ y = 8$", "$x = 4,\\ y = 8$"), correct: false },
+      ];
+      return {
+        skill: L("Sistema 2x2 con simplificación previa (examen real 2011)", "2x2 system with a simplifying step (real 2011 exam)"),
+        statement: L(
+          "Resuelve: $$\\begin{cases} 4x + 8y = 76 \\\\ x + y = 12 \\end{cases}$$",
+          "Solve: $$\\begin{cases} 4x + 8y = 76 \\\\ x + y = 12 \\end{cases}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Simplifica la primera ecuación dividiendo todo entre $4$.",
+            "Simplify the first equation by dividing everything by $4$.",
+          ),
+          L(
+            "Queda $x + 2y = 19$ junto a $x + y = 12$: una resta elimina la $x$.",
+            "You get $x + 2y = 19$ next to $x + y = 12$: one subtraction kills the $x$.",
+          ),
+          L(
+            "$(x + 2y) - (x + y) = 19 - 12 \\Rightarrow y = 7$, y entonces $x = 12 - 7$.",
+            "$(x + 2y) - (x + y) = 19 - 12 \\Rightarrow y = 7$, and then $x = 12 - 7$.",
+          ),
+        ],
+        answerDisplay: L("$L = \\{(5,\\; 7)\\}$", "$L = \\{(5,\\; 7)\\}$"),
+        solution: [
+          step(
+            "given",
+            "El sistema $4x + 8y = 76$, $x + y = 12$.",
+            "The system $4x + 8y = 76$, $x + y = 12$.",
+          ),
+          step(
+            "approach",
+            "Simplificar antes de operar (dividir entre $4$) reduce la aritmética; después, eliminación directa.",
+            "Simplify before operating (divide by $4$) to shrink the arithmetic; then eliminate directly.",
+          ),
+          step(
+            "calculation",
+            "I entre $4$: $x + 2y = 19$.<br>Resta (I simplificada) − II: $y = 19 - 12 = 7$.<br>Con II: $x = 12 - 7 = 5$.<br>Verificación: $4 \\cdot 5 + 8 \\cdot 7 = 20 + 56 = 76$ ✓ y $5 + 7 = 12$ ✓ — coincide con el Lösungsvorschlag oficial.",
+            "I divided by $4$: $x + 2y = 19$.<br>Subtract (simplified I) − II: $y = 19 - 12 = 7$.<br>With II: $x = 12 - 7 = 5$.<br>Check: $4 \\cdot 5 + 8 \\cdot 7 = 20 + 56 = 76$ ✓ and $5 + 7 = 12$ ✓ — matches the official Lösungsvorschlag.",
+          ),
+          step(
+            "result",
+            "$L = \\{(5,\\; 7)\\}$.",
+            "$L = \\{(5,\\; 7)\\}$.",
+          ),
+        ],
+      };
+    },
+  ),
 ];

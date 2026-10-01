@@ -29,6 +29,7 @@ import { Separator } from "@/components/ui/separator";
 import { MathText } from "@/components/math/math-text";
 import { ProblemDiagram } from "@/components/diagrams";
 import { DifficultyBadge } from "./difficulty-badge";
+import { SourceBadge } from "./source-badge";
 import { AnswerArea } from "./answer-area";
 import { HintsSection } from "./hints-section";
 import { SolutionPanel } from "./solution-panel";
@@ -191,6 +192,7 @@ export function ProblemView({
       {/* meta row */}
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
         <DifficultyBadge difficulty={problem.difficulty} />
+        {problem.source ? <SourceBadge source={problem.source} /> : null}
         <span className="text-sm text-muted-foreground">
           <span className="font-medium text-foreground">{t("practice.skill")}:</span>{" "}
           {problem.skill[lang]}
