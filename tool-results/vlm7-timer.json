@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "**Rating: 8/10**\n\n1.  **Inconsistent Button State:** The \"Comprobar respuesta\" button looks disabled (low contrast) despite being the primary action.\n2.  **Weak Visual Hierarchy:** The question text and options lack sufficient font weight/size differentiation, making the interface look slightly flat.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1790819529,
+  "id": "20261001095206e672c26c0d7f4e26",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20261001095206e672c26c0d7f4e26",
+  "usage": {
+    "completion_tokens": 67,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1284,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 1351
+  }
+}

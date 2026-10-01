@@ -87,7 +87,7 @@ export function SubjectView({ subject }: { subject: Subject }) {
                   <span className={`inline-flex h-10 w-10 items-center justify-center rounded-xl ${subjectBg} ${subjectColor}`}>
                     <TopicIcon icon={topic.icon} />
                   </span>
-                  <span className="font-serif text-2xl font-semibold text-border" aria-hidden="true">
+                  <span className="font-serif text-2xl font-semibold text-muted-foreground/30" aria-hidden="true">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                 </div>
@@ -117,20 +117,24 @@ export function SubjectView({ subject }: { subject: Subject }) {
                     ))}
                   </span>
                 </div>
-                {percent !== null ? (
-                  <div className="mt-3">
-                    <div className="h-1 w-full overflow-hidden rounded-full bg-border">
-                      <div
-                        className={`h-full rounded-full ${subject === "math" ? "bg-subject-math" : "bg-subject-physics"}`}
-                        style={{ width: `${Math.max(6, percent * 100)}%` }}
-                      />
+                {/* fixed-height trailing slot keeps every card the same height,
+                    whether or not there is progress to show */}
+                <div className="mt-3 h-7">
+                  {percent !== null ? (
+                    <div>
+                      <div className="h-1 w-full overflow-hidden rounded-full bg-border">
+                        <div
+                          className={`h-full rounded-full ${subject === "math" ? "bg-subject-math" : "bg-subject-physics"}`}
+                          style={{ width: `${Math.max(6, percent * 100)}%` }}
+                        />
+                      </div>
+                      <p className="mt-1.5 truncate text-[11px] text-muted-foreground">
+                        {formatNumber(topicProgress!.attempts)} {t("topic.stats.attempts")} ·{" "}
+                        {t("topic.stats.firstTry")}: {Math.round(percent * 100)}%
+                      </p>
                     </div>
-                    <p className="mt-1.5 text-[11px] text-muted-foreground">
-                      {formatNumber(topicProgress!.attempts)} {t("topic.stats.attempts")} ·{" "}
-                      {t("topic.stats.firstTry")}: {Math.round(percent * 100)}%
-                    </p>
-                  </div>
-                ) : null}
+                  ) : null}
+                </div>
               </a>
             </li>
           );

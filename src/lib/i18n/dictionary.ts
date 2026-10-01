@@ -39,6 +39,8 @@ const es: Dictionary = {
 
   // home
   "home.hero.badge": "Plataforma de práctica personal",
+  "home.continue.title": "Sigue donde lo dejaste",
+  "home.continue.cta": "Seguir practicando",
   "home.hero.title1": "Practica las matemáticas",
   "home.hero.title2": "y la física que vemos en clase.",
   "home.hero.subtitle":
@@ -145,6 +147,13 @@ const es: Dictionary = {
   "practice.shortcuts.hint": "siguiente pista",
   "practice.shortcuts.next": "siguiente problema",
   "practice.shortcuts.check": "comprobar",
+  "practice.shortcuts.mc": "elegir opción de respuesta",
+  "practice.shortcuts.help": "abrir esta ayuda",
+  "practice.shortcutsHelp.title": "Atajos de teclado",
+  "practice.shortcutsHelp.desc": "Trabaja más rápido durante la sesión. Los atajos se ignoran mientras escribes.",
+  "practice.shortcutsHelp.open": "Ver ayuda de atajos",
+  "practice.elapsed": "Tiempo de sesión",
+  "practice.timeSpent": "Tiempo en este problema",
 
   // feedback
   "feedback.correct.first": "¡Correcto! Bien resuelto.",
@@ -199,6 +208,9 @@ const es: Dictionary = {
   "summary.hintsUsed": "Pistas usadas",
   "summary.revealed": "Respuestas mostradas",
   "summary.skipped": "Saltados",
+  "summary.time": "Tiempo de práctica",
+  "summary.timeEstimated": "≈ {t} estimado",
+  "summary.timeAvg": "{t} por problema",
   "summary.again": "Practicar otra vez (nuevas variantes)",
   "summary.retryMissed": "Repasar los fallados ({n})",
   "summary.backTopic": "Volver al tema",
@@ -333,6 +345,8 @@ const en: Dictionary = {
   "difficulty.label": "Difficulty",
 
   "home.hero.badge": "Personal practice platform",
+  "home.continue.title": "Pick up where you left off",
+  "home.continue.cta": "Keep practicing",
   "home.hero.title1": "Practice the mathematics",
   "home.hero.title2": "and physics we cover in class.",
   "home.hero.subtitle":
@@ -436,6 +450,13 @@ const en: Dictionary = {
   "practice.shortcuts.hint": "next hint",
   "practice.shortcuts.next": "next problem",
   "practice.shortcuts.check": "check",
+  "practice.shortcuts.mc": "choose an answer option",
+  "practice.shortcuts.help": "open this help",
+  "practice.shortcutsHelp.title": "Keyboard shortcuts",
+  "practice.shortcutsHelp.desc": "Work faster during a session. Shortcuts are ignored while you type.",
+  "practice.shortcutsHelp.open": "View shortcut help",
+  "practice.elapsed": "Session time",
+  "practice.timeSpent": "Time on this problem",
 
   "feedback.correct.first": "Correct! Nicely solved.",
   "feedback.correct.later": "Correct! Great persistence.",
@@ -485,6 +506,9 @@ const en: Dictionary = {
   "summary.hintsUsed": "Hints used",
   "summary.revealed": "Answers revealed",
   "summary.skipped": "Skipped",
+  "summary.time": "Time practiced",
+  "summary.timeEstimated": "≈ {t} estimated",
+  "summary.timeAvg": "{t} per problem",
   "summary.again": "Practice again (new variants)",
   "summary.retryMissed": "Review missed ({n})",
   "summary.backTopic": "Back to topic",

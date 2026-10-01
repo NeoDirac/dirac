@@ -20,6 +20,10 @@ export interface PersistedSession {
   states: ProblemState[];
   /** true when this deck is a "review missed problems" retry */
   reviewing?: boolean;
+  /** total active seconds while the session page was visible */
+  elapsedSec?: number;
+  /** seconds spent per problem index (undefined slots = still open) */
+  times?: (number | undefined)[];
 }
 
 function isProblemLike(v: unknown): v is Problem {

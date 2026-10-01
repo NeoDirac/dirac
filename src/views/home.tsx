@@ -1,12 +1,16 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { formatDistanceToNow } from "date-fns";
+import { es as dateEs, enUS as dateEn } from "date-fns/locale";
 import {
   ArrowRight,
   Atom,
   BookOpenCheck,
   Calculator,
   CheckCircle2,
+  History,
   Lightbulb,
   Mail,
   CalendarClock,
@@ -16,6 +20,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n/context";
 import { href, sessionHref } from "@/lib/router";
+import { computeStats, loadProgress, type OverallStats } from "@/lib/progress";
 import { siteConfig } from "@/config/site";
 import { mathCurriculum } from "@/content/curriculum/math";
 import { physicsCurriculum } from "@/content/curriculum/physics";
@@ -62,8 +67,95 @@ function HeroCurve() {
   );
 }
 
+/** Smart-resume band — the most recently practiced topic, one click away. */
+function ContinueCard({ stats }: { stats: OverallStats | null }) {
+  const { t, lang, formatNumber } = useI18n();
+
+  const last = (() => {
+    if (!stats) return null;
+    const entries = Object.values(stats.byTopic).filter((s) => s.attempts > 0 && s.lastTs > 0);
+    entries.sort((a, b) => b.lastTs - a.lastTs);
+    return entries[0] ?? null;
+  })();
+  if (!last) return null;
+
+  const curriculum = last.subject === "math" ? mathCurriculum : physicsCurriculum;
+  const topic = curriculum.find((tp) => tp.id === last.topicId);
+  if (!topic) return null;
+
+  const sessionLink = sessionHref({
+    mode: "topic",
+    subjects: [last.subject],
+    topicId: last.topicId,
+    difficulty: "any",
+    count: 10,
+    seed: 0,
+  });
+
+  let ago = "";
+  try {
+    ago = formatDistanceToNow(new Date(last.lastTs), {
+      addSuffix: true,
+      locale: lang === "es" ? dateEs : dateEn,
+    });
+  } catch {
+    /* date-fns guard */
+  }
+
+  return (
+    <section
+      aria-labelledby="continue-heading"
+      className="animate-in fade-in slide-in-from-bottom-2 duration-300 border-b bg-secondary/40"
+    >
+      <div className="mx-auto flex max-w-6xl flex-col items-start gap-4 px-4 py-6 sm:px-6 sm:flex-row sm:items-center">
+        <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+          <History className="h-5 w-5" aria-hidden="true" />
+        </span>
+        <div className="flex-1">
+          <h2 id="continue-heading" className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+            {t("home.continue.title")}
+          </h2>
+          <p className="mt-1 text-lg font-medium leading-snug">
+            <a
+              href={href({ name: "topic", subject: last.subject, topicId: topic.id })}
+              className="transition-colors hover:text-primary"
+            >
+              {topic.name[lang]}
+            </a>
+            <span className="ml-2 text-sm font-normal text-muted-foreground">
+              {last.attempts === 1
+                ? t("progress.topic.oneAttempt")
+                : t("progress.topic.attempts", { n: formatNumber(last.attempts) })}
+              {ago ? ` · ${ago}` : ""}
+            </span>
+          </p>
+        </div>
+        <Button asChild className="shrink-0 gap-2 font-semibold">
+          <a href={sessionLink}>
+            {t("home.continue.cta")}
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </a>
+        </Button>
+      </div>
+    </section>
+  );
+}
+
 export function HomeView() {
   const { t, lang } = useI18n();
+  const [stats, setStats] = useState<OverallStats | null>(null);
+
+  // localStorage is an external system — read async after mount (no hydration
+  // mismatch, and the band gracefully disappears when there's no history)
+  useEffect(() => {
+    let cancelled = false;
+    queueMicrotask(() => {
+      if (!cancelled) setStats(computeStats(loadProgress()));
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const quickHref = sessionHref({
     mode: "mixed",
@@ -127,6 +219,9 @@ export function HomeView() {
           <HeroCurve />
         </div>
       </section>
+
+      {/* smart resume — only when there is practice history */}
+      <ContinueCard stats={stats} />
 
       {/* subjects */}
       <section className="mx-auto max-w-6xl px-4 py-14 sm:px-6" aria-labelledby="subjects-heading">

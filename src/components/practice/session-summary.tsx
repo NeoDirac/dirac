@@ -4,7 +4,7 @@
  * Session summary — restrained stats overview + per-problem review list.
  */
 
-import { ArrowLeft, ArrowRight, BarChart3, Check, CircleOff, Eye, RefreshCw, SkipForward, Target, XCircle } from "lucide-react";
+import { ArrowLeft, ArrowRight, BarChart3, Check, CircleOff, Eye, RefreshCw, SkipForward, Target, Timer, XCircle } from "lucide-react";
 import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n/context";
@@ -13,18 +13,24 @@ import { mathCurriculum } from "@/content/curriculum/math";
 import { physicsCurriculum } from "@/content/curriculum/physics";
 import type { Problem, SessionConfig } from "@/lib/types";
 import type { ProblemState } from "./state";
-import { cn } from "@/lib/utils";
+import { cn, formatDuration } from "@/lib/utils";
 
 export function SessionSummary({
   config,
   deck,
   states,
+  times,
+  elapsedSec,
   onAgain,
   onRetryMissed,
 }: {
   config: SessionConfig;
   deck: Problem[];
   states: ProblemState[];
+  /** seconds spent per problem (undefined = still open) */
+  times?: (number | undefined)[];
+  /** total active session seconds */
+  elapsedSec?: number;
   onAgain: () => void;
   onRetryMissed: () => void;
 }) {
@@ -37,6 +43,11 @@ export function SessionSummary({
   const revealed = states.filter((s) => s.status === "revealed").length;
   const skipped = states.filter((s) => s.status === "skipped").length;
   const missed = deck.filter((_, i) => !states[i]?.attempts.some((a) => a.correct)).length;
+  // time stats — shown only when the timer actually ran (old sessions lack them)
+  const showTime = (elapsedSec ?? 0) >= 5;
+  const knownTimes = (times ?? []).filter((x): x is number => typeof x === "number");
+  const avgTime = knownTimes.length > 0 ? Math.round(knownTimes.reduce((a, b) => a + b, 0) / knownTimes.length) : 0;
+  const estimatedSec = deck.reduce((a, p) => a + p.estimatedTimeSec, 0);
 
   const stats = [
     { label: t("summary.attempted"), value: attempted },
@@ -116,6 +127,25 @@ export function SessionSummary({
           : ""}
       </p>
 
+      {showTime ? (
+        <p className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground">
+          <Timer className="h-4 w-4 text-primary" aria-hidden="true" />
+          <span>
+            <span className="font-medium text-foreground">{t("summary.time")}: {formatDuration(elapsedSec ?? 0)}</span>
+            {estimatedSec > 0 ? (
+              <span className="text-muted-foreground">
+                {" "}· {t("summary.timeEstimated", { t: formatDuration(estimatedSec) })}
+              </span>
+            ) : null}
+            {avgTime > 0 ? (
+              <span className="text-muted-foreground">
+                {" "}· {t("summary.timeAvg", { t: formatDuration(avgTime) })}
+              </span>
+            ) : null}
+          </span>
+        </p>
+      ) : null}
+
       <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
         {stats.map((s) => (
           <div key={s.label} className="rounded-xl border bg-card p-4">
@@ -153,6 +183,15 @@ export function SessionSummary({
                       {topicLabel(p)} · {t(`difficulty.${p.difficulty}`)}
                     </p>
                   </div>
+                  {typeof times?.[i] === "number" ? (
+                    <span
+                      className="hidden shrink-0 items-center gap-1 text-xs tabular-nums text-muted-foreground/80 sm:inline-flex"
+                      title={t("practice.timeSpent")}
+                    >
+                      <Timer className="h-3 w-3" aria-hidden="true" />
+                      {formatDuration(times[i]!, { compact: true })}
+                    </span>
+                  ) : null}
                   <span className="shrink-0 text-xs text-muted-foreground">{info.label}</span>
                 </li>
               );

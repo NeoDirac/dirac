@@ -7,7 +7,7 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, Check, Flag, Inbox, RotateCcw, SkipForward, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Flag, Inbox, Keyboard, RotateCcw, SkipForward, Timer, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -22,6 +22,13 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { ProblemView } from "./problem-view";
 import { SessionSummary } from "./session-summary";
 import { initialProblemState, type ProblemState } from "./state";
@@ -36,9 +43,17 @@ import { checkAnswer, type AnswerSubmission } from "@/lib/validation/answer";
 import { mathCurriculum } from "@/content/curriculum/math";
 import { physicsCurriculum } from "@/content/curriculum/physics";
 import type { Problem, SessionConfig } from "@/lib/types";
-import { cn } from "@/lib/utils";
+import { cn, formatClock } from "@/lib/utils";
 
 const BATCH = 10;
+
+const SHORTCUTS: { keys: string; labelKey: string }[] = [
+  { keys: "H", labelKey: "practice.shortcuts.hint" },
+  { keys: "N", labelKey: "practice.shortcuts.next" },
+  { keys: "Ctrl ⏎", labelKey: "practice.shortcuts.check" },
+  { keys: "1–9", labelKey: "practice.shortcuts.mc" },
+  { keys: "?", labelKey: "practice.shortcuts.help" },
+];
 
 export function SessionView({ config }: { config: SessionConfig }) {
   const { t, lang } = useI18n();
@@ -51,7 +66,11 @@ export function SessionView({ config }: { config: SessionConfig }) {
   const [relaxed, setRelaxed] = useState(false);
   const [reviewing, setReviewing] = useState(false);
   const [builtKey, setBuiltKey] = useState<string | null>(null);
+  const [shortcutsOpen, setShortcutsOpen] = useState(false);
+  const [elapsedSec, setElapsedSec] = useState(0);
+  const [times, setTimes] = useState<(number | undefined)[]>([]);
   const nextRef = useRef<HTMLButtonElement>(null);
+  const problemStartRef = useRef<number>(Date.now());
   const configKey = useMemo(() => JSON.stringify(config), [config]);
 
   const unlimited = !Number.isFinite(config.count);
@@ -78,6 +97,8 @@ export function SessionView({ config }: { config: SessionConfig }) {
         setDeck(stored.problems);
         setStates(stored.states);
         setIndex(stored.index);
+        setElapsedSec(stored.elapsedSec ?? 0);
+        setTimes(stored.times ?? []);
         setEnded(stored.ended);
         setRelaxed(false);
         setReviewing(stored.reviewing === true);
@@ -94,6 +115,8 @@ export function SessionView({ config }: { config: SessionConfig }) {
       setRelaxed(result.difficultyRelaxed);
       setReviewing(false);
       setIndex(0);
+      setElapsedSec(0);
+      setTimes([]);
       setEnded(false);
       setBuiltKey(configKey);
     });
@@ -105,8 +128,33 @@ export function SessionView({ config }: { config: SessionConfig }) {
   // session under the new key during the rebuild frame)
   useEffect(() => {
     if (!deck || !configKey || builtKey !== configKey) return;
-    saveSession({ configKey, index, ended, problems: deck, states, reviewing });
-  }, [deck, states, index, ended, configKey, builtKey, reviewing]);
+    saveSession({ configKey, index, ended, problems: deck, states, reviewing, elapsedSec, times });
+  }, [deck, states, index, ended, configKey, builtKey, reviewing, elapsedSec, times]);
+
+  // live session timer — counts only while the tab is visible and the session
+  // has not ended (an honest "time on task", safe across refresh via persistence)
+  useEffect(() => {
+    if (ended) return;
+    const id = window.setInterval(() => {
+      if (document.visibilityState === "visible") setElapsedSec((s) => s + 1);
+    }, 1000);
+    return () => window.clearInterval(id);
+  }, [ended]);
+
+  // start of the current problem — reset on navigation, new variant or retry
+  useEffect(() => {
+    problemStartRef.current = Date.now();
+  }, [index, deck, reviewing]);
+
+  /** Freeze the seconds spent on the current problem (first resolve only). */
+  const stampTime = useCallback(() => {
+    setTimes((prev) => {
+      if (prev[index] !== undefined) return prev;
+      const next = [...prev];
+      next[index] = Math.max(1, Math.round((Date.now() - problemStartRef.current) / 1000));
+      return next;
+    });
+  }, [index]);
 
   const current = deck?.[index];
   const currentState = states[index];
@@ -181,10 +229,11 @@ export function SessionView({ config }: { config: SessionConfig }) {
       if (!next.recorded) {
         record(problem, next);
         next.recorded = true;
+        stampTime();
       }
       return next;
     },
-    [record],
+    [record, stampTime],
   );
 
   /* ---------------------------------------------------------------- */
@@ -243,10 +292,11 @@ export function SessionView({ config }: { config: SessionConfig }) {
       if (!next.recorded) {
         record(current, next);
         next.recorded = true;
+        stampTime();
       }
       updateState(() => next);
     }
-  }, [current, currentState, record, updateState]);
+  }, [current, currentState, record, stampTime, updateState]);
 
   const handleSkip = useCallback(() => {
     if (!current || !currentState || currentState.status !== "attempting") return;
@@ -279,6 +329,13 @@ export function SessionView({ config }: { config: SessionConfig }) {
     const fresh = instantiateProblem(tpl, Math.floor(Math.random() * 2 ** 31) || 7);
     setDeck((d) => (d ? d.map((p, i) => (i === index ? fresh : p)) : d));
     setStates((s) => s.map((st, i) => (i === index ? { ...initialProblemState } : st)));
+    // a fresh variant restarts the clock for this slot
+    setTimes((prev) => {
+      if (prev[index] === undefined) return prev;
+      const next = [...prev];
+      next[index] = undefined;
+      return next;
+    });
   }, [current, deck, index, templates]);
 
   const handleAgain = useCallback(() => {
@@ -295,6 +352,7 @@ export function SessionView({ config }: { config: SessionConfig }) {
     if (missed.length === 0) return;
     setDeck(missed);
     setStates(missed.map(() => ({ ...initialProblemState })));
+    setTimes([]);
     setIndex(0);
     setEnded(false);
     setReviewing(true);
@@ -321,6 +379,11 @@ export function SessionView({ config }: { config: SessionConfig }) {
       }
       // don't fight with open dialogs / menus
       if (document.querySelector("[role=dialog], [role=menu]")) return;
+      if (e.key === "?" || e.key === "¿") {
+        e.preventDefault();
+        setShortcutsOpen(true);
+        return;
+      }
       const key = e.key.toLowerCase();
       if (key === "h") {
         if (currentState && currentState.status === "attempting") {
@@ -373,6 +436,8 @@ export function SessionView({ config }: { config: SessionConfig }) {
         config={config}
         deck={deck ?? []}
         states={states}
+        times={times}
+        elapsedSec={elapsedSec}
         onAgain={handleAgain}
         onRetryMissed={handleRetryMissed}
       />
@@ -445,6 +510,14 @@ export function SessionView({ config }: { config: SessionConfig }) {
               : t("practice.questionOf", { current: index + 1, total: deck!.length })}
           </p>
           <div className="ml-auto flex items-center gap-2 text-xs font-medium">
+            <span
+              className="inline-flex items-center gap-1 rounded-full bg-muted px-2 py-0.5 tabular-nums text-muted-foreground"
+              title={t("practice.elapsed")}
+              aria-hidden="true"
+            >
+              <Timer className="h-3 w-3" aria-hidden="true" />
+              {formatClock(elapsedSec)}
+            </span>
             <span className="inline-flex items-center gap-1 rounded-full bg-success/10 px-2 py-0.5 text-success">
               <Check className="h-3 w-3" aria-hidden="true" />
               {correctCount} {t("practice.score.correct")}
@@ -459,13 +532,19 @@ export function SessionView({ config }: { config: SessionConfig }) {
         </div>
         <Progress value={progress} className="h-1.5" aria-label={t("practice.questionOf", { current: index + 1, total: deck!.length })} />
 
-        {/* keyboard legend — desktop only, never printed */}
-        <p className="hidden items-center gap-2.5 text-[11px] text-muted-foreground/80 sm:flex" aria-label={t("practice.shortcuts")}>
+        {/* keyboard legend — desktop only, never printed; click or press ? for help */}
+        <button
+          type="button"
+          onClick={() => setShortcutsOpen(true)}
+          className="hidden items-center gap-2.5 text-[11px] text-muted-foreground/80 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-full px-1 sm:flex"
+          aria-label={t("practice.shortcutsHelp.open")}
+        >
           <span className="font-medium uppercase tracking-wider">{t("practice.shortcuts")}</span>
           <span className="inline-flex items-center gap-1"><kbd className="kbd-chip">H</kbd>{t("practice.shortcuts.hint")}</span>
           <span className="inline-flex items-center gap-1"><kbd className="kbd-chip">N</kbd>{t("practice.shortcuts.next")}</span>
           <span className="inline-flex items-center gap-1"><kbd className="kbd-chip">Ctrl ⏎</kbd>{t("practice.shortcuts.check")}</span>
-        </p>
+          <span className="inline-flex items-center gap-1 opacity-70"><kbd className="kbd-chip">?</kbd></span>
+        </button>
       </div>
 
       {relaxed ? (
@@ -510,6 +589,27 @@ export function SessionView({ config }: { config: SessionConfig }) {
           <ArrowRight className="h-4 w-4" aria-hidden="true" />
         </Button>
       </div>
+
+      {/* keyboard shortcuts help (press ? or click the legend) */}
+      <Dialog open={shortcutsOpen} onOpenChange={setShortcutsOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Keyboard className="h-5 w-5 text-primary" aria-hidden="true" />
+              {t("practice.shortcutsHelp.title")}
+            </DialogTitle>
+            <DialogDescription>{t("practice.shortcutsHelp.desc")}</DialogDescription>
+          </DialogHeader>
+          <ul className="mt-2 divide-y">
+            {SHORTCUTS.map((sc) => (
+              <li key={sc.keys} className="flex items-center justify-between gap-4 py-2.5 text-sm">
+                <span className="text-muted-foreground">{t(sc.labelKey)}</span>
+                <kbd className="kbd-chip shrink-0 text-xs">{sc.keys}</kbd>
+              </li>
+            ))}
+          </ul>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

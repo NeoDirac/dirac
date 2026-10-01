@@ -417,3 +417,38 @@ Verification (all green):
 Stage Summary:
 - Platform stable; 1 real UX bug fixed (end-session dialog), 2 labeling/copy issues fixed, 3 new features shipped (retry missed, share links, +13 templates → 418), styling polished with VLM critiques
 - Next-round ideas: teacher-facing analytics (future backend), worksheet difficulty-mix option, more Kirchhoff/multi-concept templates, constants harmonization pass (k = 9×10⁹ vs 8.99×10⁹, flagged by 7-b)
+
+---
+Task ID: 7
+Agent: main (Z.ai Code) — scheduled review round 4
+Task: QA sweep + new features (session time tracking, smart-resume home card, shortcuts help dialog) + styling polish
+
+Work Log:
+- Reviewed worklog (round 6 complete: 418 templates, retry/share features); all gates green at start (validate 418·0/0, tsc clean, lint clean, dev.log healthy)
+- QA via agent-browser (fresh storage): golden path incl. wrong → hints (H after blur) → reveal answer + confirm dialog → staged solution → next; retry-missed flow with badge; share deep-link (single mode); language switch ES/EN mid-session and on summary; progress dashboard; worksheet; dark mode; 0 console errors. No bugs found this round (one test-script artifact: MC problems have no text input, so a scripted "fill+check" was a no-op — app behavior correct)
+- NEW FEATURE 1 — Session time tracking:
+  - Live timer chip in the session header (Timer icon, mm:ss, tabular-nums, title="Session time"); ticks only while document is visible and the session has not ended (honest time-on-task, no wall-clock drift across refresh)
+  - Per-problem times: problemStartRef resets on navigation/new-variant/retry; stamped once at first resolve (correct, reveal, skip, or first solution view) into a times[] array persisted with the session; new-variant resets its slot for re-measurement
+  - Session summary gains a time line under the title: "Time practiced: X · ≈ Y estimated · Z per problem" (estimated = Σ estimatedTimeSec of the deck; avg over stamped problems) + per-problem compact time chips (desktop, title="Time on this problem") in the detail list; hidden when < 5s (old sessions show nothing)
+  - formatDuration/formatClock helpers in lib/utils.ts; PersistedSession extended with elapsedSec/times (optional, backward-compatible restores)
+  - Browser-verified: live tick (0:10), summary line "Tiempo de práctica: 1 min 16 s · ≈ 24 min 50 s estimado · 1 min 7 s por problema", per-problem chip "1m 7s", exact restore after refresh ("1 min 16 s" preserved), EN copy check
+- NEW FEATURE 2 — Smart-resume "Continue practicing" card on home:
+  - ContinueCard component reads progress after mount (no hydration mismatch): finds the topic with the most recent lastTs, renders a banded section between hero and subjects — History icon, "Pick up where you left off / Sigue donde lo dejaste", topic name links to topic page, "{n} attempts · {timeAgo}" meta (date-fns locale-aware), primary "Keep practicing / Seguir practicando" CTA straight into a fresh 10-problem topic session; gracefully absent with no history
+  - Browser-verified: band appears with real progress data, CTA navigates into a working session, EN copy correct, mobile layout clean (VLM: "clean and professional, excellent hierarchy")
+- NEW FEATURE 3 — Keyboard shortcuts help dialog:
+  - Press ? (or ¿ on Spanish layouts) during a session, or click the shortcuts legend (now a real button with focus ring), opens a Dialog listing all 5 shortcuts: H hint, N next, Ctrl⏎ check, 1–9 MC choice, ? help
+  - SHORTCUTS table in session-view; dictionary keys ES/EN; ignores open dialogs/typing per existing guard
+  - Browser-verified: opens via keypress and legend click, Esc closes, fits 390px viewport, correct ES copy
+- STYLING POLISH (VLM-guided):
+  - Subject page topic cards: fixed-height trailing slot (h-7) for the progress bar so every card is identical height whether or not there's progress (VLM confirmed uniform alignment after fix, light+dark); decorative card numbers text-border → text-muted-foreground/30 for legibility; progress caption gets truncate
+  - Dialog overlay bg-black/50 → /60 for stronger focus (shortcuts + all dialogs)
+  - VLM ratings: continue card, shortcuts dialog, time summary, subject light/dark, session with timer all 8/10; mobile pass clean (no overflow, no broken layouts, dialogs fit)
+
+Verification (all green):
+- bun run validate:content → 418 templates · 0 errors · 0 warnings
+- bunx tsc --noEmit (excl. examples/skills) → 0 errors; bun run lint → clean; dev.log → no runtime errors
+- agent-browser: fresh-storage full navigation (home → math → physics topic → session → progress → about) 0 errors; mobile 390px home/session/continue band/dialogs clean; MC numeric-key answering verified in passing (key 1 selects + Ctrl⏎ checks)
+
+Stage Summary:
+- Platform stable; 3 new user-facing features shipped and browser-verified (time tracking, smart resume, shortcuts help) + subject-card alignment fix
+- Next-round ideas: teacher-facing analytics (future backend), worksheet difficulty-mix option, constants harmonization pass (k = 9×10⁹ vs 8.99×10⁹), more multi-concept templates, per-problem time in progress dashboard records (persist timeSec in ProblemRecord for cross-session analytics)
