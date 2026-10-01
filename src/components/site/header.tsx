@@ -30,12 +30,14 @@ function BrandMark({ className }: { className?: string }) {
   return (
     <span
       className={cn(
-        "inline-flex h-9 w-9 items-center justify-center rounded-lg bg-primary font-serif text-sm font-bold text-primary-foreground",
+        "relative inline-flex h-9 w-9 items-center justify-center rounded-md bg-primary text-primary-foreground",
         className,
       )}
       aria-hidden="true"
     >
-      {siteConfig.initials}
+      {/* inner hairline — the frame of a stamp */}
+      <span className="absolute inset-[3px] rounded-[3px] border border-primary-foreground/30" />
+      <span className="font-serif text-[19px] italic leading-none">{siteConfig.monogram}</span>
     </span>
   );
 }

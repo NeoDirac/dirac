@@ -7,7 +7,7 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, Check, Flag, Inbox, Keyboard, RotateCcw, SkipForward, Timer, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Flag, Inbox, Keyboard, MessageCircle, RotateCcw, SkipForward, Timer, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -43,10 +43,26 @@ import { useToast } from "@/hooks/use-toast";
 import { checkAnswer, type AnswerSubmission } from "@/lib/validation/answer";
 import { mathCurriculum } from "@/content/curriculum/math";
 import { physicsCurriculum } from "@/content/curriculum/physics";
+import { siteConfig } from "@/config/site";
 import type { Problem, SessionConfig, SessionRecord } from "@/lib/types";
 import { cn, formatClock } from "@/lib/utils";
 
 const BATCH = 10;
+
+/** Quiet link to the profe's WhatsApp — the human escape hatch. */
+function AskTutorLink({ href, label }: { href: string; label: string }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-flex items-center gap-1.5 text-sm text-muted-foreground underline-offset-4 transition-colors hover:text-subject-physics hover:underline"
+    >
+      <MessageCircle className="h-4 w-4" aria-hidden="true" />
+      {label}
+    </a>
+  );
+}
 
 const SHORTCUTS: { keys: string; labelKey: string }[] = [
   { keys: "H", labelKey: "practice.shortcuts.hint" },
@@ -207,6 +223,23 @@ export function SessionView({ config }: { config: SessionConfig }) {
         ? t("nav.math")
         : t("nav.physics")
       : t("mixed.subject.both");
+
+  // «¿No sale? Pregúntame» — WhatsApp deep link with the problem the student
+  // is stuck on, so the profe receives context instead of a bare "help".
+  const askTutorHref = useMemo(() => {
+    const base = `https://wa.me/${siteConfig.whatsapp.number}`;
+    if (!current) return base;
+    const raw = current.statement[lang]
+      .replace(/\$\$?/g, "")
+      .replace(/\*\*/g, "")
+      .replace(/\{\{[^}]*\}\}/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+    const snippet = raw.length > 140 ? `${raw.slice(0, 140)}…` : raw;
+    const where = topicName || subjectLabel;
+    const msg = t("practice.askTutor.message", { topic: where, problem: snippet });
+    return `${base}?text=${encodeURIComponent(msg)}`;
+  }, [current, lang, t, topicName, subjectLabel]);
 
   const backHref =
     (config.mode === "topic" || config.mode === "single") && config.topicId && config.subjects.length === 1
@@ -630,14 +663,17 @@ export function SessionView({ config }: { config: SessionConfig }) {
       />
 
       {/* bottom actions */}
-      <div className="mt-5 flex flex-col-reverse gap-2 sm:flex-row sm:justify-between">
+      <div className="mt-5 flex flex-col-reverse gap-2 sm:flex-row sm:items-center sm:justify-between">
         {currentState.status === "attempting" ? (
-          <Button type="button" variant="ghost" onClick={handleSkip} className="gap-2 text-muted-foreground">
-            <SkipForward className="h-4 w-4" aria-hidden="true" />
-            {t("practice.skip")}
-          </Button>
+          <div className="flex items-center gap-3">
+            <Button type="button" variant="ghost" onClick={handleSkip} className="gap-2 text-muted-foreground">
+              <SkipForward className="h-4 w-4" aria-hidden="true" />
+              {t("practice.skip")}
+            </Button>
+            <AskTutorLink href={askTutorHref} label={t("practice.askTutor")} />
+          </div>
         ) : (
-          <span />
+          <AskTutorLink href={askTutorHref} label={t("practice.askTutor")} />
         )}
         <Button
           type="button"

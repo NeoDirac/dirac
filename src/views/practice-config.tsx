@@ -75,7 +75,7 @@ export function PracticeConfigView() {
 
         <fieldset>
           <legend className="text-sm font-medium">{t("mixed.difficulty")}</legend>
-          <div className="mt-2.5 flex flex-wrap gap-2">
+          <div className="mt-2.5 grid grid-cols-3 gap-2 sm:grid-cols-5">
             {DIFFICULTIES.map((d) => (
               <button
                 key={d}

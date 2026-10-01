@@ -38,7 +38,7 @@ const es: Dictionary = {
   "difficulty.label": "Dificultad",
 
   // home
-  "home.hero.badge": "Plataforma de práctica personal",
+  "home.hero.badge": "Clases particulares de matemáticas y física",
   "home.continue.title": "Sigue donde lo dejaste",
   "home.continue.cta": "Seguir practicando",
   "home.reviewDue.title": "Repaso pendiente",
@@ -60,16 +60,19 @@ const es: Dictionary = {
   "goal.ringLabel": "Progreso del objetivo de hoy",
   "goal.summary.today": "Hoy has resuelto {done} de {total} problemas.",
   "goal.summary.keep": "El hábito se construye día a día — nos vemos mañana.",
-  "home.hero.title1": "Practica las matemáticas",
-  "home.hero.title2": "y la física que vemos en clase.",
+  "home.hero.title1": "Entender está bien.",
+  "home.hero.title2": "Resolver es lo que cuenta.",
   "home.hero.subtitle":
-    "Ejercicios interactivos con pistas graduadas, corrección inmediata y soluciones paso a paso. Aquí no se explica la teoría: aquí se entrena.",
+    "Ejercicios con pistas graduadas, corrección inmediata y soluciones trabajadas paso a paso. La clase explica; aquí se entrena.",
   "home.hero.ctaMain": "Elegir tema para practicar",
   "home.hero.ctaQuick": "Práctica rápida · 5 problemas",
   "home.hero.stat1": "temas de matemáticas",
   "home.hero.stat2": "temas de física",
   "home.hero.stat3": "variantes infinitas",
   "home.subjects.title": "Elige tu materia",
+  "home.section.subjects": "§ 1 · Las materias",
+  "home.section.method": "§ 2 · El método",
+  "home.section.tutor": "§ 3 · El profe",
   "home.subjects.subtitle": "Desde los fundamentos hasta el nivel preuniversitario.",
   "home.subjects.mathDesc": "Desde los fundamentos del álgebra hasta el pre-cálculo completo: ecuaciones, funciones, trigonometría y más.",
   "home.subjects.physicsDesc": "Desde las herramientas matemáticas y la mecánica hasta electricidad, ondas y física moderna.",
@@ -90,13 +93,13 @@ const es: Dictionary = {
   "home.tutor.title": "Tu profesor",
   "home.tutor.role": "Profesor particular de matemáticas y física",
   "home.tutor.bio1":
-    "Soy {tutorName}. En clase explico los conceptos, resolvemos dudas y trabajamos la técnica. Esta plataforma es la sala de entrenamiento: aquí conviertes lo aprendido en destreza.",
+    "Soy {tutorName} — para los estudiantes, el Profe Dirac. En clase explico los conceptos, resolvemos dudas y afilamos la técnica. Esta plataforma es la sala de entrenamiento: aquí lo aprendido se vuelve destreza.",
   "home.tutor.bio2":
     "Sin cuentas, sin rankings y sin prisas. Tu progreso se guarda solo en tu navegador.",
-  "home.tutor.cta": "Reservar una sesión",
+  "home.tutor.cta": "Escríbeme por WhatsApp",
   "home.cta.title": "¿Atascado con algún problema?",
-  "home.cta.desc": "Reserva una sesión y lo trabajamos juntos, paso a paso.",
-  "home.cta.button": "Contactar",
+  "home.cta.desc": "Mándame una foto del problema por WhatsApp y lo trabajamos juntos, paso a paso.",
+  "home.cta.button": "Abrir WhatsApp",
 
   // subject page
   "subject.math.title": "Matemáticas",
@@ -159,6 +162,8 @@ const es: Dictionary = {
   "practice.check": "Comprobar respuesta",
   "practice.checking": "Comprobando…",
   "practice.skip": "Saltar problema",
+  "practice.askTutor": "¿No sale? Pregúntame",
+  "practice.askTutor.message": "Hola profe Dirac: estoy practicando {topic} y me atascué en este problema: {problem} — ¿me ayudas?",
   "practice.next": "Siguiente problema",
   "practice.nextShortcut": "Siguiente",
   "practice.newVariant": "Otra variante",
@@ -346,7 +351,7 @@ const es: Dictionary = {
 
   // about page
   "about.title": "Acerca de",
-  "about.subtitle": "Una plataforma de práctica al servicio de las clases.",
+  "about.subtitle": "Práctica deliberada, al servicio de las clases.",
   "about.method.title": "Cómo trabajo",
   "about.method.1.title": "En clase: conceptos",
   "about.method.1.desc": "Explico la teoría, resolvemos dudas y construimos la técnica juntos.",
@@ -358,9 +363,15 @@ const es: Dictionary = {
   "about.privacy.desc":
     "No necesitas una cuenta para practicar. Tu progreso se guarda únicamente en tu navegador y no se recogen datos personales. Los datos de contacto solo se usan si me escribes.",
   "about.contact.title": "Contacto",
-  "about.contact.desc": "¿Dudas, clases a medida o preparación de exámenes? Escríbeme.",
+  "about.contact.desc": "¿Dudas, clases a medida o preparación de exámenes? WhatsApp primero — es donde respondo más rápido.",
   "about.contact.email": "Escribir un correo",
-  "about.contact.book": "Reservar sesión",
+  "about.contact.whatsapp": "Escribir por WhatsApp",
+  "about.whyDirac.title": "¿Por qué «Dirac»?",
+  "about.whyDirac.p1":
+    "Paul Dirac fue un físico famoso por decir mucho con poco: ecuaciones cortas, limpias, sin un símbolo de más. Esa es la idea de trabajo en clase — un buen procedimiento se parece a una buena demostración: corto, claro y sin pasos de relleno.",
+  "about.whyDirac.p2":
+    "El seudónimo empezó como broma y se quedó. Además, δ es cómodo de escribir en la pizarra.",
+
   "about.tutor.bio.title": "Sobre mí",
 
   // footer
@@ -368,6 +379,8 @@ const es: Dictionary = {
   "footer.privacy": "Tu progreso se guarda en tu navegador. Sin cuentas, sin datos personales.",
   "footer.navigation": "Navegación",
   "footer.contact": "Contacto",
+  "footer.contact.fastest": "respondo más rápido",
+  "footer.contact.note": "Clases particulares de {name} · Matemáticas y Física",
   "footer.rights": "© {year} {name}. Todos los derechos reservados.",
 
   // misc
@@ -435,7 +448,7 @@ const en: Dictionary = {
   "difficulty.challenge": "Challenge",
   "difficulty.label": "Difficulty",
 
-  "home.hero.badge": "Personal practice platform",
+  "home.hero.badge": "Private mathematics & physics tutoring",
   "home.continue.title": "Pick up where you left off",
   "home.continue.cta": "Keep practicing",
   "home.reviewDue.title": "Review due",
@@ -457,16 +470,19 @@ const en: Dictionary = {
   "goal.ringLabel": "Progress toward today's goal",
   "goal.summary.today": "You solved {done} of {total} problems today.",
   "goal.summary.keep": "Habits are built one day at a time — see you tomorrow.",
-  "home.hero.title1": "Practice the mathematics",
-  "home.hero.title2": "and physics we cover in class.",
+  "home.hero.title1": "Understanding is fine.",
+  "home.hero.title2": "Solving is what counts.",
   "home.hero.subtitle":
-    "Interactive exercises with graduated hints, instant checking and step-by-step solutions. No lectures here — this is where you train.",
+    "Exercises with graduated hints, instant checking and fully worked solutions. Lessons explain; here is where you train.",
   "home.hero.ctaMain": "Choose a topic to practice",
   "home.hero.ctaQuick": "Quick practice · 5 problems",
   "home.hero.stat1": "math topics",
   "home.hero.stat2": "physics topics",
   "home.hero.stat3": "endless variants",
   "home.subjects.title": "Choose your subject",
+  "home.section.subjects": "§ 1 · Subjects",
+  "home.section.method": "§ 2 · The method",
+  "home.section.tutor": "§ 3 · The tutor",
   "home.subjects.subtitle": "From the foundations up to pre-university level.",
   "home.subjects.mathDesc": "From algebra foundations to full pre-calculus: equations, functions, trigonometry and more.",
   "home.subjects.physicsDesc": "From mathematical tools and mechanics to electricity, waves and modern physics.",
@@ -487,13 +503,13 @@ const en: Dictionary = {
   "home.tutor.title": "Your tutor",
   "home.tutor.role": "Private mathematics and physics tutor",
   "home.tutor.bio1":
-    "I'm {tutorName}. In class I explain the concepts, answer questions and build technique together with you. This platform is the training room: it turns what you learn into skill.",
+    "I'm {tutorName} — to my students, Profe Dirac. In class I explain the concepts, answer questions and sharpen technique. This platform is the training room: what you learn becomes skill.",
   "home.tutor.bio2":
     "No accounts, no leaderboards, no rush. Your progress is stored only in your browser.",
-  "home.tutor.cta": "Book a session",
+  "home.tutor.cta": "Message me on WhatsApp",
   "home.cta.title": "Stuck on a problem?",
-  "home.cta.desc": "Book a session and we'll work through it together, step by step.",
-  "home.cta.button": "Get in touch",
+  "home.cta.desc": "Send me a photo of the problem on WhatsApp and we'll work through it together, step by step.",
+  "home.cta.button": "Open WhatsApp",
 
   "subject.math.title": "Mathematics",
   "subject.physics.title": "Physics",
@@ -553,6 +569,8 @@ const en: Dictionary = {
   "practice.check": "Check answer",
   "practice.checking": "Checking…",
   "practice.skip": "Skip problem",
+  "practice.askTutor": "Stuck? Ask me",
+  "practice.askTutor.message": "Hi profe Dirac — I'm practicing {topic} and I'm stuck on this problem: {problem}. Can you help?",
   "practice.next": "Next problem",
   "practice.nextShortcut": "Next",
   "practice.newVariant": "New variant",
@@ -732,7 +750,7 @@ const en: Dictionary = {
   "activity.trend.empty.desc": "Practice on a couple of days and your progress will show up here.",
 
   "about.title": "About",
-  "about.subtitle": "A practice platform in service of the lessons.",
+  "about.subtitle": "Deliberate practice, in service of the lessons.",
   "about.method.title": "How I work",
   "about.method.1.title": "In class: concepts",
   "about.method.1.desc": "I explain the theory, we resolve questions and build technique together.",
@@ -744,15 +762,22 @@ const en: Dictionary = {
   "about.privacy.desc":
     "You don't need an account to practice. Your progress is stored only in your browser and no personal data is collected. Contact details are used only if you write to me.",
   "about.contact.title": "Contact",
-  "about.contact.desc": "Questions, tailored lessons or exam preparation? Write to me.",
+  "about.contact.desc": "Questions, tailored lessons or exam prep? WhatsApp first — it's where I reply fastest.",
   "about.contact.email": "Send an email",
-  "about.contact.book": "Book a session",
+  "about.contact.whatsapp": "Message on WhatsApp",
+  "about.whyDirac.title": "Why “Dirac”?",
+  "about.whyDirac.p1":
+    "Paul Dirac was a physicist famous for saying a lot with a little: short, clean equations without a single symbol to spare. That is how we work in class — a good procedure looks like a good proof: short, clear, no filler steps.",
+  "about.whyDirac.p2":
+    "The pseudonym started as a joke and it stuck. Also, δ is easy to write on the board.",
   "about.tutor.bio.title": "About me",
 
   "footer.tagline": "Mathematics and physics practice with instant checking and step-by-step solutions.",
   "footer.privacy": "Your progress is stored in your browser. No accounts, no personal data.",
   "footer.navigation": "Navigation",
   "footer.contact": "Contact",
+  "footer.contact.fastest": "fastest reply",
+  "footer.contact.note": "Private tutoring by {name} · Mathematics & Physics",
   "footer.rights": "© {year} {name}. All rights reserved.",
 
   "lang.name": "English",

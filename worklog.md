@@ -691,3 +691,40 @@ Stage Summary:
   4. Física curada con razonamiento de modelo (Kompetenzprofil como guía de diseño).
   5. Topics de cálculo para desbloquear el FSP 2020 (decisión del tutor).
   6. Ideas UI del worklog anterior aún vivas: per-subtopic analytics, goal-aware celebration en el resumen de sesión, filtros por reasoning/fuente en la vista de tema.
+
+---
+Task ID: 14
+Agent: main (Z.ai Code) — scheduled review round 9 + tutor identity & rebranding directive
+Task: QA de estabilidad + directiva del tutor Sebastián Calderón: rebranding completo a "Profe Dirac" (WhatsApp +593999595175 preferente, email asecald@gmail.com), eliminación TOTAL del verde (paleta neutra cálida), y rediseño anti-"look IA" (más artesanal/editorial).
+
+Work Log:
+- Gates al inicio: validate 465·0/0, tsc limpio (solo ruido examples/skills), lint limpio, servidor 3000 OK.
+- DIRECTIVA DEL TUTOR (este chat): nombre Sebastián Calderón, pseudónimo "Profe Dirac", WhatsApp +593999595175 (PREFERIDO sobre correo), email asecald@gmail.com, NO le gusta el verde (quiere neutros sin verde), y opina que el sitio "se ve muy hecho por IA".
+- REBRANDING (src/config/site.ts reescrito): tutorName "Sebastián Calderón", brandName "Profe Dirac", monogram "δ" (delta de Dirac — nuevo campo que reemplaza initials), whatsapp { number: "593999595175", display: "+593 99 959 5175" }, email real, bookingUrl/socials ELIMINADOS (eran placeholders cal.com/example — el mayor "tell" de IA), bio reescrita sin inventar credenciales ("más de diez años" eliminado), site.url → profedirac.com (placeholder de dominio futuro).
+- PALETA "tinta, arcilla y latón" (globals.css completo): verde/teal ELIMINADO al 100% (hues 152/172 → 0 apariciones). Primary = tinta grafito oklch(0.32 0.014 70) (botones tipo letterpress). Subject math = grafito, physics = arcilla oklch(0.50 0.115 42). Success = latón oklch(0.50 0.10 75) (la "estrella dorada" del profe — ya no verde). Dificultad = rampa térmica terracota (arena 0.62/0.08/80 → ocre → arcilla → oxblood 0.40/0.12/28). Dark mode espejado (pizarra de tiza). Print palette también despintada de teal. Radius 0.625→0.375rem + --radius-2xl/3xl conectados a la variable (esquinas editoriales).
+- TIPOGRAFÍA (layout.tsx): Inter → IBM Plex Sans (UI), Source Serif 4 → Fraunces con ejes opsz/SOFT (display), JetBrains Mono se mantiene. Variables renombradas (--font-ui, --font-serif-display). Metadata + JSON-LD Person con alternateName "Profe Dirac", telephone, email real. themeColor actualizado.
+- MARCA: src/app/icon.svg NUEVO (favicon δ sobre tinta), public/logo.svg reemplazado (la Z del template), public/tutor.svg rehecho como ex-libris tipográfico (marco doble, δ grande, "PROFE DIRAC" espaciado, ⟨ψ|φ⟩ en arcilla).
+- COPY (dictionary.ts ES+EN): hero "Entender está bien. / Resolver es lo que cuenta." (acento serif itálico en arcilla), badge→overline editorial con δ, bio en primera persona del profe, CTA "manda foto del problema por WhatsApp", about.whyDirac.* (¿Por qué «Dirac»? — Paul Dirac, ecuaciones cortas sin símbolos de más; "el seudónimo empezó como broma y se quedó"), footer.contact.fastest/note, practice.askTutor(±message), home.section.* ("§ 1 · Las materias"…). Sección about "la firma de la casa" con ∫δ(x−a)f(x)dx=f(a).
+- COMPONENTES: header.tsx BrandMark = sello δ con filo interior (rounded-md, italic serif). footer.tsx reescrito: WhatsApp primero (destacado, con nota "respondo más rápido"), email segundo, línea "Hecho a mano — sin plantillas ni relleno." about.tsx: sección whyDirac con notebook-margin, contacto WhatsApp-primero. home.tsx: HeroCurve → PIZARRRA SVG artesanal (marco de madera arcilla, tiza: δ(x−a) con pico y eje, ∫δ(x−a)f(x)dx=f(a), ⟨ψ|φ⟩, ecuaciones fantasma de tiza, PIEZA DE TIZA y BORRADOR en la repisa — VLM: "el toque maestro de humanidad"), overline con δ, stats con separadores hairline, tarjetas rounded-lg con bordes en hover, CTA band = tinta con marca de agua δ gigante.
+- NUEVA FUNCIÓN — "¿No sale? Pregúntame" (session-view.tsx): enlace discreto a WhatsApp bajo el problema (siempre visible en bottom actions), con mensaje PRE-RELLENADO que incluye el tema (topicName/subjectLabel según modo) y el enunciado del problema (LaTeX/markup pelado, 140 chars). AskTutorLink component + askTutorHref useMemo. VERIFICADO en vivo: URL wa.me/593999595175?text=... con "Hola profe Dirac: estoy practicando Funciones y ecuaciones cuadráticas y me atascué en este problema: Calcula el vértice…" (ES) y equivalente EN.
+- Detalle artesanal: notebook-margin (línea vertical arcilla al 42% dentro de la tarjeta del problema — margen de cuaderno escolar) aplicada a problem-view.tsx; bg-paper-grain (grano de papel feTurbulence al 5%, multiply/overlay según tema) en el hero; rule-label (§ + mayúsculas + filete) en secciones.
+- FIXES de QA propia+VLM: (a) overline contraste bajo → foreground/75; (b) stats flotantes → grid 3 cols con border-l; (c) badge "Fundamento" casi invisible → diff-easy oscurecido 0.70→0.62; (d) botón "Desafío" huérfano en selectores de dificultad (practice-config.tsx y topic.tsx) → grid grid-cols-3 sm:grid-cols-5 (5 botones en una fila en desktop, 3+2 en móvil); (e) CalendarClock import restaurado tras 500 transitorio.
+- QA browser completo: home ES/EN (título "Profe Dirac — Práctica de Matemáticas y Física"), flujo dorado quadratics k=7 (MC: incorrecta→"Not yet"→pista H→correcta aceptada→Next), cambio ES mid-sesión, about completo, móvil 390px home/progress/session SIN overflow, dark mode (paleta cálida consistente, pizarra integrada), footer sticky en página larga, consola sin errores reales (solo buffers HMR históricos), dev.log limpio (GET / 200).
+- VLM (4 rondas): "Sin rastro de verde/teal — terracota sofisticado y artesanal"; pizarra "demuestra autoría temática inmediata, la tiza es el toque maestro"; tipografía "revista científica de lujo, no la típica Inter+Bold"; logo "sello personal, no un logo de Midjourney con gradientes"; ex-libris "perfecto"; fixes posteriores confirmados (grid ordenado, Fundamento legible).
+
+Verification (all green):
+- bunx tsc --noEmit → 0 errores (excl. examples/skills); bun run lint → limpio
+- bun run validate:content → 465 templates · 0 errors · 0 warnings · 40 curadas · 8 fuentes
+- agent-browser: flujo completo + móvil + dark + WhatsApp links verificados con texto pre-rellenado ES/EN
+- 0 verde/teal en src (rg oklch hues 152/172 → solo aparecen… ninguno; paleta 100% warm-neutral)
+
+Stage Summary:
+- Rebranding COMPLETO a Profe Dirac con identidad real (nombre, WhatsApp preferente, email), cero placeholders. Las tres directrices del tutor cumplidas: sin verde (paleta tinta/arcilla/latón), WhatsApp-primero en TODOS los puntos de contacto (footer, about, home, y el nuevo "¿No sale? Pregúntame" en plena sesión con contexto del problema), y diseño editorial artesanal (pizarra de tiza con notación de Dirac, ex-libris tipográfico, sello δ, Fraunces+Plex, margen de cuaderno, grano de papel, copy con voz de profe real).
+- La función "Pregúntame" convierte el canal preferido del tutor en feature del producto: el estudiante atascado manda el problema con un clic.
+- Pendiente / próximos pasos (prioridad):
+  1. El tutor debe reemplazar public/tutor.svg por su foto real cuando la tenga (siteConfig.photo apunta ahí; el ex-libris es el placeholder digno).
+  2. Dominio real: siteConfig.site.url usa profedirac.com como placeholder — confirmar dominio cuando exista (metadata/OpenGraph/JSON-LD lo usan).
+  3. Re-auditoría de dificultad del banco legado (solo linear-equations rehecho; orden en DIFFICULTY.md) — sigue siendo el pendiente #1 de contenido.
+  4. Continuar importación ESPOL por capítulos (trigonometría, geometría analítica, desigualdades).
+  5. Cuarentena Bayern ítem 5 + física curada con Kompetenzprofil — requieren decisión del tutor.
+  6. Ideas UI vivas: per-subtopic analytics, filtros por reasoning/fuente en la vista de tema.

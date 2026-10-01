@@ -1,20 +1,22 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Source_Serif_4, JetBrains_Mono } from "next/font/google";
+import { Fraunces, IBM_Plex_Sans, JetBrains_Mono } from "next/font/google";
 import "katex/dist/katex.min.css";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Providers } from "@/components/site/providers";
 import { siteConfig } from "@/config/site";
 
-const inter = Inter({
-  variable: "--font-inter",
+const plexSans = IBM_Plex_Sans({
+  variable: "--font-ui",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
-const sourceSerif = Source_Serif_4({
+const fraunces = Fraunces({
   variable: "--font-serif-display",
   subsets: ["latin"],
+  axes: ["opsz", "SOFT"],
   display: "swap",
 });
 
@@ -31,6 +33,7 @@ export const metadata: Metadata = {
   },
   description: siteConfig.site.description.es,
   keywords: [
+    "profe dirac",
     "práctica matemáticas",
     "práctica física",
     "ejercicios resueltos",
@@ -70,8 +73,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#fcfbf8" },
-    { media: "(prefers-color-scheme: dark)", color: "#1e1d1a" },
+    { media: "(prefers-color-scheme: light)", color: "#f7f4ec" },
+    { media: "(prefers-color-scheme: dark)", color: "#211e1a" },
   ],
 };
 
@@ -79,9 +82,11 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: siteConfig.tutorName,
-  jobTitle: "Tutor",
+  alternateName: siteConfig.brandName,
+  jobTitle: "Tutor de matemáticas y física",
   description: siteConfig.bio.es,
   email: `mailto:${siteConfig.email}`,
+  telephone: `+${siteConfig.whatsapp.number}`,
   url: siteConfig.site.url,
   knowsAbout: [
     "Mathematics",
@@ -101,7 +106,7 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${sourceSerif.variable} ${jetbrainsMono.variable} font-sans antialiased bg-background text-foreground`}
+        className={`${plexSans.variable} ${fraunces.variable} ${jetbrainsMono.variable} font-sans antialiased bg-background text-foreground`}
       >
         <script
           type="application/ld+json"

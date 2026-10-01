@@ -14,7 +14,7 @@ import {
   ChevronDown,
   History,
   Lightbulb,
-  Mail,
+  MessageCircle,
   Sigma,
   Target,
   Zap,
@@ -40,42 +40,68 @@ import { physicsCurriculum } from "@/content/curriculum/physics";
 import { cn } from "@/lib/utils";
 
 function HeroCurve() {
-  // subtle decorative curve — sine + grid, restrained
+  // The profe's chalkboard — Dirac notation, drawn by hand.
+  // Board + clay frame + chalk writing + a piece of chalk and an eraser on the tray.
+  const chalk = "#ece5d3";
   return (
     <svg
-      viewBox="0 0 420 220"
-      className="hidden h-auto w-full max-w-sm lg:block"
+      viewBox="0 0 420 260"
+      className="hidden h-auto w-full max-w-md lg:block"
       aria-hidden="true"
     >
       <defs>
-        <clipPath id="hero-clip">
-          <rect x="0" y="0" width="420" height="220" rx="14" />
+        <clipPath id="board-clip">
+          <rect x="10" y="8" width="400" height="226" rx="7" />
         </clipPath>
       </defs>
-      <g clipPath="url(#hero-clip)">
-        <rect width="420" height="220" fill="var(--card)" />
-        {Array.from({ length: 10 }).map((_, i) => (
-          <line key={`v${i}`} x1={42 * i} y1="0" x2={42 * i} y2="220" stroke="var(--diagram-grid)" strokeWidth="1" />
-        ))}
-        {Array.from({ length: 6 }).map((_, i) => (
-          <line key={`h${i}`} x1="0" y1={44 * i} x2="420" y2={44 * i} stroke="var(--diagram-grid)" strokeWidth="1" />
-        ))}
-        <line x1="0" y1="110" x2="420" y2="110" stroke="var(--diagram-axis)" strokeWidth="1.4" />
-        <line x1="0" y1="176" x2="420" y2="44" stroke="var(--diagram-secondary)" strokeWidth="2" strokeDasharray="6 5" />
-        <path
-          d="M0,110 C60,110 80,30 140,30 C200,30 220,110 280,110 C340,110 360,190 420,190"
-          fill="none"
-          stroke="var(--diagram-primary)"
-          strokeWidth="2.6"
-          strokeLinecap="round"
-        />
-        <circle cx="140" cy="30" r="4" fill="var(--diagram-primary)" />
-        <circle cx="280" cy="110" r="4" fill="var(--diagram-primary)" />
-        {/* quiet labels so the figure reads as a real graph, not decoration */}
-        <text x="412" y="126" fontSize="13" fill="var(--diagram-muted)" textAnchor="end" fontStyle="italic">t</text>
-        <text x="8" y="20" fontSize="13" fill="var(--diagram-muted)" fontStyle="italic">f(t)</text>
-        <text x="150" y="26" fontSize="12" fill="var(--diagram-muted)" fontStyle="italic">max.</text>
-        <text x="290" y="126" fontSize="12" fill="var(--diagram-muted)" fontStyle="italic">0</text>
+      {/* clay wooden frame */}
+      <rect x="0" y="0" width="420" height="242" rx="10" fill="#a4552e" />
+      <rect x="10" y="8" width="400" height="226" rx="7" fill="#292420" />
+      {/* faint chalk dust ghosts (older lessons) */}
+      <g clipPath="url(#board-clip)" opacity="0.09">
+        <text x="48" y="200" fontFamily="Georgia, serif" fontStyle="italic" fontSize="20" fill={chalk}>(x+y)² = x² + 2xy + y²</text>
+        <text x="250" y="228" fontFamily="Georgia, serif" fontStyle="italic" fontSize="17" fill={chalk}>v = v₀ + at</text>
+        <circle cx="330" cy="52" r="26" fill="none" stroke={chalk} strokeWidth="2" />
+      </g>
+      {/* the delta spike sketch */}
+      <g clipPath="url(#board-clip)">
+        <line x1="150" y1="180" x2="150" y2="60" stroke={chalk} strokeWidth="2.4" strokeLinecap="round" transform="rotate(-1 150 120)" />
+        <path d="M150,60 l-5,11 h10 z" fill={chalk} transform="rotate(-1 150 120)" />
+        {/* x-axis */}
+        <line x1="86" y1="181" x2="218" y2="178" stroke={chalk} strokeWidth="1.8" strokeLinecap="round" transform="rotate(-1 150 120)" />
+        <path d="M218,178 l-9,-3.5 v7 z" fill={chalk} transform="rotate(-1 150 120)" />
+        <text x="224" y="184" fontFamily="Georgia, serif" fontStyle="italic" fontSize="16" fill={chalk}>x</text>
+        <text x="140" y="52" fontFamily="Georgia, serif" fontStyle="italic" fontSize="17" fill={chalk}>δ(x−a)</text>
+        <text x="141" y="203" fontFamily="Georgia, serif" fontStyle="italic" fontSize="15" fill={chalk}>a</text>
+        {/* chalk circle around the spike — the profe's emphasis */}
+        <ellipse cx="152" cy="132" rx="52" ry="64" fill="none" stroke={chalk} strokeWidth="1.7" opacity="0.85" transform="rotate(-4 152 132)" />
+      </g>
+      {/* the signature equation */}
+      <text
+        x="278"
+        y="132"
+        textAnchor="middle"
+        fontFamily="Georgia, serif"
+        fontStyle="italic"
+        fontSize="21"
+        fill={chalk}
+        transform="rotate(0.6 278 132)"
+      >
+        ∫ δ(x−a) f(x) dx
+      </text>
+      <text x="278" y="164" textAnchor="middle" fontFamily="Georgia, serif" fontStyle="italic" fontSize="21" fill={chalk} transform="rotate(0.6 278 148)">
+        = f(a)
+      </text>
+      {/* bra-ket doodle */}
+      <text x="62" y="70" fontFamily="Georgia, serif" fontStyle="italic" fontSize="19" fill={chalk} opacity="0.92" transform="rotate(-2 62 70)">⟨ψ|φ⟩</text>
+      {/* chalk tray */}
+      <rect x="36" y="242" width="348" height="10" rx="3" fill="#8f4a27" />
+      {/* a piece of chalk */}
+      <rect x="96" y="238" width="34" height="6" rx="3" fill={chalk} transform="rotate(-2 96 238)" />
+      {/* the eraser */}
+      <g transform="rotate(1.5 300 240)">
+        <rect x="284" y="231" width="42" height="12" rx="2.5" fill="#5c4a3a" />
+        <rect x="284" y="231" width="42" height="5" rx="2.5" fill="#3f3129" />
       </g>
     </svg>
   );
@@ -417,17 +443,17 @@ export function HomeView() {
   return (
     <div>
       {/* hero */}
-      <section className="border-b bg-graph-paper">
-        <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-[1.2fr_1fr] lg:items-center">
+      <section className="bg-paper-grain border-b bg-graph-paper">
+        <div className="relative mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-[1.15fr_1fr] lg:items-center">
           <div>
-            <p className="inline-flex items-center gap-2 rounded-full border bg-card px-3 py-1 text-xs font-medium text-muted-foreground">
-              <span className="h-1.5 w-1.5 rounded-full bg-primary" aria-hidden="true" />
+            <p className="flex items-center gap-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-foreground/75">
+              <span className="font-serif text-[16px] italic leading-none text-subject-physics" aria-hidden="true">δ</span>
               {t("home.hero.badge")}
             </p>
-            <h1 className="mt-5 font-serif text-4xl font-semibold leading-[1.15] tracking-tight text-balance sm:text-5xl">
+            <h1 className="mt-5 font-serif text-[2.55rem] font-semibold leading-[1.12] tracking-tight text-balance sm:text-5xl">
               {t("home.hero.title1")}
               <br />
-              <span className="text-primary">{t("home.hero.title2")}</span>
+              <span className="accent-serif text-subject-physics">{t("home.hero.title2")}</span>
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
               {t("home.hero.subtitle")}
@@ -443,15 +469,15 @@ export function HomeView() {
                 <a href={quickHref}>{t("home.hero.ctaQuick")}</a>
               </Button>
             </div>
-            <dl className="mt-13 flex flex-wrap gap-x-12 gap-y-4 border-t pt-6.5">
+            <dl className="mt-13 grid max-w-lg grid-cols-3 gap-x-8 gap-y-4 border-t pt-6.5">
               {[
                 { value: String(mathCurriculum.length), label: t("home.hero.stat1") },
                 { value: String(physicsCurriculum.length), label: t("home.hero.stat2") },
                 { value: "∞", label: t("home.hero.stat3") },
               ].map((s, i) => (
-                <div key={i} className="min-w-0">
+                <div key={i} className={cn("min-w-0 border-l border-foreground/15 pl-4", i === 0 && "border-l-0 pl-0")}>
                   <dt className="sr-only">{s.label}</dt>
-                  <dd className="font-serif text-xl font-semibold leading-none tabular-nums text-foreground/80">{s.value}</dd>
+                  <dd className="font-serif text-xl font-semibold leading-none tabular-nums text-foreground/85">{s.value}</dd>
                   <dd className="mt-2 text-xs leading-snug text-muted-foreground">{s.label}</dd>
                 </div>
               ))}
@@ -474,16 +500,17 @@ export function HomeView() {
 
       {/* subjects */}
       <section className="mx-auto max-w-6xl px-4 py-14 sm:px-6" aria-labelledby="subjects-heading">
-        <h2 id="subjects-heading" className="font-serif text-2xl font-semibold tracking-tight sm:text-3xl">
+        <p className="rule-label">{t("home.section.subjects")}</p>
+        <h2 id="subjects-heading" className="mt-3 font-serif text-2xl font-semibold tracking-tight sm:text-3xl">
           {t("home.subjects.title")}
         </h2>
         <p className="mt-2 text-muted-foreground">{t("home.subjects.subtitle")}</p>
         <div className="mt-7 grid gap-5 md:grid-cols-2">
           <a
             href={href({ name: "subject", subject: "math" })}
-            className="group rounded-2xl border bg-card p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:p-8"
+            className="group rounded-lg border bg-card p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:border-foreground/25 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:p-8"
           >
-            <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-subject-math/10 text-subject-math">
+            <span className="inline-flex h-12 w-12 items-center justify-center rounded-lg border border-subject-math/20 bg-subject-math/5 text-subject-math">
               <Calculator className="h-6 w-6" aria-hidden="true" />
             </span>
             <h3 className="mt-4 font-serif text-2xl font-semibold">{t("subject.math.title")}</h3>
@@ -495,9 +522,9 @@ export function HomeView() {
           </a>
           <a
             href={href({ name: "subject", subject: "physics" })}
-            className="group rounded-2xl border bg-card p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:p-8"
+            className="group rounded-lg border bg-card p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:border-foreground/25 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:p-8"
           >
-            <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-subject-physics/10 text-subject-physics">
+            <span className="inline-flex h-12 w-12 items-center justify-center rounded-lg border border-subject-physics/25 bg-subject-physics/[0.07] text-subject-physics">
               <Atom className="h-6 w-6" aria-hidden="true" />
             </span>
             <h3 className="mt-4 font-serif text-2xl font-semibold">{t("subject.physics.title")}</h3>
@@ -533,18 +560,17 @@ export function HomeView() {
 
       {/* how it works */}
       <section className="mx-auto max-w-6xl px-4 py-14 sm:px-6" aria-labelledby="how-heading">
-        <h2 id="how-heading" className="font-serif text-2xl font-semibold tracking-tight sm:text-3xl">
+        <p className="rule-label">{t("home.section.method")}</p>
+        <h2 id="how-heading" className="mt-3 font-serif text-2xl font-semibold tracking-tight sm:text-3xl">
           {t("home.how.title")}
         </h2>
         <p className="mt-2 max-w-2xl text-muted-foreground">{t("home.how.desc")}</p>
         <ol className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {steps.map((s, i) => (
-            <li key={i} className="rounded-2xl border bg-card p-5">
+            <li key={i} className="relative rounded-lg border bg-card p-5">
               <div className="flex items-center justify-between">
-                <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                  <s.icon className="h-5 w-5" aria-hidden="true" />
-                </span>
-                <span className="font-serif text-3xl font-semibold text-border" aria-hidden="true">
+                <s.icon className="h-5 w-5 text-subject-physics" aria-hidden="true" />
+                <span className="font-serif text-3xl font-semibold italic text-border" aria-hidden="true">
                   {i + 1}
                 </span>
               </div>
@@ -560,13 +586,14 @@ export function HomeView() {
         <div className="mx-auto grid max-w-6xl gap-8 px-4 py-14 sm:px-6 lg:grid-cols-[auto_1fr] lg:items-center">
           <Image
             src={siteConfig.photo}
-            alt={`${siteConfig.tutorName}`}
+            alt={`${siteConfig.brandName} — ${siteConfig.tutorName}`}
             width={160}
             height={160}
-            className="h-32 w-32 rounded-2xl border object-cover sm:h-40 sm:w-40"
+            className="h-32 w-32 rounded-lg border object-cover sm:h-40 sm:w-40"
           />
           <div>
-            <h2 id="tutor-heading" className="font-serif text-2xl font-semibold tracking-tight">
+            <p className="rule-label">{t("home.section.tutor")}</p>
+            <h2 id="tutor-heading" className="mt-3 font-serif text-2xl font-semibold tracking-tight">
               {t("home.tutor.title")}
             </h2>
             <p className="mt-1 text-sm font-medium text-primary">{siteConfig.role[lang]}</p>
@@ -576,19 +603,30 @@ export function HomeView() {
             <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
               {t("home.tutor.bio2")}
             </p>
-            <Button asChild className="mt-6 font-semibold">
-              <a href={siteConfig.bookingUrl} target="_blank" rel="noopener noreferrer">
-                <CalendarClock className="mr-2 h-4 w-4" aria-hidden="true" />
-                {t("home.tutor.cta")}
-              </a>
-            </Button>
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <Button asChild className="gap-2 font-semibold">
+                <a href={`https://wa.me/${siteConfig.whatsapp.number}`} target="_blank" rel="noopener noreferrer">
+                  <MessageCircle className="h-4 w-4" aria-hidden="true" />
+                  {t("home.tutor.cta")}
+                </a>
+              </Button>
+              <span className="font-mono text-sm tabular-nums text-muted-foreground" aria-label={siteConfig.whatsapp.display}>
+                {siteConfig.whatsapp.display}
+              </span>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="border-t bg-primary text-primary-foreground" aria-labelledby="cta-heading">
-        <div className="mx-auto flex max-w-6xl flex-col items-start gap-5 px-4 py-12 sm:px-6 sm:flex-row sm:items-center sm:justify-between">
+      {/* CTA — ink band, chalk delta watermark */}
+      <section className="relative overflow-hidden border-t bg-primary text-primary-foreground" aria-labelledby="cta-heading">
+        <span
+          className="pointer-events-none absolute -right-2 -top-10 select-none font-serif text-[11rem] italic leading-none text-primary-foreground/[0.07] sm:text-[15rem]"
+          aria-hidden="true"
+        >
+          δ
+        </span>
+        <div className="relative mx-auto flex max-w-6xl flex-col items-start gap-5 px-4 py-12 sm:px-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h2 id="cta-heading" className="font-serif text-2xl font-semibold tracking-tight">
               {t("home.cta.title")}
@@ -598,10 +636,10 @@ export function HomeView() {
           <Button
             asChild
             size="lg"
-            className="shrink-0 bg-primary-foreground font-semibold text-primary hover:bg-primary-foreground/90"
+            className="shrink-0 gap-2 bg-primary-foreground font-semibold text-primary hover:bg-primary-foreground/90"
           >
-            <a href={`mailto:${siteConfig.email}`}>
-              <Mail className="mr-2 h-4 w-4" aria-hidden="true" />
+            <a href={`https://wa.me/${siteConfig.whatsapp.number}`} target="_blank" rel="noopener noreferrer">
+              <MessageCircle className="h-4 w-4" aria-hidden="true" />
               {t("home.cta.button")}
             </a>
           </Button>

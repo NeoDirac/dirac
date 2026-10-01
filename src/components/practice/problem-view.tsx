@@ -187,7 +187,7 @@ export function ProblemView({
   return (
     <article
       key={problemKey}
-      className="animate-in fade-in slide-in-from-bottom-3 duration-300 rounded-2xl border bg-card p-5 shadow-sm transition-shadow sm:p-7"
+      className="notebook-margin animate-in fade-in slide-in-from-bottom-3 duration-300 rounded-lg border bg-card p-5 pl-7 shadow-sm transition-shadow sm:p-7 sm:pl-9"
       ref={focusRef}
     >
       {/* meta row */}
