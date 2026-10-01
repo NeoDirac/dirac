@@ -1957,4 +1957,321 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+
+  /* ================================================================== */
+  /* Segunda tanda ESPOL §3.11 (p. 322) — transcrita con el modelo de   */
+  /* visión (VLM), cruzada con la clave impresa (p. 803) y re-derivada. */
+  /* ================================================================== */
+
+  /* 3.11 · 111a — mx² − m³x + (1−m) = 0: sum of REAL roots = 1 → m = ±1 */
+  template(
+    {
+      id: "quad-espol-111a",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "roots",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 420,
+      tags: ["parameters", "vieta", "discriminant", "real-roots"],
+      prerequisites: ["quadratics"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3.11 · 111a",
+        page: 322,
+      },
+      reasoning: "parameters",
+    },
+    () => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$m = \\pm 1$`, `$m = \\pm 1$`), correct: true },
+        { id: "b", text: L(`$m = 1$ únicamente`, `$m = 1$ only`), correct: false },
+        { id: "c", text: L(`$m = \\pm 1$ y $m = 0$`, `$m = \\pm 1$ and $m = 0$`), correct: false },
+        { id: "d", text: L(`No existe tal $m$`, `No such $m$ exists`), correct: false },
+      ];
+      return {
+        skill: L("Vieta con parámetro + discriminante", "Vieta with a parameter + discriminant"),
+        statement: L(
+          `Dada la ecuación cuadrática $mx^2 - m^3x + (1 - m) = 0$, determina, de ser posible, los valores de $m$ para que la **suma de sus raíces reales** sea igual a $1$.`,
+          `Given the quadratic equation $mx^2 - m^3x + (1 - m) = 0$, determine, if possible, the values of $m$ for which the **sum of its real roots** equals $1$.`,
+        ),
+        answer: { kind: "multiple-choice", options },
+        hints: [
+          L(
+            "Para que sea cuadrática necesitas $m \\ne 0$; con eso, la suma de raíces por Vieta es $\\frac{m^3}{m} = m^2$.",
+            "For it to be quadratic you need $m \\ne 0$; then Vieta's sum of roots is $\\frac{m^3}{m} = m^2$.",
+          ),
+          L(
+            "Impón $m^2 = 1$: salen $m = \\pm 1$. Pero aún falta verificar que las raíces sean REALES.",
+            "Impose $m^2 = 1$: you get $m = \\pm 1$. But you still must verify the roots are REAL.",
+          ),
+          L(
+            "Revisa el discriminante para $m = 1$ ($x^2 - x = 0$) y para $m = -1$ ($-x^2 + x + 2 = 0$).",
+            "Check the discriminant for $m = 1$ ($x^2 - x = 0$) and for $m = -1$ ($-x^2 + x + 2 = 0$).",
+          ),
+        ],
+        answerDisplay: L(
+          `$m = \\pm 1$: en ambos casos las raíces son reales y suman $1$.`,
+          `$m = \\pm 1$: in both cases the roots are real and add up to $1$.`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$mx^2 - m^3x + (1-m) = 0$; se pide que la suma de las raíces reales valga $1$.",
+            "$mx^2 - m^3x + (1-m) = 0$; the sum of the real roots must equal $1$.",
+          ),
+          step(
+            "approach",
+            "Aplicar Vieta para expresar la suma en función del parámetro y después filtrar con el discriminante: solo cuentan los valores de $m$ que producen raíces reales.",
+            "Apply Vieta to express the sum in terms of the parameter, then filter with the discriminant: only the values of $m$ producing real roots count.",
+          ),
+          step(
+            "calculation",
+            `$m \\ne 0$ (cuadrática). Vieta: $x_1 + x_2 = \\frac{m^3}{m} = m^2$<br>$m^2 = 1 \\Rightarrow m = \\pm 1$<br>$m = 1:\\ x^2 - x = 0 \\Rightarrow x = 0, 1$ (reales, suma $1$ ✓)<br>$m = -1:\\ -x^2 + x + 2 = 0 \\Rightarrow x^2 - x - 2 = 0$, $\\Delta = 1 + 8 = 9 > 0$, raíces $2$ y $-1$ (suma $1$ ✓)`,
+            `$m \\ne 0$ (quadratic). Vieta: $x_1 + x_2 = \\frac{m^3}{m} = m^2$<br>$m^2 = 1 \\Rightarrow m = \\pm 1$<br>$m = 1:\\ x^2 - x = 0 \\Rightarrow x = 0, 1$ (real, sum $1$ ✓)<br>$m = -1:\\ -x^2 + x + 2 = 0 \\Rightarrow x^2 - x - 2 = 0$, $\\Delta = 1 + 8 = 9 > 0$, roots $2$ and $-1$ (sum $1$ ✓)`,
+          ),
+          step(
+            "result",
+            `Ambos candidatos sobreviven el filtro del discriminante: $m = \\pm 1$. (La trampa: olvidar verificar la realidad de las raíces — o incluir $m = 0$, donde la ecuación degenera en $1 = 0$ y ni siquiera hay raíces.)`,
+            `Both candidates survive the discriminant filter: $m = \\pm 1$. (The traps: forgetting to verify the roots are real — or including $m = 0$, where the equation degenerates to $1 = 0$ and there are no roots at all.)`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 3.11 · 111b — product of REAL roots = 1 → impossible */
+  template(
+    {
+      id: "quad-espol-111b",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "roots",
+      difficulty: "challenge",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 420,
+      tags: ["parameters", "vieta", "discriminant", "impossible"],
+      prerequisites: ["quadratics"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3.11 · 111b",
+        page: 322,
+      },
+      reasoning: "parameters",
+    },
+    () => {
+      const options: McOption[] = [
+        { id: "a", text: L(`No existe tal $m$`, `No such $m$ exists`), correct: true },
+        { id: "b", text: L(`$m = \\dfrac{1}{2}$`, `$m = \\dfrac{1}{2}$`), correct: false },
+        { id: "c", text: L(`$m = -\\dfrac{1}{2}$`, `$m = -\\dfrac{1}{2}$`), correct: false },
+        { id: "d", text: L(`$m = \\pm 1$`, `$m = \\pm 1$`), correct: false },
+      ];
+      return {
+        skill: L("Cuando Vieta promete pero el discriminante dice no", "When Vieta promises but the discriminant says no"),
+        statement: L(
+          `Dada la ecuación cuadrática $mx^2 - m^3x + (1 - m) = 0$, determina, de ser posible, los valores de $m$ para que el **producto de sus raíces reales** sea igual a $1$.`,
+          `Given the quadratic equation $mx^2 - m^3x + (1 - m) = 0$, determine, if possible, the values of $m$ for which the **product of its real roots** equals $1$.`,
+        ),
+        answer: { kind: "multiple-choice", options },
+        hints: [
+          L(
+            "Por Vieta el producto de raíces es $\\frac{1-m}{m}$ (con $m \\ne 0$).",
+            "By Vieta the product of roots is $\\frac{1-m}{m}$ (with $m \\ne 0$).",
+          ),
+          L(
+            "Impón $\\frac{1-m}{m} = 1$: sale $m = \\frac{1}{2}$. Pero… ¿las raíces son reales con ese valor?",
+            "Impose $\\frac{1-m}{m} = 1$: you get $m = \\frac{1}{2}$. But… are the roots real for that value?",
+          ),
+          L(
+            "Con $m = \\frac{1}{2}$ la ecuación es $\\frac{1}{2}x^2 - \\frac{1}{8}x + \\frac{1}{2} = 0$ (multiplicada por 8: $4x^2 - x + 4 = 0$): calcula el discriminante.",
+            "With $m = \\frac{1}{2}$ the equation is $\\frac{1}{2}x^2 - \\frac{1}{8}x + \\frac{1}{2} = 0$ (times 8: $4x^2 - x + 4 = 0$): compute the discriminant.",
+          ),
+        ],
+        answerDisplay: L(
+          `No es posible: el único candidato $m = \\frac{1}{2}$ produce raíces complejas ($\\Delta < 0$).`,
+          `It is not possible: the only candidate $m = \\frac{1}{2}$ produces complex roots ($\\Delta < 0$).`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$mx^2 - m^3x + (1-m) = 0$; se pide que el producto de las raíces reales valga $1$.",
+            "$mx^2 - m^3x + (1-m) = 0$; the product of the real roots must equal $1$.",
+          ),
+          step(
+            "approach",
+            "El mismo esquema que con la suma: Vieta da el candidato, pero la condición de raíces reales es la que decide. Aquí el candidato muere en el discriminante.",
+            "Same scheme as with the sum: Vieta gives the candidate, but the real-root condition decides. Here the candidate dies at the discriminant.",
+          ),
+          step(
+            "calculation",
+            `Vieta: $x_1 x_2 = \\frac{1-m}{m} = 1 \\Rightarrow 1 - m = m \\Rightarrow m = \\frac{1}{2}$<br>Con $m = \\frac{1}{2}$: $\\frac{1}{2}x^2 - \\frac{1}{8}x + \\frac{1}{2} = 0 \\Rightarrow 4x^2 - x + 4 = 0$<br>$\\Delta = (-1)^2 - 4(4)(4) = 1 - 64 = -63 < 0$`,
+            `Vieta: $x_1 x_2 = \\frac{1-m}{m} = 1 \\Rightarrow 1 - m = m \\Rightarrow m = \\frac{1}{2}$<br>With $m = \\frac{1}{2}$: $\\frac{1}{2}x^2 - \\frac{1}{8}x + \\frac{1}{2} = 0 \\Rightarrow 4x^2 - x + 4 = 0$<br>$\\Delta = (-1)^2 - 4(4)(4) = 1 - 64 = -63 < 0$`,
+          ),
+          step(
+            "result",
+            `Con $m = \\frac{1}{2}$ las raíces son complejas ($\\Delta = -63$), así que **no existe** ningún $m$ que cumpla la condición: el producto de raíces REALES nunca es $1$. El libro lo confirma: «No es posible».`,
+            `With $m = \\frac{1}{2}$ the roots are complex ($\\Delta = -63$), so **no** $m$ satisfies the condition: the product of REAL roots is never $1$. The book's answer key confirms: "No es posible".`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 3.11 · 112 — 4x² − 4xy − y² = 1: x in terms of y via the general formula */
+  template(
+    {
+      id: "quad-espol-112",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "quadratic-formula",
+      difficulty: "challenge",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 420,
+      tags: ["general-formula", "parameter", "literal-equation"],
+      prerequisites: ["quadratics"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3.11 · 112a",
+        page: 322,
+      },
+      reasoning: "parameters",
+    },
+    () => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$x = \\dfrac{y \\pm \\sqrt{2y^2 + 1}}{2}$`, `$x = \\dfrac{y \\pm \\sqrt{2y^2 + 1}}{2}$`), correct: true },
+        { id: "b", text: L(`$x = \\dfrac{y \\pm 1}{2}$`, `$x = \\dfrac{y \\pm 1}{2}$`), correct: false },
+        { id: "c", text: L(`$x = \\dfrac{y \\pm \\sqrt{y^2 + 1}}{2}$`, `$x = \\dfrac{y \\pm \\sqrt{y^2 + 1}}{2}$`), correct: false },
+        { id: "d", text: L(`$x = \\dfrac{4y \\pm \\sqrt{2y^2 + 1}}{8}$`, `$x = \\dfrac{4y \\pm \\sqrt{2y^2 + 1}}{8}$`), correct: false },
+      ];
+      return {
+        skill: L("Fórmula general con y como parámetro", "General formula with y as a parameter"),
+        statement: L(
+          `Dada la ecuación $4x^2 - 4xy - y^2 = 1$, utilice la fórmula general para resolver y obtener $x$ en términos de $y$.`,
+          `Given the equation $4x^2 - 4xy - y^2 = 1$, use the general (quadratic) formula to solve for $x$ in terms of $y$.`,
+        ),
+        answer: { kind: "multiple-choice", options },
+        hints: [
+          L(
+            "Trata la ecuación como cuadrática en $x$, con $y$ de constante: $4x^2 - 4yx + (-y^2 - 1) = 0$.",
+            "Treat the equation as a quadratic in $x$, with $y$ constant: $4x^2 - 4yx + (-y^2 - 1) = 0$.",
+          ),
+          L(
+            "Identifica $a = 4$, $b = -4y$, $c = -y^2 - 1$ y calcula el discriminante $b^2 - 4ac$.",
+            "Identify $a = 4$, $b = -4y$, $c = -y^2 - 1$ and compute the discriminant $b^2 - 4ac$.",
+          ),
+          L(
+            "$\\Delta = 16y^2 + 16(y^2 + 1) = 32y^2 + 16 = 16(2y^2 + 1)$, así que $\\sqrt{\\Delta} = 4\\sqrt{2y^2+1}$.",
+            "$\\Delta = 16y^2 + 16(y^2 + 1) = 32y^2 + 16 = 16(2y^2 + 1)$, so $\\sqrt{\\Delta} = 4\\sqrt{2y^2+1}$.",
+          ),
+        ],
+        answerDisplay: L(
+          `$x = \\dfrac{y \\pm \\sqrt{2y^2 + 1}}{2}$.`,
+          `$x = \\dfrac{y \\pm \\sqrt{2y^2 + 1}}{2}$.`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$4x^2 - 4xy - y^2 = 1$, vista como $4x^2 - 4yx - y^2 - 1 = 0$ (cuadrática en $x$).",
+            "$4x^2 - 4xy - y^2 = 1$, viewed as $4x^2 - 4yx - y^2 - 1 = 0$ (quadratic in $x$).",
+          ),
+          step(
+            "approach",
+            "Congelar $y$ como parámetro y aplicar la fórmula general $x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$; el discriminante simplifica a un cuadrado perfecto por el factor $16$.",
+            "Freeze $y$ as a parameter and apply the general formula $x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$; the discriminant simplifies to a perfect square via the factor $16$.",
+          ),
+          step(
+            "calculation",
+            `$a = 4,\\ b = -4y,\\ c = -y^2 - 1$<br>$\\Delta = b^2 - 4ac = 16y^2 - 4(4)(-y^2 - 1) = 16y^2 + 16y^2 + 16 = 16(2y^2 + 1)$<br>$x = \\dfrac{4y \\pm 4\\sqrt{2y^2+1}}{8} = \\dfrac{y \\pm \\sqrt{2y^2+1}}{2}$`,
+            `$a = 4,\\ b = -4y,\\ c = -y^2 - 1$<br>$\\Delta = b^2 - 4ac = 16y^2 - 4(4)(-y^2 - 1) = 16y^2 + 16y^2 + 16 = 16(2y^2 + 1)$<br>$x = \\dfrac{4y \\pm 4\\sqrt{2y^2+1}}{8} = \\dfrac{y \\pm \\sqrt{2y^2+1}}{2}$`,
+          ),
+          step(
+            "result",
+            `$x = \\frac{y \\pm \\sqrt{2y^2+1}}{2}$. Comprobación con $y = 0$: $x = \\pm\\frac{1}{2}$ y en efecto $4\\left(\\frac{1}{2}\\right)^2 = 1$ ✓. (Análogamente, resolviendo en $y$: $y = -2x \\pm \\sqrt{8x^2 - 1}$.)`,
+            `$x = \\frac{y \\pm \\sqrt{2y^2+1}}{2}$. Check with $y = 0$: $x = \\pm\\frac{1}{2}$ and indeed $4\\left(\\frac{1}{2}\\right)^2 = 1$ ✓. (Analogously, solving for $y$: $y = -2x \\pm \\sqrt{8x^2 - 1}$.)`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 3.11 · 116 — min of a²+4b²+3c²+13−2a−12b−6c = 0 */
+  template(
+    {
+      id: "quad-espol-116",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "completing-square",
+      difficulty: "challenge",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 480,
+      tags: ["completing-square", "optimization", "sum-of-squares", "multi-variable"],
+      prerequisites: ["quadratics"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3.11 · 116",
+        page: 322,
+      },
+      reasoning: "multi-concept",
+    },
+    () => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$0$`, `$0$`), correct: true },
+        { id: "b", text: L(`$1$`, `$1$`), correct: false },
+        { id: "c", text: L(`$2$`, `$2$`), correct: false },
+        { id: "d", text: L(`$13$`, `$13$`), correct: false },
+      ];
+      return {
+        skill: L("Completar cuadrados en tres variables", "Completing squares in three variables"),
+        statement: L(
+          `Calcula el **valor mínimo** de la expresión $a^2 + 4b^2 + 3c^2 + 13 - 2a - 12b - 6c$ con $a, b, c \\in \\mathbb{R}$.`,
+          `Find the **minimum value** of the expression $a^2 + 4b^2 + 3c^2 + 13 - 2a - 12b - 6c$ with $a, b, c \\in \\mathbb{R}$.`,
+        ),
+        answer: { kind: "multiple-choice", options },
+        hints: [
+          L(
+            "Agrupa por variable: los términos en $a$, los términos en $b$, los términos en $c$, y la constante.",
+            "Group by variable: the terms in $a$, the terms in $b$, the terms in $c$, and the constant.",
+          ),
+          L(
+            "Completa el cuadrado en cada grupo: $a^2 - 2a = (a-1)^2 - 1$; $4b^2 - 12b = (2b-3)^2 - 9$; $3c^2 - 6c = 3(c-1)^2 - 3$.",
+            "Complete the square in each group: $a^2 - 2a = (a-1)^2 - 1$; $4b^2 - 12b = (2b-3)^2 - 9$; $3c^2 - 6c = 3(c-1)^2 - 3$.",
+          ),
+          L(
+            "La expresión queda como suma de cuadrados más una constante: $13 - 1 - 9 - 3 = 0$. ¿Pueden los cuadrados ser cero a la vez?",
+            "The expression becomes a sum of squares plus a constant: $13 - 1 - 9 - 3 = 0$. Can all the squares be zero simultaneously?",
+          ),
+        ],
+        answerDisplay: L(
+          `Mínimo $= 0$, alcanzado en $(a, b, c) = \\left(1, \\frac{3}{2}, 1\\right)$.`,
+          `Minimum $= 0$, attained at $(a, b, c) = \\left(1, \\frac{3}{2}, 1\\right)$.`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$E = a^2 + 4b^2 + 3c^2 + 13 - 2a - 12b - 6c$, con $a, b, c \\in \\mathbb{R}$.",
+            "$E = a^2 + 4b^2 + 3c^2 + 13 - 2a - 12b - 6c$, with $a, b, c \\in \\mathbb{R}$.",
+          ),
+          step(
+            "approach",
+            "El libro pide demostrar $a^2 + 4b^2 + 3c^2 + 13 \\ge 2a + 12b + 6c$: la vía es reescribir la diferencia como suma de cuadrados (completar el cuadrado variable por variable).",
+            "The book asks to prove $a^2 + 4b^2 + 3c^2 + 13 \\ge 2a + 12b + 6c$: the way is to rewrite the difference as a sum of squares (completing the square variable by variable).",
+          ),
+          step(
+            "calculation",
+            `$a^2 - 2a = (a-1)^2 - 1$<br>$4b^2 - 12b = (2b-3)^2 - 9$<br>$3c^2 - 6c = 3(c-1)^2 - 3$<br>$E = (a-1)^2 + (2b-3)^2 + 3(c-1)^2 + 13 - 1 - 9 - 3 = (a-1)^2 + (2b-3)^2 + 3(c-1)^2$`,
+            `$a^2 - 2a = (a-1)^2 - 1$<br>$4b^2 - 12b = (2b-3)^2 - 9$<br>$3c^2 - 6c = 3(c-1)^2 - 3$<br>$E = (a-1)^2 + (2b-3)^2 + 3(c-1)^2 + 13 - 1 - 9 - 3 = (a-1)^2 + (2b-3)^2 + 3(c-1)^2$`,
+          ),
+          step(
+            "result",
+            `$E$ es una suma de cuadrados no negativos, así que $E \\ge 0$, y el mínimo $E = 0$ se alcanza cuando $a = 1$, $b = \\frac{3}{2}$, $c = 1$ simultáneamente. Esto prueba la desigualdad del libro: $a^2 + 4b^2 + 3c^2 + 13 \\ge 2a + 12b + 6c$.`,
+            `$E$ is a sum of non-negative squares, so $E \\ge 0$, and the minimum $E = 0$ is attained when $a = 1$, $b = \\frac{3}{2}$, $c = 1$ simultaneously. This proves the book's inequality: $a^2 + 4b^2 + 3c^2 + 13 \\ge 2a + 12b + 6c$.`,
+          ),
+        ],
+      };
+    },
+  ),
 ];

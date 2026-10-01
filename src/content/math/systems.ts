@@ -1291,4 +1291,318 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+
+  /* ================================================================== */
+  /* Segunda tanda ESPOL — §6.6 S.E.N.L. (pp. 753–754) + §3.11 (p. 322) */
+  /* Transcrita con el modelo de visión (VLM), cruzada con la clave      */
+  /* impresa y re-derivada de forma independiente.                       */
+  /* ================================================================== */
+
+  /* 6.6 · 1) — a+b=(√5+1)/2, 4ab=√5−1 → t = a²+b² = 2 */
+  template(
+    {
+      id: "sys-espol-senl1",
+      subject: "math",
+      topicId: "systems",
+      subtopicId: "applications",
+      difficulty: "challenge",
+      questionType: "numeric",
+      estimatedTimeSec: 420,
+      tags: ["non-linear", "notable-product", "symmetric", "modeling"],
+      prerequisites: ["quadratics"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "6.6 · 1)",
+        page: 753,
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L("Simétricos: trabajar con a+b y ab sin resolver", "Symmetric sums: work with a+b and ab without solving"),
+      statement: L(
+        `Sean $a, b \\in \\mathbb{R}$ tales que $a + b = \\dfrac{\\sqrt{5} + 1}{2}$ y $4ab = \\sqrt{5} - 1$. Determina el valor de $t = a^2 + b^2$.`,
+        `Let $a, b \\in \\mathbb{R}$ such that $a + b = \\dfrac{\\sqrt{5} + 1}{2}$ and $4ab = \\sqrt{5} - 1$. Determine the value of $t = a^2 + b^2$.`,
+      ),
+      answer: {
+        kind: "numeric",
+        value: 2,
+        tolerance: { mode: "absolute", value: 0.01 },
+      },
+      hints: [
+        L(
+          "No intentes despejar $a$ y $b$ por separado: la pregunta es sobre una combinación simétrica.",
+          "Do not try to solve for $a$ and $b$ separately: the question is about a symmetric combination.",
+        ),
+        L(
+          "Usa el producto notable $(a+b)^2 = a^2 + 2ab + b^2$, es decir $t = (a+b)^2 - 2ab$.",
+          "Use the notable product $(a+b)^2 = a^2 + 2ab + b^2$, i.e. $t = (a+b)^2 - 2ab$.",
+        ),
+        L(
+          "De $4ab = \\sqrt{5}-1$ sale $ab = \\frac{\\sqrt{5}-1}{4}$; y $\\left(\\frac{\\sqrt{5}+1}{2}\\right)^2 = \\frac{6+2\\sqrt{5}}{4} = \\frac{3+\\sqrt{5}}{2}$.",
+          "From $4ab = \\sqrt{5}-1$ you get $ab = \\frac{\\sqrt{5}-1}{4}$; and $\\left(\\frac{\\sqrt{5}+1}{2}\\right)^2 = \\frac{6+2\\sqrt{5}}{4} = \\frac{3+\\sqrt{5}}{2}$.",
+        ),
+      ],
+      answerDisplay: L(
+        `$t = a^2 + b^2 = \\left(\\dfrac{\\sqrt{5}+1}{2}\\right)^2 - 2\\cdot\\dfrac{\\sqrt{5}-1}{4} = \\dfrac{3+\\sqrt{5}}{2} - \\dfrac{\\sqrt{5}-1}{2} = 2$.`,
+        `$t = a^2 + b^2 = \\left(\\dfrac{\\sqrt{5}+1}{2}\\right)^2 - 2\\cdot\\dfrac{\\sqrt{5}-1}{4} = \\dfrac{3+\\sqrt{5}}{2} - \\dfrac{\\sqrt{5}-1}{2} = 2$.`,
+      ),
+      solution: [
+        step(
+          "given",
+          "$a + b = \\frac{\\sqrt{5}+1}{2}$, $4ab = \\sqrt{5}-1$; se pide $t = a^2 + b^2$.",
+          "$a + b = \\frac{\\sqrt{5}+1}{2}$, $4ab = \\sqrt{5}-1$; find $t = a^2 + b^2$.",
+        ),
+        step(
+          "approach",
+          "La sugerencia del libro es la clave: elevar al cuadrado la suma y usar el producto notable $(a+b)^2 = a^2 + 2ab + b^2$ para expresar $t$ en términos de los datos, sin resolver el sistema.",
+          "The book's hint is the key: square the sum and use the notable product $(a+b)^2 = a^2 + 2ab + b^2$ to express $t$ in terms of the data, without solving the system.",
+        ),
+        step(
+          "calculation",
+          `$ab = \\frac{\\sqrt{5}-1}{4} \\Rightarrow 2ab = \\frac{\\sqrt{5}-1}{2}$<br>$(a+b)^2 = \\left(\\frac{\\sqrt{5}+1}{2}\\right)^2 = \\frac{5 + 2\\sqrt{5} + 1}{4} = \\frac{6+2\\sqrt{5}}{4} = \\frac{3+\\sqrt{5}}{2}$<br>$t = (a+b)^2 - 2ab = \\frac{3+\\sqrt{5}}{2} - \\frac{\\sqrt{5}-1}{2} = \\frac{3+\\sqrt{5}-\\sqrt{5}+1}{2} = \\frac{4}{2} = 2$`,
+          `$ab = \\frac{\\sqrt{5}-1}{4} \\Rightarrow 2ab = \\frac{\\sqrt{5}-1}{2}$<br>$(a+b)^2 = \\left(\\frac{\\sqrt{5}+1}{2}\\right)^2 = \\frac{5 + 2\\sqrt{5} + 1}{4} = \\frac{6+2\\sqrt{5}}{4} = \\frac{3+\\sqrt{5}}{2}$<br>$t = (a+b)^2 - 2ab = \\frac{3+\\sqrt{5}}{2} - \\frac{\\sqrt{5}-1}{2} = \\frac{3+\\sqrt{5}-\\sqrt{5}+1}{2} = \\frac{4}{2} = 2$`,
+        ),
+        step(
+          "result",
+          `$t = a^2 + b^2 = 2$. Comprobación de sanidad: $a$ y $b$ son las raíces de $z^2 - \\frac{\\sqrt{5}+1}{2}z + \\frac{\\sqrt{5}-1}{4} = 0$, y por Vieta la suma de sus cuadrados da exactamente $2$ ✓.`,
+          `$t = a^2 + b^2 = 2$. Sanity check: $a, b$ are the roots of $z^2 - \\frac{\\sqrt5+1}{2}z + \\frac{\\sqrt5-1}{4} = 0$ and indeed $a^2 + b^2 = 2$ exactly ✓.`,
+        ),
+      ],
+    }),
+  ),
+
+  /* 6.6 · 3) — x³+y³=−3xy(x+y), x³−2y³=24 → (2, −2) */
+  template(
+    {
+      id: "sys-espol-senl3",
+      subject: "math",
+      topicId: "systems",
+      subtopicId: "applications",
+      difficulty: "challenge",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 540,
+      tags: ["non-linear", "cubic-identity", "sum-of-cubes"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "6.6 · 3)",
+        page: 754,
+      },
+      reasoning: "multi-concept",
+    },
+    () => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$(x, y) = (2, -2)$`, `$(x, y) = (2, -2)$`), correct: true },
+        { id: "b", text: L(`$(x, y) = (-2, 2)$`, `$(x, y) = (-2, 2)$`), correct: false },
+        { id: "c", text: L(`$(x, y) = (2, 2)$`, `$(x, y) = (2, 2)$`), correct: false },
+        { id: "d", text: L(`$(x, y) = (3, -3)$`, `$(x, y) = (3, -3)$`), correct: false },
+      ];
+      return {
+        skill: L("El cubo de una suma esconde la solución", "The cube of a sum hides the solution"),
+        statement: L(
+          `Determina analíticamente el conjunto de verdad del predicado de dos variables $q(x, y):$ $\\begin{cases} x^3 + y^3 = -3xy(x + y) \\\\ x^3 - 2y^3 = 24 \\end{cases}$`,
+          `Determine analytically the truth set of the two-variable predicate $q(x, y):$ $\\begin{cases} x^3 + y^3 = -3xy(x + y) \\\\ x^3 - 2y^3 = 24 \\end{cases}$`,
+        ),
+        answer: { kind: "multiple-choice", options },
+        hints: [
+          L(
+            "Pasa todo al lado izquierdo en la primera ecuación: $x^3 + y^3 + 3xy(x+y) = 0$. ¿Te suena a un producto notable?",
+            "Move everything to the left side in the first equation: $x^3 + y^3 + 3xy(x+y) = 0$. Does it remind you of a notable product?",
+          ),
+          L(
+            "$(x+y)^3 = x^3 + y^3 + 3xy(x+y)$, así que la primera ecuación dice $(x+y)^3 = 0$.",
+            "$(x+y)^3 = x^3 + y^3 + 3xy(x+y)$, so the first equation says $(x+y)^3 = 0$.",
+          ),
+          L(
+            "Por tanto $y = -x$; sustituye en $x^3 - 2y^3 = 24$.",
+            "Hence $y = -x$; substitute into $x^3 - 2y^3 = 24$.",
+          ),
+        ],
+        answerDisplay: L(
+          `$A_{q(x,y)} = \\{(2, -2)\\}$`,
+          `$A_{q(x,y)} = \\{(2, -2)\\}$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$\\begin{cases} x^3 + y^3 = -3xy(x+y) \\\\ x^3 - 2y^3 = 24 \\end{cases}$, con $x, y \\in \\mathbb{R}$.",
+            "$\\begin{cases} x^3 + y^3 = -3xy(x+y) \\\\ x^3 - 2y^3 = 24 \\end{cases}$, with $x, y \\in \\mathbb{R}$.",
+          ),
+          step(
+            "approach",
+            "Reconocer el cubo de una suma en la primera ecuación colapsa el sistema: la igualdad $x^3 + y^3 = -3xy(x+y)$ es exactamente $(x+y)^3 = 0$.",
+            "Recognizing the cube of a sum in the first equation collapses the system: the equality $x^3 + y^3 = -3xy(x+y)$ is exactly $(x+y)^3 = 0$.",
+          ),
+          step(
+            "calculation",
+            `$x^3 + y^3 + 3xy(x+y) = 0 \\Rightarrow (x+y)^3 = 0 \\Rightarrow y = -x$<br>Sustituyendo: $x^3 - 2(-x)^3 = x^3 + 2x^3 = 3x^3 = 24$<br>$x^3 = 8 \\Rightarrow x = 2,\\ y = -2$`,
+            `$x^3 + y^3 + 3xy(x+y) = 0 \\Rightarrow (x+y)^3 = 0 \\Rightarrow y = -x$<br>Substituting: $x^3 - 2(-x)^3 = x^3 + 2x^3 = 3x^3 = 24$<br>$x^3 = 8 \\Rightarrow x = 2,\\ y = -2$`,
+          ),
+          step(
+            "result",
+            `La solución única es $(x, y) = (2, -2)$. Comprobación: $8 + (-8) = 0$ y $-3(2)(-2)(0) = 0$ ✓; $8 - 2(-8) = 24$ ✓. (El distractor $(3,-3)$ también cumple la primera ecuación —¡cualquier par con $y=-x$ la cumple!— pero $27 + 54 = 81 \\ne 24$.)`,
+            `The unique solution is $(x, y) = (2, -2)$. Check: $8 + (-8) = 0$ and $-3(2)(-2)(0) = 0$ ✓; $8 - 2(-8) = 24$ ✓. (The distractor $(3,-3)$ also satisfies the first equation — any pair with $y=-x$ does! — but $27 + 54 = 81 \\ne 24$.)`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 6.6 · 4) — 2^(x+y)−20=2^(2x−y), ln(ex)−ln(y)=1 → x=y=log₂5 */
+  template(
+    {
+      id: "sys-espol-senl4",
+      subject: "math",
+      topicId: "systems",
+      subtopicId: "applications",
+      difficulty: "challenge",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 540,
+      tags: ["non-linear", "exponential", "logarithm", "substitution"],
+      prerequisites: ["quadratics"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "6.6 · 4)",
+        page: 754,
+      },
+      reasoning: "multi-concept",
+    },
+    () => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$x = y = \\log_2 5$`, `$x = y = \\log_2 5$`), correct: true },
+        { id: "b", text: L(`$x = y = \\dfrac{5}{2}$`, `$x = y = \\dfrac{5}{2}$`), correct: false },
+        { id: "c", text: L(`$x = y = \\ln 5$`, `$x = y = \\ln 5$`), correct: false },
+        { id: "d", text: L(`$x = 2,\\ y = \\log_3 5$`, `$x = 2,\\ y = \\log_3 5$`), correct: false },
+      ];
+      return {
+        skill: L("Logaritmo que fuerza x = y y exponencial cuadrática", "A logarithm forcing x = y and a quadratic exponential"),
+        statement: L(
+          `Con $x, y \\in \\mathbb{R}^+$, obtén la solución analítica del sistema $\\begin{cases} 2^{x+y} - 20 = 2^{2x-y} \\\\ \\ln(ex) - \\ln(y) = 1 \\end{cases}$`,
+          `With $x, y \\in \\mathbb{R}^+$, find the analytical solution of the system $\\begin{cases} 2^{x+y} - 20 = 2^{2x-y} \\\\ \\ln(ex) - \\ln(y) = 1 \\end{cases}$`,
+        ),
+        answer: { kind: "multiple-choice", options },
+        hints: [
+          L(
+            "En la segunda ecuación usa $\\ln(ex) = \\ln e + \\ln x = 1 + \\ln x$ y las leyes del logaritmo para unir los términos.",
+            "In the second equation use $\\ln(ex) = \\ln e + \\ln x = 1 + \\ln x$ and the logarithm laws to join the terms.",
+          ),
+          L(
+            "$\\ln\\left(\\frac{ex}{y}\\right) = 1 \\Rightarrow \\frac{ex}{y} = e \\Rightarrow x = y$.",
+            "$\\ln\\left(\\frac{ex}{y}\\right) = 1 \\Rightarrow \\frac{ex}{y} = e \\Rightarrow x = y$.",
+          ),
+          L(
+            "Con $x = y$: $2^{2x} - 20 = 2^{x}$. Llama $u = 2^x$ y resuelve la cuadrática.",
+            "With $x = y$: $2^{2x} - 20 = 2^{x}$. Let $u = 2^x$ and solve the quadratic.",
+          ),
+        ],
+        answerDisplay: L(
+          `$x = y = \\log_2 5 \\approx 2{.}3219$`,
+          `$x = y = \\log_2 5 \\approx 2{.}3219$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$\\begin{cases} 2^{x+y} - 20 = 2^{2x-y} \\\\ \\ln(ex) - \\ln(y) = 1 \\end{cases}$, con $x, y > 0$.",
+            "$\\begin{cases} 2^{x+y} - 20 = 2^{2x-y} \\\\ \\ln(ex) - \\ln(y) = 1 \\end{cases}$, with $x, y > 0$.",
+          ),
+          step(
+            "approach",
+            "La ecuación logarítmica es la puerta: colapsa a una proporción que fuerza $x = y$; después la ecuación exponencial se vuelve una cuadrática disfrazada con la sustitución $u = 2^x$.",
+            "The logarithmic equation is the gateway: it collapses to a proportion forcing $x = y$; then the exponential equation becomes a quadratic in disguise with the substitution $u = 2^x$.",
+          ),
+          step(
+            "calculation",
+            `$\\ln\\left(\\frac{ex}{y}\\right) = 1 \\Rightarrow \\frac{ex}{y} = e \\Rightarrow x = y$<br>Con $x = y$: $2^{2x} - 20 = 2^{x}$; sea $u = 2^x > 0$<br>$u^2 - u - 20 = 0 \\Rightarrow (u-5)(u+4) = 0 \\Rightarrow u = 5$ (la raíz $-4$ se descarta)<br>$2^x = 5 \\Rightarrow x = \\log_2 5$`,
+            `$\\ln\\left(\\frac{ex}{y}\\right) = 1 \\Rightarrow \\frac{ex}{y} = e \\Rightarrow x = y$<br>With $x = y$: $2^{2x} - 20 = 2^{x}$; let $u = 2^x > 0$<br>$u^2 - u - 20 = 0 \\Rightarrow (u-5)(u+4) = 0 \\Rightarrow u = 5$ (the root $-4$ is discarded)<br>$2^x = 5 \\Rightarrow x = \\log_2 5$`,
+          ),
+          step(
+            "result",
+            `La solución es $x = y = \\log_2 5 \\. \\approx 2{.}3219$. Comprobación: $\\ln(e \\cdot 2{.}3219) - \\ln(2{.}3219) = 1$ ✓; $2^{4{.}6439} - 20 = 25 - 20 = 5 = 2^{2{.}3219}$ ✓.`,
+            `The solution is $x = y = \\log_2 5 \\approx 2{.}3219$. Check: $\\ln(e \\cdot 2{.}3219) - \\ln(2{.}3219) = 1$ ✓; $2^{4{.}6439} - 20 = 25 - 20 = 5 = 2^{2{.}3219}$ ✓.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 3.11 · 110 — mixture: 25% and 15% H₂SO₄ → 200 gal at 18% */
+  template(
+    {
+      id: "sys-espol-110",
+      subject: "math",
+      topicId: "systems",
+      subtopicId: "applications",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 360,
+      tags: ["mixture", "modeling", "percentages", "word-problem"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3.11 · 110",
+        page: 322,
+      },
+      reasoning: "modeling",
+    },
+    () => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$60$ y $140$ gal`, `$60$ and $140$ gal`), correct: true },
+        { id: "b", text: L(`$80$ y $120$ gal`, `$80$ and $120$ gal`), correct: false },
+        { id: "c", text: L(`$100$ y $100$ gal`, `$100$ and $100$ gal`), correct: false },
+        { id: "d", text: L(`$110$ y $90$ gal`, `$110$ and $90$ gal`), correct: false },
+      ];
+      return {
+        skill: L("Mezclas: balance de volumen y de ácido", "Mixtures: balancing volume and acid"),
+        statement: L(
+          `Un almacén de productos químicos tiene dos tipos de soluciones ácidas: una con $25\\%$ de $H_2SO_4$ y otra con $15\\%$ de $H_2SO_4$. ¿Cuántos galones de cada tipo deben combinarse, respectivamente, para obtener $200$ galones de una mezcla que contenga el $18\\%$ de $H_2SO_4$?`,
+          `A chemical warehouse has two types of acid solutions: one with $25\\%$ $H_2SO_4$ and another with $15\\%$ $H_2SO_4$. How many gallons of each type must be combined, respectively, to obtain $200$ gallons of a mixture containing $18\\%$ $H_2SO_4$?`,
+        ),
+        answer: { kind: "multiple-choice", options },
+        hints: [
+          L(
+            "Define $x$ = galones de la solución al $25\\%$ y $y$ = galones de la al $15\\%$. El volumen total da la primera ecuación.",
+            "Let $x$ = gallons of the $25\\%$ solution and $y$ = gallons of the $15\\%$ one. The total volume gives the first equation.",
+          ),
+          L(
+            "El balance de ácido puro: $0{.}25x + 0{.}15y = 0{.}18 \\times 200 = 36$ galones de ácido.",
+            "The pure-acid balance: $0{.}25x + 0{.}15y = 0{.}18 \\times 200 = 36$ gallons of acid.",
+          ),
+          L(
+            "De $x + y = 200$ sale $y = 200 - x$; sustituye y despeja $x$.",
+            "From $x + y = 200$ you get $y = 200 - x$; substitute and solve for $x$.",
+          ),
+        ],
+        answerDisplay: L(
+          `$x = 60$ gal al $25\\%$ y $y = 140$ gal al $15\\%$.`,
+          `$x = 60$ gal of the $25\\%$ solution and $y = 140$ gal of the $15\\%$ one.`,
+        ),
+        solution: [
+          step(
+            "given",
+            "Soluciones al $25\\%$ y $15\\%$; mezcla final: $200$ gal al $18\\%$.",
+            "$25\\%$ and $15\\%$ solutions; final mixture: $200$ gal at $18\\%$.",
+          ),
+          step(
+            "approach",
+            "Modelar con dos ecuaciones: una para el volumen total y otra para la cantidad de ácido puro (que se conserva en la mezcla).",
+            "Model with two equations: one for total volume and one for the amount of pure acid (which is conserved in the mixture).",
+          ),
+          step(
+            "calculation",
+            `$\\begin{cases} x + y = 200 \\\\ 0{.}25x + 0{.}15y = 0{.}18 \\cdot 200 = 36 \\end{cases}$<br>De (1): $y = 200 - x$; en (2): $0{.}25x + 0{.}15(200 - x) = 36$<br>$0{.}25x + 30 - 0{.}15x = 36 \\Rightarrow 0{.}10x = 6 \\Rightarrow x = 60$<br>$y = 200 - 60 = 140$`,
+            `$\\begin{cases} x + y = 200 \\\\ 0{.}25x + 0{.}15y = 0{.}18 \\cdot 200 = 36 \\end{cases}$<br>From (1): $y = 200 - x$; in (2): $0{.}25x + 0{.}15(200 - x) = 36$<br>$0{.}25x + 30 - 0{.}15x = 36 \\Rightarrow 0{.}10x = 6 \\Rightarrow x = 60$<br>$y = 200 - 60 = 140$`,
+          ),
+          step(
+            "result",
+            `Se necesitan $60$ galones al $25\\%$ y $140$ al $15\\%$. Comprobación: $0{.}25(60) + 0{.}15(140) = 15 + 21 = 36 = 0{.}18 \\times 200$ ✓. (El $18\\%$ está más cerca del $15\\%$, así que domina la solución débil: $140 > 60$.)`,
+            `You need $60$ gallons of the $25\\%$ and $140$ of the $15\\%$. Check: $0{.}25(60) + 0{.}15(140) = 15 + 21 = 36 = 0{.}18 \\times 200$ ✓. ($18\\%$ is closer to $15\\%$, so the weak solution dominates: $140 > 60$.)`,
+          ),
+        ],
+      };
+    },
+  ),
 ];

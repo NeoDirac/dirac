@@ -1337,4 +1337,89 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+
+  /* ================================================================== */
+  /* Segunda tanda ESPOL §3.11 (p. 322) — la meta-ecuación de           */
+  /* cardinalidades. Transcrita con el modelo de visión (VLM); cada     */
+  /* predicado verificado contra la clave impresa (p. 803):             */
+  /* Ap=∅, Aq={54}, Ar={−11}, At={−16}, Au={59/19}.                     */
+  /* ================================================================== */
+
+  /* 3.11 · 113 — meta-equation on cardinalities of truth sets → N(Aw) = 1 */
+  template(
+    {
+      id: "rat-espol-113",
+      subject: "math",
+      topicId: "rational",
+      subtopicId: "equations",
+      difficulty: "challenge",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 600,
+      tags: ["meta", "cardinality", "rational-equations", "multi-step", "logic"],
+      prerequisites: ["rational"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3.11 · 113",
+        page: 322,
+      },
+      reasoning: "multi-concept",
+    },
+    () => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$N(A_{w(x)}) = 1$`, `$N(A_{w(x)}) = 1$`), correct: true },
+        { id: "b", text: L(`$N(A_{w(x)}) = 0$`, `$N(A_{w(x)}) = 0$`), correct: false },
+        { id: "c", text: L(`$N(A_{w(x)}) = 2$`, `$N(A_{w(x)}) = 2$`), correct: false },
+        { id: "d", text: L(`$N(A_{w(x)}) = 5$`, `$N(A_{w(x)}) = 5$`), correct: false },
+      ];
+      return {
+        skill: L("Resolver cinco ecuaciones para alimentar una meta-ecuación", "Solve five equations to feed a meta-equation"),
+        statement: L(
+          `Sea $Re = \\mathbb{R}$. Se definen los predicados $p(x)$, $q(x)$, $r(x)$, $t(x)$, $u(x)$, mientras que el predicado $w(x)$ **no se define**. Si la cardinalidad $N(A_{w(x)})$ es finita, resuelve la siguiente ecuación y determina $N(A_{w(x)})$:\n\n$\\bigl[N(A_t) + N(A_q) + N(A_r)\\bigr]\\bigl[N(A_w) - N(A_u)\\bigr] + 2\\bigl(N(A_w) - 1\\bigr) - N(A_p) = 0$\n\ncon:\n- $p(x):\\ x^2 + 1 = 0$\n- $q(x):\\ \\dfrac{5x+13}{15} - \\dfrac{4x+5}{5x-15} = \\dfrac{x}{3}$\n- $r(x):\\ \\dfrac{2x-1}{2x+1} - \\dfrac{x-4}{3x-2} = \\dfrac{2}{3}$\n- $t(x):\\ \\dfrac{10x-7}{15x+3} = \\dfrac{3x+8}{12} - \\dfrac{5x^2-4}{20x+4}$\n- $u(x):\\ \\dfrac{4x-1}{5} + \\dfrac{x-2}{2x-7} = \\dfrac{8x-3}{10} - \\dfrac{13}{10}$`,
+          `Let $Re = \\mathbb{R}$. The predicates $p(x)$, $q(x)$, $r(x)$, $t(x)$, $u(x)$ are defined below, while the predicate $w(x)$ is **not** defined. If the cardinality $N(A_{w(x)})$ is finite, solve the following equation and determine $N(A_{w(x)})$:\n\n$\\bigl[N(A_t) + N(A_q) + N(A_r)\\bigr]\\bigl[N(A_w) - N(A_u)\\bigr] + 2\\bigl(N(A_w) - 1\\bigr) - N(A_p) = 0$\n\nwith:\n- $p(x):\\ x^2 + 1 = 0$\n- $q(x):\\ \\dfrac{5x+13}{15} - \\dfrac{4x+5}{5x-15} = \\dfrac{x}{3}$\n- $r(x):\\ \\dfrac{2x-1}{2x+1} - \\dfrac{x-4}{3x-2} = \\dfrac{2}{3}$\n- $t(x):\\ \\dfrac{10x-7}{15x+3} = \\dfrac{3x+8}{12} - \\dfrac{5x^2-4}{20x+4}$\n- $u(x):\\ \\dfrac{4x-1}{5} + \\dfrac{x-2}{2x-7} = \\dfrac{8x-3}{10} - \\dfrac{13}{10}$`,
+        ),
+        answer: { kind: "multiple-choice", options },
+        hints: [
+          L(
+            "Empieza por $p$: $x^2 + 1 = 0$ no tiene soluciones reales, así que $N(A_p) = 0$.",
+            "Start with $p$: $x^2 + 1 = 0$ has no real solutions, so $N(A_p) = 0$.",
+          ),
+          L(
+            "Resuelve $q$, $r$, $t$, $u$ una por una (multiplica por el mínimo común denominador y revisa las restricciones). Cada una tiene exactamente UNA solución real: $q \\to 54$, $r \\to -11$, $t \\to -16$, $u \\to \\frac{59}{19}$.",
+            "Solve $q$, $r$, $t$, $u$ one by one (multiply by the least common denominator and check the restrictions). Each has exactly ONE real solution: $q \\to 54$, $r \\to -11$, $t \\to -16$, $u \\to \\frac{59}{19}$.",
+          ),
+          L(
+            "Sustituye las cardinalidades en la meta-ecuación: $[1+1+1](z - 1) + 2(z - 1) - 0 = 0$ con $z = N(A_w)$.",
+            "Substitute the cardinalities into the meta-equation: $[1+1+1](z - 1) + 2(z - 1) - 0 = 0$ with $z = N(A_w)$.",
+          ),
+        ],
+        answerDisplay: L(
+          `$N(A_{w(x)}) = 1$: la meta-ecuación queda $3(z-1) + 2(z-1) = 0 \\Rightarrow 5(z-1) = 0 \\Rightarrow z = 1$. Un posible $w(x)$ es cualquier predicado con una única solución, p. ej. $w(x): x = 7$.`,
+          `$N(A_{w(x)}) = 1$: the meta-equation becomes $3(z-1) + 2(z-1) = 0 \\Rightarrow 5(z-1) = 0 \\Rightarrow z = 1$. A possible $w(x)$ is any predicate with exactly one solution, e.g. $w(x): x = 7$.`,
+        ),
+        solution: [
+          step(
+            "given",
+            "La meta-ecuación $[N(A_t) + N(A_q) + N(A_r)][N(A_w) - N(A_u)] + 2(N(A_w) - 1) - N(A_p) = 0$ con los cinco predicados racionales definidos sobre $\\mathbb{R}$.",
+            "The meta-equation $[N(A_t) + N(A_q) + N(A_r)][N(A_w) - N(A_u)] + 2(N(A_w) - 1) - N(A_p) = 0$ with the five rational predicates defined over $\\mathbb{R}$.",
+          ),
+          step(
+            "approach",
+            "El problema es una muñeca rusa: primero se resuelven las cinco ecuaciones racionales (¡con sus restricciones de dominio!), se cuentan las soluciones de cada conjunto de verdad, y solo entonces la meta-ecuación se vuelve una ecuación lineal en $z = N(A_w)$.",
+            "The problem is a matryoshka doll: first solve the five rational equations (with their domain restrictions!), count the solutions of each truth set, and only then does the meta-equation become a linear equation in $z = N(A_w)$.",
+          ),
+          step(
+            "calculation",
+            `$p:\\ x^2+1=0 \\Rightarrow A_p = \\varnothing \\Rightarrow N(A_p) = 0$<br>$q:\\ (5x+13)(x-3) - 3(4x+5) = 5x(x-3) \\Rightarrow 5x^2-14x-54 = 5x^2-15x \\Rightarrow x = 54$ (válido, $\\ne 3$) $\\Rightarrow N(A_q)=1$<br>$r:\\ 3(2x-1)(3x-2) - 3(x-4)(2x+1) = 2(2x+1)(3x-2) \\Rightarrow 12x^2 + 18 = 12x^2 - 2x - 4 \\Rightarrow x = -11$ $\\Rightarrow N(A_r)=1$<br>$t:$ multiplicando por $12(5x+1)$ se colapsa a $x = -16$ ($\\ne -\\frac{1}{5}$) $\\Rightarrow N(A_t)=1$<br>$u:$ multiplicando por $10(2x-7)$ se colapsa a $x = \\frac{59}{19}$ ($\\ne \\frac{7}{2}$) $\\Rightarrow N(A_u)=1$`,
+            `$p:\\ x^2+1=0 \\Rightarrow A_p = \\varnothing \\Rightarrow N(A_p) = 0$<br>$q:\\ (5x+13)(x-3) - 3(4x+5) = 5x(x-3) \\Rightarrow 5x^2-14x-54 = 5x^2-15x \\Rightarrow x = 54$ (valid, $\\ne 3$) $\\Rightarrow N(A_q)=1$<br>$r:\\ 3(2x-1)(3x-2) - 3(x-4)(2x+1) = 2(2x+1)(3x-2) \\Rightarrow 12x^2 + 18 = 12x^2 - 2x - 4 \\Rightarrow x = -11$ $\\Rightarrow N(A_r)=1$<br>$t:$ multiplying by $12(5x+1)$ collapses to $x = -16$ ($\\ne -\\frac{1}{5}$) $\\Rightarrow N(A_t)=1$<br>$u:$ multiplying by $10(2x-7)$ collapses to $x = \\frac{59}{19}$ ($\\ne \\frac{7}{2}$) $\\Rightarrow N(A_u)=1$`,
+          ),
+          step(
+            "result",
+            `Con $z = N(A_w)$: $[1+1+1](z-1) + 2(z-1) - 0 = 0 \\Rightarrow 5(z-1) = 0 \\Rightarrow z = 1$. Así que $w$ puede ser CUALQUIER predicado con exactamente una solución real (p. ej. $w(x): x = 7$). Todos los valores coinciden con la clave impresa del libro: $A_p = \\varnothing$, $A_q = \\{54\\}$, $A_r = \\{-11\\}$, $A_t = \\{-16\\}$, $A_u = \\left\\{\\frac{59}{19}\\right\\}$.`,
+            `With $z = N(A_w)$: $[1+1+1](z-1) + 2(z-1) - 0 = 0 \\Rightarrow 5(z-1) = 0 \\Rightarrow z = 1$. So $w$ can be ANY predicate with exactly one real solution (e.g. $w(x): x = 7$). All values match the book's printed answer key: $A_p = \\varnothing$, $A_q = \\{54\\}$, $A_r = \\{-11\\}$, $A_t = \\{-16\\}$, $A_u = \\left\\{\\frac{59}{19}\\right\\}$.`,
+          ),
+        ],
+      };
+    },
+  ),
 ];

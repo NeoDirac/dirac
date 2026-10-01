@@ -78,3 +78,45 @@ Pendiente del libro (candidatos vistos, aún no importados): §5.6 ej. 59
 (potencias de coseno), §5.5 identidades (necesitan formato "demostración"),
 Ch. 6 FundaRETOS (matrices de Leslie — requiere topic de matrices), ej. 112
 (4x²−4xy−y²=1 literal), ej. 113 (meta-ecuación con cardinalidades).
+
+## Actualización — segunda tanda ESPOL con modelo de visión (2026-10-01, noche)
+
+A petición del tutor («no solo uses OCR, usa tu modelo de visión para ver las
+páginas»), el libro se re-descargó a **`/home/z/espol-book/espol.pdf`**
+(persistente) y las páginas objetivo se rasterizaron a 150–300 dpi para
+**leerlas con el modelo de visión (VLM, glm-5v)** en lugar del OCR de texto.
+La diferencia fue decisiva: el OCR había dañado tres importaciones previas.
+
+| Cap. | Sección | Estado |
+|---|---|---|
+| 5 | §5.5 ej. 45e, 45i (identidades «reemplaza Δ») | **2 importados** (MC; clave: sen²y, 1/2) |
+| 5 | §5.5 ej. 46c, 46e (valores exactos sin calculadora) | **2 importados** (expresión; 2−√3, √6+√2) |
+| 5 | §5.5 ej. 47a, 47d (composiciones con arcsen/arccos/arctan) | **2 importados** ((√15+√3)/8, 3/4) |
+| 5 | §5.5 ej. 49a, 49b (cadenas de cosenos) | **2 importados** (cot 10°, 1/64) |
+| 5 | §5.6 ej. 53i, 53j, 53n (ecuaciones; suma de soluciones) | **3 importados** (8π, 7π/2, 3/4) |
+| 5 | §5.6 ej. 54f, 54h, 54i, 54j (inecuaciones/funciones especiales) | **4 importados** (MC) |
+| 5 | §5.6 ej. 55, 56 (conjuntos de verdad de implicaciones) | **2 importados** (MC) |
+| 5 | §5.6 ej. 57a, 57b (dominios ln/√ trigonométricos) | **2 importados** (MC) |
+| 5 | §5.6 ej. 59, 60 (adaptados: n=1; a=4, b=1) | **2 importados** (MC/numérico) |
+| 3 | §3.11 ej. 110 (mezcla H₂SO₄), 111a/b (parámetro m), 112, 116 | **5 importados** |
+| 3 | §3.11 ej. 113 (meta-ecuación de cardinalidades) | **1 importado** (challenge, MC) |
+| 6 | §6.6 S.E.N.L. ej. 1, 3, 4 | **3 importados** (t=2; (2,−2); log₂5) |
+
+**Correcciones de fidelidad** (el VLM re-lecto detectó que el OCR anterior
+había deformado tres enunciados importados; se reescribieron contra la clave
+impresa): `trigeq-espol-2c` (era cos−sen<−√2/2; el libro imprime
+cos²−sen²<−½), `trigeq-espol-2d` (era ≥¼; el libro imprime ≤¼),
+`trigeq-espol-2g` (era sgn; el libro imprime **µ**, escalón unitario, con
+respuesta ∅). Además se renumeraron los ítems §5.6 previos a la numeración
+real del libro (1x→53x, 2x→54x) para que el tutor pueda cruzar con el libro.
+
+Verificación: **43/43 checks sympy** (`/home/z/tmp/verify_espol_vlm.py`):
+cada respuesta re-derivada de forma independiente y cotejada con la clave
+impresa (Ap=∅, Aq={54}, Ar={−11}, At={−16}, Au={59/19}, z=1 para la
+meta-ecuación; t=2, {(2,−2)}, x=y=log₂5 para los S.E.N.L.; m=±1 /
+«No es posible» para 111; etc.).
+
+Total curado de `fcnm-fundamentos`: **60 plantillas** (banco completo:
+519 → **549**). Pendiente del libro: §5.5 ej. 48/50–52 (demuestraciones —
+requieren formato de demostración), §5.6 ej. 2 gráfico (arctan), Ch. 6
+matrices (requiere topic nuevo), FundaRETOS.

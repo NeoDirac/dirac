@@ -1302,4 +1302,757 @@ export const templates: ProblemTemplate[] = [
     }),
   ),
 
+  /* ================================================================== */
+  /* Segunda tanda ESPOL §5.5/§5.6 — transcrita con el modelo de visión */
+  /* (VLM), cruzada con la clave impresa (pp. 799+) y re-derivada.      */
+  /* ================================================================== */
+
+  /* 5.5 · 45e — sen(x+y)·sen(x−y) = sen²x − Δ; Δ = sen²y */
+  template(
+    {
+      id: "trigf-espol-45e",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "identities",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["identities", "product-to-sum", "placeholder"],
+      prerequisites: ["trig-foundations"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "5.5 · 45e",
+        page: 666,
+      },
+      reasoning: "multi-concept",
+    },
+    () => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\Delta = \\operatorname{sen}^2 y$`, `$\\Delta = \\sin^2 y$`), correct: true },
+        { id: "b", text: L(`$\\Delta = \\cos^2 y$`, `$\\Delta = \\cos^2 y$`), correct: false },
+        { id: "c", text: L(`$\\Delta = \\operatorname{sen}\\,y$`, `$\\Delta = \\sin y$`), correct: false },
+        { id: "d", text: L(`$\\Delta = \\cos^2 x$`, `$\\Delta = \\cos^2 x$`), correct: false },
+      ];
+      return {
+        skill: L("Producto a suma para hallar el hueco", "Product-to-sum to find the gap"),
+        statement: L(
+          `Identifica la expresión por la cual debe reemplazarse $\\Delta$ para que la igualdad sea una identidad trigonométrica (considera las restricciones del caso): $\\quad \\operatorname{sen}(x+y)\\,\\operatorname{sen}(x-y) = \\operatorname{sen}^2 x - \\Delta$.`,
+          `Identify the expression that must replace $\\Delta$ so the equality becomes a trigonometric identity (consider the domain restrictions): $\\quad \\sin(x+y)\\,\\sin(x-y) = \\sin^2 x - \\Delta$.`,
+        ),
+        answer: { kind: "multiple-choice", options },
+        hints: [
+          L(
+            "Convierte el producto en suma: $\\operatorname{sen} A\\,\\operatorname{sen} B = \\frac{1}{2}\\left[\\cos(A-B) - \\cos(A+B)\\right]$.",
+            "Turn the product into a sum: $\\sin A\\,\\sin B = \\frac{1}{2}\\left[\\cos(A-B) - \\cos(A+B)\\right]$.",
+          ),
+          L(
+            "Con $A = x+y$ y $B = x-y$: el producto queda $\\frac{1}{2}\\left[\\cos(2y) - \\cos(2x)\\right]$.",
+            "With $A = x+y$ and $B = x-y$: the product becomes $\\frac{1}{2}\\left[\\cos(2y) - \\cos(2x)\\right]$.",
+          ),
+          L(
+            "Usa $\\cos(2u) = 1 - 2\\operatorname{sen}^2 u$ en ambos términos y simplifica.",
+            "Use $\\cos(2u) = 1 - 2\\sin^2 u$ on both terms and simplify.",
+          ),
+        ],
+        answerDisplay: L(
+          `$\\Delta = \\operatorname{sen}^2 y$, la identidad de producto: $\\operatorname{sen}(x+y)\\operatorname{sen}(x-y) = \\operatorname{sen}^2 x - \\operatorname{sen}^2 y$.`,
+          `$\\Delta = \\sin^2 y$, the product identity: $\\sin(x+y)\\sin(x-y) = \\sin^2 x - \\sin^2 y$.`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$\\operatorname{sen}(x+y)\\,\\operatorname{sen}(x-y) = \\operatorname{sen}^2 x - \\Delta$, válida para todo $x, y$ donde las funciones existan.",
+            "$\\sin(x+y)\\,\\sin(x-y) = \\sin^2 x - \\Delta$, valid for all $x, y$ where the functions exist.",
+          ),
+          step(
+            "approach",
+            "Desarrollar el producto con la fórmula producto→suma y reescribir los cosenos dobles con la identidad $\\cos(2u) = 1 - 2\\operatorname{sen}^2 u$; el hueco $\\Delta$ saldrá por comparación.",
+            "Expand the product with the product-to-sum formula and rewrite the double cosines with $\\cos(2u) = 1 - 2\\sin^2 u$; the gap $\\Delta$ emerges by comparison.",
+          ),
+          step(
+            "calculation",
+            `$\\operatorname{sen}(x+y)\\operatorname{sen}(x-y) = \\tfrac{1}{2}\\left[\\cos(2y) - \\cos(2x)\\right]$<br>$= \\tfrac{1}{2}\\left[(1 - 2\\operatorname{sen}^2 y) - (1 - 2\\operatorname{sen}^2 x)\\right]$<br>$= \\operatorname{sen}^2 x - \\operatorname{sen}^2 y$`,
+            `$\\sin(x+y)\\sin(x-y) = \\tfrac{1}{2}\\left[\\cos(2y) - \\cos(2x)\\right]$<br>$= \\tfrac{1}{2}\\left[(1 - 2\\sin^2 y) - (1 - 2\\sin^2 x)\\right]$<br>$= \\sin^2 x - \\sin^2 y$`,
+          ),
+          step(
+            "result",
+            `Comparando con $\\operatorname{sen}^2 x - \\Delta$ resulta $\\Delta = \\operatorname{sen}^2 y$. Comprobación numérica con $x = \\frac{\\pi}{2}$, $y = \\frac{\\pi}{6}$: LHS $= \\operatorname{sen}\\frac{2\\pi}{3}\\operatorname{sen}\\frac{\\pi}{3} = \\frac{3}{4}$; RHS $= 1 - \\frac{1}{4} = \\frac{3}{4}$ ✓.`,
+            `Comparing with $\\sin^2 x - \\Delta$ gives $\\Delta = \\sin^2 y$. Numerical check with $x = \\frac{\\pi}{2}$, $y = \\frac{\\pi}{6}$: LHS $= \\sin\\frac{2\\pi}{3}\\sin\\frac{\\pi}{3} = \\frac{3}{4}$; RHS $= 1 - \\frac{1}{4} = \\frac{3}{4}$ ✓.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 5.5 · 45i — (1+cos x)/csc x = (sen x + tan x)/(2Δ·sec x); Δ = 1/2 */
+  template(
+    {
+      id: "trigf-espol-45i",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "identities",
+      difficulty: "challenge",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 360,
+      tags: ["identities", "reciprocals", "placeholder"],
+      prerequisites: ["trig-foundations"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "5.5 · 45i",
+        page: 667,
+      },
+      reasoning: "multi-concept",
+    },
+    () => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\Delta = \\dfrac{1}{2}$`, `$\\Delta = \\dfrac{1}{2}$`), correct: true },
+        { id: "b", text: L(`$\\Delta = 1$`, `$\\Delta = 1$`), correct: false },
+        { id: "c", text: L(`$\\Delta = \\cos x$`, `$\\Delta = \\cos x$`), correct: false },
+        { id: "d", text: L(`$\\Delta = 2$`, `$\\Delta = 2$`), correct: false },
+      ];
+      return {
+        skill: L("Recíprocas y tangent en un hueco constante", "Reciprocals and tangent with a constant gap"),
+        statement: L(
+          `Identifica la expresión por la cual debe reemplazarse $\\Delta$ para que la igualdad sea una identidad trigonométrica: $\\quad \\dfrac{1 + \\cos x}{\\csc x} = \\dfrac{\\operatorname{sen} x + \\tan x}{2\\,\\Delta\\,\\sec x}$.`,
+          `Identify the expression that must replace $\\Delta$ so the equality becomes a trigonometric identity: $\\quad \\dfrac{1 + \\cos x}{\\csc x} = \\dfrac{\\sin x + \\tan x}{2\\,\\Delta\\,\\sec x}$.`,
+        ),
+        answer: { kind: "multiple-choice", options },
+        hints: [
+          L(
+            "Reescribe todo con senos y cosenos: $\\csc x = \\frac{1}{\\operatorname{sen} x}$, $\\sec x = \\frac{1}{\\cos x}$, $\\tan x = \\frac{\\operatorname{sen} x}{\\cos x}$.",
+            "Rewrite everything with sines and cosines: $\\csc x = \\frac{1}{\\sin x}$, $\\sec x = \\frac{1}{\\cos x}$, $\\tan x = \\frac{\\sin x}{\\cos x}$.",
+          ),
+          L(
+            "LHS $= (1 + \\cos x)\\operatorname{sen} x$. ¿Puedes llegar a esa misma forma desde el lado derecho?",
+            "LHS $= (1 + \\cos x)\\sin x$. Can you reach that same form from the right-hand side?",
+          ),
+          L(
+            "RHS $= \\frac{\\operatorname{sen} x (1 + 1/\\cos x)}{2\\Delta / \\cos x} = \\frac{\\operatorname{sen} x (1 + \\cos x)}{2\\Delta}$: compara con LHS.",
+            "RHS $= \\frac{\\sin x (1 + 1/\\cos x)}{2\\Delta / \\cos x} = \\frac{\\sin x (1 + \\cos x)}{2\\Delta}$: compare with LHS.",
+          ),
+        ],
+        answerDisplay: L(
+          `$\\Delta = \\frac{1}{2}$: con ese valor ambos lados valen $(1 + \\cos x)\\operatorname{sen} x$.`,
+          `$\\Delta = \\frac{1}{2}$: with that value both sides equal $(1 + \\cos x)\\sin x$.`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$\\dfrac{1 + \\cos x}{\\csc x} = \\dfrac{\\operatorname{sen} x + \\tan x}{2\\,\\Delta\\,\\sec x}$, con $\\operatorname{sen} x \\ne 0$, $\\cos x \\ne 0$.",
+            "$\\dfrac{1 + \\cos x}{\\csc x} = \\dfrac{\\sin x + \\tan x}{2\\,\\Delta\\,\\sec x}$, with $\\sin x \\ne 0$, $\\cos x \\ne 0$.",
+          ),
+          step(
+            "approach",
+            "Traducir las funciones recíprocas a cocientes de seno y coseno; ambos lados colapsan a la misma forma y el $\\Delta$ queda determinado por comparación de coeficientes.",
+            "Translate the reciprocal functions into sine/cosine quotients; both sides collapse to the same form and $\\Delta$ is pinned down by comparing coefficients.",
+          ),
+          step(
+            "calculation",
+            `LHS $= (1 + \\cos x)\\operatorname{sen} x$<br>RHS $= \\dfrac{\\operatorname{sen} x + \\frac{\\operatorname{sen} x}{\\cos x}}{\\frac{2\\Delta}{\\cos x}} = \\dfrac{\\operatorname{sen} x\\left(1 + \\frac{1}{\\cos x}\\right)\\cos x}{2\\Delta} = \\dfrac{\\operatorname{sen} x\\,(1 + \\cos x)}{2\\Delta}$<br>Igualando: $\\operatorname{sen} x(1 + \\cos x) = \\dfrac{\\operatorname{sen} x (1 + \\cos x)}{2\\Delta} \\Rightarrow 2\\Delta = 1$`,
+            `LHS $= (1 + \\cos x)\\sin x$<br>RHS $= \\dfrac{\\sin x + \\frac{\\sin x}{\\cos x}}{\\frac{2\\Delta}{\\cos x}} = \\dfrac{\\sin x\\left(1 + \\frac{1}{\\cos x}\\right)\\cos x}{2\\Delta} = \\dfrac{\\sin x\\,(1 + \\cos x)}{2\\Delta}$<br>Equating: $\\sin x(1 + \\cos x) = \\dfrac{\\sin x (1 + \\cos x)}{2\\Delta} \\Rightarrow 2\\Delta = 1$`,
+          ),
+          step(
+            "result",
+            `$\\Delta = \\frac{1}{2}$. Comprobación con $x = \\frac{\\pi}{3}$: LHS $= \\frac{1 + 0{.}5}{\\frac{2}{\\sqrt{3}}} = \\frac{3\\sqrt{3}}{4}$; RHS con $\\Delta = \\frac{1}{2}$ $= \\frac{\\frac{\\sqrt{3}}{2} + \\sqrt{3}}{2 \\cdot \\frac{1}{2} \\cdot 2} = \\frac{3\\sqrt{3}}{4}$ ✓.`,
+            `$\\Delta = \\frac{1}{2}$. Check with $x = \\frac{\\pi}{3}$: LHS $= \\frac{1 + 0{.}5}{\\frac{2}{\\sqrt{3}}} = \\frac{3\\sqrt{3}}{4}$; RHS with $\\Delta = \\frac{1}{2}$ $= \\frac{\\frac{\\sqrt{3}}{2} + \\sqrt{3}}{2 \\cdot \\frac{1}{2} \\cdot 2} = \\frac{3\\sqrt{3}}{4}$ ✓.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 5.5 · 46c — tan(15°) sin calculadora = 2 − √3 */
+  template(
+    {
+      id: "trigf-espol-46c",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "identities",
+      difficulty: "hard",
+      questionType: "expression",
+      estimatedTimeSec: 300,
+      tags: ["exact-values", "difference-formula", "no-calculator"],
+      prerequisites: ["trig-foundations"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "5.5 · 46c",
+        page: 667,
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L("Valor exacto con ángulo diferencia", "Exact value with a difference angle"),
+      statement: L(
+        `Sin usar calculadora, determina el valor exacto de $\\tan(15^\\circ)$. Escríbelo como expresión (p. ej. \`sqrt(3)/2\` o \`2 - sqrt(3)\`).`,
+        `Without a calculator, find the exact value of $\\tan(15^\\circ)$. Enter it as an expression (e.g. \`sqrt(3)/2\` or \`2 - sqrt(3)\`).`,
+      ),
+      answer: { kind: "expression", accepted: ["2 - sqrt(3)"], variables: [] },
+      hints: [
+        L(
+          "Escribe $15^\\circ$ como diferencia de ángulos notables: $15^\\circ = 45^\\circ - 30^\\circ$.",
+          "Write $15^\\circ$ as a difference of notable angles: $15^\\circ = 45^\\circ - 30^\\circ$.",
+        ),
+        L(
+          "Aplica $\\tan(A - B) = \\dfrac{\\tan A - \\tan B}{1 + \\tan A\\,\\tan B}$ con $\\tan 45^\\circ = 1$ y $\\tan 30^\\circ = \\frac{\\sqrt{3}}{3}$.",
+          "Apply $\\tan(A - B) = \\dfrac{\\tan A - \\tan B}{1 + \\tan A\\,\\tan B}$ with $\\tan 45^\\circ = 1$ and $\\tan 30^\\circ = \\frac{\\sqrt{3}}{3}$.",
+        ),
+        L(
+          "Obtendrás $\\frac{\\sqrt{3}-1}{\\sqrt{3}+1}$: racionaliza multiplicando por $\\sqrt{3}-1$.",
+          "You will get $\\frac{\\sqrt{3}-1}{\\sqrt{3}+1}$: rationalize by multiplying by $\\sqrt{3}-1$.",
+        ),
+      ],
+      answerDisplay: L(
+        `$\\tan(15^\\circ) = 2 - \\sqrt{3} \\approx 0{.}268$`,
+        `$\\tan(15^\\circ) = 2 - \\sqrt{3} \\approx 0{.}268$`,
+      ),
+      solution: [
+        step(
+          "given",
+          "$\\tan(15^\\circ)$, sin calculadora.",
+          "$\\tan(15^\\circ)$, no calculator.",
+        ),
+        step(
+          "approach",
+          "Descomponer el ángulo en una diferencia de ángulos notables y aplicar la fórmula de la tangente de una diferencia.",
+          "Split the angle into a difference of notable angles and apply the tangent difference formula.",
+        ),
+        step(
+          "calculation",
+          `$\\tan(45^\\circ - 30^\\circ) = \\dfrac{1 - \\frac{\\sqrt{3}}{3}}{1 + 1 \\cdot \\frac{\\sqrt{3}}{3}} = \\dfrac{3 - \\sqrt{3}}{3 + \\sqrt{3}}$<br>$= \\dfrac{(3 - \\sqrt{3})^2}{(3 + \\sqrt{3})(3 - \\sqrt{3})} = \\dfrac{9 - 6\\sqrt{3} + 3}{6} = \\dfrac{12 - 6\\sqrt{3}}{6} = 2 - \\sqrt{3}$`,
+          `$\\tan(45^\\circ - 30^\\circ) = \\dfrac{1 - \\frac{\\sqrt{3}}{3}}{1 + 1 \\cdot \\frac{\\sqrt{3}}{3}} = \\dfrac{3 - \\sqrt{3}}{3 + \\sqrt{3}}$<br>$= \\dfrac{(3 - \\sqrt{3})^2}{(3 + \\sqrt{3})(3 - \\sqrt{3})} = \\dfrac{9 - 6\\sqrt{3} + 3}{6} = \\dfrac{12 - 6\\sqrt{3}}{6} = 2 - \\sqrt{3}$`,
+        ),
+        step(
+          "result",
+          `$\\tan(15^\\circ) = 2 - \\sqrt{3} \\. \\approx 0{.}2679$, un valor clásico de los exámenes (junto con su hermano $\\tan 75^\\circ = 2 + \\sqrt{3}$).`,
+          `$\\tan(15^\\circ) = 2 - \\sqrt{3}$, $\\approx 0{.}2679$, a classic exam value (together with its sibling $\\tan 75^\\circ = 2 + \\sqrt{3}$).`,
+        ),
+      ],
+    }),
+  ),
+
+  /* 5.5 · 46e — sec(−75°) = √6 + √2 */
+  template(
+    {
+      id: "trigf-espol-46e",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "identities",
+      difficulty: "hard",
+      questionType: "expression",
+      estimatedTimeSec: 300,
+      tags: ["exact-values", "sum-formula", "even-odd", "no-calculator"],
+      prerequisites: ["trig-foundations"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "5.5 · 46e",
+        page: 667,
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L("Secante de ángulo negativo con suma", "Secant of a negative angle with a sum"),
+      statement: L(
+        `Sin usar calculadora, determina el valor exacto de $\\sec(-75^\\circ)$. Escríbelo como expresión (p. ej. \`sqrt(6) + sqrt(2)\`).`,
+        `Without a calculator, find the exact value of $\\sec(-75^\\circ)$. Enter it as an expression (e.g. \`sqrt(6) + sqrt(2)\`).`,
+      ),
+      answer: { kind: "expression", accepted: ["sqrt(6) + sqrt(2)"], variables: [] },
+      hints: [
+        L(
+          "$\\sec(-75^\\circ) = \\dfrac{1}{\\cos(-75^\\circ)}$ y el coseno es par: $\\cos(-75^\\circ) = \\cos(75^\\circ)$.",
+          "$\\sec(-75^\\circ) = \\dfrac{1}{\\cos(-75^\\circ)}$ and cosine is even: $\\cos(-75^\\circ) = \\cos(75^\\circ)$.",
+        ),
+        L(
+          "Escribe $75^\\circ = 45^\\circ + 30^\\circ$ y usa $\\cos(A+B) = \\cos A\\cos B - \\operatorname{sen}A\\operatorname{sen}B$.",
+          "Write $75^\\circ = 45^\\circ + 30^\\circ$ and use $\\cos(A+B) = \\cos A\\cos B - \\sin A\\sin B$.",
+        ),
+        L(
+          "$\\cos 75^\\circ = \\frac{\\sqrt{6} - \\sqrt{2}}{4}$; al tomar el recíproco, racionaliza multiplicando por $\\sqrt{6} + \\sqrt{2}$.",
+          "$\\cos 75^\\circ = \\frac{\\sqrt{6} - \\sqrt{2}}{4}$; when taking the reciprocal, rationalize by multiplying by $\\sqrt{6} + \\sqrt{2}$.",
+        ),
+      ],
+      answerDisplay: L(
+        `$\\sec(-75^\\circ) = \\sqrt{6} + \\sqrt{2} \\approx 3{.}864$`,
+        `$\\sec(-75^\\circ) = \\sqrt{6} + \\sqrt{2} \\approx 3{.}864$`,
+      ),
+      solution: [
+        step(
+          "given",
+          "$\\sec(-75^\\circ)$, sin calculadora.",
+          "$\\sec(-75^\\circ)$, no calculator.",
+        ),
+        step(
+          "approach",
+          "Usar la paridad del coseno para voltear el signo del ángulo, descomponer $75^\\circ$ en suma de ángulos notables y racionalizar el recíproco.",
+          "Use the parity of cosine to flip the angle's sign, split $75^\\circ$ into notable angles, and rationalize the reciprocal.",
+        ),
+        step(
+          "calculation",
+          `$\\cos 75^\\circ = \\cos(45^\\circ + 30^\\circ) = \\frac{\\sqrt{2}}{2}\\cdot\\frac{\\sqrt{3}}{2} - \\frac{\\sqrt{2}}{2}\\cdot\\frac{1}{2} = \\frac{\\sqrt{6} - \\sqrt{2}}{4}$<br>$\\sec(-75^\\circ) = \\frac{1}{\\cos 75^\\circ} = \\frac{4}{\\sqrt{6} - \\sqrt{2}} = \\frac{4(\\sqrt{6} + \\sqrt{2})}{(\\sqrt{6})^2 - (\\sqrt{2})^2} = \\frac{4(\\sqrt{6} + \\sqrt{2})}{4}$`,
+          `$\\cos 75^\\circ = \\cos(45^\\circ + 30^\\circ) = \\frac{\\sqrt{2}}{2}\\cdot\\frac{\\sqrt{3}}{2} - \\frac{\\sqrt{2}}{2}\\cdot\\frac{1}{2} = \\frac{\\sqrt{6} - \\sqrt{2}}{4}$<br>$\\sec(-75^\\circ) = \\frac{1}{\\cos 75^\\circ} = \\frac{4}{\\sqrt{6} - \\sqrt{2}} = \\frac{4(\\sqrt{6} + \\sqrt{2})}{(\\sqrt{6})^2 - (\\sqrt{2})^2} = \\frac{4(\\sqrt{6} + \\sqrt{2})}{4}$`,
+        ),
+        step(
+          "result",
+          `$\\sec(-75^\\circ) = \\sqrt{6} + \\sqrt{2} \\. \\approx 3{.}86$. El mismo valor con signo menos es $\\csc(345^\\circ) = -(\\sqrt{6} + \\sqrt{2})$, el literal f) del mismo ejercicio.`,
+          `$\\sec(-75^\\circ) = \\sqrt{6} + \\sqrt{2}$, $\\approx 3{.}86$. The same value with a minus sign is $\\csc(345^\\circ) = -(\\sqrt{6} + \\sqrt{2})$, literal f) of the same exercise.`,
+        ),
+      ],
+    }),
+  ),
+
+  /* 5.5 · 47a — sen[arccos(1/2) + arccos(1/4)] = (√15 + √3)/8 */
+  template(
+    {
+      id: "trigf-espol-47a",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "inverse-trig",
+      difficulty: "challenge",
+      questionType: "expression",
+      estimatedTimeSec: 420,
+      tags: ["inverse-trig", "sum-formula", "exact-values"],
+      prerequisites: ["trig-functions"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "5.5 · 47a",
+        page: 667,
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L("Suma de arccosenos dentro de un seno", "Sum of arccosines inside a sine"),
+      statement: L(
+        `Calcula el valor exacto de $\\sin\\left[\\arccos\\left(\\dfrac{1}{2}\\right) + \\arccos\\left(\\dfrac{1}{4}\\right)\\right]$. Escríbelo como expresión (p. ej. \`(sqrt(15) + sqrt(3))/8\`).`,
+        `Find the exact value of $\\sin\\left[\\arccos\\left(\\dfrac{1}{2}\\right) + \\arccos\\left(\\dfrac{1}{4}\\right)\\right]$. Enter it as an expression (e.g. \`(sqrt(15) + sqrt(3))/8\`).`,
+      ),
+      answer: { kind: "expression", accepted: ["(sqrt(15) + sqrt(3))/8"], variables: [] },
+      hints: [
+        L(
+          "Llama $A = \\arccos\\left(\\frac{1}{2}\\right)$ y $B = \\arccos\\left(\\frac{1}{4}\\right)$: necesitas $\\sin(A + B)$.",
+          "Let $A = \\arccos\\left(\\frac{1}{2}\\right)$ and $B = \\arccos\\left(\\frac{1}{4}\\right)$: you need $\\sin(A + B)$.",
+        ),
+        L(
+          "De cada arco obtén seno y coseno: para $A$ son valores notables; para $B$ usa $\\sin B = \\sqrt{1 - \\frac{1}{16}}$ (el rango de $\\arccos$ garantiza $\\sin B \\ge 0$).",
+          "From each arc get sine and cosine: for $A$ they are notable values; for $B$ use $\\sin B = \\sqrt{1 - \\frac{1}{16}}$ (the range of $\\arccos$ guarantees $\\sin B \\ge 0$).",
+        ),
+        L(
+          "Aplica $\\sin(A+B) = \\sin A\\cos B + \\cos A\\sin B = \\frac{\\sqrt{3}}{2}\\cdot\\frac{1}{4} + \\frac{1}{2}\\cdot\\frac{\\sqrt{15}}{4}$.",
+          "Apply $\\sin(A+B) = \\sin A\\cos B + \\cos A\\sin B = \\frac{\\sqrt{3}}{2}\\cdot\\frac{1}{4} + \\frac{1}{2}\\cdot\\frac{\\sqrt{15}}{4}$.",
+        ),
+      ],
+      answerDisplay: L(
+        `$\\dfrac{\\sqrt{15} + \\sqrt{3}}{8} \\approx 0{.}726$`,
+        `$\\dfrac{\\sqrt{15} + \\sqrt{3}}{8} \\approx 0{.}726$`,
+      ),
+      solution: [
+        step(
+          "given",
+          "$\\sin\\left[\\arccos\\left(\\frac{1}{2}\\right) + \\arccos\\left(\\frac{1}{4}\\right)\\right]$, con ambos arcos en $[0, \\pi]$.",
+          "$\\sin\\left[\\arccos\\left(\\frac{1}{2}\\right) + \\arccos\\left(\\frac{1}{4}\\right)\\right]$, both arcs in $[0, \\pi]$.",
+        ),
+        step(
+          "approach",
+          "Nombrar los arcos, extraer sus senos y cosenos (el rango de $\\arccos$ fija los signos) y expandir con la fórmula del seno de una suma.",
+          "Name the arcs, extract their sines and cosines (the range of $\\arccos$ fixes the signs) and expand with the sine addition formula.",
+        ),
+        step(
+          "calculation",
+          `$A = \\arccos\\frac{1}{2} = \\frac{\\pi}{3}:\\ \\sin A = \\frac{\\sqrt{3}}{2},\\ \\cos A = \\frac{1}{2}$<br>$B = \\arccos\\frac{1}{4}:\\ \\cos B = \\frac{1}{4},\\ \\sin B = \\sqrt{1 - \\frac{1}{16}} = \\frac{\\sqrt{15}}{4}$<br>$\\sin(A + B) = \\frac{\\sqrt{3}}{2}\\cdot\\frac{1}{4} + \\frac{1}{2}\\cdot\\frac{\\sqrt{15}}{4} = \\frac{\\sqrt{3} + \\sqrt{15}}{8}$`,
+          `$A = \\arccos\\frac{1}{2} = \\frac{\\pi}{3}:\\ \\sin A = \\frac{\\sqrt{3}}{2},\\ \\cos A = \\frac{1}{2}$<br>$B = \\arccos\\frac{1}{4}:\\ \\cos B = \\frac{1}{4},\\ \\sin B = \\sqrt{1 - \\frac{1}{16}} = \\frac{\\sqrt{15}}{4}$<br>$\\sin(A + B) = \\frac{\\sqrt{3}}{2}\\cdot\\frac{1}{4} + \\frac{1}{2}\\cdot\\frac{\\sqrt{15}}{4} = \\frac{\\sqrt{3} + \\sqrt{15}}{8}$`,
+        ),
+        step(
+          "result",
+          `El valor exacto es $\\frac{\\sqrt{15} + \\sqrt{3}}{8} \\. \\approx 0{.}7262$. Comprobación numérica: $\\arccos\\left(\\frac{1}{2}\\right) = \\frac{\\pi}{3} \\. \\approx 1{.}0472$ y $\\arccos\\left(\\frac{1}{4}\\right) \\. \\approx 1{.}3181$ rad, así que $\\sin(2{.}3653) \\. \\approx 0{.}7262$ ✓.`,
+          `The exact value is $\\frac{\\sqrt{15} + \\sqrt{3}}{8}$, $\\approx 0{.}726$. Numerical check: $\\arccos 0{.}25 \\approx 1{.}318$ rad and $\\sin(1{.}047 + 1{.}318) = \\sin(2{.}365) \\approx 0{.}726$ ✓.`,
+        ),
+      ],
+    }),
+  ),
+
+  /* 5.5 · 47d — cot[2·arctan(1/2)] = 3/4 */
+  template(
+    {
+      id: "trigf-espol-47d",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "inverse-trig",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 300,
+      tags: ["inverse-trig", "double-angle", "exact-values"],
+      prerequisites: ["trig-functions"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "5.5 · 47d",
+        page: 667,
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L("Ángulo doble dentro de arctan", "Double angle inside arctan"),
+      statement: L(
+        `Calcula el valor exacto de $\\cot\\left[2\\arctan\\left(\\dfrac{1}{2}\\right)\\right]$ (fracción o decimal).`,
+        `Find the exact value of $\\cot\\left[2\\arctan\\left(\\dfrac{1}{2}\\right)\\right]$ (fraction or decimal).`,
+      ),
+      answer: {
+        kind: "numeric",
+        value: 0.75,
+        tolerance: { mode: "absolute", value: 0.005 },
+      },
+      hints: [
+        L(
+          "Llama $\\alpha = \\arctan\\left(\\frac{1}{2}\\right)$: necesitas $\\cot(2\\alpha) = \\frac{1}{\\tan(2\\alpha)}$.",
+          "Let $\\alpha = \\arctan\\left(\\frac{1}{2}\\right)$: you need $\\cot(2\\alpha) = \\frac{1}{\\tan(2\\alpha)}$.",
+        ),
+        L(
+          "Con $\\tan\\alpha = \\frac{1}{2}$: $\\tan(2\\alpha) = \\dfrac{2\\tan\\alpha}{1 - \\tan^2\\alpha}$.",
+          "With $\\tan\\alpha = \\frac{1}{2}$: $\\tan(2\\alpha) = \\dfrac{2\\tan\\alpha}{1 - \\tan^2\\alpha}$.",
+        ),
+        L(
+          "$\\tan(2\\alpha) = \\frac{1}{1 - \\frac{1}{4}} = \\frac{4}{3}$, así que la cotangente es su recíproco.",
+          "$\\tan(2\\alpha) = \\frac{1}{1 - \\frac{1}{4}} = \\frac{4}{3}$, so the cotangent is its reciprocal.",
+        ),
+      ],
+      answerDisplay: L(
+        `$\\cot\\left[2\\arctan\\left(\\frac{1}{2}\\right)\\right] = \\dfrac{3}{4}$`,
+        `$\\cot\\left[2\\arctan\\left(\\frac{1}{2}\\right)\\right] = \\dfrac{3}{4}$`,
+      ),
+      solution: [
+        step(
+          "given",
+          "$\\cot\\left[2\\arctan\\left(\\frac{1}{2}\\right)\\right]$, con $\\arctan\\left(\\frac{1}{2}\\right) \\in \\left(0, \\frac{\\pi}{2}\\right)$.",
+          "$\\cot\\left[2\\arctan\\left(\\frac{1}{2}\\right)\\right]$, with $\\arctan\\left(\\frac{1}{2}\\right) \\in \\left(0, \\frac{\\pi}{2}\\right)$.",
+        ),
+        step(
+          "approach",
+          "Nombrar el arco, aplicar la fórmula del ángulo doble de la tangente y tomar el recíproco para la cotangente.",
+          "Name the arc, apply the double-angle formula for tangent, and take the reciprocal for the cotangent.",
+        ),
+        step(
+          "calculation",
+          `$\\alpha = \\arctan\\frac{1}{2} \\Rightarrow \\tan\\alpha = \\frac{1}{2}$<br>$\\tan(2\\alpha) = \\dfrac{2\\cdot\\frac{1}{2}}{1 - \\left(\\frac{1}{2}\\right)^2} = \\dfrac{1}{\\frac{3}{4}} = \\frac{4}{3}$<br>$\\cot(2\\alpha) = \\dfrac{1}{\\tan(2\\alpha)} = \\dfrac{3}{4}$`,
+          `$\\alpha = \\arctan\\frac{1}{2} \\Rightarrow \\tan\\alpha = \\frac{1}{2}$<br>$\\tan(2\\alpha) = \\dfrac{2\\cdot\\frac{1}{2}}{1 - \\left(\\frac{1}{2}\\right)^2} = \\dfrac{1}{\\frac{3}{4}} = \\frac{4}{3}$<br>$\\cot(2\\alpha) = \\dfrac{1}{\\tan(2\\alpha)} = \\dfrac{3}{4}$`,
+        ),
+        step(
+          "result",
+          `El valor exacto es $\\frac{3}{4}$. Comprobación: $\\arctan(0{.}5) \\. \\approx 26{.}57^\\circ$, y $\\cot(53{.}13^\\circ) = \\frac{\\cos}{\\sin} = \\frac{0{.}6}{0{.}8} = 0{.}75$ ✓ (¡el triángulo 3-4-5 aparece aquí!).`,
+          `The exact value is $\\frac{3}{4}$. Check: $\\arctan(0{.}5) \\approx 26{.}57^\\circ$ and $\\cot(53{.}13^\\circ) = \\frac{\\cos}{\\sin} = \\frac{0{.}6}{0{.}8} = 0{.}75$ ✓ (the 3-4-5 triangle shows up here!).`,
+        ),
+      ],
+    }),
+  ),
+
+  /* 5.5 · 49a — 8·cos10°·cos20°·cos40° = cot(10°) */
+  template(
+    {
+      id: "trigf-espol-49a",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "simplification",
+      difficulty: "challenge",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 420,
+      tags: ["simplification", "double-angle", "product"],
+      prerequisites: ["trig-functions"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "5.5 · 49a",
+        page: 667,
+      },
+      reasoning: "multi-concept",
+    },
+    () => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\cot(10^\\circ)$`, `$\\cot(10^\\circ)$`), correct: true },
+        { id: "b", text: L(`$\\tan(10^\\circ)$`, `$\\tan(10^\\circ)$`), correct: false },
+        { id: "c", text: L(`$\\dfrac{1}{8}$`, `$\\dfrac{1}{8}$`), correct: false },
+        { id: "d", text: L(`$\\sqrt{3}$`, `$\\sqrt{3}$`), correct: false },
+      ];
+      return {
+        skill: L("Cadena de cosenos con ángulos dobles", "Chain of cosines with doubling angles"),
+        statement: L(
+          `Simplifica la expresión $8\\cos(10^\\circ)\\cos(20^\\circ)\\cos(40^\\circ)$.`,
+          `Simplify the expression $8\\cos(10^\\circ)\\cos(20^\\circ)\\cos(40^\\circ)$.`,
+        ),
+        answer: { kind: "multiple-choice", options },
+        hints: [
+          L(
+            "Multiplica y divide por $2\\sin(10^\\circ)$: aparece $2\\sin(10^\\circ)\\cos(10^\\circ) = \\sin(20^\\circ)$.",
+            "Multiply and divide by $2\\sin(10^\\circ)$: $2\\sin(10^\\circ)\\cos(10^\\circ) = \\sin(20^\\circ)$ appears.",
+          ),
+          L(
+            "El seno recién creado se cancela con el $\\sin(20^\\circ)$ del denominador al aplicar otra vez el ángulo doble con $\\cos(20^\\circ)$.",
+            "The newly created sine cancels the $\\sin(20^\\circ)$ in the denominator when you apply the double angle again with $\\cos(20^\\circ)$.",
+          ),
+          L(
+            "La cadena termina en $\\frac{\\sin(80^\\circ)}{\\sin(10^\\circ)}$; usa $\\sin(80^\\circ) = \\cos(10^\\circ)$.",
+            "The chain ends at $\\frac{\\sin(80^\\circ)}{\\sin(10^\\circ)}$; use $\\sin(80^\\circ) = \\cos(10^\\circ)$.",
+          ),
+        ],
+        answerDisplay: L(
+          `$8\\cos(10^\\circ)\\cos(20^\\circ)\\cos(40^\\circ) = \\cot(10^\\circ) \\approx 5{.}671$`,
+          `$8\\cos(10^\\circ)\\cos(20^\\circ)\\cos(40^\\circ) = \\cot(10^\\circ) \\approx 5{.}671$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$8\\cos(10^\\circ)\\cos(20^\\circ)\\cos(40^\\circ)$.",
+            "$8\\cos(10^\\circ)\\cos(20^\\circ)\\cos(40^\\circ)$.",
+          ),
+          step(
+            "approach",
+            "Los ángulos se duplican ($10 \\to 20 \\to 40$): multiplicar por $\\frac{2\\sin 10^\\circ}{2\\sin 10^\\circ}$ dispara una reacción en cadena de ángulos dobles que consume cada coseno.",
+            "The angles double ($10 \\to 20 \\to 40$): multiplying by $\\frac{2\\sin 10^\\circ}{2\\sin 10^\\circ}$ triggers a chain reaction of double angles that consumes each cosine.",
+          ),
+          step(
+            "calculation",
+            `$8\\cos 10^\\circ \\cos 20^\\circ \\cos 40^\\circ \\cdot \\frac{2\\sin 10^\\circ}{2\\sin 10^\\circ} = \\frac{4\\sin 20^\\circ \\cos 20^\\circ \\cos 40^\\circ}{\\sin 10^\\circ}$<br>$= \\frac{2\\sin 40^\\circ \\cos 40^\\circ}{\\sin 10^\\circ} = \\frac{\\sin 80^\\circ}{\\sin 10^\\circ}$<br>$= \\frac{\\cos 10^\\circ}{\\sin 10^\\circ} = \\cot 10^\\circ$`,
+            `$8\\cos 10^\\circ \\cos 20^\\circ \\cos 40^\\circ \\cdot \\frac{2\\sin 10^\\circ}{2\\sin 10^\\circ} = \\frac{4\\sin 20^\\circ \\cos 20^\\circ \\cos 40^\\circ}{\\sin 10^\\circ}$<br>$= \\frac{2\\sin 40^\\circ \\cos 40^\\circ}{\\sin 10^\\circ} = \\frac{\\sin 80^\\circ}{\\sin 10^\\circ}$<br>$= \\frac{\\cos 10^\\circ}{\\sin 10^\\circ} = \\cot 10^\\circ$`,
+          ),
+          step(
+            "result",
+            `La expresión vale $\\cot(10^\\circ) \\. \\approx 5{.}671$. El truco de multiplicar por $\\frac{2\\sin\\theta}{2\\sin\\theta}$ funciona siempre que los ángulos se dupliquen — memorízalo.`,
+            `The expression equals $\\cot(10^\\circ) \\approx 5{.}671$. The trick of multiplying by $\\frac{2\\sin\\theta}{2\\sin\\theta}$ works whenever the angles double — worth memorizing.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 5.5 · 49b — product of six cosines π/65…32π/65 = 1/64 */
+  template(
+    {
+      id: "trigf-espol-49b",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "simplification",
+      difficulty: "challenge",
+      questionType: "numeric",
+      estimatedTimeSec: 540,
+      tags: ["simplification", "double-angle", "product", "identity"],
+      prerequisites: ["trig-functions"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "5.5 · 49b",
+        page: 667,
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L("Seis cosenos en cadena hacia 1/64", "Six chained cosines heading to 1/64"),
+      statement: L(
+        `Simplifica y calcula el valor exacto de $\\cos\\left(\\dfrac{\\pi}{65}\\right)\\cos\\left(\\dfrac{2\\pi}{65}\\right)\\cos\\left(\\dfrac{4\\pi}{65}\\right)\\cos\\left(\\dfrac{8\\pi}{65}\\right)\\cos\\left(\\dfrac{16\\pi}{65}\\right)\\cos\\left(\\dfrac{32\\pi}{65}\\right)$.`,
+        `Simplify and compute the exact value of $\\cos\\left(\\dfrac{\\pi}{65}\\right)\\cos\\left(\\dfrac{2\\pi}{65}\\right)\\cos\\left(\\dfrac{4\\pi}{65}\\right)\\cos\\left(\\dfrac{8\\pi}{65}\\right)\\cos\\left(\\dfrac{16\\pi}{65}\\right)\\cos\\left(\\dfrac{32\\pi}{65}\\right)$.`,
+      ),
+      answer: {
+        kind: "numeric",
+        value: 1 / 64,
+        tolerance: { mode: "absolute", value: 0.0005 },
+      },
+      hints: [
+        L(
+          "Los ángulos se duplican seis veces: $\\frac{\\pi}{65} \\to \\frac{2\\pi}{65} \\to \\cdots \\to \\frac{32\\pi}{65}$. Multiplica y divide por $2\\sin\\left(\\frac{\\pi}{65}\\right)$.",
+          "The angles double six times: $\\frac{\\pi}{65} \\to \\frac{2\\pi}{65} \\to \\cdots \\to \\frac{32\\pi}{65}$. Multiply and divide by $2\\sin\\left(\\frac{\\pi}{65}\\right)$.",
+        ),
+        L(
+          "La identidad general: $\\prod_{k=0}^{n-1}\\cos(2^k x) = \\dfrac{\\sin(2^n x)}{2^n\\sin x}$.",
+          "The general identity: $\\prod_{k=0}^{n-1}\\cos(2^k x) = \\dfrac{\\sin(2^n x)}{2^n\\sin x}$.",
+        ),
+        L(
+          "Con $n = 6$: el numerador es $\\sin\\left(\\frac{64\\pi}{65}\\right)$. ¿Cuánto vale $\\sin\\left(\\pi - \\frac{\\pi}{65}\\right)$?",
+          "With $n = 6$: the numerator is $\\sin\\left(\\frac{64\\pi}{65}\\right)$. What is $\\sin\\left(\\pi - \\frac{\\pi}{65}\\right)$?",
+        ),
+      ],
+      answerDisplay: L(
+        `El producto vale $\\dfrac{1}{64} = 0{.}015625$.`,
+        `The product equals $\\dfrac{1}{64} = 0{.}015625$.`,
+      ),
+      solution: [
+        step(
+          "given",
+          "$\\cos\\frac{\\pi}{65}\\cos\\frac{2\\pi}{65}\\cos\\frac{4\\pi}{65}\\cos\\frac{8\\pi}{65}\\cos\\frac{16\\pi}{65}\\cos\\frac{32\\pi}{65}$.",
+          "$\\cos\\frac{\\pi}{65}\\cos\\frac{2\\pi}{65}\\cos\\frac{4\\pi}{65}\\cos\\frac{8\\pi}{65}\\cos\\frac{16\\pi}{65}\\cos\\frac{32\\pi}{65}$.",
+        ),
+        step(
+          "approach",
+          "Los seis ángulos son $2^k \\cdot \\frac{\\pi}{65}$ para $k = 0,\\dots,5$: la identidad del producto en cadena $\\prod_{k=0}^{n-1}\\cos(2^k x) = \\frac{\\sin(2^n x)}{2^n \\sin x}$ colapsa todo, y el numerador es casi $\\pi$.",
+          "The six angles are $2^k \\cdot \\frac{\\pi}{65}$ for $k = 0,\\dots,5$: the chain-product identity $\\prod_{k=0}^{n-1}\\cos(2^k x) = \\frac{\\sin(2^n x)}{2^n \\sin x}$ collapses everything, and the numerator is almost $\\pi$.",
+        ),
+        step(
+          "calculation",
+          `$\\prod_{k=0}^{5}\\cos\\left(2^k \\frac{\\pi}{65}\\right) = \\frac{\\sin\\left(2^6 \\frac{\\pi}{65}\\right)}{2^6 \\sin\\left(\\frac{\\pi}{65}\\right)} = \\frac{\\sin\\left(\\frac{64\\pi}{65}\\right)}{64\\sin\\left(\\frac{\\pi}{65}\\right)}$<br>$\\sin\\left(\\frac{64\\pi}{65}\\right) = \\sin\\left(\\pi - \\frac{\\pi}{65}\\right) = \\sin\\left(\\frac{\\pi}{65}\\right)$<br>$\\Rightarrow \\text{producto} = \\frac{\\sin\\left(\\frac{\\pi}{65}\\right)}{64\\sin\\left(\\frac{\\pi}{65}\\right)} = \\frac{1}{64}$`,
+          `$\\prod_{k=0}^{5}\\cos\\left(2^k \\frac{\\pi}{65}\\right) = \\frac{\\sin\\left(2^6 \\frac{\\pi}{65}\\right)}{2^6 \\sin\\left(\\frac{\\pi}{65}\\right)} = \\frac{\\sin\\left(\\frac{64\\pi}{65}\\right)}{64\\sin\\left(\\frac{\\pi}{65}\\right)}$<br>$\\sin\\left(\\frac{64\\pi}{65}\\right) = \\sin\\left(\\pi - \\frac{\\pi}{65}\\right) = \\sin\\left(\\frac{\\pi}{65}\\right)$<br>$\\Rightarrow \\text{product} = \\frac{\\sin\\left(\\frac{\\pi}{65}\\right)}{64\\sin\\left(\\frac{\\pi}{65}\\right)} = \\frac{1}{64}$`,
+        ),
+        step(
+          "result",
+          `El producto exacto es $\\frac{1}{64} = 0{.}015625$, independiente del valor de $\\pi/65$: solo importa que $64 \\cdot \\frac{\\pi}{65}$ y $\\frac{\\pi}{65}$ sean suplementarios. Comprobación con la calculadora: $\\cos(2{.}77^\\circ)\\cos(5{.}54^\\circ)\\cdots\\cos(88{.}6^\\circ) \\. \\approx 0{.}0156$ ✓.`,
+          `The exact product is $\\frac{1}{64} = 0{.}015625$, independent of the actual value of $\\pi/65$: all that matters is that $64 \\cdot \\frac{\\pi}{65}$ and $\\frac{\\pi}{65}$ are supplementary. Calculator check: $\\cos(2{.}77^\\circ)\\cos(5{.}54^\\circ)\\cdots\\cos(88{.}6^\\circ) \\approx 0{.}0156$ ✓.`,
+        ),
+      ],
+    }),
+  ),
+
+  /* 5.6 · 57a — domain of f(x) = ln(sen(x/2)cos(x/2) − 1/4) on [0, 2π] */
+  template(
+    {
+      id: "trigf-espol-57a",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "simplification",
+      difficulty: "challenge",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 420,
+      tags: ["domain", "logarithm", "double-angle", "inequality"],
+      prerequisites: ["trig-functions"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "5.6 · 57a",
+        page: 670,
+      },
+      reasoning: "multi-concept",
+    },
+    () => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\left(\\frac{\\pi}{6},\\ \\frac{5\\pi}{6}\\right)$`, `$\\left(\\frac{\\pi}{6},\\ \\frac{5\\pi}{6}\\right)$`), correct: true },
+        { id: "b", text: L(`$\\left[\\frac{\\pi}{6},\\ \\frac{5\\pi}{6}\\right]$`, `$\\left[\\frac{\\pi}{6},\\ \\frac{5\\pi}{6}\\right]$`), correct: false },
+        { id: "c", text: L(`$(0,\\ \\pi)$`, `$(0,\\ \\pi)$`), correct: false },
+        { id: "d", text: L(`$\\left(\\frac{\\pi}{3},\\ \\frac{2\\pi}{3}\\right)$`, `$\\left(\\frac{\\pi}{3},\\ \\frac{2\\pi}{3}\\right)$`), correct: false },
+      ];
+      return {
+        skill: L("Dominio de un logaritmo trigonométrico", "Domain of a trigonometric logarithm"),
+        statement: L(
+          `Sea $f(x) = \\ln\\left(\\operatorname{sen}\\left(\\frac{x}{2}\\right)\\cos\\left(\\frac{x}{2}\\right) - \\frac{1}{4}\\right)$. Determina el conjunto de verdad de $p(x):\\ f(x)$ es un número real, con $x \\in [0, 2\\pi]$.`,
+          `Let $f(x) = \\ln\\left(\\sin\\left(\\frac{x}{2}\\right)\\cos\\left(\\frac{x}{2}\\right) - \\frac{1}{4}\\right)$. Determine the truth set of $p(x):\\ f(x)$ is a real number, with $x \\in [0, 2\\pi]$.`,
+        ),
+        answer: { kind: "multiple-choice", options },
+        hints: [
+          L(
+            "El logaritmo solo existe cuando su argumento es positivo.",
+            "The logarithm exists only when its argument is positive.",
+          ),
+          L(
+            "Simplifica primero: $\\operatorname{sen}\\left(\\frac{x}{2}\\right)\\cos\\left(\\frac{x}{2}\\right) = \\frac{1}{2}\\operatorname{sen}(x)$.",
+            "Simplify first: $\\sin\\left(\\frac{x}{2}\\right)\\cos\\left(\\frac{x}{2}\\right) = \\frac{1}{2}\\sin(x)$.",
+          ),
+          L(
+            "Necesitas $\\frac{1}{2}\\operatorname{sen}(x) > \\frac{1}{4}$, es decir $\\operatorname{sen}(x) > \\frac{1}{2}$.",
+            "You need $\\frac{1}{2}\\sin(x) > \\frac{1}{4}$, i.e. $\\sin(x) > \\frac{1}{2}$.",
+          ),
+        ],
+        answerDisplay: L(
+          `$A_{p(x)} = \\left(\\frac{\\pi}{6}, \\frac{5\\pi}{6}\\right)$`,
+          `$A_{p(x)} = \\left(\\frac{\\pi}{6}, \\frac{5\\pi}{6}\\right)$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$f(x) = \\ln\\left(\\operatorname{sen}\\left(\\frac{x}{2}\\right)\\cos\\left(\\frac{x}{2}\\right) - \\frac{1}{4}\\right)$, con $x \\in [0, 2\\pi]$.",
+            "$f(x) = \\ln\\left(\\sin\\left(\\frac{x}{2}\\right)\\cos\\left(\\frac{x}{2}\\right) - \\frac{1}{4}\\right)$, with $x \\in [0, 2\\pi]$.",
+          ),
+          step(
+            "approach",
+            "La condición de realidad del logaritmo es una desigualdad estricta sobre su argumento; el producto de ángulo medio es medio seno doble, y la desigualdad se lee directo en la circunferencia.",
+            "The reality condition for the logarithm is a strict inequality on its argument; the half-angle product is half a double sine, and the inequality reads directly off the unit circle.",
+          ),
+          step(
+            "calculation",
+            `$\\operatorname{sen}\\left(\\frac{x}{2}\\right)\\cos\\left(\\frac{x}{2}\\right) = \\frac{1}{2}\\operatorname{sen}(x)$<br>$\\frac{1}{2}\\operatorname{sen}(x) - \\frac{1}{4} > 0 \\Leftrightarrow \\operatorname{sen}(x) > \\frac{1}{2}$<br>En $[0, 2\\pi]$: $x \\in \\left(\\frac{\\pi}{6}, \\frac{5\\pi}{6}\\right)$`,
+            `$\\sin\\left(\\frac{x}{2}\\right)\\cos\\left(\\frac{x}{2}\\right) = \\frac{1}{2}\\sin(x)$<br>$\\frac{1}{2}\\sin(x) - \\frac{1}{4} > 0 \\Leftrightarrow \\sin(x) > \\frac{1}{2}$<br>On $[0, 2\\pi]$: $x \\in \\left(\\frac{\\pi}{6}, \\frac{5\\pi}{6}\\right)$`,
+          ),
+          step(
+            "result",
+            `El conjunto de verdad es $\\left(\\frac{\\pi}{6}, \\frac{5\\pi}{6}\\right)$, abierto por la desigualdad estricta: en los extremos el argumento del logaritmo valdría $0$ y $\\ln(0)$ no existe. Comprobación con $x = \\frac{\\pi}{2}$: $\\frac{1}{2} - \\frac{1}{4} = \\frac{1}{4} > 0$ ✓.`,
+            `The truth set is $\\left(\\frac{\\pi}{6}, \\frac{5\\pi}{6}\\right)$, open due to the strict inequality: at the endpoints the logarithm's argument would be $0$ and $\\ln(0)$ does not exist. Check with $x = \\frac{\\pi}{2}$: $\\frac{1}{2} - \\frac{1}{4} = \\frac{1}{4} > 0$ ✓.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 5.6 · 57b — domain of g(x) = 1/√(cos⁴x − cos²x + sen²x) on [0, 2π] */
+  template(
+    {
+      id: "trigf-espol-57b",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "simplification",
+      difficulty: "challenge",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 420,
+      tags: ["domain", "square-root", "pythagorean", "perfect-square"],
+      prerequisites: ["trig-functions"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "5.6 · 57b",
+        page: 670,
+      },
+      reasoning: "multi-concept",
+    },
+    () => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$(0, 2\\pi) \\smallsetminus \\{\\pi\\}$`, `$(0, 2\\pi) \\smallsetminus \\{\\pi\\}$`), correct: true },
+        { id: "b", text: L(`$[0, 2\\pi]$`, `$[0, 2\\pi]$`), correct: false },
+        { id: "c", text: L(`$(0, 2\\pi) \\smallsetminus \\left\\{\\frac{\\pi}{2}\\right\\}$`, `$(0, 2\\pi) \\smallsetminus \\left\\{\\frac{\\pi}{2}\\right\\}$`), correct: false },
+        { id: "d", text: L(`$\\varnothing$`, `$\\varnothing$`), correct: false },
+      ];
+      return {
+        skill: L("Un trinomio que es un cuadrado perfecto disfrazado", "A trinomial that is a perfect square in disguise"),
+        statement: L(
+          `Sea $g(x) = \\dfrac{1}{\\sqrt{\\cos^4 x - \\cos^2 x + \\operatorname{sen}^2 x}}$. Determina el conjunto de verdad de $q(x):\\ g(x)$ es un número real, con $x \\in [0, 2\\pi]$.`,
+          `Let $g(x) = \\dfrac{1}{\\sqrt{\\cos^4 x - \\cos^2 x + \\sin^2 x}}$. Determine the truth set of $q(x):\\ g(x)$ is a real number, with $x \\in [0, 2\\pi]$.`,
+        ),
+        answer: { kind: "multiple-choice", options },
+        hints: [
+          L(
+            "Necesitas que el radicando sea estrictamente positivo (es un denominador).",
+            "You need the radicand to be strictly positive (it is a denominator).",
+          ),
+          L(
+            "Sustituye $\\operatorname{sen}^2 x = 1 - \\cos^2 x$ dentro del trinomio.",
+            "Substitute $\\sin^2 x = 1 - \\cos^2 x$ inside the trinomial.",
+          ),
+          L(
+            "Con $u = \\cos^2 x$: $u^2 - 2u + 1 = (u - 1)^2 = (1 - \\cos^2 x)^2 = \\operatorname{sen}^4 x$.",
+            "With $u = \\cos^2 x$: $u^2 - 2u + 1 = (u - 1)^2 = (1 - \\cos^2 x)^2 = \\sin^4 x$.",
+          ),
+        ],
+        answerDisplay: L(
+          `$A_{q(x)} = (0, 2\\pi) \\smallsetminus \\{\\pi\\}$`,
+          `$A_{q(x)} = (0, 2\\pi) \\smallsetminus \\{\\pi\\}$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$g(x) = \\dfrac{1}{\\sqrt{\\cos^4 x - \\cos^2 x + \\operatorname{sen}^2 x}}$, con $x \\in [0, 2\\pi]$.",
+            "$g(x) = \\dfrac{1}{\\sqrt{\\cos^4 x - \\cos^2 x + \\sin^2 x}}$, with $x \\in [0, 2\\pi]$.",
+          ),
+          step(
+            "approach",
+            "La condición es que el radicando sea $> 0$ (denominador). El trinomio parece depender de dos funciones, pero la identidad pitagórica lo convierte en un cuadrado perfecto.",
+            "The condition is that the radicand be $> 0$ (a denominator). The trinomial seems to involve two functions, but the Pythagorean identity turns it into a perfect square.",
+          ),
+          step(
+            "calculation",
+            `$\\cos^4 x - \\cos^2 x + \\operatorname{sen}^2 x = \\cos^4 x - \\cos^2 x + (1 - \\cos^2 x)$<br>$= \\cos^4 x - 2\\cos^2 x + 1 = (1 - \\cos^2 x)^2 = \\operatorname{sen}^4 x$<br>$\\operatorname{sen}^4 x > 0 \\Leftrightarrow \\operatorname{sen} x \\ne 0 \\Leftrightarrow x \\notin \\{0, \\pi, 2\\pi\\}$`,
+            `$\\cos^4 x - \\cos^2 x + \\sin^2 x = \\cos^4 x - \\cos^2 x + (1 - \\cos^2 x)$<br>$= \\cos^4 x - 2\\cos^2 x + 1 = (1 - \\cos^2 x)^2 = \\sin^4 x$<br>$\\sin^4 x > 0 \\Leftrightarrow \\sin x \\ne 0 \\Leftrightarrow x \\notin \\{0, \\pi, 2\\pi\\}$`,
+          ),
+          step(
+            "result",
+            `Dentro de $[0, 2\\pi]$ se excluyen $0$, $\\pi$ y $2\\pi$, así que $A_{q(x)} = (0, 2\\pi) \\smallsetminus \\{\\pi\\}$. La sorpresa: la expresión original parecía exigir mucho más, pero $g(x) = \\frac{1}{\\operatorname{sen}^2 x}$ donde existe.`,
+            `Inside $[0, 2\\pi]$ we exclude $0$, $\\pi$ and $2\\pi$, so $A_{q(x)} = (0, 2\\pi) \\smallsetminus \\{\\pi\\}$. The surprise: the original expression looked far more demanding, but $g(x) = \\frac{1}{\\sin^2 x}$ wherever it exists.`,
+          ),
+        ],
+      };
+    },
+  ),
+
 ];

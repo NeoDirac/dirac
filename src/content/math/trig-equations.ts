@@ -1001,7 +1001,7 @@ export const templates: ProblemTemplate[] = [
       source: {
         sourceId: "fcnm-fundamentos",
         license: "TUTOR_LICENSED",
-        exerciseNumber: "5.6 · 1d",
+        exerciseNumber: "5.6 · 53d",
         page: 668,
       },
       reasoning: "case-analysis",
@@ -1075,7 +1075,7 @@ export const templates: ProblemTemplate[] = [
       source: {
         sourceId: "fcnm-fundamentos",
         license: "TUTOR_LICENSED",
-        exerciseNumber: "5.6 · 1f",
+        exerciseNumber: "5.6 · 53f",
         page: 668,
       },
       reasoning: "spurious",
@@ -1149,7 +1149,7 @@ export const templates: ProblemTemplate[] = [
       source: {
         sourceId: "fcnm-fundamentos",
         license: "TUTOR_LICENSED",
-        exerciseNumber: "5.6 · 1h",
+        exerciseNumber: "5.6 · 53h",
         page: 668,
       },
       reasoning: "case-analysis",
@@ -1223,7 +1223,7 @@ export const templates: ProblemTemplate[] = [
       source: {
         sourceId: "fcnm-fundamentos",
         license: "TUTOR_LICENSED",
-        exerciseNumber: "5.6 · 1k",
+        exerciseNumber: "5.6 · 53k",
         page: 669,
       },
       reasoning: "multi-concept",
@@ -1297,7 +1297,7 @@ export const templates: ProblemTemplate[] = [
       source: {
         sourceId: "fcnm-fundamentos",
         license: "TUTOR_LICENSED",
-        exerciseNumber: "5.6 · 1l",
+        exerciseNumber: "5.6 · 53l",
         page: 669,
       },
       reasoning: "definition-hunting",
@@ -1371,7 +1371,7 @@ export const templates: ProblemTemplate[] = [
       source: {
         sourceId: "fcnm-fundamentos",
         license: "TUTOR_LICENSED",
-        exerciseNumber: "5.6 · 1m",
+        exerciseNumber: "5.6 · 53m",
         page: 669,
       },
       reasoning: "case-analysis",
@@ -1445,7 +1445,7 @@ export const templates: ProblemTemplate[] = [
       source: {
         sourceId: "fcnm-fundamentos",
         license: "TUTOR_LICENSED",
-        exerciseNumber: "5.6 · 1e",
+        exerciseNumber: "5.6 · 53e",
         page: 668,
       },
       reasoning: "multi-concept",
@@ -1504,7 +1504,8 @@ export const templates: ProblemTemplate[] = [
     }),
   ),
 
-  /* 5.6 · 2c — cos x − sen x < −√2/2 on [0, 2π) → (5π/12, 13π/12) */
+  /* 5.6 · 54c — cos²x − sen²x < −1/2 on [0, 2π) → (π/3, 2π/3) ∪ (4π/3, 5π/3)
+     (VLM re-read of the printed page; matches the book's answer key.) */
   template(
     {
       id: "trigeq-espol-2c",
@@ -1514,68 +1515,68 @@ export const templates: ProblemTemplate[] = [
       difficulty: "hard",
       questionType: "multiple-choice",
       estimatedTimeSec: 300,
-      tags: ["inequality", "auxiliary-angle", "intervals"],
+      tags: ["inequality", "double-angle", "intervals"],
       prerequisites: ["trig-functions"],
       source: {
         sourceId: "fcnm-fundamentos",
         license: "TUTOR_LICENSED",
-        exerciseNumber: "5.6 · 2c",
+        exerciseNumber: "5.6 · 54c",
         page: 669,
       },
       reasoning: "case-analysis",
     },
     () => {
       const options: McOption[] = [
-        { id: "a", text: L(`$\\left(\\frac{5\\pi}{12},\\ \\frac{13\\pi}{12}\\right)$`, `$\\left(\\frac{5\\pi}{12},\\ \\frac{13\\pi}{12}\\right)$`), correct: true },
-        { id: "b", text: L(`$\\left[\\frac{5\\pi}{12},\\ \\frac{13\\pi}{12}\\right]$`, `$\\left[\\frac{5\\pi}{12},\\ \\frac{13\\pi}{12}\\right]$`), correct: false },
-        { id: "c", text: L(`$\\left(\\frac{11\\pi}{12},\\ \\frac{19\\pi}{12}\\right)$`, `$\\left(\\frac{11\\pi}{12},\\ \\frac{19\\pi}{12}\\right)$`), correct: false },
-        { id: "d", text: L(`$\\left(0,\\ \\frac{5\\pi}{12}\\right)\\cup\\left(\\frac{13\\pi}{12},\\ 2\\pi\\right)$`, `$\\left(0,\\ \\frac{5\\pi}{12}\\right)\\cup\\left(\\frac{13\\pi}{12},\\ 2\\pi\\right)$`), correct: false },
+        { id: "a", text: L(`$\\left(\\frac{\\pi}{3},\\ \\frac{2\\pi}{3}\\right)\\cup\\left(\\frac{4\\pi}{3},\\ \\frac{5\\pi}{3}\\right)$`, `$\\left(\\frac{\\pi}{3},\\ \\frac{2\\pi}{3}\\right)\\cup\\left(\\frac{4\\pi}{3},\\ \\frac{5\\pi}{3}\\right)$`), correct: true },
+        { id: "b", text: L(`$\\left(\\frac{5\\pi}{12},\\ \\frac{13\\pi}{12}\\right)$`, `$\\left(\\frac{5\\pi}{12},\\ \\frac{13\\pi}{12}\\right)$`), correct: false },
+        { id: "c", text: L(`$\\left(\\frac{\\pi}{6},\\ \\frac{5\\pi}{6}\\right)\\cup\\left(\\frac{7\\pi}{6},\\ \\frac{11\\pi}{6}\\right)$`, `$\\left(\\frac{\\pi}{6},\\ \\frac{5\\pi}{6}\\right)\\cup\\left(\\frac{7\\pi}{6},\\ \\frac{11\\pi}{6}\\right)$`), correct: false },
+        { id: "d", text: L(`$\\left[\\frac{\\pi}{3},\\ \\frac{2\\pi}{3}\\right]\\cup\\left[\\frac{4\\pi}{3},\\ \\frac{5\\pi}{3}\\right]$`, `$\\left[\\frac{\\pi}{3},\\ \\frac{2\\pi}{3}\\right]\\cup\\left[\\frac{4\\pi}{3},\\ \\frac{5\\pi}{3}\\right]$`), correct: false },
       ];
       return {
-        skill: L("Inecuación con ángulo auxiliar", "Inequality with an auxiliary angle"),
+        skill: L("Inecuación con ángulo doble", "Inequality with a double angle"),
         statement: L(
-          `Determina el conjunto de verdad de $p(x):\\ \\cos x - \\sin x < -\\frac{\\sqrt{2}}{2}$ en $x \\in [0, 2\\pi)$.`,
-          `Determine the truth set of $p(x):\\ \\cos x - \\sin x < -\\frac{\\sqrt{2}}{2}$ on $x \\in [0, 2\\pi)$.`,
+          `Determina el conjunto de verdad de $p(x):\\ \\cos^2 x - \\sin^2 x < -\\frac{1}{2}$ en $x \\in [0, 2\\pi)$.`,
+          `Determine the truth set of $p(x):\\ \\cos^2 x - \\sin^2 x < -\\frac{1}{2}$ on $x \\in [0, 2\\pi)$.`,
         ),
         answer: { kind: "multiple-choice", options },
         hints: [
           L(
-            "Escribe $\\cos x - \\sin x$ como UN solo coseno: $\\sqrt{2}\\cos\\left(x + \\frac{\\pi}{4}\\right)$.",
-            "Write $\\cos x - \\sin x$ as ONE cosine: $\\sqrt{2}\\cos\\left(x + \\frac{\\pi}{4}\\right)$.",
+            "Reconoce el ángulo doble: $\\cos^2 x - \\sin^2 x = \\cos(2x)$.",
+            "Recognize the double angle: $\\cos^2 x - \\sin^2 x = \\cos(2x)$.",
           ),
           L(
-            "La inecuación queda $\\cos\\left(x + \\frac{\\pi}{4}\\right) < -\\frac{1}{2}$.",
-            "The inequality becomes $\\cos\\left(x + \\frac{\\pi}{4}\\right) < -\\frac{1}{2}$.",
+            "La inecuación queda $\\cos(2x) < -\\frac{1}{2}$, con $2x \\in [0, 4\\pi)$: caben DOS vueltas completas.",
+            "The inequality becomes $\\cos(2x) < -\\frac{1}{2}$, with $2x \\in [0, 4\\pi)$: TWO full turns fit.",
           ),
           L(
-            "$x + \\frac{\\pi}{4} \\in \\left(\\frac{2\\pi}{3}, \\frac{4\\pi}{3}\\right)$; resta $\\frac{\\pi}{4}$ y revisa si los extremos entran (la desigualdad es estricta).",
-            "$x + \\frac{\\pi}{4} \\in \\left(\\frac{2\\pi}{3}, \\frac{4\\pi}{3}\\right)$; subtract $\\frac{\\pi}{4}$ and check whether the endpoints enter (strict inequality).",
+            "En una vuelta $2x \\in \\left(\\frac{2\\pi}{3}, \\frac{4\\pi}{3}\\right)$; suma $2\\pi$ para la segunda vuelta y divide entre $2$ al final.",
+            "In one turn $2x \\in \\left(\\frac{2\\pi}{3}, \\frac{4\\pi}{3}\\right)$; add $2\\pi$ for the second turn and divide by $2$ at the end.",
           ),
         ],
         answerDisplay: L(
-          `$A_{p(x)} = \\left(\\frac{5\\pi}{12},\\ \\frac{13\\pi}{12}\\right)$`,
-          `$A_{p(x)} = \\left(\\frac{5\\pi}{12},\\ \\frac{13\\pi}{12}\\right)$`,
+          `$A_{p(x)} = \\left(\\frac{\\pi}{3},\\ \\frac{2\\pi}{3}\\right)\\cup\\left(\\frac{4\\pi}{3},\\ \\frac{5\\pi}{3}\\right)$`,
+          `$A_{p(x)} = \\left(\\frac{\\pi}{3},\\ \\frac{2\\pi}{3}\\right)\\cup\\left(\\frac{4\\pi}{3},\\ \\frac{5\\pi}{3}\\right)$`,
         ),
         solution: [
           step(
             "given",
-            "$\\cos x - \\sin x < -\\frac{\\sqrt{2}}{2}$, con $x \\in [0, 2\\pi)$.",
-            "$\\cos x - \\sin x < -\\frac{\\sqrt{2}}{2}$, with $x \\in [0, 2\\pi)$.",
+            "$\\cos^2 x - \\sin^2 x < -\\frac{1}{2}$, con $x \\in [0, 2\\pi)$.",
+            "$\\cos^2 x - \\sin^2 x < -\\frac{1}{2}$, with $x \\in [0, 2\\pi)$.",
           ),
           step(
             "approach",
-            "Combinar seno y coseno en un único coseno desplazado (ángulo auxiliar) para leer la solución de una sola vez.",
-            "Combine sine and cosine into a single shifted cosine (auxiliary angle) to read off the solution at once.",
+            "Colapsar la diferencia de cuadrados en un coseno de ángulo doble; el intervalo de $2x$ abarca dos vueltas, así que la familia de soluciones aparece dos veces.",
+            "Collapse the difference of squares into a double-angle cosine; the interval for $2x$ spans two turns, so the solution family appears twice.",
           ),
           step(
             "calculation",
-            `$\\cos x - \\sin x = \\sqrt{2}\\cos\\left(x + \\frac{\\pi}{4}\\right)$<br>$\\sqrt{2}\\cos\\left(x + \\frac{\\pi}{4}\\right) < -\\frac{\\sqrt{2}}{2} \\Rightarrow \\cos\\left(x + \\frac{\\pi}{4}\\right) < -\\frac{1}{2}$<br>$\\frac{2\\pi}{3} < x + \\frac{\\pi}{4} < \\frac{4\\pi}{3} \\Rightarrow \\frac{5\\pi}{12} < x < \\frac{13\\pi}{12}$`,
-            `$\\cos x - \\sin x = \\sqrt{2}\\cos\\left(x + \\frac{\\pi}{4}\\right)$<br>$\\sqrt{2}\\cos\\left(x + \\frac{\\pi}{4}\\right) < -\\frac{\\sqrt{2}}{2} \\Rightarrow \\cos\\left(x + \\frac{\\pi}{4}\\right) < -\\frac{1}{2}$<br>$\\frac{2\\pi}{3} < x + \\frac{\\pi}{4} < \\frac{4\\pi}{3} \\Rightarrow \\frac{5\\pi}{12} < x < \\frac{13\\pi}{12}$`,
+            `$\\cos^2 x - \\sin^2 x = \\cos(2x) < -\\frac{1}{2}$<br>$2x \\in \\left(\\frac{2\\pi}{3}, \\frac{4\\pi}{3}\\right) \\cup \\left(\\frac{2\\pi}{3} + 2\\pi, \\frac{4\\pi}{3} + 2\\pi\\right)$<br>$x \\in \\left(\\frac{\\pi}{3}, \\frac{2\\pi}{3}\\right) \\cup \\left(\\frac{4\\pi}{3}, \\frac{5\\pi}{3}\\right)$`,
+            `$\\cos^2 x - \\sin^2 x = \\cos(2x) < -\\frac{1}{2}$<br>$2x \\in \\left(\\frac{2\\pi}{3}, \\frac{4\\pi}{3}\\right) \\cup \\left(\\frac{2\\pi}{3} + 2\\pi, \\frac{4\\pi}{3} + 2\\pi\\right)$<br>$x \\in \\left(\\frac{\\pi}{3}, \\frac{2\\pi}{3}\\right) \\cup \\left(\\frac{4\\pi}{3}, \\frac{5\\pi}{3}\\right)$`,
           ),
           step(
             "result",
-            `El conjunto de verdad es $\\left(\\frac{5\\pi}{12}, \\frac{13\\pi}{12}\\right)$, abierto porque la desigualdad es estricta. Comprobación con $x = \\frac{3\\pi}{4}$: $-\\frac{\\sqrt{2}}{2} - \\frac{\\sqrt{2}}{2} = -\\sqrt{2} < -\\frac{\\sqrt{2}}{2}$ ✓.`,
-            `The truth set is $\\left(\\frac{5\\pi}{12}, \\frac{13\\pi}{12}\\right)$, open because the inequality is strict. Check with $x = \\frac{3\\pi}{4}$: $-\\frac{\\sqrt{2}}{2} - \\frac{\\sqrt{2}}{2} = -\\sqrt{2} < -\\frac{\\sqrt{2}}{2}$ ✓.`,
+            `El conjunto de verdad es $\\left(\\frac{\\pi}{3}, \\frac{2\\pi}{3}\\right) \\cup \\left(\\frac{4\\pi}{3}, \\frac{5\\pi}{3}\\right)$, abierto por la desigualdad estricta. Comprobación con $x = \\frac{\\pi}{2}$: $0 - 1 = -1 < -\\frac{1}{2}$ ✓.`,
+            `The truth set is $\\left(\\frac{\\pi}{3}, \\frac{2\\pi}{3}\\right) \\cup \\left(\\frac{4\\pi}{3}, \\frac{5\\pi}{3}\\right)$, open because the inequality is strict. Check with $x = \\frac{\\pi}{2}$: $0 - 1 = -1 < -\\frac{1}{2}$ ✓.`,
           ),
         ],
       };
@@ -1597,7 +1598,7 @@ export const templates: ProblemTemplate[] = [
       source: {
         sourceId: "fcnm-fundamentos",
         license: "TUTOR_LICENSED",
-        exerciseNumber: "5.6 · 2e",
+        exerciseNumber: "5.6 · 54e",
         page: 669,
       },
       reasoning: "multi-concept",
@@ -1660,7 +1661,8 @@ export const templates: ProblemTemplate[] = [
     },
   ),
 
-  /* 5.6 · 2g — sgn(sen(2θ) − 1) < 0 on [−π, π] */
+  /* 5.6 · 54g — µ(sen(2θ) − 1) < 0 on [−π, π] → ∅  (µ = unit step)
+     (VLM re-read: the book prints µ, the unit step, not sgn; answer key: ∅.) */
   template(
     {
       id: "trigeq-espol-2g",
@@ -1670,75 +1672,76 @@ export const templates: ProblemTemplate[] = [
       difficulty: "hard",
       questionType: "multiple-choice",
       estimatedTimeSec: 300,
-      tags: ["inequality", "sgn", "definition", "intervals"],
+      tags: ["inequality", "unit-step", "definition", "intervals"],
       prerequisites: ["trig-functions"],
       source: {
         sourceId: "fcnm-fundamentos",
         license: "TUTOR_LICENSED",
-        exerciseNumber: "5.6 · 2g",
+        exerciseNumber: "5.6 · 54g",
         page: 669,
       },
       reasoning: "definition-hunting",
     },
     () => {
       const options: McOption[] = [
-        { id: "a", text: L(`$[-\\pi, -\\frac{3\\pi}{4})\\cup(-\\frac{3\\pi}{4}, \\frac{\\pi}{4})\\cup(\\frac{\\pi}{4}, \\pi]$`, `$[-\\pi, -\\frac{3\\pi}{4})\\cup(-\\frac{3\\pi}{4}, \\frac{\\pi}{4})\\cup(\\frac{\\pi}{4}, \\pi]$`), correct: true },
-        { id: "b", text: L(`$[-\\pi, \\pi] \\smallsetminus \\left\\{\\frac{\\pi}{4}\\right\\}$`, `$[-\\pi, \\pi] \\smallsetminus \\left\\{\\frac{\\pi}{4}\\right\\}$`), correct: false },
-        { id: "c", text: L(`$[-\\pi, \\pi]$`, `$[-\\pi, \\pi]$`), correct: false },
-        { id: "d", text: L(`$\\varnothing$`, `$\\varnothing$`), correct: false },
+        { id: "a", text: L(`$\\varnothing$`, `$\\varnothing$`), correct: true },
+        { id: "b", text: L(`$[-\\pi, \\pi] \\smallsetminus \\left\\{-\\frac{3\\pi}{4},\\ \\frac{\\pi}{4}\\right\\}$`, `$[-\\pi, \\pi] \\smallsetminus \\left\\{-\\frac{3\\pi}{4},\\ \\frac{\\pi}{4}\\right\\}$`), correct: false },
+        { id: "c", text: L(`$[-\\pi, \\pi] \\smallsetminus \\left\\{\\frac{\\pi}{4}\\right\\}$`, `$[-\\pi, \\pi] \\smallsetminus \\left\\{\\frac{\\pi}{4}\\right\\}$`), correct: false },
+        { id: "d", text: L(`$[-\\pi, \\pi]$`, `$[-\\pi, \\pi]$`), correct: false },
       ];
       return {
-        skill: L("El signo manda: sgn y sus ceros", "The sign rules: sgn and its zeros"),
+        skill: L("El escalón unitario µ no toma valores negativos", "The unit step µ never takes negative values"),
         statement: L(
-          `Determina el conjunto de verdad de $p(\\theta):\\ \\operatorname{sgn}\\bigl(\\sin(2\\theta) - 1\\bigr) < 0$ en $\\theta \\in [-\\pi, \\pi]$.`,
-          `Determine the truth set of $p(\\theta):\\ \\operatorname{sgn}\\bigl(\\sin(2\\theta) - 1\\bigr) < 0$ on $\\theta \\in [-\\pi, \\pi]$.`,
+          `Sea $\\mu$ la función escalón unitario: $\\mu(t) = 1$ si $t > 0$ y $\\mu(t) = 0$ si $t \\le 0$. Determina el conjunto de verdad de $p(\\theta):\\ \\mu\\bigl(\\sin(2\\theta) - 1\\bigr) < 0$ en $\\theta \\in [-\\pi, \\pi]$.`,
+          `Let $\\mu$ be the unit step function: $\\mu(t) = 1$ if $t > 0$ and $\\mu(t) = 0$ if $t \\le 0$. Determine the truth set of $p(\\theta):\\ \\mu\\bigl(\\sin(2\\theta) - 1\\bigr) < 0$ on $\\theta \\in [-\\pi, \\pi]$.`,
         ),
         answer: { kind: "multiple-choice", options },
         hints: [
           L(
-            "Por definición, $\\operatorname{sgn}(u) < 0$ equivale exactamente a $u < 0$.",
-            "By definition, $\\operatorname{sgn}(u) < 0$ is exactly equivalent to $u < 0$.",
+            "Antes de tocar el seno, pregúntate: ¿qué valores puede tomar $\\mu(\\cdot)$?",
+            "Before touching the sine, ask yourself: which values can $\\mu(\\cdot)$ take?",
           ),
           L(
-            "Así que necesitas $\\sin(2\\theta) < 1$: casi siempre… excepto donde $\\sin(2\\theta) = 1$ exactamente.",
-            "So you need $\\sin(2\\theta) < 1$: almost everywhere… except where $\\sin(2\\theta) = 1$ exactly.",
+            "$\\mu$ solo entrega $0$ o $1$, sin importar su argumento. Ninguno de los dos es menor que $0$.",
+            "$\\mu$ only outputs $0$ or $1$, whatever its argument is. Neither is less than $0$.",
           ),
           L(
-            "Resuelve $\\sin(2\\theta) = 1$ con $2\\theta \\in [-2\\pi, 2\\pi]$: $2\\theta = \\frac{\\pi}{2}, -\\frac{3\\pi}{2}$, es decir $\\theta = \\frac{\\pi}{4}, -\\frac{3\\pi}{4}$. Esos dos puntos se excluyen.",
-            "Solve $\\sin(2\\theta) = 1$ with $2\\theta \\in [-2\\pi, 2\\pi]$: $2\\theta = \\frac{\\pi}{2}, -\\frac{3\\pi}{2}$, i.e. $\\theta = \\frac{\\pi}{4}, -\\frac{3\\pi}{4}$. Those two points are excluded.",
+            "Cuidado: si la función fuera $\\operatorname{sgn}$ en lugar de $\\mu$, la respuesta sería todo el intervalo salvo donde $\\sin(2\\theta) = 1$.",
+            "Careful: if the function were $\\operatorname{sgn}$ instead of $\\mu$, the answer would be the whole interval except where $\\sin(2\\theta) = 1$.",
           ),
         ],
         answerDisplay: L(
-          `Todo $[-\\pi, \\pi]$ salvo $\\theta = \\frac{\\pi}{4}$ y $\\theta = -\\frac{3\\pi}{4}$.`,
-          `All of $[-\\pi, \\pi]$ except $\\theta = \\frac{\\pi}{4}$ and $\\theta = -\\frac{3\\pi}{4}$.`,
+          `$A_{p(\\theta)} = \\varnothing$: $\\mu$ nunca es negativa.`,
+          `$A_{p(\\theta)} = \\varnothing$: $\\mu$ is never negative.`,
         ),
         solution: [
           step(
             "given",
-            "$\\operatorname{sgn}\\bigl(\\sin(2\\theta) - 1\\bigr) < 0$, con $\\theta \\in [-\\pi, \\pi]$.",
-            "$\\operatorname{sgn}\\bigl(\\sin(2\\theta) - 1\\bigr) < 0$, with $\\theta \\in [-\\pi, \\pi]$.",
+            "$\\mu\\bigl(\\sin(2\\theta) - 1\\bigr) < 0$, con $\\theta \\in [-\\pi, \\pi]$ y $\\mu(t) = 1$ si $t>0$, $\\mu(t)=0$ si $t \\le 0$.",
+            "$\\mu\\bigl(\\sin(2\\theta) - 1\\bigr) < 0$, with $\\theta \\in [-\\pi, \\pi]$ and $\\mu(t) = 1$ if $t>0$, $\\mu(t)=0$ if $t \\le 0$.",
           ),
           step(
             "approach",
-            "La función signo es negativa solo cuando su argumento es negativo; el problema se reduce a excluir los puntos donde el argumento se anula.",
-            "The sign function is negative only when its argument is negative; the problem reduces to excluding the points where the argument vanishes.",
+            "El rango de la función escalón es el conjunto finito $\\{0, 1\\}$: por definición nunca produce valores negativos, sin importar el argumento.",
+            "The range of the unit step is the finite set $\\{0, 1\\}$: by definition it never produces negative values, regardless of the argument.",
           ),
           step(
             "calculation",
-            `$\\operatorname{sgn}(u) < 0 \\Leftrightarrow u < 0 \\Leftrightarrow \\sin(2\\theta) - 1 < 0$<br>$\\sin(2\\theta) = 1 \\Rightarrow 2\\theta = \\frac{\\pi}{2} + 2k\\pi$<br>Con $2\\theta \\in [-2\\pi, 2\\pi]$: $2\\theta = -\\frac{3\\pi}{2}, \\frac{\\pi}{2} \\Rightarrow \\theta = -\\frac{3\\pi}{4}, \\frac{\\pi}{4}$`,
-            `$\\operatorname{sgn}(u) < 0 \\Leftrightarrow u < 0 \\Leftrightarrow \\sin(2\\theta) - 1 < 0$<br>$\\sin(2\\theta) = 1 \\Rightarrow 2\\theta = \\frac{\\pi}{2} + 2k\\pi$<br>With $2\\theta \\in [-2\\pi, 2\\pi]$: $2\\theta = -\\frac{3\\pi}{2}, \\frac{\\pi}{2} \\Rightarrow \\theta = -\\frac{3\\pi}{4}, \\frac{\\pi}{4}$`,
+            `$\\mu(t) \\in \\{0, 1\\}\\ \\forall t \\in \\mathbb{R}$<br>$\\mu\\bigl(\\sin(2\\theta)-1\\bigr) \\in \\{0, 1\\}$<br>Neither $0 < 0$ nor $1 < 0$ holds: the predicate is false for every $\\theta$.`,
+            `$\\mu(t) \\in \\{0, 1\\}\\ \\forall t \\in \\mathbb{R}$<br>$\\mu\\bigl(\\sin(2\\theta)-1\\bigr) \\in \\{0, 1\\}$<br>Neither $0 < 0$ nor $1 < 0$ holds: the predicate is false for every $\\theta$.`,
           ),
           step(
             "result",
-            `El conjunto de verdad es $[-\\pi, -\\frac{3\\pi}{4})\\cup(-\\frac{3\\pi}{4}, \\frac{\\pi}{4})\\cup(\\frac{\\pi}{4}, \\pi]$: todo el intervalo menos esos dos puntos (donde el signo vale $0$).`,
-            `The truth set is $[-\\pi, -\\frac{3\\pi}{4})\\cup(-\\frac{3\\pi}{4}, \\frac{\\pi}{4})\\cup(\\frac{\\pi}{4}, \\pi]$: the whole interval minus those two points (where the sign equals $0$).`,
+            `Ningún $\\theta$ cumple el predicado, así que $A_{p(\\theta)} = \\varnothing$. (La trampa: con $\\operatorname{sgn}$ en lugar de $\\mu$ excluirías $\\theta = \\frac{\\pi}{4}$ y $\\theta = -\\frac{3\\pi}{4}$, donde $\\sin(2\\theta) = 1$.)`,
+            `No $\\theta$ satisfies the predicate, so $A_{p(\\theta)} = \\varnothing$. (The trap: with $\\operatorname{sgn}$ instead of $\\mu$ you would exclude $\\theta = \\frac{\\pi}{4}$ and $\\theta = -\\frac{3\\pi}{4}$, where $\\sin(2\\theta) = 1$.)`,
           ),
         ],
       };
     },
   ),
 
-  /* 5.6 · 2d — |sen(πθ)·cos(πθ)| ≥ 1/4 on [0, 1] */
+  /* 5.6 · 54d — |sen(πθ)·cos(πθ)| ≤ 1/4 on [0, 1] → [0,1/12]∪[5/12,7/12]∪[11/12,1]
+     (VLM re-read: the book prints ≤ (not ≥); matches the answer key exactly.) */
   template(
     {
       id: "trigeq-espol-2d",
@@ -1753,23 +1756,23 @@ export const templates: ProblemTemplate[] = [
       source: {
         sourceId: "fcnm-fundamentos",
         license: "TUTOR_LICENSED",
-        exerciseNumber: "5.6 · 2d",
+        exerciseNumber: "5.6 · 54d",
         page: 669,
       },
       reasoning: "multi-concept",
     },
     () => {
       const options: McOption[] = [
-        { id: "a", text: L(`$\\left[\\frac{1}{12}, \\frac{5}{12}\\right]\\cup\\left[\\frac{7}{12}, \\frac{11}{12}\\right]$`, `$\\left[\\frac{1}{12}, \\frac{5}{12}\\right]\\cup\\left[\\frac{7}{12}, \\frac{11}{12}\\right]$`), correct: true },
-        { id: "b", text: L(`$\\left(\\frac{1}{12}, \\frac{5}{12}\\right)\\cup\\left(\\frac{7}{12}, \\frac{11}{12}\\right)$`, `$\\left(\\frac{1}{12}, \\frac{5}{12}\\right)\\cup\\left(\\frac{7}{12}, \\frac{11}{12}\\right)$`), correct: false },
-        { id: "c", text: L(`$\\left[\\frac{1}{12}, \\frac{5}{12}\\right]$`, `$\\left[\\frac{1}{12}, \\frac{5}{12}\\right]$`), correct: false },
+        { id: "a", text: L(`$\\left[0, \\frac{1}{12}\\right]\\cup\\left[\\frac{5}{12}, \\frac{7}{12}\\right]\\cup\\left[\\frac{11}{12}, 1\\right]$`, `$\\left[0, \\frac{1}{12}\\right]\\cup\\left[\\frac{5}{12}, \\frac{7}{12}\\right]\\cup\\left[\\frac{11}{12}, 1\\right]$`), correct: true },
+        { id: "b", text: L(`$\\left[\\frac{1}{12}, \\frac{5}{12}\\right]\\cup\\left[\\frac{7}{12}, \\frac{11}{12}\\right]$`, `$\\left[\\frac{1}{12}, \\frac{5}{12}\\right]\\cup\\left[\\frac{7}{12}, \\frac{11}{12}\\right]$`), correct: false },
+        { id: "c", text: L(`$\\left(0, \\frac{1}{12}\\right)\\cup\\left(\\frac{5}{12}, \\frac{7}{12}\\right)\\cup\\left(\\frac{11}{12}, 1\\right)$`, `$\\left(0, \\frac{1}{12}\\right)\\cup\\left(\\frac{5}{12}, \\frac{7}{12}\\right)\\cup\\left(\\frac{11}{12}, 1\\right)$`), correct: false },
         { id: "d", text: L(`$\\left[\\frac{5}{12}, \\frac{7}{12}\\right]$`, `$\\left[\\frac{5}{12}, \\frac{7}{12}\\right]$`), correct: false },
       ];
       return {
         skill: L("Valor absoluto + ángulo doble en [0, 1]", "Absolute value + double angle on [0, 1]"),
         statement: L(
-          `Determina el conjunto de verdad de $p(\\theta):\\ \\left|\\sin(\\pi\\theta)\\cos(\\pi\\theta)\\right| \\geq \\frac{1}{4}$ en $\\theta \\in [0, 1]$.`,
-          `Determine the truth set of $p(\\theta):\\ \\left|\\sin(\\pi\\theta)\\cos(\\pi\\theta)\\right| \\geq \\frac{1}{4}$ on $\\theta \\in [0, 1]$.`,
+          `Determina el conjunto de verdad de $p(\\theta):\\ \\left|\\sin(\\pi\\theta)\\cos(\\pi\\theta)\\right| \\leq \\frac{1}{4}$ en $\\theta \\in [0, 1]$.`,
+          `Determine the truth set of $p(\\theta):\\ \\left|\\sin(\\pi\\theta)\\cos(\\pi\\theta)\\right| \\leq \\frac{1}{4}$ on $\\theta \\in [0, 1]$.`,
         ),
         answer: { kind: "multiple-choice", options },
         hints: [
@@ -1778,41 +1781,889 @@ export const templates: ProblemTemplate[] = [
             "Reverse double angle: $\\sin(\\pi\\theta)\\cos(\\pi\\theta) = \\frac{1}{2}\\sin(2\\pi\\theta)$.",
           ),
           L(
-            "La inecuación es $\\left|\\sin(2\\pi\\theta)\\right| \\geq \\frac{1}{2}$, con $2\\pi\\theta \\in [0, 2\\pi]$ (una vuelta justa).",
-            "The inequality is $\\left|\\sin(2\\pi\\theta)\\right| \\geq \\frac{1}{2}$, with $2\\pi\\theta \\in [0, 2\\pi]$ (exactly one turn).",
+            "La inecuación es $\\left|\\sin(2\\pi\\theta)\\right| \\leq \\frac{1}{2}$, con $2\\pi\\theta \\in [0, 2\\pi]$ (una vuelta justa).",
+            "The inequality is $\\left|\\sin(2\\pi\\theta)\\right| \\leq \\frac{1}{2}$, with $2\\pi\\theta \\in [0, 2\\pi]$ (exactly one turn).",
           ),
           L(
-            "$\\left|\\sin u\\right| \\geq \\frac{1}{2}$ en $u \\in \\left[\\frac{\\pi}{6}, \\frac{5\\pi}{6}\\right]\\cup\\left[\\frac{7\\pi}{6}, \\frac{11\\pi}{6}\\right]$; divide entre $2\\pi$.",
-            "$\\left|\\sin u\\right| \\geq \\frac{1}{2}$ for $u \\in \\left[\\frac{\\pi}{6}, \\frac{5\\pi}{6}\\right]\\cup\\left[\\frac{7\\pi}{6}, \\frac{11\\pi}{6}\\right]$; divide by $2\\pi$.",
+            "$\\left|\\sin u\\right| \\leq \\frac{1}{2}$ en $u \\in \\left[0, \\frac{\\pi}{6}\\right]\\cup\\left[\\frac{5\\pi}{6}, \\frac{7\\pi}{6}\\right]\\cup\\left[\\frac{11\\pi}{6}, 2\\pi\\right]$; divide entre $2\\pi$.",
+            "$\\left|\\sin u\\right| \\leq \\frac{1}{2}$ for $u \\in \\left[0, \\frac{\\pi}{6}\\right]\\cup\\left[\\frac{5\\pi}{6}, \\frac{7\\pi}{6}\\right]\\cup\\left[\\frac{11\\pi}{6}, 2\\pi\\right]$; divide by $2\\pi$.",
           ),
         ],
         answerDisplay: L(
-          `$A_{p(\\theta)} = \\left[\\frac{1}{12}, \\frac{5}{12}\\right]\\cup\\left[\\frac{7}{12}, \\frac{11}{12}\\right]$`,
-          `$A_{p(\\theta)} = \\left[\\frac{1}{12}, \\frac{5}{12}\\right]\\cup\\left[\\frac{7}{12}, \\frac{11}{12}\\right]$`,
+          `$A_{p(\\theta)} = \\left[0, \\frac{1}{12}\\right]\\cup\\left[\\frac{5}{12}, \\frac{7}{12}\\right]\\cup\\left[\\frac{11}{12}, 1\\right]$`,
+          `$A_{p(\\theta)} = \\left[0, \\frac{1}{12}\\right]\\cup\\left[\\frac{5}{12}, \\frac{7}{12}\\right]\\cup\\left[\\frac{11}{12}, 1\\right]$`,
         ),
         solution: [
           step(
             "given",
-            "$\\left|\\sin(\\pi\\theta)\\cos(\\pi\\theta)\\right| \\geq \\frac{1}{4}$, con $\\theta \\in [0, 1]$.",
-            "$\\left|\\sin(\\pi\\theta)\\cos(\\pi\\theta)\\right| \\geq \\frac{1}{4}$, with $\\theta \\in [0, 1]$.",
+            "$\\left|\\sin(\\pi\\theta)\\cos(\\pi\\theta)\\right| \\leq \\frac{1}{4}$, con $\\theta \\in [0, 1]$.",
+            "$\\left|\\sin(\\pi\\theta)\\cos(\\pi\\theta)\\right| \\leq \\frac{1}{4}$, with $\\theta \\in [0, 1]$.",
           ),
           step(
             "approach",
-            "El producto seno·coseno es medio seno doble; el valor absoluto exige resolver la cota en las dos mitades de la vuelta.",
-            "The sine·cosine product is half a double sine; the absolute value forces solving the bound on both halves of the turn.",
+            "El producto seno·coseno es medio seno doble; como $\\theta \\in [0,1]$, el argumento $2\\pi\\theta$ recorre exactamente una vuelta y la cota pequeña se cumple cerca de los ceros del seno.",
+            "The sine·cosine product is half a double sine; since $\\theta \\in [0,1]$, the argument $2\\pi\\theta$ covers exactly one turn and the small bound holds near the zeros of sine.",
           ),
           step(
             "calculation",
-            `$\\left|\\frac{1}{2}\\sin(2\\pi\\theta)\\right| \\geq \\frac{1}{4} \\Rightarrow \\left|\\sin(2\\pi\\theta)\\right| \\geq \\frac{1}{2}$<br>$2\\pi\\theta \\in \\left[\\frac{\\pi}{6}, \\frac{5\\pi}{6}\\right]\\cup\\left[\\frac{7\\pi}{6}, \\frac{11\\pi}{6}\\right]$<br>$\\theta \\in \\left[\\frac{1}{12}, \\frac{5}{12}\\right]\\cup\\left[\\frac{7}{12}, \\frac{11}{12}\\right]$`,
-            `$\\left|\\frac{1}{2}\\sin(2\\pi\\theta)\\right| \\geq \\frac{1}{4} \\Rightarrow \\left|\\sin(2\\pi\\theta)\\right| \\geq \\frac{1}{2}$<br>$2\\pi\\theta \\in \\left[\\frac{\\pi}{6}, \\frac{5\\pi}{6}\\right]\\cup\\left[\\frac{7\\pi}{6}, \\frac{11\\pi}{6}\\right]$<br>$\\theta \\in \\left[\\frac{1}{12}, \\frac{5}{12}\\right]\\cup\\left[\\frac{7}{12}, \\frac{11}{12}\\right]$`,
+            `$\\left|\\frac{1}{2}\\sin(2\\pi\\theta)\\right| \\leq \\frac{1}{4} \\Rightarrow \\left|\\sin(2\\pi\\theta)\\right| \\leq \\frac{1}{2}$<br>$2\\pi\\theta \\in \\left[0, \\frac{\\pi}{6}\\right]\\cup\\left[\\frac{5\\pi}{6}, \\frac{7\\pi}{6}\\right]\\cup\\left[\\frac{11\\pi}{6}, 2\\pi\\right]$<br>$\\theta \\in \\left[0, \\frac{1}{12}\\right]\\cup\\left[\\frac{5}{12}, \\frac{7}{12}\\right]\\cup\\left[\\frac{11}{12}, 1\\right]$`,
+            `$\\left|\\frac{1}{2}\\sin(2\\pi\\theta)\\right| \\leq \\frac{1}{4} \\Rightarrow \\left|\\sin(2\\pi\\theta)\\right| \\leq \\frac{1}{2}$<br>$2\\pi\\theta \\in \\left[0, \\frac{\\pi}{6}\\right]\\cup\\left[\\frac{5\\pi}{6}, \\frac{7\\pi}{6}\\right]\\cup\\left[\\frac{11\\pi}{6}, 2\\pi\\right]$<br>$\\theta \\in \\left[0, \\frac{1}{12}\\right]\\cup\\left[\\frac{5}{12}, \\frac{7}{12}\\right]\\cup\\left[\\frac{11}{12}, 1\\right]$`,
           ),
           step(
             "result",
-            `El conjunto de verdad es $\\left[\\frac{1}{12}, \\frac{5}{12}\\right]\\cup\\left[\\frac{7}{12}, \\frac{11}{12}\\right]$, cerrado porque la desigualdad admite igualdad. Comprobación con $\\theta = \\frac{1}{4}$: $\\left|\\sin\\frac{\\pi}{4}\\cos\\frac{\\pi}{4}\\right| = \\frac{1}{2} \\geq \\frac{1}{4}$ ✓; con $\\theta = \\frac{1}{2}$: $0 < \\frac{1}{4}$ ✗.`,
-            `The truth set is $\\left[\\frac{1}{12}, \\frac{5}{12}\\right]\\cup\\left[\\frac{7}{12}, \\frac{11}{12}\\right]$, closed because equality is allowed. Check with $\\theta = \\frac{1}{4}$: $\\left|\\sin\\frac{\\pi}{4}\\cos\\frac{\\pi}{4}\\right| = \\frac{1}{2} \\geq \\frac{1}{4}$ ✓; with $\\theta = \\frac{1}{2}$: $0 < \\frac{1}{4}$ ✗.`,
+            `El conjunto de verdad es $\\left[0, \\frac{1}{12}\\right]\\cup\\left[\\frac{5}{12}, \\frac{7}{12}\\right]\\cup\\left[\\frac{11}{12}, 1\\right]$, cerrado porque la desigualdad admite igualdad. Comprobación con $\\theta = 0$: $0 \\leq \\frac{1}{4}$ ✓; con $\\theta = \\frac{1}{4}$: $\\left|\\sin\\frac{\\pi}{4}\\cos\\frac{\\pi}{4}\\right| = \\frac{1}{2} > \\frac{1}{4}$ ✗.`,
+            `The truth set is $\\left[0, \\frac{1}{12}\\right]\\cup\\left[\\frac{5}{12}, \\frac{7}{12}\\right]\\cup\\left[\\frac{11}{12}, 1\\right]$, closed because equality is allowed. Check with $\\theta = 0$: $0 \\leq \\frac{1}{4}$ ✓; with $\\theta = \\frac{1}{4}$: $\\left|\\sin\\frac{\\pi}{4}\\cos\\frac{\\pi}{4}\\right| = \\frac{1}{2} > \\frac{1}{4}$ ✗.`,
           ),
         ],
       };
     },
+  ),
+
+  /* ================================================================== */
+  /* Segunda tanda ESPOL §5.6 — transcrita con el modelo de visión      */
+  /* (VLM) desde las páginas escaneadas y cruzada con la clave de       */
+  /* respuestas impresa (pp. 799+) + re-derivación sympy.               */
+  /* ================================================================== */
+
+  /* 5.6 · 53i — 1 − √2·cos x = 0 on [0, 4π); sum of solutions = 8π */
+  template(
+    {
+      id: "trigeq-espol-53i",
+      subject: "math",
+      topicId: "trig-equations",
+      subtopicId: "intervals",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 300,
+      tags: ["intervals", "exact-values", "radians", "sum-of-solutions"],
+      prerequisites: ["trig-functions"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "5.6 · 53i",
+        page: 668,
+      },
+      reasoning: "case-analysis",
+    },
+    () => ({
+      skill: L("Coseno exacto en dos vueltas", "Exact cosine over two turns"),
+      statement: L(
+        `Resuelve $1 - \\sqrt{2}\\,\\cos x = 0$ en $x \\in [0, 4\\pi)$ y escribe la **suma de todas las soluciones** en radianes (puedes teclear p. ej. \`pi/4\` o su valor decimal).`,
+        `Solve $1 - \\sqrt{2}\\,\\cos x = 0$ on $x \\in [0, 4\\pi)$ and enter the **sum of all solutions** in radians (you may type e.g. \`pi/4\` or its decimal value).`,
+      ),
+      answer: {
+        kind: "numeric",
+        value: 8 * Math.PI,
+        tolerance: { mode: "absolute", value: 0.01 },
+      },
+      hints: [
+        L(
+          "Despeja: $\\cos x = \\frac{1}{\\sqrt{2}} = \\frac{\\sqrt{2}}{2}$, el valor exacto de $\\cos\\left(\\frac{\\pi}{4}\\right)$.",
+          "Isolate: $\\cos x = \\frac{1}{\\sqrt{2}} = \\frac{\\sqrt{2}}{2}$, the exact value of $\\cos\\left(\\frac{\\pi}{4}\\right)$.",
+        ),
+        L(
+          "En $[0, 2\\pi)$ las soluciones son $\\frac{\\pi}{4}$ y $\\frac{7\\pi}{4}$.",
+          "On $[0, 2\\pi)$ the solutions are $\\frac{\\pi}{4}$ and $\\frac{7\\pi}{4}$.",
+        ),
+        L(
+          "En $[0, 4\\pi)$ cada solución se repite sumando $2\\pi$: son cuatro en total. Suma $\\frac{\\pi}{4} + \\frac{7\\pi}{4} + \\frac{9\\pi}{4} + \\frac{15\\pi}{4}$.",
+          "On $[0, 4\\pi)$ each solution repeats by adding $2\\pi$: four in total. Add up $\\frac{\\pi}{4} + \\frac{7\\pi}{4} + \\frac{9\\pi}{4} + \\frac{15\\pi}{4}$.",
+        ),
+      ],
+      answerDisplay: L(
+        `$x \\in \\left\\{\\frac{\\pi}{4}, \\frac{7\\pi}{4}, \\frac{9\\pi}{4}, \\frac{15\\pi}{4}\\right\\}$, suma $= 8\\pi$`,
+        `$x \\in \\left\\{\\frac{\\pi}{4}, \\frac{7\\pi}{4}, \\frac{9\\pi}{4}, \\frac{15\\pi}{4}\\right\\}$, sum $= 8\\pi$`,
+      ),
+      solution: [
+        step(
+          "given",
+          "$1 - \\sqrt{2}\\,\\cos x = 0$, con $x \\in [0, 4\\pi)$.",
+          "$1 - \\sqrt{2}\\,\\cos x = 0$, with $x \\in [0, 4\\pi)$.",
+        ),
+        step(
+          "approach",
+          "Despejar el coseno y ubicar el valor exacto en la circunferencia unitaria; el intervalo abarca dos vueltas completas, así que cada familia aparece dos veces.",
+          "Isolate the cosine and locate the exact value on the unit circle; the interval spans two full turns, so each family appears twice.",
+        ),
+        step(
+          "calculation",
+          `$\\cos x = \\frac{1}{\\sqrt{2}} = \\frac{\\sqrt{2}}{2}$<br>Primera vuelta: $x = \\frac{\\pi}{4},\\ \\frac{7\\pi}{4}$<br>Segunda vuelta ($+2\\pi$): $x = \\frac{9\\pi}{4},\\ \\frac{15\\pi}{4}$<br>Suma $= \\frac{\\pi + 7\\pi + 9\\pi + 15\\pi}{4} = \\frac{32\\pi}{4} = 8\\pi$`,
+          `$\\cos x = \\frac{1}{\\sqrt{2}} = \\frac{\\sqrt{2}}{2}$<br>First turn: $x = \\frac{\\pi}{4},\\ \\frac{7\\pi}{4}$<br>Second turn ($+2\\pi$): $x = \\frac{9\\pi}{4},\\ \\frac{15\\pi}{4}$<br>Sum $= \\frac{\\pi + 7\\pi + 9\\pi + 15\\pi}{4} = \\frac{32\\pi}{4} = 8\\pi$`,
+        ),
+        step(
+          "result",
+          `Cuatro soluciones en $[0, 4\\pi)$ y su suma es $8\\pi$. Comprobación rápida: las soluciones son simétricas respecto a $2\\pi$, así que la suma es $2 \\cdot 4\\pi = 8\\pi$.`,
+          `Four solutions on $[0, 4\\pi)$ and their sum is $8\\pi$. Quick check: the solutions are symmetric about $2\\pi$, so the sum is $2 \\cdot 4\\pi = 8\\pi$.`,
+        ),
+      ],
+    }),
+  ),
+
+  /* 5.6 · 53j — 2cos²x = 1 − sen x on [0, 2π]; sum = 7π/2 */
+  template(
+    {
+      id: "trigeq-espol-53j",
+      subject: "math",
+      topicId: "trig-equations",
+      subtopicId: "intervals",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 360,
+      tags: ["intervals", "pythagorean", "factoring", "radians", "sum-of-solutions"],
+      prerequisites: ["trig-functions"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "5.6 · 53j",
+        page: 669,
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L("Cuadrática escondida en el seno", "A quadratic hidden inside the sine"),
+      statement: L(
+        `Resuelve $2\\cos^2 x = 1 - \\sin x$ en $x \\in [0, 2\\pi]$ y escribe la **suma de todas las soluciones** en radianes (puedes teclear p. ej. \`7pi/2\` o su valor decimal).`,
+        `Solve $2\\cos^2 x = 1 - \\sin x$ on $x \\in [0, 2\\pi]$ and enter the **sum of all solutions** in radians (you may type e.g. \`7pi/2\` or its decimal value).`,
+      ),
+      answer: {
+        kind: "numeric",
+        value: (7 * Math.PI) / 2,
+        tolerance: { mode: "absolute", value: 0.01 },
+      },
+      hints: [
+        L(
+          "Sustituye $\\cos^2 x = 1 - \\sin^2 x$ para dejar todo en función de $\\sin x$.",
+          "Substitute $\\cos^2 x = 1 - \\sin^2 x$ to write everything in terms of $\\sin x$.",
+        ),
+        L(
+          "Obtendrás $2\\sin^2 x - \\sin x - 1 = 0$, una cuadrática en $\\sin x$ que se factoriza.",
+          "You will get $2\\sin^2 x - \\sin x - 1 = 0$, a quadratic in $\\sin x$ that factors.",
+        ),
+        L(
+          "$(2\\sin x + 1)(\\sin x - 1) = 0$ da $\\sin x = -\\frac{1}{2}$ (dos ángulos) o $\\sin x = 1$ (un ángulo).",
+          "$(2\\sin x + 1)(\\sin x - 1) = 0$ gives $\\sin x = -\\frac{1}{2}$ (two angles) or $\\sin x = 1$ (one angle).",
+        ),
+      ],
+      answerDisplay: L(
+        `$x \\in \\left\\{\\frac{\\pi}{2}, \\frac{7\\pi}{6}, \\frac{11\\pi}{6}\\right\\}$, suma $= \\frac{7\\pi}{2}$`,
+        `$x \\in \\left\\{\\frac{\\pi}{2}, \\frac{7\\pi}{6}, \\frac{11\\pi}{6}\\right\\}$, sum $= \\frac{7\\pi}{2}$`,
+      ),
+      solution: [
+        step(
+          "given",
+          "$2\\cos^2 x = 1 - \\sin x$, con $x \\in [0, 2\\pi]$.",
+          "$2\\cos^2 x = 1 - \\sin x$, with $x \\in [0, 2\\pi]$.",
+        ),
+        step(
+          "approach",
+          "Unificar funciones con la identidad pitagórica: la ecuación se convierte en una cuadrática factorizable en $\\sin x$.",
+          "Unify functions with the Pythagorean identity: the equation becomes a factorable quadratic in $\\sin x$.",
+        ),
+        step(
+          "calculation",
+          `$2(1 - \\sin^2 x) = 1 - \\sin x$<br>$2 - 2\\sin^2 x - 1 + \\sin x = 0$<br>$2\\sin^2 x - \\sin x - 1 = 0$<br>$(2\\sin x + 1)(\\sin x - 1) = 0$<br>$\\sin x = -\\frac{1}{2} \\Rightarrow x = \\frac{7\\pi}{6}, \\frac{11\\pi}{6}$; $\\sin x = 1 \\Rightarrow x = \\frac{\\pi}{2}$`,
+          `$2(1 - \\sin^2 x) = 1 - \\sin x$<br>$2 - 2\\sin^2 x - 1 + \\sin x = 0$<br>$2\\sin^2 x - \\sin x - 1 = 0$<br>$(2\\sin x + 1)(\\sin x - 1) = 0$<br>$\\sin x = -\\frac{1}{2} \\Rightarrow x = \\frac{7\\pi}{6}, \\frac{11\\pi}{6}$; $\\sin x = 1 \\Rightarrow x = \\frac{\\pi}{2}$`,
+        ),
+        step(
+          "result",
+          `Tres soluciones: $\\frac{\\pi}{2} + \\frac{7\\pi}{6} + \\frac{11\\pi}{6} = \\frac{3\\pi + 7\\pi + 11\\pi}{6} = \\frac{21\\pi}{6} = \\frac{7\\pi}{2}$.`,
+          `Three solutions: $\\frac{\\pi}{2} + \\frac{7\\pi}{6} + \\frac{11\\pi}{6} = \\frac{3\\pi + 7\\pi + 11\\pi}{6} = \\frac{21\\pi}{6} = \\frac{7\\pi}{2}$.`,
+        ),
+      ],
+    }),
+  ),
+
+  /* 5.6 · 53n — 2sen²(2πt) − 3sen(2πt) + 1 = 0, t ∈ [0,1]; sum = 3/4 */
+  template(
+    {
+      id: "trigeq-espol-53n",
+      subject: "math",
+      topicId: "trig-equations",
+      subtopicId: "intervals",
+      difficulty: "challenge",
+      questionType: "numeric",
+      estimatedTimeSec: 420,
+      tags: ["intervals", "substitution", "factoring", "unit-interval"],
+      prerequisites: ["trig-functions"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "5.6 · 53n",
+        page: 669,
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L("Sustitución u = sen(2πt) en [0, 1]", "Substitution u = sin(2πt) on [0, 1]"),
+      statement: L(
+        `Resuelve $2\\sin^2(2\\pi t) - 3\\sin(2\\pi t) + 1 = 0$ en $t \\in [0, 1]$ y escribe la **suma de todas las soluciones** (fracción exacta o decimal).`,
+        `Solve $2\\sin^2(2\\pi t) - 3\\sin(2\\pi t) + 1 = 0$ on $t \\in [0, 1]$ and enter the **sum of all solutions** (exact fraction or decimal).`,
+      ),
+      answer: {
+        kind: "numeric",
+        value: 0.75,
+        tolerance: { mode: "absolute", value: 0.005 },
+      },
+      hints: [
+        L(
+          "Llama $u = \\sin(2\\pi t)$: la ecuación queda $2u^2 - 3u + 1 = 0$.",
+          "Let $u = \\sin(2\\pi t)$: the equation becomes $2u^2 - 3u + 1 = 0$.",
+        ),
+        L(
+          "Factoriza: $(2u - 1)(u - 1) = 0$, así que $u = \\frac{1}{2}$ o $u = 1$.",
+          "Factor: $(2u - 1)(u - 1) = 0$, so $u = \\frac{1}{2}$ or $u = 1$.",
+        ),
+        L(
+          "Con $2\\pi t \\in [0, 2\\pi]$: $\\sin = \\frac{1}{2}$ en $\\frac{\\pi}{6}$ y $\\frac{5\\pi}{6}$; $\\sin = 1$ en $\\frac{\\pi}{2}$. Convierte cada ángulo a $t = \\frac{\\text{ángulo}}{2\\pi}$.",
+          "With $2\\pi t \\in [0, 2\\pi]$: $\\sin = \\frac{1}{2}$ at $\\frac{\\pi}{6}$ and $\\frac{5\\pi}{6}$; $\\sin = 1$ at $\\frac{\\pi}{2}$. Convert each angle to $t = \\frac{\\text{angle}}{2\\pi}$.",
+        ),
+      ],
+      answerDisplay: L(
+        `$t \\in \\left\\{\\frac{1}{12}, \\frac{1}{4}, \\frac{5}{12}\\right\\}$, suma $= \\frac{3}{4}$`,
+        `$t \\in \\left\\{\\frac{1}{12}, \\frac{1}{4}, \\frac{5}{12}\\right\\}$, sum $= \\frac{3}{4}$`,
+      ),
+      solution: [
+        step(
+          "given",
+          "$2\\sin^2(2\\pi t) - 3\\sin(2\\pi t) + 1 = 0$, con $t \\in [0, 1]$.",
+          "$2\\sin^2(2\\pi t) - 3\\sin(2\\pi t) + 1 = 0$, with $t \\in [0, 1]$.",
+        ),
+        step(
+          "approach",
+          "La estructura es una cuadrática disfrazada: sustituir $u = \\sin(2\\pi t)$ la colapsa, y como $t \\in [0,1]$ el argumento $2\\pi t$ da exactamente una vuelta.",
+          "The structure is a quadratic in disguise: substituting $u = \\sin(2\\pi t)$ collapses it, and since $t \\in [0,1]$ the argument $2\\pi t$ covers exactly one turn.",
+        ),
+        step(
+          "calculation",
+          `$u = \\sin(2\\pi t):\\ 2u^2 - 3u + 1 = 0 \\Rightarrow (2u-1)(u-1) = 0$<br>$u = \\frac{1}{2}:\\ 2\\pi t = \\frac{\\pi}{6}, \\frac{5\\pi}{6} \\Rightarrow t = \\frac{1}{12}, \\frac{5}{12}$<br>$u = 1:\\ 2\\pi t = \\frac{\\pi}{2} \\Rightarrow t = \\frac{1}{4}$`,
+          `$u = \\sin(2\\pi t):\\ 2u^2 - 3u + 1 = 0 \\Rightarrow (2u-1)(u-1) = 0$<br>$u = \\frac{1}{2}:\\ 2\\pi t = \\frac{\\pi}{6}, \\frac{5\\pi}{6} \\Rightarrow t = \\frac{1}{12}, \\frac{5}{12}$<br>$u = 1:\\ 2\\pi t = \\frac{\\pi}{2} \\Rightarrow t = \\frac{1}{4}$`,
+        ),
+        step(
+          "result",
+          `Las soluciones son $t \\in \\left\\{\\frac{1}{12}, \\frac{1}{4}, \\frac{5}{12}\\right\\}$ y su suma es $\\frac{1}{12} + \\frac{3}{12} + \\frac{5}{12} = \\frac{9}{12} = \\frac{3}{4}$. (Observa el patrón: los dos ángulos de $\\sin = \\frac{1}{2}$ suman $\\pi$, es decir $t$ suma $\\frac{1}{2}$.)`,
+          `The solutions are $t \\in \\left\\{\\frac{1}{12}, \\frac{1}{4}, \\frac{5}{12}\\right\\}$ and their sum is $\\frac{1}{12} + \\frac{3}{12} + \\frac{5}{12} = \\frac{9}{12} = \\frac{3}{4}$. (Note the pattern: the two angles with $\\sin = \\frac{1}{2}$ add up to $\\pi$, i.e. their $t$ values add to $\\frac{1}{2}$.)`,
+        ),
+      ],
+    }),
+  ),
+
+  /* 5.6 · 54f — 2·cos(2x/3) < 1 on [0, 2π] → (π/2, 2π] */
+  template(
+    {
+      id: "trigeq-espol-54f",
+      subject: "math",
+      topicId: "trig-equations",
+      subtopicId: "intervals",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 360,
+      tags: ["inequality", "scaled-argument", "intervals"],
+      prerequisites: ["trig-functions"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "5.6 · 54f",
+        page: 669,
+      },
+      reasoning: "case-analysis",
+    },
+    () => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\left(\\frac{\\pi}{2},\\ 2\\pi\\right]$`, `$\\left(\\frac{\\pi}{2},\\ 2\\pi\\right]$`), correct: true },
+        { id: "b", text: L(`$\\left(\\frac{\\pi}{2},\\ \\frac{5\\pi}{2}\\right)$`, `$\\left(\\frac{\\pi}{2},\\ \\frac{5\\pi}{2}\\right)$`), correct: false },
+        { id: "c", text: L(`$\\left[\\frac{\\pi}{2},\\ 2\\pi\\right]$`, `$\\left[\\frac{\\pi}{2},\\ 2\\pi\\right]$`), correct: false },
+        { id: "d", text: L(`$\\left(\\frac{\\pi}{3},\\ 2\\pi\\right]$`, `$\\left(\\frac{\\pi}{3},\\ 2\\pi\\right]$`), correct: false },
+      ];
+      return {
+        skill: L("Inecuación con argumento escalado", "Inequality with a scaled argument"),
+        statement: L(
+          `Determina el conjunto de verdad de $p(x):\\ 2\\cos\\left(\\frac{2x}{3}\\right) < 1$ en $x \\in [0, 2\\pi]$.`,
+          `Determine the truth set of $p(x):\\ 2\\cos\\left(\\frac{2x}{3}\\right) < 1$ on $x \\in [0, 2\\pi]$.`,
+        ),
+        answer: { kind: "multiple-choice", options },
+        hints: [
+          L(
+            "La inecuación es $\\cos\\left(\\frac{2x}{3}\\right) < \\frac{1}{2}$; llama $u = \\frac{2x}{3}$ y determina el rango de $u$.",
+            "The inequality is $\\cos\\left(\\frac{2x}{3}\\right) < \\frac{1}{2}$; let $u = \\frac{2x}{3}$ and find the range of $u$.",
+          ),
+          L(
+            "Con $x \\in [0, 2\\pi]$ resulta $u \\in \\left[0, \\frac{4\\pi}{3}\\right]$: ¡ni siquiera una vuelta completa!",
+            "With $x \\in [0, 2\\pi]$ you get $u \\in \\left[0, \\frac{4\\pi}{3}\\right]$: not even a full turn!",
+          ),
+          L(
+            "En ese rango, $\\cos u < \\frac{1}{2}$ solo para $u \\in \\left(\\frac{\\pi}{3}, \\frac{4\\pi}{3}\\right]$; multiplica por $\\frac{3}{2}$.",
+            "In that range, $\\cos u < \\frac{1}{2}$ only for $u \\in \\left(\\frac{\\pi}{3}, \\frac{4\\pi}{3}\\right]$; multiply by $\\frac{3}{2}$.",
+          ),
+        ],
+        answerDisplay: L(
+          `$A_{p(x)} = \\left(\\frac{\\pi}{2},\\ 2\\pi\\right]$`,
+          `$A_{p(x)} = \\left(\\frac{\\pi}{2},\\ 2\\pi\\right]$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$2\\cos\\left(\\frac{2x}{3}\\right) < 1$, con $x \\in [0, 2\\pi]$.",
+            "$2\\cos\\left(\\frac{2x}{3}\\right) < 1$, with $x \\in [0, 2\\pi]$.",
+          ),
+          step(
+            "approach",
+            "Cambiar de variable para leer la desigualdad en la circunferencia unitaria; el punto clave es que el argumento escalado NO completa una vuelta sobre el dominino pedido.",
+            "Change variables to read the inequality on the unit circle; the key point is that the scaled argument does NOT complete a full turn over the given domain.",
+          ),
+          step(
+            "calculation",
+            `$\\cos u < \\frac{1}{2}$ con $u = \\frac{2x}{3} \\in \\left[0, \\frac{4\\pi}{3}\\right]$<br>En una vuelta $\\cos u < \\frac{1}{2}$ para $u \\in \\left(\\frac{\\pi}{3}, \\frac{5\\pi}{3}\\right)$<br>Intersección: $u \\in \\left(\\frac{\\pi}{3}, \\frac{4\\pi}{3}\\right] \\Rightarrow x = \\frac{3u}{2} \\in \\left(\\frac{\\pi}{2}, 2\\pi\\right]$`,
+            `$\\cos u < \\frac{1}{2}$ with $u = \\frac{2x}{3} \\in \\left[0, \\frac{4\\pi}{3}\\right]$<br>In one turn $\\cos u < \\frac{1}{2}$ for $u \\in \\left(\\frac{\\pi}{3}, \\frac{5\\pi}{3}\\right)$<br>Intersection: $u \\in \\left(\\frac{\\pi}{3}, \\frac{4\\pi}{3}\\right] \\Rightarrow x = \\frac{3u}{2} \\in \\left(\\frac{\\pi}{2}, 2\\pi\\right]$`,
+          ),
+          step(
+            "result",
+            `El conjunto de verdad es $\\left(\\frac{\\pi}{2}, 2\\pi\\right]$: abierto en $\\frac{\\pi}{2}$ (desigualdad estricta) y cerrado en $2\\pi$ por el extremo del dominio. Comprobación con $x = \\pi$: $2\\cos\\frac{2\\pi}{3} = -1 < 1$ ✓; con $x = 0$: $2 > 1$ ✗.`,
+            `The truth set is $\\left(\\frac{\\pi}{2}, 2\\pi\\right]$: open at $\\frac{\\pi}{2}$ (strict inequality) and closed at $2\\pi$ by the domain endpoint. Check with $x = \\pi$: $2\\cos\\frac{2\\pi}{3} = -1 < 1$ ✓; with $x = 0$: $2 > 1$ ✗.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 5.6 · 54h — sgn(sen(|2α|)) = 0 on [0, 2π] → {0, π/2, π, 3π/2, 2π} */
+  template(
+    {
+      id: "trigeq-espol-54h",
+      subject: "math",
+      topicId: "trig-equations",
+      subtopicId: "intervals",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["equation", "sgn", "absolute-value", "intervals"],
+      prerequisites: ["trig-functions"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "5.6 · 54h",
+        page: 669,
+      },
+      reasoning: "definition-hunting",
+    },
+    () => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\left\\{0, \\frac{\\pi}{2}, \\pi, \\frac{3\\pi}{2}, 2\\pi\\right\\}$`, `$\\left\\{0, \\frac{\\pi}{2}, \\pi, \\frac{3\\pi}{2}, 2\\pi\\right\\}$`), correct: true },
+        { id: "b", text: L(`$\\left\\{0, \\pi, 2\\pi\\right\\}$`, `$\\left\\{0, \\pi, 2\\pi\\right\\}$`), correct: false },
+        { id: "c", text: L(`$\\left\\{\\frac{\\pi}{2}, \\frac{3\\pi}{2}\\right\\}$`, `$\\left\\{\\frac{\\pi}{2}, \\frac{3\\pi}{2}\\right\\}$`), correct: false },
+        { id: "d", text: L(`$\\varnothing$`, `$\\varnothing$`), correct: false },
+      ];
+      return {
+        skill: L("sgn vale cero exactamente en los ceros", "sgn is zero exactly at zeros"),
+        statement: L(
+          `Determina el conjunto de verdad de $p(\\alpha):\\ \\operatorname{sgn}\\bigl(\\sin\\left|2\\alpha\\right|\\bigr) = 0$ en $\\alpha \\in [0, 2\\pi]$.`,
+          `Determine the truth set of $p(\\alpha):\\ \\operatorname{sgn}\\bigl(\\sin\\left|2\\alpha\\right|\\bigr) = 0$ on $\\alpha \\in [0, 2\\pi]$.`,
+        ),
+        answer: { kind: "multiple-choice", options },
+        hints: [
+          L(
+            "$\\operatorname{sgn}(u) = 0$ exactamente cuando $u = 0$: necesitas $\\sin\\left|2\\alpha\\right| = 0$.",
+            "$\\operatorname{sgn}(u) = 0$ exactly when $u = 0$: you need $\\sin\\left|2\\alpha\\right| = 0$.",
+          ),
+          L(
+            "Como $\\alpha \\ge 0$, el valor absoluto sobra: $\\left|2\\alpha\\right| = 2\\alpha$.",
+            "Since $\\alpha \\ge 0$, the absolute value is redundant: $\\left|2\\alpha\\right| = 2\\alpha$.",
+          ),
+          L(
+            "Resuelve $\\sin(2\\alpha) = 0$ con $2\\alpha \\in [0, 4\\pi]$: son los múltiplos de $\\pi$.",
+            "Solve $\\sin(2\\alpha) = 0$ with $2\\alpha \\in [0, 4\\pi]$: the multiples of $\\pi$.",
+          ),
+        ],
+        answerDisplay: L(
+          `$A_{p(\\alpha)} = \\left\\{0, \\frac{\\pi}{2}, \\pi, \\frac{3\\pi}{2}, 2\\pi\\right\\}$`,
+          `$A_{p(\\alpha)} = \\left\\{0, \\frac{\\pi}{2}, \\pi, \\frac{3\\pi}{2}, 2\\pi\\right\\}$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$\\operatorname{sgn}\\bigl(\\sin\\left|2\\alpha\\right|\\bigr) = 0$, con $\\alpha \\in [0, 2\\pi]$.",
+            "$\\operatorname{sgn}\\bigl(\\sin\\left|2\\alpha\\right|\\bigr) = 0$, with $\\alpha \\in [0, 2\\pi]$.",
+          ),
+          step(
+            "approach",
+            "Aplicar la definición del signo primero (vale $0$ solo en el cero del argumento) y desechar el valor absoluto, que es inofensivo en el semiplano $\\alpha \\ge 0$.",
+            "Apply the definition of sign first (it equals $0$ only at the argument's zero) and drop the absolute value, which is harmless for $\\alpha \\ge 0$.",
+          ),
+          step(
+            "calculation",
+            `$\\operatorname{sgn}(u) = 0 \\Leftrightarrow u = 0 \\Rightarrow \\sin\\left|2\\alpha\\right| = 0$<br>$\\alpha \\ge 0 \\Rightarrow \\left|2\\alpha\\right| = 2\\alpha$<br>$\\sin(2\\alpha) = 0 \\Rightarrow 2\\alpha = k\\pi,\\ k = 0, 1, \\dots, 4$<br>$\\alpha = 0, \\frac{\\pi}{2}, \\pi, \\frac{3\\pi}{2}, 2\\pi$`,
+            `$\\operatorname{sgn}(u) = 0 \\Leftrightarrow u = 0 \\Rightarrow \\sin\\left|2\\alpha\\right| = 0$<br>$\\alpha \\ge 0 \\Rightarrow \\left|2\\alpha\\right| = 2\\alpha$<br>$\\sin(2\\alpha) = 0 \\Rightarrow 2\\alpha = k\\pi,\\ k = 0, 1, \\dots, 4$<br>$\\alpha = 0, \\frac{\\pi}{2}, \\pi, \\frac{3\\pi}{2}, 2\\pi$`,
+          ),
+          step(
+            "result",
+            `Cinco soluciones: todos los múltiplos de $\\frac{\\pi}{2}$ en $[0, 2\\pi]$. La trampa era creer que el valor absoluto cambia la familia de soluciones: con $\\alpha \\ge 0$ no altera nada.`,
+            `Five solutions: every multiple of $\\frac{\\pi}{2}$ on $[0, 2\\pi]$. The trap was believing the absolute value changes the solution family: for $\\alpha \\ge 0$ it changes nothing.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 5.6 · 54i — sgn(sen(x/2)) ≥ 1 on [−π, π] → (0, π] */
+  template(
+    {
+      id: "trigeq-espol-54i",
+      subject: "math",
+      topicId: "trig-equations",
+      subtopicId: "intervals",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["inequality", "sgn", "intervals"],
+      prerequisites: ["trig-functions"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "5.6 · 54i",
+        page: 669,
+      },
+      reasoning: "definition-hunting",
+    },
+    () => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$(0,\\ \\pi]$`, `$(0,\\ \\pi]$`), correct: true },
+        { id: "b", text: L(`$[0,\\ \\pi]$`, `$[0,\\ \\pi]$`), correct: false },
+        { id: "c", text: L(`$(0,\\ 2\\pi)$`, `$(0,\\ 2\\pi)$`), correct: false },
+        { id: "d", text: L(`$[-\\pi,\\ \\pi]$`, `$[-\\pi,\\ \\pi]$`), correct: false },
+      ];
+      return {
+        skill: L("sgn solo entrega −1, 0 o 1", "sgn only outputs −1, 0 or 1"),
+        statement: L(
+          `Determina el conjunto de verdad de $p(x):\\ \\operatorname{sgn}\\left(\\sin\\left(\\frac{x}{2}\\right)\\right) \\geq 1$ en $x \\in [-\\pi, \\pi]$.`,
+          `Determine the truth set of $p(x):\\ \\operatorname{sgn}\\left(\\sin\\left(\\frac{x}{2}\\right)\\right) \\geq 1$ on $x \\in [-\\pi, \\pi]$.`,
+        ),
+        answer: { kind: "multiple-choice", options },
+        hints: [
+          L(
+            "¿Qué valores toma $\\operatorname{sgn}$? Solo $\\{-1, 0, 1\\}$. ¿Cuáles de ellos cumplen $\\geq 1$?",
+            "Which values does $\\operatorname{sgn}$ take? Only $\\{-1, 0, 1\\}$. Which of them satisfy $\\geq 1$?",
+          ),
+          L(
+            "Solo $1$: es decir, necesitas $\\sin\\left(\\frac{x}{2}\\right) > 0$ estrictamente.",
+            "Only $1$: that is, you need $\\sin\\left(\\frac{x}{2}\\right) > 0$ strictly.",
+          ),
+          L(
+            "Con $\\frac{x}{2} \\in \\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$, el seno es positivo solo en $\\left(0, \\frac{\\pi}{2}\\right]$.",
+            "With $\\frac{x}{2} \\in \\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$, the sine is positive only on $\\left(0, \\frac{\\pi}{2}\\right]$.",
+          ),
+        ],
+        answerDisplay: L(
+          `$A_{p(x)} = (0,\\ \\pi]$`,
+          `$A_{p(x)} = (0,\\ \\pi]$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$\\operatorname{sgn}\\left(\\sin\\left(\\frac{x}{2}\\right)\\right) \\geq 1$, con $x \\in [-\\pi, \\pi]$.",
+            "$\\operatorname{sgn}\\left(\\sin\\left(\\frac{x}{2}\\right)\\right) \\geq 1$, with $x \\in [-\\pi, \\pi]$.",
+          ),
+          step(
+            "approach",
+            "Primero el rango de la función signo: como solo entrega $-1$, $0$ o $1$, la desigualdad $\\geq 1$ se convierte en la igualdad con $1$, que ocurre exactamente cuando el argumento es positivo.",
+            "First the range of the sign function: since it only outputs $-1$, $0$ or $1$, the inequality $\\geq 1$ becomes equality with $1$, which happens exactly when the argument is positive.",
+          ),
+          step(
+            "calculation",
+            `$\\operatorname{sgn}(u) \\in \\{-1, 0, 1\\} \\Rightarrow \\operatorname{sgn}(u) \\geq 1 \\Leftrightarrow \\operatorname{sgn}(u) = 1 \\Leftrightarrow u > 0$<br>$\\sin\\left(\\frac{x}{2}\\right) > 0$ con $\\frac{x}{2} \\in \\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$<br>$\\frac{x}{2} \\in \\left(0, \\frac{\\pi}{2}\\right] \\Rightarrow x \\in (0, \\pi]$`,
+            `$\\operatorname{sgn}(u) \\in \\{-1, 0, 1\\} \\Rightarrow \\operatorname{sgn}(u) \\geq 1 \\Leftrightarrow \\operatorname{sgn}(u) = 1 \\Leftrightarrow u > 0$<br>$\\sin\\left(\\frac{x}{2}\\right) > 0$ with $\\frac{x}{2} \\in \\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$<br>$\\frac{x}{2} \\in \\left(0, \\frac{\\pi}{2}\\right] \\Rightarrow x \\in (0, \\pi]$`,
+          ),
+          step(
+            "result",
+            `El conjunto de verdad es $(0, \\pi]$: $0$ queda fuera porque $\\operatorname{sgn}(0) = 0 < 1$, y todo $x < 0$ da seno negativo. Comprobación con $x = \\pi$: $\\operatorname{sgn}(1) = 1 \\geq 1$ ✓.`,
+            `The truth set is $(0, \\pi]$: $0$ is excluded because $\\operatorname{sgn}(0) = 0 < 1$, and every $x < 0$ gives a negative sine. Check with $x = \\pi$: $\\operatorname{sgn}(1) = 1 \\geq 1$ ✓.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 5.6 · 54j — µ(√3 − 2·cos x) = 0 on [0, 2π] → [0, π/6] ∪ [11π/6, 2π] */
+  template(
+    {
+      id: "trigeq-espol-54j",
+      subject: "math",
+      topicId: "trig-equations",
+      subtopicId: "intervals",
+      difficulty: "challenge",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 420,
+      tags: ["equation", "unit-step", "intervals"],
+      prerequisites: ["trig-functions"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "5.6 · 54j",
+        page: 669,
+      },
+      reasoning: "definition-hunting",
+    },
+    () => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\left[0, \\frac{\\pi}{6}\\right]\\cup\\left[\\frac{11\\pi}{6}, 2\\pi\\right]$`, `$\\left[0, \\frac{\\pi}{6}\\right]\\cup\\left[\\frac{11\\pi}{6}, 2\\pi\\right]$`), correct: true },
+        { id: "b", text: L(`$\\left(0, \\frac{\\pi}{6}\\right)\\cup\\left(\\frac{11\\pi}{6}, 2\\pi\\right)$`, `$\\left(0, \\frac{\\pi}{6}\\right)\\cup\\left(\\frac{11\\pi}{6}, 2\\pi\\right)$`), correct: false },
+        { id: "c", text: L(`$\\left[\\frac{\\pi}{6}, \\frac{11\\pi}{6}\\right]$`, `$\\left[\\frac{\\pi}{6}, \\frac{11\\pi}{6}\\right]$`), correct: false },
+        { id: "d", text: L(`$\\left[\\frac{\\pi}{3}, \\frac{5\\pi}{3}\\right]$`, `$\\left[\\frac{\\pi}{3}, \\frac{5\\pi}{3}\\right]$`), correct: false },
+      ];
+      return {
+        skill: L("El escalón µ se anula con argumento ≤ 0", "The step µ vanishes for argument ≤ 0"),
+        statement: L(
+          `Sea $\\mu$ la función escalón unitario: $\\mu(t) = 1$ si $t > 0$ y $\\mu(t) = 0$ si $t \\le 0$. Determina el conjunto de verdad de $p(x):\\ \\mu\\bigl(\\sqrt{3} - 2\\cos x\\bigr) = 0$ en $x \\in [0, 2\\pi]$.`,
+          `Let $\\mu$ be the unit step function: $\\mu(t) = 1$ if $t > 0$ and $\\mu(t) = 0$ if $t \\le 0$. Determine the truth set of $p(x):\\ \\mu\\bigl(\\sqrt{3} - 2\\cos x\\bigr) = 0$ on $x \\in [0, 2\\pi]$.`,
+        ),
+        answer: { kind: "multiple-choice", options },
+        hints: [
+          L(
+            "$\\mu(t) = 0$ exactamente cuando $t \\le 0$ (¡incluyendo el cero!).",
+            "$\\mu(t) = 0$ exactly when $t \\le 0$ (including zero!).",
+          ),
+          L(
+            "Necesitas $\\sqrt{3} - 2\\cos x \\le 0$, es decir $\\cos x \\geq \\frac{\\sqrt{3}}{2}$.",
+            "You need $\\sqrt{3} - 2\\cos x \\le 0$, i.e. $\\cos x \\geq \\frac{\\sqrt{3}}{2}$.",
+          ),
+          L(
+            "$\\cos x \\geq \\frac{\\sqrt{3}}{2}$ en $\\left[0, \\frac{\\pi}{6}\\right]\\cup\\left[\\frac{11\\pi}{6}, 2\\pi\\right]$; revisa que los extremos entran (desigualdad no estricta).",
+            "$\\cos x \\geq \\frac{\\sqrt{3}}{2}$ on $\\left[0, \\frac{\\pi}{6}\\right]\\cup\\left[\\frac{11\\pi}{6}, 2\\pi\\right]$; check the endpoints enter (non-strict inequality).",
+          ),
+        ],
+        answerDisplay: L(
+          `$A_{p(x)} = \\left[0, \\frac{\\pi}{6}\\right]\\cup\\left[\\frac{11\\pi}{6}, 2\\pi\\right]$`,
+          `$A_{p(x)} = \\left[0, \\frac{\\pi}{6}\\right]\\cup\\left[\\frac{11\\pi}{6}, 2\\pi\\right]$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$\\mu\\bigl(\\sqrt{3} - 2\\cos x\\bigr) = 0$, con $x \\in [0, 2\\pi]$ y $\\mu(t) = 0$ si $t \\le 0$.",
+            "$\\mu\\bigl(\\sqrt{3} - 2\\cos x\\bigr) = 0$, with $x \\in [0, 2\\pi]$ and $\\mu(t) = 0$ if $t \\le 0$.",
+          ),
+          step(
+            "approach",
+            "Traducir la condición sobre el escalón a una condición sobre su argumento; el detalle fino es que el $0$ del argumento SÍ pertenece al conjunto ($\\mu(0) = 0$).",
+            "Translate the condition on the step into a condition on its argument; the subtle point is that an argument of $0$ DOES belong ($\\mu(0) = 0$).",
+          ),
+          step(
+            "calculation",
+            `$\\mu(t) = 0 \\Leftrightarrow t \\le 0 \\Rightarrow \\sqrt{3} - 2\\cos x \\le 0$<br>$\\cos x \\geq \\frac{\\sqrt{3}}{2}$<br>En $[0, 2\\pi]$: $x \\in \\left[0, \\frac{\\pi}{6}\\right]\\cup\\left[\\frac{11\\pi}{6}, 2\\pi\\right]$`,
+            `$\\mu(t) = 0 \\Leftrightarrow t \\le 0 \\Rightarrow \\sqrt{3} - 2\\cos x \\le 0$<br>$\\cos x \\geq \\frac{\\sqrt{3}}{2}$<br>On $[0, 2\\pi]$: $x \\in \\left[0, \\frac{\\pi}{6}\\right]\\cup\\left[\\frac{11\\pi}{6}, 2\\pi\\right]$`,
+          ),
+          step(
+            "result",
+            `El conjunto de verdad es $\\left[0, \\frac{\\pi}{6}\\right]\\cup\\left[\\frac{11\\pi}{6}, 2\\pi\\right]$, cerrado: en $x = \\frac{\\pi}{6}$ el argumento vale $0$ y $\\mu(0) = 0$ ✓. Comprobación con $x = 0$: $\\mu(\\sqrt{3} - 2) = \\mu(-0{.}27) = 0$ ✓.`,
+            `The truth set is $\\left[0, \\frac{\\pi}{6}\\right]\\cup\\left[\\frac{11\\pi}{6}, 2\\pi\\right]$, closed: at $x = \\frac{\\pi}{6}$ the argument equals $0$ and $\\mu(0) = 0$ ✓. Check with $x = 0$: $\\mu(\\sqrt{3} - 2) = \\mu(-0{.}27) = 0$ ✓.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 5.6 · 55 — implication p→q false exactly on (0, π/2), Re = (0, 3π/2] */
+  template(
+    {
+      id: "trigeq-espol-55",
+      subject: "math",
+      topicId: "trig-equations",
+      subtopicId: "intervals",
+      difficulty: "challenge",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 480,
+      tags: ["implication", "logic", "inequality", "intervals"],
+      prerequisites: ["trig-functions"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "5.6 · 55",
+        page: 669,
+      },
+      reasoning: "multi-concept",
+    },
+    () => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\left(0, \\frac{\\pi}{2}\\right)$`, `$\\left(0, \\frac{\\pi}{2}\\right)$`), correct: true },
+        { id: "b", text: L(`$\\left(\\frac{\\pi}{2}, \\pi\\right)$`, `$\\left(\\frac{\\pi}{2}, \\pi\\right)$`), correct: false },
+        { id: "c", text: L(`$\\left(\\pi, \\frac{3\\pi}{2}\\right]$`, `$\\left(\\pi, \\frac{3\\pi}{2}\\right]$`), correct: false },
+        { id: "d", text: L(`$\\left[\\frac{\\pi}{2}, \\frac{3\\pi}{2}\\right]$`, `$\\left[\\frac{\\pi}{2}, \\frac{3\\pi}{2}\\right]$`), correct: false },
+      ];
+      return {
+        skill: L("La implicación falla donde p vale y q no", "The implication fails where p holds and q does not"),
+        statement: L(
+          `Sea $Re = \\left(0, \\frac{3\\pi}{2}\\right]$ y los predicados $p(x):\\ \\sin(2x) > 0$, $q(x):\\ \\cos x < 0$. ¿En qué subconjunto de $Re$ es **FALSA** la implicación $p(x) \\rightarrow q(x)$?`,
+          `Let $Re = \\left(0, \\frac{3\\pi}{2}\\right]$ and the predicates $p(x):\\ \\sin(2x) > 0$, $q(x):\\ \\cos x < 0$. On which subset of $Re$ is the implication $p(x) \\rightarrow q(x)$ **FALSE**?`,
+        ),
+        answer: { kind: "multiple-choice", options },
+        hints: [
+          L(
+            "Una implicación $p \\rightarrow q$ solo es falsa cuando $p$ es verdadera Y $q$ es falsa a la vez.",
+            "An implication $p \\rightarrow q$ is false only when $p$ is true AND $q$ is false at the same time.",
+          ),
+          L(
+            "Resuelve por separado: $\\sin(2x) > 0$ da $x \\in \\left(0, \\frac{\\pi}{2}\\right) \\cup \\left(\\pi, \\frac{3\\pi}{2}\\right]$; $\\cos x \\geq 0$ da $x \\in \\left(0, \\frac{\\pi}{2}\\right]$.",
+            "Solve separately: $\\sin(2x) > 0$ gives $x \\in \\left(0, \\frac{\\pi}{2}\\right) \\cup \\left(\\pi, \\frac{3\\pi}{2}\\right]$; $\\cos x \\geq 0$ gives $x \\in \\left(0, \\frac{\\pi}{2}\\right]$.",
+          ),
+          L(
+            "Intersecta ambos: el único tramo donde el seno doble es positivo y el coseno no es negativo es $\\left(0, \\frac{\\pi}{2}\\right)$.",
+            "Intersect both: the only stretch where the double sine is positive and the cosine is not negative is $\\left(0, \\frac{\\pi}{2}\\right)$.",
+          ),
+        ],
+        answerDisplay: L(
+          `Falsa exactamente en $\\left(0, \\frac{\\pi}{2}\\right)$; por tanto $A(p \\rightarrow q) = \\left[\\frac{\\pi}{2}, \\frac{3\\pi}{2}\\right]$.`,
+          `False exactly on $\\left(0, \\frac{\\pi}{2}\\right)$; hence $A(p \\rightarrow q) = \\left[\\frac{\\pi}{2}, \\frac{3\\pi}{2}\\right]$.`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$p(x): \\sin(2x) > 0$ y $q(x): \\cos x < 0$, con $x \\in \\left(0, \\frac{3\\pi}{2}\\right]$.",
+            "$p(x): \\sin(2x) > 0$ and $q(x): \\cos x < 0$, with $x \\in \\left(0, \\frac{3\\pi}{2}\\right]$.",
+          ),
+          step(
+            "approach",
+            "Usar el equivalente lógico $\\neg(p \\rightarrow q) \\equiv p \\wedge \\neg q$: la implicación falla únicamente donde el antecedente vive y el consecuente muere.",
+            "Use the logical equivalence $\\neg(p \\rightarrow q) \\equiv p \\wedge \\neg q$: the implication fails only where the antecedent lives and the consequent dies.",
+          ),
+          step(
+            "calculation",
+            `$2x \\in (0, 3\\pi]:\\ \\sin(2x) > 0 \\Rightarrow x \\in \\left(0, \\frac{\\pi}{2}\\right) \\cup \\left(\\pi, \\frac{3\\pi}{2}\\right]$<br>$\\neg q:\\ \\cos x \\geq 0 \\Rightarrow x \\in \\left(0, \\frac{\\pi}{2}\\right]$<br>$p \\wedge \\neg q:\\ \\left(0, \\frac{\\pi}{2}\\right)$`,
+            `$2x \\in (0, 3\\pi]:\\ \\sin(2x) > 0 \\Rightarrow x \\in \\left(0, \\frac{\\pi}{2}\\right) \\cup \\left(\\pi, \\frac{3\\pi}{2}\\right]$<br>$\\neg q:\\ \\cos x \\geq 0 \\Rightarrow x \\in \\left(0, \\frac{\\pi}{2}\\right]$<br>$p \\wedge \\neg q:\\ \\left(0, \\frac{\\pi}{2}\\right)$`,
+          ),
+          step(
+            "result",
+            `La implicación es falsa exactamente en $\\left(0, \\frac{\\pi}{2}\\right)$ (por ejemplo en $x = \\frac{\\pi}{4}$: $\\sin\\frac{\\pi}{2} = 1 > 0$ pero $\\cos\\frac{\\pi}{4} > 0$), y verdadera en el resto: $A(p \\rightarrow q) = \\left[\\frac{\\pi}{2}, \\frac{3\\pi}{2}\\right]$.`,
+            `The implication is false exactly on $\\left(0, \\frac{\\pi}{2}\\right)$ (e.g. at $x = \\frac{\\pi}{4}$: $\\sin\\frac{\\pi}{2} = 1 > 0$ but $\\cos\\frac{\\pi}{4} > 0$), and true elsewhere: $A(p \\rightarrow q) = \\left[\\frac{\\pi}{2}, \\frac{3\\pi}{2}\\right]$.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 5.6 · 56 — ⌊1−2cos(x/2)⌋ = 1 and sgn(sen 2x)=0; A(p→q) = [0,π] ∪ [4π/3, 2π] */
+  template(
+    {
+      id: "trigeq-espol-56",
+      subject: "math",
+      topicId: "trig-equations",
+      subtopicId: "intervals",
+      difficulty: "challenge",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 540,
+      tags: ["implication", "floor", "sgn", "intervals"],
+      prerequisites: ["trig-functions"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "5.6 · 56",
+        page: 669,
+      },
+      reasoning: "multi-concept",
+    },
+    () => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$[0,\\ \\pi]\\cup\\left[\\frac{4\\pi}{3},\\ 2\\pi\\right]$`, `$[0,\\ \\pi]\\cup\\left[\\frac{4\\pi}{3},\\ 2\\pi\\right]$`), correct: true },
+        { id: "b", text: L(`$\\left(\\pi,\\ \\frac{4\\pi}{3}\\right)$`, `$\\left(\\pi,\\ \\frac{4\\pi}{3}\\right)$`), correct: false },
+        { id: "c", text: L(`$[0,\\ 2\\pi]$`, `$[0,\\ 2\\pi]$`), correct: false },
+        { id: "d", text: L(`$\\left\\{0, \\frac{\\pi}{2}, \\pi, \\frac{3\\pi}{2}, 2\\pi\\right\\}$`, `$\\left\\{0, \\frac{\\pi}{2}, \\pi, \\frac{3\\pi}{2}, 2\\pi\\right\\}$`), correct: false },
+      ];
+      return {
+        skill: L("Parte entera + signo dentro de una implicación", "Floor + sign inside an implication"),
+        statement: L(
+          `Sea $Re = [0, 2\\pi]$, $p(x):\\ \\lfloor 1 - 2\\cos\\left(\\frac{x}{2}\\right) \\rfloor = 1$ (parte entera) y $q(x):\\ \\operatorname{sgn}(\\sin(2x)) = 0$. Determina el conjunto de verdad $A(p(x) \\rightarrow q(x))$.`,
+          `Let $Re = [0, 2\\pi]$, $p(x):\\ \\lfloor 1 - 2\\cos\\left(\\frac{x}{2}\\right) \\rfloor = 1$ (floor function) and $q(x):\\ \\operatorname{sgn}(\\sin(2x)) = 0$. Determine the truth set $A(p(x) \\rightarrow q(x))$.`,
+        ),
+        answer: { kind: "multiple-choice", options },
+        hints: [
+          L(
+            "Resuelve cada predicado por separado. Para $p$: $\\lfloor u \\rfloor = 1$ significa $1 \\le u < 2$.",
+            "Solve each predicate separately. For $p$: $\\lfloor u \\rfloor = 1$ means $1 \\le u < 2$.",
+          ),
+          L(
+            "$1 \\le 1 - 2\\cos\\left(\\frac{x}{2}\\right) < 2$ equivale a $-\\frac{1}{2} < \\cos\\left(\\frac{x}{2}\\right) \\le 0$, que en $[0, 2\\pi]$ da $x \\in [\\pi, \\frac{4\\pi}{3})$. Y $q$ solo vale en los múltiplos de $\\frac{\\pi}{2}$.",
+            "$1 \\le 1 - 2\\cos\\left(\\frac{x}{2}\\right) < 2$ is equivalent to $-\\frac{1}{2} < \\cos\\left(\\frac{x}{2}\\right) \\le 0$, which on $[0, 2\\pi]$ gives $x \\in [\\pi, \\frac{4\\pi}{3})$. And $q$ holds only at multiples of $\\frac{\\pi}{2}$.",
+          ),
+          L(
+            "La implicación es verdadera en $\\neg p \\cup q$: complementa $[\\pi, \\frac{4\\pi}{3})$ dentro de $[0, 2\\pi]$ y añade los puntos de $q$ que falten.",
+            "The implication is true on $\\neg p \\cup q$: complement $[\\pi, \\frac{4\\pi}{3})$ inside $[0, 2\\pi]$ and add any missing points of $q$.",
+          ),
+        ],
+        answerDisplay: L(
+          `$A(p \\rightarrow q) = [0, \\pi]\\cup\\left[\\frac{4\\pi}{3}, 2\\pi\\right]$`,
+          `$A(p \\rightarrow q) = [0, \\pi]\\cup\\left[\\frac{4\\pi}{3}, 2\\pi\\right]$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$p(x): \\lfloor 1 - 2\\cos\\left(\\frac{x}{2}\\right) \\rfloor = 1$, $q(x): \\operatorname{sgn}(\\sin(2x)) = 0$, con $x \\in [0, 2\\pi]$.",
+            "$p(x): \\lfloor 1 - 2\\cos\\left(\\frac{x}{2}\\right) \\rfloor = 1$, $q(x): \\operatorname{sgn}(\\sin(2x)) = 0$, with $x \\in [0, 2\\pi]$.",
+          ),
+          step(
+            "approach",
+            "Primero el conjunto de verdad de cada predicado (la parte entera impone un intervalo semiabierto; el signo solo se anula en ceros del seno), y después el equivalente $A(p \\rightarrow q) = \\neg A_p \\cup A_q$.",
+            "First the truth set of each predicate (the floor imposes a half-open interval; the sign vanishes only at zeros of the sine), then the equivalence $A(p \\rightarrow q) = \\neg A_p \\cup A_q$.",
+          ),
+          step(
+            "calculation",
+            `$p:\\ 1 \\le 1 - 2\\cos\\frac{x}{2} < 2 \\Leftrightarrow -\\frac{1}{2} < \\cos\\frac{x}{2} \\le 0 \\Leftrightarrow \\frac{x}{2} \\in \\left[\\frac{\\pi}{2}, \\frac{2\\pi}{3}\\right) \\Rightarrow A_p = \\left[\\pi, \\frac{4\\pi}{3}\\right)$<br>$q:\\ \\sin(2x) = 0 \\Rightarrow A_q = \\left\\{0, \\frac{\\pi}{2}, \\pi, \\frac{3\\pi}{2}, 2\\pi\\right\\}$<br>$\\neg A_p = \\left[0, \\pi\\right) \\cup \\left[\\frac{4\\pi}{3}, 2\\pi\\right]$<br>$\\neg A_p \\cup A_q = [0, \\pi]\\cup\\left[\\frac{4\\pi}{3}, 2\\pi\\right]$`,
+            `$p:\\ 1 \\le 1 - 2\\cos\\frac{x}{2} < 2 \\Leftrightarrow -\\frac{1}{2} < \\cos\\frac{x}{2} \\le 0 \\Leftrightarrow \\frac{x}{2} \\in \\left[\\frac{\\pi}{2}, \\frac{2\\pi}{3}\\right) \\Rightarrow A_p = \\left[\\pi, \\frac{4\\pi}{3}\\right)$<br>$q:\\ \\sin(2x) = 0 \\Rightarrow A_q = \\left\\{0, \\frac{\\pi}{2}, \\pi, \\frac{3\\pi}{2}, 2\\pi\\right\\}$<br>$\\neg A_p = \\left[0, \\pi\\right) \\cup \\left[\\frac{4\\pi}{3}, 2\\pi\\right]$<br>$\\neg A_p \\cup A_q = [0, \\pi]\\cup\\left[\\frac{4\\pi}{3}, 2\\pi\\right]$`,
+          ),
+          step(
+            "result",
+            `$A(p \\rightarrow q) = [0, \\pi]\\cup\\left[\\frac{4\\pi}{3}, 2\\pi\\right]$: la implicación solo falla en $\\left(\\pi, \\frac{4\\pi}{3}\\right)$, donde $p$ vale y $q$ no. En $x = \\pi$ entra por $q$ ($\\operatorname{sgn}(\\sin 2\\pi) = 0$ ✓).`,
+            `$A(p \\rightarrow q) = [0, \\pi]\\cup\\left[\\frac{4\\pi}{3}, 2\\pi\\right]$: the implication fails only on $\\left(\\pi, \\frac{4\\pi}{3}\\right)$, where $p$ holds and $q$ does not. At $x = \\pi$ it enters via $q$ ($\\operatorname{sgn}(\\sin 2\\pi) = 0$ ✓).`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 5.6 · 59 (adaptado, n = 1) — cos³x ≤ cos²x ≤ cosx on [0, 2π] */
+  template(
+    {
+      id: "trigeq-espol-59",
+      subject: "math",
+      topicId: "trig-equations",
+      subtopicId: "intervals",
+      difficulty: "challenge",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 480,
+      tags: ["inequality", "powers", "sign-analysis", "intervals"],
+      prerequisites: ["trig-functions"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "5.6 · 59 (n = 1)",
+        page: 669,
+      },
+      reasoning: "case-analysis",
+    },
+    () => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\left[0, \\frac{\\pi}{2}\\right]\\cup\\left[\\frac{3\\pi}{2}, 2\\pi\\right]$`, `$\\left[0, \\frac{\\pi}{2}\\right]\\cup\\left[\\frac{3\\pi}{2}, 2\\pi\\right]$`), correct: true },
+        { id: "b", text: L(`$\\left[\\frac{\\pi}{2}, \\frac{3\\pi}{2}\\right]$`, `$\\left[\\frac{\\pi}{2}, \\frac{3\\pi}{2}\\right]$`), correct: false },
+        { id: "c", text: L(`$\\left[0, \\frac{\\pi}{2}\\right]$`, `$\\left[0, \\frac{\\pi}{2}\\right]$`), correct: false },
+        { id: "d", text: L(`$[0, 2\\pi]$`, `$[0, 2\\pi]$`), correct: false },
+      ];
+      return {
+        skill: L("Cadena de potencias del coseno", "Chain of cosine powers"),
+        statement: L(
+          `Determina el conjunto de verdad de $p(x):\\ \\cos^3 x \\le \\cos^2 x \\le \\cos x$ en $x \\in [0, 2\\pi]$.`,
+          `Determine the truth set of $p(x):\\ \\cos^3 x \\le \\cos^2 x \\le \\cos x$ on $x \\in [0, 2\\pi]$.`,
+        ),
+        answer: { kind: "multiple-choice", options },
+        hints: [
+          L(
+            "Analiza por casos según el signo de $c = \\cos x$: ¿qué pasa si $0 \\le c \\le 1$? ¿Y si $-1 \\le c < 0$?",
+            "Analyze by cases according to the sign of $c = \\cos x$: what happens if $0 \\le c \\le 1$? And if $-1 \\le c < 0$?",
+          ),
+          L(
+            "Si $0 \\le c \\le 1$: multiplicar por $c$ reduce o mantiene ($c^3 \\le c^2 \\le c$ ✓). Si $c < 0$: $c^2 \\le c$ sería positivo ≤ negativo, imposible.",
+            "If $0 \\le c \\le 1$: multiplying by $c$ shrinks or keeps ($c^3 \\le c^2 \\le c$ ✓). If $c < 0$: $c^2 \\le c$ would be positive ≤ negative, impossible.",
+          ),
+          L(
+            "La cadena se cumple exactamente donde $\\cos x \\in [0, 1]$: primer y cuarto cuadrante, incluyendo los extremos.",
+            "The chain holds exactly where $\\cos x \\in [0, 1]$: first and fourth quadrants, endpoints included.",
+          ),
+        ],
+        answerDisplay: L(
+          `$A_{p(x)} = \\left[0, \\frac{\\pi}{2}\\right]\\cup\\left[\\frac{3\\pi}{2}, 2\\pi\\right]$`,
+          `$A_{p(x)} = \\left[0, \\frac{\\pi}{2}\\right]\\cup\\left[\\frac{3\\pi}{2}, 2\\pi\\right]$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$\\cos^3 x \\le \\cos^2 x \\le \\cos x$, con $x \\in [0, 2\\pi]$.",
+            "$\\cos^3 x \\le \\cos^2 x \\le \\cos x$, with $x \\in [0, 2\\pi]$.",
+          ),
+          step(
+            "approach",
+            "La cadena compara potencias sucesivas del mismo número $c = \\cos x$; su comportamiento depende solo del signo de $c$, así que basta un análisis por casos.",
+            "The chain compares successive powers of the same number $c = \\cos x$; its behavior depends only on the sign of $c$, so a case analysis suffices.",
+          ),
+          step(
+            "calculation",
+            `Caso $0 \\le c \\le 1$: $c^3 \\le c^2 \\le c$ ✓ (multiplicar por $c \\in [0,1]$ encoge)<br>Caso $-1 \\le c < 0$: $c^3 \\le c^2$ ✓ pero $c^2 \\le c$ ✗ (positivo ≤ negativo, falso)<br>Caso $c = 0$: $0 \\le 0 \\le 0$ ✓<br>$\\cos x \\in [0, 1] \\Leftrightarrow x \\in \\left[0, \\frac{\\pi}{2}\\right]\\cup\\left[\\frac{3\\pi}{2}, 2\\pi\\right]$`,
+            `Case $0 \\le c \\le 1$: $c^3 \\le c^2 \\le c$ ✓ (multiplying by $c \\in [0,1]$ shrinks)<br>Case $-1 \\le c < 0$: $c^3 \\le c^2$ ✓ but $c^2 \\le c$ ✗ (positive ≤ negative, false)<br>Case $c = 0$: $0 \\le 0 \\le 0$ ✓<br>$\\cos x \\in [0, 1] \\Leftrightarrow x \\in \\left[0, \\frac{\\pi}{2}\\right]\\cup\\left[\\frac{3\\pi}{2}, 2\\pi\\right]$`,
+          ),
+          step(
+            "result",
+            `El conjunto de verdad es $\\left[0, \\frac{\\pi}{2}\\right]\\cup\\left[\\frac{3\\pi}{2}, 2\\pi\\right]$. Comprobación: $x = \\pi$ da $-1 \\le 1 \\le -1$ ✗; $x = 0$ da $1 \\le 1 \\le 1$ ✓. (En el libro, el ejercicio 59 pide demostrarlo para todo $n$ natural: la misma región funciona porque $[\\cos x]^{n+2} \\le [\\cos x]^{n+1} \\le [\\cos x]^n$ hereda el análisis de signos.)`,
+            `The truth set is $\\left[0, \\frac{\\pi}{2}\\right]\\cup\\left[\\frac{3\\pi}{2}, 2\\pi\\right]$. Check: $x = \\pi$ gives $-1 \\le 1 \\le -1$ ✗; $x = 0$ gives $1 \\le 1 \\le 1$ ✓. (In the book, exercise 59 asks to prove it for every natural $n$: the same region works because $[\\cos x]^{n+2} \\le [\\cos x]^{n+1} \\le [\\cos x]^n$ inherits the sign analysis.)`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 5.6 · 60 (adaptado, a = 4, b = 1) — min of 4·sen²x + 1/sen²x = 4 */
+  template(
+    {
+      id: "trigeq-espol-60",
+      subject: "math",
+      topicId: "trig-equations",
+      subtopicId: "intervals",
+      difficulty: "challenge",
+      questionType: "numeric",
+      estimatedTimeSec: 420,
+      tags: ["inequality", "am-gm", "optimization", "domain"],
+      prerequisites: ["trig-functions"],
+      source: {
+        sourceId: "fcnm-fundamentos",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "5.6 · 60 (a = 4, b = 1)",
+        page: 669,
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L("Desigualdad a·X + b/X ≥ 2√(ab) con X = sen²x", "Inequality a·X + b/X ≥ 2√(ab) with X = sen²x"),
+      statement: L(
+        `Para $\\sin x \\ne 0$, calcula el **valor mínimo** de la expresión $4\\sin^2 x + \\dfrac{1}{\\sin^2 x}$.`,
+        `For $\\sin x \\ne 0$, find the **minimum value** of the expression $4\\sin^2 x + \\dfrac{1}{\\sin^2 x}$.`,
+      ),
+      answer: {
+        kind: "numeric",
+        value: 4,
+        tolerance: { mode: "absolute", value: 0.01 },
+      },
+      hints: [
+        L(
+          "Llama $X = \\sin^2 x$: como $\\sin x \\ne 0$, tienes $0 < X \\le 1$. La expresión es $4X + \\frac{1}{X}$.",
+          "Let $X = \\sin^2 x$: since $\\sin x \\ne 0$, you have $0 < X \\le 1$. The expression is $4X + \\frac{1}{X}$.",
+        ),
+        L(
+          "Desigualdad AM-GM: $aX + \\frac{b}{X} \\ge 2\\sqrt{ab}$ con $a = 4$, $b = 1$.",
+          "AM-GM inequality: $aX + \\frac{b}{X} \\ge 2\\sqrt{ab}$ with $a = 4$, $b = 1$.",
+        ),
+        L(
+          "La cota $2\\sqrt{4} = 4$ se alcanza cuando $4X = \\frac{1}{X}$, es decir $X = \\frac{1}{2}$: ¿es un valor posible de $\\sin^2 x$?",
+          "The bound $2\\sqrt{4} = 4$ is attained when $4X = \\frac{1}{X}$, i.e. $X = \\frac{1}{2}$: is that a possible value of $\\sin^2 x$?",
+        ),
+      ],
+      answerDisplay: L(
+        `Mínimo $= 4$, alcanzado cuando $\\sin^2 x = \\frac{1}{2}$ (p. ej. $x = \\frac{\\pi}{4}$).`,
+        `Minimum $= 4$, attained when $\\sin^2 x = \\frac{1}{2}$ (e.g. $x = \\frac{\\pi}{4}$).`,
+      ),
+      solution: [
+        step(
+          "given",
+          "$4\\sin^2 x + \\frac{1}{\\sin^2 x}$, con $\\sin x \\ne 0$.",
+          "$4\\sin^2 x + \\frac{1}{\\sin^2 x}$, with $\\sin x \\ne 0$.",
+        ),
+        step(
+          "approach",
+          "Sustituir $X = \\sin^2 x \\in (0, 1]$ y aplicar la desigualdad AM-GM en la forma $aX + \\frac{b}{X} \\ge 2\\sqrt{ab}$; después hay que verificar que el punto de igualdad es alcanzable.",
+          "Substitute $X = \\sin^2 x \\in (0, 1]$ and apply AM-GM in the form $aX + \\frac{b}{X} \\ge 2\\sqrt{ab}$; then verify the equality point is attainable.",
+        ),
+        step(
+          "calculation",
+          `$4X + \\frac{1}{X} \\ge 2\\sqrt{4 \\cdot 1} = 4$<br>Igualdad cuando $4X = \\frac{1}{X} \\Rightarrow X^2 = \\frac{1}{4} \\Rightarrow X = \\frac{1}{2}$<br>$X = \\frac{1}{2} \\in (0, 1]$ ✓ (p. ej. $x = \\frac{\\pi}{4}$: $4 \\cdot \\frac{1}{2} + 2 = 4$)`,
+          `$4X + \\frac{1}{X} \\ge 2\\sqrt{4 \\cdot 1} = 4$<br>Equality when $4X = \\frac{1}{X} \\Rightarrow X^2 = \\frac{1}{4} \\Rightarrow X = \\frac{1}{2}$<br>$X = \\frac{1}{2} \\in (0, 1]$ ✓ (e.g. $x = \\frac{\\pi}{4}$: $4 \\cdot \\frac{1}{2} + 2 = 4$)`,
+        ),
+        step(
+          "result",
+          `El valor mínimo es $4$. (El ejercicio 60 del libro demuestra la forma general $a\\,\\text{sen}^2 x + \\frac{b}{\\text{sen}^2 x} \\ge 2\\sqrt{ab}$ para $a, b > 0$; la elección $a = 4$, $b = 1$ garantiza que la igualdad es alcanzable dentro del rango de $\\sin^2 x$.)`,
+          `The minimum value is $4$. (Book exercise 60 proves the general form $a\\,\\sin^2 x + \\frac{b}{\\sin^2 x} \\ge 2\\sqrt{ab}$ for $a, b > 0$; the choice $a = 4$, $b = 1$ guarantees equality is attainable within the range of $\\sin^2 x$.)`,
+        ),
+      ],
+    }),
   ),
 ];
