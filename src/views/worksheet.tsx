@@ -7,12 +7,13 @@
  * - Deterministic seed → the URL is shareable and reproducible.
  * - Problems render one per block with workspace to work on paper.
  * - The answer key sits on its own printed page.
+ * - Optional "warm-up" display ordering (easy → hard) for classroom use.
  * - `@media print` rules (globals.css) hide the app chrome; everything
  *   with the `no-print` class disappears on paper.
  */
 
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeft, Printer, RotateCcw } from "lucide-react";
+import { ArrowLeft, Flame, Printer, RotateCcw, Shuffle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { MathText } from "@/components/math/math-text";
@@ -24,14 +25,23 @@ import { navigate, worksheetHref, href } from "@/lib/router";
 import { mathCurriculum } from "@/content/curriculum/math";
 import { physicsCurriculum } from "@/content/curriculum/physics";
 import { siteConfig } from "@/config/site";
-import type { Problem, SessionConfig } from "@/lib/types";
+import type { Difficulty, Problem, SessionConfig } from "@/lib/types";
+import { cn } from "@/lib/utils";
 
 const MAX_WORKSHEET = 20;
+
+const DIFFICULTY_RANK: Record<Difficulty, number> = {
+  easy: 0,
+  medium: 1,
+  hard: 2,
+  challenge: 3,
+};
 
 export function WorksheetView({ config }: { config: SessionConfig }) {
   const { t, lang, formatNumber } = useI18n();
   const { templates, loading } = useAllTemplates();
   const [seedBumped, setSeedBumped] = useState(0); // remount helper for animations
+  const [warmup, setWarmup] = useState(false); // display order: easy → hard
   const configKey = useMemo(() => JSON.stringify(config), [config]);
 
   // worksheets need a finite count (unlimited makes no sense on paper)
@@ -80,6 +90,15 @@ export function WorksheetView({ config }: { config: SessionConfig }) {
     );
   }
 
+  // warm-up ordering is only meaningful when several difficulty levels coexist
+  const orderable = config.difficulty === "any" && config.mode !== "challenge";
+  const displayDeck =
+    warmup && orderable
+      ? [...deck].sort(
+          (a, b) => DIFFICULTY_RANK[a.difficulty] - DIFFICULTY_RANK[b.difficulty],
+        )
+      : deck;
+
   const title = topic
     ? topic.name[lang]
     : config.mode === "challenge"
@@ -125,6 +144,43 @@ export function WorksheetView({ config }: { config: SessionConfig }) {
             {t("common.back")}
           </a>
         </Button>
+        {orderable ? (
+          <div
+            className="flex items-center rounded-lg border bg-card p-0.5"
+            role="group"
+            aria-label={t("worksheet.order")}
+          >
+            <button
+              type="button"
+              onClick={() => setWarmup(false)}
+              aria-pressed={!warmup}
+              className={cn(
+                "inline-flex h-8 items-center gap-1.5 rounded-md px-2.5 text-xs font-medium transition-colors",
+                !warmup
+                  ? "bg-secondary text-foreground shadow-sm"
+                  : "text-muted-foreground hover:text-foreground",
+              )}
+            >
+              <Shuffle className="h-3.5 w-3.5" aria-hidden="true" />
+              {t("worksheet.order.mixed")}
+            </button>
+            <button
+              type="button"
+              onClick={() => setWarmup(true)}
+              aria-pressed={warmup}
+              title={t("worksheet.order.warmup.hint")}
+              className={cn(
+                "inline-flex h-8 items-center gap-1.5 rounded-md px-2.5 text-xs font-medium transition-colors",
+                warmup
+                  ? "bg-secondary text-foreground shadow-sm"
+                  : "text-muted-foreground hover:text-foreground",
+              )}
+            >
+              <Flame className="h-3.5 w-3.5" aria-hidden="true" />
+              {t("worksheet.order.warmup")}
+            </button>
+          </div>
+        ) : null}
         <div className="ml-auto flex flex-wrap gap-2">
           <Button variant="outline" onClick={handleNewVariants} className="gap-2">
             <RotateCcw className="h-4 w-4" aria-hidden="true" />
@@ -167,7 +223,7 @@ export function WorksheetView({ config }: { config: SessionConfig }) {
 
         {/* problems */}
         <ol className="mt-6 space-y-8">
-          {deck.map((problem, i) => (
+          {displayDeck.map((problem, i) => (
             <WorksheetProblem key={`${problem.templateId}:${problem.seed}`} n={i + 1} problem={problem} />
           ))}
         </ol>
@@ -178,7 +234,7 @@ export function WorksheetView({ config }: { config: SessionConfig }) {
             {t("worksheet.answerKey")}
           </h2>
           <ol className="mt-3 grid gap-x-8 gap-y-2.5 text-[15px] sm:grid-cols-2">
-            {deck.map((problem, i) => (
+            {displayDeck.map((problem, i) => (
               <li key={`key-${problem.templateId}:${problem.seed}`} className="flex gap-2.5 leading-relaxed">
                 <span className="min-w-6 font-semibold">{formatNumber(i + 1)}.</span>
                 <MathText>{problem.answerDisplay[lang]}</MathText>

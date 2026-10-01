@@ -47,6 +47,7 @@ import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n/context";
 import { useToast } from "@/hooks/use-toast";
 import { href, sessionHref } from "@/lib/router";
+import { ActivityHeatmap, AccuracyTrend } from "@/components/practice/activity-insights";
 import {
   computeStats,
   loadProgress,
@@ -202,13 +203,16 @@ export function ProgressView() {
   const [stats, setStats] = useState<OverallStats | null>(null);
   const [sessions, setSessions] = useState<SessionRecord[]>([]);
   const [reviewEntries, setReviewEntries] = useState<ReviewEntry[]>([]);
+  const [records, setRecords] = useState<ProblemRecord[]>([]);
 
   useEffect(() => {
     // localStorage is an external system — read it async, then update state
     let cancelled = false;
     queueMicrotask(() => {
       if (!cancelled) {
-        setStats(computeStats(loadProgress()));
+        const state = loadProgress();
+        setRecords(state.records);
+        setStats(computeStats(state));
         setSessions(loadSessions().sessions.slice(-8).reverse());
         setReviewEntries(loadReview().entries);
       }
@@ -220,8 +224,10 @@ export function ProgressView() {
 
   function handleReset() {
     resetProgress();
-    setStats(computeStats(loadProgress()));
-    setSessions(loadSessions().sessions.slice(-8).reverse());
+    const state = loadProgress();
+    setRecords(state.records);
+    setStats(computeStats(state));
+    setSessions([]);
     setReviewEntries([]);
   }
 
@@ -517,6 +523,14 @@ export function ProgressView() {
               </Button>
             </section>
           ) : null}
+
+          <div className="mt-12">
+            <SectionHeader label={t("activity.title")} />
+            <div className="mt-4 space-y-4">
+              <ActivityHeatmap records={records} />
+              <AccuracyTrend records={records} />
+            </div>
+          </div>
 
           <div className="mt-12">
             <SectionHeader label={t("progress.bySubject")} />

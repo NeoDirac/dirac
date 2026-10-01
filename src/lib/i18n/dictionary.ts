@@ -45,6 +45,19 @@ const es: Dictionary = {
   "home.reviewDue.one": "Hay un tema que te toca repasar hoy.",
   "home.reviewDue.many": "{n} temas que te tocan repasar hoy.",
   "home.reviewDue.cta": "Repasar ahora",
+
+  // daily goal band
+  "goal.title": "Objetivo de hoy",
+  "goal.of": "{done} de {total} problemas",
+  "goal.remaining": "Te quedan {n} para cumplir el objetivo",
+  "goal.done": "¡Objetivo de hoy cumplido! Buen trabajo.",
+  "goal.start": "Empieza con uno",
+  "goal.continue": "Practicar ahora",
+  "goal.edit": "Cambiar objetivo",
+  "goal.perDay": "{n}/día",
+  "goal.set": "Objetivo diario",
+  "goal.setTo": "Poner el objetivo en {n} problemas al día",
+  "goal.ringLabel": "Progreso del objetivo de hoy",
   "home.hero.title1": "Practica las matemáticas",
   "home.hero.title2": "y la física que vemos en clase.",
   "home.hero.subtitle":
@@ -296,6 +309,22 @@ const es: Dictionary = {
   "progress.streak": "Días seguidos practicando",
   "progress.streak.today": "¡Hoy también! Sigue así.",
 
+  // activity insights
+  "activity.title": "Actividad",
+  "activity.heatmap.title": "Últimas 13 semanas",
+  "activity.heatmap.summary": "{n} días con práctica",
+  "activity.heatmap.a11y": "Calendario de actividad de las últimas {weeks} semanas",
+  "activity.heatmap.cell": "{n} problemas · {date}",
+  "activity.heatmap.today": "Hoy: {n} problemas",
+  "activity.heatmap.less": "menos",
+  "activity.heatmap.more": "más",
+  "activity.trend.title": "Acierto al primer intento",
+  "activity.trend.subtitle": "Últimos 30 días · volumen y % al primer intento",
+  "activity.trend.attempts": "Problemas",
+  "activity.trend.firstTry": "Acierto al primer intento",
+  "activity.trend.empty.title": "Aún no hay tendencia",
+  "activity.trend.empty.desc": "Practica un par de días y aquí verás tu evolución.",
+
   // about page
   "about.title": "Acerca de",
   "about.subtitle": "Una plataforma de práctica al servicio de las clases.",
@@ -352,6 +381,10 @@ const es: Dictionary = {
   "worksheet.type.expression": "expresión algebraica",
   "worksheet.type.multiple-choice": "elección múltiple",
   "worksheet.type.text": "respuesta corta",
+  "worksheet.order": "Orden",
+  "worksheet.order.mixed": "Mezclado",
+  "worksheet.order.warmup": "Calentamiento",
+  "worksheet.order.warmup.hint": "De fácil a difícil",
 };
 
 const en: Dictionary = {
@@ -390,6 +423,19 @@ const en: Dictionary = {
   "home.reviewDue.one": "One topic is due for review today.",
   "home.reviewDue.many": "{n} topics are due for review today.",
   "home.reviewDue.cta": "Review now",
+
+  // daily goal band
+  "goal.title": "Today's goal",
+  "goal.of": "{done} of {total} problems",
+  "goal.remaining": "{n} to go — you can do this",
+  "goal.done": "Today's goal complete!",
+  "goal.start": "Start with one",
+  "goal.continue": "Practice now",
+  "goal.edit": "Change goal",
+  "goal.perDay": "{n}/day",
+  "goal.set": "Daily goal",
+  "goal.setTo": "Set the goal to {n} problems per day",
+  "goal.ringLabel": "Progress toward today's goal",
   "home.hero.title1": "Practice the mathematics",
   "home.hero.title2": "and physics we cover in class.",
   "home.hero.subtitle":
@@ -631,6 +677,22 @@ const en: Dictionary = {
   "progress.streak": "Practice streak (days)",
   "progress.streak.today": "Today too! Keep it going.",
 
+  // activity insights
+  "activity.title": "Activity",
+  "activity.heatmap.title": "Last 13 weeks",
+  "activity.heatmap.summary": "{n} active days",
+  "activity.heatmap.a11y": "Activity calendar of the last {weeks} weeks",
+  "activity.heatmap.cell": "{n} problems · {date}",
+  "activity.heatmap.today": "Today: {n} problems",
+  "activity.heatmap.less": "less",
+  "activity.heatmap.more": "more",
+  "activity.trend.title": "First-try accuracy",
+  "activity.trend.subtitle": "Last 30 days · volume and first-try %",
+  "activity.trend.attempts": "Problems",
+  "activity.trend.firstTry": "First-try accuracy",
+  "activity.trend.empty.title": "No trend yet",
+  "activity.trend.empty.desc": "Practice on a couple of days and your progress will show up here.",
+
   "about.title": "About",
   "about.subtitle": "A practice platform in service of the lessons.",
   "about.method.title": "How I work",
@@ -684,6 +746,10 @@ const en: Dictionary = {
   "worksheet.type.expression": "algebraic expression",
   "worksheet.type.multiple-choice": "multiple choice",
   "worksheet.type.text": "short answer",
+  "worksheet.order": "Order",
+  "worksheet.order.mixed": "Mixed",
+  "worksheet.order.warmup": "Warm-up",
+  "worksheet.order.warmup.hint": "Easy to hard",
 };
 
 export const dictionaries: Record<"es" | "en", Dictionary> = { es, en };

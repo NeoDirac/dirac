@@ -11,20 +11,33 @@ import {
   Calculator,
   CalendarClock,
   CheckCircle2,
+  ChevronDown,
   History,
   Lightbulb,
   Mail,
   Sigma,
+  Target,
   Zap,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useI18n } from "@/lib/i18n/context";
 import { href, sessionHref } from "@/lib/router";
 import { computeStats, loadProgress, type OverallStats } from "@/lib/progress";
 import { dueReviewEntries, type ReviewEntry } from "@/lib/review";
+import { countToday, GOAL_CHOICES, loadDailyGoal, saveDailyGoal } from "@/lib/goal";
 import { siteConfig } from "@/config/site";
 import { mathCurriculum } from "@/content/curriculum/math";
 import { physicsCurriculum } from "@/content/curriculum/physics";
+import { cn } from "@/lib/utils";
 
 function HeroCurve() {
   // subtle decorative curve — sine + grid, restrained
@@ -147,6 +160,140 @@ function ReviewDueCard({ entries }: { entries: ReviewEntry[] }) {
   );
 }
 
+/** Daily-goal band — a progress ring toward today's problem target. */
+function TodayGoalCard({
+  goal,
+  today,
+  onGoalChange,
+}: {
+  goal: number;
+  today: number;
+  onGoalChange: (n: number) => void;
+}) {
+  const { t, formatNumber } = useI18n();
+  const done = today >= goal;
+  const pct = Math.min(today / goal, 1);
+
+  return (
+    <section
+      aria-labelledby="goal-heading"
+      className={cn(
+        "animate-in fade-in slide-in-from-bottom-2 duration-300 border-b",
+        done ? "border-success/25 bg-success/[0.06]" : "border-primary/20 bg-primary/[0.04]",
+      )}
+    >
+      <div className="mx-auto flex max-w-6xl flex-col items-start gap-4 px-4 py-6 sm:px-6 sm:flex-row sm:items-center">
+        <GoalRing done={done} pct={pct} today={today} goal={goal} />
+        <div className="min-w-0 flex-1">
+          <h2
+            id="goal-heading"
+            className={cn(
+              "text-sm font-semibold uppercase tracking-wider",
+              done ? "text-success" : "text-primary",
+            )}
+          >
+            {t("goal.title")}
+          </h2>
+          <p className="mt-1.5 text-[15px] font-medium leading-snug">
+            {t("goal.of", { done: formatNumber(today), total: formatNumber(goal) })}
+            <span className="ml-2 text-sm font-normal text-muted-foreground">
+              {done
+                ? t("goal.done")
+                : t("goal.remaining", { n: formatNumber(goal - today) })}
+            </span>
+          </p>
+        </div>
+        <div className="flex shrink-0 items-center gap-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="gap-1 px-2.5 text-xs text-muted-foreground"
+                aria-label={t("goal.edit")}
+              >
+                <Target className="h-3.5 w-3.5" aria-hidden="true" />
+                {t("goal.perDay", { n: formatNumber(goal) })}
+                <ChevronDown className="h-3 w-3" aria-hidden="true" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-44">
+              <DropdownMenuLabel>{t("goal.set")}</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuRadioGroup
+                value={String(goal)}
+                onValueChange={(v) => onGoalChange(Number(v))}
+              >
+                {GOAL_CHOICES.map((n) => (
+                  <DropdownMenuRadioItem key={n} value={String(n)}>
+                    {t("goal.setTo", { n: formatNumber(n) })}
+                  </DropdownMenuRadioItem>
+                ))}
+              </DropdownMenuRadioGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          {!done ? (
+            <Button asChild className="gap-2 font-semibold">
+              <a href={sessionHref({ mode: "mixed", subjects: ["math", "physics"], difficulty: "any", count: 5, seed: 0, easyWeighted: true })}>
+                {today === 0 ? t("goal.start") : t("goal.continue")}
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </a>
+            </Button>
+          ) : null}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/** SVG progress ring — animated stroke + count in the center. */
+function GoalRing({ done, pct, today, goal }: { done: boolean; pct: number; today: number; goal: number }) {
+  const { t, formatNumber } = useI18n();
+  const R = 23;
+  const C = 2 * Math.PI * R;
+  return (
+    <svg
+      viewBox="0 0 56 56"
+      className="h-14 w-14 shrink-0"
+      role="img"
+      aria-label={`${t("goal.ringLabel")}: ${formatNumber(today)}/${formatNumber(goal)}`}
+    >
+      <circle cx="28" cy="28" r={R} fill="none" stroke="var(--border)" strokeWidth="6" />
+      <circle
+        cx="28"
+        cy="28"
+        r={R}
+        fill="none"
+        stroke={done ? "var(--success)" : "var(--primary)"}
+        strokeWidth="6"
+        strokeLinecap="round"
+        strokeDasharray={C}
+        strokeDashoffset={C * (1 - pct)}
+        transform="rotate(-90 28 28)"
+        style={{ transition: "stroke-dashoffset 700ms cubic-bezier(0.22, 1, 0.36, 1)" }}
+      />
+      {done ? (
+        <g fill="none" stroke="var(--success)" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M19 29l6.5 6.5L37 23.5" />
+        </g>
+      ) : (
+        <text
+          x="28"
+          y="32.5"
+          textAnchor="middle"
+          fontSize="16"
+          fontWeight="700"
+          fill="var(--foreground)"
+          style={{ fontVariantNumeric: "tabular-nums" }}
+        >
+          {today}
+        </text>
+      )}
+    </svg>
+  );
+}
+
 /** Smart-resume band — the most recently practiced topic, one click away. */
 function ContinueCard({ stats }: { stats: OverallStats | null }) {
   const { t, lang, formatNumber } = useI18n();
@@ -225,6 +372,8 @@ export function HomeView() {
   const { t, lang } = useI18n();
   const [stats, setStats] = useState<OverallStats | null>(null);
   const [reviewDue, setReviewDue] = useState<ReviewEntry[]>([]);
+  const [goal, setGoal] = useState<number | null>(null);
+  const [today, setToday] = useState(0);
 
   // localStorage is an external system — read async after mount (no hydration
   // mismatch, and the band gracefully disappears when there's no history)
@@ -232,14 +381,22 @@ export function HomeView() {
     let cancelled = false;
     queueMicrotask(() => {
       if (!cancelled) {
-        setStats(computeStats(loadProgress()));
+        const state = loadProgress();
+        setStats(computeStats(state));
         setReviewDue(dueReviewEntries());
+        setGoal(loadDailyGoal());
+        setToday(countToday(state.records));
       }
     });
     return () => {
       cancelled = true;
     };
   }, []);
+
+  function handleGoalChange(n: number) {
+    saveDailyGoal(n);
+    setGoal(n);
+  }
 
   const quickHref = sessionHref({
     mode: "mixed",
@@ -306,6 +463,11 @@ export function HomeView() {
 
       {/* spaced repetition — topics whose review date has arrived */}
       <ReviewDueCard entries={reviewDue} />
+
+      {/* daily goal — progress ring toward today's target */}
+      {goal !== null ? (
+        <TodayGoalCard goal={goal} today={today} onGoalChange={handleGoalChange} />
+      ) : null}
 
       {/* smart resume — only when there is practice history */}
       <ContinueCard stats={stats} />

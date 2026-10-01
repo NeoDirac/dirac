@@ -117,7 +117,7 @@ export function AnswerArea({ problem, disabled, checking, onSubmit }: AnswerArea
     <form onSubmit={submit} className="space-y-3">
       {problem.questionType === "multiple-choice" ? (
         <RadioGroup
-          value={choice ?? undefined}
+          value={choice ?? ""}
           onValueChange={(v) => !disabled && setChoice(v)}
           className="gap-2.5"
           aria-label={t("input.yourAnswer")}
