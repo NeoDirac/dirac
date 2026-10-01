@@ -4,6 +4,7 @@
  * backend sync (records are self-contained events).
  */
 
+import { clearReview } from "./review";
 import type {
   Difficulty,
   ProblemRecord,
@@ -50,11 +51,13 @@ export function appendRecord(record: ProblemRecord): ProgressState {
   return state;
 }
 
+
 export function resetProgress(): void {
   if (typeof window === "undefined") return;
   try {
     window.localStorage.removeItem(STORAGE_KEY);
     window.localStorage.removeItem(SESSIONS_KEY);
+    clearReview();
   } catch {
     /* ignore */
   }

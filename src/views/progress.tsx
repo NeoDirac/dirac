@@ -8,9 +8,11 @@ import { useEffect, useState, type ReactNode } from "react";
 import {
   ArrowRight,
   BookOpen,
+  CalendarClock,
   Check,
   CheckCircle2,
   Crosshair,
+  Download,
   Eye,
   Flame,
   Lightbulb,
@@ -20,8 +22,16 @@ import {
   Timer,
   Trash2,
 } from "lucide-react";
-import { format, formatDistanceToNow } from "date-fns";
+import { format, formatDistanceToNow, formatDistanceToNowStrict } from "date-fns";
 import { es as dateEs, enUS as dateEn } from "date-fns/locale";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -35,6 +45,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n/context";
+import { useToast } from "@/hooks/use-toast";
 import { href, sessionHref } from "@/lib/router";
 import {
   computeStats,
@@ -45,6 +56,8 @@ import {
 } from "@/lib/progress";
 import { mathCurriculum } from "@/content/curriculum/math";
 import { physicsCurriculum } from "@/content/curriculum/physics";
+import { downloadRecordsCsv, downloadSessionsCsv } from "@/lib/export";
+import { loadReview, type ReviewEntry } from "@/lib/review";
 import type { ProblemRecord, SessionRecord, Subject } from "@/lib/types";
 import { cn, formatDuration } from "@/lib/utils";
 
@@ -102,7 +115,7 @@ function StatCard({
   accent?: boolean;
 }) {
   return (
-    <div className="flex min-h-[5.25rem] flex-col justify-between rounded-xl border bg-card p-4 transition-colors hover:border-ring/50">
+    <div className="flex min-h-[5.25rem] flex-col justify-between rounded-xl border bg-card p-4 transition-all hover:-translate-y-0.5 hover:border-ring/50 hover:shadow-sm">
       <div className="flex items-center justify-between gap-2">
         <p
           className={cn(
@@ -185,8 +198,10 @@ function sessionLabel(s: SessionRecord, lang: "es" | "en"): string {
 
 export function ProgressView() {
   const { t, lang, formatNumber } = useI18n();
+  const { toast } = useToast();
   const [stats, setStats] = useState<OverallStats | null>(null);
   const [sessions, setSessions] = useState<SessionRecord[]>([]);
+  const [reviewEntries, setReviewEntries] = useState<ReviewEntry[]>([]);
 
   useEffect(() => {
     // localStorage is an external system — read it async, then update state
@@ -195,6 +210,7 @@ export function ProgressView() {
       if (!cancelled) {
         setStats(computeStats(loadProgress()));
         setSessions(loadSessions().sessions.slice(-8).reverse());
+        setReviewEntries(loadReview().entries);
       }
     });
     return () => {
@@ -206,6 +222,7 @@ export function ProgressView() {
     resetProgress();
     setStats(computeStats(loadProgress()));
     setSessions(loadSessions().sessions.slice(-8).reverse());
+    setReviewEntries([]);
   }
 
   if (!stats) {
@@ -262,7 +279,11 @@ export function ProgressView() {
     if (!stats) return null;
     const curriculum = subject === "math" ? mathCurriculum : physicsCurriculum;
     const entries = curriculum
-      .map((topic) => ({ topic, s: stats.byTopic[`${subject}:${topic.id}`] }))
+      .map((topic) => ({
+        topic,
+        s: stats.byTopic[`${subject}:${topic.id}`],
+        review: reviewEntries.find((r) => r.subject === subject && r.topicId === topic.id),
+      }))
       .filter((e) => e.s && e.s.attempts > 0);
     if (entries.length === 0) return null;
     const accent = subject === "math" ? "bg-subject-math" : "bg-subject-physics";
@@ -272,10 +293,21 @@ export function ProgressView() {
           {t(subject === "math" ? "nav.math" : "nav.physics")}
         </h3>
         <ul className="mt-3 space-y-3">
-          {entries.map(({ topic, s }) => {
+          {entries.map(({ topic, s, review }) => {
             const pct = s!.firstTryCorrect / s!.attempts;
             const avgSec = s!.timedRecords > 0 ? Math.round(s!.timeSec / s!.timedRecords) : 0;
             const weak = isWeakTopic(s!.attempts, s!.firstTryCorrect);
+            const reviewDue = review && review.dueAt <= Date.now();
+            let reviewIn = "";
+            if (review && !reviewDue) {
+              try {
+                reviewIn = formatDistanceToNowStrict(new Date(review.dueAt), {
+                  locale: lang === "es" ? dateEs : dateEn,
+                });
+              } catch {
+                /* date-fns guard */
+              }
+            }
             return (
               <li key={topic.id} className="rounded-xl border bg-card px-4 py-3.5 transition-colors hover:border-ring/50">
                 <div className="flex items-center justify-between gap-3">
@@ -305,7 +337,7 @@ export function ProgressView() {
                     style={{ width: `${Math.max(5, pct * 100)}%` }}
                   />
                 </div>
-                <p className="mt-1.5 flex flex-wrap items-center gap-x-1.5 text-[11px] text-muted-foreground">
+                <p className="mt-1.5 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-[11px] text-muted-foreground">
                   <span>{t("progress.topic.firstTry", { p: Math.round(pct * 100) })}</span>
                   {avgSec > 0 ? (
                     <>
@@ -315,6 +347,29 @@ export function ProgressView() {
                   ) : null}
                   <span aria-hidden="true">·</span>
                   <span>{timeAgo(s!.lastTs, lang)}</span>
+                  {review ? (
+                    reviewDue ? (
+                      <a
+                        href={sessionHref({
+                          mode: "topic",
+                          subjects: [subject],
+                          topicId: topic.id,
+                          difficulty: "any",
+                          count: 10,
+                          seed: 0,
+                        })}
+                        className="inline-flex items-center gap-1 rounded-full border border-diff-medium/40 bg-diff-medium/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-diff-medium transition-colors hover:border-diff-medium hover:bg-diff-medium/20"
+                      >
+                        <CalendarClock className="h-3 w-3" aria-hidden="true" />
+                        {t("progress.review.due")}
+                      </a>
+                    ) : reviewIn ? (
+                      <span className="inline-flex items-center gap-1 text-[10px]">
+                        <CalendarClock className="h-3 w-3" aria-hidden="true" />
+                        {t("progress.review.in", { t: reviewIn })}
+                      </span>
+                    ) : null
+                  ) : null}
                 </p>
               </li>
             );
@@ -334,33 +389,55 @@ export function ProgressView() {
           </p>
         </div>
         {hasData ? (
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button
-                type="button"
-                variant="outline"
-                className="gap-2 border-destructive/40 bg-destructive/5 text-destructive hover:border-destructive hover:bg-destructive/10 hover:text-destructive"
-              >
-                <Trash2 className="h-4 w-4" aria-hidden="true" />
-                {t("progress.reset")}
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>{t("progress.reset.confirmTitle")}</AlertDialogTitle>
-                <AlertDialogDescription>{t("progress.reset.confirmDesc")}</AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>{t("common.cancel")}</AlertDialogCancel>
-                <AlertDialogAction
-                  onClick={handleReset}
-                  className="bg-destructive text-white hover:bg-destructive/90"
+          <div className="flex shrink-0 items-center gap-2">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button type="button" variant="outline" className="gap-2">
+                  <Download className="h-4 w-4" aria-hidden="true" />
+                  {t("progress.export")}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuLabel>{t("progress.export.label")}</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => { downloadRecordsCsv(); toast({ description: t("progress.export.done") }); }} className="gap-2">
+                  <Sigma className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
+                  {t("progress.export.records")}
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => { downloadSessionsCsv(); toast({ description: t("progress.export.done") }); }} className="gap-2">
+                  <Target className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
+                  {t("progress.export.sessions")}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="gap-2 border-destructive/40 bg-destructive/5 text-destructive hover:border-destructive hover:bg-destructive/10 hover:text-destructive"
                 >
-                  {t("common.confirm")}
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
+                  <Trash2 className="h-4 w-4" aria-hidden="true" />
+                  {t("progress.reset")}
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>{t("progress.reset.confirmTitle")}</AlertDialogTitle>
+                  <AlertDialogDescription>{t("progress.reset.confirmDesc")}</AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>{t("common.cancel")}</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={handleReset}
+                    className="bg-destructive text-white hover:bg-destructive/90"
+                  >
+                    {t("common.confirm")}
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
         ) : null}
       </header>
 

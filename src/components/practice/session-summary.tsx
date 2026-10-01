@@ -4,10 +4,10 @@
  * Session summary — restrained stats overview + per-problem review list.
  */
 
-import { useState } from "react";
-import { ArrowLeft, ArrowRight, BarChart3, Check, CheckCircle2, CircleOff, ClipboardCopy, Eye, Lightbulb, RefreshCw, SkipForward, Target, Timer, XCircle } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ArrowLeft, ArrowRight, BarChart3, CalendarClock, Check, CheckCircle2, CircleOff, ClipboardCopy, Eye, Lightbulb, RefreshCw, SkipForward, Target, Timer, XCircle } from "lucide-react";
 import type { ReactNode } from "react";
-import { format } from "date-fns";
+import { format, formatDistanceToNowStrict } from "date-fns";
 import { es as dateEs, enUS as dateEn } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
@@ -16,6 +16,7 @@ import { href } from "@/lib/router";
 import { mathCurriculum } from "@/content/curriculum/math";
 import { physicsCurriculum } from "@/content/curriculum/physics";
 import type { Problem, SessionConfig } from "@/lib/types";
+import { findReviewEntry } from "@/lib/review";
 import type { ProblemState } from "./state";
 import { cn, copyToClipboard, formatDuration } from "@/lib/utils";
 
@@ -41,6 +42,40 @@ export function SessionSummary({
   const { t, lang } = useI18n();
   const { toast } = useToast();
   const [copied, setCopied] = useState(false);
+  const [nextReview, setNextReview] = useState<{ dueAt: number; level: number } | null>(null);
+
+  // focused topic sessions carry a spaced-repetition schedule — read it after
+  // mount so the hint survives refreshes of an ended session
+  const isTopicSession =
+    (config.mode === "topic" || config.mode === "single") &&
+    config.topicId &&
+    config.subjects.length === 1;
+  useEffect(() => {
+    if (!isTopicSession || !config.topicId) return;
+    let cancelled = false;
+    queueMicrotask(() => {
+      if (cancelled) return;
+      const entry = findReviewEntry(config.subjects[0], config.topicId!);
+      if (entry && entry.dueAt > Date.now()) {
+        setNextReview({ dueAt: entry.dueAt, level: entry.level });
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [isTopicSession, config.subjects, config.topicId]);
+
+  let reviewIn = "";
+  if (nextReview) {
+    try {
+      reviewIn = formatDistanceToNowStrict(new Date(nextReview.dueAt), {
+        addSuffix: true,
+        locale: lang === "es" ? dateEs : dateEn,
+      });
+    } catch {
+      /* date-fns guard */
+    }
+  }
 
   const attempted = states.filter((s) => s.attempts.length > 0).length;
   const firstTry = states.filter((s) => s.attempts[0]?.correct).length;
@@ -187,6 +222,17 @@ export function SessionSummary({
           : ""}
       </p>
 
+      {nextReview && reviewIn ? (
+        <p className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground">
+          <CalendarClock className="h-4 w-4 text-diff-medium" aria-hidden="true" />
+          <span>
+            <span className="font-medium text-foreground">{t("summary.nextReview")}</span>{" "}
+            {reviewIn}
+            <span className="text-muted-foreground"> · {t("summary.reviewStreak", { n: nextReview.level + 1 })}</span>
+          </span>
+        </p>
+      ) : null}
+
       {showTime ? (
         <p className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground">
           <Timer className="h-4 w-4 text-primary" aria-hidden="true" />
@@ -208,7 +254,7 @@ export function SessionSummary({
 
       <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
         {stats.map((s) => (
-          <div key={s.label} className="rounded-xl border bg-card p-4 transition-colors hover:border-ring/50">
+          <div key={s.label} className="rounded-xl border bg-card p-4 transition-all hover:-translate-y-0.5 hover:border-ring/50 hover:shadow-sm">
             <div className="flex items-center justify-between gap-2">
               <p className="font-serif text-2xl font-bold leading-tight tabular-nums">{s.value}</p>
               <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-muted text-muted-foreground" aria-hidden="true">

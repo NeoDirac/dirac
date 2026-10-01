@@ -492,3 +492,46 @@ Stage Summary:
 - Platform stable; zero bugs found in QA; 4 new features shipped and browser-verified (time analytics in records/dashboard, session history with review badges, tutor-facing copy-results report, weak-topic suggestions)
 - Data layer now fully self-contained for a future backend sync (records carry timeSec; sessions are self-contained events)
 - Next-round ideas: teacher-facing analytics (export CSV of records/sessions), worksheet difficulty-mix option, more Kirchhoff/multi-concept templates, topic search/filter on subject pages, spaced-repetition scheduling ("review due today" based on first-try misses)
+
+---
+Task ID: 9
+Agent: main (Z.ai Code) — scheduled review round 6
+Task: QA sweep + 3 new features (spaced-repetition review scheduling, topic search/filter, CSV export) + styling polish
+
+Work Log:
+- Reviewed worklog (rounds 1–8 complete: 418 templates, session persistence, time tracking, smart resume, shortcuts help, retry/share, weak-topic suggestions); all gates green at start (validate 418·0/0, tsc clean, lint clean, dev.log healthy)
+- QA via agent-browser (fresh storage): golden path (completing-the-square problem: wrong 10 → "Not yet" feedback → Hint 1 with math content → correct 25 → "2 attempts" → THE ANSWER IS 25 → staged solution GIVEN/APPROACH… → next), language switch EN→ES→EN mid-session (Problema 2 de 10 / Comprobar respuesta / Pista 1 / Mostrar la respuesta), progress dashboard recording real data (1 attempted, 0% first-try, 33s, 1 hint, 1 solution viewed, streak), 0 console errors, dev.log clean. No bugs found
+- INFRA ISSUE FOUND & RESOLVED: the system dev server had been OOM-killed (kernel oom-kill of next-server at 1.77 GB RSS during Turbopack recompile churn; dmesg confirmed). Restarted it detached (setsid nohup, port 3000, appending to dev.log) and kept file-edit churn batched afterwards — server stayed healthy through the rest of the round
+- NEW FEATURE 1 — Spaced-repetition review scheduling (src/lib/review.ts):
+  - Leitner-style mastery levels 0–4 with intervals 2/4/7/14/30 days, persisted in localStorage key aula-practice-review (ReviewEntry: level, dueAt, scheduledAt, lastAccuracy)
+  - scheduleFromSession runs when a session truly ends (same effect that appends the SessionRecord): only focused topic sessions with ≥3 attempted problems move the schedule; accuracy ≥0.8 levels up, <0.5 levels down; mixed/challenge/single sessions never touch it
+  - resetProgress now also clears the review log; clearReview exported for that
+  - Session summary gains "Next review: in 4 days · level 2 of 5" line (reads findReviewEntry after mount so it survives refreshes of ended summaries); verified in EN and ES ("Próximo repaso: en 4 días · nivel 2 de 5")
+  - Home gains an amber "Review due / Repaso pendiente" band above the continue band when topics are overdue: count line, up to 3 topic chips linking into 10-problem sessions, +N overflow, "Review now / Repasar ahora" primary CTA into the most overdue topic
+  - Progress dashboard topic rows gain review chips: amber "Review due / Repaso pendiente" link chip (straight into a session) when overdue, quiet "review in 2 days / repaso en 2 días" note with CalendarClock icon when upcoming
+  - Browser-verified end-to-end: ended a 3-attempt quadratics session → localStorage entry with dueAt exactly +2 days (level 0, lastAccuracy 0); backdated dueAt → home band + dashboard due chip appear; restored ES/EN copy correct
+- NEW FEATURE 2 — Topic search + quick filters on subject pages (src/views/subject.tsx rewrite):
+  - Search box (accent-insensitive fold: "ecuac" matches "Ecuaciones"; matches ES+EN names, short descriptions, topic ids) with clear button
+  - Filter chips All / Started / Not started / Needs work with live counts, disabled at 0; "Refuerza/Needs work" uses the ≥3 attempts & <50% first-try rule (shares the progress.ts definition via inline re-implementation)
+  - Topics heading shows "n / total" while filtering; dashed empty state ("No matching topics") with clear-search-and-filters button
+  - Weak badge now also renders on subject topic cards (same pill as dashboard)
+  - React Compiler lint rule required dropping manual useMemo (inferred function deps) — plain derivations, compiler memoizes
+- NEW FEATURE 3 — CSV export for tutors (src/lib/export.ts + utils.ts csvEscape/toCsv/downloadTextFile):
+  - "Export / Exportar" dropdown on the progress dashboard header: "Problems (CSV)" (one row per problem record: ISO date, subject, topic name, ids, difficulty, template, seed, attempts, first-try, eventual, hints, reveals, time_sec) and "Sessions (CSV)" (one row per finished session: ended_at, mode, subjects, topic, review flag, counts, elapsed)
+  - RFC-4180 escaping; UTF-8 BOM so Excel renders Spanish accents; filename aula-vega-{problems|sessions}-YYYYMMDD.csv; success toast
+  - Browser-verified by stubbing URL.createObjectURL + anchor click: both files download with well-formed rows (spot-checked content of both)
+- STYLING POLISH:
+  - Sticky mobile progress strip in sessions: problem counter + timer/score chips + progress bar now pin below the header on <sm viewports (backdrop blur, border-b, negative-margin full-bleed) and stay static on desktop; restructured as a direct child of the tall session column so stickiness actually works (first attempt inside the header block would have been constrained to the header's height)
+  - focus-visible rings on all large card links (subject topic cards, home subject cards) — keyboard a11y
+  - Stat tiles on dashboard + session summary get hover lift (-translate-y-0.5 + shadow) matching the card language elsewhere
+  - VLM review of the mobile sticky session screenshot: 8/10, strip cleanly pinned below header, no overflow (its one nitpick — an option badge overlap — checked against markup: gap-3 spacing, false positive)
+
+Verification (all green):
+- bun run validate:content → 418 templates · 0 errors · 0 warnings
+- bunx tsc --noEmit (excl. examples/skills) → 0 errors; bun run lint → clean; dev.log → no runtime errors
+- agent-browser: golden path, language switching, session refresh restore (with new layout, "Session restored" toast, 0 errors), physics circuits deep-link session, wrong-topic-id graceful empty state (validated by accident with a bad id — correct behavior shown), review scheduling end-to-end, home due band ES/EN, dashboard chips ES/EN, search/filter with accents + counts + empty state, both CSV exports, mobile 390px sticky strip (top: 64px verified after scroll), server healthy on port 3000
+
+Stage Summary:
+- Platform stable; zero product bugs found in QA; 3 substantial features shipped and browser-verified in both languages (spaced repetition across summary/home/dashboard, subject-page search+filters, CSV export)
+- Infrastructure note: dev server is OOM-fragile under heavy hot-reload churn (4 GB sandbox) — batch edits and restart detached if it dies (dmesg shows the oom-kill)
+- Next-round ideas: teacher-facing analytics UI on top of the CSV data (charts of first-try accuracy over time), worksheet difficulty-mix option, more Kirchhoff/multi-concept templates, review-due digest for multiple students (needs backend), per-subtopic review scheduling granularity

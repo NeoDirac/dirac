@@ -38,11 +38,12 @@ import { buildDeck, findTemplate, instantiateProblem } from "@/lib/session";
 import { loadSession, saveSession, clearSession } from "@/lib/session-persist";
 import { navigate, href, sessionHref } from "@/lib/router";
 import { appendRecord, appendSessionRecord } from "@/lib/progress";
+import { scheduleFromSession } from "@/lib/review";
 import { useToast } from "@/hooks/use-toast";
 import { checkAnswer, type AnswerSubmission } from "@/lib/validation/answer";
 import { mathCurriculum } from "@/content/curriculum/math";
 import { physicsCurriculum } from "@/content/curriculum/physics";
-import type { Problem, SessionConfig } from "@/lib/types";
+import type { Problem, SessionConfig, SessionRecord } from "@/lib/types";
 import { cn, formatClock } from "@/lib/utils";
 
 const BATCH = 10;
@@ -397,7 +398,7 @@ export function SessionView({ config }: { config: SessionConfig }) {
     const solved = states.filter((s) => s.attempts.some((a) => a.correct)).length;
     const firstTry = states.filter((s) => s.attempts[0]?.correct).length;
     const hintsUsed = states.reduce((a, s) => a + s.hintsRevealed, 0);
-    appendSessionRecord({
+    const record: SessionRecord = {
       endedAt: Date.now(),
       mode: config.mode,
       subjects: config.subjects,
@@ -410,7 +411,10 @@ export function SessionView({ config }: { config: SessionConfig }) {
       firstTryCorrect: firstTry,
       hintsUsed,
       elapsedSec: elapsedSec >= 5 ? elapsedSec : undefined,
-    });
+    };
+    appendSessionRecord(record);
+    // spaced repetition: focused topic sessions move the review schedule
+    scheduleFromSession(record);
     setSessionRecorded(true);
   }, [ended, deck, states, sessionRecorded, config, reviewing, elapsedSec]);
 
@@ -558,6 +562,25 @@ export function SessionView({ config }: { config: SessionConfig }) {
           </AlertDialog>
         </div>
 
+        {/* keyboard legend — desktop only, never printed; click or press ? for help */}
+        <button
+          type="button"
+          onClick={() => setShortcutsOpen(true)}
+          className="hidden items-center gap-2.5 text-[11px] text-muted-foreground/80 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-full px-1 sm:flex"
+          aria-label={t("practice.shortcutsHelp.open")}
+        >
+          <span className="font-medium uppercase tracking-wider">{t("practice.shortcuts")}</span>
+          <span className="inline-flex items-center gap-1"><kbd className="kbd-chip">H</kbd>{t("practice.shortcuts.hint")}</span>
+          <span className="inline-flex items-center gap-1"><kbd className="kbd-chip">N</kbd>{t("practice.shortcuts.next")}</span>
+          <span className="inline-flex items-center gap-1"><kbd className="kbd-chip">Ctrl ⏎</kbd>{t("practice.shortcuts.check")}</span>
+          <span className="inline-flex items-center gap-1 opacity-70"><kbd className="kbd-chip">?</kbd></span>
+        </button>
+      </div>
+
+      {/* progress strip — direct child of the tall session column so it can
+          stick below the header on mobile (long problems always show where
+          you are); static on desktop to keep the view quiet */}
+      <div className="sticky top-16 z-20 -mx-4 mb-4 border-b bg-background/90 px-4 py-2 backdrop-blur supports-[backdrop-filter]:bg-background/75 sm:static sm:mx-0 sm:mb-5 sm:border-0 sm:bg-transparent sm:px-0 sm:py-0 sm:backdrop-blur-none">
         <div className="flex items-center gap-3">
           <p className="text-sm text-muted-foreground" aria-live="polite">
             {unlimited
@@ -585,21 +608,7 @@ export function SessionView({ config }: { config: SessionConfig }) {
             ) : null}
           </div>
         </div>
-        <Progress value={progress} className="h-1.5" aria-label={t("practice.questionOf", { current: index + 1, total: deck!.length })} />
-
-        {/* keyboard legend — desktop only, never printed; click or press ? for help */}
-        <button
-          type="button"
-          onClick={() => setShortcutsOpen(true)}
-          className="hidden items-center gap-2.5 text-[11px] text-muted-foreground/80 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-full px-1 sm:flex"
-          aria-label={t("practice.shortcutsHelp.open")}
-        >
-          <span className="font-medium uppercase tracking-wider">{t("practice.shortcuts")}</span>
-          <span className="inline-flex items-center gap-1"><kbd className="kbd-chip">H</kbd>{t("practice.shortcuts.hint")}</span>
-          <span className="inline-flex items-center gap-1"><kbd className="kbd-chip">N</kbd>{t("practice.shortcuts.next")}</span>
-          <span className="inline-flex items-center gap-1"><kbd className="kbd-chip">Ctrl ⏎</kbd>{t("practice.shortcuts.check")}</span>
-          <span className="inline-flex items-center gap-1 opacity-70"><kbd className="kbd-chip">?</kbd></span>
-        </button>
+        <Progress value={progress} className="mt-2 h-1.5" aria-label={t("practice.questionOf", { current: index + 1, total: deck!.length })} />
       </div>
 
       {relaxed ? (

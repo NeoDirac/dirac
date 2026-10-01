@@ -30,6 +30,37 @@ export function formatClock(totalSec: number): string {
   return `${m}:${String(ss).padStart(2, "0")}`;
 }
 
+/** Escape one CSV cell (quotes/delimiters/newlines), RFC-4180 style. */
+export function csvEscape(v: string | number | boolean | null | undefined): string {
+  const s = v === null || v === undefined ? "" : String(v);
+  return /[",\n;]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+}
+
+/** Build a CSV document from rows of cells. */
+export function toCsv(rows: (string | number | boolean | null | undefined)[][]): string {
+  return rows.map((row) => row.map(csvEscape).join(",")).join("\n");
+}
+
+/** Trigger a browser download for a text file (CSV export).
+ *  Prepends the UTF-8 BOM so Excel opens Spanish accents correctly. */
+export function downloadTextFile(
+  filename: string,
+  content: string,
+  mime = "text/csv;charset=utf-8",
+): void {
+  const blob = new Blob(["\uFEFF" + content], { type: mime });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => {
+    URL.revokeObjectURL(url);
+    a.remove();
+  }, 0);
+}
+
 /** Copy text to the clipboard with a legacy execCommand fallback.
  *  Returns true on success — callers decide which toast to show. */
 export async function copyToClipboard(text: string): Promise<boolean> {

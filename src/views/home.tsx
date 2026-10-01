@@ -9,11 +9,11 @@ import {
   Atom,
   BookOpenCheck,
   Calculator,
+  CalendarClock,
   CheckCircle2,
   History,
   Lightbulb,
   Mail,
-  CalendarClock,
   Sigma,
   Zap,
 } from "lucide-react";
@@ -21,6 +21,7 @@ import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n/context";
 import { href, sessionHref } from "@/lib/router";
 import { computeStats, loadProgress, type OverallStats } from "@/lib/progress";
+import { dueReviewEntries, type ReviewEntry } from "@/lib/review";
 import { siteConfig } from "@/config/site";
 import { mathCurriculum } from "@/content/curriculum/math";
 import { physicsCurriculum } from "@/content/curriculum/physics";
@@ -64,6 +65,85 @@ function HeroCurve() {
         <text x="290" y="126" fontSize="12" fill="var(--diagram-muted)" fontStyle="italic">0</text>
       </g>
     </svg>
+  );
+}
+
+/** Spaced-repetition band — topics whose review date has arrived. */
+function ReviewDueCard({ entries }: { entries: ReviewEntry[] }) {
+  const { t, lang, formatNumber } = useI18n();
+  if (entries.length === 0) return null;
+
+  const top = entries.slice(0, 3);
+  const topicFor = (e: ReviewEntry) =>
+    (e.subject === "math" ? mathCurriculum : physicsCurriculum).find((tp) => tp.id === e.topicId);
+  const primaryHref = sessionHref({
+    mode: "topic",
+    subjects: [top[0].subject],
+    topicId: top[0].topicId,
+    difficulty: "any",
+    count: 10,
+    seed: 0,
+  });
+
+  return (
+    <section
+      aria-labelledby="review-due-heading"
+      className="animate-in fade-in slide-in-from-bottom-2 duration-300 border-b border-diff-medium/25 bg-diff-medium/5"
+    >
+      <div className="mx-auto flex max-w-6xl flex-col items-start gap-4 px-4 py-6 sm:px-6 sm:flex-row sm:items-center">
+        <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-diff-medium/15 text-diff-medium">
+          <CalendarClock className="h-5 w-5" aria-hidden="true" />
+        </span>
+        <div className="min-w-0 flex-1">
+          <h2 id="review-due-heading" className="text-sm font-semibold uppercase tracking-wider text-diff-medium">
+            {t("home.reviewDue.title")}
+          </h2>
+          <p className="mt-1.5 text-[15px] font-medium leading-snug">
+            {entries.length === 1
+              ? t("home.reviewDue.one")
+              : t("home.reviewDue.many", { n: formatNumber(entries.length) })}
+          </p>
+          <ul className="mt-2 flex flex-wrap gap-1.5" aria-label={t("home.reviewDue.title")}>
+            {top.map((e) => {
+              const topic = topicFor(e);
+              if (!topic) return null;
+              return (
+                <li key={`${e.subject}:${e.topicId}`}>
+                  <a
+                    href={sessionHref({
+                      mode: "topic",
+                      subjects: [e.subject],
+                      topicId: e.topicId,
+                      difficulty: "any",
+                      count: 10,
+                      seed: 0,
+                    })}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-diff-medium/30 bg-card px-3 py-1 text-xs font-medium text-foreground transition-colors hover:border-diff-medium/60 hover:bg-diff-medium/10"
+                  >
+                    <span
+                      className="inline-block h-1.5 w-1.5 rounded-full bg-diff-medium"
+                      aria-hidden="true"
+                    />
+                    {topic.name[lang]}
+                  </a>
+                </li>
+              );
+            })}
+            {entries.length > 3 ? (
+              <li className="inline-flex items-center px-2 py-1 text-xs text-muted-foreground">
+                +{formatNumber(entries.length - 3)}
+              </li>
+            ) : null}
+          </ul>
+        </div>
+        <Button asChild className="shrink-0 gap-2 font-semibold">
+          <a href={primaryHref}>
+            {t("home.reviewDue.cta")}
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </a>
+        </Button>
+      </div>
+    </section>
   );
 }
 
@@ -144,13 +224,17 @@ function ContinueCard({ stats }: { stats: OverallStats | null }) {
 export function HomeView() {
   const { t, lang } = useI18n();
   const [stats, setStats] = useState<OverallStats | null>(null);
+  const [reviewDue, setReviewDue] = useState<ReviewEntry[]>([]);
 
   // localStorage is an external system — read async after mount (no hydration
   // mismatch, and the band gracefully disappears when there's no history)
   useEffect(() => {
     let cancelled = false;
     queueMicrotask(() => {
-      if (!cancelled) setStats(computeStats(loadProgress()));
+      if (!cancelled) {
+        setStats(computeStats(loadProgress()));
+        setReviewDue(dueReviewEntries());
+      }
     });
     return () => {
       cancelled = true;
@@ -220,6 +304,9 @@ export function HomeView() {
         </div>
       </section>
 
+      {/* spaced repetition — topics whose review date has arrived */}
+      <ReviewDueCard entries={reviewDue} />
+
       {/* smart resume — only when there is practice history */}
       <ContinueCard stats={stats} />
 
@@ -232,7 +319,7 @@ export function HomeView() {
         <div className="mt-7 grid gap-5 md:grid-cols-2">
           <a
             href={href({ name: "subject", subject: "math" })}
-            className="group rounded-2xl border bg-card p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md sm:p-8"
+            className="group rounded-2xl border bg-card p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:p-8"
           >
             <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-subject-math/10 text-subject-math">
               <Calculator className="h-6 w-6" aria-hidden="true" />
@@ -246,7 +333,7 @@ export function HomeView() {
           </a>
           <a
             href={href({ name: "subject", subject: "physics" })}
-            className="group rounded-2xl border bg-card p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md sm:p-8"
+            className="group rounded-2xl border bg-card p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:p-8"
           >
             <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-subject-physics/10 text-subject-physics">
               <Atom className="h-6 w-6" aria-hidden="true" />
