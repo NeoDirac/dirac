@@ -131,6 +131,26 @@ export const SOURCES: SourceRecord[] = [
     short: l10n("Fundamentos ESPOL", "ESPOL Fundamentals"),
   },
   {
+    id: "alumna-worksheet-2025",
+    title:
+      "Übungsblatt Mathematik — Ausklammern, fracciones algebraicas y potencias + problema de Venn (Marmelade/Honig/Nutella)",
+    origin:
+      "Hoja de ejercicios del curso alemán de la alumna (fotos compartidas por el tutor, oct. 2025)",
+    kind: "class-sheet",
+    language: "de",
+    license: "TUTOR_LICENSED",
+    use: "Direct incorporation: the tutor passed photos of his student's worksheet and asked for it on the site (statement of 2026-10-02: 'te comparto unas fotos que me pasó mi alumna hoy para revisar, que eso esté en la página'). The tutor's own transcription is the ground truth ('te pasé las imagenes ya transcribidas'). Sección 1 (ausklammern con exponentes con variable) → polynomials/factoring; Sección 2 (simplificar fracciones algebraicas) → rational/simplifying; Sección 3 (Anwendung: productos y cocientes con exponentes negativos) → foundations/powers; problema de Venn (encuesta mermelada/miel/Nutella) → foundations/venn-diagrams. Every answer independently re-derived with sympy before import (23/23 checks, incl. three corrections to the first mental pass). One clarification added to the Venn statement for well-posedness — 'every surveyed person likes at least one of the three foods' — documented inside each affected solution.",
+    topics: [
+      "factorización",
+      "fracciones algebraicas",
+      "leyes de exponentes",
+      "conjuntos",
+      "diagramas de Venn",
+    ],
+    level: "Secundaria superior alemana / transición Studienkolleg",
+    short: l10n("Hoja de la alumna (DE)", "Student's worksheet (DE)"),
+  },
+  {
     id: "kompetenzprofil-physik",
     title: "Kompetenzprofile der Fächer — Physik, Kurs T und M",
     origin: "Studienkollegs in Deutschland (documento curricular oficial)",

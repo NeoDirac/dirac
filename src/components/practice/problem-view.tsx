@@ -30,6 +30,8 @@ import { MathText } from "@/components/math/math-text";
 import { ProblemDiagram } from "@/components/diagrams";
 import { DifficultyBadge } from "./difficulty-badge";
 import { SourceBadge } from "./source-badge";
+import { PendingSourceBadge } from "./pending-source-badge";
+import { isPendingRealSource } from "@/content/policy";
 import { ReasoningBadge } from "./reasoning-badge";
 import { AnswerArea } from "./answer-area";
 import { HintsSection } from "./hints-section";
@@ -206,6 +208,7 @@ export function ProblemView({
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
         <DifficultyBadge difficulty={problem.difficulty} />
         {problem.source ? <SourceBadge source={problem.source} /> : null}
+        {isPendingRealSource(problem) ? <PendingSourceBadge /> : null}
         {problem.reasoning ? <ReasoningBadge reasoning={problem.reasoning} /> : null}
         <span className="text-sm text-muted-foreground">
           <span className="font-medium text-foreground">{t("practice.skill")}:</span>{" "}

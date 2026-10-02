@@ -1831,4 +1831,331 @@ export const templates: ProblemTemplate[] = [
     },
   ),
 
+  /* ================================================================== */
+  /* Hoja de la alumna (DE, oct. 2025) — Sección 1 "Factorizar":         */
+  /* ausklammern con exponentes con variable. Transcripción del tutor    */
+  /* como fuente de verdad; cada factorización re-derivada con sympy y   */
+  /* cada distractor MC verificado como NO equivalente.                  */
+  /* ================================================================== */
+
+  /* Hoja alumna · S1.1 — factor común máximo, exponentes distintos. */
+  template(
+    {
+      id: "poly-fact-03",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 120,
+      tags: ["factoring", "common-factor", "exponents", "class-sheet"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "alumna-worksheet-2025",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "S1 · 1",
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$2u^5\\left(4 - u^4\\right)$`, `$2u^5\\left(4 - u^4\\right)$`), correct: true },
+        { id: "b", text: L(`$2u^5\\left(4u - u^4\\right)$`, `$2u^5\\left(4u - u^4\\right)$`), correct: false },
+        { id: "c", text: L(`$2u^5\\left(4 - u^5\\right)$`, `$2u^5\\left(4 - u^5\\right)$`), correct: false },
+        { id: "d", text: L(`$2u^5\\left(4 - u^9\\right)$`, `$2u^5\\left(4 - u^9\\right)$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Sacar el factor común máximo con exponentes distintos (hoja de clase real)",
+          "Pulling out the greatest common factor with different exponents (real class sheet)",
+        ),
+        statement: L(
+          "Factoriza sacando el **factor común máximo**:\n\n$$8u^5 - 2u^9 = \\;?$$",
+          "Factor out the **greatest common factor**:\n\n$$8u^5 - 2u^9 = \\;?$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "El factor común de potencias de la misma base es el de **menor** exponente: entre $u^5$ y $u^9$, quédate con $u^5$.",
+            "The common factor of powers of the same base is the one with the **smaller** exponent: between $u^5$ and $u^9$, keep $u^5$.",
+          ),
+          L(
+            "Del lado numérico, el máximo común divisor de $8$ y $2$ es $2$. Dentro del paréntesis, cada término original se divide entre $2u^5$.",
+            "On the numeric side, the greatest common divisor of $8$ and $2$ is $2$. Inside the parentheses, each original term is divided by $2u^5$.",
+          ),
+          L(
+            "Al dividir potencias de la misma base se **restan** los exponentes: $u^9 \\div u^5 = u^{9-5}$.",
+            "Dividing powers of the same base **subtracts** the exponents: $u^9 \\div u^5 = u^{9-5}$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$8u^5 - 2u^9 = 2u^5\\left(4 - u^4\\right)$",
+          "$8u^5 - 2u^9 = 2u^5\\left(4 - u^4\\right)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La resta $8u^5 - 2u^9$ (hoja de clase alemana, sección de *Ausklammern* — sacar factor común).",
+            "The subtraction $8u^5 - 2u^9$ (German class sheet, *Ausklammern* section — factoring out).",
+          ),
+          step(
+            "approach",
+            "Identificar el máximo común divisor numérico y la potencia común de menor exponente, luego dividir cada término entre ese factor.",
+            "Identify the numeric greatest common divisor and the common power with the smaller exponent, then divide each term by that factor.",
+          ),
+          step(
+            "calculation",
+            "$\\text{mcd}(8, 2) = 2$ y la potencia común es $u^5$ (el menor exponente).<br>$\\dfrac{8u^5}{2u^5} = 4$ y $\\dfrac{2u^9}{2u^5} = u^{9-5} = u^4$.<br>Por lo tanto $8u^5 - 2u^9 = 2u^5\\left(4 - u^4\\right)$.<br>Control expandiendo: $2u^5 \\cdot 4 = 8u^5$ y $2u^5 \\cdot u^4 = 2u^9$ ✓",
+            "$\\gcd(8, 2) = 2$ and the common power is $u^5$ (the smaller exponent).<br>$\\dfrac{8u^5}{2u^5} = 4$ and $\\dfrac{2u^9}{2u^5} = u^{9-5} = u^4$.<br>So $8u^5 - 2u^9 = 2u^5\\left(4 - u^4\\right)$.<br>Check by expanding: $2u^5 \\cdot 4 = 8u^5$ and $2u^5 \\cdot u^4 = 2u^9$ ✓",
+          ),
+          step(
+            "result",
+            "$8u^5 - 2u^9 = 2u^5\\left(4 - u^4\\right)$. El paréntesis $\\left(4 - u^4\\right)$ ya no admite factor común: la factorización está completa.",
+            "$8u^5 - 2u^9 = 2u^5\\left(4 - u^4\\right)$. The parenthesis $\\left(4 - u^4\\right)$ shares no further common factor: the factoring is complete.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* Hoja alumna · S1.2 — factor común con exponente literal n. */
+  template(
+    {
+      id: "poly-fact-04",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 120,
+      tags: ["factoring", "common-factor", "variable-exponents", "class-sheet"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "alumna-worksheet-2025",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "S1 · 2",
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$x^{n}\\left(1 - x\\right)$`, `$x^{n}\\left(1 - x\\right)$`), correct: true },
+        { id: "b", text: L(`$x^{n}\\left(1 + x\\right)$`, `$x^{n}\\left(1 + x\\right)$`), correct: false },
+        { id: "c", text: L(`$x^{n}\\left(x - 1\\right)$`, `$x^{n}\\left(x - 1\\right)$`), correct: false },
+        { id: "d", text: L(`$x^{n}\\left(1 - x^{n+1}\\right)$`, `$x^{n}\\left(1 - x^{n+1}\\right)$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Factor común cuando el exponente es una letra (hoja de clase real)",
+          "Common factor when the exponent is a letter (real class sheet)",
+        ),
+        statement: L(
+          "Factoriza sacando el **factor común máximo** ($n$ es un natural):\n\n$$x^n - x^{n+1} = \\;?$$",
+          "Factor out the **greatest common factor** ($n$ is a natural number):\n\n$$x^n - x^{n+1} = \\;?$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Compara los exponentes: $n$ contra $n + 1$. El menor es $n$, así que el factor común es $x^n$.",
+            "Compare the exponents: $n$ vs. $n + 1$. The smaller one is $n$, so the common factor is $x^n$.",
+          ),
+          L(
+            "Al dividir $x^n$ entre $x^n$ el resultado es $1$ — ese $1$ **no desaparece**, abre el paréntesis.",
+            "Dividing $x^n$ by $x^n$ gives $1$ — that $1$ does **not** vanish, it opens the parentheses.",
+          ),
+          L(
+            "Para el segundo término: $x^{n+1} \\div x^{n} = x^{(n+1)-n} = x$. Cuida también el signo.",
+            "For the second term: $x^{n+1} \\div x^{n} = x^{(n+1)-n} = x$. Mind the sign as well.",
+          ),
+        ],
+        answerDisplay: L(
+          "$x^n - x^{n+1} = x^{n}\\left(1 - x\\right)$",
+          "$x^n - x^{n+1} = x^{n}\\left(1 - x\\right)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La resta $x^n - x^{n+1}$ con exponentes literales ($n \\in \\mathbb{N}$).",
+            "The subtraction $x^n - x^{n+1}$ with literal exponents ($n \\in \\mathbb{N}$).",
+          ),
+          step(
+            "approach",
+            "El factor común de $x^n$ y $x^{n+1}$ es $x^{\\min(n,\\ n+1)} = x^n$; cada término se divide entre $x^n$.",
+            "The common factor of $x^n$ and $x^{n+1}$ is $x^{\\min(n,\\ n+1)} = x^n$; each term is divided by $x^n$.",
+          ),
+          step(
+            "calculation",
+            "$\\dfrac{x^n}{x^n} = 1$ y $\\dfrac{x^{n+1}}{x^n} = x^{(n+1)-n} = x$.<br>Por lo tanto $x^n - x^{n+1} = x^{n}\\left(1 - x\\right)$.<br>Control con $n = 3$: $x^3 - x^4 = x^3(1 - x)$ ✓",
+            "$\\dfrac{x^n}{x^n} = 1$ and $\\dfrac{x^{n+1}}{x^n} = x^{(n+1)-n} = x$.<br>So $x^n - x^{n+1} = x^{n}\\left(1 - x\\right)$.<br>Check with $n = 3$: $x^3 - x^4 = x^3(1 - x)$ ✓",
+          ),
+          step(
+            "result",
+            "$x^n - x^{n+1} = x^{n}\\left(1 - x\\right)$: el exponente literal se maneja igual que uno numérico, comparando cuál es menor.",
+            "$x^n - x^{n+1} = x^{n}\\left(1 - x\\right)$: a literal exponent is handled exactly like a numeric one — compare which is smaller.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* Hoja alumna · S1.3 — factor común + diferencia de cuadrados. */
+  template(
+    {
+      id: "poly-fact-05",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["factoring", "common-factor", "difference-of-squares", "variable-exponents", "class-sheet"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "alumna-worksheet-2025",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "S1 · 3",
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$z^{m-2}\\left(z - 1\\right)\\left(z + 1\\right)$`, `$z^{m-2}\\left(z - 1\\right)\\left(z + 1\\right)$`), correct: true },
+        { id: "b", text: L(`$z^{m-2}\\left(z^2 + 1\\right)$`, `$z^{m-2}\\left(z^2 + 1\\right)$`), correct: false },
+        { id: "c", text: L(`$z^{m-2}\\left(z - 1\\right)$`, `$z^{m-2}\\left(z - 1\\right)$`), correct: false },
+        { id: "d", text: L(`$z^{m-2}\\left(1 - z^2\\right)$`, `$z^{m-2}\\left(1 - z^2\\right)$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Factor común literal y diferencia de cuadrados en cadena (hoja de clase real)",
+          "Literal common factor plus a chained difference of squares (real class sheet)",
+        ),
+        statement: L(
+          "Factoriza por completo ($m$ es un natural, $m \\ge 2$):\n\n$$z^m - z^{m-2} = \\;?$$",
+          "Factor completely ($m$ is a natural number, $m \\ge 2$):\n\n$$z^m - z^{m-2} = \\;?$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "El menor exponente es $m - 2$: saca $z^{m-2}$ de factor común.",
+            "The smaller exponent is $m - 2$: pull out $z^{m-2}$ as the common factor.",
+          ),
+          L(
+            "Dentro del paréntesis queda $z^2 - 1$ — y eso es una **diferencia de cuadrados**.",
+            "Inside the parentheses you are left with $z^2 - 1$ — and that is a **difference of squares**.",
+          ),
+          L(
+            "Una factorización \"por completo\" exige abrir la diferencia de cuadrados: $z^2 - 1 = (z - 1)(z + 1)$.",
+            "Factoring \"completely\" requires opening the difference of squares: $z^2 - 1 = (z - 1)(z + 1)$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$z^m - z^{m-2} = z^{m-2}\\left(z^2 - 1\\right) = z^{m-2}\\left(z - 1\\right)\\left(z + 1\\right)$",
+          "$z^m - z^{m-2} = z^{m-2}\\left(z^2 - 1\\right) = z^{m-2}\\left(z - 1\\right)\\left(z + 1\\right)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La resta $z^m - z^{m-2}$ con $m \\in \\mathbb{N}$, $m \\ge 2$.",
+            "The subtraction $z^m - z^{m-2}$ with $m \\in \\mathbb{N}$, $m \\ge 2$.",
+          ),
+          step(
+            "approach",
+            "Dos pasos encadenados: primero el factor común $z^{m-2}$, después la diferencia de cuadrados que queda dentro.",
+            "Two chained steps: first the common factor $z^{m-2}$, then the difference of squares left inside.",
+          ),
+          step(
+            "calculation",
+            "$\\dfrac{z^m}{z^{m-2}} = z^{m-(m-2)} = z^2$ y $\\dfrac{z^{m-2}}{z^{m-2}} = 1$.<br>$z^m - z^{m-2} = z^{m-2}\\left(z^2 - 1\\right) = z^{m-2}\\left(z - 1\\right)\\left(z + 1\\right)$.<br>Control con $m = 4$: $z^4 - z^2 = z^2(z^2 - 1) = z^2(z-1)(z+1)$ ✓",
+            "$\\dfrac{z^m}{z^{m-2}} = z^{m-(m-2)} = z^2$ and $\\dfrac{z^{m-2}}{z^{m-2}} = 1$.<br>$z^m - z^{m-2} = z^{m-2}\\left(z^2 - 1\\right) = z^{m-2}\\left(z - 1\\right)\\left(z + 1\\right)$.<br>Check with $m = 4$: $z^4 - z^2 = z^2(z^2 - 1) = z^2(z-1)(z+1)$ ✓",
+          ),
+          step(
+            "result",
+            "$z^m - z^{m-2} = z^{m-2}\\left(z - 1\\right)\\left(z + 1\\right)$. La opción con $\\left(z^2 - 1\\right)$ sin abrir está a medio camino: la hoja pide factorizar por completo.",
+            "$z^m - z^{m-2} = z^{m-2}\\left(z - 1\\right)\\left(z + 1\\right)$. The option keeping $\\left(z^2 - 1\\right)$ unopened is only halfway: the sheet asks for a complete factorization.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* Hoja alumna · S1.4 — mcd numérico + resta de exponentes literales. */
+  template(
+    {
+      id: "poly-fact-06",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["factoring", "common-factor", "variable-exponents", "exponent-arithmetic", "class-sheet"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "alumna-worksheet-2025",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "S1 · 4",
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$4a^{n-3}\\left(2 + 3a^{2n+1}\\right)$`, `$4a^{n-3}\\left(2 + 3a^{2n+1}\\right)$`), correct: true },
+        { id: "b", text: L(`$4a^{n-3}\\left(2 + 3a^{2n-1}\\right)$`, `$4a^{n-3}\\left(2 + 3a^{2n-1}\\right)$`), correct: false },
+        { id: "c", text: L(`$4a^{n-3}\\left(2 + 3a^{3n-2}\\right)$`, `$4a^{n-3}\\left(2 + 3a^{3n-2}\\right)$`), correct: false },
+        { id: "d", text: L(`$4a^{n-3}\\left(2 + 3a^{2n}\\right)$`, `$4a^{n-3}\\left(2 + 3a^{2n}\\right)$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Factor común con aritmética de exponentes literales (hoja de clase real)",
+          "Common factor with literal-exponent arithmetic (real class sheet)",
+        ),
+        statement: L(
+          "Factoriza sacando el **factor común máximo** ($n$ es un natural, $n \\ge 3$):\n\n$$8a^{n-3} + 12a^{3n-2} = \\;?$$",
+          "Factor out the **greatest common factor** ($n$ is a natural number, $n \\ge 3$):\n\n$$8a^{n-3} + 12a^{3n-2} = \\;?$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Coeficientes: $\\text{mcd}(8, 12) = 4$. Exponentes: compara $n - 3$ con $3n - 2$ — su diferencia es $2n + 1 > 0$, así que el menor es $n - 3$.",
+            "Coefficients: $\\gcd(8, 12) = 4$. Exponents: compare $n - 3$ with $3n - 2$ — their difference is $2n + 1 > 0$, so the smaller one is $n - 3$.",
+          ),
+          L(
+            "Divide el segundo término entre $4a^{n-3}$: primero $12 \\div 4 = 3$, después **resta** los exponentes: $(3n - 2) - (n - 3)$.",
+            "Divide the second term by $4a^{n-3}$: first $12 \\div 4 = 3$, then **subtract** the exponents: $(3n - 2) - (n - 3)$.",
+          ),
+          L(
+            "Resuelve la resta de exponentes con paréntesis: $(3n - 2) - (n - 3) = 3n - 2 - n + 3$.",
+            "Do the exponent subtraction with care: $(3n - 2) - (n - 3) = 3n - 2 - n + 3$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$8a^{n-3} + 12a^{3n-2} = 4a^{n-3}\\left(2 + 3a^{2n+1}\\right)$",
+          "$8a^{n-3} + 12a^{3n-2} = 4a^{n-3}\\left(2 + 3a^{2n+1}\\right)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La suma $8a^{n-3} + 12a^{3n-2}$ con exponentes literales ($n \\in \\mathbb{N}$, $n \\ge 3$).",
+            "The sum $8a^{n-3} + 12a^{3n-2}$ with literal exponents ($n \\in \\mathbb{N}$, $n \\ge 3$).",
+          ),
+          step(
+            "approach",
+            "Factor común máximo: coeficiente $\\text{mcd}(8,12) = 4$ y potencia $a$ con el menor exponente. Como $3n - 2 - (n - 3) = 2n + 1 > 0$, el menor exponente es $n - 3$.",
+            "Greatest common factor: coefficient $\\gcd(8,12) = 4$ and the power $a$ with the smaller exponent. Since $3n - 2 - (n - 3) = 2n + 1 > 0$, the smaller exponent is $n - 3$.",
+          ),
+          step(
+            "calculation",
+            "$\\dfrac{8a^{n-3}}{4a^{n-3}} = 2$;<br>$\\dfrac{12a^{3n-2}}{4a^{n-3}} = 3a^{(3n-2)-(n-3)} = 3a^{2n+1}$.<br>Por lo tanto $8a^{n-3} + 12a^{3n-2} = 4a^{n-3}\\left(2 + 3a^{2n+1}\\right)$.<br>Control con $n = 3$: $8a^0 + 12a^7 = 4a^0\\left(2 + 3a^7\\right) = 8 + 12a^7$ ✓",
+            "$\\dfrac{8a^{n-3}}{4a^{n-3}} = 2$;<br>$\\dfrac{12a^{3n-2}}{4a^{n-3}} = 3a^{(3n-2)-(n-3)} = 3a^{2n+1}$.<br>So $8a^{n-3} + 12a^{3n-2} = 4a^{n-3}\\left(2 + 3a^{2n+1}\\right)$.<br>Check with $n = 3$: $8a^0 + 12a^7 = 4a^0\\left(2 + 3a^7\\right) = 8 + 12a^7$ ✓",
+          ),
+          step(
+            "result",
+            "$8a^{n-3} + 12a^{3n-2} = 4a^{n-3}\\left(2 + 3a^{2n+1}\\right)$. El paso delicado es la resta de exponentes literales: $(3n-2)-(n-3) = 2n+1$, no $2n-1$.",
+            "$8a^{n-3} + 12a^{3n-2} = 4a^{n-3}\\left(2 + 3a^{2n+1}\\right)$. The delicate step is the literal-exponent subtraction: $(3n-2)-(n-3) = 2n+1$, not $2n-1$.",
+          ),
+        ],
+      };
+    },
+  ),
+
 ];

@@ -6,7 +6,7 @@
  */
 
 import { useEffect, useState } from "react";
-import { ArrowLeft, ArrowRight, BookMarked, Infinity as InfinityIcon, Printer, Shuffle, Swords } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookMarked, Infinity as InfinityIcon, Printer, Shuffle, Stamp, Swords } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { TopicIcon } from "@/components/site/topic-icon";
@@ -14,6 +14,7 @@ import { useI18n } from "@/lib/i18n/context";
 import { useSubjectTemplates } from "@/lib/use-templates";
 import { href, sessionHref, worksheetHref } from "@/lib/router";
 import { templateStats } from "@/lib/session";
+import { topicPolicyStats } from "@/content/policy";
 import { computeStats, loadProgress, subtopicKey, topicKey } from "@/lib/progress";
 import { mathCurriculum } from "@/content/curriculum/math";
 import { physicsCurriculum } from "@/content/curriculum/physics";
@@ -85,6 +86,10 @@ export function TopicView({ subject, topicId }: { subject: Subject; topicId: str
   // curated (real-source) problems available under the current focus
   const curatedCount = activeTemplates.filter((tp) => tp.source).length;
   const effectiveCuratedOnly = curatedOnly && curatedCount > 0;
+
+  // content policy (math only): generated exercises above easy are provisional
+  // until replaced with real-source material — surfaced as a quiet coverage note
+  const policy = subject === "math" && !loading ? topicPolicyStats(activeTemplates) : null;
 
   const startHref = sessionHref({
     mode: "topic",
@@ -336,6 +341,24 @@ export function TopicView({ subject, topicId }: { subject: Subject; topicId: str
                     )}
                   />
                 </button>
+              </div>
+            </div>
+          ) : null}
+
+          {policy && policy.pending > 0 ? (
+            <div className="rounded-xl border border-diff-medium/30 bg-diff-medium/5 px-4 py-3">
+              <div className="flex items-start gap-2.5">
+                <Stamp className="mt-0.5 h-4 w-4 shrink-0 text-diff-medium" aria-hidden="true" />
+                <div>
+                  <p className="text-sm font-medium text-foreground">{t("topic.policyNotice.title")}</p>
+                  <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">
+                    {t("topic.policyNotice.body", {
+                      n: formatNumber(policy.withSource),
+                      m: formatNumber(policy.mediumPlus),
+                      p: formatNumber(policy.pending),
+                    })}
+                  </p>
+                </div>
               </div>
             </div>
           ) : null}

@@ -1422,4 +1422,557 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+
+  /* ================================================================== */
+  /* Hoja de la alumna (DE, oct. 2025) — Sección 2 "Simplificar          */
+  /* fracciones algebraicas": factoriza numerador y denominador,         */
+  /* simplifica. Exponentes con variable. Transcripción del tutor como   */
+  /* fuente de verdad; respuestas re-derivadas con sympy (23/23).        */
+  /* ================================================================== */
+
+  /* Hoja alumna · S2.1 — x^6+x^5 / x^4+x^3. */
+  template(
+    {
+      id: "rat-simp-05",
+      subject: "math",
+      topicId: "rational",
+      subtopicId: "simplifying",
+      difficulty: "medium",
+      questionType: "expression",
+      estimatedTimeSec: 150,
+      tags: ["rational-expressions", "factoring", "variable-exponents", "class-sheet"],
+      prerequisites: ["simplifying"],
+      source: {
+        sourceId: "alumna-worksheet-2025",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "S2 · 1",
+      },
+      reasoning: "definition-hunting",
+    },
+    () => {
+      return {
+        skill: L(
+          "Simplificar una fracción con exponentes altos (hoja de clase real)",
+          "Simplifying a fraction with high exponents (real class sheet)",
+        ),
+        statement: L(
+          "Factoriza el numerador y el denominador. Simplifica tanto como sea posible (escribe por ejemplo x^2 o x*x):\n\n$$\\frac{x^6 + x^5}{x^4 + x^3}$$",
+          "Factor the numerator and the denominator. Simplify as far as possible (write e.g. x^2 or x*x):\n\n$$\\frac{x^6 + x^5}{x^4 + x^3}$$",
+        ),
+        answer: {
+          kind: "expression",
+          accepted: ["x^2", "x*x", "x*x*x*x/(x*x)"],
+          variables: ["x"],
+        },
+        hints: [
+          L(
+            "En cada polinomio hay un factor común escondido: $x^6 + x^5 = x^5\\left(\\ldots\\right)$.",
+            "Each polynomial hides a common factor: $x^6 + x^5 = x^5\\left(\\ldots\\right)$.",
+          ),
+          L(
+            "$x^6 + x^5 = x^5\\left(x + 1\\right)$ y $x^4 + x^3 = x^3\\left(x + 1\\right)$.",
+            "$x^6 + x^5 = x^5\\left(x + 1\\right)$ and $x^4 + x^3 = x^3\\left(x + 1\\right)$.",
+          ),
+          L(
+            "Cancela el factor $\\left(x + 1\\right)$ completo (¡no solo las $x$!) y después las potencias de $x$.",
+            "Cancel the whole factor $\\left(x + 1\\right)$ (not just the $x$'s!) and then the powers of $x$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\dfrac{x^6 + x^5}{x^4 + x^3} = \\dfrac{x^5\\left(x+1\\right)}{x^3\\left(x+1\\right)} = x^2$",
+          "$\\dfrac{x^6 + x^5}{x^4 + x^3} = \\dfrac{x^5\\left(x+1\\right)}{x^3\\left(x+1\\right)} = x^2$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La fracción $\\frac{x^6 + x^5}{x^4 + x^3}$ (hoja de clase alemana, sección de fracciones algebraicas).",
+            "The fraction $\\frac{x^6 + x^5}{x^4 + x^3}$ (German class sheet, algebraic-fractions section).",
+          ),
+          step(
+            "approach",
+            "Factorizar numerador y denominador por separado (factor común $x$ elevado al menor exponente) y cancelar los factores comunes.",
+            "Factor numerator and denominator separately (common factor $x$ to the smaller exponent) and cancel common factors.",
+          ),
+          step(
+            "calculation",
+            "$x^6 + x^5 = x^5\\left(x + 1\\right)$ (el menor exponente es 5) y $x^4 + x^3 = x^3\\left(x + 1\\right)$ (el menor exponente es 3).<br>$\\dfrac{x^5\\left(x+1\\right)}{x^3\\left(x+1\\right)} = \\dfrac{x^5}{x^3} = x^{5-3} = x^2$.<br>Control con $x = 2$: $\\frac{64 + 32}{16 + 8} = \\frac{96}{24} = 4 = 2^2$ ✓",
+            "$x^6 + x^5 = x^5\\left(x + 1\\right)$ (smaller exponent 5) and $x^4 + x^3 = x^3\\left(x + 1\\right)$ (smaller exponent 3).<br>$\\dfrac{x^5\\left(x+1\\right)}{x^3\\left(x+1\\right)} = \\dfrac{x^5}{x^3} = x^{5-3} = x^2$.<br>Check at $x = 2$: $\\frac{64 + 32}{16 + 8} = \\frac{96}{24} = 4 = 2^2$ ✓",
+          ),
+          step(
+            "result",
+            "$\\dfrac{x^6 + x^5}{x^4 + x^3} = x^2$ (para $x \\ne 0$ y $x \\ne -1$, donde la fracción original no está definida).",
+            "$\\dfrac{x^6 + x^5}{x^4 + x^3} = x^2$ (for $x \\ne 0$ and $x \\ne -1$, where the original fraction is undefined).",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* Hoja alumna · S2.2 — dos variables, coeficientes con mcd. */
+  template(
+    {
+      id: "rat-simp-06",
+      subject: "math",
+      topicId: "rational",
+      subtopicId: "simplifying",
+      difficulty: "medium",
+      questionType: "expression",
+      estimatedTimeSec: 210,
+      tags: ["rational-expressions", "factoring", "two-variables", "class-sheet"],
+      prerequisites: ["simplifying"],
+      source: {
+        sourceId: "alumna-worksheet-2025",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "S2 · 2",
+      },
+      reasoning: "multi-concept",
+    },
+    () => {
+      return {
+        skill: L(
+          "Fracción algebraica con dos variables y factor numérico (hoja de clase real)",
+          "Algebraic fraction with two variables and a numeric factor (real class sheet)",
+        ),
+        statement: L(
+          "Factoriza el numerador y el denominador. Simplifica tanto como sea posible (escribe por ejemplo 6(2x-3y)/(x+5)):\n\n$$\\frac{12x^3y^2 - 18x^2y^3}{5x^2y^2 + x^3y^2}$$",
+          "Factor the numerator and the denominator. Simplify as far as possible (write e.g. 6(2x-3y)/(x+5)):\n\n$$\\frac{12x^3y^2 - 18x^2y^3}{5x^2y^2 + x^3y^2}$$",
+        ),
+        answer: {
+          kind: "expression",
+          accepted: ["6(2*x-3*y)/(x+5)", "(12*x-18*y)/(x+5)", "6(2x-3y)/(x+5)"],
+          variables: ["x", "y"],
+        },
+        hints: [
+          L(
+            "Numerador: el factor común numérico es $\\text{mcd}(12, 18) = 6$, y el literal es $x^2y^2$ (menores exponentes).",
+            "Numerator: the numeric common factor is $\\gcd(12, 18) = 6$, and the literal one is $x^2y^2$ (smallest exponents).",
+          ),
+          L(
+            "$12x^3y^2 - 18x^2y^3 = 6x^2y^2\\left(2x - 3y\\right)$ y $5x^2y^2 + x^3y^2 = x^2y^2\\left(5 + x\\right)$.",
+            "$12x^3y^2 - 18x^2y^3 = 6x^2y^2\\left(2x - 3y\\right)$ and $5x^2y^2 + x^3y^2 = x^2y^2\\left(5 + x\\right)$.",
+          ),
+          L(
+            "Cancela $x^2y^2$ arriba y abajo — el $6$ del numerador **se queda**.",
+            "Cancel $x^2y^2$ top and bottom — the $6$ in the numerator **stays**.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\dfrac{12x^3y^2 - 18x^2y^3}{5x^2y^2 + x^3y^2} = \\dfrac{6x^2y^2\\left(2x-3y\\right)}{x^2y^2\\left(x+5\\right)} = \\dfrac{6\\left(2x - 3y\\right)}{x + 5}$",
+          "$\\dfrac{12x^3y^2 - 18x^2y^3}{5x^2y^2 + x^3y^2} = \\dfrac{6x^2y^2\\left(2x-3y\\right)}{x^2y^2\\left(x+5\\right)} = \\dfrac{6\\left(2x - 3y\\right)}{x + 5}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La fracción $\\frac{12x^3y^2 - 18x^2y^3}{5x^2y^2 + x^3y^2}$ con dos variables.",
+            "The fraction $\\frac{12x^3y^2 - 18x^2y^3}{5x^2y^2 + x^3y^2}$ with two variables.",
+          ),
+          step(
+            "approach",
+            "Sacar el factor común máximo de cada polinomio (numérico + literales de menores exponentes) y cancelar lo que aparezca en ambos.",
+            "Pull out the greatest common factor of each polynomial (numeric + literals to the smallest exponents) and cancel whatever appears in both.",
+          ),
+          step(
+            "calculation",
+            "Numerador: $\\text{mcd}(12,18) = 6$, $x^2$, $y^2$ → $6x^2y^2\\left(2x - 3y\\right)$.<br>Denominador: $x^2y^2$ → $x^2y^2\\left(5 + x\\right)$.<br>$\\dfrac{6x^2y^2\\left(2x-3y\\right)}{x^2y^2\\left(x+5\\right)} = \\dfrac{6\\left(2x-3y\\right)}{x+5}$.<br>Control con $x = y = 1$: $\\frac{12 - 18}{5 + 1} = \\frac{-6}{6} = -1$ y $\\frac{6(2-3)}{1+5} = \\frac{-6}{6} = -1$ ✓",
+            "Numerator: $\\gcd(12,18) = 6$, $x^2$, $y^2$ → $6x^2y^2\\left(2x - 3y\\right)$.<br>Denominator: $x^2y^2$ → $x^2y^2\\left(5 + x\\right)$.<br>$\\dfrac{6x^2y^2\\left(2x-3y\\right)}{x^2y^2\\left(x+5\\right)} = \\dfrac{6\\left(2x-3y\\right)}{x+5}$.<br>Check at $x = y = 1$: $\\frac{12 - 18}{5 + 1} = \\frac{-6}{6} = -1$ and $\\frac{6(2-3)}{1+5} = \\frac{-6}{6} = -1$ ✓",
+          ),
+          step(
+            "result",
+            "$\\dfrac{12x^3y^2 - 18x^2y^3}{5x^2y^2 + x^3y^2} = \\dfrac{6\\left(2x - 3y\\right)}{x + 5}$, con $x \\ne 0$, $y \\ne 0$, $x \\ne -5$ excluidos del dominio original.",
+            "$\\dfrac{12x^3y^2 - 18x^2y^3}{5x^2y^2 + x^3y^2} = \\dfrac{6\\left(2x - 3y\\right)}{x + 5}$, with $x \\ne 0$, $y \\ne 0$, $x \\ne -5$ excluded from the original domain.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* Hoja alumna · S2.3 — exponentes con variable, cociente de sumas. */
+  template(
+    {
+      id: "rat-simp-07",
+      subject: "math",
+      topicId: "rational",
+      subtopicId: "simplifying",
+      difficulty: "medium",
+      questionType: "expression",
+      estimatedTimeSec: 180,
+      tags: ["rational-expressions", "variable-exponents", "class-sheet"],
+      prerequisites: ["simplifying"],
+      source: {
+        sourceId: "alumna-worksheet-2025",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "S2 · 3",
+      },
+      reasoning: "definition-hunting",
+    },
+    () => {
+      return {
+        skill: L(
+          "Simplificar con exponentes literales: a^n + a^{n+1} (hoja de clase real)",
+          "Simplifying with literal exponents: a^n + a^{n+1} (real class sheet)",
+        ),
+        statement: L(
+          "Factoriza el numerador y el denominador. Simplifica tanto como sea posible (escribe por ejemplo 1/a o a^-1):\n\n$$\\frac{a^n + a^{n+1}}{a^{n+2} + a^{n+1}}$$",
+          "Factor the numerator and the denominator. Simplify as far as possible (write e.g. 1/a or a^-1):\n\n$$\\frac{a^n + a^{n+1}}{a^{n+2} + a^{n+1}}$$",
+        ),
+        answer: {
+          kind: "expression",
+          accepted: ["1/a", "a^-1", "1/(a)"],
+          variables: ["a"],
+        },
+        hints: [
+          L(
+            "En el numerador el menor exponente es $n$: $a^n + a^{n+1} = a^n\\left(1 + \\ldots\\right)$.",
+            "In the numerator the smallest exponent is $n$: $a^n + a^{n+1} = a^n\\left(1 + \\ldots\\right)$.",
+          ),
+          L(
+            "$a^n + a^{n+1} = a^n\\left(1 + a\\right)$ y $a^{n+2} + a^{n+1} = a^{n+1}\\left(a + 1\\right)$.",
+            "$a^n + a^{n+1} = a^n\\left(1 + a\\right)$ and $a^{n+2} + a^{n+1} = a^{n+1}\\left(a + 1\\right)$.",
+          ),
+          L(
+            "Cancela $\\left(a + 1\\right)$; queda $\\dfrac{a^n}{a^{n+1}}$, y al restar exponentes el resultado es una **potencia negativa**.",
+            "Cancel $\\left(a + 1\\right)$; you are left with $\\dfrac{a^n}{a^{n+1}}$, and subtracting exponents gives a **negative power**.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\dfrac{a^n + a^{n+1}}{a^{n+2} + a^{n+1}} = \\dfrac{a^n\\left(1+a\\right)}{a^{n+1}\\left(a+1\\right)} = \\dfrac{1}{a}$",
+          "$\\dfrac{a^n + a^{n+1}}{a^{n+2} + a^{n+1}} = \\dfrac{a^n\\left(1+a\\right)}{a^{n+1}\\left(a+1\\right)} = \\dfrac{1}{a}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La fracción $\\frac{a^n + a^{n+1}}{a^{n+2} + a^{n+1}}$ con exponentes literales ($a \\ne 0$).",
+            "The fraction $\\frac{a^n + a^{n+1}}{a^{n+2} + a^{n+1}}$ with literal exponents ($a \\ne 0$).",
+          ),
+          step(
+            "approach",
+            "Factor común con el exponente menor en cada polinomio; el paréntesis que queda es el mismo arriba y abajo.",
+            "Common factor with the smaller exponent in each polynomial; the leftover parenthesis is the same top and bottom.",
+          ),
+          step(
+            "calculation",
+            "$a^n + a^{n+1} = a^n\\left(1 + a\\right)$;<br>$a^{n+2} + a^{n+1} = a^{n+1}\\left(a + 1\\right)$.<br>$\\dfrac{a^n\\left(1+a\\right)}{a^{n+1}\\left(a+1\\right)} = \\dfrac{a^n}{a^{n+1}} = a^{n-(n+1)} = a^{-1} = \\dfrac{1}{a}$.<br>Control con $a = 2$, $n = 1$: $\\frac{2 + 4}{8 + 4} = \\frac{6}{12} = \\frac{1}{2}$ ✓",
+            "$a^n + a^{n+1} = a^n\\left(1 + a\\right)$;<br>$a^{n+2} + a^{n+1} = a^{n+1}\\left(a + 1\\right)$.<br>$\\dfrac{a^n\\left(1+a\\right)}{a^{n+1}\\left(a+1\\right)} = \\dfrac{a^n}{a^{n+1}} = a^{n-(n+1)} = a^{-1} = \\dfrac{1}{a}$.<br>Check at $a = 2$, $n = 1$: $\\frac{2 + 4}{8 + 4} = \\frac{6}{12} = \\frac{1}{2}$ ✓",
+          ),
+          step(
+            "result",
+            "$\\dfrac{a^n + a^{n+1}}{a^{n+2} + a^{n+1}} = \\dfrac{1}{a}$: la $n$ desaparece por completo — el cociente no depende del exponente.",
+            "$\\dfrac{a^n + a^{n+1}}{a^{n+2} + a^{n+1}} = \\dfrac{1}{a}$: the $n$ cancels out completely — the quotient does not depend on the exponent.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* Hoja alumna · S2.4 — b^{n+1} - 5b^n / b^{n-1} - 5b^{n-2}. */
+  template(
+    {
+      id: "rat-simp-08",
+      subject: "math",
+      topicId: "rational",
+      subtopicId: "simplifying",
+      difficulty: "medium",
+      questionType: "expression",
+      estimatedTimeSec: 180,
+      tags: ["rational-expressions", "variable-exponents", "class-sheet"],
+      prerequisites: ["simplifying"],
+      source: {
+        sourceId: "alumna-worksheet-2025",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "S2 · 4",
+      },
+      reasoning: "definition-hunting",
+    },
+    () => {
+      return {
+        skill: L(
+          "Factor común con exponentes literales desplazados (hoja de clase real)",
+          "Common factor with shifted literal exponents (real class sheet)",
+        ),
+        statement: L(
+          "Factoriza el numerador y el denominador. Simplifica tanto como sea posible (escribe por ejemplo b^2):\n\n$$\\frac{b^{n+1} - 5b^n}{b^{n-1} - 5b^{n-2}}$$",
+          "Factor the numerator and the denominator. Simplify as far as possible (write e.g. b^2):\n\n$$\\frac{b^{n+1} - 5b^n}{b^{n-1} - 5b^{n-2}}$$",
+        ),
+        answer: {
+          kind: "expression",
+          accepted: ["b^2", "b*b"],
+          variables: ["b"],
+        },
+        hints: [
+          L(
+            "Numerador: el menor exponente es $n$ → $b^n\\left(b - 5\\right)$. Denominador: el menor exponente es $n - 2$.",
+            "Numerator: the smaller exponent is $n$ → $b^n\\left(b - 5\\right)$. Denominator: the smaller exponent is $n - 2$.",
+          ),
+          L(
+            "Denominador: $b^{n-1} - 5b^{n-2} = b^{n-2}\\left(b - 5\\right)$ — el paréntesis es el mismo de antes.",
+            "Denominator: $b^{n-1} - 5b^{n-2} = b^{n-2}\\left(b - 5\\right)$ — the same parenthesis as before.",
+          ),
+          L(
+            "Queda $\\dfrac{b^n}{b^{n-2}}$: resta los exponentes con cuidado, $n - (n-2) = 2$.",
+            "You are left with $\\dfrac{b^n}{b^{n-2}}$: subtract the exponents carefully, $n - (n-2) = 2$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\dfrac{b^{n+1} - 5b^n}{b^{n-1} - 5b^{n-2}} = \\dfrac{b^n\\left(b-5\\right)}{b^{n-2}\\left(b-5\\right)} = b^2$",
+          "$\\dfrac{b^{n+1} - 5b^n}{b^{n-1} - 5b^{n-2}} = \\dfrac{b^n\\left(b-5\\right)}{b^{n-2}\\left(b-5\\right)} = b^2$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La fracción $\\frac{b^{n+1} - 5b^n}{b^{n-1} - 5b^{n-2}}$ con $b \\ne 0$.",
+            "The fraction $\\frac{b^{n+1} - 5b^n}{b^{n-1} - 5b^{n-2}}$ with $b \\ne 0$.",
+          ),
+          step(
+            "approach",
+            "Cada polinomio tiene el patrón $b^{k+1} - 5b^k = b^k\\left(b - 5\\right)$; identificar la potencia con el menor exponente en cada lado.",
+            "Each polynomial follows the pattern $b^{k+1} - 5b^k = b^k\\left(b - 5\\right)$; identify the power with the smaller exponent on each side.",
+          ),
+          step(
+            "calculation",
+            "Numerador: $b^{n+1} - 5b^n = b^n\\left(b - 5\\right)$.<br>Denominador: $b^{n-1} - 5b^{n-2} = b^{n-2}\\left(b - 5\\right)$.<br>$\\dfrac{b^n\\left(b-5\\right)}{b^{n-2}\\left(b-5\\right)} = \\dfrac{b^n}{b^{n-2}} = b^{n-(n-2)} = b^2$.<br>Control con $b = 3$, $n = 2$: $\\frac{27 - 45}{3 - 5} = \\frac{-18}{-2} = 9 = 3^2$ ✓",
+            "Numerator: $b^{n+1} - 5b^n = b^n\\left(b - 5\\right)$.<br>Denominator: $b^{n-1} - 5b^{n-2} = b^{n-2}\\left(b - 5\\right)$.<br>$\\dfrac{b^n\\left(b-5\\right)}{b^{n-2}\\left(b-5\\right)} = \\dfrac{b^n}{b^{n-2}} = b^{n-(n-2)} = b^2$.<br>Check at $b = 3$, $n = 2$: $\\frac{27 - 45}{3 - 5} = \\frac{-18}{-2} = 9 = 3^2$ ✓",
+          ),
+          step(
+            "result",
+            "$\\dfrac{b^{n+1} - 5b^n}{b^{n-1} - 5b^{n-2}} = b^2$ para $b \\ne 0$ y $b \\ne 5$ (el factor $b - 5$ se cancela, pero el dominio original lo excluye).",
+            "$\\dfrac{b^{n+1} - 5b^n}{b^{n-1} - 5b^{n-2}} = b^2$ for $b \\ne 0$ and $b \\ne 5$ (the factor $b - 5$ cancels, but the original domain excludes it).",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* Hoja alumna · S2.5 — c^p - c^{p+2} / c^{p+1} + c^p. */
+  template(
+    {
+      id: "rat-simp-09",
+      subject: "math",
+      topicId: "rational",
+      subtopicId: "simplifying",
+      difficulty: "medium",
+      questionType: "expression",
+      estimatedTimeSec: 180,
+      tags: ["rational-expressions", "variable-exponents", "difference-of-squares", "class-sheet"],
+      prerequisites: ["simplifying"],
+      source: {
+        sourceId: "alumna-worksheet-2025",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "S2 · 5",
+      },
+      reasoning: "multi-concept",
+    },
+    () => {
+      return {
+        skill: L(
+          "Simplificar y quedarse con un binomio lineal (hoja de clase real)",
+          "Simplify down to a linear binomial (real class sheet)",
+        ),
+        statement: L(
+          "Factoriza el numerador y el denominador. Simplifica tanto como sea posible (escribe por ejemplo 1-c):\n\n$$\\frac{c^p - c^{p+2}}{c^{p+1} + c^p}$$",
+          "Factor the numerator and the denominator. Simplify as far as possible (write e.g. 1-c):\n\n$$\\frac{c^p - c^{p+2}}{c^{p+1} + c^p}$$",
+        ),
+        answer: {
+          kind: "expression",
+          accepted: ["1-c", "-c+1", "(1-c)"],
+          variables: ["c"],
+        },
+        hints: [
+          L(
+            "Numerador: factor común $c^p$ → $c^p\\left(1 - c^2\\right)$. Denominador: factor común $c^p$ → $c^p\\left(c + 1\\right)$.",
+            "Numerator: common factor $c^p$ → $c^p\\left(1 - c^2\\right)$. Denominator: common factor $c^p$ → $c^p\\left(c + 1\\right)$.",
+          ),
+          L(
+            "Las $c^p$ se cancelan; el $1 - c^2$ del numerador es una diferencia de cuadrados.",
+            "The $c^p$ factors cancel; the $1 - c^2$ in the numerator is a difference of squares.",
+          ),
+          L(
+            "$1 - c^2 = \\left(1 - c\\right)\\left(1 + c\\right)$, y el $\\left(1 + c\\right)$ se cancela con el denominador.",
+            "$1 - c^2 = \\left(1 - c\\right)\\left(1 + c\\right)$, and the $\\left(1 + c\\right)$ cancels against the denominator.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\dfrac{c^p - c^{p+2}}{c^{p+1} + c^p} = \\dfrac{c^p\\left(1-c^2\\right)}{c^p\\left(c+1\\right)} = \\dfrac{\\left(1-c\\right)\\left(1+c\\right)}{c+1} = 1 - c$",
+          "$\\dfrac{c^p - c^{p+2}}{c^{p+1} + c^p} = \\dfrac{c^p\\left(1-c^2\\right)}{c^p\\left(c+1\\right)} = \\dfrac{\\left(1-c\\right)\\left(1+c\\right)}{c+1} = 1 - c$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La fracción $\\frac{c^p - c^{p+2}}{c^{p+1} + c^p}$ con $c \\ne 0$.",
+            "The fraction $\\frac{c^p - c^{p+2}}{c^{p+1} + c^p}$ with $c \\ne 0$.",
+          ),
+          step(
+            "approach",
+            "Factor común $c^p$ en ambos lados, abrir la diferencia de cuadrados del numerador y cancelar.",
+            "Common factor $c^p$ on both sides, open the numerator's difference of squares and cancel.",
+          ),
+          step(
+            "calculation",
+            "$c^p - c^{p+2} = c^p\\left(1 - c^2\\right) = c^p\\left(1-c\\right)\\left(1+c\\right)$;<br>$c^{p+1} + c^p = c^p\\left(c + 1\\right)$.<br>$\\dfrac{c^p\\left(1-c\\right)\\left(1+c\\right)}{c^p\\left(c+1\\right)} = 1 - c$.<br>Control con $c = 2$, $p = 1$: $\\frac{2 - 8}{4 + 2} = \\frac{-6}{6} = -1 = 1 - 2$ ✓",
+            "$c^p - c^{p+2} = c^p\\left(1 - c^2\\right) = c^p\\left(1-c\\right)\\left(1+c\\right)$;<br>$c^{p+1} + c^p = c^p\\left(c + 1\\right)$.<br>$\\dfrac{c^p\\left(1-c\\right)\\left(1+c\\right)}{c^p\\left(c+1\\right)} = 1 - c$.<br>Check at $c = 2$, $p = 1$: $\\frac{2 - 8}{4 + 2} = \\frac{-6}{6} = -1 = 1 - 2$ ✓",
+          ),
+          step(
+            "result",
+            "$\\dfrac{c^p - c^{p+2}}{c^{p+1} + c^p} = 1 - c$ para $c \\ne 0$ y $c \\ne -1$: dos factorizaciones encadenadas (común + diferencia de cuadrados).",
+            "$\\dfrac{c^p - c^{p+2}}{c^{p+1} + c^p} = 1 - c$ for $c \\ne 0$ and $c \\ne -1$: two chained factorizations (common + difference of squares).",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* Hoja alumna · S2.6 — x^{n-1} - x^n / x^{n-2} - x^n. */
+  template(
+    {
+      id: "rat-simp-10",
+      subject: "math",
+      topicId: "rational",
+      subtopicId: "simplifying",
+      difficulty: "hard",
+      questionType: "expression",
+      estimatedTimeSec: 240,
+      tags: ["rational-expressions", "variable-exponents", "factoring", "class-sheet"],
+      prerequisites: ["simplifying"],
+      source: {
+        sourceId: "alumna-worksheet-2025",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "S2 · 6",
+      },
+      reasoning: "multi-concept",
+    },
+    () => {
+      return {
+        skill: L(
+          "El más técnico de la hoja: factor común y diferencia de cuadrados con n (hoja de clase real)",
+          "The trickiest on the sheet: common factor and difference of squares with n (real class sheet)",
+        ),
+        statement: L(
+          "Factoriza el numerador y el denominador. Simplifica tanto como sea posible (escribe por ejemplo x/(1+x)):\n\n$$\\frac{x^{n-1} - x^n}{x^{n-2} - x^n}$$",
+          "Factor the numerator and the denominator. Simplify as far as possible (write e.g. x/(1+x)):\n\n$$\\frac{x^{n-1} - x^n}{x^{n-2} - x^n}$$",
+        ),
+        answer: {
+          kind: "expression",
+          accepted: ["x/(1+x)", "x/(x+1)", "x/(1+x)", "x/(x + 1)"],
+          variables: ["x"],
+        },
+        hints: [
+          L(
+            "Numerador: el menor exponente es $n-1$ → $x^{n-1}\\left(1 - x\\right)$. Denominador: el menor exponente es $n-2$.",
+            "Numerator: the smaller exponent is $n-1$ → $x^{n-1}\\left(1 - x\\right)$. Denominator: the smaller exponent is $n-2$.",
+          ),
+          L(
+            "Denominador: $x^{n-2} - x^n = x^{n-2}\\left(1 - x^2\\right)$, y $1 - x^2 = \\left(1-x\\right)\\left(1+x\\right)$.",
+            "Denominator: $x^{n-2} - x^n = x^{n-2}\\left(1 - x^2\\right)$, and $1 - x^2 = \\left(1-x\\right)\\left(1+x\\right)$.",
+          ),
+          L(
+            "Cancela $\\left(1-x\\right)$ y las potencias de $x$: $\\dfrac{x^{n-1}}{x^{n-2}}$ deja un solo factor $x$.",
+            "Cancel $\\left(1-x\\right)$ and the powers of $x$: $\\dfrac{x^{n-1}}{x^{n-2}}$ leaves a single factor $x$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\dfrac{x^{n-1} - x^n}{x^{n-2} - x^n} = \\dfrac{x^{n-1}\\left(1-x\\right)}{x^{n-2}\\left(1-x\\right)\\left(1+x\\right)} = \\dfrac{x}{1+x}$",
+          "$\\dfrac{x^{n-1} - x^n}{x^{n-2} - x^n} = \\dfrac{x^{n-1}\\left(1-x\\right)}{x^{n-2}\\left(1-x\\right)\\left(1+x\\right)} = \\dfrac{x}{1+x}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La fracción $\\frac{x^{n-1} - x^n}{x^{n-2} - x^n}$ con $x \\ne 0$ — el denominador mezcla exponentes $n-2$ y $n$.",
+            "The fraction $\\frac{x^{n-1} - x^n}{x^{n-2} - x^n}$ with $x \\ne 0$ — the denominator mixes exponents $n-2$ and $n$.",
+          ),
+          step(
+            "approach",
+            "Factor común con el menor exponente en cada lado; el denominador esconde una diferencia de cuadrados $1 - x^2$.",
+            "Common factor with the smaller exponent on each side; the denominator hides a difference of squares $1 - x^2$.",
+          ),
+          step(
+            "calculation",
+            "Numerador: $x^{n-1} - x^n = x^{n-1}\\left(1 - x\\right)$.<br>Denominador: $x^{n-2} - x^n = x^{n-2}\\left(1 - x^2\\right) = x^{n-2}\\left(1-x\\right)\\left(1+x\\right)$.<br>$\\dfrac{x^{n-1}\\left(1-x\\right)}{x^{n-2}\\left(1-x\\right)\\left(1+x\\right)} = \\dfrac{x^{n-1}}{x^{n-2}} \\cdot \\dfrac{1}{1+x} = \\dfrac{x}{1+x}$.<br>Control con $x = 2$, $n = 3$: $\\frac{4 - 8}{2 - 8} = \\frac{-4}{-6} = \\frac{2}{3} = \\frac{2}{1+2}$ ✓",
+            "Numerator: $x^{n-1} - x^n = x^{n-1}\\left(1 - x\\right)$.<br>Denominator: $x^{n-2} - x^n = x^{n-2}\\left(1 - x^2\\right) = x^{n-2}\\left(1-x\\right)\\left(1+x\\right)$.<br>$\\dfrac{x^{n-1}\\left(1-x\\right)}{x^{n-2}\\left(1-x\\right)\\left(1+x\\right)} = \\dfrac{x^{n-1}}{x^{n-2}} \\cdot \\dfrac{1}{1+x} = \\dfrac{x}{1+x}$.<br>Check at $x = 2$, $n = 3$: $\\frac{4 - 8}{2 - 8} = \\frac{-4}{-6} = \\frac{2}{3} = \\frac{2}{1+2}$ ✓",
+          ),
+          step(
+            "result",
+            "$\\dfrac{x^{n-1} - x^n}{x^{n-2} - x^n} = \\dfrac{x}{1 + x}$ para $x \\ne 0, 1, -1$: el denominador exige ver la diferencia de cuadrados antes de cancelar.",
+            "$\\dfrac{x^{n-1} - x^n}{x^{n-2} - x^n} = \\dfrac{x}{1 + x}$ for $x \\ne 0, 1, -1$: the denominator demands spotting the difference of squares before cancelling.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* Hoja alumna · S2.7 — 8a^x - 8a^{x-2} / 6a^{x-4} + 6a^{x-3}. */
+  template(
+    {
+      id: "rat-simp-11",
+      subject: "math",
+      topicId: "rational",
+      subtopicId: "simplifying",
+      difficulty: "hard",
+      questionType: "expression",
+      estimatedTimeSec: 270,
+      tags: ["rational-expressions", "variable-exponents", "coefficient-gcd", "class-sheet"],
+      prerequisites: ["simplifying"],
+      source: {
+        sourceId: "alumna-worksheet-2025",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "S2 · 7",
+      },
+      reasoning: "multi-concept",
+    },
+    () => {
+      return {
+        skill: L(
+          "mcd numérico + exponentes literales con resta (hoja de clase real)",
+          "Numeric gcd + literal exponents with subtraction (real class sheet)",
+        ),
+        statement: L(
+          "Factoriza el numerador y el denominador. Simplifica tanto como sea posible (escribe por ejemplo 4a^2(a-1)/3):\n\n$$\\frac{8a^x - 8a^{x-2}}{6a^{x-4} + 6a^{x-3}}$$",
+          "Factor the numerator and the denominator. Simplify as far as possible (write e.g. 4a^2(a-1)/3):\n\n$$\\frac{8a^x - 8a^{x-2}}{6a^{x-4} + 6a^{x-3}}$$",
+        ),
+        answer: {
+          kind: "expression",
+          accepted: ["4a^2(a-1)/3", "(4/3)a^2(a-1)", "4(a^2(a-1))/3", "(4a^3-4a^2)/3"],
+          variables: ["a"],
+        },
+        hints: [
+          L(
+            "Numerador: factor común $8a^{x-2}$ (coeficiente 8 y menor exponente $x-2$). Denominador: factor común $6a^{x-4}$.",
+            "Numerator: common factor $8a^{x-2}$ (coefficient 8 and smaller exponent $x-2$). Denominator: common factor $6a^{x-4}$.",
+          ),
+          L(
+            "$8a^x - 8a^{x-2} = 8a^{x-2}\\left(a^2 - 1\\right)$ y $6a^{x-4} + 6a^{x-3} = 6a^{x-4}\\left(1 + a\\right)$.",
+            "$8a^x - 8a^{x-2} = 8a^{x-2}\\left(a^2 - 1\\right)$ and $6a^{x-4} + 6a^{x-3} = 6a^{x-4}\\left(1 + a\\right)$.",
+          ),
+          L(
+            "Abre $a^2 - 1 = \\left(a-1\\right)\\left(a+1\\right)$, cancela $\\left(a+1\\right)$, y junta coeficientes ($\\frac{8}{6}$) y potencias ($\\frac{a^{x-2}}{a^{x-4}}$).",
+            "Open $a^2 - 1 = \\left(a-1\\right)\\left(a+1\\right)$, cancel $\\left(a+1\\right)$, then combine coefficients ($\\frac{8}{6}$) and powers ($\\frac{a^{x-2}}{a^{x-4}}$).",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\dfrac{8a^x - 8a^{x-2}}{6a^{x-4} + 6a^{x-3}} = \\dfrac{8a^{x-2}\\left(a^2-1\\right)}{6a^{x-4}\\left(1+a\\right)} = \\dfrac{4a^2\\left(a-1\\right)}{3}$",
+          "$\\dfrac{8a^x - 8a^{x-2}}{6a^{x-4} + 6a^{x-3}} = \\dfrac{8a^{x-2}\\left(a^2-1\\right)}{6a^{x-4}\\left(1+a\\right)} = \\dfrac{4a^2\\left(a-1\\right)}{3}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La fracción $\\frac{8a^x - 8a^{x-2}}{6a^{x-4} + 6a^{x-3}}$ con $a \\ne 0$ y exponentes referidos a $x$.",
+            "The fraction $\\frac{8a^x - 8a^{x-2}}{6a^{x-4} + 6a^{x-3}}$ with $a \\ne 0$ and exponents relative to $x$.",
+          ),
+          step(
+            "approach",
+            "Factor común completo en cada lado (coeficiente y potencia de menor exponente), abrir la diferencia de cuadrados y cancelar por partes: números, potencias y el binomio.",
+            "Full common factor on each side (coefficient and smaller-exponent power), open the difference of squares, then cancel piecewise: numbers, powers and the binomial.",
+          ),
+          step(
+            "calculation",
+            "Numerador: $8a^x - 8a^{x-2} = 8a^{x-2}\\left(a^2 - 1\\right) = 8a^{x-2}\\left(a-1\\right)\\left(a+1\\right)$.<br>Denominador: $6a^{x-4} + 6a^{x-3} = 6a^{x-4}\\left(1 + a\\right)$.<br>$\\dfrac{8a^{x-2}\\left(a-1\\right)\\left(a+1\\right)}{6a^{x-4}\\left(a+1\\right)} = \\dfrac{8}{6} \\cdot \\dfrac{a^{x-2}}{a^{x-4}} \\cdot \\left(a-1\\right) = \\dfrac{4}{3}\\,a^{(x-2)-(x-4)}\\left(a-1\\right) = \\dfrac{4a^2\\left(a-1\\right)}{3}$.<br>Control con $a = 2$, $x = 4$: $\\frac{128 - 32}{6 + 12} = \\frac{96}{18} = \\frac{16}{3}$ y $\\frac{4 \\cdot 4 \\cdot 1}{3} = \\frac{16}{3}$ ✓",
+            "Numerator: $8a^x - 8a^{x-2} = 8a^{x-2}\\left(a^2 - 1\\right) = 8a^{x-2}\\left(a-1\\right)\\left(a+1\\right)$.<br>Denominator: $6a^{x-4} + 6a^{x-3} = 6a^{x-4}\\left(1 + a\\right)$.<br>$\\dfrac{8a^{x-2}\\left(a-1\\right)\\left(a+1\\right)}{6a^{x-4}\\left(a+1\\right)} = \\dfrac{8}{6} \\cdot \\dfrac{a^{x-2}}{a^{x-4}} \\cdot \\left(a-1\\right) = \\dfrac{4}{3}\\,a^{(x-2)-(x-4)}\\left(a-1\\right) = \\dfrac{4a^2\\left(a-1\\right)}{3}$.<br>Check at $a = 2$, $x = 4$: $\\frac{128 - 32}{6 + 12} = \\frac{96}{18} = \\frac{16}{3}$ and $\\frac{4 \\cdot 4 \\cdot 1}{3} = \\frac{16}{3}$ ✓",
+          ),
+          step(
+            "result",
+            "$\\dfrac{8a^x - 8a^{x-2}}{6a^{x-4} + 6a^{x-3}} = \\dfrac{4a^2\\left(a-1\\right)}{3}$ para $a \\ne 0, -1$: el exponente $x$ desaparece al restar $(x-2)-(x-4) = 2$.",
+            "$\\dfrac{8a^x - 8a^{x-2}}{6a^{x-4} + 6a^{x-3}} = \\dfrac{4a^2\\left(a-1\\right)}{3}$ for $a \\ne 0, -1$: the exponent $x$ disappears because $(x-2)-(x-4) = 2$.",
+          ),
+        ],
+      };
+    },
+  ),
 ];

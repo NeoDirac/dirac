@@ -1519,4 +1519,863 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+
+  /* ================================================================== */
+  /* Hoja de la alumna (DE, oct. 2025) — Sección 3 "Anwendung":          */
+  /* productos y cocientes de fracciones con exponentes negativos.       */
+  /* Transcripción del tutor como fuente de verdad; las 7 respuestas     */
+  /* re-derivadas con sympy (detectó 3 errores del primer cálculo        */
+  /* mental: S3.2, S3.4 y S3.5 — verificado 23/23).                      */
+  /* ================================================================== */
+
+  /* Hoja alumna · S3.1 — producto de fracciones, 4 variables. */
+  template(
+    {
+      id: "found-pow-03",
+      subject: "math",
+      topicId: "foundations",
+      subtopicId: "powers",
+      difficulty: "medium",
+      questionType: "expression",
+      estimatedTimeSec: 180,
+      tags: ["exponent-laws", "negative-exponents", "fractions", "class-sheet"],
+      prerequisites: ["powers"],
+      source: {
+        sourceId: "alumna-worksheet-2025",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "S3 · 1",
+      },
+      reasoning: "definition-hunting",
+    },
+    () => {
+      return {
+        skill: L(
+          "Producto de fracciones con exponentes negativos (hoja de clase real)",
+          "Product of fractions with negative exponents (real class sheet)",
+        ),
+        statement: L(
+          "Simplifica todo lo posible (con $a, b, x, y \\ne 0$; escribe por ejemplo y/(a^7*b*x^5)):\n\n$$\\frac{a^{-4}b^5}{x^3y^{-2}} \\cdot \\frac{x^{-2}y^{-1}}{a^3b^6}$$",
+          "Simplify as far as possible (with $a, b, x, y \\ne 0$; write e.g. y/(a^7*b*x^5)):\n\n$$\\frac{a^{-4}b^5}{x^3y^{-2}} \\cdot \\frac{x^{-2}y^{-1}}{a^3b^6}$$",
+        ),
+        answer: {
+          kind: "expression",
+          accepted: ["y/(a^7*b*x^5)", "y/(x^5*a^7*b)", "y*a^-7*b^-1*x^-5"],
+          variables: ["a", "b", "x", "y"],
+        },
+        hints: [
+          L(
+            "Multiplicar fracciones es multiplicar numeradores y multiplicar denominadores: reúne todo en una sola fracción.",
+            "Multiplying fractions means multiplying numerators and multiplying denominators: gather everything into a single fraction.",
+          ),
+          L(
+            "Por cada base, suma los exponentes de arriba y resta los de abajo: $a^{-4} \\cdot \\frac{1}{a^3} = a^{-4-3}$.",
+            "For each base, add the exponents on top and subtract the ones on the bottom: $a^{-4} \\cdot \\frac{1}{a^3} = a^{-4-3}$.",
+          ),
+          L(
+            "Exponentes por base: $a: -4-3$, $b: 5-6$, $x: -3-2$, $y: -1+2$. Un exponente negativo final baja la variable al denominador.",
+            "Exponents per base: $a: -4-3$, $b: 5-6$, $x: -3-2$, $y: -1+2$. A final negative exponent sends the variable to the denominator.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\dfrac{a^{-4}b^5}{x^3y^{-2}} \\cdot \\dfrac{x^{-2}y^{-1}}{a^3b^6} = \\dfrac{y}{a^7\\,b\\,x^5}$",
+          "$\\dfrac{a^{-4}b^5}{x^3y^{-2}} \\cdot \\dfrac{x^{-2}y^{-1}}{a^3b^6} = \\dfrac{y}{a^7\\,b\\,x^5}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El producto $\\frac{a^{-4}b^5}{x^3y^{-2}} \\cdot \\frac{x^{-2}y^{-1}}{a^3b^6}$ con todas las variables distintas de cero.",
+            "The product $\\frac{a^{-4}b^5}{x^3y^{-2}} \\cdot \\frac{x^{-2}y^{-1}}{a^3b^6}$ with all variables nonzero.",
+          ),
+          step(
+            "approach",
+            "Reunir cada base una sola vez sumando los exponentes del numerador y restando los del denominador (ley $a^m \\cdot a^n = a^{m+n}$ y $\\frac{1}{a^n} = a^{-n}$).",
+            "Collect each base once by adding numerator exponents and subtracting denominator exponents (law $a^m \\cdot a^n = a^{m+n}$ and $\\frac{1}{a^n} = a^{-n}$).",
+          ),
+          step(
+            "calculation",
+            "$a: -4 - 3 = -7$;<br>$b: 5 - 6 = -1$;<br>$x: -3 - 2 = -5$;<br>$y: -1 + 2 = +1$.<br>Resultado: $a^{-7}b^{-1}x^{-5}y = \\dfrac{y}{a^7\\,b\\,x^5}$.<br>Control con $a=b=x=y=2$: la primera fracción vale $\\frac{2^{-4}\\cdot 32}{8\\cdot 2^{-2}} = \\frac{2}{2} = 1$ y la segunda $\\frac{2^{-2}\\cdot 2^{-1}}{8\\cdot 64} = \\frac{1/8}{512} = \\frac{1}{4096}$; producto $\\frac{1}{4096}$, y $\\dfrac{y}{a^7bx^5} = \\frac{2}{128\\cdot 2\\cdot 32} = \\frac{1}{4096}$ ✓",
+            "$a: -4 - 3 = -7$;<br>$b: 5 - 6 = -1$;<br>$x: -3 - 2 = -5$;<br>$y: -1 + 2 = +1$.<br>Result: $a^{-7}b^{-1}x^{-5}y = \\dfrac{y}{a^7\\,b\\,x^5}$.<br>Check at $a=b=x=y=2$: both sides equal $\\frac{1}{4096}$ ✓",
+          ),
+          step(
+            "result",
+            "$\\dfrac{a^{-4}b^5}{x^3y^{-2}} \\cdot \\dfrac{x^{-2}y^{-1}}{a^3b^6} = \\dfrac{y}{a^7\\,b\\,x^5}$: cuatro bases, cada una con un solo exponente.",
+            "$\\dfrac{a^{-4}b^5}{x^3y^{-2}} \\cdot \\dfrac{x^{-2}y^{-1}}{a^3b^6} = \\dfrac{y}{a^7\\,b\\,x^5}$: four bases, each with a single exponent.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* Hoja alumna · S3.2 — división de fracciones con exponentes negativos. */
+  template(
+    {
+      id: "found-pow-04",
+      subject: "math",
+      topicId: "foundations",
+      subtopicId: "powers",
+      difficulty: "medium",
+      questionType: "expression",
+      estimatedTimeSec: 180,
+      tags: ["exponent-laws", "negative-exponents", "division", "class-sheet"],
+      prerequisites: ["powers"],
+      source: {
+        sourceId: "alumna-worksheet-2025",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "S3 · 2",
+      },
+      reasoning: "definition-hunting",
+    },
+    () => {
+      return {
+        skill: L(
+          "Dividir por una fracción con exponentes negativos (hoja de clase real)",
+          "Dividing by a fraction with negative exponents (real class sheet)",
+        ),
+        statement: L(
+          "Simplifica todo lo posible (con $a, b, x, y \\ne 0$; escribe por ejemplo a^4/(x^4*y^12)):\n\n$$\\frac{x^{-2}y^{-5}}{a^{-3}b^{-1}} : \\frac{a^{-1}b}{x^{-2}y^{-7}}$$",
+          "Simplify as far as possible (with $a, b, x, y \\ne 0$; write e.g. a^4/(x^4*y^12)):\n\n$$\\frac{x^{-2}y^{-5}}{a^{-3}b^{-1}} : \\frac{a^{-1}b}{x^{-2}y^{-7}}$$",
+        ),
+        answer: {
+          kind: "expression",
+          accepted: ["a^4/(x^4*y^12)", "a^4*x^-4*y^-12", "a^4/(x^4*y^12)"],
+          variables: ["a", "x", "y"],
+        },
+        hints: [
+          L(
+            "Los dos puntos ($:$) significan división: multiplicar por el **recíproco** de la segunda fracción.",
+            "The colon ($:$) means division: multiply by the **reciprocal** of the second fraction.",
+          ),
+          L(
+            "El recíproco de $\\frac{a^{-1}b}{x^{-2}y^{-7}}$ es $\\frac{x^{-2}y^{-7}}{a^{-1}b}$ — numerador y denominador intercambiados.",
+            "The reciprocal of $\\frac{a^{-1}b}{x^{-2}y^{-7}}$ is $\\frac{x^{-2}y^{-7}}{a^{-1}b}$ — numerator and denominator swapped.",
+          ),
+          L(
+            "Ahora por cada base: exponente del numerador **menos** exponente del denominador. Cuidado con los signos dobles: $-2 - 2$, $-5 - 7$, $3 - (-1)$.",
+            "Now for each base: numerator exponent **minus** denominator exponent. Watch the double signs: $-2 - 2$, $-5 - 7$, $3 - (-1)$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\dfrac{x^{-2}y^{-5}}{a^{-3}b^{-1}} : \\dfrac{a^{-1}b}{x^{-2}y^{-7}} = \\dfrac{a^4}{x^4\\,y^{12}}$",
+          "$\\dfrac{x^{-2}y^{-5}}{a^{-3}b^{-1}} : \\dfrac{a^{-1}b}{x^{-2}y^{-7}} = \\dfrac{a^4}{x^4\\,y^{12}}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El cociente $\\frac{x^{-2}y^{-5}}{a^{-3}b^{-1}} : \\frac{a^{-1}b}{x^{-2}y^{-7}}$ (la hoja alemana usa los dos puntos para dividir).",
+            "The quotient $\\frac{x^{-2}y^{-5}}{a^{-3}b^{-1}} : \\frac{a^{-1}b}{x^{-2}y^{-7}}$ (the German sheet uses the colon for division).",
+          ),
+          step(
+            "approach",
+            "Convertir la división en multiplicación por el recíproco y luego sumar/restar exponentes por base.",
+            "Turn the division into multiplication by the reciprocal, then add/subtract exponents per base.",
+          ),
+          step(
+            "calculation",
+            "Primera fracción como producto: $x^{-2}y^{-5}a^3b$ (dividir entre $a^{-3}b^{-1}$ es multiplicar por $a^3b$).<br>Recíproco de la segunda: $\\dfrac{x^{-2}y^{-7}}{a^{-1}b}$.<br>Producto: $x^{-2}\\cdot x^{-2} = x^{-4}$; $y^{-5}\\cdot y^{-7} = y^{-12}$; $a^3 \\div a^{-1} = a^{3-(-1)} = a^4$; $b \\div b = 1$.<br>Resultado: $\\dfrac{a^4}{x^4\\,y^{12}}$.<br>Control con $a = x = y = 2$: lhs $= \\frac{2^{-2}2^{-5}}{2^{-3}2^{-1}} : \\frac{2^{-1}\\cdot 2}{2^{-2}2^{-7}} = \\frac{2^{-7}}{2^{-4}} : \\frac{1}{2^{-9}} = 2^{-3} \\cdot 2^{-9} = 2^{-12}$; rhs $= \\frac{16}{16 \\cdot 4096} = 2^{-12}$ ✓",
+            "First fraction as a product: $x^{-2}y^{-5}a^3b$ (dividing by $a^{-3}b^{-1}$ multiplies by $a^3b$).<br>Reciprocal of the second: $\\dfrac{x^{-2}y^{-7}}{a^{-1}b}$.<br>Product: $x^{-2}\\cdot x^{-2} = x^{-4}$; $y^{-5}\\cdot y^{-7} = y^{-12}$; $a^3 \\div a^{-1} = a^{3-(-1)} = a^4$; $b \\div b = 1$.<br>Result: $\\dfrac{a^4}{x^4\\,y^{12}}$.<br>Check at $a = x = y = 2$: both sides equal $2^{-12}$ ✓",
+          ),
+          step(
+            "result",
+            "$\\dfrac{x^{-2}y^{-5}}{a^{-3}b^{-1}} : \\dfrac{a^{-1}b}{x^{-2}y^{-7}} = \\dfrac{a^4}{x^4\\,y^{12}}$. La trampa del ejercicio: las $x$ e $y$ del recíproco **suman** sus exponentes negativos en lugar de cancelarse.",
+            "$\\dfrac{x^{-2}y^{-5}}{a^{-3}b^{-1}} : \\dfrac{a^{-1}b}{x^{-2}y^{-7}} = \\dfrac{a^4}{x^4\\,y^{12}}$. The trap in this exercise: the reciprocal's $x$ and $y$ **add** their negative exponents instead of cancelling.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* Hoja alumna · S3.3 — cociente con 4 bases distintas. */
+  template(
+    {
+      id: "found-pow-05",
+      subject: "math",
+      topicId: "foundations",
+      subtopicId: "powers",
+      difficulty: "hard",
+      questionType: "expression",
+      estimatedTimeSec: 210,
+      tags: ["exponent-laws", "negative-exponents", "division", "class-sheet"],
+      prerequisites: ["powers"],
+      source: {
+        sourceId: "alumna-worksheet-2025",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "S3 · 3",
+      },
+      reasoning: "definition-hunting",
+    },
+    () => {
+      return {
+        skill: L(
+          "Cociente de fracciones con cuatro bases (hoja de clase real)",
+          "Quotient of fractions with four bases (real class sheet)",
+        ),
+        statement: L(
+          "Simplifica todo lo posible (con $p, q, r, s \\ne 0$; escribe por ejemplo p^2*r^9*s^6):\n\n$$\\frac{p^3q^{-2}}{r^{-3}s^{-5}} : \\frac{r^{-6}s^{-1}}{p^{-1}q^2}$$",
+          "Simplify as far as possible (with $p, q, r, s \\ne 0$; write e.g. p^2*r^9*s^6):\n\n$$\\frac{p^3q^{-2}}{r^{-3}s^{-5}} : \\frac{r^{-6}s^{-1}}{p^{-1}q^2}$$",
+        ),
+        answer: {
+          kind: "expression",
+          accepted: ["p^2*r^9*s^6", "p^2s^6r^9", "p^2*r^9*s^6"],
+          variables: ["p", "q", "r", "s"],
+        },
+        hints: [
+          L(
+            "Dividir = multiplicar por el recíproco: la segunda fracción se voltea por completo.",
+            "Dividing = multiplying by the reciprocal: flip the whole second fraction.",
+          ),
+          L(
+            "Escribe cada factor con signo: el numerador queda $p^3 q^{-2} r^3 s^5 \\cdot p^{-1} q^2 r^6 s^1$ — ¡todas las bases multiplican!",
+            "Write every factor with its sign: the numerator becomes $p^3 q^{-2} r^3 s^5 \\cdot p^{-1} q^2 r^6 s^1$ — every base multiplies!",
+          ),
+          L(
+            "Suma por base: $p: 3 + (-1)$, $q: -2 + 2$, $r: 3 + 6$, $s: 5 + 1$. La $q$ debería desaparecer.",
+            "Add per base: $p: 3 + (-1)$, $q: -2 + 2$, $r: 3 + 6$, $s: 5 + 1$. The $q$ should vanish.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\dfrac{p^3q^{-2}}{r^{-3}s^{-5}} : \\dfrac{r^{-6}s^{-1}}{p^{-1}q^2} = p^2\\,r^9\\,s^6$",
+          "$\\dfrac{p^3q^{-2}}{r^{-3}s^{-5}} : \\dfrac{r^{-6}s^{-1}}{p^{-1}q^2} = p^2\\,r^9\\,s^6$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El cociente $\\frac{p^3q^{-2}}{r^{-3}s^{-5}} : \\frac{r^{-6}s^{-1}}{p^{-1}q^2}$ con $p, q, r, s \\ne 0$.",
+            "The quotient $\\frac{p^3q^{-2}}{r^{-3}s^{-5}} : \\frac{r^{-6}s^{-1}}{p^{-1}q^2}$ with $p, q, r, s \\ne 0$.",
+          ),
+          step(
+            "approach",
+            "Recíproco de la segunda fracción y luego exponentes por base; los denominadores $r^{-3}s^{-5}$ suben como $r^3s^5$.",
+            "Reciprocal of the second fraction, then exponents per base; the denominators $r^{-3}s^{-5}$ rise as $r^3s^5$.",
+          ),
+          step(
+            "calculation",
+            "Numerador total: $p^3 q^{-2} r^3 s^5 \\cdot p^{-1} q^2 r^6 s^{1}$.<br>$p: 3 - 1 = 2$; $q: -2 + 2 = 0$; $r: 3 + 6 = 9$; $s: 5 + 1 = 6$.<br>Resultado: $p^2 r^9 s^6$ ($q^0 = 1$ desaparece).<br>Control con $p = r = 2$, $s = 3$, $q = 5$: la primera fracción vale $\\frac{8/25}{1/1944} = \\frac{15552}{25}$ y la segunda $\\frac{1/192}{25/2} = \\frac{1}{2400}$; el cociente $\\frac{15552}{25} \\cdot 2400 = 1492992 = 4 \\cdot 512 \\cdot 729$ ✓",
+            "Total numerator: $p^3 q^{-2} r^3 s^5 \\cdot p^{-1} q^2 r^6 s^{1}$.<br>$p: 3 - 1 = 2$; $q: -2 + 2 = 0$; $r: 3 + 6 = 9$; $s: 5 + 1 = 6$.<br>Result: $p^2 r^9 s^6$ ($q^0 = 1$ vanishes).<br>Check at $p = r = 2$, $s = 3$, $q = 5$: both sides match ✓",
+          ),
+          step(
+            "result",
+            "$\\dfrac{p^3q^{-2}}{r^{-3}s^{-5}} : \\dfrac{r^{-6}s^{-1}}{p^{-1}q^2} = p^2\\,r^9\\,s^6$: la $q$ se cancela sola y el resultado queda en el numerador.",
+            "$\\dfrac{p^3q^{-2}}{r^{-3}s^{-5}} : \\dfrac{r^{-6}s^{-1}}{p^{-1}q^2} = p^2\\,r^9\\,s^6$: the $q$ cancels itself and the result stays in the numerator.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* Hoja alumna · S3.4 — potencias de potencias con exponente exterior negativo. */
+  template(
+    {
+      id: "found-pow-06",
+      subject: "math",
+      topicId: "foundations",
+      subtopicId: "powers",
+      difficulty: "hard",
+      questionType: "expression",
+      estimatedTimeSec: 300,
+      tags: ["exponent-laws", "negative-exponents", "power-of-power", "class-sheet"],
+      prerequisites: ["powers"],
+      source: {
+        sourceId: "alumna-worksheet-2025",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "S3 · 4",
+      },
+      reasoning: "multi-concept",
+    },
+    () => {
+      return {
+        skill: L(
+          "Potencia de una fracción elevada a exponente negativo (hoja de clase real)",
+          "Power of a fraction raised to a negative exponent (real class sheet)",
+        ),
+        statement: L(
+          "Simplifica todo lo posible (con $a, b, r, s \\ne 0$; escribe por ejemplo a^8*s^2/(b^8*r^4)):\n\n$$\\left(\\frac{a^2b^{-2}}{r^{-4}s^{-3}}\\right)^2 : \\left(\\frac{r^{-3}s^{-1}}{a^{-1}b}\\right)^{-4}$$",
+          "Simplify as far as possible (with $a, b, r, s \\ne 0$; write e.g. a^8*s^2/(b^8*r^4)):\n\n$$\\left(\\frac{a^2b^{-2}}{r^{-4}s^{-3}}\\right)^2 : \\left(\\frac{r^{-3}s^{-1}}{a^{-1}b}\\right)^{-4}$$",
+        ),
+        answer: {
+          kind: "expression",
+          accepted: ["a^8*s^2/(b^8*r^4)", "a^8/(b^8*r^4)*s^2", "a^8*s^2*b^-8*r^-4"],
+          variables: ["a", "b", "r", "s"],
+        },
+        hints: [
+          L(
+            "Potencia de un cociente: eleva numerador y denominador por separado ($\\left(\\frac{u}{v}\\right)^n = \\frac{u^n}{v^n}$).",
+            "Power of a quotient: raise numerator and denominator separately ($\\left(\\frac{u}{v}\\right)^n = \\frac{u^n}{v^n}$).",
+          ),
+          L(
+            "El exponente exterior $-4$ de la segunda fracción **voltea** la fracción y después multiplica cada exponente por $4$: $\\left(\\frac{r^{-3}s^{-1}}{a^{-1}b}\\right)^{-4} = \\left(\\frac{a^{-1}b}{r^{-3}s^{-1}}\\right)^{4} = \\frac{a^{-4}b^4}{r^{-12}s^{-4}}$.",
+            "The outer exponent $-4$ on the second fraction **flips** it and then multiplies every exponent by $4$: $\\left(\\frac{r^{-3}s^{-1}}{a^{-1}b}\\right)^{-4} = \\left(\\frac{a^{-1}b}{r^{-3}s^{-1}}\\right)^{4} = \\frac{a^{-4}b^4}{r^{-12}s^{-4}}$.",
+          ),
+          L(
+            "Primera fracción elevada al cuadrado: $\\frac{a^4 b^{-4}}{r^{-8} s^{-6}}$. Ahora divide: exponente arriba menos exponente abajo, por base.",
+            "First fraction squared: $\\frac{a^4 b^{-4}}{r^{-8} s^{-6}}$. Now divide: top exponent minus bottom exponent, per base.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\left(\\dfrac{a^2b^{-2}}{r^{-4}s^{-3}}\\right)^2 : \\left(\\dfrac{r^{-3}s^{-1}}{a^{-1}b}\\right)^{-4} = \\dfrac{a^8\\,s^2}{b^8\\,r^4}$",
+          "$\\left(\\dfrac{a^2b^{-2}}{r^{-4}s^{-3}}\\right)^2 : \\left(\\dfrac{r^{-3}s^{-1}}{a^{-1}b}\\right)^{-4} = \\dfrac{a^8\\,s^2}{b^8\\,r^4}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El cociente $\\left(\\frac{a^2b^{-2}}{r^{-4}s^{-3}}\\right)^2 : \\left(\\frac{r^{-3}s^{-1}}{a^{-1}b}\\right)^{-4}$ — potencias de potencias con exponente exterior negativo.",
+            "The quotient $\\left(\\frac{a^2b^{-2}}{r^{-4}s^{-3}}\\right)^2 : \\left(\\frac{r^{-3}s^{-1}}{a^{-1}b}\\right)^{-4}$ — powers of powers with a negative outer exponent.",
+          ),
+          step(
+            "approach",
+            "Primero resolver cada potencia de potencia (multiplicar exponentes), después dividir restando exponentes por base.",
+            "First resolve each power of a power (multiply exponents), then divide by subtracting exponents per base.",
+          ),
+          step(
+            "calculation",
+            "Primera: $\\left(\\frac{a^2b^{-2}}{r^{-4}s^{-3}}\\right)^2 = \\frac{a^4b^{-4}}{r^{-8}s^{-6}} = a^4b^{-4}r^8s^6$.<br>Segunda: el exponente $-4$ voltea la fracción: $\\left(\\frac{a^{-1}b}{r^{-3}s^{-1}}\\right)^4 = \\frac{a^{-4}b^4}{r^{-12}s^{-4}} = a^{-4}b^4r^{12}s^4$.<br>División: $a: 4-(-4) = 8$; $b: -4-4 = -8$; $r: 8-12 = -4$; $s: 6-4 = 2$.<br>Resultado: $\\dfrac{a^8\\,s^2}{b^8\\,r^4}$.<br>Control con $a=2, b=3, r=5, s=7$: la primera potencia vale $\\left(\\frac{4/9}{1/214375}\\right)^2 \\approx 9{,}078 \\cdot 10^{9}$ y la segunda $\\left(\\frac{2}{2625}\\right)^{-4} \\approx 2{,}968 \\cdot 10^{12}$; el cociente $\\approx 3{,}059 \\cdot 10^{-3} = \\frac{256 \\cdot 49}{6561 \\cdot 625}$ ✓",
+            "First: $\\left(\\frac{a^2b^{-2}}{r^{-4}s^{-3}}\\right)^2 = \\frac{a^4b^{-4}}{r^{-8}s^{-6}} = a^4b^{-4}r^8s^6$.<br>Second: the exponent $-4$ flips the fraction: $\\left(\\frac{a^{-1}b}{r^{-3}s^{-1}}\\right)^4 = \\frac{a^{-4}b^4}{r^{-12}s^{-4}} = a^{-4}b^4r^{12}s^4$.<br>Division: $a: 4-(-4) = 8$; $b: -4-4 = -8$; $r: 8-12 = -4$; $s: 6-4 = 2$.<br>Result: $\\dfrac{a^8\\,s^2}{b^8\\,r^4}$.<br>Check at $a=2, b=3, r=5, s=7$: both sides numerically equal $3{,}059 \\cdot 10^{-3}$ ✓",
+          ),
+          step(
+            "result",
+            "$\\left(\\dfrac{a^2b^{-2}}{r^{-4}s^{-3}}\\right)^2 : \\left(\\dfrac{r^{-3}s^{-1}}{a^{-1}b}\\right)^{-4} = \\dfrac{a^8\\,s^2}{b^8\\,r^4}$. Dos reglas encadenadas: $(u^m)^n = u^{mn}$ y el exponente negativo exterior que voltea la fracción.",
+            "$\\left(\\dfrac{a^2b^{-2}}{r^{-4}s^{-3}}\\right)^2 : \\left(\\dfrac{r^{-3}s^{-1}}{a^{-1}b}\\right)^{-4} = \\dfrac{a^8\\,s^2}{b^8\\,r^4}$. Two chained rules: $(u^m)^n = u^{mn}$ and the negative outer exponent flipping the fraction.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* Hoja alumna · S3.5 — (4a^2b)^{-2} con paréntesis internos. */
+  template(
+    {
+      id: "found-pow-07",
+      subject: "math",
+      topicId: "foundations",
+      subtopicId: "powers",
+      difficulty: "hard",
+      questionType: "expression",
+      estimatedTimeSec: 300,
+      tags: ["exponent-laws", "negative-exponents", "power-of-power", "class-sheet"],
+      prerequisites: ["powers"],
+      source: {
+        sourceId: "alumna-worksheet-2025",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "S3 · 5",
+      },
+      reasoning: "multi-concept",
+    },
+    () => {
+      return {
+        skill: L(
+          "Paréntesis elevados a exponentes negativos en cociente (hoja de clase real)",
+          "Parentheses raised to negative exponents in a quotient (real class sheet)",
+        ),
+        statement: L(
+          "Simplifica todo lo posible (con $a, b, x, y \\ne 0$; escribe por ejemplo a^2/(16*b^5*y)):\n\n$$\\frac{\\left(4a^2b\\right)^{-2}}{x^2y^{-1}} : \\frac{\\left(x^{-1}y\\right)^2}{\\left(a^{-2}b\\right)^{-3}}$$",
+          "Simplify as far as possible (with $a, b, x, y \\ne 0$; write e.g. a^2/(16*b^5*y)):\n\n$$\\frac{\\left(4a^2b\\right)^{-2}}{x^2y^{-1}} : \\frac{\\left(x^{-1}y\\right)^2}{\\left(a^{-2}b\\right)^{-3}}$$",
+        ),
+        answer: {
+          kind: "expression",
+          accepted: ["a^2/(16*b^5*y)", "a^2/(16*b^5*y)", "a^2*16^-1*b^-5*y^-1"],
+          variables: ["a", "b", "x", "y"],
+        },
+        hints: [
+          L(
+            "Abre cada paréntesis: el exponente exterior toca **todo** lo de dentro, incluido el $4$: $\\left(4a^2b\\right)^{-2} = 4^{-2}a^{-4}b^{-2} = \\frac{1}{16}a^{-4}b^{-2}$.",
+            "Open each parenthesis: the outer exponent touches **everything** inside, including the $4$: $\\left(4a^2b\\right)^{-2} = 4^{-2}a^{-4}b^{-2} = \\frac{1}{16}a^{-4}b^{-2}$.",
+          ),
+          L(
+            "$\\left(x^{-1}y\\right)^2 = x^{-2}y^2$ y $\\left(a^{-2}b\\right)^{-3} = a^6b^{-3}$ (el $-3$ multiplica al $-2$ y da $+6$).",
+            "$\\left(x^{-1}y\\right)^2 = x^{-2}y^2$ and $\\left(a^{-2}b\\right)^{-3} = a^6b^{-3}$ (the $-3$ multiplies the $-2$ giving $+6$).",
+          ),
+          L(
+            "Dividir por la segunda fracción = multiplicar por su recíproco; después reúne por base, sin olvidar el $\\frac{1}{16}$.",
+            "Dividing by the second fraction = multiplying by its reciprocal; then collect per base, keeping the $\\frac{1}{16}$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\dfrac{\\left(4a^2b\\right)^{-2}}{x^2y^{-1}} : \\dfrac{\\left(x^{-1}y\\right)^2}{\\left(a^{-2}b\\right)^{-3}} = \\dfrac{a^2}{16\\,b^5\\,y}$",
+          "$\\dfrac{\\left(4a^2b\\right)^{-2}}{x^2y^{-1}} : \\dfrac{\\left(x^{-1}y\\right)^2}{\\left(a^{-2}b\\right)^{-3}} = \\dfrac{a^2}{16\\,b^5\\,y}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El cociente $\\frac{\\left(4a^2b\\right)^{-2}}{x^2y^{-1}} : \\frac{\\left(x^{-1}y\\right)^2}{\\left(a^{-2}b\\right)^{-3}}$ con tres paréntesis elevados a potencias.",
+            "The quotient $\\frac{\\left(4a^2b\\right)^{-2}}{x^2y^{-1}} : \\frac{\\left(x^{-1}y\\right)^2}{\\left(a^{-2}b\\right)^{-3}}$ with three parenthesized powers.",
+          ),
+          step(
+            "approach",
+            "Abrir los tres paréntesis (cada factor interno recibe el exponente exterior), convertir la división en multiplicación por el recíproco y recolectar por base.",
+            "Open the three parentheses (each inner factor receives the outer exponent), turn the division into multiplication by the reciprocal and collect per base.",
+          ),
+          step(
+            "calculation",
+            "$\\left(4a^2b\\right)^{-2} = \\frac{1}{16}a^{-4}b^{-2}$;<br>$\\left(x^{-1}y\\right)^2 = x^{-2}y^2$;<br>$\\left(a^{-2}b\\right)^{-3} = a^{6}b^{-3}$.<br>Primera fracción: $\\frac{\\frac{1}{16}a^{-4}b^{-2}}{x^2y^{-1}} = \\frac{1}{16}a^{-4}b^{-2}x^{-2}y$.<br>Segunda fracción: $\\frac{x^{-2}y^2}{a^6b^{-3}} = x^{-2}y^2a^{-6}b^3$.<br>División: $a: -4-(-6) = 2$; $b: -2-3 = -5$; $x: -2-(-2) = 0$; $y: 1-2 = -1$; y el $\\frac{1}{16}$.<br>Resultado: $\\dfrac{a^2}{16\\,b^5\\,y}$.<br>Control con $a=b=2$, $x=3$, $y=5$: lhs $= \\frac{32^{-2}}{9/5} : \\frac{25/9}{(1/2)^{-3}} = \\frac{5}{9216} : \\frac{25}{72} = \\frac{5 \\cdot 72}{9216 \\cdot 25} = \\frac{1}{640}$; rhs $= \\frac{4}{16 \\cdot 32 \\cdot 5} = \\frac{1}{640}$ ✓",
+            "$\\left(4a^2b\\right)^{-2} = \\frac{1}{16}a^{-4}b^{-2}$;<br>$\\left(x^{-1}y\\right)^2 = x^{-2}y^2$;<br>$\\left(a^{-2}b\\right)^{-3} = a^{6}b^{-3}$.<br>First fraction: $\\frac{\\frac{1}{16}a^{-4}b^{-2}}{x^2y^{-1}} = \\frac{1}{16}a^{-4}b^{-2}x^{-2}y$.<br>Second fraction: $\\frac{x^{-2}y^2}{a^6b^{-3}} = x^{-2}y^2a^{-6}b^3$.<br>Division: $a: -4-(-6) = 2$; $b: -2-3 = -5$; $x: -2-(-2) = 0$; $y: 1-2 = -1$; plus the $\\frac{1}{16}$.<br>Result: $\\dfrac{a^2}{16\\,b^5\\,y}$.<br>Check at $a=b=2$, $x=3$, $y=5$: both sides equal $\\frac{1}{640}$ ✓",
+          ),
+          step(
+            "result",
+            "$\\dfrac{\\left(4a^2b\\right)^{-2}}{x^2y^{-1}} : \\dfrac{\\left(x^{-1}y\\right)^2}{\\left(a^{-2}b\\right)^{-3}} = \\dfrac{a^2}{16\\,b^5\\,y}$: el $4$ del paréntesis aporta el $16$ del denominador y las $x$ se cancelan por completo.",
+            "$\\dfrac{\\left(4a^2b\\right)^{-2}}{x^2y^{-1}} : \\dfrac{\\left(x^{-1}y\\right)^2}{\\left(a^{-2}b\\right)^{-3}} = \\dfrac{a^2}{16\\,b^5\\,y}$: the $4$ inside the parenthesis supplies the $16$ in the denominator and the $x$'s cancel completely.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* Hoja alumna · S3.6 — potencia exterior negativa + producto. */
+  template(
+    {
+      id: "found-pow-08",
+      subject: "math",
+      topicId: "foundations",
+      subtopicId: "powers",
+      difficulty: "hard",
+      questionType: "expression",
+      estimatedTimeSec: 300,
+      tags: ["exponent-laws", "negative-exponents", "power-of-power", "class-sheet"],
+      prerequisites: ["powers"],
+      source: {
+        sourceId: "alumna-worksheet-2025",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "S3 · 6",
+      },
+      reasoning: "multi-concept",
+    },
+    () => {
+      return {
+        skill: L(
+          "Fracción elevada a exponente negativo multiplicada por otra (hoja de clase real)",
+          "Fraction raised to a negative exponent times another (real class sheet)",
+        ),
+        statement: L(
+          "Simplifica todo lo posible (con $x, y \\ne 0$; escribe por ejemplo 1/(72*x^6*y^4)):\n\n$$\\left(\\frac{36x^{-2}y^{-1}}{3x^{-2}y^{-2}}\\right)^{-2} \\cdot \\frac{x^{-3}\\left(2y^{-2}\\right)^2}{2x^3y^{-2}}$$",
+          "Simplify as far as possible (with $x, y \\ne 0$; write e.g. 1/(72*x^6*y^4)):\n\n$$\\left(\\frac{36x^{-2}y^{-1}}{3x^{-2}y^{-2}}\\right)^{-2} \\cdot \\frac{x^{-3}\\left(2y^{-2}\\right)^2}{2x^3y^{-2}}$$",
+        ),
+        answer: {
+          kind: "expression",
+          accepted: ["1/(72*x^6*y^4)", "1/(72*x^6*y^4)", "(2y^-2)^0*1/(72x^6y^4)"],
+          variables: ["x", "y"],
+        },
+        hints: [
+          L(
+            "Dentro del paréntesis grande: $\\frac{36}{3} = 12$ y $\\frac{y^{-1}}{y^{-2}} = y^{-1-(-2)} = y$ — las $x^{-2}$ se cancelan.",
+            "Inside the big parenthesis: $\\frac{36}{3} = 12$ and $\\frac{y^{-1}}{y^{-2}} = y^{-1-(-2)} = y$ — the $x^{-2}$'s cancel.",
+          ),
+          L(
+            "El paréntesis queda $\\left(12y\\right)$, y con el exponente exterior $-2$: $\\left(12y\\right)^{-2} = \\frac{1}{144y^2}$.",
+            "The parenthesis becomes $\\left(12y\\right)$, and with the outer exponent $-2$: $\\left(12y\\right)^{-2} = \\frac{1}{144y^2}$.",
+          ),
+          L(
+            "En la segunda fracción: $\\left(2y^{-2}\\right)^2 = 4y^{-4}$. Multiplica y reúne potencias de $x$ e $y$.",
+            "In the second fraction: $\\left(2y^{-2}\\right)^2 = 4y^{-4}$. Multiply and collect powers of $x$ and $y$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\left(\\dfrac{36x^{-2}y^{-1}}{3x^{-2}y^{-2}}\\right)^{-2} \\cdot \\dfrac{x^{-3}\\left(2y^{-2}\\right)^2}{2x^3y^{-2}} = \\dfrac{1}{72\\,x^6\\,y^4}$",
+          "$\\left(\\dfrac{36x^{-2}y^{-1}}{3x^{-2}y^{-2}}\\right)^{-2} \\cdot \\dfrac{x^{-3}\\left(2y^{-2}\\right)^2}{2x^3y^{-2}} = \\dfrac{1}{72\\,x^6\\,y^4}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El producto $\\left(\\frac{36x^{-2}y^{-1}}{3x^{-2}y^{-2}}\\right)^{-2} \\cdot \\frac{x^{-3}\\left(2y^{-2}\\right)^2}{2x^3y^{-2}}$.",
+            "The product $\\left(\\frac{36x^{-2}y^{-1}}{3x^{-2}y^{-2}}\\right)^{-2} \\cdot \\frac{x^{-3}\\left(2y^{-2}\\right)^2}{2x^3y^{-2}}$.",
+          ),
+          step(
+            "approach",
+            "Simplificar primero el interior del paréntesis (mucho se cancela ahí), aplicar el exponente exterior y después operar la segunda fracción.",
+            "Simplify the inside of the parenthesis first (a lot cancels there), apply the outer exponent, then handle the second fraction.",
+          ),
+          step(
+            "calculation",
+            "Interior: $\\dfrac{36x^{-2}y^{-1}}{3x^{-2}y^{-2}} = 12\\,y^{-1-(-2)} = 12y$; con el exponente $-2$: $\\left(12y\\right)^{-2} = \\dfrac{1}{144y^2}$.<br>Segunda fracción: $\\dfrac{x^{-3} \\cdot 4y^{-4}}{2x^3y^{-2}} = \\dfrac{4}{2}x^{-3-3}y^{-4+2} = 2x^{-6}y^{-2}$.<br>Producto: $\\dfrac{1}{144y^2} \\cdot 2x^{-6}y^{-2} = \\dfrac{2}{144}x^{-6}y^{-4} = \\dfrac{1}{72\\,x^6\\,y^4}$.<br>Control con $x = 2$, $y = 3$: lhs $= \\left(\\frac{3}{1/12}\\right)^{-2} \\cdot \\frac{1/8 \\cdot 4/81}{16/9} = 36^{-2} \\cdot \\frac{1/162}{16/9} = \\frac{1}{1296} \\cdot \\frac{9}{2592} = \\frac{1}{373248}$; rhs $= \\frac{1}{72 \\cdot 64 \\cdot 81} = \\frac{1}{373248}$ ✓",
+            "Inside: $\\dfrac{36x^{-2}y^{-1}}{3x^{-2}y^{-2}} = 12\\,y^{-1-(-2)} = 12y$; with the $-2$ exponent: $\\left(12y\\right)^{-2} = \\dfrac{1}{144y^2}$.<br>Second fraction: $\\dfrac{x^{-3} \\cdot 4y^{-4}}{2x^3y^{-2}} = \\dfrac{4}{2}x^{-3-3}y^{-4+2} = 2x^{-6}y^{-2}$.<br>Product: $\\dfrac{1}{144y^2} \\cdot 2x^{-6}y^{-2} = \\dfrac{2}{144}x^{-6}y^{-4} = \\dfrac{1}{72\\,x^6\\,y^4}$.<br>Check at $x = 2$, $y = 3$: both sides equal $\\frac{1}{373248}$ ✓",
+          ),
+          step(
+            "result",
+            "$\\left(\\dfrac{36x^{-2}y^{-1}}{3x^{-2}y^{-2}}\\right)^{-2} \\cdot \\dfrac{x^{-3}\\left(2y^{-2}\\right)^2}{2x^3y^{-2}} = \\dfrac{1}{72\\,x^6\\,y^4}$: simplificar el interior del paréntesis ANTES de elevar evita elevar números gigantes.",
+            "$\\left(\\dfrac{36x^{-2}y^{-1}}{3x^{-2}y^{-2}}\\right)^{-2} \\cdot \\dfrac{x^{-3}\\left(2y^{-2}\\right)^2}{2x^3y^{-2}} = \\dfrac{1}{72\\,x^6\\,y^4}$: simplifying the inside of the parenthesis BEFORE raising avoids huge numbers.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* Hoja alumna · S3.7 — corchetes anidados. */
+  template(
+    {
+      id: "found-pow-09",
+      subject: "math",
+      topicId: "foundations",
+      subtopicId: "powers",
+      difficulty: "medium",
+      questionType: "expression",
+      estimatedTimeSec: 150,
+      tags: ["exponent-laws", "negative-exponents", "nested-powers", "class-sheet"],
+      prerequisites: ["powers"],
+      source: {
+        sourceId: "alumna-worksheet-2025",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "S3 · 7",
+      },
+      reasoning: "definition-hunting",
+    },
+    () => {
+      return {
+        skill: L(
+          "Corchetes y paréntesis anidados con exponentes negativos (hoja de clase real)",
+          "Nested brackets and parentheses with negative exponents (real class sheet)",
+        ),
+        statement: L(
+          "Simplifica todo lo posible (con $a, b \\ne 0$; escribe por ejemplo 1/(a^2*b^6)):\n\n$$\\left[\\left(\\frac{ab^{-2}}{a^2b}\\right)^{-2}\\right]^{-1}$$",
+          "Simplify as far as possible (with $a, b \\ne 0$; write e.g. 1/(a^2*b^6)):\n\n$$\\left[\\left(\\frac{ab^{-2}}{a^2b}\\right)^{-2}\\right]^{-1}$$",
+        ),
+        answer: {
+          kind: "expression",
+          accepted: ["1/(a^2*b^6)", "a^-2*b^-6", "1/(a^2*b^6)"],
+          variables: ["a", "b"],
+        },
+        hints: [
+          L(
+            "Exponentes anidados se multiplican: $\\left[u^{-2}\\right]^{-1} = u^{(-2)\\cdot(-1)} = u^{2}$.",
+            "Nested exponents multiply: $\\left[u^{-2}\\right]^{-1} = u^{(-2)\\cdot(-1)} = u^{2}$.",
+          ),
+          L(
+            "Así el ejercicio se reduce a $\\left(\\frac{ab^{-2}}{a^2b}\\right)^{2}$: eleva numerador y denominador al cuadrado.",
+            "So the exercise reduces to $\\left(\\frac{ab^{-2}}{a^2b}\\right)^{2}$: square numerator and denominator.",
+          ),
+          L(
+            "Numérico: $a: 1-2 = -1$ y $b: -2-1 = -3$ dentro; al cuadrado quedan $a^{-2}$ y $b^{-6}$.",
+            "Numerically: $a: 1-2 = -1$ and $b: -2-1 = -3$ inside; squared they become $a^{-2}$ and $b^{-6}$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\left[\\left(\\dfrac{ab^{-2}}{a^2b}\\right)^{-2}\\right]^{-1} = \\left(\\dfrac{ab^{-2}}{a^2b}\\right)^{2} = \\dfrac{1}{a^2b^6}$",
+          "$\\left[\\left(\\dfrac{ab^{-2}}{a^2b}\\right)^{-2}\\right]^{-1} = \\left(\\dfrac{ab^{-2}}{a^2b}\\right)^{2} = \\dfrac{1}{a^2b^6}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La potencia anidada $\\left[\\left(\\frac{ab^{-2}}{a^2b}\\right)^{-2}\\right]^{-1}$ con $a, b \\ne 0$.",
+            "The nested power $\\left[\\left(\\frac{ab^{-2}}{a^2b}\\right)^{-2}\\right]^{-1}$ with $a, b \\ne 0$.",
+          ),
+          step(
+            "approach",
+            "Multiplicar los exponentes anidados $(-2)\\cdot(-1) = +2$ y simplificar la fracción interna antes de elevar.",
+            "Multiply the nested exponents $(-2)\\cdot(-1) = +2$ and simplify the inner fraction before raising.",
+          ),
+          step(
+            "calculation",
+            "$\\left[u^{-2}\\right]^{-1} = u^{2}$ con $u = \\frac{ab^{-2}}{a^2b}$.<br>Interior: $\\dfrac{ab^{-2}}{a^2b} = a^{1-2}b^{-2-1} = a^{-1}b^{-3}$.<br>Elevado al cuadrado: $\\left(a^{-1}b^{-3}\\right)^2 = a^{-2}b^{-6} = \\dfrac{1}{a^2b^6}$.<br>Control con $a = 2$, $b = 3$: interior $= \\frac{2 \\cdot \\frac19}{4 \\cdot 3} = \\frac{1}{54}$; $\\left(\\frac{1}{54}\\right)^2 = \\frac{1}{2916}$; rhs $= \\frac{1}{4 \\cdot 729} = \\frac{1}{2916}$ ✓",
+            "$\\left[u^{-2}\\right]^{-1} = u^{2}$ with $u = \\frac{ab^{-2}}{a^2b}$.<br>Inner: $\\dfrac{ab^{-2}}{a^2b} = a^{1-2}b^{-2-1} = a^{-1}b^{-3}$.<br>Squared: $\\left(a^{-1}b^{-3}\\right)^2 = a^{-2}b^{-6} = \\dfrac{1}{a^2b^6}$.<br>Check at $a = 2$, $b = 3$: inner $= \\frac{1}{54}$; $\\left(\\frac{1}{54}\\right)^2 = \\frac{1}{2916}$; rhs $= \\frac{1}{4 \\cdot 729} = \\frac{1}{2916}$ ✓",
+          ),
+          step(
+            "result",
+            "$\\left[\\left(\\dfrac{ab^{-2}}{a^2b}\\right)^{-2}\\right]^{-1} = \\dfrac{1}{a^2b^6}$: dos negativos anidados se vuelven un positivo — el ejercicio es más corto de lo que parece.",
+            "$\\left[\\left(\\dfrac{ab^{-2}}{a^2b}\\right)^{-2}\\right]^{-1} = \\dfrac{1}{a^2b^6}$: two nested negatives make a positive — the exercise is shorter than it looks.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* ================================================================== */
+  /* Hoja de la alumna (DE, oct. 2025) — Imagen 2: problema de Venn      */
+  /* (encuesta mermelada/miel/Nutella). Partes b–e como preguntas        */
+  /* numéricas; cada una trae el enunciado completo. Regiones            */
+  /* verificadas: 27/25/20/3/6/0/19 (suma 100). Nota: se añadió el       */
+  /* supuesto "cada encuestado gusta de al menos uno" para que el        */
+  /* problema sea determinado (documentado en la solución).              */
+  /* ================================================================== */
+
+  /* Hoja alumna · Venn b — el centro del diagrama. */
+  template(
+    {
+      id: "found-venn-01",
+      subject: "math",
+      topicId: "foundations",
+      subtopicId: "venn-diagrams",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 240,
+      tags: ["sets", "venn", "inclusion-exclusion", "survey", "class-sheet"],
+      prerequisites: ["venn-diagrams"],
+      source: {
+        sourceId: "alumna-worksheet-2025",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "Venn · b",
+      },
+      reasoning: "modeling",
+    },
+    () => {
+      return {
+        skill: L(
+          "Diagrama de Venn con tres conjuntos: hallar la zona central (hoja de clase real)",
+          "Three-set Venn diagram: finding the center (real class sheet)",
+        ),
+        statement: L(
+          "De 100 personas encuestadas, 55 indicaron que les gusta la mermelada, 47 que les gusta la miel y 45 la Nutella. A 22 les gusta la mermelada y la miel, a 25 la mermelada y la Nutella, y a 19 la miel y la Nutella. Se sabe además que **a cada encuestado le gusta al menos uno** de los tres alimentos.\n\na) Dibuja el diagrama de Venn en tu cuaderno.\n\nb) ¿A cuántas personas les gustan los **tres** alimentos?",
+          "Out of 100 people surveyed, 55 said they like jam, 47 like honey and 45 like Nutella. 22 like jam and honey, 25 like jam and Nutella, and 19 like honey and Nutella. It is also known that **every surveyed person likes at least one** of the three foods.\n\na) Draw the Venn diagram in your notebook.\n\nb) How many people like **all three** foods?",
+        ),
+        answer: { kind: "numeric", value: 19, tolerance: { mode: "absolute", value: 0 } },
+        hints: [
+          L(
+            "Usa inclusión–exclusión con tres conjuntos: $|M \\cup H \\cup N| = |M| + |H| + |N| - |M \\cap H| - |M \\cap N| - |H \\cap N| + |M \\cap H \\cap N|$.",
+            "Use inclusion–exclusion with three sets: $|M \\cup H \\cup N| = |M| + |H| + |N| - |M \\cap H| - |M \\cap N| - |H \\cap N| + |M \\cap H \\cap N|$.",
+          ),
+          L(
+            "Suma los tres \"gustos\" y resta los tres \"pares\": $55 + 47 + 45 - 22 - 25 - 19 = 81$. Ese número aún no cuenta la zona central.",
+            "Add the three \"likes\" and subtract the three \"pairs\": $55 + 47 + 45 - 22 - 25 - 19 = 81$. That number still does not count the center zone.",
+          ),
+          L(
+            "Como a TODOS les gusta al menos uno, la unión completa son las 100 personas: despeja la zona central de $81 + x = 100$.",
+            "Since EVERYONE likes at least one, the full union is the 100 people: solve for the center in $81 + x = 100$.",
+          ),
+        ],
+        answerDisplay: L(
+          "A **19** personas les gustan los tres alimentos ($100 - 81 = 19$).",
+          "**19** people like all three foods ($100 - 81 = 19$).",
+        ),
+        solution: [
+          step(
+            "given",
+            "100 encuestados; mermelada 55, miel 47, Nutella 45; pares: mermelada∧miel 22, mermelada∧Nutella 25, miel∧Nutella 19; todos gustan de al menos uno. (El supuesto \"al menos uno\" se añadió para que el dato de las 100 personas determine el problema.)",
+            "100 surveyed; jam 55, honey 47, Nutella 45; pairs: jam∧honey 22, jam∧Nutella 25, honey∧Nutella 19; everyone likes at least one. (The \"at least one\" assumption was added so that the 100-person total determines the problem.)",
+          ),
+          step(
+            "approach",
+            "Inclusión–exclusión para tres conjuntos, despejando la intersección triple $x = |M \\cap H \\cap N|$.",
+            "Inclusion–exclusion for three sets, solving for the triple intersection $x = |M \\cap H \\cap N|$.",
+          ),
+          step(
+            "calculation",
+            "$|M \\cup H \\cup N| = 55 + 47 + 45 - 22 - 25 - 19 + x = 81 + x$.<br>Como la unión son todas las personas ($100$): $81 + x = 100 \\Rightarrow x = 19$.<br>Regiones del diagrama: solo mermelada $55 - 22 - 25 + 19 = 27$; solo miel $47 - 22 - 19 + 19 = 25$; solo Nutella $45 - 25 - 19 + 19 = 20$; solo mermelada∧miel $22 - 19 = 3$; solo mermelada∧Nutella $25 - 19 = 6$; solo miel∧Nutella $19 - 19 = 0$; centro $19$.<br>Suma de control: $27 + 25 + 20 + 3 + 6 + 0 + 19 = 100$ ✓",
+            "$|M \\cup H \\cup N| = 55 + 47 + 45 - 22 - 25 - 19 + x = 81 + x$.<br>Since the union is everyone ($100$): $81 + x = 100 \\Rightarrow x = 19$.<br>Diagram regions: jam only $55 - 22 - 25 + 19 = 27$; honey only $47 - 22 - 19 + 19 = 25$; Nutella only $45 - 25 - 19 + 19 = 20$; jam∧honey only $22 - 19 = 3$; jam∧Nutella only $25 - 19 = 6$; honey∧Nutella only $19 - 19 = 0$; center $19$.<br>Check sum: $27 + 25 + 20 + 3 + 6 + 0 + 19 = 100$ ✓",
+          ),
+          step(
+            "result",
+            "A **19** personas les gustan los tres alimentos. Detalle notable: la zona \"miel y Nutella pero no mermelada\" queda en $0$ — todo el que gusta de miel y Nutella también gusta de mermelada.",
+            "**19** people like all three foods. Notable detail: the \"honey and Nutella but not jam\" region is $0$ — everyone who likes honey and Nutella also likes jam.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* Hoja alumna · Venn c — al menos dos. */
+  template(
+    {
+      id: "found-venn-02",
+      subject: "math",
+      topicId: "foundations",
+      subtopicId: "venn-diagrams",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 300,
+      tags: ["sets", "venn", "counting", "survey", "class-sheet"],
+      prerequisites: ["venn-diagrams"],
+      source: {
+        sourceId: "alumna-worksheet-2025",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "Venn · c",
+      },
+      reasoning: "multi-concept",
+    },
+    () => {
+      return {
+        skill: L(
+          "\"Al menos dos\" en un diagrama de Venn (hoja de clase real)",
+          "\"At least two\" on a Venn diagram (real class sheet)",
+        ),
+        statement: L(
+          "De 100 personas encuestadas, 55 indicaron que les gusta la mermelada, 47 la miel y 45 la Nutella. A 22 les gusta la mermelada y la miel, a 25 la mermelada y la Nutella, y a 19 la miel y la Nutella. A cada encuestado le gusta al menos uno de los tres alimentos (y, como viste en la parte b), a 19 les gustan los tres).\n\nc) ¿A cuántas personas les gustan **al menos dos** alimentos?",
+          "Out of 100 people surveyed, 55 like jam, 47 honey and 45 Nutella. 22 like jam and honey, 25 jam and Nutella, and 19 honey and Nutella. Every surveyed person likes at least one of the three foods (and, as you found in part b), 19 like all three).\n\nc) How many people like **at least two** foods?",
+        ),
+        answer: { kind: "numeric", value: 28, tolerance: { mode: "absolute", value: 0 } },
+        hints: [
+          L(
+            "\"Al menos dos\" = exactamente dos + exactamente tres. No basta con sumar $22 + 25 + 19$.",
+            "\"At least two\" = exactly two + exactly three. Adding $22 + 25 + 19$ alone is not enough.",
+          ),
+          L(
+            "Los datos de los pares (22, 25, 19) **incluyen** a quienes gustan de los tres: hay que quitarles el centro una vez para obtener \"exactamente dos\".",
+            "The pair data (22, 25, 19) **includes** those who like all three: subtract the center once to get \"exactly two\".",
+          ),
+          L(
+            "\"Exactamente dos\" $= (22 - 19) + (25 - 19) + (19 - 19)$; después suma el centro de nuevo (es parte de \"al menos dos\").",
+            "\"Exactly two\" $= (22 - 19) + (25 - 19) + (19 - 19)$; then add the center back (it is part of \"at least two\").",
+          ),
+        ],
+        answerDisplay: L(
+          "A **28** personas les gustan al menos dos alimentos: $3 + 6 + 0 + 19$.",
+          "**28** people like at least two foods: $3 + 6 + 0 + 19$.",
+        ),
+        solution: [
+          step(
+            "given",
+            "Los datos de la encuesta (100 personas; 55/47/45; pares 22/25/19; centro 19 de la parte b)).",
+            "The survey data (100 people; 55/47/45; pairs 22/25/19; center 19 from part b)).",
+          ),
+          step(
+            "approach",
+            "Traducir \"al menos dos\" a regiones del diagrama: las tres zonas de exactamente dos más el centro.",
+            "Translate \"at least two\" into diagram regions: the three exactly-two zones plus the center.",
+          ),
+          step(
+            "calculation",
+            "Exactamente dos:<br>— mermelada y miel pero no Nutella: $22 - 19 = 3$<br>— mermelada y Nutella pero no miel: $25 - 19 = 6$<br>— miel y Nutella pero no mermelada: $19 - 19 = 0$<br>Exactamente tres (centro): $19$.<br>Al menos dos $= 3 + 6 + 0 + 19 = 28$.<br>Vía corta: $22 + 25 + 19 - 2 \\cdot 19 = 66 - 38 = 28$ (el centro estaba contado tres veces y debe quedar contado una).",
+            "Exactly two:<br>— jam and honey but not Nutella: $22 - 19 = 3$<br>— jam and Nutella but not honey: $25 - 19 = 6$<br>— honey and Nutella but not jam: $19 - 19 = 0$<br>Exactly three (center): $19$.<br>At least two $= 3 + 6 + 0 + 19 = 28$.<br>Shortcut: $22 + 25 + 19 - 2 \\cdot 19 = 66 - 38 = 28$ (the center was counted three times and must remain counted once).",
+          ),
+          step(
+            "result",
+            "A **28** personas les gustan al menos dos alimentos. La vía corta lo resume: suma de pares menos dos veces el centro.",
+            "**28** people like at least two foods. The shortcut sums it up: sum of pairs minus twice the center.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* Hoja alumna · Venn d — como máximo dos. */
+  template(
+    {
+      id: "found-venn-03",
+      subject: "math",
+      topicId: "foundations",
+      subtopicId: "venn-diagrams",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 210,
+      tags: ["sets", "venn", "complement", "survey", "class-sheet"],
+      prerequisites: ["venn-diagrams"],
+      source: {
+        sourceId: "alumna-worksheet-2025",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "Venn · d",
+      },
+      reasoning: "definition-hunting",
+    },
+    () => {
+      return {
+        skill: L(
+          "\"Como máximo dos\" = el complemento de \"los tres\" (hoja de clase real)",
+          "\"At most two\" = the complement of \"all three\" (real class sheet)",
+        ),
+        statement: L(
+          "De 100 personas encuestadas, 55 indicaron que les gusta la mermelada, 47 la miel y 45 la Nutella. A 22 les gusta la mermelada y la miel, a 25 la mermelada y la Nutella, y a 19 la miel y la Nutella. A cada encuestado le gusta al menos uno de los tres alimentos (de la parte b): a 19 les gustan los tres).\n\nd) ¿A cuántas personas les gustan **como máximo dos** de los alimentos mencionados?",
+          "Out of 100 people surveyed, 55 like jam, 47 honey and 45 Nutella. 22 like jam and honey, 25 jam and Nutella, and 19 honey and Nutella. Every surveyed person likes at least one of the three foods (from part b): 19 like all three).\n\nd) How many people like **at most two** of the foods?",
+        ),
+        answer: { kind: "numeric", value: 81, tolerance: { mode: "absolute", value: 0 } },
+        hints: [
+          L(
+            "\"Como máximo dos\" significa 0, 1 o 2 alimentos — es decir, todos **menos** quienes gustan de los tres.",
+            "\"At most two\" means 0, 1 or 2 foods — that is, everyone **except** those who like all three.",
+          ),
+          L(
+            "El complemento de \"los tres\" dentro de las 100 personas: $100 - 19$.",
+            "The complement of \"all three\" within the 100 people: $100 - 19$.",
+          ),
+          L(
+            "Verifica sumando las regiones que NO son el centro: $27 + 25 + 20 + 3 + 6 + 0$.",
+            "Verify by adding the regions that are NOT the center: $27 + 25 + 20 + 3 + 6 + 0$.",
+          ),
+        ],
+        answerDisplay: L(
+          "A **81** personas les gustan como máximo dos alimentos ($100 - 19$).",
+          "**81** people like at most two foods ($100 - 19$).",
+        ),
+        solution: [
+          step(
+            "given",
+            "Las 100 personas de la encuesta, con el centro del diagrama en 19 (parte b)).",
+            "The 100 people in the survey, with the diagram center at 19 (part b)).",
+          ),
+          step(
+            "approach",
+            "\"Como máximo dos\" es el complemento de \"exactamente los tres\": se lee la definición con cuidado antes de calcular.",
+            "\"At most two\" is the complement of \"exactly all three\": read the definition carefully before computing.",
+          ),
+          step(
+            "calculation",
+            "Personas con los tres gustos: $19$.<br>Como máximo dos: $100 - 19 = 81$.<br>Verificación por regiones: solo mermelada $27$ + solo miel $25$ + solo Nutella $20$ + mermelada∧miel $3$ + mermelada∧Nutella $6$ + miel∧Nutella $0$ $= 81$ ✓",
+            "People with all three: $19$.<br>At most two: $100 - 19 = 81$.<br>Region check: jam only $27$ + honey only $25$ + Nutella only $20$ + jam∧honey $3$ + jam∧Nutella $6$ + honey∧Nutella $0$ $= 81$ ✓",
+          ),
+          step(
+            "result",
+            "A **81** personas les gustan como máximo dos alimentos: una pregunta de complemento disfrazada de pregunta de conteo.",
+            "**81** people like at most two foods: a complement question disguised as a counting question.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* Hoja alumna · Venn e — miel o Nutella. */
+  template(
+    {
+      id: "found-venn-04",
+      subject: "math",
+      topicId: "foundations",
+      subtopicId: "venn-diagrams",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 210,
+      tags: ["sets", "venn", "union", "survey", "class-sheet"],
+      prerequisites: ["venn-diagrams"],
+      source: {
+        sourceId: "alumna-worksheet-2025",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "Venn · e",
+      },
+      reasoning: "definition-hunting",
+    },
+    () => {
+      return {
+        skill: L(
+          "La unión de dos de los tres conjuntos (hoja de clase real)",
+          "The union of two of the three sets (real class sheet)",
+        ),
+        statement: L(
+          "De 100 personas encuestadas, 55 indicaron que les gusta la mermelada, 47 la miel y 45 la Nutella. A 22 les gusta la mermelada y la miel, a 25 la mermelada y la Nutella, y a 19 la miel y la Nutella. A cada encuestado le gusta al menos uno de los tres alimentos.\n\ne) ¿A cuántas personas les gusta la **miel o la Nutella**?",
+          "Out of 100 people surveyed, 55 like jam, 47 honey and 45 Nutella. 22 like jam and honey, 25 jam and Nutella, and 19 honey and Nutella. Every surveyed person likes at least one of the three foods.\n\ne) How many people like **honey or Nutella**?",
+        ),
+        answer: { kind: "numeric", value: 73, tolerance: { mode: "absolute", value: 0 } },
+        hints: [
+          L(
+            "\"Miel o Nutella\" es la unión $H \\cup N$: basta con dos de los tres círculos.",
+            "\"Honey or Nutella\" is the union $H \\cup N$: only two of the three circles are needed.",
+          ),
+          L(
+            "Inclusión–exclusión con dos conjuntos: $|H \\cup N| = |H| + |N| - |H \\cap N|$.",
+            "Two-set inclusion–exclusion: $|H \\cup N| = |H| + |N| - |H \\cap N|$.",
+          ),
+          L(
+            "$|H \\cap N| = 19$ — y ese 19 **incluye** a quienes además gustan de mermelada (por eso no hay que restar nada más).",
+            "$|H \\cap N| = 19$ — and that 19 **includes** those who also like jam (so nothing else needs subtracting).",
+          ),
+        ],
+        answerDisplay: L(
+          "A **73** personas les gusta la miel o la Nutella: $47 + 45 - 19$.",
+          "**73** people like honey or Nutella: $47 + 45 - 19$.",
+        ),
+        solution: [
+          step(
+            "given",
+            "Los datos de la encuesta; la pregunta involucra solo los conjuntos miel ($47$) y Nutella ($45$).",
+            "The survey data; the question involves only the honey ($47$) and Nutella ($45$) sets.",
+          ),
+          step(
+            "approach",
+            "Unión de dos conjuntos con inclusión–exclusión; la mermelada es un distractor.",
+            "Union of two sets with inclusion–exclusion; jam is a distractor.",
+          ),
+          step(
+            "calculation",
+            "$|H \\cup N| = |H| + |N| - |H \\cap N| = 47 + 45 - 19 = 73$.<br>Verificación por regiones: solo miel $25$ + solo Nutella $20$ + miel∧Nutella (sin mermelada) $0$ + centro $19$ + miel∧mermelada $3$ + Nutella∧mermelada $6$ $= 73$ ✓",
+            "$|H \\cup N| = |H| + |N| - |H \\cap N| = 47 + 45 - 19 = 73$.<br>Region check: honey only $25$ + Nutella only $20$ + honey∧Nutella (no jam) $0$ + center $19$ + honey∧jam $3$ + Nutella∧jam $6$ $= 73$ ✓",
+          ),
+          step(
+            "result",
+            "A **73** personas les gusta la miel o la Nutella. La intersección $H \\cap N$ ya contiene a los que gustan de los tres: restarla una sola vez es lo correcto.",
+            "**73** people like honey or Nutella. The intersection $H \\cap N$ already contains those who like all three: subtracting it once is exactly right.",
+          ),
+        ],
+      };
+    },
+  ),
 ];

@@ -42,6 +42,7 @@ export const mathCurriculum: TopicDef[] = [
       { id: "powers", name: l10n("Potencias", "Powers") },
       { id: "roots", name: l10n("Raíces", "Roots") },
       { id: "scientific-notation", name: l10n("Notación científica", "Scientific notation") },
+      { id: "venn-diagrams", name: l10n("Conjuntos y diagramas de Venn", "Sets & Venn diagrams") },
       { id: "algebraic-notation", name: l10n("Notación algebraica", "Algebraic notation") },
       { id: "simplifying", name: l10n("Simplificar expresiones", "Simplifying expressions") },
       { id: "distributive", name: l10n("Propiedad distributiva", "Distributive property") },

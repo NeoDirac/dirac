@@ -17,6 +17,7 @@ Auditada el 2026-10-01. 9 archivos (7 PDF + 2 JPEG). Registro máquina:
 | 7 | `unknown-3pages.pdf` (3 págs., escaneado) = FOS/BOS 2011 + Lösungsvorschlag | examen estatal | DE | OPEN_LICENSE | FOS/BOS | Importación tras verificar OCR: fracciones con dominio, raíces/vértice (redondeo), LGS, área del trébol (Kleeblatt), verdadero/falso sobre rectas. |
 | 8 | `desigualdades.jpeg` (imagen de clase) | hoja de problemas del tutor | DE | INSTRUCTOR_CREATED | FP / Studienkolleg | **Importación directa** (misma hoja que #2): tres problemas de valor absoluto con análisis por intervalos y comparación gráfico-analítico. |
 | 9 | `preguntas.jpeg` (Kurzkontrolle 1) | control corto del tutor | DE | INSTRUCTOR_CREATED | Studienkolleg | **Importación directa**: conjunto de soluciones reales de (x+2)(x−5)(x²+9)(x²−25)=0 (descarte de raíces no reales); Venn de 3 conjuntos (encuesta); operaciones de intervalos. |
+| 10 | Hoja de la alumna (2 fotos, oct. 2025): Übungsblatt Mathematik + problema de Venn | hoja de ejercicios del curso alemán de la alumna | DE | TUTOR_LICENSED (el tutor la compartió y pidió publicarlo, 2026-10-02) | Secundaria superior DE / Studienkolleg | **Importación directa** (22 plantillas, transcripción del tutor como fuente de verdad): S1 ausklammern con exponentes con variable → polynomials/factoring (MC, distractores verificados no-equivalentes); S2 fracciones algebraicas → rational/simplifying; S3 Anwendung exponentes negativos → foundations/powers; Venn mermelada/miel/Nutella → foundations/venn-diagrams (subtema nuevo; partes b–e numéricas 19/28/81/73). |
 
 ## Metadatos por fuente (esquema interno)
 
@@ -120,3 +121,42 @@ Total curado de `fcnm-fundamentos`: **60 plantillas** (banco completo:
 519 → **549**). Pendiente del libro: §5.5 ej. 48/50–52 (demuestraciones —
 requieren formato de demostración), §5.6 ej. 2 gráfico (arctan), Ch. 6
 matrices (requiere topic nuevo), FundaRETOS.
+
+
+## Hoja de la alumna (oct. 2025) — `alumna-worksheet-2025`
+
+Fotos compartidas por el tutor el 2026-10-02 con la instrucción de
+publicarlas («que eso esté en la página porfa»). **La transcripción del
+propio tutor es la fuente de verdad** («te pasé las imagenes ya
+transcribidas») — donde su texto difiere de lecturas automáticas, manda el
+tutor.
+
+Distribución de las 22 plantillas importadas:
+
+| Sección | Contenido | Destino | Tipo | Dificultades |
+|---|---|---|---|---|
+| S1 · 1–4 | Factor común con exponentes con variable (ausklammern) | `polynomials/factoring` (poly-fact-03…06) | MC (4 opciones, distractores = errores clásicos, verificados no-equivalentes) | 3 medium, 1 hard |
+| S2 · 1–7 | Simplificar fracciones algebraicas con exponentes literales | `rational/simplifying` (rat-simp-05…11) | expression | 5 medium, 2 hard |
+| S3 · 1–7 | Anwendung: productos/cocientes con exponentes negativos, potencias de potencias | `foundations/powers` (found-pow-03…09) | expression | 3 medium, 4 hard |
+| Venn · b–e | Encuesta mermelada/miel/Nutella (3 conjuntos) | `foundations/venn-diagrams` (found-venn-01…04, subtema nuevo) | numeric (19/28/81/73) | 3 medium, 1 hard |
+
+Verificación: **23/23 checks sympy** (`/home/z/tmp/verify_alumna.py`). El
+script corrigió TRES errores del primer cálculo mental (S3.2 → a⁴/(x⁴y¹²),
+S3.4 → a⁸s²/(b⁸r⁴), S3.5 → a²/(16b⁵y)) — motivo de más para exigir
+verificación programática de todo ejercicio curado. Los 12 distractores MC
+fueron verificados numéricamente como NO equivalentes al correcto.
+
+Adaptación documentada: al problema de Venn se añadió el supuesto «a cada
+encuestado le gusta al menos uno de los tres alimentos» — sin él, la zona
+central no queda determinada por los datos (x ∈ [0, 19]). Con el supuesto,
+x = 19 y las regiones quedan 27/25/20/3/6/0/19 (suma 100; la zona
+«miel∧Nutella sin mermelada» resulta 0). El supuesto está declarado dentro
+del enunciado y en el paso «given» de cada solución.
+
+**Política de contenido del tutor (2026-10-02)**: en matemáticas solo el
+nivel Fundamento (easy) puede ser generado; Estándar/Avanzado/Desafío deben
+provenir de fuentes reales. Los 187 generados de nivel medio+ que siguen en
+el banco quedan MARCADOS como provisionales (badge ámbar en el problema,
+aviso de cobertura en la página del tema, reporte por tema en
+`bun run validate:content`) a la espera de reemplazo progresivo por
+material real (el tutor irá añadiendo libros como el de la ESPOL).

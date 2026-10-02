@@ -1,0 +1,273 @@
+From 26822b8cb166241f4d9c891bc34b5782057b12b9 Mon Sep 17 00:00:00 2001
+From: profe Dirac <neodirac@users.noreply.github.com>
+Date: Fri, 2 Oct 2026 14:02:27 +0000
+Subject: [PATCH 2/2] feat: mark generated medium+ math exercises as
+ provisional (content policy)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Tutor's directive (2026-10-02): in the math section only Foundation-level
+(easy) exercises may be generated; Standard/Advanced/Challenge must come
+from real sources. Until enough real material exists, non-conforming
+generated templates stay in the bank but are MARKED:
+
+- src/content/policy.ts: isPendingRealSource() + topicPolicyStats()
+- PendingSourceBadge (amber, with tooltip) on the problem meta row,
+  shown instead of the SourceBadge when a math problem above easy has
+  no source
+- Topic page: coverage notice 'n of m Standard-or-higher exercises come
+  from real sources; the remaining p are generated and provisional'
+  (math topics only, respects the active subtopic filter)
+- validate-bank.ts: per-topic policy report — the tutor's replacement
+  to-do list (currently 187 pending across 18 math topics)
+
+Physics is out of scope. Existing progress records are unaffected.
+---
+ scripts/validate-bank.ts                      | 23 +++++++++
+ .../practice/pending-source-badge.tsx         | 33 ++++++++++++
+ src/components/practice/problem-view.tsx      |  3 ++
+ src/content/policy.ts                         | 51 +++++++++++++++++++
+ src/lib/i18n/dictionary.ts                    |  8 +++
+ src/views/topic.tsx                           | 25 ++++++++-
+ 6 files changed, 142 insertions(+), 1 deletion(-)
+ create mode 100644 src/components/practice/pending-source-badge.tsx
+ create mode 100644 src/content/policy.ts
+
+diff --git a/scripts/validate-bank.ts b/scripts/validate-bank.ts
+index 695f6c7..ad10beb 100755
+--- a/scripts/validate-bank.ts
++++ b/scripts/validate-bank.ts
+@@ -318,6 +318,29 @@ async function main() {
+   console.log(`  ${curated.length}/${templates.length} templates carry a source (${[...bySourceId.entries()].map(([id, n]) => `${id}: ${n}`).join(", ") || "none"})`);
+   console.log(`  registry: ${SOURCES.length} sources (${SOURCES.filter((s) => s.license === "REQUIRES_REVIEW").length} REQUIRES_REVIEW)`);
+ 
++  // Content policy (tutor directive, 2026-10-02): in math only "easy" may be
++  // generated; medium+ must come from real sources. Non-conforming templates
++  // stay in the bank but are MARKED provisional in the UI (src/content/policy.ts).
++  // This report is the replacement to-do list for the tutor.
++  const pendingByTopic = new Map<string, string[]>();
++  for (const t of templates) {
++    if (t.subject === "math" && t.difficulty !== "easy" && !t.source) {
++      const key = `${t.subject}:${t.topicId}`;
++      if (!pendingByTopic.has(key)) pendingByTopic.set(key, []);
++      pendingByTopic.get(key)!.push(t.id);
++    }
++  }
++  const totalPending = [...pendingByTopic.values()].reduce((a, b) => a + b.length, 0);
++  console.log("\nContent policy (math — only easy may be generated; medium+ needs a real source):");
++  if (totalPending === 0) {
++    console.log("  ✓ every math exercise above easy carries a real source");
++  } else {
++    for (const [key, ids] of [...pendingByTopic.entries()].sort()) {
++      console.log(`  ${key}: ${ids.length} pending real-source replacement${ids.length > 1 ? "s" : ""}`);
++    }
++    console.log(`  total: ${totalPending} generated templates above easy (marked provisional in the UI, awaiting real-source replacement)`);
++  }
++
+   console.log(`\n${templates.length} templates · ${errors} errors · ${warnings} warnings`);
+   if (errors > 0) {
+     process.exit(1);
+diff --git a/src/components/practice/pending-source-badge.tsx b/src/components/practice/pending-source-badge.tsx
+new file mode 100644
+index 0000000..289d0cc
+--- /dev/null
++++ b/src/components/practice/pending-source-badge.tsx
+@@ -0,0 +1,33 @@
++"use client";
++
++/**
++ * PendingSourceBadge — provisional marker for generated math exercises
++ * above Foundation level (the tutor's content policy: only easy math may
++ * be generated; Standard and higher must come from real sources).
++ *
++ * Rendered instead of a SourceBadge on problems that carry no source,
++ * so students (and the tutor reviewing the site) can see at a glance
++ * which exercises are still waiting for real-source replacements.
++ */
++
++import { Stamp } from "lucide-react";
++import { useI18n } from "@/lib/i18n/context";
++import { cn } from "@/lib/utils";
++
++export function PendingSourceBadge({ className }: { className?: string }) {
++  const { t } = useI18n();
++
++  return (
++    <span
++      className={cn(
++        "inline-flex items-center gap-1.5 rounded-full border border-diff-medium/40 bg-diff-medium/10 px-2.5 py-0.5 text-xs font-medium text-diff-medium",
++        className,
++      )}
++      title={t("policy.pending.tooltip")}
++    >
++      <Stamp className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
++      <span className="sr-only">{t("policy.pending.tooltip")}</span>
++      <span aria-hidden="true">{t("policy.pending.badge")}</span>
++    </span>
++  );
++}
+diff --git a/src/components/practice/problem-view.tsx b/src/components/practice/problem-view.tsx
+index d9f53ff..a29b04b 100755
+--- a/src/components/practice/problem-view.tsx
++++ b/src/components/practice/problem-view.tsx
+@@ -30,6 +30,8 @@ import { MathText } from "@/components/math/math-text";
+ import { ProblemDiagram } from "@/components/diagrams";
+ import { DifficultyBadge } from "./difficulty-badge";
+ import { SourceBadge } from "./source-badge";
++import { PendingSourceBadge } from "./pending-source-badge";
++import { isPendingRealSource } from "@/content/policy";
+ import { ReasoningBadge } from "./reasoning-badge";
+ import { AnswerArea } from "./answer-area";
+ import { HintsSection } from "./hints-section";
+@@ -206,6 +208,7 @@ export function ProblemView({
+       <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+         <DifficultyBadge difficulty={problem.difficulty} />
+         {problem.source ? <SourceBadge source={problem.source} /> : null}
++        {isPendingRealSource(problem) ? <PendingSourceBadge /> : null}
+         {problem.reasoning ? <ReasoningBadge reasoning={problem.reasoning} /> : null}
+         <span className="text-sm text-muted-foreground">
+           <span className="font-medium text-foreground">{t("practice.skill")}:</span>{" "}
+diff --git a/src/content/policy.ts b/src/content/policy.ts
+new file mode 100644
+index 0000000..bafa597
+--- /dev/null
++++ b/src/content/policy.ts
+@@ -0,0 +1,51 @@
++/**
++ * Content policy for the math section (tutor's directive, 2026-10-02):
++ *
++ *   "En la sección de matemáticas solo permitiré que los ejercicios de
++ *    nivel fácil sean los generados; arriba de eso solo pueden ser
++ *    ejercicios de fuentes reales, si no hay aún suficientes ejercicios
++ *    deberás marcarlos."
++ *
++ * Only Foundation-level (easy) math exercises may be procedurally
++ * generated. Every Standard/Advanced/Challenge math exercise must be
++ * transcribed from a real source (template.source). Generated templates
++ * above easy are KEPT in the bank — the tutor will progressively replace
++ * them with real material (ESPOL book and others) — but they must be
++ * MARKED as provisional everywhere they surface.
++ *
++ * Physics is out of scope: only the math section is governed by this rule.
++ */
++
++import type { Difficulty, ProblemTemplate, Subject } from "@/lib/types";
++
++/** Minimal shape needed to evaluate the policy (works for templates and problems). */
++export interface PolicyProbe {
++  subject: Subject;
++  difficulty: Difficulty;
++  source?: unknown;
++}
++
++/**
++ * True when a template/problem violates the math content policy:
++ * a math exercise above "easy" that was generated (no real source).
++ * These are provisional and awaiting replacement by real-source material.
++ */
++export function isPendingRealSource(t: PolicyProbe): boolean {
++  return t.subject === "math" && t.difficulty !== "easy" && !t.source;
++}
++
++export interface TopicPolicyStats {
++  /** medium+ templates in the pool */
++  mediumPlus: number;
++  /** of those, how many carry a real source */
++  withSource: number;
++  /** generated ones pending replacement (= mediumPlus - withSource) */
++  pending: number;
++}
++
++/** Policy stats for a set of templates (a topic or subtopic pool). */
++export function topicPolicyStats(templates: ProblemTemplate[]): TopicPolicyStats {
++  const mediumPlus = templates.filter((t) => t.difficulty !== "easy");
++  const withSource = mediumPlus.filter((t) => t.source).length;
++  return { mediumPlus: mediumPlus.length, withSource, pending: mediumPlus.length - withSource };
++}
+diff --git a/src/lib/i18n/dictionary.ts b/src/lib/i18n/dictionary.ts
+index 460ca5f..7b79921 100755
+--- a/src/lib/i18n/dictionary.ts
++++ b/src/lib/i18n/dictionary.ts
+@@ -176,6 +176,10 @@ const es: Dictionary = {
+   "practice.restored": "Sesión restaurada — sigues donde lo dejaste.",
+   "session.reviewBadge": "Repaso",
+   "session.curatedBadge": "Solo fuentes reales",
++  "policy.pending.badge": "Generado · provisional",
++  "policy.pending.tooltip": "Política del sitio: en matemáticas solo el nivel Fundamento puede ser generado; los niveles Estándar y superiores se entrenan con ejercicios de fuentes reales. Este ejercicio está marcado como provisional y se reemplazará por material real.",
++  "topic.policyNotice.title": "Nivel Estándar y superior: material real",
++  "topic.policyNotice.body": "{n} de {m} ejercicios de nivel Estándar o superior provienen de fuentes reales. Los {p} restantes están generados y marcados como provisionales — se irán reemplazando por material real.",
+   "source.exercise": "ej.",
+   "source.kind.framework": "Marco curricular",
+   "reasoning.label": "Razonamiento",
+@@ -604,6 +608,10 @@ const en: Dictionary = {
+   "practice.restored": "Session restored — picking up where you left off.",
+   "session.reviewBadge": "Review",
+   "session.curatedBadge": "Real sources only",
++  "policy.pending.badge": "Generated · provisional",
++  "policy.pending.tooltip": "Site policy: in math, only Foundation-level exercises may be generated; Standard level and above are trained with real-source exercises. This exercise is marked provisional and will be replaced with real material.",
++  "topic.policyNotice.title": "Standard level and above: real material",
++  "topic.policyNotice.body": "{n} of {m} Standard-or-higher exercises come from real sources. The remaining {p} are generated and marked provisional — they will gradually be replaced with real material.",
+   "source.exercise": "ex.",
+   "source.kind.framework": "Curriculum framework",
+   "reasoning.label": "Reasoning",
+diff --git a/src/views/topic.tsx b/src/views/topic.tsx
+index 0d0bb8c..a876c36 100755
+--- a/src/views/topic.tsx
++++ b/src/views/topic.tsx
+@@ -6,7 +6,7 @@
+  */
+ 
+ import { useEffect, useState } from "react";
+-import { ArrowLeft, ArrowRight, BookMarked, Infinity as InfinityIcon, Printer, Shuffle, Swords } from "lucide-react";
++import { ArrowLeft, ArrowRight, BookMarked, Infinity as InfinityIcon, Printer, Shuffle, Stamp, Swords } from "lucide-react";
+ import { Button } from "@/components/ui/button";
+ import { cn } from "@/lib/utils";
+ import { TopicIcon } from "@/components/site/topic-icon";
+@@ -14,6 +14,7 @@ import { useI18n } from "@/lib/i18n/context";
+ import { useSubjectTemplates } from "@/lib/use-templates";
+ import { href, sessionHref, worksheetHref } from "@/lib/router";
+ import { templateStats } from "@/lib/session";
++import { topicPolicyStats } from "@/content/policy";
+ import { computeStats, loadProgress, subtopicKey, topicKey } from "@/lib/progress";
+ import { mathCurriculum } from "@/content/curriculum/math";
+ import { physicsCurriculum } from "@/content/curriculum/physics";
+@@ -86,6 +87,10 @@ export function TopicView({ subject, topicId }: { subject: Subject; topicId: str
+   const curatedCount = activeTemplates.filter((tp) => tp.source).length;
+   const effectiveCuratedOnly = curatedOnly && curatedCount > 0;
+ 
++  // content policy (math only): generated exercises above easy are provisional
++  // until replaced with real-source material — surfaced as a quiet coverage note
++  const policy = subject === "math" && !loading ? topicPolicyStats(activeTemplates) : null;
++
+   const startHref = sessionHref({
+     mode: "topic",
+     subjects: [subject],
+@@ -340,6 +345,24 @@ export function TopicView({ subject, topicId }: { subject: Subject; topicId: str
+             </div>
+           ) : null}
+ 
++          {policy && policy.pending > 0 ? (
++            <div className="rounded-xl border border-diff-medium/30 bg-diff-medium/5 px-4 py-3">
++              <div className="flex items-start gap-2.5">
++                <Stamp className="mt-0.5 h-4 w-4 shrink-0 text-diff-medium" aria-hidden="true" />
++                <div>
++                  <p className="text-sm font-medium text-foreground">{t("topic.policyNotice.title")}</p>
++                  <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">
++                    {t("topic.policyNotice.body", {
++                      n: formatNumber(policy.withSource),
++                      m: formatNumber(policy.mediumPlus),
++                      p: formatNumber(policy.pending),
++                    })}
++                  </p>
++                </div>
++              </div>
++            </div>
++          ) : null}
++
+           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+             <Button asChild size="lg" className="gap-2 text-[15px] font-semibold sm:px-10">
+               <a href={startHref}>
+-- 
+2.47.3
+

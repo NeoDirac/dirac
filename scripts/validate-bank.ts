@@ -318,6 +318,29 @@ async function main() {
   console.log(`  ${curated.length}/${templates.length} templates carry a source (${[...bySourceId.entries()].map(([id, n]) => `${id}: ${n}`).join(", ") || "none"})`);
   console.log(`  registry: ${SOURCES.length} sources (${SOURCES.filter((s) => s.license === "REQUIRES_REVIEW").length} REQUIRES_REVIEW)`);
 
+  // Content policy (tutor directive, 2026-10-02): in math only "easy" may be
+  // generated; medium+ must come from real sources. Non-conforming templates
+  // stay in the bank but are MARKED provisional in the UI (src/content/policy.ts).
+  // This report is the replacement to-do list for the tutor.
+  const pendingByTopic = new Map<string, string[]>();
+  for (const t of templates) {
+    if (t.subject === "math" && t.difficulty !== "easy" && !t.source) {
+      const key = `${t.subject}:${t.topicId}`;
+      if (!pendingByTopic.has(key)) pendingByTopic.set(key, []);
+      pendingByTopic.get(key)!.push(t.id);
+    }
+  }
+  const totalPending = [...pendingByTopic.values()].reduce((a, b) => a + b.length, 0);
+  console.log("\nContent policy (math — only easy may be generated; medium+ needs a real source):");
+  if (totalPending === 0) {
+    console.log("  ✓ every math exercise above easy carries a real source");
+  } else {
+    for (const [key, ids] of [...pendingByTopic.entries()].sort()) {
+      console.log(`  ${key}: ${ids.length} pending real-source replacement${ids.length > 1 ? "s" : ""}`);
+    }
+    console.log(`  total: ${totalPending} generated templates above easy (marked provisional in the UI, awaiting real-source replacement)`);
+  }
+
   console.log(`\n${templates.length} templates · ${errors} errors · ${warnings} warnings`);
   if (errors > 0) {
     process.exit(1);
