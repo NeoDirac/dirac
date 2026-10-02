@@ -951,3 +951,27 @@ Stage Summary:
   3. Ejercicio 47c (tan[arcsen(1/√5)−arccos(√2/3)]) quedó fuera: mi derivación (3√14−16)/10 no cuadra con la clave impresa 18−5√14; requiere zoom adicional antes de importar.
   4. Mover el guard onBoundary() a scripts/validate-bank.ts (pendiente de tooling de la Task 17-c) y showV0:false en el componente projectile — ambas anotadas por agentes previos, siguen abiertas.
   5. El libro persiste en /home/z/espol-book/espol.pdf; páginas PNG en /home/z/espol-book/pages/.
+
+---
+Task ID: 1
+Agent: main (Z.ai Code)
+Task: Fix "absolute value inequalities shows the same problem every time" — add real variety to the abs-inequalities subtopic (user report: "Sale un mismo problema en todas las preguntas. Le falta variedad a ese tema.")
+
+Work Log:
+- Diagnosed: subtopic `math/linear-equations/abs-inequalities` had only 2 templates — lin-absi-01 (rigid "count integers" shape, 6 hand-curated (a,b) pairs, always strict <) and lin-absi-02 (FIXED tutor-sheet problem, rng only shuffles MC options). A focused 10-problem session drew ~5 verbatim copies of the fixed problem + near-identical counting questions → user's complaint.
+- Upgraded lin-absi-01: generated center h ∈ [-6,6], radius r ∈ [2,4], strictness < vs ≤ (endpoints excluded vs included → count 2r−1 vs 2r+1); hints/solutions now branch on strictness.
+- Added 5 new fully parameterized, structurally distinct templates (src/content/math/linear-equations.ts):
+  - lin-absi-03 (medium/text): inside case |ax+b| {<,≤} c → answer as interval notation; 8 accepted spellings (spaced/unspaced, ≤/<=, ∈-forms); a ∈ {1,2,3} via |a(x−h)| construction so endpoints stay integers.
+  - lin-absi-04 (medium/MC): outside case |x−h| {>,≥} r → union of two rays; distractors model the 3 classic errors: AND-trap (inside interval), bracket swap, forgot-right-branch.
+  - lin-absi-05 (medium/MC): degenerate right-hand sides (|x−h| < negative → none; ≤ 0 → exactly 1; > negative → all reals); trains sign-reading before expanding (reasoning: definition-hunting).
+  - lin-absi-06 (hard/MC): distance comparison |x−h| > |x−k| → midpoint cut; solution (m, +∞) with tie-point excluded; distractors: tie-included [m,∞), swapped side, breakpoint reflex (k,∞); squaring verification in solution (reasoning: graphical).
+  - lin-absi-07 (hard/numeric): consolidation — |x−h| ≤ r AND a linear cut (x > / ≥ s or x < / ≤ t), count integers attending to whether the cut point counts (reasoning: multi-concept; links compound inequalities with absolute value per user's "consolidar los conocimientos" request).
+- Validation: `bun run validate:content` → 554 templates, 0 errors, 0 warnings (all new templates pass bilingual/hints/stages/MC/text-answer checks). `bunx tsc --noEmit` → 0 errors in src/ (examples/ and skills/ errors are pre-existing and out of scope). `bun run lint` → clean.
+- Simulation with the real session engine (buildDeck): 120 draws over 6 seeds → balanced distribution lin-absi-01:15, 02:19, 03:14, 04:15, 05:19, 06:20, 07:18; a 20-problem session now yields 18 distinct statements (was ~1 before).
+- agent-browser QA (named session): topic page shows "Absolute value inequalities 7" (was 2); ran a 10-problem EN session → 7 distinct problem shapes (curated MC, degenerate reading, counting, consolidation, interval text, distance comparison, outside MC); answered numeric (5), text (accepted `[-6,2]` no-space form) and MC correctly; ran ES session → new templates render in Spanish (`\text{y}` works), all 4 MC traps display correctly, "¡Correcto! Bien resuelto."; progress chips update (3/3 shown on subtopic). dev.log healthy (only GET / 200; one historical EADDRINUSE from an old duplicate start attempt, not current).
+
+Stage Summary:
+- abs-inequalities now has 7 templates (4 medium incl. upgraded 01, 3 hard incl. fixed curated 02) with 5 question-type/shape families: counting (numeric), interval notation (text), outside-union + degenerate-reading + distance-comparison (MC), compound consolidation (numeric).
+- The fixed curated problem (lin-absi-02, tutor class sheet) no longer dominates: ~16% of draws vs ~50% before; it repeats by design as a real-class anchor.
+- All three verification gates green: validator (0/0), tsc (src clean), lint (clean); browser QA passed in both languages.
+- No open regressions; subtopic id / template ids stable so existing progress records keep working (lin-absi-01 keeps its id).

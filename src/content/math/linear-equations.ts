@@ -962,26 +962,23 @@ export const templates: ProblemTemplate[] = [
       prerequisites: ["multi-step", "inequalities"],
     },
     (rng) => {
-      // Hand-curated (a, b) with b ∈ {2, 3}: the open interval (a − b, a + b)
-      // contains exactly 3 or 5 integers.
-      const sets = [
-        { a: 1, b: 2 },
-        { a: -3, b: 2 },
-        { a: 2, b: 3 },
-        { a: -1, b: 3 },
-        { a: 5, b: 2 },
-        { a: 0, b: 3 },
-      ];
-      const p = rng.pick(sets);
-      const count = 2 * p.b - 1;
-      const abs = p.a === 0 ? "|x|" : p.a > 0 ? `|x - ${p.a}|` : `|x + ${-p.a}|`;
+      // Generated center h, radius r and strictness: the integer count changes
+      // with the endpoints being excluded (<) or included (≤).
+      const h = rng.int(-6, 6);
+      const r = rng.int(2, 4);
+      const strict = rng.bool();
+      const count = strict ? 2 * r - 1 : 2 * r + 1;
+      const abs = h === 0 ? "|x|" : h > 0 ? `|x - ${h}|` : `|x + ${-h}|`;
+      const op = strict ? "<" : "\\le";
+      const first = strict ? h - r + 1 : h - r;
+      const last = strict ? h + r - 1 : h + r;
       const ints: number[] = [];
-      for (let v = p.a - p.b + 1; v <= p.a + p.b - 1; v++) ints.push(v);
+      for (let v = first; v <= last; v++) ints.push(v);
       return {
         skill: L("Desigualdades con valor absoluto", "Absolute value inequalities"),
         statement: L(
-          `¿Cuántos valores **enteros** de $x$ cumplen la desigualdad $${abs} < ${p.b}$?`,
-          `How many **integer** values of $x$ satisfy the inequality $${abs} < ${p.b}$?`,
+          `¿Cuántos valores **enteros** de $x$ cumplen la desigualdad $${abs} ${op} ${r}$?`,
+          `How many **integer** values of $x$ satisfy the inequality $${abs} ${op} ${r}$?`,
         ),
         answer: { kind: "numeric", value: count },
         hints: [
@@ -990,20 +987,28 @@ export const templates: ProblemTemplate[] = [
             "$|x - a|$ measures the **distance** between $x$ and $a$ on the number line: the inequality asks for the numbers whose distance to $a$ is smaller than $b$.",
           ),
           L(
-            "Sin valor absoluto, la desigualdad se escribe $a - b < x < a + b$ (intervalo abierto).",
-            "Without the absolute value, the inequality reads $a - b < x < a + b$ (open interval).",
+            strict
+              ? "Sin valor absoluto, la desigualdad se escribe $a - b < x < a + b$ (intervalo **abierto**: los extremos no cuentan)."
+              : "Sin valor absoluto, la desigualdad se escribe $a - b \\le x \\le a + b$ (intervalo **cerrado**: los extremos sí cuentan).",
+            strict
+              ? "Without the absolute value, the inequality reads $a - b < x < a + b$ (**open** interval: the endpoints do not count)."
+              : "Without the absolute value, the inequality reads $a - b \\le x \\le a + b$ (**closed** interval: the endpoints do count).",
           ),
           L(
-            "Sustituye tus valores de $a$ y $b$ y cuenta cuántos enteros quedan **estrictamente** entre los dos extremos: los extremos no cuentan.",
-            "Substitute your values of $a$ and $b$ and count how many integers lie **strictly** between the two endpoints: the endpoints do not count.",
+            strict
+              ? "Sustituye tus valores de $a$ y $b$ y cuenta cuántos enteros quedan **estrictamente** entre los dos extremos: los extremos no cuentan."
+              : "Sustituye tus valores y cuenta los enteros del intervalo **cerrado**: ahora los extremos también cuentan.",
+            strict
+              ? "Substitute your values of $a$ and $b$ and count how many integers lie **strictly** between the two endpoints: they do not count."
+              : "Substitute your values and count the integers of the **closed** interval: now the endpoints count too.",
           ),
         ],
         answerDisplay: L(`$${count}$ valores enteros`, `$${count}$ integer values`),
         solution: [
           step(
             "given",
-            `La desigualdad $${abs} < ${p.b}$.`,
-            `The inequality $${abs} < ${p.b}$.`,
+            `La desigualdad $${abs} ${op} ${r}$.`,
+            `The inequality $${abs} ${op} ${r}$.`,
           ),
           step(
             "approach",
@@ -1012,8 +1017,8 @@ export const templates: ProblemTemplate[] = [
           ),
           step(
             "calculation",
-            `$${abs} < ${p.b} \\iff ${p.a - p.b} < x < ${p.a + p.b}$<br>Los enteros dentro de ese intervalo abierto son $x \\in \\{${ints.join(", ")}\\}$.`,
-            `$${abs} < ${p.b} \\iff ${p.a - p.b} < x < ${p.a + p.b}$<br>The integers inside that open interval are $x \\in \\{${ints.join(", ")}\\}$.`,
+            `$${abs} ${op} ${r} \\iff ${h - r} ${op} x ${op} ${h + r}$<br>Los enteros de ese intervalo ${strict ? "abierto" : "cerrado"} son $x \\in \\{${ints.join(", ")}\\}$.`,
+            `$${abs} ${op} ${r} \\iff ${h - r} ${op} x ${op} ${h + r}$<br>The integers of that ${strict ? "open" : "closed"} interval are $x \\in \\{${ints.join(", ")}\\}$.`,
           ),
           step(
             "result",
@@ -1227,6 +1232,561 @@ export const templates: ProblemTemplate[] = [
             "result",
             "Unión de los tres tramos: $(-2, -\\tfrac{2}{3}) \\cup [-\\tfrac{2}{3}, -\\tfrac{1}{2}) \\cup [-\\tfrac{1}{2}, 0) = (-2,\\; 0)$. Los puntos de corte quedan **dentro**: en ellos $f$ vale $\\tfrac{1}{3}$ y $\\tfrac{1}{2}$, ambos $> -1$. En el gráfico: la zona sombreada es exactamente el tramo de $f$ por encima de la recta $y=-1$.",
             "Union of the three pieces: $(-2, -\\tfrac{2}{3}) \\cup [-\\tfrac{2}{3}, -\\tfrac{1}{2}) \\cup [-\\tfrac{1}{2}, 0) = (-2,\\; 0)$. The breakpoints are **inside**: at them $f$ equals $\\tfrac{1}{3}$ and $\\tfrac{1}{2}$, both $> -1$. On the graph: the shaded region is exactly the stretch of $f$ above the line $y=-1$.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* ---------------------------------------------------------------- */
+  /* Absolute value inequalities — variety pack (fully parameterized).  */
+  /* Fixes the "same problem every time" gap: five structurally        */
+  /* distinct generators in addition to the two above.                  */
+  /* ---------------------------------------------------------------- */
+
+  /* "Sandwich" case: |ax + b| < / ≤ c → interval notation (text). */
+  template(
+    {
+      id: "lin-absi-03",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-inequalities",
+      difficulty: "medium",
+      questionType: "text",
+      estimatedTimeSec: 150,
+      tags: ["absolute-value", "inequalities", "interval-notation"],
+      prerequisites: ["abs-equations", "interval-notation"],
+    },
+    (rng) => {
+      // |a(x − h)| = |ax + b| op a·r, with integer center h and radius r,
+      // so both endpoints h ± r are integers.
+      const a = rng.int(1, 3);
+      const h = rng.int(-5, 5);
+      const r = rng.int(2, 5);
+      const strict = rng.bool();
+      const b = -a * h;
+      const c = a * r;
+      const lo = h - r;
+      const hi = h + r;
+      const op = strict ? "<" : "\\le";
+      const inner =
+        b === 0
+          ? a === 1
+            ? "x"
+            : `${a}x`
+          : `${a === 1 ? "" : a}x ${b > 0 ? "+" : "-"} ${Math.abs(b)}`;
+      const oB = strict ? "(" : "[";
+      const cB = strict ? ")" : "]";
+      const accepted: string[] = [
+        `${oB}${lo}, ${hi}${cB}`,
+        `${oB}${lo},${hi}${cB}`,
+        strict ? `${lo} < x < ${hi}` : `${lo} ≤ x ≤ ${hi}`,
+        strict ? `${lo}<x<${hi}` : `${lo}≤x≤${hi}`,
+        `x ∈ ${oB}${lo}, ${hi}${cB}`,
+        `x∈${oB}${lo},${hi}${cB}`,
+      ];
+      if (!strict) {
+        accepted.push(`${lo} <= x <= ${hi}`, `${lo}<=x<=${hi}`);
+      }
+      const parts: string[] = [`$${-c} ${op} ${inner} ${op} ${c}$`];
+      if (b !== 0) {
+        parts.push(`$${-c - b} ${op} ${a === 1 ? "" : a}x ${op} ${c - b}$`);
+      }
+      if (!(a === 1 && b === 0)) {
+        parts.push(`$${lo} ${op} x ${op} ${hi}$`);
+      }
+      return {
+        skill: L(
+          "Desigualdades con valor absoluto: caso interior",
+          "Absolute value inequalities: inside case",
+        ),
+        statement: L(
+          `Resuelve $|${inner}| ${op} ${c}$ y escribe el conjunto solución en notación de intervalos (por ejemplo $(-2, 7)$ o $[-4, 6]$).`,
+          `Solve $|${inner}| ${op} ${c}$ and write the solution set in interval notation (e.g. $(-2, 7)$ or $[-4, 6]$).`,
+        ),
+        answer: { kind: "text", accepted },
+        hints: [
+          L(
+            "$|X| \\le c$ (con $c > 0$) es el caso **interior**: equivale al sándwich $-c \\le X \\le c$. Con $<$ lo mismo, pero estricto.",
+            "$|X| \\le c$ (with $c > 0$) is the **inside** case: it equals the sandwich $-c \\le X \\le c$. With $<$ the same, but strict.",
+          ),
+          L(
+            `Sustituye $X = ${inner}$ y despeja $x$ en la desigualdad doble (dividir entre $${a}$ conserva el sentido porque es positivo).`,
+            `Substitute $X = ${inner}$ and solve the double inequality for $x$ (dividing by $${a}$ keeps the direction because it is positive).`,
+          ),
+          L(
+            strict
+              ? "La desigualdad es **estricta**: los extremos NO pertenecen a la solución — paréntesis, no corchetes."
+              : "La desigualdad es **no estricta**: los extremos SÍ pertenecen a la solución — corchetes, no paréntesis.",
+            strict
+              ? "The inequality is **strict**: the endpoints do NOT belong to the solution — parentheses, not brackets."
+              : "The inequality is **non-strict**: the endpoints DO belong to the solution — brackets, not parentheses.",
+          ),
+        ],
+        answerDisplay: L(`$${oB}${lo}, ${hi}${cB}$`, `$${oB}${lo}, ${hi}${cB}$`),
+        solution: [
+          step(
+            "given",
+            `La desigualdad $|${inner}| ${op} ${c}$ con $c = ${c} > 0$.`,
+            `The inequality $|${inner}| ${op} ${c}$ with $c = ${c} > 0$.`,
+          ),
+          step(
+            "approach",
+            "Caso interior: el valor absoluto se despliega como desigualdad doble (sándwich) y luego se despeja $x$.",
+            "Inside case: the absolute value unfolds as a double inequality (sandwich) and then we isolate $x$.",
+          ),
+          step("calculation", parts.join("<br>"), parts.join("<br>")),
+          step(
+            "result",
+            strict
+              ? `$${oB}${lo}, ${hi}${cB}$ — extremos excluidos (desigualdad estricta).`
+              : `$${oB}${lo}, ${hi}${cB}$ — extremos incluidos (desigualdad no estricta).`,
+            strict
+              ? `$${oB}${lo}, ${hi}${cB}$ — endpoints excluded (strict inequality).`
+              : `$${oB}${lo}, ${hi}${cB}$ — endpoints included (non-strict inequality).`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* "Outside" case: |x − h| > / ≥ r → union of two rays (MC). */
+  template(
+    {
+      id: "lin-absi-04",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-inequalities",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["absolute-value", "inequalities", "union", "or-and"],
+      prerequisites: ["abs-equations", "compound"],
+    },
+    (rng) => {
+      const h = rng.int(-5, 5);
+      const r = rng.int(2, 5);
+      const strict = rng.bool();
+      const lo = h - r;
+      const hi = h + r;
+      const abs = h === 0 ? "|x|" : h > 0 ? `|x - ${h}|` : `|x + ${-h}|`;
+      const op = strict ? ">" : "\\ge";
+      const flip = strict ? "<" : "\\le";
+      const oB = strict ? "(" : "[";
+      const cB = strict ? ")" : "]";
+      const wrongB = strict ? "[" : "(";
+      const wrongC = strict ? "]" : ")";
+      const correct =
+        `$(-\\infty, ${oB}${lo}${cB} \\cup ${oB}${hi}${cB}, +\\infty)$`;
+      const options: McOption[] = [
+        { id: "a", text: L(correct, correct), correct: true },
+        {
+          id: "b",
+          text: L(
+            strict ? `$${lo} < x < ${hi}$` : `$${lo} \\le x \\le ${hi}$`,
+            strict ? `$${lo} < x < ${hi}$` : `$${lo} \\le x \\le ${hi}$`,
+          ),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L(
+            `$(-\\infty, ${wrongB}${lo}${wrongC} \\cup ${wrongB}${hi}${wrongC}, +\\infty)$`,
+            `$(-\\infty, ${wrongB}${lo}${wrongC} \\cup ${wrongB}${hi}${wrongC}, +\\infty)$`,
+          ),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L(
+            `$(-\\infty, ${oB}${lo}${cB}$`,
+            `$(-\\infty, ${oB}${lo}${cB}$`,
+          ),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L(
+          "Desigualdades con valor absoluto: caso exterior",
+          "Absolute value inequalities: outside case",
+        ),
+        statement: L(
+          `Resuelve $${abs} ${op} ${r}$ y escoge el conjunto solución correcto.`,
+          `Solve $${abs} ${op} ${r}$ and choose the correct solution set.`,
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            `La distancia a $${h}$ debe ser **mayor** que $${r}$: las soluciones viven en dos rayos, fuera del segmento $[${lo},\\; ${hi}]$.`,
+            `The distance to $${h}$ must be **greater** than $${r}$: the solutions live in two rays, outside the segment $[${lo},\\; ${hi}]$.`,
+          ),
+          L(
+            "$|X| > c$ (con $c > 0$) se parte en **dos** desigualdades unidas por **o** (nunca por \"y\"): $X < -c$ o $X > c$.",
+            "$|X| > c$ (with $c > 0$) splits into **two** inequalities joined by **or** (never by \"and\"): $X < -c$ or $X > c$.",
+          ),
+          L(
+            strict
+              ? "Despeja cada rama y cuida los corchetes: es estricta, así que los extremos quedan **fuera** (paréntesis)."
+              : "Despeja cada rama y cuida los corchetes: es no estricta, así que los extremos quedan **dentro** (corchetes).",
+            strict
+              ? "Solve each branch and watch the brackets: strict, so the endpoints stay **out** (parentheses)."
+              : "Solve each branch and watch the brackets: non-strict, so the endpoints stay **in** (brackets).",
+          ),
+        ],
+        answerDisplay: L(correct, correct),
+        solution: [
+          step(
+            "given",
+            `La desigualdad $${abs} ${op} ${r}$: números cuya distancia a $${h}$ es mayor que $${r}$.`,
+            `The inequality $${abs} ${op} ${r}$: numbers whose distance to $${h}$ is greater than $${r}$.`,
+          ),
+          step(
+            "approach",
+            "Caso exterior: se parte en dos desigualdades unidas por **o** y cada rama se resuelve por separado.",
+            "Outside case: it splits into two inequalities joined by **or**, and each branch is solved separately.",
+          ),
+          step(
+            "calculation",
+            `$${abs} ${op} ${r} \\iff x ${flip} ${lo} \\quad \\text{o} \\quad x ${op} ${hi}$<br>El conjunto solución es la **unión** de los dos rayos, ${strict ? "sin" : "con"} los extremos.`,
+            `$${abs} ${op} ${r} \\iff x ${flip} ${lo} \\quad \\text{or} \\quad x ${op} ${hi}$<br>The solution set is the **union** of the two rays, ${strict ? "without" : "with"} the endpoints.`,
+          ),
+          step(
+            "result",
+            `${correct} — verifica: $x = ${h}$ (distancia $0$) **no** cumple; $x = ${hi + 1}$ y $x = ${lo - 1}$ sí cumplen.`,
+            `${correct} — check: $x = ${h}$ (distance $0$) does **not** satisfy it; $x = ${hi + 1}$ and $x = ${lo - 1}$ do.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* Degenerate right-hand side: negative or zero — read before expanding. */
+  template(
+    {
+      id: "lin-absi-05",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-inequalities",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 90,
+      tags: ["absolute-value", "inequalities", "degenerate", "sign-reading"],
+      prerequisites: ["abs-equations"],
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const h = rng.int(-5, 5);
+      const abs = h === 0 ? "|x|" : h > 0 ? `|x - ${h}|` : `|x + ${-h}|`;
+      const negC = -rng.int(1, 4);
+      // shape 0: |x−h| < negC → none; 1: |x−h| ≤ 0 → only x = h;
+      // 2: |x−h| > negC → every real x.
+      const shape = rng.int(0, 2);
+      const opTex = shape === 0 ? "<" : shape === 1 ? "\\le" : ">";
+      const rhs = shape === 1 ? 0 : negC;
+      let correctText: string;
+      let correctEn: string;
+      const distractors: { es: string; en: string }[] = [];
+      if (shape === 0) {
+        correctText = `Ninguno: un valor absoluto nunca es negativo, así que no puede ser **menor** que $${negC}$.`;
+        correctEn = `None: an absolute value is never negative, so it cannot be **smaller** than $${negC}$.`;
+        distractors.push(
+          {
+            es: `Exactamente 1: solo $x = ${h}$.`,
+            en: `Exactly 1: only $x = ${h}$.`,
+          },
+          {
+            es: `Exactamente ${2 * -negC - 1}: los enteros de $(${h + negC}, ${h - negC})$ (ignorando el signo del lado derecho).`,
+            en: `Exactly ${2 * -negC - 1}: the integers of $(${h + negC}, ${h - negC})$ (ignoring the sign of the right-hand side).`,
+          },
+          { es: "Infinitos: todos los reales.", en: "Infinitely many: all reals." },
+        );
+      } else if (shape === 1) {
+        correctText = `Exactamente 1: solo $x = ${h}$ (la única distancia que es $\\le 0$ es la distancia $0$).`;
+        correctEn = `Exactly 1: only $x = ${h}$ (the only distance that is $\\le 0$ is the distance $0$).`;
+        distractors.push(
+          {
+            es: "Ninguno: la distancia nunca puede ser $\\le 0$.",
+            en: "None: a distance can never be $\\le 0$.",
+          },
+          { es: "Infinitos: todos los reales.", en: "Infinitely many: all reals." },
+          {
+            es: `Exactamente 3: $x = ${h - 1},\\; ${h},\\; ${h + 1}$.`,
+            en: `Exactly 3: $x = ${h - 1},\\; ${h},\\; ${h + 1}$.`,
+          },
+        );
+      } else {
+        correctText = `Infinitos: todo valor absoluto es $\\ge 0 > ${negC}$, así que **cualquier** $x$ cumple la desigualdad.`;
+        correctEn = `Infinitely many: every absolute value is $\\ge 0 > ${negC}$, so **any** $x$ satisfies the inequality.`;
+        distractors.push(
+          {
+            es: "Ninguno: el lado derecho es negativo y eso hace la desigualdad imposible.",
+            en: "None: the right-hand side is negative, which makes the inequality impossible.",
+          },
+          {
+            es: `Exactamente 1: solo $x = ${h}$.`,
+            en: `Exactly 1: only $x = ${h}$.`,
+          },
+          { es: "Exactamente 3.", en: "Exactly 3." },
+        );
+      }
+      const options: McOption[] = [
+        { id: "a", text: L(correctText, correctEn), correct: true },
+        ...distractors.map((d, i) => ({
+          id: ["b", "c", "d"][i],
+          text: L(d.es, d.en),
+          correct: false,
+        })),
+      ];
+      return {
+        skill: L(
+          "Desigualdades con valor absoluto: leer el lado derecho",
+          "Absolute value inequalities: reading the right-hand side",
+        ),
+        statement: L(
+          `Sin hacer cuentas largas, decide: ¿cuántos valores de $x$ cumplen $$${abs} ${opTex} ${rhs}$$? Mira el lado derecho con atención antes de expandir nada.`,
+          `Without long calculations, decide: how many $x$ values satisfy $$${abs} ${opTex} ${rhs}$$? Look carefully at the right-hand side before expanding anything.`,
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Un valor absoluto siempre es $\\ge 0$. Compara el lado derecho con $0$ **antes** de desarrollar nada.",
+            "An absolute value is always $\\ge 0$. Compare the right-hand side with $0$ **before** expanding anything.",
+          ),
+          shape === 0
+            ? L(
+                `Se pide distancia **menor** que $${negC}$ (negativo): ninguna distancia lo cumple — la desigualdad es imposible.`,
+                `It demands a distance **smaller** than $${negC}$ (negative): no distance fulfills it — the inequality is impossible.`,
+              )
+            : shape === 1
+              ? L(
+                  "Se pide distancia $\\le 0$: la única forma es distancia exactamente $0$, que ocurre solo en el centro.",
+                  "It demands distance $\\le 0$: the only way is distance exactly $0$, which happens only at the center.",
+                )
+              : L(
+                  `Se pide distancia **mayor** que $${negC}$ (negativo): como toda distancia es $\\ge 0$, ya lo cumple todo $x$.`,
+                  `It demands a distance **greater** than $${negC}$ (negative): since every distance is $\\ge 0$, every $x$ already fulfills it.`,
+                ),
+          L(
+            "Decide la cardinalidad: 0, exactamente 1 o infinitos — y marca la opción.",
+            "Decide the cardinality: 0, exactly 1, or infinitely many — and mark the option.",
+          ),
+        ],
+        answerDisplay: L(correctText, correctEn),
+        solution: [
+          step(
+            "given",
+            `La desigualdad $${abs} ${opTex} ${rhs}$.`,
+            `The inequality $${abs} ${opTex} ${rhs}$.`,
+          ),
+          step(
+            "approach",
+            "El valor absoluto es una distancia y toda distancia es $\\ge 0$. El trabajo está en comparar el lado derecho con $0$, no en expandir.",
+            "The absolute value is a distance and every distance is $\\ge 0$. The work is comparing the right-hand side with $0$, not expanding.",
+          ),
+          step(
+            "calculation",
+            shape === 0
+              ? `Como $|\\,u\\,| \\ge 0 > ${negC}$ para todo $u$, la desigualdad $${abs} < ${negC}$ no tiene solución.`
+              : shape === 1
+                ? `$${abs} \\le 0$ exige distancia $\\le 0$; como la distancia es $\\ge 0$, solo queda la distancia exactamente $0$: ocurre únicamente en $x = ${h}$.`
+                : `Como $|\\,u\\,| \\ge 0 > ${negC}$, se cumple $${abs} > ${negC}$ para **todo** $x$: el conjunto solución es $\\mathbb{R}$.`,
+            shape === 0
+              ? `Since $|\\,u\\,| \\ge 0 > ${negC}$ for every $u$, the inequality $${abs} < ${negC}$ has no solution.`
+              : shape === 1
+                ? `$${abs} \\le 0$ demands distance $\\le 0$; as distance is $\\ge 0$, only distance exactly $0$ remains: it happens only at $x = ${h}$.`
+                : `Since $|\\,u\\,| \\ge 0 > ${negC}$, we get $${abs} > ${negC}$ for **every** $x$: the solution set is $\\mathbb{R}$.`,
+          ),
+          step("result", correctText, correctEn),
+        ],
+      };
+    },
+  ),
+
+  /* Distance comparison |x − h| > |x − k| → midpoint cut (MC). */
+  template(
+    {
+      id: "lin-absi-06",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-inequalities",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["absolute-value", "inequalities", "distance", "midpoint"],
+      prerequisites: ["abs-inequalities", "abs-equations"],
+      reasoning: "graphical",
+    },
+    (rng) => {
+      const h = rng.int(-6, 3);
+      const k = h + rng.int(1, 8);
+      const sum = h + k;
+      const odd = Math.abs(sum) % 2 === 1;
+      const mTex = odd ? `\\frac{${sum}}{2}` : `${sum / 2}`;
+      const absH = h === 0 ? "|x|" : h > 0 ? `|x - ${h}|` : `|x + ${-h}|`;
+      const absK = k === 0 ? "|x|" : k > 0 ? `|x - ${k}|` : `|x + ${-k}|`;
+      const xH = h === 0 ? "x" : h > 0 ? `x - ${h}` : `x + ${-h}`;
+      const xK = k === 0 ? "x" : k > 0 ? `x - ${k}` : `x + ${-k}`;
+      const correct = `$(${mTex},\\; +\\infty)$`;
+      const options: McOption[] = [
+        { id: "a", text: L(correct, correct), correct: true },
+        {
+          id: "b",
+          text: L(`$[${mTex},\\; +\\infty)$`, `$[${mTex},\\; +\\infty)$`),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L(`$(-\\infty,\\; ${mTex})$`, `$(-\\infty,\\; ${mTex})$`),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L(`$(${k},\\; +\\infty)$`, `$(${k},\\; +\\infty)$`),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L(
+          "Comparación de distancias con valor absoluto",
+          "Distance comparison with absolute values",
+        ),
+        statement: L(
+          `¿Para qué valores de $x$ se cumple $$${absH} > ${absK}$$? (Es decir: ¿qué números están **más lejos** de $${h}$ que de $${k}$? Escoge el conjunto solución.)`,
+          `For which $x$ values does $$${absH} > ${absK}$$ hold? (That is: which numbers lie **farther** from $${h}$ than from $${k}$? Choose the solution set.)`,
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            `Escribe la desigualdad en palabras: la distancia de $x$ a $${h}$ debe ser mayor que su distancia a $${k}$.`,
+            `Write the inequality in words: the distance from $x$ to $${h}$ must be greater than its distance to $${k}$.`,
+          ),
+          L(
+            `El empate (distancias iguales) ocurre exactamente en el punto medio $m = \\frac{${h} + ${k}}{2}$. A cada lado de $m$, uno de los dos puntos gana.`,
+            `The tie (equal distances) happens exactly at the midpoint $m = \\frac{${h} + ${k}}{2}$. On each side of $m$, one of the two points wins.`,
+          ),
+          L(
+            `Comprueba con puntos de prueba: $x = ${k}$ (distancia $0$ a $${k}$) debe cumplir; el propio $m$ empata, y como la desigualdad es estricta queda **fuera**. También puedes elevar al cuadrado: $(${xH})^2 > (${xK})^2$ se vuelve lineal.`,
+            `Check with test points: $x = ${k}$ (distance $0$ to $${k}$) must satisfy it; $m$ itself ties and, the inequality being strict, stays **out**. You can also square: $(${xH})^2 > (${xK})^2$ becomes linear.`,
+          ),
+        ],
+        answerDisplay: L(correct, correct),
+        solution: [
+          step(
+            "given",
+            `La desigualdad $${absH} > ${absK}$: la distancia de $x$ a $${h}$ debe superar su distancia a $${k}$.`,
+            `The inequality $${absH} > ${absK}$: the distance from $x$ to $${h}$ must exceed its distance to $${k}$.`,
+          ),
+          step(
+            "approach",
+            "Los empates están en el punto medio; la respuesta es un rayo desde ahí. Elevar al cuadrado lo confirma algebraicamente (ambos lados son no negativos).",
+            "Ties happen at the midpoint; the answer is a ray from there. Squaring confirms it algebraically (both sides are non-negative).",
+          ),
+          step(
+            "calculation",
+            `Elevando al cuadrado (válido: ambos lados $\\ge 0$) los $x^2$ se cancelan y queda una inecuación **lineal**: $$${2 * (k - h)}x > ${k * k - h * h} \\iff x > ${mTex}.$$ El punto $x = ${mTex}$ empata las distancias y, como la desigualdad es estricta, queda excluido.`,
+            `Squaring (valid: both sides $\\ge 0$) cancels the $x^2$ terms and leaves a **linear** inequality: $$${2 * (k - h)}x > ${k * k - h * h} \\iff x > ${mTex}.$$ At $x = ${mTex}$ the distances tie and, the inequality being strict, it is excluded.`,
+          ),
+          step(
+            "result",
+            `El conjunto solución es $(${mTex},\\; +\\infty)$: a la derecha del punto medio se está más cerca de $${k}$, es decir, más lejos de $${h}$. El punto medio queda fuera (empate).`,
+            `The solution set is $(${mTex},\\; +\\infty)$: to the right of the midpoint one is closer to $${k}$, i.e. farther from $${h}$. The midpoint stays out (tie).`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* Consolidation: |x − h| ≤ r AND a linear cut → count integers. */
+  template(
+    {
+      id: "lin-absi-07",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-inequalities",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 210,
+      tags: ["absolute-value", "inequalities", "compound", "counting", "consolidation"],
+      prerequisites: ["compound", "abs-inequalities"],
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const h = rng.int(-4, 4);
+      const r = rng.int(3, 6);
+      const abs = h === 0 ? "|x|" : h > 0 ? `|x - ${h}|` : `|x + ${-h}|`;
+      const lo = h - r;
+      const hi = h + r;
+      const cutLeft = rng.bool();
+      const strict2 = rng.bool();
+      let condTex = "";
+      let setTex = "";
+      let count = 0;
+      const ints: number[] = [];
+      if (cutLeft) {
+        const s = rng.int(lo + 1, hi - 3);
+        condTex = `x ${strict2 ? ">" : "\\ge"} ${s}`;
+        const first = strict2 ? s + 1 : s;
+        count = hi - first + 1;
+        for (let v = first; v <= hi; v++) ints.push(v);
+        setTex = `${strict2 ? "(" : "["}${s}, ${hi}]`;
+      } else {
+        const t = rng.int(lo + 3, hi - 1);
+        condTex = `x ${strict2 ? "<" : "\\le"} ${t}`;
+        const last = strict2 ? t - 1 : t;
+        count = last - lo + 1;
+        for (let v = lo; v <= last; v++) ints.push(v);
+        setTex = `[${lo}, ${t}${strict2 ? ")" : "]"}`;
+      }
+      return {
+        skill: L(
+          "Valor absoluto + condición lineal (consolidación)",
+          "Absolute value + linear condition (consolidation)",
+        ),
+        statement: L(
+          `¿Cuántos valores **enteros** de $x$ cumplen **a la vez** $$${abs} \\le ${r} \\qquad \\text{y} \\qquad ${condTex}?$$`,
+          `How many **integer** values of $x$ satisfy **at the same time** $$${abs} \\le ${r} \\qquad \\text{and} \\qquad ${condTex}?$$`,
+        ),
+        answer: { kind: "numeric", value: count },
+        hints: [
+          L(
+            `Traduce primero el valor absoluto: $${abs} \\le ${r}$ equivale al intervalo cerrado $[${lo}, ${hi}]$. Deja la segunda condición para después.`,
+            `Translate the absolute value first: $${abs} \\le ${r}$ is the closed interval $[${lo}, ${hi}]$. Leave the second condition for later.`,
+          ),
+          L(
+            `Ahora interseca: ¿qué parte de $[${lo}, ${hi}]$ sobrevive la condición $${condTex}$?`,
+            `Now intersect: which part of $[${lo}, ${hi}]$ survives the condition $${condTex}$?`,
+          ),
+          strict2
+            ? L(
+                `La condición es **estricta** ($${condTex}$): el propio corte NO cuenta — los enteros quedan justo al lado que sí cumple.`,
+                `The condition is **strict** ($${condTex}$): the cut point itself does NOT count — the integers stay on the side that does satisfy it.`,
+              )
+            : L(
+                `La condición es **no estricta** ($${condTex}$): el propio corte SÍ cuenta.`,
+                `The condition is **non-strict** ($${condTex}$): the cut point itself DOES count.`,
+              ),
+        ],
+        answerDisplay: L(`$${count}$ valores enteros`, `$${count}$ integer values`),
+        solution: [
+          step(
+            "given",
+            `Dos condiciones simultáneas: $${abs} \\le ${r}$ y $${condTex}$.`,
+            `Two simultaneous conditions: $${abs} \\le ${r}$ and $${condTex}$.`,
+          ),
+          step(
+            "approach",
+            "Resolver el valor absoluto como intervalo, intersecar con la condición lineal y contar enteros cuidando qué extremos cuentan.",
+            "Solve the absolute value as an interval, intersect with the linear condition and count the integers, watching which endpoints count.",
+          ),
+          step(
+            "calculation",
+            `$${abs} \\le ${r} \\iff ${lo} \\le x \\le ${hi}$<br>Intersectando con $${condTex}$: queda $${setTex}$<br>Los enteros son $x \\in \\{${ints.join(", ")}\\}$.`,
+            `$${abs} \\le ${r} \\iff ${lo} \\le x \\le ${hi}$<br>Intersecting with $${condTex}$: we are left with $${setTex}$<br>The integers are $x \\in \\{${ints.join(", ")}\\}$.`,
+          ),
+          step(
+            "result",
+            `Hay $${count}$ valores enteros que cumplen ambas condiciones a la vez.`,
+            `There are $${count}$ integer values satisfying both conditions at once.`,
           ),
         ],
       };

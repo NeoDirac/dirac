@@ -917,3 +917,38 @@
    917→  5. showV0: false en el componente projectile (fuga de paso intermedio anotada por 17-c).
    918→  6. El libro /tmp/espol.pdf (206 MB) es efímero — si se borra, re-descargar del Drive del tutor (folder id 1W9iYhZKMy6nrcgAbHKzg5a434cR1NEct, archivo 1ebj6_uQqeWkUW7EUiqvcT1HegkGVK9Ox).
    919→
+   920→---
+   921→Task ID: 18
+   922→Agent: main (Z.ai Code)
+   923→Task: Responder al pedido del tutor «no solo uses OCR, usa tu modelo de visión para ver las páginas de ejercicios difíciles y extraer más ejercicios… si quiero ese material extra que mencionas» — re-lectura VLM del libro ESPOL, segunda tanda de importación curada (+30), correcciones de fidelidad del lote OCR previo, y verificación completa.
+   924→
+   925→Work Log:
+   926→- Re-descargado el libro completo (206 MB) del Drive del tutor a **/home/z/espol-book/espol.pdf** (ubicación PERSISTENTE — /tmp/espol.pdf había desaparecido; offset de página: PDF = impresa + 27 en Cap. 5, + 29 en Cap. 3).
+   927→- Rasterizadas 26 páginas objetivo a PNG 150 dpi (§3.11 ej. 108–116 → PDF 351–361; §5.5/§5.6 → PDF 692–697; §6.6 S.E.N.L. → PDF 780–782; respuestas Cap. 3/5/6 → PDF 830–831, 835–839) y recortes zoom 300 dpi de las zonas ambiguas.
+   928→- **Transcripción con el modelo de visión (z-ai vision, glm-5v)** página por página: la lectura VLM resolvió lo que el OCR dañaba (p. ej. 53n = 2sen²(2πβ)−3sen(2πβ)+1=0 confirmado por zoom + clave impresa {1/12, ¼, 5/12}; µ del libro = escalón unitario, no sgn; ⌊⌋ en el ej. 56 = parte entera). Estructura real del §5.6: ej. 53 (14 literales), 54 (10 literales), 55–60.
+   929→- Descubiertas y CORREGIDAS tres deformaciones del lote OCR anterior (la queja implícita del tutor era justa): 2c era «cos−sen<−√2/2» y el libro imprime **cos²−sen²<−½** (clave: (π/3,2π/3)∪(4π/3,5π/3)); 2d tenía **≥¼** y el libro imprime **≤¼** (clave: [0,1/12]∪[5/12,7/12]∪[11/12,1]); 2g usaba **sgn** y el libro imprime **µ(sen2θ−1)<0** → Ap=∅ (la versión sgn se conserva como distractor). Renumerados además los ítems previos a la numeración real del libro (1x→53x, 2x→54x).
+   930→- IMPORTADAS 30 plantillas nuevas con fuente fcnm-fundamentos (todas hard/challenge):
+   931→  - trig-equations (+11): 53i (suma 8π), 53j (7π/2), 53n (¾ — sustitución u=sen(2πt)), 54f (argumento escalado), 54h (sgn+|2α|), 54i (sgn≥1), 54j (µ(√3−2cos x)=0, extremos cerrados), 55 (implicación falsa en (0,π/2)), 56 (⌊1−2cos(x/2)⌋=1 ∧ sgn(sen2x)=0 → [0,π]∪[4π/3,2π]), 59 adaptado n=1 (cadena de potencias del coseno), 60 adaptado a=4,b=1 (mínimo AM-GM = 4, con igualdad alcanzable en sen²x=½).
+   932→  - trig-functions (+10): 45e (Δ=sen²y, producto→suma), 45i (Δ=½, recíprocas), 46c (tan15°=2−√3, expresión), 46e (sec(−75°)=√6+√2, expresión), 47a (sen[arccos½+arccos¼]=(√15+√3)/8, expresión), 47d (cot[2arctan½]=¾), 49a (8cos10cos20cos40=cot10°, MC), 49b (∏cos(2^k·π/65)=1/64 — la joya), 57a (dominio del ln con sen(x/2)cos(x/2)=sen x/2), 57b (dominio con cos⁴−cos²+sen²=sen⁴).
+   933→  - systems (+4): S.E.N.L. 1 (t=a²+b²=2 vía (a+b)²), 3 (identidad (x+y)³=0 → (2,−2)), 4 (ln(ex)−ln y=1 fuerza x=y; u²−u−20=0 → log₂5), 110 (mezcla H₂SO₄ 60/140 gal — modelado MC).
+   934→  - quadratics (+4): 111a (m=±1 con raíces reales verificadas), 111b («No es posible» — el candidato m=½ muere en Δ=−63), 112 (fórmula general con y de parámetro → x=(y±√(2y²+1))/2), 116 (mínimo trivariado = 0 por suma de cuadrados).
+   935→  - rational (+1): 113 — la meta-ecuación de cardinalidades ([N(At)+N(Aq)+N(Ar)][N(Aw)−N(Au)]+2(N(Aw)−1)−N(Ap)=0): el estudiante resuelve CINCO ecuaciones racionales (q→{54}, r→{−11}, t→{−16}, u→{59/19}, p→∅) y despeja z=N(Aw)=1. Challenge 600 s.
+   936→- Dos adaptaciones documentadas en el badge: 59 «(n = 1)» y 60 «(a = 4, b = 1)» — en 60 la elección garantiza que la cota AM-GM 2√(ab) es alcanzable dentro del rango de sen² (con a=3,b=12 NO lo sería: el mínimo real sería 15, no 12 — trampa evitada y documentada).
+   937→- docs/source-inventory.md actualizado con la tabla de la segunda tanda, las tres correcciones de fidelidad y la nueva ubicación persistente del libro.
+   938→
+   939→Verification (all green):
+   940→- bun run validate:content → **549 templates · 0 errors · 0 warnings** (519 → 549: +30; curadas con fuente 62 → **92**, de las cuales fcnm-fundamentos 30 → **60**).
+   941→- bunx tsc --noEmit → 0 errores en src/; bun run lint → limpio.
+   942→- **sympy 43/43 checks** (/home/z/tmp/verify_espol_vlm.py): cada una de las 30 respuestas nuevas re-derivada de forma independiente y cotejada con la clave impresa del libro (53n→{1/12,¼,5/12}; 54j cerrado; 55→[π/2,3π/2]; 56→[0,π]∪[4π/3,2π]; 47a/47d/49a/49b exactos; senl 1/3/4 = 2, (2,−2), log₂5; 111a ±1 / 111b imposible; 112 expresiones exactas; 113 z=1 con las cinco cardinalidades). Los 7 «fallos» iniciales del script eran bugs del propio script (umbral float en fronteras, raíces complejas no filtradas) — verificado punto por punto antes de dar por bueno el contenido.
+   943→- agent-browser (ES + EN, desktop 1280 y móvil 390): 53n respondida 0.75 ✓; 53j con «7pi/2» (expresión π en campo numérico) ✓; meta-ecuación 113 con las cinco fracciones renderizadas en KaTeX y MC N(Aw)=1 ✓ (atajo teclado «1»); 46c expresión «2-sqrt(3)» ✓; senl-4 MC ✓; 2g corregida (∅ correcto, µ definida en el enunciado) ✓; 54j en 390 px scrollWidth=390 sin overflow + VLM aprobó el screenshot (KaTeX limpio, sin solapamientos); deck challenge de trig-equations incluye el nuevo 56; 0 page-errors; dev.log GET / 200 (el «Failed to start server» del log es el intento duplicado histórico de la Task 14).
+   944→
+   945→Stage Summary:
+   946→- El pedido del tutor queda cubierto de lleno: el libro ahora se lee CON EL MODELO DE VISIÓN (no OCR), lo que permitió (a) importar el «material extra» pendiente (S.E.N.L. §6.6, §5.5 valores exactos/identidades/cadenas, §5.6 ítems 53i/j/n + 54f/h/i/j + 55/56/57/59/60, §3.11 ej. 110–116), (b) corregir tres importaciones previas deformadas por el OCR y (c) alinear la numeración con el libro para que el tutor pueda cruzar ejercicios por número de página. Banco: 519 → 549 plantillas (+30 duras, 92 con fuente académica verificada).
+   947→- Lección registrada: para material escaneado, VLM + zoom + clave impresa es el estándar; el OCR de texto (CamScanner layer) deformó 3 de 13 importaciones previas (23%) y habría deformado más en fórmulas con potencias/fracciones.
+   948→- Pendiente / próximos pasos:
+   949→  1. §5.5 ej. 48, 50, 51, 52 y §5.6 ej. 59/60 en su forma general son «demuestre que…» — requieren un formato de demostración (feature nueva de UI) para importarse sin degradar.
+   950→  2. Ch. 6 matrices (FundaRETOS: ballenas/Leslie, SENL 3×3) requiere crear el topic «matrices» — decisión del tutor.
+   951→  3. Ejercicio 47c (tan[arcsen(1/√5)−arccos(√2/3)]) quedó fuera: mi derivación (3√14−16)/10 no cuadra con la clave impresa 18−5√14; requiere zoom adicional antes de importar.
+   952→  4. Mover el guard onBoundary() a scripts/validate-bank.ts (pendiente de tooling de la Task 17-c) y showV0:false en el componente projectile — ambas anotadas por agentes previos, siguen abiertas.
+   953→  5. El libro persiste en /home/z/espol-book/espol.pdf; páginas PNG en /home/z/espol-book/pages/.
+   954→
