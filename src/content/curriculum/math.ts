@@ -84,6 +84,7 @@ export const mathCurriculum: TopicDef[] = [
     subtopics: [
       { id: "substitution", name: l10n("Método de sustitución", "Substitution method") },
       { id: "elimination", name: l10n("Método de eliminación", "Elimination method") },
+      { id: "gauss", name: l10n("Método de Gauss (3×3)", "Gaussian elimination (3×3)") },
       { id: "graphing", name: l10n("Resolución gráfica", "Graphing method") },
       { id: "parameters", name: l10n("Sistemas con parámetros", "Systems with parameters") },
       { id: "applications", name: l10n("Problemas de aplicación", "Application problems") },

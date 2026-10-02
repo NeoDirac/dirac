@@ -1,0 +1,1917 @@
+/**
+ * MATH · Systems — Gaussian elimination (3×3) + real application problems
+ *
+ * Real-source content: "Recopilación del autor" — the tutor's own curated
+ * compilation (Sebastián Calderón, Oct 2025):
+ *   - G1–G18: 18 systems of 3 linear equations solved by Gauss elimination
+ *     (11 with unique solution, 4 underdetermined with 1 parameter,
+ *     2 inconsistent).
+ *   - A1–A9: 9 word problems (saffron, discounts, farmland, prefab houses,
+ *     hotel, student, stadium, bar, fritters) modeled as linear systems.
+ *
+ * Verification: every answer was re-derived independently with sympy BEFORE
+ * import (28 checks). G17 ships with the VERIFIED unique solution (2, 2, 0):
+ * the tutor's original key listed it as "incompatible", which contradicts
+ * the derivation (det = 2 ≠ 0, substitution checks) — flagged to the tutor
+ * on 2026-10-02, who should confirm against his source.
+ */
+
+import { template, L, step } from "@/lib/problem";
+import type { ProblemTemplate, McOption } from "@/lib/types";
+
+/* ---------- shared meta helper (curated, fixed problems) ---------- */
+
+const gaussMeta = (
+  n: number,
+  difficulty: "medium" | "hard",
+  reasoning: "multi-concept" | "parameters" | "case-analysis",
+  time = 240,
+) => ({
+  id: `sys-gauss-${String(n).padStart(2, "0")}`,
+  subject: "math" as const,
+  topicId: "systems",
+  subtopicId: "gauss",
+  difficulty,
+  questionType: "multiple-choice" as const,
+  estimatedTimeSec: time,
+  tags: ["systems", "gauss", "3x3", "exam"],
+  prerequisites: ["elimination"],
+  source: {
+    sourceId: "autor-recopilacion-2025",
+    license: "INSTRUCTOR_CREATED" as const,
+    exerciseNumber: `G${n}`,
+  },
+  reasoning,
+});
+
+export const templates: ProblemTemplate[] = [
+  /* ---------------------------------------------------------------- */
+  /* Gauss — unique solution                                          */
+  /* ---------------------------------------------------------------- */
+
+  /* G1 — triangulación limpia, enteros pequeños */
+  template(
+    gaussMeta(1, "medium", "multi-concept"),
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$(20,\\ 10,\\ 5)$", "$(20,\\ 10,\\ 5)$"), correct: true },
+        { id: "b", text: L("$(10,\\ 20,\\ 5)$", "$(10,\\ 20,\\ 5)$"), correct: false },
+        { id: "c", text: L("$(20,\\ 5,\\ 10)$", "$(20,\\ 5,\\ 10)$"), correct: false },
+        { id: "d", text: L("$(15,\\ 15,\\ 5)$", "$(15,\\ 15,\\ 5)$"), correct: false },
+      ];
+      return {
+        skill: L("Sistema 3×3 por Gauss", "3×3 system by Gaussian elimination"),
+        statement: L(
+          "Resuelve por el método de Gauss: $$\\begin{cases} x + 2y + z = 45 \\\\ 2x + y + z = 55 \\\\ x + y + 2z = 40 \\end{cases}$$",
+          "Solve using Gaussian elimination: $$\\begin{cases} x + 2y + z = 45 \\\\ 2x + y + z = 55 \\\\ x + y + 2z = 40 \\end{cases}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Triangula: haz $E_2 - 2E_1$ y $E_3 - E_1$ para eliminar la $x$ de las filas 2 y 3.",
+            "Triangularize: compute $E_2 - 2E_1$ and $E_3 - E_1$ to eliminate $x$ from rows 2 and 3.",
+          ),
+          L(
+            "Queda $-3y - z = -35$ y $-y + z = -5$; ahora elimina la $y$ de la tercera fila.",
+            "You get $-3y - z = -35$ and $-y + z = -5$; now eliminate $y$ from the third row.",
+          ),
+          L(
+            "La tercera fila se reduce a $\\tfrac{4}{3}z = \\tfrac{20}{3}$, así que $z = 5$; sustituye hacia atrás.",
+            "The third row reduces to $\\tfrac{4}{3}z = \\tfrac{20}{3}$, so $z = 5$; back-substitute.",
+          ),
+        ],
+        answerDisplay: L("$L = \\{(20,\\ 10,\\ 5)\\}$", "$L = \\{(20,\\ 10,\\ 5)\\}$"),
+        solution: [
+          step(
+            "given",
+            "El sistema $x + 2y + z = 45$, $2x + y + z = 55$, $x + y + 2z = 40$.",
+            "The system $x + 2y + z = 45$, $2x + y + z = 55$, $x + y + 2z = 40$.",
+          ),
+          step(
+            "approach",
+            "Método de Gauss: con operaciones elementales de fila hacemos ceros bajo la diagonal y luego sustituimos hacia atrás.",
+            "Gaussian elimination: use elementary row operations to create zeros below the diagonal, then back-substitute.",
+          ),
+          step(
+            "calculation",
+            "$E_2 - 2E_1:\\ 0x - 3y - z = -35$<br>$E_3 - E_1:\\ -y + z = -5$<br>$E_3 + \\left(-\\tfrac{1}{3}E_2'\\right):\\ \\tfrac{4}{3}z = \\tfrac{20}{3} \\Rightarrow z = 5$<br>Con $z = 5$ en $-3y - z = -35$: $y = 10$. Con $y = 10$, $z = 5$ en $E_1$: $x = 45 - 20 - 5 = 20$.",
+            "$E_2 - 2E_1:\\ 0x - 3y - z = -35$<br>$E_3 - E_1:\\ -y + z = -5$<br>$E_3 + \\left(-\\tfrac{1}{3}E_2'\\right):\\ \\tfrac{4}{3}z = \\tfrac{20}{3} \\Rightarrow z = 5$<br>With $z = 5$ in $-3y - z = -35$: $y = 10$. With $y = 10$, $z = 5$ in $E_1$: $x = 45 - 20 - 5 = 20$.",
+          ),
+          step(
+            "result",
+            "$L = \\{(20,\\ 10,\\ 5)\\}$. Verificación: $20 + 20 + 5 = 45$ ✓, $40 + 10 + 5 = 55$ ✓, $20 + 10 + 10 = 40$ ✓.",
+            "$L = \\{(20,\\ 10,\\ 5)\\}$. Check: $20 + 20 + 5 = 45$ ✓, $40 + 10 + 5 = 55$ ✓, $20 + 10 + 10 = 40$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* G2 — coeficientes grandes en E2 */
+  template(
+    gaussMeta(2, "medium", "multi-concept", 270),
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$(10,\\ 5,\\ 30)$", "$(10,\\ 5,\\ 30)$"), correct: true },
+        { id: "b", text: L("$(30,\\ 5,\\ 10)$", "$(30,\\ 5,\\ 10)$"), correct: false },
+        { id: "c", text: L("$(10,\\ 30,\\ 5)$", "$(10,\\ 30,\\ 5)$"), correct: false },
+        { id: "d", text: L("$(5,\\ 10,\\ 30)$", "$(5,\\ 10,\\ 30)$"), correct: false },
+      ];
+      return {
+        skill: L("Sistema 3×3 por Gauss", "3×3 system by Gaussian elimination"),
+        statement: L(
+          "Resuelve por el método de Gauss: $$\\begin{cases} x + y + z = 45 \\\\ 13x + 12y + 8z = 430 \\\\ 2x + 2y - z = 0 \\end{cases}$$",
+          "Solve using Gaussian elimination: $$\\begin{cases} x + y + z = 45 \\\\ 13x + 12y + 8z = 430 \\\\ 2x + 2y - z = 0 \\end{cases}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Los coeficientes de $x$ son $1, 13, 2$: haz $E_2 - 13E_1$ y $E_3 - 2E_1$.",
+            "The $x$ coefficients are $1, 13, 2$: compute $E_2 - 13E_1$ and $E_3 - 2E_1$.",
+          ),
+          L(
+            "Queda $-y - 5z = -155$ y $-5z = -90$: ya es triangular.",
+            "You get $-y - 5z = -155$ and $-5z = -90$: already triangular.",
+          ),
+          L(
+            "De la tercera: $z = 30$. Sustituye hacia atrás para $y$ y luego $x$.",
+            "From the third: $z = 30$. Back-substitute for $y$ and then $x$.",
+          ),
+        ],
+        answerDisplay: L("$L = \\{(10,\\ 5,\\ 30)\\}$", "$L = \\{(10,\\ 5,\\ 30)\\}$"),
+        solution: [
+          step(
+            "given",
+            "El sistema $x + y + z = 45$, $13x + 12y + 8z = 430$, $2x + 2y - z = 0$.",
+            "The system $x + y + z = 45$, $13x + 12y + 8z = 430$, $2x + 2y - z = 0$.",
+          ),
+          step(
+            "approach",
+            "Eliminamos la $x$ de las filas 2 y 3 con $E_2 - 13E_1$ y $E_3 - 2E_1$.",
+            "Eliminate $x$ from rows 2 and 3 with $E_2 - 13E_1$ and $E_3 - 2E_1$.",
+          ),
+          step(
+            "calculation",
+            "$E_2 - 13E_1:\\ -y - 5z = 430 - 585 = -155$<br>$E_3 - 2E_1:\\ 0x + 0y - 3z = -90 \\Rightarrow z = 30$<br>Con $z = 30$: $y = 155 - 150 = 5$. Con $E_1$: $x = 45 - 5 - 30 = 10$.",
+            "$E_2 - 13E_1:\\ -y - 5z = 430 - 585 = -155$<br>$E_3 - 2E_1:\\ 0x + 0y - 3z = -90 \\Rightarrow z = 30$<br>With $z = 30$: $y = 155 - 150 = 5$. From $E_1$: $x = 45 - 5 - 30 = 10$.",
+          ),
+          step(
+            "result",
+            "$L = \\{(10,\\ 5,\\ 30)\\}$. Verificación: $10 + 5 + 30 = 45$ ✓, $130 + 60 + 240 = 430$ ✓, $20 + 10 - 30 = 0$ ✓.",
+            "$L = \\{(10,\\ 5,\\ 30)\\}$. Check: $10 + 5 + 30 = 45$ ✓, $130 + 60 + 240 = 430$ ✓, $20 + 10 - 30 = 0$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* G3 — signos mezclados */
+  template(
+    gaussMeta(3, "medium", "multi-concept"),
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$(3,\\ 1,\\ 5)$", "$(3,\\ 1,\\ 5)$"), correct: true },
+        { id: "b", text: L("$(1,\\ 3,\\ 5)$", "$(1,\\ 3,\\ 5)$"), correct: false },
+        { id: "c", text: L("$(3,\\ 5,\\ 1)$", "$(3,\\ 5,\\ 1)$"), correct: false },
+        { id: "d", text: L("$(-3,\\ 1,\\ 5)$", "$(-3,\\ 1,\\ 5)$"), correct: false },
+      ];
+      return {
+        skill: L("Sistema 3×3 por Gauss", "3×3 system by Gaussian elimination"),
+        statement: L(
+          "Resuelve por el método de Gauss: $$\\begin{cases} x + y - z = -1 \\\\ -2x + y + z = 0 \\\\ 3x + 2y - 2z = 1 \\end{cases}$$",
+          "Solve using Gaussian elimination: $$\\begin{cases} x + y - z = -1 \\\\ -2x + y + z = 0 \\\\ 3x + 2y - 2z = 1 \\end{cases}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Haz $E_2 + 2E_1$ y $E_3 - 3E_1$ para eliminar la $x$.",
+            "Compute $E_2 + 2E_1$ and $E_3 - 3E_1$ to eliminate $x$.",
+          ),
+          L(
+            "Queda $3y - z = -2$ y $-y + z = 4$; combina ambas para eliminar la $y$.",
+            "You get $3y - z = -2$ and $-y + z = 4$; combine them to eliminate $y$.",
+          ),
+          L(
+            "Llegas a $\\tfrac{2}{3}z = \\tfrac{10}{3}$, es decir $z = 5$; sustituye hacia atrás.",
+            "You reach $\\tfrac{2}{3}z = \\tfrac{10}{3}$, i.e. $z = 5$; back-substitute.",
+          ),
+        ],
+        answerDisplay: L("$L = \\{(3,\\ 1,\\ 5)\\}$", "$L = \\{(3,\\ 1,\\ 5)\\}$"),
+        solution: [
+          step(
+            "given",
+            "El sistema $x + y - z = -1$, $-2x + y + z = 0$, $3x + 2y - 2z = 1$.",
+            "The system $x + y - z = -1$, $-2x + y + z = 0$, $3x + 2y - 2z = 1$.",
+          ),
+          step(
+            "approach",
+            "Eliminamos la $x$ y luego la $y$ para llegar a un sistema triangular.",
+            "Eliminate $x$ first and then $y$ to reach a triangular system.",
+          ),
+          step(
+            "calculation",
+            "$E_2 + 2E_1:\\ 3y - z = -2$<br>$E_3 - 3E_1:\\ -y + z = 4$<br>$E_3' + \\tfrac{1}{3}E_2':\\ \\tfrac{2}{3}z = \\tfrac{10}{3} \\Rightarrow z = 5$<br>Con $z = 5$: $y = 1$; con $E_1$: $x = -1 - 1 + 5 = 3$.",
+            "$E_2 + 2E_1:\\ 3y - z = -2$<br>$E_3 - 3E_1:\\ -y + z = 4$<br>$E_3' + \\tfrac{1}{3}E_2':\\ \\tfrac{2}{3}z = \\tfrac{10}{3} \\Rightarrow z = 5$<br>With $z = 5$: $y = 1$; from $E_1$: $x = -1 - 1 + 5 = 3$.",
+          ),
+          step(
+            "result",
+            "$L = \\{(3,\\ 1,\\ 5)\\}$. Verificación: $3 + 1 - 5 = -1$ ✓, $-6 + 1 + 5 = 0$ ✓, $9 + 2 - 10 = 1$ ✓.",
+            "$L = \\{(3,\\ 1,\\ 5)\\}$. Check: $3 + 1 - 5 = -1$ ✓, $-6 + 1 + 5 = 0$ ✓, $9 + 2 - 10 = 1$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* G4 — indeterminado (1 parámetro) */
+  template(
+    gaussMeta(4, "hard", "parameters", 300),
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(
+            "$(x,y,z) = \\left(\\dfrac{4-\\lambda}{5},\\ \\dfrac{-2-7\\lambda}{5},\\ \\lambda\\right),\\ \\lambda \\in \\mathbb{R}$",
+            "$(x,y,z) = \\left(\\dfrac{4-\\lambda}{5},\\ \\dfrac{-2-7\\lambda}{5},\\ \\lambda\\right),\\ \\lambda \\in \\mathbb{R}$",
+          ),
+          correct: true,
+        },
+        { id: "b", text: L("Sistema incompatible", "Inconsistent system"), correct: false },
+        {
+          id: "c",
+          text: L(
+            "Solución única $\\left(\\tfrac{4}{5},\\ -\\tfrac{2}{5},\\ 0\\right)$",
+            "Unique solution $\\left(\\tfrac{4}{5},\\ -\\tfrac{2}{5},\\ 0\\right)$",
+          ),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L(
+            "$(x,y,z) = \\left(\\dfrac{4-\\lambda}{5},\\ \\dfrac{2+7\\lambda}{5},\\ \\lambda\\right),\\ \\lambda \\in \\mathbb{R}$",
+            "$(x,y,z) = \\left(\\dfrac{4-\\lambda}{5},\\ \\dfrac{2+7\\lambda}{5},\\ \\lambda\\right),\\ \\lambda \\in \\mathbb{R}$",
+          ),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L(
+          "Gauss: sistema compatible indeterminado",
+          "Gauss: underdetermined system",
+        ),
+        statement: L(
+          "Resuelve por el método de Gauss: $$\\begin{cases} x + 2y + 3z = 0 \\\\ 2x - y - z = 2 \\\\ 3x + y + 2z = 2 \\end{cases}$$",
+          "Solve using Gaussian elimination: $$\\begin{cases} x + 2y + 3z = 0 \\\\ 2x - y - z = 2 \\\\ 3x + y + 2z = 2 \\end{cases}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Haz $E_2 - 2E_1$ y $E_3 - 3E_1$ para eliminar la $x$.",
+            "Compute $E_2 - 2E_1$ and $E_3 - 3E_1$ to eliminate $x$.",
+          ),
+          L(
+            "Al eliminar también la $y$ de la tercera fila, queda $0x + 0y + 0z = 0$: hay una incógnita libre.",
+            "After eliminating $y$ from the third row too, you are left with $0x + 0y + 0z = 0$: one unknown is free.",
+          ),
+          L(
+            "Pon $z = \\lambda$ y despeja $y$ y $x$ hacia atrás: el sistema es compatible indeterminado.",
+            "Set $z = \\lambda$ and solve for $y$ and $x$ backwards: the system is consistent with infinitely many solutions.",
+          ),
+        ],
+        answerDisplay: L(
+          "$L = \\left\\{\\left(\\dfrac{4-\\lambda}{5},\\ \\dfrac{-2-7\\lambda}{5},\\ \\lambda\\right) : \\lambda \\in \\mathbb{R}\\right\\}$",
+          "$L = \\left\\{\\left(\\dfrac{4-\\lambda}{5},\\ \\dfrac{-2-7\\lambda}{5},\\ \\lambda\\right) : \\lambda \\in \\mathbb{R}\\right\\}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El sistema $x + 2y + 3z = 0$, $2x - y - z = 2$, $3x + y + 2z = 2$.",
+            "The system $x + 2y + 3z = 0$, $2x - y - z = 2$, $3x + y + 2z = 2$.",
+          ),
+          step(
+            "approach",
+            "Triangulamos con Gauss y observamos el rango: si una fila se anula por completo, hay una incógnita libre.",
+            "Triangularize with Gauss and watch the rank: if a row vanishes entirely, one unknown is free.",
+          ),
+          step(
+            "calculation",
+            "$E_2 - 2E_1:\\ -5y - 7z = 2$<br>$E_3 - 3E_1:\\ -5y - 7z = 2$ (¡idéntica!)<br>$E_3 - E_2':\\ 0 = 0$ → una fila sobra; $z$ queda libre.<br>Con $z = \\lambda$: $y = \\dfrac{-2 - 7\\lambda}{5}$ y $x = -2y - 3\\lambda = \\dfrac{4 - \\lambda}{5}$.",
+            "$E_2 - 2E_1:\\ -5y - 7z = 2$<br>$E_3 - 3E_1:\\ -5y - 7z = 2$ (identical!)<br>$E_3 - E_2':\\ 0 = 0$ → one row is redundant; $z$ is free.<br>With $z = \\lambda$: $y = \\dfrac{-2 - 7\\lambda}{5}$ and $x = -2y - 3\\lambda = \\dfrac{4 - \\lambda}{5}$.",
+          ),
+          step(
+            "result",
+            "Compatible indeterminado: $L = \\left\\{\\left(\\dfrac{4-\\lambda}{5},\\ \\dfrac{-2-7\\lambda}{5},\\ \\lambda\\right) : \\lambda \\in \\mathbb{R}\\right\\}$ (rango 2 con 3 incógnitas).",
+            "Consistent, underdetermined: $L = \\left\\{\\left(\\dfrac{4-\\lambda}{5},\\ \\dfrac{-2-7\\lambda}{5},\\ \\lambda\\right) : \\lambda \\in \\mathbb{R}\\right\\}$ (rank 2 with 3 unknowns).",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* G5 — incompatible (contradicción 0 = 3) */
+  template(
+    gaussMeta(5, "hard", "case-analysis", 270),
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("Sistema incompatible: no tiene solución", "Inconsistent system: no solution"), correct: true },
+        { id: "b", text: L("$(1,\\ 1,\\ 0)$ — solución única", "$(1,\\ 1,\\ 0)$ — unique solution"), correct: false },
+        { id: "c", text: L("$(-4,\\ 0,\\ -3)$ — solución única", "$(-4,\\ 0,\\ -3)$ — unique solution"), correct: false },
+        { id: "d", text: L("Infinitas soluciones (un parámetro libre)", "Infinitely many solutions (one free parameter)"), correct: false },
+      ];
+      return {
+        skill: L("Gauss: detectar incompatibilidad", "Gauss: detecting inconsistency"),
+        statement: L(
+          "Resuelve por el método de Gauss: $$\\begin{cases} -x + 2y + z = 1 \\\\ x + y - 2z = -1 \\\\ 3y - z = 3 \\end{cases}$$",
+          "Solve using Gaussian elimination: $$\\begin{cases} -x + 2y + z = 1 \\\\ x + y - 2z = -1 \\\\ 3y - z = 3 \\end{cases}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Suma $E_1 + E_2$: la $x$ desaparece de golpe.",
+            "Add $E_1 + E_2$: the $x$ cancels at once.",
+          ),
+          L(
+            "$E_1 + E_2$ da $3y - z = 0$. La tercera ecuación dice $3y - z = 3$. Compara.",
+            "$E_1 + E_2$ gives $3y - z = 0$. The third equation says $3y - z = 3$. Compare.",
+          ),
+          L(
+            "Dos ecuaciones exigen $3y - z = 0$ y $3y - z = 3$ a la vez: imposible → sistema incompatible.",
+            "Two equations demand $3y - z = 0$ and $3y - z = 3$ simultaneously: impossible → inconsistent system.",
+          ),
+        ],
+        answerDisplay: L("$L = \\emptyset$ (sistema incompatible)", "$L = \\emptyset$ (inconsistent system)"),
+        solution: [
+          step(
+            "given",
+            "El sistema $-x + 2y + z = 1$, $x + y - 2z = -1$, $3y - z = 3$.",
+            "The system $-x + 2y + z = 1$, $x + y - 2z = -1$, $3y - z = 3$.",
+          ),
+          step(
+            "approach",
+            "Triangulamos y buscamos una fila del tipo $0 = k$ con $k \\neq 0$: eso significaría incompatibilidad.",
+            "Triangularize and look for a row of the form $0 = k$ with $k \\neq 0$: that would mean inconsistency.",
+          ),
+          step(
+            "calculation",
+            "$E_2 + E_1:\\ 3y - z = 0$<br>La tercera ecuación ya es $3y - z = 3$; restando: $0 = 3$, una contradicción.<br>Los distractores $(1, 1, 0)$ y $(-4, 0, -3)$ satisfacen dos ecuaciones pero no las tres: p. ej. $(1,1,0)$ cumple $E_1$ y $E_3$ pero $1 + 1 - 0 = 2 \\neq -1$.",
+            "$E_2 + E_1:\\ 3y - z = 0$<br>The third equation is already $3y - z = 3$; subtracting: $0 = 3$, a contradiction.<br>The distractors $(1, 1, 0)$ and $(-4, 0, -3)$ satisfy two equations but not all three: e.g. $(1,1,0)$ fulfills $E_1$ and $E_3$ but $1 + 1 - 0 = 2 \\neq -1$.",
+          ),
+          step(
+            "result",
+            "El rango de la matriz de coeficientes es 2 y el de la ampliada es 3: $L = \\emptyset$.",
+            "The coefficient matrix has rank 2 and the augmented matrix rank 3: $L = \\emptyset$.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* G6 — homogéneo con solo la solución trivial */
+  template(
+    gaussMeta(6, "medium", "multi-concept", 270),
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$(0,\\ 0,\\ 0)$ — única solución", "$(0,\\ 0,\\ 0)$ — unique solution"), correct: true },
+        {
+          id: "b",
+          text: L("$(\\lambda,\\ \\lambda,\\ \\lambda)$ — infinitas soluciones", "$(\\lambda,\\ \\lambda,\\ \\lambda)$ — infinitely many solutions"),
+          correct: false,
+        },
+        { id: "c", text: L("$(2,\\ 4,\\ 3)$ — única solución", "$(2,\\ 4,\\ 3)$ — unique solution"), correct: false },
+        { id: "d", text: L("Sistema incompatible", "Inconsistent system"), correct: false },
+      ];
+      return {
+        skill: L("Gauss: sistema homogéneo", "Gauss: homogeneous system"),
+        statement: L(
+          "Resuelve por el método de Gauss: $$\\begin{cases} 2x + y - 2z = 0 \\\\ 4x + y - 3z = 0 \\\\ 6x + 5z = 0 \\end{cases}$$",
+          "Solve using Gaussian elimination: $$\\begin{cases} 2x + y - 2z = 0 \\\\ 4x + y - 3z = 0 \\\\ 6x + 5z = 0 \\end{cases}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Es un sistema homogéneo: $(0,0,0)$ siempre es solución. La pregunta es si es la única.",
+            "This is a homogeneous system: $(0,0,0)$ is always a solution. The question is whether it is the only one.",
+          ),
+          L(
+            "Haz $E_2 - 2E_1$ y $E_3 - 3E_1$, y sigue triangulando.",
+            "Compute $E_2 - 2E_1$ and $E_3 - 3E_1$, and keep triangularizing.",
+          ),
+          L(
+            "La última fila da $8z = 0 \Rightarrow z = 0$; hacia atrás: $y = 0$, $x = 0$. Solo la solución trivial.",
+            "The last row gives $8z = 0 \\Rightarrow z = 0$; backwards: $y = 0$, $x = 0$. Only the trivial solution.",
+          ),
+        ],
+        answerDisplay: L("$L = \\{(0,\\ 0,\\ 0)\\}$", "$L = \\{(0,\\ 0,\\ 0)\\}$"),
+        solution: [
+          step(
+            "given",
+            "El sistema homogéneo $2x + y - 2z = 0$, $4x + y - 3z = 0$, $6x + 5z = 0$.",
+            "The homogeneous system $2x + y - 2z = 0$, $4x + y - 3z = 0$, $6x + 5z = 0$.",
+          ),
+          step(
+            "approach",
+            "Un sistema homogéneo nunca es incompatible (el $0$ lo satisface todo). Si el rango es 3, la única solución es la trivial.",
+            "A homogeneous system is never inconsistent (all zeros always works). If the rank is 3, the only solution is the trivial one.",
+          ),
+          step(
+            "calculation",
+            "$E_2 - 2E_1:\\ -y + z = 0$<br>$E_3 - 3E_1:\\ -3y + 11z = 0$<br>$E_3 + (-3)\\cdot(-1) \\cdot E_2'$ — mejor: $E_3 - 3E_2':\\ 0y + 8z = 0 \\Rightarrow z = 0$<br>Con $z = 0$: $y = 0$ y $x = 0$.",
+            "$E_2 - 2E_1:\\ -y + z = 0$<br>$E_3 - 3E_1:\\ -3y + 11z = 0$<br>$E_3 - 3E_2':\\ 0y + 8z = 0 \\Rightarrow z = 0$<br>With $z = 0$: $y = 0$ and $x = 0$.",
+          ),
+          step(
+            "result",
+            "$L = \\{(0,\\ 0,\\ 0)\\}$: el determinante es $-16 \\neq 0$, así que la solución trivial es la única.",
+            "$L = \\{(0,\\ 0,\\ 0)\\}$: the determinant is $-16 \\neq 0$, so the trivial solution is the only one.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* G7 — homogéneo indeterminado */
+  template(
+    gaussMeta(7, "hard", "parameters", 300),
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(
+            "$(x,y,z) = \\left(-\\lambda,\\ -\\dfrac{2\\lambda}{3},\\ \\lambda\\right),\\ \\lambda \\in \\mathbb{R}$",
+            "$(x,y,z) = \\left(-\\lambda,\\ -\\dfrac{2\\lambda}{3},\\ \\lambda\\right),\\ \\lambda \\in \\mathbb{R}$",
+          ),
+          correct: true,
+        },
+        { id: "b", text: L("Solo la solución trivial $(0,\\ 0,\\ 0)$", "Only the trivial solution $(0,\\ 0,\\ 0)$"), correct: false },
+        { id: "c", text: L("Sistema incompatible", "Inconsistent system"), correct: false },
+        {
+          id: "d",
+          text: L(
+            "$(x,y,z) = \\left(\\lambda,\\ \\dfrac{2\\lambda}{3},\\ \\lambda\\right),\\ \\lambda \\in \\mathbb{R}$",
+            "$(x,y,z) = \\left(\\lambda,\\ \\dfrac{2\\lambda}{3},\\ \\lambda\\right),\\ \\lambda \\in \\mathbb{R}$",
+          ),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L("Gauss: homogéneo indeterminado", "Gauss: underdetermined homogeneous system"),
+        statement: L(
+          "Resuelve por el método de Gauss: $$\\begin{cases} x - 3y - z = 0 \\\\ 2x + 2z = 0 \\\\ 3x + 3y + 5z = 0 \\end{cases}$$",
+          "Solve using Gaussian elimination: $$\\begin{cases} x - 3y - z = 0 \\\\ 2x + 2z = 0 \\\\ 3x + 3y + 5z = 0 \\end{cases}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Homogéneo: nunca es incompatible. Triangula con $E_2 - 2E_1$ y $E_3 - 3E_1$.",
+            "Homogeneous: never inconsistent. Triangularize with $E_2 - 2E_1$ and $E_3 - 3E_1$.",
+          ),
+          L(
+            "Queda $6y + 4z = 0$ y la tercera fila se anula por completo ($0 = 0$): un parámetro libre.",
+            "You get $6y + 4z = 0$ and the third row vanishes entirely ($0 = 0$): one free parameter.",
+          ),
+          L(
+            "Con $z = \\lambda$: $y = -\\tfrac{2\\lambda}{3}$ y $x = -\\lambda$. Infinitas soluciones (incluida la trivial).",
+            "With $z = \\lambda$: $y = -\\tfrac{2\\lambda}{3}$ and $x = -\\lambda$. Infinitely many solutions (including the trivial one).",
+          ),
+        ],
+        answerDisplay: L(
+          "$L = \\left\\{\\left(-\\lambda,\\ -\\dfrac{2\\lambda}{3},\\ \\lambda\\right) : \\lambda \\in \\mathbb{R}\\right\\}$",
+          "$L = \\left\\{\\left(-\\lambda,\\ -\\dfrac{2\\lambda}{3},\\ \\lambda\\right) : \\lambda \\in \\mathbb{R}\\right\\}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El sistema homogéneo $x - 3y - z = 0$, $2x + 2z = 0$, $3x + 3y + 5z = 0$.",
+            "The homogeneous system $x - 3y - z = 0$, $2x + 2z = 0$, $3x + 3y + 5z = 0$.",
+          ),
+          step(
+            "approach",
+            "Un sistema homogéneo tiene o solo la solución trivial (rango 3) o infinitas (rango < 3). Triangulamos para decidir.",
+            "A homogeneous system has either only the trivial solution (rank 3) or infinitely many (rank < 3). Triangularize to decide.",
+          ),
+          step(
+            "calculation",
+            "$E_2 - 2E_1:\\ 6y + 4z = 0$<br>$E_3 - 3E_1:\\ 12y + 8z = 0$<br>$E_3 - 2E_2':\\ 0 = 0$ → fila redundante; $z$ libre.<br>Con $z = \\lambda$: $y = -\\dfrac{4\\lambda}{6} = -\\dfrac{2\\lambda}{3}$ y $x = 3y + \\lambda = -\\lambda$.",
+            "$E_2 - 2E_1:\\ 6y + 4z = 0$<br>$E_3 - 3E_1:\\ 12y + 8z = 0$<br>$E_3 - 2E_2':\\ 0 = 0$ → redundant row; $z$ free.<br>With $z = \\lambda$: $y = -\\dfrac{4\\lambda}{6} = -\\dfrac{2\\lambda}{3}$ and $x = 3y + \\lambda = -\\lambda$.",
+          ),
+          step(
+            "result",
+            "Compatible indeterminado: $L = \\left\\{\\left(-\\lambda,\\ -\\dfrac{2\\lambda}{3},\\ \\lambda\\right) : \\lambda \\in \\mathbb{R}\\right\\}$. Con $\\lambda = 0$ aparece la solución trivial.",
+            "Consistent, underdetermined: $L = \\left\\{\\left(-\\lambda,\\ -\\dfrac{2\\lambda}{3},\\ \\lambda\\right) : \\lambda \\in \\mathbb{R}\\right\\}$. With $\\lambda = 0$ you recover the trivial solution.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* G8 — solución fraccionaria */
+  template(
+    gaussMeta(8, "medium", "multi-concept"),
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(
+            "$\\left(\\dfrac{11}{4},\\ \\dfrac{7}{4},\\ \\dfrac{7}{4}\\right)$",
+            "$\\left(\\dfrac{11}{4},\\ \\dfrac{7}{4},\\ \\dfrac{7}{4}\\right)$",
+          ),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L(
+            "$\\left(\\dfrac{7}{4},\\ \\dfrac{11}{4},\\ \\dfrac{7}{4}\\right)$",
+            "$\\left(\\dfrac{7}{4},\\ \\dfrac{11}{4},\\ \\dfrac{7}{4}\\right)$",
+          ),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L(
+            "$\\left(\\dfrac{11}{4},\\ -\\dfrac{7}{4},\\ \\dfrac{7}{4}\\right)$",
+            "$\\left(\\dfrac{11}{4},\\ -\\dfrac{7}{4},\\ \\dfrac{7}{4}\\right)$",
+          ),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L(
+            "$\\left(\\dfrac{11}{2},\\ \\dfrac{7}{2},\\ \\dfrac{7}{2}\\right)$",
+            "$\\left(\\dfrac{11}{2},\\ \\dfrac{7}{2},\\ \\dfrac{7}{2}\\right)$",
+          ),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L("Sistema 3×3 por Gauss", "3×3 system by Gaussian elimination"),
+        statement: L(
+          "Resuelve por el método de Gauss: $$\\begin{cases} x - 2y + z = 1 \\\\ 3x - y - 2z = 3 \\\\ x + y + 2z = 8 \\end{cases}$$",
+          "Solve using Gaussian elimination: $$\\begin{cases} x - 2y + z = 1 \\\\ 3x - y - 2z = 3 \\\\ x + y + 2z = 8 \\end{cases}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Haz $E_2 - 3E_1$ y $E_3 - E_1$ para eliminar la $x$.",
+            "Compute $E_2 - 3E_1$ and $E_3 - E_1$ to eliminate $x$.",
+          ),
+          L(
+            "Queda $5y - 5z = 0$ y $3y + z = 7$; elimina la $y$.",
+            "You get $5y - 5z = 0$ and $3y + z = 7$; eliminate $y$.",
+          ),
+          L(
+            "De $4z = 7$: $z = \\tfrac{7}{4}$. Hacia atrás: $y = \\tfrac{7}{4}$ y $x = \\tfrac{11}{4}$.",
+            "From $4z = 7$: $z = \\tfrac{7}{4}$. Backwards: $y = \\tfrac{7}{4}$ and $x = \\tfrac{11}{4}$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$L = \\left\\{\\left(\\dfrac{11}{4},\\ \\dfrac{7}{4},\\ \\dfrac{7}{4}\\right)\\right\\}$",
+          "$L = \\left\\{\\left(\\dfrac{11}{4},\\ \\dfrac{7}{4},\\ \\dfrac{7}{4}\\right)\\right\\}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El sistema $x - 2y + z = 1$, $3x - y - 2z = 3$, $x + y + 2z = 8$.",
+            "The system $x - 2y + z = 1$, $3x - y - 2z = 3$, $x + y + 2z = 8$.",
+          ),
+          step(
+            "approach",
+            "Triangulamos y sustituimos hacia atrás; aquí la solución es fraccionaria.",
+            "Triangularize and back-substitute; here the solution is fractional.",
+          ),
+          step(
+            "calculation",
+            "$E_2 - 3E_1:\\ 5y - 5z = 0$<br>$E_3 - E_1:\\ 3y + z = 7$<br>$E_3 - \\tfrac{3}{5}E_2':\\ 4z = 7 \\Rightarrow z = \\tfrac{7}{4}$<br>Con $z = \\tfrac{7}{4}$: $y = \\tfrac{7}{4}$ (de $y = z$) y $x = 1 + 2y - z = \\tfrac{11}{4}$.",
+            "$E_2 - 3E_1:\\ 5y - 5z = 0$<br>$E_3 - E_1:\\ 3y + z = 7$<br>$E_3 - \\tfrac{3}{5}E_2':\\ 4z = 7 \\Rightarrow z = \\tfrac{7}{4}$<br>With $z = \\tfrac{7}{4}$: $y = \\tfrac{7}{4}$ (from $y = z$) and $x = 1 + 2y - z = \\tfrac{11}{4}$.",
+          ),
+          step(
+            "result",
+            "$L = \\left\\{\\left(\\tfrac{11}{4},\\ \\tfrac{7}{4},\\ \\tfrac{7}{4}\\right)\\right\\}$. Verificación en $E_3$: $\\tfrac{11}{4} + \\tfrac{7}{4} + \\tfrac{14}{4} = \\tfrac{32}{4} = 8$ ✓.",
+            "$L = \\left\\{\\left(\\tfrac{11}{4},\\ \\tfrac{7}{4},\\ \\tfrac{7}{4}\\right)\\right\\}$. Check in $E_3$: $\\tfrac{11}{4} + \\tfrac{7}{4} + \\tfrac{14}{4} = \\tfrac{32}{4} = 8$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* G9 — pivote 2, evitar fracciones */
+  template(
+    gaussMeta(9, "medium", "multi-concept", 270),
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$(10,\\ -3,\\ 5)$", "$(10,\\ -3,\\ 5)$"), correct: true },
+        { id: "b", text: L("$(10,\\ 3,\\ 5)$", "$(10,\\ 3,\\ 5)$"), correct: false },
+        { id: "c", text: L("$(-10,\\ -3,\\ 5)$", "$(-10,\\ -3,\\ 5)$"), correct: false },
+        { id: "d", text: L("$(10,\\ -3,\\ -5)$", "$(10,\\ -3,\\ -5)$"), correct: false },
+      ];
+      return {
+        skill: L("Gauss evitando fracciones", "Gauss avoiding fractions"),
+        statement: L(
+          "Resuelve por el método de Gauss: $$\\begin{cases} 2x + 6y + z = 7 \\\\ x + 2y - z = -1 \\\\ 5x + 7y - 4z = 9 \\end{cases}$$",
+          "Solve using Gaussian elimination: $$\\begin{cases} 2x + 6y + z = 7 \\\\ x + 2y - z = -1 \\\\ 5x + 7y - 4z = 9 \\end{cases}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Como el pivote es 2, usa $2E_2 - E_1$ para eliminar la $x$ sin fracciones.",
+            "Since the pivot is 2, use $2E_2 - E_1$ to eliminate $x$ without fractions.",
+          ),
+          L(
+            "Igual con la tercera: $2E_3 - 5E_1$ da $-16y - 13z = -17$.",
+            "Same for the third: $2E_3 - 5E_1$ gives $-16y - 13z = -17$.",
+          ),
+          L(
+            "Combina con la segunda nueva: $11z = 55 \\Rightarrow z = 5$; sustituye hacia atrás.",
+            "Combine with the new second row: $11z = 55 \\Rightarrow z = 5$; back-substitute.",
+          ),
+        ],
+        answerDisplay: L("$L = \\{(10,\\ -3,\\ 5)\\}$", "$L = \\{(10,\\ -3,\\ 5)\\}$"),
+        solution: [
+          step(
+            "given",
+            "El sistema $2x + 6y + z = 7$, $x + 2y - z = -1$, $5x + 7y - 4z = 9$.",
+            "The system $2x + 6y + z = 7$, $x + 2y - z = -1$, $5x + 7y - 4z = 9$.",
+          ),
+          step(
+            "approach",
+            "Con pivote 2 conviene multiplicar antes de restar para trabajar con enteros.",
+            "With pivot 2 it pays to multiply before subtracting so everything stays in integers.",
+          ),
+          step(
+            "calculation",
+            "$2E_2 - E_1:\\ -2y - 3z = -9$<br>$2E_3 - 5E_1:\\ -16y - 13z = -17$<br>$E_3' - 8E_2':\\ 11z = 55 \\Rightarrow z = 5$<br>Con $z = 5$: $-2y = -9 + 15 = 6$... cuidado con los signos: $-2y - 15 = -9 \\Rightarrow y = -3$; $x = -1 - 2y + z = 10$.",
+            "$2E_2 - E_1:\\ -2y - 3z = -9$<br>$2E_3 - 5E_1:\\ -16y - 13z = -17$<br>$E_3' - 8E_2':\\ 11z = 55 \\Rightarrow z = 5$<br>With $z = 5$: $-2y - 15 = -9 \\Rightarrow y = -3$; $x = -1 - 2y + z = 10$.",
+          ),
+          step(
+            "result",
+            "$L = \\{(10,\\ -3,\\ 5)\\}$. Verificación en $E_2$: $10 - 6 - 5 = -1$ ✓.",
+            "$L = \\{(10,\\ -3,\\ 5)\\}$. Check in $E_2$: $10 - 6 - 5 = -1$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* G10 — solución mixta entera/fracción */
+  template(
+    gaussMeta(10, "medium", "multi-concept"),
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L("$\\left(\\dfrac{17}{2},\\ 3,\\ -4\\right)$", "$\\left(\\dfrac{17}{2},\\ 3,\\ -4\\right)$"),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L("$\\left(\\dfrac{17}{2},\\ 3,\\ 4\\right)$", "$\\left(\\dfrac{17}{2},\\ 3,\\ 4\\right)$"),
+          correct: false,
+        },
+        { id: "c", text: L("$(8,\\ 3,\\ -4)$", "$(8,\\ 3,\\ -4)$"), correct: false },
+        {
+          id: "d",
+          text: L("$\\left(\\dfrac{17}{2},\\ -3,\\ -4\\right)$", "$\\left(\\dfrac{17}{2},\\ -3,\\ -4\\right)$"),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L("Sistema 3×3 por Gauss", "3×3 system by Gaussian elimination"),
+        statement: L(
+          "Resuelve por el método de Gauss: $$\\begin{cases} 2x - 3y = 8 \\\\ 4x - 5y + z = 15 \\\\ 2x + 4z = 1 \\end{cases}$$",
+          "Solve using Gaussian elimination: $$\\begin{cases} 2x - 3y = 8 \\\\ 4x - 5y + z = 15 \\\\ 2x + 4z = 1 \\end{cases}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Haz $E_2 - 2E_1$ y $E_3 - E_1$ (la primera ni siquiera tiene $z$).",
+            "Compute $E_2 - 2E_1$ and $E_3 - E_1$ (the first equation has no $z$ at all).",
+          ),
+          L(
+            "Queda $y + z = -1$ y $3y + 4z = -7$; elimina la $y$.",
+            "You get $y + z = -1$ and $3y + 4z = -7$; eliminate $y$.",
+          ),
+          L(
+            "$z = -4$, luego $y = 3$ y $x = \\tfrac{17}{2}$.",
+            "$z = -4$, then $y = 3$ and $x = \\tfrac{17}{2}$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$L = \\left\\{\\left(\\dfrac{17}{2},\\ 3,\\ -4\\right)\\right\\}$",
+          "$L = \\left\\{\\left(\\dfrac{17}{2},\\ 3,\\ -4\\right)\\right\\}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El sistema $2x - 3y = 8$, $4x - 5y + z = 15$, $2x + 4z = 1$.",
+            "The system $2x - 3y = 8$, $4x - 5y + z = 15$, $2x + 4z = 1$.",
+          ),
+          step(
+            "approach",
+            "Triangulamos por Gauss; al final despejamos $x$ de la primera ecuación.",
+            "Triangularize with Gauss; at the end solve for $x$ from the first equation.",
+          ),
+          step(
+            "calculation",
+            "$E_2 - 2E_1:\\ y + z = -1$<br>$E_3 - E_1:\\ 3y + 4z = -7$<br>$E_3' - 3E_2':\\ z = -4$<br>Con $z = -4$: $y = 3$. Con $E_1$: $2x = 8 + 9 = 17 \\Rightarrow x = \\tfrac{17}{2}$.",
+            "$E_2 - 2E_1:\\ y + z = -1$<br>$E_3 - E_1:\\ 3y + 4z = -7$<br>$E_3' - 3E_2':\\ z = -4$<br>With $z = -4$: $y = 3$. From $E_1$: $2x = 8 + 9 = 17 \\Rightarrow x = \\tfrac{17}{2}$.",
+          ),
+          step(
+            "result",
+            "$L = \\left\\{\\left(\\tfrac{17}{2},\\ 3,\\ -4\\right)\\right\\}$. Verificación en $E_3$: $17 - 16 = 1$ ✓.",
+            "$L = \\left\\{\\left(\\tfrac{17}{2},\\ 3,\\ -4\\right)\\right\\}$. Check in $E_3$: $17 - 16 = 1$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* G11 — requiere intercambio de filas */
+  template(
+    gaussMeta(11, "medium", "multi-concept"),
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$(1,\\ 0,\\ -1)$", "$(1,\\ 0,\\ -1)$"), correct: true },
+        { id: "b", text: L("$(1,\\ 1,\\ -1)$", "$(1,\\ 1,\\ -1)$"), correct: false },
+        { id: "c", text: L("$(0,\\ 1,\\ -1)$", "$(0,\\ 1,\\ -1)$"), correct: false },
+        { id: "d", text: L("$(1,\\ 0,\\ 1)$", "$(1,\\ 0,\\ 1)$"), correct: false },
+      ];
+      return {
+        skill: L("Gauss con intercambio de filas", "Gauss with a row swap"),
+        statement: L(
+          "Resuelve por el método de Gauss: $$\\begin{cases} x + y - z = 2 \\\\ 3x + 3y + z = 2 \\\\ x + z = 0 \\end{cases}$$",
+          "Solve using Gaussian elimination: $$\\begin{cases} x + y - z = 2 \\\\ 3x + 3y + z = 2 \\\\ x + z = 0 \\end{cases}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Con $E_2 - 3E_1$ la segunda pierde la $y$: cuando un pivote se anula, intercambia filas para seguir.",
+            "With $E_2 - 3E_1$ the second row loses its $y$: when a pivot cancels, swap rows to continue.",
+          ),
+          L(
+            "Tras $E_3 - E_1$ e intercambiar $E_2 \\leftrightarrow E_3$: $-y + 2z = -2$ y $4z = -4$.",
+            "After $E_3 - E_1$ and swapping $E_2 \\leftrightarrow E_3$: $-y + 2z = -2$ and $4z = -4$.",
+          ),
+          L(
+            "$z = -1 \\Rightarrow y = 0 \\Rightarrow x = 1$.",
+            "$z = -1 \\Rightarrow y = 0 \\Rightarrow x = 1$.",
+          ),
+        ],
+        answerDisplay: L("$L = \\{(1,\\ 0,\\ -1)\\}$", "$L = \\{(1,\\ 0,\\ -1)\\}$"),
+        solution: [
+          step(
+            "given",
+            "El sistema $x + y - z = 2$, $3x + 3y + z = 2$, $x + z = 0$.",
+            "The system $x + y - z = 2$, $3x + 3y + z = 2$, $x + z = 0$.",
+          ),
+          step(
+            "approach",
+            "Al triangulas aparece un pivote nulo: el intercambio de filas es una operación elemental válida.",
+            "While triangularizing a pivot becomes zero: swapping rows is a valid elementary operation.",
+          ),
+          step(
+            "calculation",
+            "$E_2 - 3E_1:\\ 0x + 0y + 4z = -4$<br>$E_3 - E_1:\\ -y + 2z = -2$<br>Intercambio $E_2 \\leftrightarrow E_3$ para ordenar: $-y + 2z = -2$ arriba de $4z = -4$.<br>$z = -1$; $y = 2z + 2 = 0$; $x = 2 - y + z = 1$.",
+            "$E_2 - 3E_1:\\ 0x + 0y + 4z = -4$<br>$E_3 - E_1:\\ -y + 2z = -2$<br>Swap $E_2 \\leftrightarrow E_3$ to order them: $-y + 2z = -2$ above $4z = -4$.<br>$z = -1$; $y = 2z + 2 = 0$; $x = 2 - y + z = 1$.",
+          ),
+          step(
+            "result",
+            "$L = \\{(1,\\ 0,\\ -1)\\}$. Verificación en $E_3$: $1 + (-1) = 0$ ✓.",
+            "$L = \\{(1,\\ 0,\\ -1)\\}$. Check in $E_3$: $1 + (-1) = 0$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* G12 — incompatible (contradicción 0 = 1) */
+  template(
+    gaussMeta(12, "hard", "case-analysis", 270),
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("Sistema incompatible: no tiene solución", "Inconsistent system: no solution"), correct: true },
+        { id: "b", text: L("$(1,\\ -2,\\ 1)$ — solución única", "$(1,\\ -2,\\ 1)$ — unique solution"), correct: false },
+        {
+          id: "c",
+          text: L("Infinitas soluciones $(\\lambda,\\ -2\\lambda,\\ \\lambda)$", "Infinitely many solutions $(\\lambda,\\ -2\\lambda,\\ \\lambda)$"),
+          correct: false,
+        },
+        { id: "d", text: L("$(-1,\\ 2,\\ -1)$ — solución única", "$(-1,\\ 2,\\ -1)$ — unique solution"), correct: false },
+      ];
+      return {
+        skill: L("Gauss: detectar incompatibilidad", "Gauss: detecting inconsistency"),
+        statement: L(
+          "Resuelve por el método de Gauss: $$\\begin{cases} x + y + z = 0 \\\\ x + 2y + 3z = 0 \\\\ 3x + 5y + 7z = 1 \\end{cases}$$",
+          "Solve using Gaussian elimination: $$\\begin{cases} x + y + z = 0 \\\\ x + 2y + 3z = 0 \\\\ 3x + 5y + 7z = 1 \\end{cases}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Haz $E_2 - E_1$ y $E_3 - 3E_1$.",
+            "Compute $E_2 - E_1$ and $E_3 - 3E_1$.",
+          ),
+          L(
+            "Queda $y + 2z = 0$ y $2y + 4z = 1$. Multiplica la primera por 2: $2y + 4z = 0$.",
+            "You get $y + 2z = 0$ and $2y + 4z = 1$. Multiply the first by 2: $2y + 4z = 0$.",
+          ),
+          L(
+            "Exigir $2y + 4z = 0$ y $2y + 4z = 1$ a la vez es imposible: sistema incompatible.",
+            "Demanding $2y + 4z = 0$ and $2y + 4z = 1$ simultaneously is impossible: inconsistent system.",
+          ),
+        ],
+        answerDisplay: L("$L = \\emptyset$ (sistema incompatible)", "$L = \\emptyset$ (inconsistent system)"),
+        solution: [
+          step(
+            "given",
+            "El sistema $x + y + z = 0$, $x + 2y + 3z = 0$, $3x + 5y + 7z = 1$.",
+            "The system $x + y + z = 0$, $x + 2y + 3z = 0$, $3x + 5y + 7z = 1$.",
+          ),
+          step(
+            "approach",
+            "Triangulamos: si aparece una fila $0 = k$ con $k \\neq 0$, no hay solución.",
+            "Triangularize: if a row $0 = k$ with $k \\neq 0$ appears, there is no solution.",
+          ),
+          step(
+            "calculation",
+            "$E_2 - E_1:\\ y + 2z = 0$<br>$E_3 - 3E_1:\\ 2y + 4z = 1$<br>$E_3 - 2E_2':\\ 0 = 1$, contradicción.<br>Los triples de la forma $(\\lambda, -2\\lambda, \\lambda)$ cumplen las dos primeras ecuaciones, pero al sustituirlos en la tercera dan $0 \\neq 1$.",
+            "$E_2 - E_1:\\ y + 2z = 0$<br>$E_3 - 3E_1:\\ 2y + 4z = 1$<br>$E_3 - 2E_2':\\ 0 = 1$, contradiction.<br>Triples of the form $(\\lambda, -2\\lambda, \\lambda)$ satisfy the first two equations, but substituting them into the third gives $0 \\neq 1$.",
+          ),
+          step(
+            "result",
+            "Rango de la matriz de coeficientes 2, de la ampliada 3: $L = \\emptyset$.",
+            "Coefficient-matrix rank 2, augmented-matrix rank 3: $L = \\emptyset$.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* G13 — filas que se vuelven idénticas */
+  template(
+    gaussMeta(13, "hard", "parameters", 300),
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(
+            "$(x,y,z) = \\left(\\dfrac{9-7\\lambda}{2},\\ \\dfrac{5-3\\lambda}{2},\\ \\lambda\\right),\\ \\lambda \\in \\mathbb{R}$",
+            "$(x,y,z) = \\left(\\dfrac{9-7\\lambda}{2},\\ \\dfrac{5-3\\lambda}{2},\\ \\lambda\\right),\\ \\lambda \\in \\mathbb{R}$",
+          ),
+          correct: true,
+        },
+        { id: "b", text: L("Sistema incompatible", "Inconsistent system"), correct: false },
+        {
+          id: "c",
+          text: L(
+            "Solución única $\\left(\\tfrac{9}{2},\\ \\tfrac{5}{2},\\ 0\\right)$",
+            "Unique solution $\\left(\\tfrac{9}{2},\\ \\tfrac{5}{2},\\ 0\\right)$",
+          ),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L(
+            "$(x,y,z) = \\left(\\dfrac{9-7\\lambda}{2},\\ \\dfrac{5+3\\lambda}{2},\\ \\lambda\\right),\\ \\lambda \\in \\mathbb{R}$",
+            "$(x,y,z) = \\left(\\dfrac{9-7\\lambda}{2},\\ \\dfrac{5+3\\lambda}{2},\\ \\lambda\\right),\\ \\lambda \\in \\mathbb{R}$",
+          ),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L(
+          "Gauss: sistema compatible indeterminado",
+          "Gauss: underdetermined system",
+        ),
+        statement: L(
+          "Resuelve por el método de Gauss: $$\\begin{cases} x - y + 2z = 2 \\\\ -x + 3y + z = 3 \\\\ x + y + 5z = 7 \\end{cases}$$",
+          "Solve using Gaussian elimination: $$\\begin{cases} x - y + 2z = 2 \\\\ -x + 3y + z = 3 \\\\ x + y + 5z = 7 \\end{cases}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Haz $E_2 + E_1$ y $E_3 - E_1$.",
+            "Compute $E_2 + E_1$ and $E_3 - E_1$.",
+          ),
+          L(
+            "Queda $2y + 3z = 5$ dos veces: la tercera fila es redundante (una sobra).",
+            "You get $2y + 3z = 5$ twice: the third row is redundant (one too many).",
+          ),
+          L(
+            "Con $z = \\lambda$: $y = \\tfrac{5-3\\lambda}{2}$ y $x = \\tfrac{9-7\\lambda}{2}$. Compatible indeterminado.",
+            "With $z = \\lambda$: $y = \\tfrac{5-3\\lambda}{2}$ and $x = \\tfrac{9-7\\lambda}{2}$. Consistent with a free parameter.",
+          ),
+        ],
+        answerDisplay: L(
+          "$L = \\left\\{\\left(\\dfrac{9-7\\lambda}{2},\\ \\dfrac{5-3\\lambda}{2},\\ \\lambda\\right) : \\lambda \\in \\mathbb{R}\\right\\}$",
+          "$L = \\left\\{\\left(\\dfrac{9-7\\lambda}{2},\\ \\dfrac{5-3\\lambda}{2},\\ \\lambda\\right) : \\lambda \\in \\mathbb{R}\\right\\}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El sistema $x - y + 2z = 2$, $-x + 3y + z = 3$, $x + y + 5z = 7$.",
+            "The system $x - y + 2z = 2$, $-x + 3y + z = 3$, $x + y + 5z = 7$.",
+          ),
+          step(
+            "approach",
+            "Triangulamos: dos filas van a coincidir, señal de un parámetro libre.",
+            "Triangularize: two rows will coincide, the sign of a free parameter.",
+          ),
+          step(
+            "calculation",
+            "$E_2 + E_1:\\ 2y + 3z = 5$<br>$E_3 - E_1:\\ 2y + 3z = 5$ (idéntica)<br>$E_3 - E_2':\\ 0 = 0$ → fila redundante; $z$ libre.<br>Con $z = \\lambda$: $y = \\dfrac{5 - 3\\lambda}{2}$, $x = 2 + y - 2\\lambda = \\dfrac{9 - 7\\lambda}{2}$.",
+            "$E_2 + E_1:\\ 2y + 3z = 5$<br>$E_3 - E_1:\\ 2y + 3z = 5$ (identical)<br>$E_3 - E_2':\\ 0 = 0$ → redundant row; $z$ free.<br>With $z = \\lambda$: $y = \\dfrac{5 - 3\\lambda}{2}$, $x = 2 + y - 2\\lambda = \\dfrac{9 - 7\\lambda}{2}$.",
+          ),
+          step(
+            "result",
+            "Compatible indeterminado: $L = \\left\\{\\left(\\tfrac{9-7\\lambda}{2},\\ \\tfrac{5-3\\lambda}{2},\\ \\lambda\\right) : \\lambda \\in \\mathbb{R}\\right\\}$ (rango 2).",
+            "Consistent, underdetermined: $L = \\left\\{\\left(\\tfrac{9-7\\lambda}{2},\\ \\tfrac{5-3\\lambda}{2},\\ \\lambda\\right) : \\lambda \\in \\mathbb{R}\\right\\}$ (rank 2).",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* G14 — números grandes */
+  template(
+    gaussMeta(14, "hard", "multi-concept", 300),
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$(-29,\\ -32,\\ -48)$", "$(-29,\\ -32,\\ -48)$"), correct: true },
+        { id: "b", text: L("$(29,\\ 32,\\ 48)$", "$(29,\\ 32,\\ 48)$"), correct: false },
+        { id: "c", text: L("$(-29,\\ -32,\\ 48)$", "$(-29,\\ -32,\\ 48)$"), correct: false },
+        { id: "d", text: L("$(-32,\\ -29,\\ -48)$", "$(-32,\\ -29,\\ -48)$"), correct: false },
+      ];
+      return {
+        skill: L("Gauss con números grandes", "Gauss with large numbers"),
+        statement: L(
+          "Resuelve por el método de Gauss: $$\\begin{cases} 2x + 3y - 3z = -10 \\\\ x + 2y - 2z = 3 \\\\ 4x - 5y + z = -4 \\end{cases}$$",
+          "Solve using Gaussian elimination: $$\\begin{cases} 2x + 3y - 3z = -10 \\\\ x + 2y - 2z = 3 \\\\ 4x - 5y + z = -4 \\end{cases}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Pivote 2: usa $2E_2 - E_1$ para no fraccionar: sale $y - z = 16$.",
+            "Pivot 2: use $2E_2 - E_1$ to avoid fractions: it gives $y - z = 16$.",
+          ),
+          L(
+            "Y $E_3 - 2E_1$ da $-11y + 7z = 16$.",
+            "And $E_3 - 2E_1$ gives $-11y + 7z = 16$.",
+          ),
+          L(
+            "Combina: $-4z = 192 \\Rightarrow z = -48$; hacia atrás: $y = -32$, $x = -29$.",
+            "Combine: $-4z = 192 \\Rightarrow z = -48$; backwards: $y = -32$, $x = -29$.",
+          ),
+        ],
+        answerDisplay: L("$L = \\{(-29,\\ -32,\\ -48)\\}$", "$L = \\{(-29,\\ -32,\\ -48)\\}$"),
+        solution: [
+          step(
+            "given",
+            "El sistema $2x + 3y - 3z = -10$, $x + 2y - 2z = 3$, $4x - 5y + z = -4$.",
+            "The system $2x + 3y - 3z = -10$, $x + 2y - 2z = 3$, $4x - 5y + z = -4$.",
+          ),
+          step(
+            "approach",
+            "Triangulamos con combinaciones enteras para controlar los números grandes.",
+            "Triangularize with integer combinations to keep the large numbers under control.",
+          ),
+          step(
+            "calculation",
+            "$2E_2 - E_1:\\ y - z = 16$<br>$E_3 - 2E_1:\\ -11y + 7z = 16$<br>$E_3' + 11E_2':\\ -4z = 192 \\Rightarrow z = -48$<br>Con $z = -48$: $y = 16 + z = -32$; $x = 3 - 2y + 2z = -29$.",
+            "$2E_2 - E_1:\\ y - z = 16$<br>$E_3 - 2E_1:\\ -11y + 7z = 16$<br>$E_3' + 11E_2':\\ -4z = 192 \\Rightarrow z = -48$<br>With $z = -48$: $y = 16 + z = -32$; $x = 3 - 2y + 2z = -29$.",
+          ),
+          step(
+            "result",
+            "$L = \\{(-29,\\ -32,\\ -48)\\}$. Verificación en $E_3$: $-116 + 160 - 48 = -4$ ✓.",
+            "$L = \\{(-29,\\ -32,\\ -48)\\}$. Check in $E_3$: $-116 + 160 - 48 = -4$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* G15 — ecuaciones desordenadas (hay que ordenar primero) */
+  template(
+    gaussMeta(15, "medium", "multi-concept", 270),
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$(3,\\ -1,\\ 0)$", "$(3,\\ -1,\\ 0)$"), correct: true },
+        { id: "b", text: L("$(3,\\ 1,\\ 0)$", "$(3,\\ 1,\\ 0)$"), correct: false },
+        { id: "c", text: L("$(-3,\\ -1,\\ 0)$", "$(-3,\\ -1,\\ 0)$"), correct: false },
+        { id: "d", text: L("$(3,\\ -1,\\ 1)$", "$(3,\\ -1,\\ 1)$"), correct: false },
+      ];
+      return {
+        skill: L("Gauss: ordenar antes de eliminar", "Gauss: reorder before eliminating"),
+        statement: L(
+          "Resuelve por el método de Gauss: $$\\begin{cases} 5x + 4y - 6z = 11 \\\\ -5x + 4z - 3 = -18 \\\\ 4z + 4y = -4 \\end{cases}$$",
+          "Solve using Gaussian elimination: $$\\begin{cases} 5x + 4y - 6z = 11 \\\\ -5x + 4z - 3 = -18 \\\\ 4z + 4y = -4 \\end{cases}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Primero ordena cada ecuación: la segunda es $-5x + 4z = -15$ y la tercera $4y + 4z = -4$.",
+            "First tidy each equation: the second is $-5x + 4z = -15$ and the third $4y + 4z = -4$.",
+          ),
+          L(
+            "Suma la primera con la segunda: $4y - 2z = -4$.",
+            "Add the first and the second: $4y - 2z = -4$.",
+          ),
+          L(
+            "Resta esa de la tercera: $6z = 0 \\Rightarrow z = 0$, luego $y = -1$, $x = 3$.",
+            "Subtract it from the third: $6z = 0 \\Rightarrow z = 0$, then $y = -1$, $x = 3$.",
+          ),
+        ],
+        answerDisplay: L("$L = \\{(3,\\ -1,\\ 0)\\}$", "$L = \\{(3,\\ -1,\\ 0)\\}$"),
+        solution: [
+          step(
+            "given",
+            "El sistema $5x + 4y - 6z = 11$, $-5x + 4z - 3 = -18$, $4z + 4y = -4$.",
+            "The system $5x + 4y - 6z = 11$, $-5x + 4z - 3 = -18$, $4z + 4y = -4$.",
+          ),
+          step(
+            "approach",
+            "Ordenamos las ecuaciones (términos semejantes en columna) y triangulamos.",
+            "Reorder the equations (like terms in columns) and triangularize.",
+          ),
+          step(
+            "calculation",
+            "Ordenadas: $-5x + 0y + 4z = -15$ y $0x + 4y + 4z = -4$.<br>$E_1 + E_2:\\ 4y - 2z = -4$<br>$E_3 - E_2':\\ 6z = 0 \\Rightarrow z = 0$<br>Con $z = 0$: $y = -1$; $5x = 11 - 4y + 6z = 15 \\Rightarrow x = 3$.",
+            "Reordered: $-5x + 0y + 4z = -15$ and $0x + 4y + 4z = -4$.<br>$E_1 + E_2:\\ 4y - 2z = -4$<br>$E_3 - E_2':\\ 6z = 0 \\Rightarrow z = 0$<br>With $z = 0$: $y = -1$; $5x = 11 - 4y + 6z = 15 \\Rightarrow x = 3$.",
+          ),
+          step(
+            "result",
+            "$L = \\{(3,\\ -1,\\ 0)\\}$. Verificación en $E_2$: $-15 + 0 - 3 = -18$ ✓.",
+            "$L = \\{(3,\\ -1,\\ 0)\\}$. Check in $E_2$: $-15 + 0 - 3 = -18$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* G16 — indeterminado con ecuaciones desordenadas */
+  template(
+    gaussMeta(16, "hard", "parameters", 300),
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(
+            "$(x,y,z) = \\left(\\dfrac{\\lambda-1}{2},\\ \\dfrac{\\lambda-3}{4},\\ \\lambda\\right),\\ \\lambda \\in \\mathbb{R}$",
+            "$(x,y,z) = \\left(\\dfrac{\\lambda-1}{2},\\ \\dfrac{\\lambda-3}{4},\\ \\lambda\\right),\\ \\lambda \\in \\mathbb{R}$",
+          ),
+          correct: true,
+        },
+        { id: "b", text: L("Sistema incompatible", "Inconsistent system"), correct: false },
+        {
+          id: "c",
+          text: L(
+            "Solución única $\\left(-\\tfrac{1}{2},\\ -\\tfrac{3}{4},\\ 0\\right)$",
+            "Unique solution $\\left(-\\tfrac{1}{2},\\ -\\tfrac{3}{4},\\ 0\\right)$",
+          ),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L(
+            "$(x,y,z) = \\left(\\dfrac{\\lambda+1}{2},\\ \\dfrac{\\lambda-3}{4},\\ \\lambda\\right),\\ \\lambda \\in \\mathbb{R}$",
+            "$(x,y,z) = \\left(\\dfrac{\\lambda+1}{2},\\ \\dfrac{\\lambda-3}{4},\\ \\lambda\\right),\\ \\lambda \\in \\mathbb{R}$",
+          ),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L(
+          "Gauss: sistema compatible indeterminado",
+          "Gauss: underdetermined system",
+        ),
+        statement: L(
+          "Resuelve por el método de Gauss: $$\\begin{cases} -z + 2x = -1 \\\\ -x + 2y - 2 = -3 \\\\ 4y + 3 - z = 0 \\end{cases}$$",
+          "Solve using Gaussian elimination: $$\\begin{cases} -z + 2x = -1 \\\\ -x + 2y - 2 = -3 \\\\ 4y + 3 - z = 0 \\end{cases}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Ordena primero: $2x - z = -1$, $-x + 2y = -1$, $4y - z = -3$.",
+            "Reorder first: $2x - z = -1$, $-x + 2y = -1$, $4y - z = -3$.",
+          ),
+          L(
+            "Despeja $x$ de la primera y sustituye en la segunda: todo queda en función de $z$.",
+            "Solve the first for $x$ and substitute into the second: everything is left in terms of $z$.",
+          ),
+          L(
+            "La tercera se cumple sola para cualquier $z$: pon $z = \\lambda$ y despeja. Compatible indeterminado.",
+            "The third holds by itself for any $z$: set $z = \\lambda$ and solve. Consistent with a free parameter.",
+          ),
+        ],
+        answerDisplay: L(
+          "$L = \\left\\{\\left(\\dfrac{\\lambda-1}{2},\\ \\dfrac{\\lambda-3}{4},\\ \\lambda\\right) : \\lambda \\in \\mathbb{R}\\right\\}$",
+          "$L = \\left\\{\\left(\\dfrac{\\lambda-1}{2},\\ \\dfrac{\\lambda-3}{4},\\ \\lambda\\right) : \\lambda \\in \\mathbb{R}\\right\\}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El sistema $-z + 2x = -1$, $-x + 2y - 2 = -3$, $4y + 3 - z = 0$.",
+            "The system $-z + 2x = -1$, $-x + 2y - 2 = -3$, $4y + 3 - z = 0$.",
+          ),
+          step(
+            "approach",
+            "Ordenamos y eliminamos: el rango quedará en 2, con $z$ como parámetro libre.",
+            "Reorder and eliminate: the rank will turn out to be 2, with $z$ as a free parameter.",
+          ),
+          step(
+            "calculation",
+            "Ordenadas: $2x - z = -1$, $-x + 2y = -1$, $4y - z = -3$.<br>De la primera: $x = \\dfrac{z-1}{2}$. En la segunda: $-\\dfrac{z-1}{2} + 2y = -1 \\Rightarrow y = \\dfrac{z-3}{4}$.<br>Comprobación en la tercera: $4 \\cdot \\dfrac{z-3}{4} - z = z - 3 - z = -3$ ✓ para todo $z$.",
+            "Reordered: $2x - z = -1$, $-x + 2y = -1$, $4y - z = -3$.<br>From the first: $x = \\dfrac{z-1}{2}$. In the second: $-\\dfrac{z-1}{2} + 2y = -1 \\Rightarrow y = \\dfrac{z-3}{4}$.<br>Check in the third: $4 \\cdot \\dfrac{z-3}{4} - z = z - 3 - z = -3$ ✓ for every $z$.",
+          ),
+          step(
+            "result",
+            "Compatible indeterminado: $L = \\left\\{\\left(\\tfrac{\\lambda-1}{2},\\ \\tfrac{\\lambda-3}{4},\\ \\lambda\\right) : \\lambda \\in \\mathbb{R}\\right\\}$.",
+            "Consistent, underdetermined: $L = \\left\\{\\left(\\tfrac{\\lambda-1}{2},\\ \\tfrac{\\lambda-3}{4},\\ \\lambda\\right) : \\lambda \\in \\mathbb{R}\\right\\}$.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* G17 — clave del tutor corregida: tiene solución única (2, 2, 0) */
+  template(
+    gaussMeta(17, "medium", "multi-concept", 300),
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$(2,\\ 2,\\ 0)$", "$(2,\\ 2,\\ 0)$"), correct: true },
+        { id: "b", text: L("Sistema incompatible", "Inconsistent system"), correct: false },
+        { id: "c", text: L("$(0,\\ 2,\\ 2)$", "$(0,\\ 2,\\ 2)$"), correct: false },
+        { id: "d", text: L("$(2,\\ -2,\\ 0)$", "$(2,\\ -2,\\ 0)$"), correct: false },
+      ];
+      return {
+        skill: L("Sistema 3×3 por Gauss", "3×3 system by Gaussian elimination"),
+        statement: L(
+          "Resuelve por el método de Gauss: $$\\begin{cases} -3x + y - z = -4 \\\\ 5x - 2y + z = 6 \\\\ -x + y + 3z = 0 \\end{cases}$$",
+          "Solve using Gaussian elimination: $$\\begin{cases} -3x + y - z = -4 \\\\ 5x - 2y + z = 6 \\\\ -x + y + 3z = 0 \\end{cases}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Pivote $-3$: elimina sin fracciones con $3E_2 + 5E_1$.",
+            "Pivot $-3$: eliminate without fractions using $3E_2 + 5E_1$.",
+          ),
+          L(
+            "Y $3E_3 - E_1$ da $2y + 10z = 4$. Combínala con la nueva segunda ($-y - 2z = -2$).",
+            "And $3E_3 - E_1$ gives $2y + 10z = 4$. Combine it with the new second row ($-y - 2z = -2$).",
+          ),
+          L(
+            "Sale $z = 0$; hacia atrás: $y = 2$ y $x = 2$.",
+            "You get $z = 0$; backwards: $y = 2$ and $x = 2$.",
+          ),
+        ],
+        answerDisplay: L("$L = \\{(2,\\ 2,\\ 0)\\}$", "$L = \\{(2,\\ 2,\\ 0)\\}$"),
+        solution: [
+          step(
+            "given",
+            "El sistema $-3x + y - z = -4$, $5x - 2y + z = 6$, $-x + y + 3z = 0$.",
+            "The system $-3x + y - z = -4$, $5x - 2y + z = 6$, $-x + y + 3z = 0$.",
+          ),
+          step(
+            "approach",
+            "Triangulamos con combinaciones enteras (pivote $-3$). Ojo: este sistema sí tiene solución única — el determinante es $2 \\neq 0$.",
+            "Triangularize with integer combinations (pivot $-3$). Careful: this system does have a unique solution — the determinant is $2 \\neq 0$.",
+          ),
+          step(
+            "calculation",
+            "$3E_2 + 5E_1:\\ 3(5x-2y+z) + 5(-3x+y-z) = -y - 2z = 18 - 20 = -2$<br>$3E_3 - E_1:\\ 2y + 10z = 4$<br>$E_3' + 2E_2':\\ 6z = 0 \\Rightarrow z = 0$<br>Con $z = 0$: $y = 2$; $-3x + 2 = -4 \\Rightarrow x = 2$.",
+            "$3E_2 + 5E_1:\\ 3(5x-2y+z) + 5(-3x+y-z) = -y - 2z = 18 - 20 = -2$<br>$3E_3 - E_1:\\ 2y + 10z = 4$<br>$E_3' + 2E_2':\\ 6z = 0 \\Rightarrow z = 0$<br>With $z = 0$: $y = 2$; $-3x + 2 = -4 \\Rightarrow x = 2$.",
+          ),
+          step(
+            "result",
+            "$L = \\{(2,\\ 2,\\ 0)\\}$. Verificación: $-6 + 2 - 0 = -4$ ✓, $10 - 4 + 0 = 6$ ✓, $-2 + 2 + 0 = 0$ ✓.",
+            "$L = \\{(2,\\ 2,\\ 0)\\}$. Check: $-6 + 2 - 0 = -4$ ✓, $10 - 4 + 0 = 6$ ✓, $-2 + 2 + 0 = 0$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* G18 — suma directa E1+E2 */
+  template(
+    gaussMeta(18, "medium", "multi-concept", 270),
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$(40,\\ 10,\\ -2)$", "$(40,\\ 10,\\ -2)$"), correct: true },
+        { id: "b", text: L("$(40,\\ 10,\\ 2)$", "$(40,\\ 10,\\ 2)$"), correct: false },
+        { id: "c", text: L("$(-40,\\ 10,\\ -2)$", "$(-40,\\ 10,\\ -2)$"), correct: false },
+        { id: "d", text: L("$(40,\\ -10,\\ -2)$", "$(40,\\ -10,\\ -2)$"), correct: false },
+      ];
+      return {
+        skill: L("Sistema 3×3 por Gauss", "3×3 system by Gaussian elimination"),
+        statement: L(
+          "Resuelve por el método de Gauss: $$\\begin{cases} -x + 2y + 2z = -24 \\\\ x + y + z = 48 \\\\ 2x - 6y + 4z = 12 \\end{cases}$$",
+          "Solve using Gaussian elimination: $$\\begin{cases} -x + 2y + 2z = -24 \\\\ x + y + z = 48 \\\\ 2x - 6y + 4z = 12 \\end{cases}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Suma $E_1 + E_2$: la $x$ desaparece de golpe y queda $3y + 3z = 24$.",
+            "Add $E_1 + E_2$: the $x$ cancels at once, leaving $3y + 3z = 24$.",
+          ),
+          L(
+            "Y $E_3 + 2E_1$ da $-2y + 8z = -36$.",
+            "And $E_3 + 2E_1$ gives $-2y + 8z = -36$.",
+          ),
+          L(
+            "Combina: $10z = -20 \\Rightarrow z = -2$; luego $y = 10$, $x = 40$.",
+            "Combine: $10z = -20 \\Rightarrow z = -2$; then $y = 10$, $x = 40$.",
+          ),
+        ],
+        answerDisplay: L("$L = \\{(40,\\ 10,\\ -2)\\}$", "$L = \\{(40,\\ 10,\\ -2)\\}$"),
+        solution: [
+          step(
+            "given",
+            "El sistema $-x + 2y + 2z = -24$, $x + y + z = 48$, $2x - 6y + 4z = 12$.",
+            "The system $-x + 2y + 2z = -24$, $x + y + z = 48$, $2x - 6y + 4z = 12$.",
+          ),
+          step(
+            "approach",
+            "Los coeficientes $-1$ y $1$ de la $x$ invitan a sumar las dos primeras ecuaciones.",
+            "The $-1$ and $1$ coefficients of $x$ invite adding the first two equations.",
+          ),
+          step(
+            "calculation",
+            "$E_1 + E_2:\\ 3y + 3z = 24$<br>$E_3 + 2E_1:\\ -2y + 8z = -36$<br>$E_3' + \\tfrac{2}{3}E_2':\\ 10z = -20 \\Rightarrow z = -2$<br>Con $z = -2$: $y = 10$; $x = 48 - y - z = 40$.",
+            "$E_1 + E_2:\\ 3y + 3z = 24$<br>$E_3 + 2E_1:\\ -2y + 8z = -36$<br>$E_3' + \\tfrac{2}{3}E_2':\\ 10z = -20 \\Rightarrow z = -2$<br>With $z = -2$: $y = 10$; $x = 48 - y - z = 40$.",
+          ),
+          step(
+            "result",
+            "$L = \\{(40,\\ 10,\\ -2)\\}$. Verificación en $E_3$: $80 - 60 - 8 = 12$ ✓.",
+            "$L = \\{(40,\\ 10,\\ -2)\\}$. Check in $E_3$: $80 - 60 - 8 = 12$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* ---------------------------------------------------------------- */
+  /* Application problems (word problems → linear systems)            */
+  /* ---------------------------------------------------------------- */
+
+  /* A1 — azafrán (modelado con unidades de masa) */
+  template(
+    {
+      id: "sys-app-03",
+      subject: "math",
+      topicId: "systems",
+      subtopicId: "applications",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 420,
+      tags: ["systems", "word-problems", "modeling", "gauss"],
+      prerequisites: ["elimination", "substitution"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "A1",
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      void rng;
+      return {
+        skill: L(
+          "Modelar un problema de envasado como sistema 3×3",
+          "Modeling a packaging problem as a 3×3 system",
+        ),
+        statement: L(
+          "El azafrán ecológico es una especia culinaria muy apreciada y costosa. Una empresa lo envasa y comercializa en distintos formatos: sobres de papel reciclado, cajas de plástico y cajas de metal. Cada uno de ellos se envasa en una línea de envasado diferente. Se sabe que el total del azafrán pendiente de envasar a última hora de un día determinado se podría distribuir bien en 15 sobres de papel y 4 cajas de plástico, o bien en 4 cajas de plástico y 3 cajas de metal. Por otra parte, el contenido de un sobre de papel más el de una caja de plástico es 5 gramos inferior al de una caja de metal. Además, si al total del contenido de 5 cajas de plástico se le añade un gramo más de azafrán, se dobla la capacidad conjunta de los otros dos envases. ¿Cuántos gramos de azafrán contiene la caja de metal?",
+          "Organic saffron is a highly prized and expensive culinary spice. A company packages and sells it in different formats: recycled-paper sachets, plastic boxes and metal boxes. The total saffron pending packaging at the end of a given day could be distributed either in 15 paper sachets and 4 plastic boxes, or in 4 plastic boxes and 3 metal boxes. Moreover, the contents of one paper sachet plus one plastic box weigh 5 grams less than a metal box. Finally, if one more gram of saffron is added to the total contents of 5 plastic boxes, it doubles the combined capacity of the other two formats. How many grams of saffron does the metal box contain?",
+        ),
+        answer: { kind: "numeric", value: 15 },
+        hints: [
+          L(
+            "Define las incógnitas: $p$ = gramos del sobre de papel, $c$ = gramos de la caja de plástico, $m$ = gramos de la caja de metal.",
+            "Define the unknowns: $p$ = grams in a paper sachet, $c$ = grams in a plastic box, $m$ = grams in a metal box.",
+          ),
+          L(
+            "Las condiciones dan: $15p + 4c = 4c + 3m$ (mismo total), $p + c = m - 5$ y $5c + 1 = 2(p + m)$.",
+            "The conditions give: $15p + 4c = 4c + 3m$ (same total), $p + c = m - 5$ and $5c + 1 = 2(p + m)$.",
+          ),
+          L(
+            "De la primera, las 4 cajas de plástico se cancelan: $15p = 3m$, es decir $m = 5p$. Sustituye y resuelve.",
+            "In the first one the 4 plastic boxes cancel: $15p = 3m$, i.e. $m = 5p$. Substitute and solve.",
+          ),
+        ],
+        answerDisplay: L("Caja de metal: $15$ g (papel 3 g, plástico 7 g)", "Metal box: $15$ g (paper 3 g, plastic 7 g)"),
+        solution: [
+          step(
+            "given",
+            "Formatos: sobre de papel $p$, caja de plástico $c$, caja de metal $m$, en gramos.",
+            "Formats: paper sachet $p$, plastic box $c$, metal box $m$, in grams.",
+          ),
+          step(
+            "approach",
+            "Traducimos cada condición a una ecuación y resolvemos el sistema por Gauss/sustitución.",
+            "Translate each condition into an equation and solve the system by Gauss/substitution.",
+          ),
+          step(
+            "calculation",
+            "(1) $15p + 4c = 4c + 3m \\Rightarrow 15p = 3m \\Rightarrow m = 5p$<br>(2) $p + c = m - 5$<br>(3) $5c + 1 = 2(p + m)$<br>Con $m = 5p$ en (2): $c = 4p - 5$. En (3): $5(4p - 5) + 1 = 2(p + 5p) = 12p \\Rightarrow 20p - 24 = 12p \\Rightarrow p = 3$.<br>Entonces $m = 15$ y $c = 7$.",
+            "(1) $15p + 4c = 4c + 3m \\Rightarrow 15p = 3m \\Rightarrow m = 5p$<br>(2) $p + c = m - 5$<br>(3) $5c + 1 = 2(p + m)$<br>With $m = 5p$ in (2): $c = 4p - 5$. In (3): $5(4p - 5) + 1 = 2(p + 5p) = 12p \\Rightarrow 20p - 24 = 12p \\Rightarrow p = 3$.<br>Then $m = 15$ and $c = 7$.",
+          ),
+          step(
+            "result",
+            "Sobre de papel: $3$ g; caja de plástico: $7$ g; caja de metal: $15$ g. Control: $15 \\cdot 3 + 4 \\cdot 7 = 73 = 4 \\cdot 7 + 3 \\cdot 15$ ✓.",
+            "Paper sachet: $3$ g; plastic box: $7$ g; metal box: $15$ g. Check: $15 \\cdot 3 + 4 \\cdot 7 = 73 = 4 \\cdot 7 + 3 \\cdot 15$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* A2 — hipermercado: porcentajes */
+  template(
+    {
+      id: "sys-app-04",
+      subject: "math",
+      topicId: "systems",
+      subtopicId: "applications",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 420,
+      tags: ["systems", "word-problems", "modeling", "gauss"],
+      prerequisites: ["elimination", "substitution"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "A2",
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      void rng;
+      return {
+        skill: L(
+          "Modelar descuentos porcentuales como sistema lineal",
+          "Modeling percentage discounts as a linear system",
+        ),
+        statement: L(
+          "Un hipermercado inicia una campaña de ofertas. En la primera de ellas descuenta un 4% en un cierto producto A, un 6% en el producto B y un 5% en el producto C. A las dos semanas pone en marcha la segunda oferta descontando un 8% sobre el precio inicial de A, un 10% sobre el precio inicial de B y un 6% sobre el precio inicial de C. Se sabe que un cliente compra durante la primera oferta un producto A, dos B y tres C, y que se ahorra 16 euros respecto al precio inicial. Si compra tres productos A, uno B y cinco C en la segunda oferta, el ahorro es de 29 euros. Si compra un producto A, uno B y uno C, sin ningún tipo de descuento, debe abonar 135 euros. Calcúlese el precio del producto B antes de la oferta.",
+          "A hypermarket starts a sales campaign. In the first one it discounts 4% on a certain product A, 6% on product B and 5% on product C. Two weeks later it launches a second offer, discounting 8% off A's initial price, 10% off B's and 6% off C's. A customer buys during the first offer one A, two B and three C, saving 16 euros against the initial price. If they buy three A, one B and five C during the second offer, the saving is 29 euros. Buying one A, one B and one C with no discount costs 135 euros. Find the price of product B before the offers.",
+        ),
+        answer: { kind: "numeric", value: 50 },
+        hints: [
+          L(
+            "Llama $a, b, c$ a los precios iniciales de A, B, C.",
+            "Let $a, b, c$ be the initial prices of A, B, C.",
+          ),
+          L(
+            "Sin descuento: $a + b + c = 135$. El ahorro de la primera compra: $0{,}04a + 0{,}12b + 0{,}15c = 16$.",
+            "No discount: $a + b + c = 135$. The first purchase's saving: $0{,}04a + 0{,}12b + 0{,}15c = 16$.",
+          ),
+          L(
+            "El segundo ahorro: $0{,}24a + 0{,}10b + 0{,}30c = 29$. Multiplica por 100 para eliminar decimales.",
+            "The second saving: $0{,}24a + 0{,}10b + 0{,}30c = 29$. Multiply by 100 to clear decimals.",
+          ),
+        ],
+        answerDisplay: L("Producto B: $50$ € (A $25$ €, C $60$ €)", "Product B: $50$ € (A $25$ €, C $60$ €)"),
+        solution: [
+          step(
+            "given",
+            "Descuentos: 1.ª oferta 4%/6%/5%; 2.ª oferta 8%/10%/6%. Compras: (1, 2, 3) ahorra 16 €; (3, 1, 5) ahorra 29 €; (1, 1, 1) cuesta 135 €.",
+            "Discounts: 1st offer 4%/6%/5%; 2nd offer 8%/10%/6%. Purchases: (1, 2, 3) saves €16; (3, 1, 5) saves €29; (1, 1, 1) costs €135.",
+          ),
+          step(
+            "approach",
+            "El ahorro de cada compra es la suma de los descuentos unitarios multiplicados por las cantidades.",
+            "Each purchase's saving is the sum of the unit discounts times the quantities bought.",
+          ),
+          step(
+            "calculation",
+            "$a + b + c = 135$<br>$4a + 12b + 15c = 1600$ (×100)<br>$24a + 10b + 30c = 2900$ (×100)<br>De la primera: $a = 135 - b - c$. Sustituyendo: $8b + 11c = 1060$ y $7b - 3c = 170$.<br>Resolviendo: $c = 60$, $b = 50$, $a = 25$.",
+            "$a + b + c = 135$<br>$4a + 12b + 15c = 1600$ (×100)<br>$24a + 10b + 30c = 2900$ (×100)<br>From the first: $a = 135 - b - c$. Substituting: $8b + 11c = 1060$ and $7b - 3c = 170$.<br>Solving: $c = 60$, $b = 50$, $a = 25$.",
+          ),
+          step(
+            "result",
+            "A: $25$ €; B: $50$ €; C: $60$ €. Control del primer ahorro: $0{,}04(25) + 2 \\cdot 0{,}06(50) + 3 \\cdot 0{,}05(60) = 1 + 6 + 9 = 16$ € ✓.",
+            "A: $25$ €; B: $50$ €; C: $60$ €. Check of the first saving: $0{,}04(25) + 2 \\cdot 0{,}06(50) + 3 \\cdot 0{,}05(60) = 1 + 6 + 9 = 16$ € ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* A3 — agricultora: reparto de hectáreas */
+  template(
+    {
+      id: "sys-app-05",
+      subject: "math",
+      topicId: "systems",
+      subtopicId: "applications",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 300,
+      tags: ["systems", "word-problems", "modeling"],
+      prerequisites: ["elimination", "substitution"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "A3",
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      void rng;
+      return {
+        skill: L("Modelar un reparto de superficie", "Modeling a land distribution"),
+        statement: L(
+          "Una agricultora quiere repartir sus 10 hectáreas de terreno de barbecho, cultivo de trigo y cultivo de cebada. La superficie dedicada al trigo ocupa 2 hectáreas más que la dedicada a la cebada, mientras que el barbecho tiene 6 hectáreas menos que la superficie total dedicada al cultivo de trigo y de cebada. ¿Cuántas hectáreas están en barbecho?",
+          "A farmer wants to distribute her 10 hectares of land into fallow, wheat and barley. The wheat area is 2 hectares larger than the barley area, while the fallow is 6 hectares less than the total area used for wheat and barley. How many hectares are fallow?",
+        ),
+        answer: { kind: "numeric", value: 2 },
+        hints: [
+          L(
+            "Incógnitas: $t$ = trigo, $c$ = cebada, $f$ = barbecho (hectáreas).",
+            "Unknowns: $t$ = wheat, $c$ = barley, $f$ = fallow (hectares).",
+          ),
+          L(
+            "$t + c + f = 10$; $t = c + 2$; $f = t + c - 6$.",
+            "$t + c + f = 10$; $t = c + 2$; $f = t + c - 6$.",
+          ),
+          L(
+            "Con las dos últimas, la primera queda solo en función de $c$: resuelve y despeja el resto.",
+            "With the last two, the first depends only on $c$: solve and derive the rest.",
+          ),
+        ],
+        answerDisplay: L("Barbecho: $2$ ha (trigo 5, cebada 3)", "Fallow: $2$ ha (wheat 5, barley 3)"),
+        solution: [
+          step(
+            "given",
+            "Total 10 ha; trigo = cebada + 2; barbecho = (trigo + cebada) − 6.",
+            "Total 10 ha; wheat = barley + 2; fallow = (wheat + barley) − 6.",
+          ),
+          step(
+            "approach",
+            "Planteamos el sistema y sustituimos las relaciones en la ecuación del total.",
+            "Set up the system and substitute the relations into the total equation.",
+          ),
+          step(
+            "calculation",
+            "$t + c + f = 10$ con $t = c + 2$ y $f = t + c - 6$:<br>$(c + 2) + c + (c + 2 + c - 6) = 10 \\Rightarrow 4c - 2 = 10 \\Rightarrow c = 3$.<br>Entonces $t = 5$ y $f = 5 + 3 - 6 = 2$.",
+            "$t + c + f = 10$ with $t = c + 2$ and $f = t + c - 6$:<br>$(c + 2) + c + (c + 2 + c - 6) = 10 \\Rightarrow 4c - 2 = 10 \\Rightarrow c = 3$.<br>Then $t = 5$ and $f = 5 + 3 - 6 = 2$.",
+          ),
+          step(
+            "result",
+            "Trigo: $5$ ha; cebada: $3$ ha; barbecho: $2$ ha. Control: $5 + 3 + 2 = 10$ ✓.",
+            "Wheat: $5$ ha; barley: $3$ ha; fallow: $2$ ha. Check: $5 + 3 + 2 = 10$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* A4 — casas prefabricadas: horas de oficio */
+  template(
+    {
+      id: "sys-app-06",
+      subject: "math",
+      topicId: "systems",
+      subtopicId: "applications",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 420,
+      tags: ["systems", "word-problems", "modeling", "gauss"],
+      prerequisites: ["elimination", "substitution"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "A4",
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      void rng;
+      return {
+        skill: L(
+          "Modelar horas de trabajo por oficio como sistema 3×3",
+          "Modeling trade work-hours as a 3×3 system",
+        ),
+        statement: L(
+          "Una empresa instala casas prefabricadas de tres tipos A, B y C. Cada casa de tipo A necesita 10 horas de albañilería, 2 de fontanería y 2 de electricista. Cada casa de tipo B necesita 15 horas de albañilería, 4 de fontanería y 3 de electricista. Cada casa de tipo C necesita 20 horas de albañilería, 6 de fontanería y 5 de electricista. La empresa emplea exactamente 270 horas de trabajo al mes de albañilería, 68 de fontanería y 58 de electricista. ¿Cuántas casas de tipo B instala la empresa en un mes?",
+          "A company installs prefabricated houses of three types A, B and C. Each type-A house needs 10 hours of masonry, 2 of plumbing and 2 of electrical work. Each type-B house needs 15 hours of masonry, 4 of plumbing and 3 of electrical. Each type-C house needs 20 hours of masonry, 6 of plumbing and 5 of electrical. The company uses exactly 270 monthly hours of masonry, 68 of plumbing and 58 of electrical. How many type-B houses does the company install per month?",
+        ),
+        answer: { kind: "numeric", value: 6 },
+        hints: [
+          L(
+            "Llama $a, b, c$ a las casas de tipo A, B, C instaladas al mes.",
+            "Let $a, b, c$ be the type-A, B, C houses installed per month.",
+          ),
+          L(
+            "Cada oficio da una ecuación: $10a + 15b + 20c = 270$ (albañilería), $2a + 4b + 6c = 68$ (fontanería), $2a + 3b + 5c = 58$ (electricista).",
+            "Each trade gives one equation: $10a + 15b + 20c = 270$ (masonry), $2a + 4b + 6c = 68$ (plumbing), $2a + 3b + 5c = 58$ (electrical).",
+          ),
+          L(
+            "Divide la primera entre 5: $2a + 3b + 4c = 54$. Réstasela a la de electricista: sale $c$ directamente.",
+            "Divide the first by 5: $2a + 3b + 4c = 54$. Subtract it from the electrical one: $c$ pops out directly.",
+          ),
+        ],
+        answerDisplay: L("Tipo B: $6$ casas (A 10, C 4)", "Type B: $6$ houses (A 10, C 4)"),
+        solution: [
+          step(
+            "given",
+            "Albañilería 270 h; fontanería 68 h; electricista 58 h. Consumos por casa: A (10, 2, 2), B (15, 4, 3), C (20, 6, 5).",
+            "Masonry 270 h; plumbing 68 h; electrical 58 h. Per-house usage: A (10, 2, 2), B (15, 4, 3), C (20, 6, 5).",
+          ),
+          step(
+            "approach",
+            "Cada oficio aporta una ecuación lineal; el sistema 3×3 da la producción mensual de cada tipo.",
+            "Each trade contributes one linear equation; the 3×3 system gives the monthly output of each type.",
+          ),
+          step(
+            "calculation",
+            "$10a + 15b + 20c = 270 \\Rightarrow 2a + 3b + 4c = 54$ (÷5)<br>$2a + 4b + 6c = 68 \\Rightarrow a + 2b + 3c = 34$ (÷2)<br>$2a + 3b + 5c = 58$<br>(electricista) − (albañilería÷5): $c = 4$. Con $c = 4$: $a + 2b = 22$ y $2a + 3b = 38 \\Rightarrow b = 6$, $a = 10$.",
+            "$10a + 15b + 20c = 270 \\Rightarrow 2a + 3b + 4c = 54$ (÷5)<br>$2a + 4b + 6c = 68 \\Rightarrow a + 2b + 3c = 34$ (÷2)<br>$2a + 3b + 5c = 58$<br>(electrical) − (masonry÷5): $c = 4$. With $c = 4$: $a + 2b = 22$ and $2a + 3b = 38 \\Rightarrow b = 6$, $a = 10$.",
+          ),
+          step(
+            "result",
+            "A: $10$ casas; B: $6$; C: $4$. Control albañilería: $100 + 90 + 80 = 270$ ✓.",
+            "A: $10$ houses; B: $6$; C: $4$. Masonry check: $100 + 90 + 80 = 270$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* A5 — hotel: almohadas, mantas, edredones */
+  template(
+    {
+      id: "sys-app-07",
+      subject: "math",
+      topicId: "systems",
+      subtopicId: "applications",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 330,
+      tags: ["systems", "word-problems", "modeling"],
+      prerequisites: ["elimination", "substitution"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "A5",
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      void rng;
+      return {
+        skill: L("Modelar una compra con restricciones", "Modeling a purchase with constraints"),
+        statement: L(
+          "Un hotel adquirió un total de 200 unidades entre almohadas, mantas y edredones, gastando para ello un total de 7500 euros. El precio de una almohada es de 16 euros, el de una manta 50 euros y el de un edredón 80 euros. Además, el número de almohadas compradas es igual al número de mantas más el número de edredones. ¿Cuántas mantas ha comprado el hotel?",
+          "A hotel bought a total of 200 units among pillows, blankets and duvets, spending 7500 euros. A pillow costs 16 euros, a blanket 50 euros and a duvet 80 euros. Moreover, the number of pillows equals the number of blankets plus the number of duvets. How many blankets did the hotel buy?",
+        ),
+        answer: { kind: "numeric", value: 70 },
+        hints: [
+          L(
+            "Incógnitas: $x$ almohadas, $y$ mantas, $z$ edredones.",
+            "Unknowns: $x$ pillows, $y$ blankets, $z$ duvets.",
+          ),
+          L(
+            "$x + y + z = 200$; $16x + 50y + 80z = 7500$; $x = y + z$.",
+            "$x + y + z = 200$; $16x + 50y + 80z = 7500$; $x = y + z$.",
+          ),
+          L(
+            "De la 1.ª y la 3.ª: $2x = 200 \\Rightarrow x = 100$. Sustituye en las otras dos y resuelve el 2×2.",
+            "From the 1st and 3rd: $2x = 200 \\Rightarrow x = 100$. Substitute into the other two and solve the 2×2.",
+          ),
+        ],
+        answerDisplay: L("Mantas: $70$ (almohadas 100, edredones 30)", "Blankets: $70$ (pillows 100, duvets 30)"),
+        solution: [
+          step(
+            "given",
+            "200 unidades, 7500 €; precios 16/50/80 €; almohadas = mantas + edredones.",
+            "200 units, €7500; prices €16/50/80; pillows = blankets + duvets.",
+          ),
+          step(
+            "approach",
+            "La condición «almohadas = mantas + edredones» junto con el total elimina una incógnita de golpe.",
+            "The condition \"pillows = blankets + duvets\" together with the total kills one unknown at once.",
+          ),
+          step(
+            "calculation",
+            "$x + y + z = 200$ y $x = y + z \\Rightarrow 2x = 200 \\Rightarrow x = 100$.<br>En el gasto: $16(100) + 50y + 80z = 7500 \\Rightarrow 50y + 80z = 5900 \\Rightarrow 5y + 8z = 590$.<br>Con $y + z = 100$: $5y + 5z = 500$; restando: $3z = 90 \\Rightarrow z = 30$, $y = 70$.",
+            "$x + y + z = 200$ and $x = y + z \\Rightarrow 2x = 200 \\Rightarrow x = 100$.<br>In the spending: $16(100) + 50y + 80z = 7500 \\Rightarrow 50y + 80z = 5900 \\Rightarrow 5y + 8z = 590$.<br>With $y + z = 100$: $5y + 5z = 500$; subtracting: $3z = 90 \\Rightarrow z = 30$, $y = 70$.",
+          ),
+          step(
+            "result",
+            "Almohadas: $100$; mantas: $70$; edredones: $30$. Control: $1600 + 3500 + 2400 = 7500$ € ✓.",
+            "Pillows: $100$; blankets: $70$; duvets: $30$. Check: $1600 + 3500 + 2400 = 7500$ € ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* A6 — estudiante: mochila, bolígrafo, libro */
+  template(
+    {
+      id: "sys-app-08",
+      subject: "math",
+      topicId: "systems",
+      subtopicId: "applications",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 330,
+      tags: ["systems", "word-problems", "modeling"],
+      prerequisites: ["elimination", "substitution"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "A6",
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      void rng;
+      return {
+        skill: L("Modelar con fracciones de precios", "Modeling with fractions of prices"),
+        statement: L(
+          "Un estudiante ha gastado un total de 48 euros en la compra de una mochila, un bolígrafo y un libro. Si el precio de la mochila se redujera a la sexta parte, el del bolígrafo a la tercera parte y el del libro a la séptima parte de sus respectivos precios iniciales, el estudiante pagaría un total de 8 euros por ellos. Calcula el precio del libro, sabiendo que la mochila cuesta lo mismo que el total del bolígrafo y el libro.",
+          "A student spent 48 euros on a backpack, a pen and a book. If the backpack's price dropped to one sixth, the pen's to one third and the book's to one seventh of their original prices, the student would pay 8 euros for them. Find the price of the book, knowing the backpack costs as much as the pen and the book together.",
+        ),
+        answer: { kind: "numeric", value: 21 },
+        hints: [
+          L(
+            "Incógnitas: $M$ mochila, $B$ bolígrafo, $L$ libro.",
+            "Unknowns: $M$ backpack, $B$ pen, $L$ book.",
+          ),
+          L(
+            "$M + B + L = 48$; $\\tfrac{M}{6} + \\tfrac{B}{3} + \\tfrac{L}{7} = 8$; $M = B + L$.",
+            "$M + B + L = 48$; $\\tfrac{M}{6} + \\tfrac{B}{3} + \\tfrac{L}{7} = 8$; $M = B + L$.",
+          ),
+          L(
+            "De la 1.ª y la 3.ª: $M = 24$. Entonces $B + L = 24$; usa la segunda ecuación.",
+            "From the 1st and 3rd: $M = 24$. Then $B + L = 24$; use the second equation.",
+          ),
+        ],
+        answerDisplay: L("Libro: $21$ € (mochila 24, bolígrafo 3)", "Book: $21$ € (backpack 24, pen 3)"),
+        solution: [
+          step(
+            "given",
+            "Total 48 €; precios reducidos a 1/6, 1/3 y 1/7 suman 8 €; mochila = bolígrafo + libro.",
+            "Total €48; prices reduced to 1/6, 1/3 and 1/7 add up to €8; backpack = pen + book.",
+          ),
+          step(
+            "approach",
+            "La relación $M = B + L$ combinada con el total fija $M$; después un 2×2 con fracciones.",
+            "The relation $M = B + L$ combined with the total fixes $M$; then a 2×2 with fractions.",
+          ),
+          step(
+            "calculation",
+            "$M + B + L = 48$ y $M = B + L \\Rightarrow 2M = 48 \\Rightarrow M = 24$, $B + L = 24$.<br>En la segunda: $\\tfrac{24}{6} + \\tfrac{B}{3} + \\tfrac{L}{7} = 8 \\Rightarrow \\tfrac{B}{3} + \\tfrac{L}{7} = 4$<br>Multiplicando por 21: $7B + 3L = 84$. Con $B + L = 24$ (×7): $7B + 7L = 168$; restando: $4L = 84 \\Rightarrow L = 21$, $B = 3$.",
+            "$M + B + L = 48$ and $M = B + L \\Rightarrow 2M = 48 \\Rightarrow M = 24$, $B + L = 24$.<br>In the second: $\\tfrac{24}{6} + \\tfrac{B}{3} + \\tfrac{L}{7} = 8 \\Rightarrow \\tfrac{B}{3} + \\tfrac{L}{7} = 4$<br>Multiplying by 21: $7B + 3L = 84$. With $B + L = 24$ (×7): $7B + 7L = 168$; subtracting: $4L = 84 \\Rightarrow L = 21$, $B = 3$.",
+          ),
+          step(
+            "result",
+            "Mochila: $24$ €; bolígrafo: $3$ €; libro: $21$ €. Control: $4 + 1 + 3 = 8$ € ✓.",
+            "Backpack: $24$ €; pen: $3$ €; book: $21$ €. Check: $4 + 1 + 3 = 8$ € ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* A7 — estadio: socios */
+  template(
+    {
+      id: "sys-app-09",
+      subject: "math",
+      topicId: "systems",
+      subtopicId: "applications",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 390,
+      tags: ["systems", "word-problems", "modeling"],
+      prerequisites: ["elimination", "substitution"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "A7",
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      void rng;
+      return {
+        skill: L("Modelar con razones y diferencias", "Modeling with ratios and differences"),
+        statement: L(
+          "Un estadio de fútbol con capacidad para 72000 espectadores está lleno durante la celebración de un partido entre los equipos A y B. Algunos de los espectadores son socios del equipo A, otros lo son del equipo B, y el resto no son socios de ninguno de los dos equipos que están jugando. A través de la venta de localidades sabemos lo siguiente: a) No hay espectadores que sean socios de ambos equipos simultáneamente. b) Por cada 13 socios de alguno de los dos equipos hay 3 espectadores que no son socios. c) Los socios del equipo B superan en 6500 a los socios del equipo A. ¿Cuántos socios del equipo A hay en el estadio viendo el partido?",
+          "A football stadium with capacity for 72000 spectators is full during a match between teams A and B. Some spectators are members of team A, others of team B, and the rest are members of neither. Ticket sales tell us: a) No spectator is a member of both teams at once. b) For every 13 members of either team there are 3 non-members. c) Team-B members outnumber team-A members by 6500. How many team-A members are watching the match?",
+        ),
+        answer: { kind: "numeric", value: 26000 },
+        hints: [
+          L(
+            "Incógnitas: $a$ socios A, $b$ socios B, $n$ sin membresía. Como nadie es socio de los dos: $a + b + n = 72000$.",
+            "Unknowns: $a$ team-A members, $b$ team-B members, $n$ non-members. Since nobody belongs to both: $a + b + n = 72000$.",
+          ),
+          L(
+            "«Por cada 13 socios hay 3 no socios»: $3(a + b) = 13n$. Y la diferencia: $b = a + 6500$.",
+            "\"For every 13 members there are 3 non-members\": $3(a + b) = 13n$. And the difference: $b = a + 6500$.",
+          ),
+          L(
+            "De la razón: $a + b = \\tfrac{13}{16} \\cdot 72000 = 58500$. Resuelve junto con $b = a + 6500$.",
+            "From the ratio: $a + b = \\tfrac{13}{16} \\cdot 72000 = 58500$. Solve together with $b = a + 6500$.",
+          ),
+        ],
+        answerDisplay: L("Socios A: $26000$ (B 32500, no socios 13500)", "Team-A members: $26000$ (B 32500, non-members 13500)"),
+        solution: [
+          step(
+            "given",
+            "72000 espectadores; A∩B = ∅; socios:no socios = 13:3; $b = a + 6500$.",
+            "72000 spectators; A∩B = ∅; members:non-members = 13:3; $b = a + 6500$.",
+          ),
+          step(
+            "approach",
+            "La razón 13:3 reparte el total en 16 partes; la diferencia cierra el sistema.",
+            "The 13:3 ratio splits the total into 16 parts; the difference closes the system.",
+          ),
+          step(
+            "calculation",
+            "$\\tfrac{a+b}{n} = \\tfrac{13}{3} \\Rightarrow a + b = \\tfrac{13}{16} \\cdot 72000 = 58500$, $n = 13500$.<br>$a + b = 58500$ y $b - a = 6500$: sumando, $2b = 65000 \\Rightarrow b = 32500$; $a = 26000$.",
+            "$\\tfrac{a+b}{n} = \\tfrac{13}{3} \\Rightarrow a + b = \\tfrac{13}{16} \\cdot 72000 = 58500$, $n = 13500$.<br>$a + b = 58500$ and $b - a = 6500$: adding, $2b = 65000 \\Rightarrow b = 32500$; $a = 26000$.",
+          ),
+          step(
+            "result",
+            "Socios A: $26000$; socios B: $32500$; no socios: $13500$. Control: $26000 + 32500 + 13500 = 72000$ ✓ y $32500 - 26000 = 6500$ ✓.",
+            "Team-A members: $26000$; team-B: $32500$; non-members: $13500$. Check: $26000 + 32500 + 13500 = 72000$ ✓ and $32500 - 26000 = 6500$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* A8 — bar universitario: ¿determinable? (rango 2) */
+  template(
+    {
+      id: "sys-app-10",
+      subject: "math",
+      topicId: "systems",
+      subtopicId: "applications",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 390,
+      tags: ["systems", "word-problems", "modeling", "rank"],
+      prerequisites: ["elimination", "substitution"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "A8",
+      },
+      reasoning: "parameters",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(
+            "No: el sistema tiene infinitas soluciones (un precio queda libre)",
+            "No: the system has infinitely many solutions (one price is left free)",
+          ),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L(
+            "Sí: café $0{,}50$ €, refresco $1{,}25$ €, batido $1$ €",
+            "Yes: coffee $0{,}50$ €, soda $1{,}25$ €, shake $1$ €",
+          ),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L(
+            "Sí: la solución es única, café $1$ €, refresco $2$ €, batido $1$ €",
+            "Yes: the solution is unique, coffee $1$ €, soda $2$ €, shake $1$ €",
+          ),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L("No: el sistema es incompatible", "No: the system is inconsistent"),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L(
+          "Justificar si un sistema determina o no las incógnitas",
+          "Justifying whether a system determines the unknowns",
+        ),
+        statement: L(
+          "Hemos ido tres días seguidos al bar de la Universidad. El primer día tomamos 3 cafés, 2 refrescos y 3 batidos, el precio fue de 7 euros. El segundo día tomamos 1 café, 2 refrescos y 2 batidos, el precio total fue de 5 euros. Por último, el tercer día tomamos 2 cafés y un batido, el precio fue de 2 euros. Justifica razonadamente si con estos datos podemos determinar o no el precio de un café, de un refresco y de un batido, suponiendo que estos precios no han variado en los tres días.",
+          "We went three days in a row to the university café. On the first day we had 3 coffees, 2 sodas and 3 shakes for 7 euros. On the second day, 1 coffee, 2 sodas and 2 shakes for 5 euros. On the third day, 2 coffees and one shake for 2 euros. Justify carefully whether these data determine the price of a coffee, a soda and a shake, assuming prices did not change over the three days.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Llama $c, r, b$ a los precios y plante una ecuación por día.",
+            "Let $c, r, b$ be the prices and write one equation per day.",
+          ),
+          L(
+            "$3c + 2r + 3b = 7$; $c + 2r + 2b = 5$; $2c + b = 2$. Prueba a eliminar $r$.",
+            "$3c + 2r + 3b = 7$; $c + 2r + 2b = 5$; $2c + b = 2$. Try eliminating $r$.",
+          ),
+          L(
+            "Resta la segunda de la primera: $2c + b = 2$... exactamente la tercera. Las tres ecuaciones solo aportan dos independientes: rango 2.",
+            "Subtract the second from the first: $2c + b = 2$... exactly the third. The three equations provide only two independent ones: rank 2.",
+          ),
+        ],
+        answerDisplay: L(
+          "No se pueden determinar: infinitas soluciones $\\left(c,\\ \\tfrac{1+3c}{2},\\ 2-2c\\right)$",
+          "They cannot be determined: infinitely many solutions $\\left(c,\\ \\tfrac{1+3c}{2},\\ 2-2c\\right)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "Día 1: $3c + 2r + 3b = 7$; día 2: $c + 2r + 2b = 5$; día 3: $2c + b = 2$.",
+            "Day 1: $3c + 2r + 3b = 7$; day 2: $c + 2r + 2b = 5$; day 3: $2c + b = 2$.",
+          ),
+          step(
+            "approach",
+            "Planteamos el sistema y estudiamos su rango: tres ecuaciones podrían no ser independientes.",
+            "Set up the system and study its rank: three equations might not be independent.",
+          ),
+          step(
+            "calculation",
+            "$(E_1) - (E_2):\\ 2c + b = 2$, que es exactamente $(E_3)$ → una ecuación es redundante.<br>Rango de la matriz de coeficientes: 2 (con 3 incógnitas) → compatible indeterminado.<br>Con $c$ libre: $b = 2 - 2c$ y $r = \\tfrac{5 - c - 2b}{2} = \\tfrac{1 + 3c}{2}$.<br>Nótese que la opción «0,50 / 1,25 / 1» sí cumple las tres ecuaciones — pero no es la única (p. ej. $c = 0{,}25$: $r = 0{,}875$, $b = 1{,}5$ también funciona), así que los datos NO determinan los precios.",
+            "$(E_1) - (E_2):\\ 2c + b = 2$, which is exactly $(E_3)$ → one equation is redundant.<br>Coefficient-matrix rank: 2 (with 3 unknowns) → consistent but underdetermined.<br>With $c$ free: $b = 2 - 2c$ and $r = \\tfrac{5 - c - 2b}{2} = \\tfrac{1 + 3c}{2}$.<br>Note that \"0.50 / 1.25 / 1\" does satisfy all three equations — but it is not the only one (e.g. $c = 0{,}25$: $r = 0{,}875$, $b = 1{,}5$ also works), so the data do NOT determine the prices.",
+          ),
+          step(
+            "result",
+            "No se pueden determinar los precios: el sistema tiene rango 2 e infinitas soluciones con un parámetro libre.",
+            "The prices cannot be determined: the system has rank 2 and infinitely many solutions with one free parameter.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* A9 — buñuelos */
+  template(
+    {
+      id: "sys-app-11",
+      subject: "math",
+      topicId: "systems",
+      subtopicId: "applications",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 300,
+      tags: ["systems", "word-problems", "modeling"],
+      prerequisites: ["elimination", "substitution"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "A9",
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      void rng;
+      return {
+        skill: L("Modelar un inventario con dobles y triples", "Modeling an inventory with doubles and triples"),
+        statement: L(
+          "Una pastelería tiene 220 buñuelos de chocolate, nata y crema. Hay el doble de buñuelos de nata que de crema. Además, el doble de la cantidad de los buñuelos de crema más el triple de los buñuelos de chocolate es igual al doble de la cantidad de buñuelos de nata. Calcula la cantidad de buñuelos de chocolate que hay.",
+          "A pastry shop has 220 fritters of chocolate, cream and custard. There are twice as many cream fritters as custard ones. Moreover, twice the number of custard fritters plus three times the chocolate ones equals twice the number of cream fritters. Find how many chocolate fritters there are.",
+        ),
+        answer: { kind: "numeric", value: 40 },
+        hints: [
+          L(
+            "Incógnitas: $ch$ chocolate, $n$ nata, $cr$ crema.",
+            "Unknowns: $ch$ chocolate, $n$ cream, $cr$ custard.",
+          ),
+          L(
+            "$ch + n + cr = 220$; $n = 2cr$; $2cr + 3ch = 2n$.",
+            "$ch + n + cr = 220$; $n = 2cr$; $2cr + 3ch = 2n$.",
+          ),
+          L(
+            "Sustituye $n = 2cr$ en la tercera: $2cr + 3ch = 4cr \\Rightarrow 3ch = 2cr$.",
+            "Substitute $n = 2cr$ into the third: $2cr + 3ch = 4cr \\Rightarrow 3ch = 2cr$.",
+          ),
+        ],
+        answerDisplay: L("Chocolate: $40$ (nata 120, crema 60)", "Chocolate: $40$ (cream 120, custard 60)"),
+        solution: [
+          step(
+            "given",
+            "Total 220; nata = 2 × crema; 2·crema + 3·chocolate = 2·nata.",
+            "Total 220; cream = 2 × custard; 2·custard + 3·chocolate = 2·cream.",
+          ),
+          step(
+            "approach",
+            "Sustituimos las relaciones en el total hasta dejarlo en una sola variable.",
+            "Substitute the relations into the total until only one variable remains.",
+          ),
+          step(
+            "calculation",
+            "De $n = 2cr$ y $2cr + 3ch = 2n = 4cr$: $3ch = 2cr \\Rightarrow ch = \\tfrac{2}{3}cr$.<br>En el total: $\\tfrac{2}{3}cr + 2cr + cr = 220 \\Rightarrow \\tfrac{11}{3}cr = 220 \\Rightarrow cr = 60$.<br>Entonces $n = 120$ y $ch = 40$.",
+            "From $n = 2cr$ and $2cr + 3ch = 2n = 4cr$: $3ch = 2cr \\Rightarrow ch = \\tfrac{2}{3}cr$.<br>In the total: $\\tfrac{2}{3}cr + 2cr + cr = 220 \\Rightarrow \\tfrac{11}{3}cr = 220 \\Rightarrow cr = 60$.<br>Then $n = 120$ and $ch = 40$.",
+          ),
+          step(
+            "result",
+            "Chocolate: $40$; nata: $120$; crema: $60$. Control: $40 + 120 + 60 = 220$ ✓ y $2(60) + 3(40) = 240 = 2(120)$ ✓.",
+            "Chocolate: $40$; cream: $120$; custard: $60$. Check: $40 + 120 + 60 = 220$ ✓ and $2(60) + 3(40) = 240 = 2(120)$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+];

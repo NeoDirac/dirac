@@ -10,6 +10,8 @@
 import { template, L, step } from "@/lib/problem";
 import type { ProblemTemplate, McOption } from "@/lib/types";
 
+import { templates as gaussTemplates } from "./systems-gauss";
+
 /* ---------- string helpers for LaTeX built from parameters ---------- */
 
 /** "+ 5" | "- 5" — joins a signed constant */
@@ -31,7 +33,7 @@ const linExpr = (m: number, p: number, v = "x"): string =>
 const minus = (a: number, b: number): string =>
   b === 0 ? `${a}` : `${a} ${b > 0 ? "-" : "+"} ${Math.abs(b)}`;
 
-export const templates: ProblemTemplate[] = [
+const ownTemplates: ProblemTemplate[] = [
   /* ---------------------------------------------------------------- */
   /* Substitution                                                     */
   /* ---------------------------------------------------------------- */
@@ -1606,3 +1608,6 @@ export const templates: ProblemTemplate[] = [
     },
   ),
 ];
+
+/** The bank for this topic: own generators + the tutor's curated Gauss/application set. */
+export const templates: ProblemTemplate[] = [...ownTemplates, ...gaussTemplates];

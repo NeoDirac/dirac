@@ -151,6 +151,44 @@ export const SOURCES: SourceRecord[] = [
     short: l10n("Hoja de la alumna (DE)", "Student's worksheet (DE)"),
   },
   {
+    id: "autor-recopilacion-2025",
+    title:
+      "Recopilación del autor — sistemas 3×3 por Gauss y problemas de aplicación",
+    origin:
+      "Recopilación propia del tutor (Sebastián Calderón), compartida el 2026-10-02 con su clave de soluciones",
+    kind: "problem-collection",
+    language: "es",
+    license: "INSTRUCTOR_CREATED",
+    use: "Direct incorporation with 'Recopilación del autor' attribution, per the tutor's instruction ('si te doy yo los ejercicios esos son ejercicios reales que puedes poner como recopilación del autor'). 18 systems of 3 linear equations by Gauss (G1–G18: 11 unique solution, 4 underdetermined with 1 parameter, 2 inconsistent) → systems/gauss (new subtopic); 9 word problems (A1–A9: saffron, percentage discounts, farmland, prefab houses, hotel, student, stadium, university bar, fritters) → systems/applications. Every answer independently re-derived with sympy before import (28 checks). G17: the tutor's key listed 'incompatible', but the system has the unique solution (2, 2, 0) — verified three ways (sympy, det = 2 ≠ 0, direct substitution) and shipped with the verified answer; flagged to the tutor for confirmation against his source. A8 (bar) is intentionally indeterminate (rank 2) — its answer is the justification itself.",
+    topics: [
+      "sistemas de ecuaciones",
+      "método de Gauss",
+      "problemas de aplicación",
+      "álgebra lineal",
+    ],
+    level: "Bachillerato / primer año universitario",
+    short: l10n("Recopilación del autor", "Author's compilation"),
+  },
+  {
+    id: "fcnm-fundamentos-digital",
+    title:
+      "Fundamentos de Matemáticas para Bachillerato — edición digital (texto nativo, 982 págs.)",
+    origin: "FCNM · Escuela Superior Politécnica del Litoral (edición anterior a la impresa de 2017)",
+    kind: "textbook",
+    language: "es",
+    license: "TUTOR_LICENSED",
+    use: "Registered 2026-10-02 (tutor uploaded it to the sources Drive): digital edition with a NATIVE text layer — unlike the scanned edition (fcnm-fundamentos), statements extract reliably with no OCR damage. Awaiting page/chapter assignments from the tutor for the next import rounds. Page numbering differs from the scanned edition: always cite THIS edition for anything imported from it. Persisted at /home/z/espol-book/espol-digital.pdf.",
+    topics: [
+      "álgebra",
+      "trigonometría",
+      "funciones",
+      "sistemas de ecuaciones",
+      "matrices",
+    ],
+    level: "Bachillerato ECU",
+    short: l10n("Fundamentos ESPOL (digital)", "ESPOL Fundamentals (digital)"),
+  },
+  {
     id: "kompetenzprofil-physik",
     title: "Kompetenzprofile der Fächer — Physik, Kurs T und M",
     origin: "Studienkollegs in Deutschland (documento curricular oficial)",
