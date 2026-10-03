@@ -1,0 +1,3236 @@
+From 7a27e7027b37c718db3bdfc08b4c37db492d969f Mon Sep 17 00:00:00 2001
+From: "Z.ai Code" <zai@code.local>
+Date: Sat, 3 Oct 2026 00:48:05 +0000
+Subject: [PATCH] =?UTF-8?q?content:=20import=20ESPOL=20digital=20edition,?=
+ =?UTF-8?q?=20Chapter=202=20=E2=80=94=2040=20curated=20exercises=20(most?=
+ =?UTF-8?q?=20difficult/integrative)?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Tutor's brief for the digital edition (982 pp., native text): 'extrae del
+capitulo 2. Desde la pag 258 a la 283 del pdf, extrae los que consideres
+mas dificiles o los mas integradores' — Chapter 2 'Ejercicios propuestos',
+printed pp. 225-250, answer key pp. 938-939.
+
+40 fixed bilingual templates, every answer double-verified (printed key +
+independent sympy; download/verify_espol_ch2.py, 41/41 checks):
+- polynomials/factoring 34e 36a 36b 36d 36e + equations 78a
+- rational 35l (telescoping) 37a 37b 37d + equations 48 (empty truth set)
+- radicals/equations 80b (spurious root) 80e
+- linear-equations abs 54d 54e (interval, text type) 54j + literal 78c 78d
+- quadratics 49 (Vieta trap) 82 (unique solution) 83 (free fall, g cancels)
+  84 (cyclist, numeric-unit)
+- systems/applications 47 56 58 60 61 62 63 64c 68 70
+- sequences 125 129 136 139 141 146 147 151
+
+Notable:
+- #82: printed key lists only k=9/4; the complete answer is k in {0, 9/4}
+  (k=0 makes it linear with a unique solution) — shipped verified, flagged.
+- #77a dropped: it duplicates quad-espol-112 (3.11-112a, scanned edition) —
+  same equation 4x^2-4xy-y^2=1.
+- #151 has no printed key — sympy-only (128 terms, 105..994, sum 70336).
+- Drive-by fix: rad-espol-128b/128c now shuffle their MC options (they
+  shipped with the correct option always first).
+- Bank: 603 -> 643 templates; validate:content 0 errors / 0 warnings;
+  tsc + eslint clean; agent-browser QA across all five answer formats,
+  ES/EN, mobile 390px, dark mode.
+---
+ docs/source-inventory.md             |   2 +-
+ src/content/math/linear-equations.ts | 405 ++++++++++++++
+ src/content/math/polynomials.ts      | 454 ++++++++++++++++
+ src/content/math/quadratics.ts       | 314 +++++++++++
+ src/content/math/radicals.ts         | 159 +++++-
+ src/content/math/rational.ts         | 376 +++++++++++++
+ src/content/math/sequences.ts        | 589 +++++++++++++++++++++
+ src/content/math/systems.ts          | 755 +++++++++++++++++++++++++++
+ src/content/sources/registry.ts      |   8 +-
+ 9 files changed, 3056 insertions(+), 6 deletions(-)
+
+diff --git a/docs/source-inventory.md b/docs/source-inventory.md
+index 2b4ee18..abdaefb 100644
+--- a/docs/source-inventory.md
++++ b/docs/source-inventory.md
+@@ -19,7 +19,7 @@ Auditada el 2026-10-01. 9 archivos (7 PDF + 2 JPEG). Registro máquina:
+ | 9 | `preguntas.jpeg` (Kurzkontrolle 1) | control corto del tutor | DE | INSTRUCTOR_CREATED | Studienkolleg | **Importación directa**: conjunto de soluciones reales de (x+2)(x−5)(x²+9)(x²−25)=0 (descarte de raíces no reales); Venn de 3 conjuntos (encuesta); operaciones de intervalos. |
+ | 10 | Hoja de la alumna (2 fotos, oct. 2025): Übungsblatt Mathematik + problema de Venn | hoja de ejercicios del curso alemán de la alumna | DE | TUTOR_LICENSED (el tutor la compartió y pidió publicarlo, 2026-10-02) | Secundaria superior DE / Studienkolleg | **Importación directa** (22 plantillas, transcripción del tutor como fuente de verdad): S1 ausklammern con exponentes con variable → polynomials/factoring (MC, distractores verificados no-equivalentes); S2 fracciones algebraicas → rational/simplifying; S3 Anwendung exponentes negativos → foundations/powers; Venn mermelada/miel/Nutella → foundations/venn-diagrams (subtema nuevo; partes b–e numéricas 19/28/81/73). |
+ | 11 | Recopilación del autor — sistemas 3×3 por Gauss (18) + problemas de aplicación (9), con clave del tutor | recopilación propia del tutor (Sebastián Calderón) | ES | INSTRUCTOR_CREATED (instrucción del tutor: «si te doy yo los ejercicios esos son ejercicios reales que puedes poner como recopilación del autor», 2026-10-02) | Bachillerato / 1.er año univ. | **Importación directa con atribución «Recopilación del autor»** (27 plantillas, todas verificadas con sympy ANTES de importar, 28 checks): G1–G18 → subtema nuevo systems/gauss (11 solución única, 4 indeterminados con 1 parámetro, 2 incompatibles; distractores = errores clásicos de Gauss); A1–A9 → systems/applications (azafrán 3/7/15 g, hipermercado 25/50/60 €, barbecho 2 ha, casas 10/6/4, hotel 100/70/30, libro 21 €, estadio 26000, bar NO determinable — rango 2, buñuelos 40/120/60). **G17**: la clave del tutor decía «incompatible» pero el sistema tiene solución única (2, 2, 0) — verificado por tres vías (sympy, det = 2 ≠ 0, sustitución directa) e importado con la respuesta verificada; avisado al tutor. |
+-| 12 | `FUNDAMENTOS_DE_MATEMATICAS_ESPOL_Para_Ba.pdf` (982 págs., 56 MB, edición anterior) | libro de texto FCNM-ESPOL — **edición DIGITAL con texto nativo** (no escaneado) | ES | TUTOR_LICENSED (misma autorización que #3, 2026-10-02) | Bachillerato ECU | **Registrada y descargada** a `/home/z/espol-book/espol-digital.pdf`. Pendiente: el tutor asignará páginas/capítulos. Ventaja decisiva sobre la edición escaneada (#3): el texto se extrae nativo (sin daño de OCR ni lectura por visión). La numeración de páginas difiere de la edición escaneada — citar siempre esta edición al importar de aquí en adelante. |
++| 12 | `FUNDAMENTOS_DE_MATEMATICAS_ESPOL_Para_Ba.pdf` (982 págs., 56 MB, edición anterior) | libro de texto FCNM-ESPOL — **edición DIGITAL con texto nativo** (no escaneado) | ES | TUTOR_LICENSED (misma autorización que #3, 2026-10-02) | Bachillerato ECU | **PRIMERA IMPORTACIÓN REALIZADA (2026-10-03)**: Capítulo 2 «Ejercicios propuestos» (impresas 225–250 = PDF 258–283), encargo del tutor: «extrae los que consideres más difíciles o los más integradores». 41 plantillas curadas (factorización, fracciones algebraicas, ecuaciones con valor absoluto/literales/radicales, cuadráticas, 10 problemas de aplicación, 8 de sucesiones) — todas con doble verificación (clave impresa pp. 938–939 + sympy; script `download/verify_espol_ch2.py`). Clave #82 incompleta (9/4 → corregida a {0, 9/4}); #77a y #151 sin clave impresa (solo sympy). Persistida en `/home/z/espol-book/espol-digital.pdf`. Numeración de páginas propia — citar siempre esta edición. |
+ 
+ ## Metadatos por fuente (esquema interno)
+ 
+diff --git a/src/content/math/linear-equations.ts b/src/content/math/linear-equations.ts
+index ec3d762..984c771 100644
+--- a/src/content/math/linear-equations.ts
++++ b/src/content/math/linear-equations.ts
+@@ -2018,4 +2018,409 @@ export const templates: ProblemTemplate[] = [
+     }),
+   ),
+ 
++  /* ================================================================== */
++  /* Curated — ESPOL Fundamentos, EDICIÓN DIGITAL (TUTOR_LICENSED).      */
++  /* Chapter 2 «Ejercicios propuestos», pp. 236-240 (PDF 269-273).      */
++  /* Tutor's brief: the most difficult / integrative ones.              */
++  /* Double-verified: printed key pp. 939 (54d: 9; 54e: (-inf,-2];       */
++  /* 54j: -2,0; 78c: 2a±c; 78d: -b/a, c/a) + sympy (41/41 checks).      */
++  /* ================================================================== */
++
++  /* 54d — |5−x| = 13−x → x = 9. */
++  template(
++    {
++      id: "lin-espol-ch2-54d",
++      subject: "math",
++      topicId: "linear-equations",
++      subtopicId: "abs-equations",
++      difficulty: "medium",
++      questionType: "numeric",
++      estimatedTimeSec: 150,
++      tags: ["absolute-value", "equation", "sign-condition"],
++      prerequisites: ["abs-equations"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 54d",
++        page: 236,
++      },
++      reasoning: "case-analysis",
++    },
++    () => ({
++      skill: L("Valor absoluto con condición de signo en el otro lado", "Absolute value with a sign condition on the other side"),
++      statement: L(
++        "Resuelve: $|5 - x| = 13 - x$.",
++        "Solve: $|5 - x| = 13 - x$.",
++      ),
++      answer: { kind: "numeric", value: 9 },
++      hints: [
++        L(
++          "Como $|5 - x| \\geq 0$, el lado derecho debe ser $\\geq 0$: $13 - x \\geq 0$, o sea $x \\leq 13$.",
++          "Since $|5 - x| \\geq 0$, the right side must be $\\geq 0$: $13 - x \\geq 0$, i.e. $x \\leq 13$.",
++        ),
++        L(
++          "Dos casos: $5 - x = 13 - x$ (¿tiene solución?) y $5 - x = -(13 - x) = x - 13$.",
++          "Two cases: $5 - x = 13 - x$ (does it have a solution?) and $5 - x = -(13 - x) = x - 13$.",
++        ),
++        L(
++          "El primer caso lleva a $5 = 13$, imposible; el segundo a $18 = 2x$. Comprueba que la solución cumpla $x \\leq 13$.",
++          "The first case gives $5 = 13$, impossible; the second gives $18 = 2x$. Verify the solution satisfies $x \\leq 13$.",
++        ),
++      ],
++      answerDisplay: L("$x = 9$", "$x = 9$"),
++      solution: [
++        step(
++          "given",
++          "$|5 - x| = 13 - x$; condición: $13 - x \\geq 0 \\Rightarrow x \\leq 13$.",
++          "$|5 - x| = 13 - x$; condition: $13 - x \\geq 0 \\Rightarrow x \\leq 13$.",
++        ),
++        step(
++          "approach",
++          "Abrir el valor absoluto en los dos casos y conservar la condición de signo como filtro final.",
++          "Open the absolute value in both cases and keep the sign condition as the final filter.",
++        ),
++        step(
++          "calculation",
++          "Caso 1: $5 - x = 13 - x \\Rightarrow 5 = 13$ ✗ (sin solución).<br>Caso 2: $5 - x = x - 13 \\Rightarrow 18 = 2x \\Rightarrow x = 9$.<br>Filtro: $9 \\leq 13$ ✓.",
++          "Case 1: $5 - x = 13 - x \\Rightarrow 5 = 13$ ✗ (no solution).<br>Case 2: $5 - x = x - 13 \\Rightarrow 18 = 2x \\Rightarrow x = 9$.<br>Filter: $9 \\leq 13$ ✓.",
++        ),
++        step(
++          "result",
++          "$x = 9$. Verificación: $|5 - 9| = 4$ y $13 - 9 = 4$ ✓.",
++          "$x = 9$. Check: $|5 - 9| = 4$ and $13 - 9 = 4$ ✓.",
++        ),
++      ],
++    }),
++  ),
++
++  /* 54e — |3−x|−|x+2| = 5 → (−∞, −2]. Answer type: text (interval). */
++  template(
++    {
++      id: "lin-espol-ch2-54e",
++      subject: "math",
++      topicId: "linear-equations",
++      subtopicId: "abs-equations",
++      difficulty: "hard",
++      questionType: "text",
++      estimatedTimeSec: 300,
++      tags: ["absolute-value", "equation", "case-analysis", "interval"],
++      prerequisites: ["abs-equations"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 54e",
++        page: 236,
++      },
++      reasoning: "case-analysis",
++    },
++    () => ({
++      skill: L("Dos valores absolutos: tres tramos, y un tramo entero sirve", "Two absolute values: three tranches, and a whole tranche works"),
++      statement: L(
++        "Resuelve y da el conjunto solución como intervalo (admite notaciones como (2, 5], x<=-2 o (-inf, 3]): $|3 - x| - |x + 2| = 5$.",
++        "Solve and give the solution set as an interval (notations like (2, 5], x<=-2 or (-inf, 3] are accepted): $|3 - x| - |x + 2| = 5$.",
++      ),
++      answer: {
++        kind: "text",
++        accepted: [
++          "(-inf, -2]",
++          "(-∞, -2]",
++          "x<=-2",
++          "x≤-2",
++          "x <= -2",
++          "x ≤ -2",
++          "x<= -2",
++          "(-inf,-2]",
++        ],
++      },
++      hints: [
++        L(
++          "Los puntos críticos ($x = -2$ y $x = 3$) cortan la recta en tres tramos. Analiza la expresión en cada uno.",
++          "The critical points ($x = -2$ and $x = 3$) cut the line into three tranches. Analyze the expression on each.",
++        ),
++        L(
++          "Con $x < -2$: $|3 - x| = 3 - x$ y $|x + 2| = -(x + 2)$, así que la expresión vale $(3 - x) + (x + 2) = 5$… ¿qué dice eso de TODO el tramo?",
++          "For $x < -2$: $|3 - x| = 3 - x$ and $|x + 2| = -(x + 2)$, so the expression equals $(3 - x) + (x + 2) = 5$… what does that say about the WHOLE tranche?",
++        ),
++        L(
++          "En $[-2, 3)$ la expresión vale $1 - 2x$ (iguala a 5 y revisa si la solución cae dentro); con $x \\geq 3$ vale $-5 \\neq 5$. No olvides revisar el propio $x = -2$.",
++          "On $[-2, 3)$ the expression equals $1 - 2x$ (set it to 5 and check the solution lands inside); for $x \\geq 3$ it equals $-5 \\neq 5$. Do not forget to test $x = -2$ itself.",
++        ),
++      ],
++      answerDisplay: L("$(-\\infty, -2]$", "$(-\\infty, -2]$"),
++      solution: [
++        step(
++          "given",
++          "$|3 - x| - |x + 2| = 5$; puntos críticos $x = -2$, $x = 3$.",
++          "$|3 - x| - |x + 2| = 5$; critical points $x = -2$, $x = 3$.",
++        ),
++        step(
++          "approach",
++          "Análisis por tramos (la única vía honesta con dos valores absolutos): simplificar la expresión en cada tramo y resolver; el hallazgo típico es que un tramo completo satisfaga la ecuación.",
++          "Tranche analysis (the only honest route with two absolute values): simplify the expression on each tranche and solve; the typical finding is that an entire tranche satisfies the equation.",
++        ),
++        step(
++          "calculation",
++          "Tramo $x < -2$: $(3 - x) - (-(x+2)) = 3 - x + x + 2 = 5$ → la ecuación se cumple **para todo** $x < -2$ ✓<br>Tramo $-2 \\leq x < 3$: $(3 - x) - (x + 2) = 1 - 2x$; $1 - 2x = 5 \\Rightarrow x = -2$, que SÍ está en el tramo ✓ (incluye el borde)<br>Tramo $x \\geq 3$: $(x - 3) - (x + 2) = -5 \\neq 5$ ✗",
++          "Tranche $x < -2$: $(3 - x) - (-(x+2)) = 3 - x + x + 2 = 5$ → the equation holds **for every** $x < -2$ ✓<br>Tranche $-2 \\leq x < 3$: $(3 - x) - (x + 2) = 1 - 2x$; $1 - 2x = 5 \\Rightarrow x = -2$, which IS inside the tranche ✓ (border included)<br>Tranche $x \\geq 3$: $(x - 3) - (x + 2) = -5 \\neq 5$ ✗",
++        ),
++        step(
++          "result",
++          "La unión es $(-\\infty, -2]$: el tramo $x < -2$ entra completo y el borde $x = -2$ también ($|5| - 0 = 5$ ✓). Verificación: $x = -10$: $13 - 8 = 5$ ✓; $x = -1.99$: $|4.99| - 0.01 = 4.98 \\neq 5$ ✗.",
++          "The union is $(-\\infty, -2]$: the tranche $x < -2$ enters whole and the border $x = -2$ too ($|5| - 0 = 5$ ✓). Check: $x = -10$: $13 - 8 = 5$ ✓; $x = -1.99$: $|4.99| - 0.01 = 4.98 \\neq 5$ ✗.",
++        ),
++      ],
++    }),
++  ),
++
++  /* 54j — (x+1)²|x+1| = 1 → {−2, 0}. */
++  template(
++    {
++      id: "lin-espol-ch2-54j",
++      subject: "math",
++      topicId: "linear-equations",
++      subtopicId: "abs-equations",
++      difficulty: "medium",
++      questionType: "multiple-choice",
++      estimatedTimeSec: 180,
++      tags: ["absolute-value", "equation", "rewrite"],
++      prerequisites: ["abs-equations"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 54j",
++        page: 236,
++      },
++      reasoning: "definition-hunting",
++    },
++    (rng) => {
++      const options: McOption[] = [
++        { id: "a", text: L(`$x \\in \\{-2,\\ 0\\}$`, `$x \\in \\{-2,\\ 0\\}$`), correct: true },
++        { id: "b", text: L(`$x \\in \\{0\\}$`, `$x \\in \\{0\\}$`), correct: false },
++        { id: "c", text: L(`$x \\in \\{-2\\}$`, `$x \\in \\{-2\\}$`), correct: false },
++        { id: "d", text: L(`$x \\in \\{-1,\\ 1\\}$`, `$x \\in \\{-1,\\ 1\\}$`), correct: false },
++        { id: "e", text: L(`$A = \\varnothing$`, `$A = \\varnothing$`), correct: false },
++      ];
++      return {
++        skill: L("Potencia de un valor absoluto = valor absoluto de la potencia", "A power of an absolute value = absolute value of the power"),
++        statement: L(
++          "Resuelve: $(x + 1)^{2}\\,|x + 1| = 1$.",
++          "Solve: $(x + 1)^{2}\\,|x + 1| = 1$.",
++        ),
++        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
++        hints: [
++          L(
++            "$(x+1)^{2} = |x+1|^{2}$, así que el producto es $|x+1|^{3}$.",
++            "$(x+1)^{2} = |x+1|^{2}$, so the product is $|x+1|^{3}$.",
++          ),
++          L(
++            "La ecuación queda $|x + 1|^{3} = 1$; como la función cubo es inyectiva, $|x + 1| = 1$.",
++            "The equation becomes $|x + 1|^{3} = 1$; since the cubing function is injective, $|x + 1| = 1$.",
++          ),
++          L(
++            "Despacha los dos casos $x + 1 = 1$ y $x + 1 = -1$.",
++            "Dispatch the two cases $x + 1 = 1$ and $x + 1 = -1$.",
++          ),
++        ],
++        answerDisplay: L("$x \\in \\{-2,\\ 0\\}$", "$x \\in \\{-2,\\ 0\\}$"),
++        solution: [
++          step(
++            "given",
++            "$(x + 1)^{2}\\,|x + 1| = 1$.",
++            "$(x + 1)^{2}\\,|x + 1| = 1$.",
++          ),
++          step(
++            "approach",
++            "Reescribir el producto como una sola potencia del valor absoluto; elevar conserva la inyectividad del cubo, así que no aparecen soluciones espurias.",
++            "Rewrite the product as a single power of the absolute value; cubing is injective, so no spurious solutions appear.",
++          ),
++          step(
++            "calculation",
++            "$(x+1)^{2}|x+1| = |x+1|^{2}|x+1| = |x+1|^{3}$<br>$|x+1|^{3} = 1 \\Rightarrow |x+1| = \\sqrt[3]{1} = 1$<br>Caso +: $x + 1 = 1 \\Rightarrow x = 0$. Caso −: $x + 1 = -1 \\Rightarrow x = -2$.",
++            "$(x+1)^{2}|x+1| = |x+1|^{2}|x+1| = |x+1|^{3}$<br>$|x+1|^{3} = 1 \\Rightarrow |x+1| = \\sqrt[3]{1} = 1$<br>Case +: $x + 1 = 1 \\Rightarrow x = 0$. Case −: $x + 1 = -1 \\Rightarrow x = -2$.",
++          ),
++          step(
++            "result",
++            "$x \\in \\{-2, 0\\}$. Verificación: $x = 0$: $1^{2} \\cdot 1 = 1$ ✓; $x = -2$: $(-1)^{2} \\cdot |-1| = 1$ ✓.",
++            "$x \\in \\{-2, 0\\}$. Check: $x = 0$: $1^{2} \\cdot 1 = 1$ ✓; $x = -2$: $(-1)^{2} \\cdot |-1| = 1$ ✓.",
++          ),
++        ],
++      };
++    },
++  ),
++
++  /* 78c — x²−4ax+4a²−c² = 0 → x = 2a ± c. */
++  template(
++    {
++      id: "lin-espol-ch2-78c",
++      subject: "math",
++      topicId: "linear-equations",
++      subtopicId: "literal",
++      difficulty: "medium",
++      questionType: "multiple-choice",
++      estimatedTimeSec: 180,
++      tags: ["literal-equation", "perfect-square", "parameters"],
++      prerequisites: ["multi-step"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 78c",
++        page: 240,
++      },
++      reasoning: "definition-hunting",
++    },
++    (rng) => {
++      const options: McOption[] = [
++        { id: "a", text: L(`$x = 2a \\pm c$`, `$x = 2a \\pm c$`), correct: true },
++        { id: "b", text: L(`$x = 2a \\pm 2c$`, `$x = 2a \\pm 2c$`), correct: false },
++        { id: "c", text: L(`$x = a \\pm c$`, `$x = a \\pm c$`), correct: false },
++        { id: "d", text: L(`$x = 4a \\pm c$`, `$x = 4a \\pm c$`), correct: false },
++        { id: "e", text: L(`$x = \\pm c$`, `$x = \\pm c$`), correct: false },
++      ];
++      return {
++        skill: L("Ecuación literal: reconocer el cuadrado perfecto escondido", "Literal equation: spot the hidden perfect square"),
++        statement: L(
++          "Halla el conjunto de verdad de $p(x):\\ x^{2} - 4ax + 4a^{2} - c^{2} = 0$ (en función de los parámetros $a$ y $c$).",
++          "Find the truth set of $p(x):\\ x^{2} - 4ax + 4a^{2} - c^{2} = 0$ (in terms of the parameters $a$ and $c$).",
++        ),
++        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
++        hints: [
++          L(
++            "Mira los dos primeros términos con $x$: $x^{2} - 4ax + 4a^{2}$ ¿te suena a $(x - \\text{algo})^{2}$?",
++            "Look at the first terms with $x$: $x^{2} - 4ax + 4a^{2}$ — does it ring like $(x - \\text{something})^{2}$?",
++          ),
++          L(
++            "$x^{2} - 4ax + 4a^{2} = (x - 2a)^{2}$, así que la ecuación es $(x - 2a)^{2} = c^{2}$.",
++            "$x^{2} - 4ax + 4a^{2} = (x - 2a)^{2}$, so the equation is $(x - 2a)^{2} = c^{2}$.",
++          ),
++          L(
++            "De $W^{2} = c^{2}$ sale $W = \\pm c$; aplica eso con $W = x - 2a$.",
++            "From $W^{2} = c^{2}$ you get $W = \\pm c$; apply it with $W = x - 2a$.",
++          ),
++        ],
++        answerDisplay: L("$A_{p(x)} = \\{2a - c,\\ 2a + c\\}$", "$A_{p(x)} = \\{2a - c,\\ 2a + c\\}$"),
++        solution: [
++          step(
++            "given",
++            "$x^{2} - 4ax + 4a^{2} - c^{2} = 0$, con parámetros $a, c$ ($x$ es la incógnita).",
++            "$x^{2} - 4ax + 4a^{2} - c^{2} = 0$, with parameters $a, c$ ($x$ is the unknown).",
++          ),
++          step(
++            "approach",
++            "Completar el cuadrado ya hecho: los términos en $x$ forman $(x - 2a)^{2}$; la ecuación se reduce a una diferencia de cuadrados igual a cero.",
++            "The square is already complete: the $x$-terms form $(x - 2a)^{2}$; the equation reduces to a difference of squares set to zero.",
++          ),
++          step(
++            "calculation",
++            "$(x - 2a)^{2} - c^{2} = 0 \\Rightarrow (x - 2a)^{2} = c^{2}$<br>$x - 2a = \\pm c$<br>$x = 2a - c$ o $x = 2a + c$.",
++            "$(x - 2a)^{2} - c^{2} = 0 \\Rightarrow (x - 2a)^{2} = c^{2}$<br>$x - 2a = \\pm c$<br>$x = 2a - c$ or $x = 2a + c$.",
++          ),
++          step(
++            "result",
++            "$A_{p(x)} = \\{2a - c,\\ 2a + c\\}$. Verificación con $a = 1, c = 3$: $x^{2} - 4x - 5 = 0$ da $x = -1, 5 = 2a \\pm c$ ✓.",
++            "$A_{p(x)} = \\{2a - c,\\ 2a + c\\}$. Check with $a = 1, c = 3$: $x^{2} - 4x - 5 = 0$ gives $x = -1, 5 = 2a \\pm c$ ✓.",
++          ),
++        ],
++      };
++    },
++  ),
++
++  /* 78d — a²x²+a(b−c)x−bc = 0 → x = c/a ó x = −b/a. */
++  template(
++    {
++      id: "lin-espol-ch2-78d",
++      subject: "math",
++      topicId: "linear-equations",
++      subtopicId: "literal",
++      difficulty: "hard",
++      questionType: "multiple-choice",
++      estimatedTimeSec: 270,
++      tags: ["literal-equation", "factoring", "parameters"],
++      prerequisites: ["multi-step"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 78d",
++        page: 240,
++      },
++      reasoning: "multi-concept",
++    },
++    (rng) => {
++      const options: McOption[] = [
++        {
++          id: "a",
++          text: L(`$x = \\dfrac{c}{a}$ ó $x = -\\dfrac{b}{a}$`, `$x = \\dfrac{c}{a}$ or $x = -\\dfrac{b}{a}$`),
++          correct: true,
++        },
++        {
++          id: "b",
++          text: L(`$x = \\dfrac{b}{a}$ ó $x = -\\dfrac{c}{a}$`, `$x = \\dfrac{b}{a}$ or $x = -\\dfrac{c}{a}$`),
++          correct: false,
++        },
++        {
++          id: "c",
++          text: L(`$x = \\dfrac{c}{a}$ ó $x = \\dfrac{b}{a}$`, `$x = \\dfrac{c}{a}$ or $x = \\dfrac{b}{a}$`),
++          correct: false,
++        },
++        {
++          id: "d",
++          text: L(`$x = -\\dfrac{c}{a}$ ó $x = -\\dfrac{b}{a}$`, `$x = -\\dfrac{c}{a}$ or $x = -\\dfrac{b}{a}$`),
++          correct: false,
++        },
++        {
++          id: "e",
++          text: L(`$x = \\dfrac{a}{c}$ ó $x = -\\dfrac{a}{b}$`, `$x = \\dfrac{a}{c}$ or $x = -\\dfrac{a}{b}$`),
++          correct: false,
++        },
++      ];
++      return {
++        skill: L("Ecuación literal: adivina la factorización (ax + p)(ax + q)", "Literal equation: guess the factorization (ax + p)(ax + q)"),
++        statement: L(
++          "Halla el conjunto de verdad de $q(x):\\ a^{2}x^{2} + a(b - c)x - bc = 0$ (en función de los parámetros $a, b, c$, con $a \\neq 0$).",
++          "Find the truth set of $q(x):\\ a^{2}x^{2} + a(b - c)x - bc = 0$ (in terms of the parameters $a, b, c$, with $a \\neq 0$).",
++        ),
++        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
++        hints: [
++          L(
++            "Busca una factorización de la forma $(ax + p)(ax + q)$: el producto de los términos libres debe dar $-bc$ y su suma por $a$, el término del medio.",
++            "Look for a factorization of the form $(ax + p)(ax + q)$: the product of the free terms must give $-bc$ and, times $a$, their sum the middle term.",
++          ),
++          L(
++            "Prueba $p = -c$, $q = b$: $(ax - c)(ax + b) = a^{2}x^{2} + abx - acx - bc = a^{2}x^{2} + a(b - c)x - bc$ ✓.",
++            "Try $p = -c$, $q = b$: $(ax - c)(ax + b) = a^{2}x^{2} + abx - acx - bc = a^{2}x^{2} + a(b - c)x - bc$ ✓.",
++          ),
++          L(
++            "De $(ax - c)(ax + b) = 0$ salen dos ecuaciones lineales en $x$; despéjalas (con $a \\neq 0$).",
++            "From $(ax - c)(ax + b) = 0$ come two linear equations in $x$; solve each (with $a \\neq 0$).",
++          ),
++        ],
++        answerDisplay: L(
++          "$A_{q(x)} = \\left\\{-\\dfrac{b}{a},\\ \\dfrac{c}{a}\\right\\}$",
++          "$A_{q(x)} = \\left\\{-\\dfrac{b}{a},\\ \\dfrac{c}{a}\\right\\}$",
++        ),
++        solution: [
++          step(
++            "given",
++            "$a^{2}x^{2} + a(b - c)x - bc = 0$, con $a \\neq 0$; incógnita $x$.",
++            "$a^{2}x^{2} + a(b - c)x - bc = 0$, with $a \\neq 0$; unknown $x$.",
++          ),
++          step(
++            "approach",
++            "Factorizar «a lo Ruffini» buscando dos binomios en $ax$: la estructura del término del medio, $a(b - c)$, sugiere los pares $(-c, b)$.",
++            "Factorize “Ruffini-style” looking for two binomials in $ax$: the middle term's structure, $a(b - c)$, suggests the pair $(-c, b)$.",
++          ),
++          step(
++            "calculation",
++            "$(ax - c)(ax + b) = a^{2}x^{2} + abx - acx - bc = a^{2}x^{2} + a(b - c)x - bc$ ✓<br>$ax - c = 0 \\Rightarrow x = \\dfrac{c}{a}$; $\\quad ax + b = 0 \\Rightarrow x = -\\dfrac{b}{a}$.",
++            "$(ax - c)(ax + b) = a^{2}x^{2} + abx - acx - bc = a^{2}x^{2} + a(b - c)x - bc$ ✓<br>$ax - c = 0 \\Rightarrow x = \\dfrac{c}{a}$; $\\quad ax + b = 0 \\Rightarrow x = -\\dfrac{b}{a}$.",
++          ),
++          step(
++            "result",
++            "$A_{q(x)} = \\left\\{-\\dfrac{b}{a},\\ \\dfrac{c}{a}\\right\\}$. Verificación con $a = 2, b = 3, c = 1$: $4x^{2} + 4x - 3 = 0$ da $x = \\frac{1}{2}, -\\frac{3}{2}$ ✓ (la fórmula general da lo mismo).",
++            "$A_{q(x)} = \\left\\{-\\dfrac{b}{a},\\ \\dfrac{c}{a}\\right\\}$. Check with $a = 2, b = 3, c = 1$: $4x^{2} + 4x - 3 = 0$ gives $x = \\frac{1}{2}, -\\frac{3}{2}$ ✓ (the general formula agrees).",
++          ),
++        ],
++      };
++    },
++  ),
++
+ ];
+diff --git a/src/content/math/polynomials.ts b/src/content/math/polynomials.ts
+index 9497b0d..d361aa1 100644
+--- a/src/content/math/polynomials.ts
++++ b/src/content/math/polynomials.ts
+@@ -2158,4 +2158,458 @@ export const templates: ProblemTemplate[] = [
+     },
+   ),
+ 
++  /* ================================================================== */
++  /* Curated — ESPOL Fundamentos, EDICIÓN DIGITAL (TUTOR_LICENSED).      */
++  /* Chapter 2 «Ejercicios propuestos», pp. 230-232 (PDF 263-265).      */
++  /* Tutor's brief: the most difficult / integrative ones.              */
++  /* Every answer double-verified: printed key pp. 938-939 + sympy      */
++  /* (download/verify_espol_ch2.py, 41/41 checks).                       */
++  /* ================================================================== */
++
++  /* 34e — x³−7x+6 → (x−1)(x+3)(x−2). Key: (x-1)(x+3)(x-2). */
++  template(
++    {
++      id: "poly-espol-ch2-34e",
++      subject: "math",
++      topicId: "polynomials",
++      subtopicId: "factoring",
++      difficulty: "medium",
++      questionType: "expression",
++      estimatedTimeSec: 150,
++      tags: ["factoring", "cubic", "rational-roots", "ruffini"],
++      prerequisites: ["special-products"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 34e",
++        page: 230,
++      },
++      reasoning: "multi-concept",
++    },
++    () => ({
++      skill: L("Factorización de una cúbica por raíces racionales", "Factoring a cubic via rational roots"),
++      statement: L(
++        "Descompón como producto de tres factores: $x^{3} - 7x + 6$.",
++        "Decompose as a product of three factors: $x^{3} - 7x + 6$.",
++      ),
++      answer: {
++        kind: "expression",
++        accepted: ["(x-1)(x+3)(x-2)", "(x-1)(x-2)(x+3)"],
++        variables: ["x"],
++      },
++      hints: [
++        L(
++          "Prueba raíces racionales entre los divisores del término independiente: $\\pm 1, \\pm 2, \\pm 3, \\pm 6$.",
++          "Try rational roots among the divisors of the constant term: $\\pm 1, \\pm 2, \\pm 3, \\pm 6$.",
++        ),
++        L(
++          "Con $x = 1$: $1 - 7 + 6 = 0$, así que $(x - 1)$ divide al polinomio. Divide (Ruffini por $1$).",
++          "At $x = 1$: $1 - 7 + 6 = 0$, so $(x - 1)$ divides the polynomial. Divide (synthetic division by $1$).",
++        ),
++        L(
++          "El cociente es $x^{2} + x - 6$: factorízalo buscando dos números que multipliquen $-6$ y sumen $1$.",
++          "The quotient is $x^{2} + x - 6$: factor it by looking for two numbers that multiply to $-6$ and add to $1$.",
++        ),
++      ],
++      answerDisplay: L("$x^{3} - 7x + 6 = (x-1)(x+3)(x-2)$", "$x^{3} - 7x + 6 = (x-1)(x+3)(x-2)$"),
++      solution: [
++        step(
++          "given",
++          "El polinomio $x^{3} - 7x + 6$ (grado 3, sin término cuadrático).",
++          "The polynomial $x^{3} - 7x + 6$ (degree 3, no quadratic term).",
++        ),
++        step(
++          "approach",
++          "Raíz racional probable entre los divisores de 6; con una raíz, Ruffini baja el grado y el cociente cuadrático se factoriza a ojo.",
++          "A rational root among the divisors of 6; with one root, synthetic division lowers the degree and the quadratic quotient factors by inspection.",
++        ),
++        step(
++          "calculation",
++          "$x = 1$: $1 - 7 + 6 = 0$ ✓ raíz.<br>Ruffini por $1$: $x^{3} - 7x + 6 = (x - 1)\\left(x^{2} + x - 6\\right)$.<br>$x^{2} + x - 6 = (x + 3)(x - 2)$ (producto $-6$, suma $1$).",
++          "$x = 1$: $1 - 7 + 6 = 0$ ✓ a root.<br>Synthetic division by $1$: $x^{3} - 7x + 6 = (x - 1)\\left(x^{2} + x - 6\\right)$.<br>$x^{2} + x - 6 = (x + 3)(x - 2)$ (product $-6$, sum $1$).",
++        ),
++        step(
++          "result",
++          "$(x-1)(x+3)(x-2)$, con raíces $1, -3, 2$. Verificación expandiendo: $(x-1)(x^{2}+x-6) = x^{3} + x^{2} - 6x - x^{2} - x + 6 = x^{3} - 7x + 6$ ✓.",
++          "$(x-1)(x+3)(x-2)$, with roots $1, -3, 2$. Check by expanding: $(x-1)(x^{2}+x-6) = x^{3} - 7x + 6$ ✓.",
++        ),
++      ],
++    }),
++  ),
++
++  /* 36a — a²b²(b−a)+b²c²(c−b)+a²c²(a−c) → (a−b)(b−c)(c−a)(ab+bc+ca). Key: idem. */
++  template(
++    {
++      id: "poly-espol-ch2-36a",
++      subject: "math",
++      topicId: "polynomials",
++      subtopicId: "factoring",
++      difficulty: "hard",
++      questionType: "expression",
++      estimatedTimeSec: 300,
++      tags: ["factoring", "cyclic", "symmetry", "four-factors"],
++      prerequisites: ["special-products"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 36a",
++        page: 232,
++      },
++      reasoning: "definition-hunting",
++    },
++    () => ({
++      skill: L("Factor cíclico de grado 5 (anulación por pares)", "Degree-5 cyclic factor (vanishing by pairs)"),
++      statement: L(
++        "Descompón en cuatro factores: $a^{2}b^{2}(b - a) + b^{2}c^{2}(c - b) + a^{2}c^{2}(a - c)$.",
++        "Decompose into four factors: $a^{2}b^{2}(b - a) + b^{2}c^{2}(c - b) + a^{2}c^{2}(a - c)$.",
++      ),
++      answer: {
++        kind: "expression",
++        accepted: ["(a-b)(b-c)(c-a)(a*b+b*c+a*c)", "(a-b)(b-c)(c-a)(ab+bc+ca)"],
++        variables: ["a", "b", "c"],
++      },
++      hints: [
++        L(
++          "Evalúa la expresión con $a = b$: los tres términos se cancelan. Eso prueba que $(a-b)$ es factor. ¿Qué otros pares dan cero?",
++          "Evaluate the expression at $a = b$: the three terms cancel out. That proves $(a-b)$ is a factor. Which other pairs give zero?",
++        ),
++        L(
++          "Por la misma simetría cíclica, $(b-c)$ y $(c-a)$ también son factores: son tres factores de grado 1 y la expresión tiene grado 5, así que queda un factor $F$ de grado 2, simétrico.",
++          "By the same cyclic symmetry, $(b-c)$ and $(c-a)$ are factors too: that is three degree-1 factors while the expression has degree 5, so a degree-2 factor $F$ remains, and it is symmetric.",
++        ),
++        L(
++          "Prueba $F = k(ab + bc + ca)$ y calcula $k$ evaluando en un punto cómodo, por ejemplo $(a,b,c) = (1, 2, 3)$.",
++          "Try $F = k(ab + bc + ca)$ and find $k$ by evaluating at a convenient point, e.g. $(a,b,c) = (1, 2, 3)$.",
++        ),
++      ],
++      answerDisplay: L(
++        "$a^{2}b^{2}(b - a) + b^{2}c^{2}(c - b) + a^{2}c^{2}(a - c) = (a-b)(b-c)(c-a)(ab+bc+ca)$",
++        "$a^{2}b^{2}(b - a) + b^{2}c^{2}(c - b) + a^{2}c^{2}(a - c) = (a-b)(b-c)(c-a)(ab+bc+ca)$",
++      ),
++      solution: [
++        step(
++          "given",
++          "$E = a^{2}b^{2}(b - a) + b^{2}c^{2}(c - b) + a^{2}c^{2}(a - c)$, grado 5, cíclica en $(a, b, c)$.",
++          "$E = a^{2}b^{2}(b - a) + b^{2}c^{2}(c - b) + a^{2}c^{2}(a - c)$, degree 5, cyclic in $(a, b, c)$.",
++        ),
++        step(
++          "approach",
++          "Detectar factores por anulación: si al igualar dos variables la expresión se hace 0, su diferencia es factor. La estructura cíclica regala tres factores lineales; el resto es un factor simétrico de grado 2.",
++          "Detect factors by vanishing: if setting two variables equal makes the expression 0, their difference is a factor. The cyclic structure hands you three linear factors; the rest is a symmetric degree-2 factor.",
++        ),
++        step(
++          "calculation",
++          "Con $a = b$: $a^{4}(0) + a^{2}c^{2}(c - a) + a^{2}c^{2}(a - c) = 0$ ✓ → $(a-b)$ es factor; ídem $(b-c)$, $(c-a)$.<br>$E = (a-b)(b-c)(c-a)\\,F$, con $F$ simétrico de grado 2 → candidato $k(ab + bc + ca)$.<br>Con $(a,b,c) = (1,2,3)$: $E = 1^{2}2^{2}(2-1) + 2^{2}3^{2}(3-2) + 1^{2}3^{2}(1-3) = 4 + 36 - 18 = 22$.<br>$(a-b)(b-c)(c-a) = (-1)(-1)(2) = 2$, y $ab + bc + ca = 2 + 6 + 3 = 11$, así que $k = \\frac{22}{2 \\cdot 11} = 1$.",
++          "At $a = b$: $a^{4}(0) + a^{2}c^{2}(c - a) + a^{2}c^{2}(a - c) = 0$ ✓ → $(a-b)$ is a factor; likewise $(b-c)$, $(c-a)$.<br>$E = (a-b)(b-c)(c-a)\\,F$, with $F$ a symmetric degree-2 factor → candidate $k(ab + bc + ca)$.<br>At $(a,b,c) = (1,2,3)$: $E = 1^{2}2^{2}(2-1) + 2^{2}3^{2}(3-2) + 1^{2}3^{2}(1-3) = 4 + 36 - 18 = 22$.<br>$(a-b)(b-c)(c-a) = (-1)(-1)(2) = 2$, and $ab + bc + ca = 2 + 6 + 3 = 11$, so $k = \\frac{22}{2 \\cdot 11} = 1$.",
++        ),
++        step(
++          "result",
++          "$E = (a-b)(b-c)(c-a)(ab+bc+ca)$. Verificación con $(a,b,c) = (0,1,2)$: $E = 0 + 1·4·1 + 0 = 4$ y $(0-1)(1-2)(2-0)(0 + 2 + 0) = (-1)(-1)(2)(2) = 4$ ✓.",
++          "$E = (a-b)(b-c)(c-a)(ab+bc+ca)$. Check at $(a,b,c) = (0,1,2)$: $E = 0 + 1·4·1 + 0 = 4$ and $(0-1)(1-2)(2-0)(0 + 2 + 0) = (-1)(-1)(2)(2) = 4$ ✓.",
++        ),
++      ],
++    }),
++  ),
++
++  /* 36b — (a−b)³−(a−c)³+(b−c)³ → 3(a−b)(b−c)(c−a). Key: idem. */
++  template(
++    {
++      id: "poly-espol-ch2-36b",
++      subject: "math",
++      topicId: "polynomials",
++      subtopicId: "factoring",
++      difficulty: "hard",
++      questionType: "expression",
++      estimatedTimeSec: 240,
++      tags: ["factoring", "substitution", "cubic-expansion"],
++      prerequisites: ["special-products"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 36b",
++        page: 232,
++      },
++      reasoning: "multi-concept",
++    },
++    () => ({
++      skill: L("Cúbica cíclica por sustitución u = a−b, v = b−c", "Cyclic cubic via u = a−b, v = b−c"),
++      statement: L(
++        "Descompón en cuatro factores: $(a - b)^{3} - (a - c)^{3} + (b - c)^{3}$.",
++        "Decompose into four factors: $(a - b)^{3} - (a - c)^{3} + (b - c)^{3}$.",
++      ),
++      answer: {
++        kind: "expression",
++        accepted: ["3(a-b)(b-c)(c-a)", "3*(a-b)*(b-c)*(c-a)"],
++        variables: ["a", "b", "c"],
++      },
++      hints: [
++        L(
++          "Nombra $u = a - b$ y $v = b - c$. ¿Cuánto vale entonces $a - c$ en función de $u$ y $v$?",
++          "Name $u = a - b$ and $v = b - c$. How much is $a - c$ in terms of $u$ and $v$?",
++        ),
++        L(
++          "$a - c = (a - b) + (b - c) = u + v$, así que la expresión es $u^{3} - (u+v)^{3} + v^{3}$.",
++          "$a - c = (a - b) + (b - c) = u + v$, so the expression is $u^{3} - (u+v)^{3} + v^{3}$.",
++        ),
++        L(
++          "Desarrolla $(u+v)^{3}$: los términos $u^{3}$ y $v^{3}$ se cancelan y queda $-3uv(\\dots)$.",
++          "Expand $(u+v)^{3}$: the $u^{3}$ and $v^{3}$ terms cancel and what remains is $-3uv(\\dots)$.",
++        ),
++      ],
++      answerDisplay: L(
++        "$(a - b)^{3} - (a - c)^{3} + (b - c)^{3} = 3(a-b)(b-c)(c-a)$",
++        "$(a - b)^{3} - (a - c)^{3} + (b - c)^{3} = 3(a-b)(b-c)(c-a)$",
++      ),
++      solution: [
++        step(
++          "given",
++          "$E = (a - b)^{3} - (a - c)^{3} + (b - c)^{3}$, grado 3.",
++          "$E = (a - b)^{3} - (a - c)^{3} + (b - c)^{3}$, degree 3.",
++        ),
++        step(
++          "approach",
++          "Sustitución que linealiza la estructura: $u = a - b$, $v = b - c$ ⇒ $a - c = u + v$. La expresión se vuelve simétrica en $u, v$ y se abre con el binomio de Newton.",
++          "A substitution that linearizes the structure: $u = a - b$, $v = b - c$ ⇒ $a - c = u + v$. The expression becomes symmetric in $u, v$ and opens with the binomial theorem.",
++        ),
++        step(
++          "calculation",
++          "$E = u^{3} - (u + v)^{3} + v^{3}$<br>$= u^{3} - \\left(u^{3} + 3u^{2}v + 3uv^{2} + v^{3}\\right) + v^{3}$<br>$= -3u^{2}v - 3uv^{2} = -3uv(u + v)$<br>De vuelta con $u = a-b$, $v = b-c$, $u + v = a - c$: $E = -3(a-b)(b-c)(a-c) = 3(a-b)(b-c)(c-a)$.",
++          "$E = u^{3} - (u + v)^{3} + v^{3}$<br>$= u^{3} - \\left(u^{3} + 3u^{2}v + 3uv^{2} + v^{3}\\right) + v^{3}$<br>$= -3u^{2}v - 3uv^{2} = -3uv(u + v)$<br>Back with $u = a-b$, $v = b-c$, $u + v = a - c$: $E = -3(a-b)(b-c)(a-c) = 3(a-b)(b-c)(c-a)$.",
++        ),
++        step(
++          "result",
++          "$E = 3(a-b)(b-c)(c-a)$ (el «cuarto factor» es la constante 3). Verificación con $(a,b,c) = (1,2,3)$: $E = (-1)^{3} - (-2)^{3} + (-1)^{3} = -1 + 8 - 1 = 6$ y $3(-1)(-1)(2) = 6$ ✓.",
++          "$E = 3(a-b)(b-c)(c-a)$ (the “fourth factor” is the constant 3). Check at $(a,b,c) = (1,2,3)$: $E = (-1)^{3} - (-2)^{3} + (-1)^{3} = -1 + 8 - 1 = 6$ and $3(-1)(-1)(2) = 6$ ✓.",
++        ),
++      ],
++    }),
++  ),
++
++  /* 36d — 3x⁴−10x³+10x−3 → (x+1)(x−1)(x−3)(3x−1). Key: idem. */
++  template(
++    {
++      id: "poly-espol-ch2-36d",
++      subject: "math",
++      topicId: "polynomials",
++      subtopicId: "factoring",
++      difficulty: "hard",
++      questionType: "expression",
++      estimatedTimeSec: 270,
++      tags: ["factoring", "quartic", "rational-roots"],
++      prerequisites: ["special-products"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 36d",
++        page: 232,
++      },
++      reasoning: "multi-concept",
++    },
++    () => ({
++      skill: L("Cuártica completa en cuatro factores lineales", "Full quartic into four linear factors"),
++      statement: L(
++        "Descompón en cuatro factores: $3x^{4} - 10x^{3} + 10x - 3$.",
++        "Decompose into four factors: $3x^{4} - 10x^{3} + 10x - 3$.",
++      ),
++      answer: {
++        kind: "expression",
++        accepted: ["(x+1)(x-1)(x-3)(3x-1)", "(x-1)(x+1)(3x-1)(x-3)"],
++        variables: ["x"],
++      },
++      hints: [
++        L(
++          "Busca raíces racionales: divisores de 3 ($\\pm 1, \\pm 3$) divididos por divisores del coeficiente principal 3 — prueba también $\\pm\\frac{1}{3}$.",
++          "Hunt rational roots: divisors of 3 ($\\pm 1, \\pm 3$) over divisors of the leading coefficient 3 — try $\\pm\\frac{1}{3}$ as well.",
++        ),
++        L(
++          "$x = 1$ y $x = -1$ son raíces: saca $(x^{2} - 1)$ de golpe y quédate con una cuadrática.",
++          "$x = 1$ and $x = -1$ are roots: pull out $(x^{2} - 1)$ in one go and you are left with a quadratic.",
++        ),
++        L(
++          "La cuadrática restante es $3x^{2} - 10x + 3$: resuélvela con el discriminante $\\Delta = 100 - 36$.",
++          "The remaining quadratic is $3x^{2} - 10x + 3$: solve it with the discriminant $\\Delta = 100 - 36$.",
++        ),
++      ],
++      answerDisplay: L(
++        "$3x^{4} - 10x^{3} + 10x - 3 = (x+1)(x-1)(x-3)(3x-1)$",
++        "$3x^{4} - 10x^{3} + 10x - 3 = (x+1)(x-1)(x-3)(3x-1)$",
++      ),
++      solution: [
++        step(
++          "given",
++          "El polinomio $3x^{4} - 10x^{3} + 10x - 3$ (grado 4, sin término cuadrático).",
++          "The polynomial $3x^{4} - 10x^{3} + 10x - 3$ (degree 4, no quadratic term).",
++        ),
++        step(
++          "approach",
++          "Raíces racionales candidates: $\\pm 1, \\pm 3, \\pm\\frac{1}{3}$; cada raíz hallada baja el grado. Con dos raíces se extrae $(x^{2}-1)$ de una vez.",
++          "Candidate rational roots: $\\pm 1, \\pm 3, \\pm\\frac{1}{3}$; each root found lowers the degree. With two roots, $(x^{2}-1)$ comes out in one shot.",
++        ),
++        step(
++          "calculation",
++          "$x = 1$: $3 - 10 + 10 - 3 = 0$ ✓; $x = -1$: $3 + 10 - 10 - 3 = 0$ ✓.<br>$3x^{4} - 10x^{3} + 10x - 3 = (x^{2}-1)(3x^{2} - 10x + 3)$.<br>$\\Delta = 100 - 4·3·3 = 64$ → raíces $\\frac{10 \\pm 8}{6} = 3, \\frac{1}{3}$ → $3x^{2} - 10x + 3 = (x - 3)(3x - 1)$.",
++          "$x = 1$: $3 - 10 + 10 - 3 = 0$ ✓; $x = -1$: $3 + 10 - 10 - 3 = 0$ ✓.<br>$3x^{4} - 10x^{3} + 10x - 3 = (x^{2}-1)(3x^{2} - 10x + 3)$.<br>$\\Delta = 100 - 4·3·3 = 64$ → roots $\\frac{10 \\pm 8}{6} = 3, \\frac{1}{3}$ → $3x^{2} - 10x + 3 = (x - 3)(3x - 1)$.",
++        ),
++        step(
++          "result",
++          "$(x+1)(x-1)(x-3)(3x-1)$, raíces $1, -1, 3, \\frac{1}{3}$. Doble verificación: el producto de las cuatro raíces es $1 \\cdot (-1) \\cdot 3 \\cdot \\frac{1}{3} = -1 = \\frac{-3}{3}$ (constante / coeficiente principal) ✓, y con $x = 2$: original $48 - 80 + 20 - 3 = -15$, factorizado $3 \\cdot 1 \\cdot (-1)(-1)(-5) = -15$ ✓.",
++          "$(x+1)(x-1)(x-3)(3x-1)$, roots $1, -1, 3, \\frac{1}{3}$. Check: at $x = 2$: original $48 - 80 + 20 - 3 = -15$; factored $3·1·(-1)(-1)(-5) = -15$ ✓.",
++        ),
++      ],
++    }),
++  ),
++
++  /* 36e — (3x−6)(x²−1)−(5x−10)(x−1)² → −2(x−2)(x−4)(x−1). Key: idem. */
++  template(
++    {
++      id: "poly-espol-ch2-36e",
++      subject: "math",
++      topicId: "polynomials",
++      subtopicId: "factoring",
++      difficulty: "hard",
++      questionType: "expression",
++      estimatedTimeSec: 210,
++      tags: ["factoring", "common-factor", "grouping"],
++      prerequisites: ["special-products"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 36e",
++        page: 232,
++      },
++      reasoning: "multi-concept",
++    },
++    () => ({
++      skill: L("Factor común antes de expandir (no abras el paréntesis)", "Common factor before expanding (do not open the parentheses)"),
++      statement: L(
++        "Descompón en cuatro factores: $(3x - 6)(x^{2} - 1) - (5x - 10)(x - 1)^{2}$.",
++        "Decompose into four factors: $(3x - 6)(x^{2} - 1) - (5x - 10)(x - 1)^{2}$.",
++      ),
++      answer: {
++        kind: "expression",
++        accepted: ["-2(x-2)(x-4)(x-1)", "-2(x-1)(x-2)(x-4)", "2(2-x)(x-4)(x-1)"],
++        variables: ["x"],
++      },
++      hints: [
++        L(
++          "No expandas: escribe cada bloque factorizado. $3x - 6 = 3(x - 2)$, $x^{2} - 1 = (x-1)(x+1)$, $5x - 10 = 5(x - 2)$.",
++          "Do not expand: write each block factored. $3x - 6 = 3(x - 2)$, $x^{2} - 1 = (x-1)(x+1)$, $5x - 10 = 5(x - 2)$.",
++        ),
++        L(
++          "La expresión queda $3(x-2)(x-1)(x+1) - 5(x-2)(x-1)^{2}$: hay un factor común grande, ¿cuál?",
++          "The expression becomes $3(x-2)(x-1)(x+1) - 5(x-2)(x-1)^{2}$: there is a big common factor — which one?",
++        ),
++        L(
++          "Factor común $(x-2)(x-1)$; dentro del corchete queda $3(x+1) - 5(x-1)$, que se reduce a un binomio de grado 1.",
++          "Common factor $(x-2)(x-1)$; inside the bracket you get $3(x+1) - 5(x-1)$, which reduces to a degree-1 binomial.",
++        ),
++      ],
++      answerDisplay: L(
++        "$(3x - 6)(x^{2} - 1) - (5x - 10)(x - 1)^{2} = -2(x-2)(x-4)(x-1)$",
++        "$(3x - 6)(x^{2} - 1) - (5x - 10)(x - 1)^{2} = -2(x-2)(x-4)(x-1)$",
++      ),
++      solution: [
++        step(
++          "given",
++          "$E = (3x - 6)(x^{2} - 1) - (5x - 10)(x - 1)^{2}$.",
++          "$E = (3x - 6)(x^{2} - 1) - (5x - 10)(x - 1)^{2}$.",
++        ),
++        step(
++          "approach",
++          "Factorizar cada bloque y extraer el factor común $(x-2)(x-1)$ — expandir aquí solo esclaviza la aritmética.",
++          "Factor every block and pull the common factor $(x-2)(x-1)$ — expanding here only enslaves the arithmetic.",
++        ),
++        step(
++          "calculation",
++          "$3x - 6 = 3(x-2)$, $x^{2} - 1 = (x-1)(x+1)$, $5x - 10 = 5(x-2)$<br>$E = 3(x-2)(x-1)(x+1) - 5(x-2)(x-1)^{2} = (x-2)(x-1)\\left[3(x+1) - 5(x-1)\\right]$<br>$3x + 3 - 5x + 5 = -2x + 8 = -2(x - 4)$",
++          "$3x - 6 = 3(x-2)$, $x^{2} - 1 = (x-1)(x+1)$, $5x - 10 = 5(x-2)$<br>$E = 3(x-2)(x-1)(x+1) - 5(x-2)(x-1)^{2} = (x-2)(x-1)\\left[3(x+1) - 5(x-1)\\right]$<br>$3x + 3 - 5x + 5 = -2x + 8 = -2(x - 4)$",
++        ),
++        step(
++          "result",
++          "$E = -2(x-2)(x-4)(x-1)$ (constante $-2$ + tres binomios = cuatro factores). Verificación con $x = 0$: original $(-6)(-1) - (-10)(1) = 6 + 10 = 16$; factorizado $-2(-2)(-4)(-1) = 16$ ✓.",
++          "$E = -2(x-2)(x-4)(x-1)$ (constant $-2$ + three binomials = four factors). Check at $x = 0$: original $(-6)(-1) - (-10)(1) = 6 + 10 = 16$; factored $-2(-2)(-4)(-1) = 16$ ✓.",
++        ),
++      ],
++    }),
++  ),
++
++  /* 78a — (x+1)(x+2)(x+3) = x(x+4)(x+5) → x = (−3±√17)/2. Key: idem. */
++  template(
++    {
++      id: "poly-espol-ch2-78a",
++      subject: "math",
++      topicId: "polynomials",
++      subtopicId: "equations",
++      difficulty: "hard",
++      questionType: "multiple-choice",
++      estimatedTimeSec: 240,
++      tags: ["equation", "expand", "quadratic-formula"],
++      prerequisites: ["quadratics"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 78a",
++        page: 240,
++      },
++      reasoning: "multi-concept",
++    },
++    (rng) => {
++      const options: McOption[] = [
++        { id: "a", text: L(`$x = \\dfrac{-3 \\pm \\sqrt{17}}{2}$`, `$x = \\dfrac{-3 \\pm \\sqrt{17}}{2}$`), correct: true },
++        { id: "b", text: L(`$x = \\dfrac{3 \\pm \\sqrt{17}}{2}$`, `$x = \\dfrac{3 \\pm \\sqrt{17}}{2}$`), correct: false },
++        { id: "c", text: L(`$x = \\dfrac{-3 \\pm \\sqrt{19}}{2}$`, `$x = \\dfrac{-3 \\pm \\sqrt{19}}{2}$`), correct: false },
++        { id: "d", text: L(`$x = -3 \\pm \\sqrt{17}$`, `$x = -3 \\pm \\sqrt{17}$`), correct: false },
++        { id: "e", text: L(`$A_{m(x)} = \\varnothing$`, `$A_{m(x)} = \\varnothing$`), correct: false },
++      ];
++      return {
++        skill: L("Ecuación de productos: expandir, cancelar y fórmula", "Product equation: expand, cancel, formula"),
++        statement: L(
++          "Halla el conjunto de verdad de $m(x):\\ (x + 1)(x + 2)(x + 3) = x(x + 4)(x + 5)$.",
++          "Find the truth set of $m(x):\\ (x + 1)(x + 2)(x + 3) = x(x + 4)(x + 5)$.",
++        ),
++        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
++        hints: [
++          L(
++            "Expande ambos lados. Fíjate: los dos tienen el mismo coeficiente de $x^{3}$, así que el cubo se va a cancelar.",
++            "Expand both sides. Note: both have the same $x^{3}$ coefficient, so the cubic terms will cancel.",
++          ),
++          L(
++            "Izquierda: $x^{3} + 6x^{2} + 11x + 6$; derecha: $x^{3} + 9x^{2} + 20x$. Restando: $3x^{2} + 9x - 6 = 0$.",
++            "Left: $x^{3} + 6x^{2} + 11x + 6$; right: $x^{3} + 9x^{2} + 20x$. Subtracting: $3x^{2} + 9x - 6 = 0$.",
++          ),
++          L(
++            "Divide entre 3: $x^{2} + 3x - 2 = 0$ y aplica la fórmula cuadrática con $\\Delta = 9 + 8$.",
++            "Divide by 3: $x^{2} + 3x - 2 = 0$ and apply the quadratic formula with $\\Delta = 9 + 8$.",
++          ),
++        ],
++        answerDisplay: L(
++          "$A_{m(x)} = \\left\\{\\dfrac{-3 - \\sqrt{17}}{2},\\ \\dfrac{-3 + \\sqrt{17}}{2}\\right\\}$",
++          "$A_{m(x)} = \\left\\{\\dfrac{-3 - \\sqrt{17}}{2},\\ \\dfrac{-3 + \\sqrt{17}}{2}\\right\\}$",
++        ),
++        solution: [
++          step(
++            "given",
++            "$(x + 1)(x + 2)(x + 3) = x(x + 4)(x + 5)$, $x \\in \\mathbb{R}$.",
++            "$(x + 1)(x + 2)(x + 3) = x(x + 4)(x + 5)$, $x \\in \\mathbb{R}$.",
++          ),
++          step(
++            "approach",
++            "Expandir y restar: la igualdad de los cúbicos garantiza que queda una cuadrática; se resuelve con la fórmula general.",
++            "Expand and subtract: the matching cubics guarantee a quadratic remains; solve it with the general formula.",
++          ),
++          step(
++            "calculation",
++            "Izquierda: $(x+1)(x+2)(x+3) = (x^{2} + 3x + 2)(x + 3) = x^{3} + 6x^{2} + 11x + 6$.<br>Derecha: $x(x^{2} + 9x + 20) = x^{3} + 9x^{2} + 20x$.<br>Resta: $3x^{2} + 9x - 6 = 0 \\Rightarrow x^{2} + 3x - 2 = 0$.<br>$\\Delta = 9 + 8 = 17$ → $x = \\dfrac{-3 \\pm \\sqrt{17}}{2}$.",
++            "Left: $(x+1)(x+2)(x+3) = (x^{2} + 3x + 2)(x + 3) = x^{3} + 6x^{2} + 11x + 6$.<br>Right: $x(x^{2} + 9x + 20) = x^{3} + 9x^{2} + 20x$.<br>Subtract: $3x^{2} + 9x - 6 = 0 \\Rightarrow x^{2} + 3x - 2 = 0$.<br>$\\Delta = 9 + 8 = 17$ → $x = \\dfrac{-3 \\pm \\sqrt{17}}{2}$.",
++          ),
++          step(
++            "result",
++            "$A_{m(x)} = \\left\\{\\dfrac{-3 - \\sqrt{17}}{2},\\ \\dfrac{-3 + \\sqrt{17}}{2}\\right\\}$ (≈ $-3.56$ y $0.56$). Verificación con $x \\approx 0.5616$: izquierda $(1.5616)(2.5616)(3.5616) \\approx 14.23$; derecha $0.5616(4.5616)(5.5616) \\approx 14.23$ ✓.",
++            "$A_{m(x)} = \\left\\{\\dfrac{-3 - \\sqrt{17}}{2},\\ \\dfrac{-3 + \\sqrt{17}}{2}\\right\\}$ (≈ $-3.56$ and $0.56$). Check at $x \\approx 0.5616$: left $(1.5616)(2.5616)(3.5616) \\approx 14.23$; right $0.5616(4.5616)(5.5616) \\approx 14.23$ ✓.",
++          ),
++        ],
++      };
++    },
++  ),
++
+ ];
+diff --git a/src/content/math/quadratics.ts b/src/content/math/quadratics.ts
+index 3112169..fea012b 100644
+--- a/src/content/math/quadratics.ts
++++ b/src/content/math/quadratics.ts
+@@ -2274,4 +2274,318 @@ export const templates: ProblemTemplate[] = [
+       };
+     },
+   ),
++
++  /* ================================================================== */
++  /* Curated — ESPOL Fundamentos, EDICIÓN DIGITAL (TUTOR_LICENSED).      */
++  /* Chapter 2 «Ejercicios propuestos», pp. 235-241 (PDF 268-274).      */
++  /* Tutor's brief: the most difficult / integrative ones.              */
++  /* Double-verified: printed key pp. 939 (49: c; 83: 2+√2; 84: 5/2)    */
++  /* + sympy (41/41 checks). #82: printed key lists only k = 9/4, but   */
++  /* k = 0 also gives a unique solution (linear case) — the COMPLETE    */
++  /* answer {0, 9/4} ships; discrepancy flagged to the tutor.           */
++  /* ================================================================== */
++
++  /* 49 — kx²+4kx+3 = x², suma de raíces 10 → k = 10/14. Key: (c). */
++  template(
++    {
++      id: "quad-espol-ch2-49",
++      subject: "math",
++      topicId: "quadratics",
++      subtopicId: "roots",
++      difficulty: "medium",
++      questionType: "multiple-choice",
++      estimatedTimeSec: 210,
++      tags: ["vieta", "sum-of-roots", "parameter"],
++      prerequisites: ["standard-form"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 49",
++        page: 235,
++      },
++      reasoning: "parameters",
++    },
++    (rng) => {
++      const options: McOption[] = [
++        { id: "a", text: L(`$\\dfrac{3}{4}$`, `$\\dfrac{3}{4}$`), correct: false },
++        { id: "b", text: L(`$\\dfrac{1}{2}$`, `$\\dfrac{1}{2}$`), correct: false },
++        { id: "c", text: L(`$\\dfrac{10}{14}$`, `$\\dfrac{10}{14}$`), correct: true },
++        { id: "d", text: L(`$\\dfrac{1}{3}$`, `$\\dfrac{1}{3}$`), correct: false },
++        { id: "e", text: L(`$\\dfrac{3}{8}$`, `$\\dfrac{3}{8}$`), correct: false },
++      ];
++      return {
++        skill: L("Vieta con trampa: primero pasa todo a un lado", "Vieta with a trap: move everything to one side first"),
++        statement: L(
++          "Un valor de $k$ para que la suma de las raíces de la ecuación $kx^{2} + 4kx + 3 = x^{2}$ sea 10, es:",
++          "A value of $k$ for which the sum of the roots of the equation $kx^{2} + 4kx + 3 = x^{2}$ equals 10 is:",
++        ),
++        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
++        hints: [
++          L(
++            "La ecuación tal como está impresa NO es cuadrática con coeficientes limpios: pásala a $(k - 1)x^{2} + 4kx + 3 = 0$.",
++            "As printed the equation does NOT have clean coefficients: move it to $(k - 1)x^{2} + 4kx + 3 = 0$.",
++          ),
++          L(
++            "Suma de raíces (Vieta): $-\\dfrac{B}{A} = -\\dfrac{4k}{k - 1}$, y esa suma debe valer 10.",
++            "Sum of roots (Vieta): $-\\dfrac{B}{A} = -\\dfrac{4k}{k - 1}$, and that sum must equal 10.",
++          ),
++          L(
++            "Despeja: $-4k = 10(k - 1)$. La respuesta no es un entero — es una fracción que simplifica a $5/7$.",
++            "Solve: $-4k = 10(k - 1)$. The answer is not an integer — it is a fraction that simplifies to $5/7$.",
++          ),
++        ],
++        answerDisplay: L("$k = \\dfrac{10}{14} = \\dfrac{5}{7}$", "$k = \\dfrac{10}{14} = \\dfrac{5}{7}$"),
++        solution: [
++          step(
++            "given",
++            "$kx^{2} + 4kx + 3 = x^{2}$; incógnita del problema: el parámetro $k$.",
++            "$kx^{2} + 4kx + 3 = x^{2}$; the problem's unknown: the parameter $k$.",
++          ),
++          step(
++            "approach",
++            "Reducir a la forma general y aplicar Vieta (suma de raíces $= -B/A$). Si uno olvida pasar la $x^{2}$, la «suma» $-4k/k = -4$ es constante y no puede valer 10 — esa es la trampa.",
++            "Reduce to general form and apply Vieta (sum of roots $= -B/A$). If you forget to move the $x^{2}$, the “sum” $-4k/k = -4$ is constant and can never be 10 — that is the trap.",
++          ),
++          step(
++            "calculation",
++            "$(k - 1)x^{2} + 4kx + 3 = 0$, con $k \\neq 1$.<br>Suma de raíces: $-\\dfrac{4k}{k - 1} = 10 \\Rightarrow -4k = 10k - 10 \\Rightarrow 14k = 10 \\Rightarrow k = \\dfrac{10}{14} = \\dfrac{5}{7}$.",
++            "$(k - 1)x^{2} + 4kx + 3 = 0$, with $k \\neq 1$.<br>Sum of roots: $-\\dfrac{4k}{k - 1} = 10 \\Rightarrow -4k = 10k - 10 \\Rightarrow 14k = 10 \\Rightarrow k = \\dfrac{10}{14} = \\dfrac{5}{7}$.",
++          ),
++          step(
++            "result",
++            "$k = \\frac{10}{14} = \\frac{5}{7}$ (opción c). Verificación: con $k = \\frac{5}{7}$ la ecuación es $-\\frac{2}{7}x^{2} + \\frac{20}{7}x + 3 = 0$, o bien $x^{2} - 10x - \\frac{21}{2} = 0$, con raíces $5 \\pm \\frac{\\sqrt{142}}{2}$: su suma es 10 ✓.",
++            "$k = \\frac{10}{14} = \\frac{5}{7}$ (option c). Check: with $k = \\frac{5}{7}$ the equation is $x^{2} - 10x - \\frac{21}{2} = 0$, with roots $5 \\pm \\frac{\\sqrt{142}}{2}$: their sum is 10 ✓.",
++          ),
++        ],
++      };
++    },
++  ),
++
++  /* 82 — kx²+3x+1 = 0 solución única → {0, 9/4} (clave impresa incompleta: solo 9/4). */
++  template(
++    {
++      id: "quad-espol-ch2-82",
++      subject: "math",
++      topicId: "quadratics",
++      subtopicId: "discriminant",
++      difficulty: "hard",
++      questionType: "multiple-choice",
++      estimatedTimeSec: 240,
++      tags: ["discriminant", "unique-solution", "degenerate-quadratic"],
++      prerequisites: ["quadratic-formula"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 82",
++        page: 241,
++      },
++      reasoning: "case-analysis",
++    },
++    (rng) => {
++      const options: McOption[] = [
++        { id: "a", text: L(`$k \\in \\left\\{0,\\ \\dfrac{9}{4}\\right\\}$`, `$k \\in \\left\\{0,\\ \\dfrac{9}{4}\\right\\}$`), correct: true },
++        { id: "b", text: L(`$k = \\dfrac{9}{4}$`, `$k = \\dfrac{9}{4}$`), correct: false },
++        { id: "c", text: L(`$k = 0$`, `$k = 0$`), correct: false },
++        { id: "d", text: L(`$k = \\dfrac{9}{4}$ ó $k = \\dfrac{3}{2}$`, `$k = \\dfrac{9}{4}$ or $k = \\dfrac{3}{2}$`), correct: false },
++        { id: "e", text: L(`no existe tal $k$`, `no such $k$ exists`), correct: false },
++      ];
++      return {
++        skill: L("«Solución única»: dos caminos (lineal o discriminante cero)", "“Unique solution”: two routes (linear or zero discriminant)"),
++        statement: L(
++          "Halla el valor de $k$ para que el conjunto de verdad del predicado $p(x):\\ kx^{2} + 3x + 1 = 0$ tenga solución única.",
++          "Find the value of $k$ for which the truth set of the predicate $p(x):\\ kx^{2} + 3x + 1 = 0$ has a unique solution.",
++        ),
++        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
++        hints: [
++          L(
++            "«Solución única» tiene DOS fabricantes: un cuadrático con discriminante cero… y también una ecuación que ni siquiera es cuadrática. ¿Qué pasa con $k = 0$?",
++            "“Unique solution” has TWO manufacturers: a quadratic with zero discriminant… and also an equation that is not quadratic at all. What happens at $k = 0$?",
++          ),
++          L(
++            "Con $k = 0$: $3x + 1 = 0$ es lineal y tiene exactamente una solución. Con $k \\neq 0$: exige $\\Delta = 9 - 4k = 0$.",
++            "At $k = 0$: $3x + 1 = 0$ is linear and has exactly one solution. For $k \\neq 0$: require $\\Delta = 9 - 4k = 0$.",
++          ),
++          L(
++            "$\\Delta = 0$ da $k = \\frac{9}{4}$. La respuesta completa junta ambos casos.",
++            "$\\Delta = 0$ gives $k = \\frac{9}{4}$. The complete answer joins both cases.",
++          ),
++        ],
++        answerDisplay: L(
++          "$k \\in \\left\\{0,\\ \\dfrac{9}{4}\\right\\}$",
++          "$k \\in \\left\\{0,\\ \\dfrac{9}{4}\\right\\}$",
++        ),
++        solution: [
++          step(
++            "given",
++            "$kx^{2} + 3x + 1 = 0$; se pide solución única (una sola $x$ en el conjunto de verdad).",
++            "$kx^{2} + 3x + 1 = 0$; a unique solution is required (a single $x$ in the truth set).",
++          ),
++          step(
++            "approach",
++            "Separar por naturaleza de la ecuación: el caso $k = 0$ (lineal) es invisible si uno asume «cuadrática» por contexto — aquí está el interés del ejercicio.",
++            "Split by the equation's nature: the $k = 0$ case (linear) is invisible if one assumes “quadratic” from context — that is the point of this exercise.",
++          ),
++          step(
++            "calculation",
++            "Caso $k = 0$: $3x + 1 = 0 \\Rightarrow x = -\\dfrac{1}{3}$, única ✓.<br>Caso $k \\neq 0$ (cuadrática): solución única $\\Leftrightarrow \\Delta = 0$:<br>$\\Delta = 3^{2} - 4k = 9 - 4k = 0 \\Rightarrow k = \\dfrac{9}{4}$ (da $x = -\\frac{2}{3}$, doble).<br>Para cualquier otro $k$: $\\Delta > 0$ (dos soluciones) o $\\Delta < 0$ (ninguna).",
++            "Case $k = 0$: $3x + 1 = 0 \\Rightarrow x = -\\dfrac{1}{3}$, unique ✓.<br>Case $k \\neq 0$ (quadratic): unique solution $\\Leftrightarrow \\Delta = 0$:<br>$\\Delta = 3^{2} - 4k = 9 - 4k = 0 \\Rightarrow k = \\dfrac{9}{4}$ (giving $x = -\\frac{2}{3}$, double).<br>For any other $k$: $\\Delta > 0$ (two solutions) or $\\Delta < 0$ (none).",
++          ),
++          step(
++            "result",
++            "$k \\in \\left\\{0, \\frac{9}{4}\\right\\}$. Nota: la clave impresa del libro solo lista $\\frac{9}{4}$; con el enunciado tal cual, $k = 0$ (ecuación lineal) también produce solución única, así que la respuesta completa incluye ambos valores (verificado con sympy y por barrido de $k$).",
++            "$k \\in \\left\\{0, \\frac{9}{4}\\right\\}$. Note: the book's printed key lists only $\\frac{9}{4}$; as stated, $k = 0$ (a linear equation) also produces a unique solution, so the complete answer includes both values (verified with sympy and a sweep over $k$).",
++          ),
++        ],
++      };
++    },
++  ),
++
++  /* 83 — caída libre: mitad de la distancia en el último segundo → T = 2+√2 s. */
++  template(
++    {
++      id: "quad-espol-ch2-83",
++      subject: "math",
++      topicId: "quadratics",
++      subtopicId: "applications",
++      difficulty: "hard",
++      questionType: "numeric",
++      estimatedTimeSec: 300,
++      tags: ["modeling", "free-fall", "quadratic", "physics-flavored"],
++      prerequisites: ["quadratic-formula"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 83",
++        page: 241,
++      },
++      reasoning: "modeling",
++    },
++    () => ({
++      skill: L("Modelo físico → cuadrática en el tiempo (g se cancela)", "Physical model → quadratic in time (g cancels out)"),
++      statement: L(
++        "Si un cuerpo recorre la mitad de la distancia total de caída libre durante el último segundo de su movimiento, a partir del reposo, calcular el tiempo de caída. Responde el tiempo total en segundos (dos decimales o la forma exacta); la altura se discute en la solución. (Sugerencia del libro: usa la ecuación cuadrática del tiempo.)",
++        "If a body covers half of the total free-fall distance during the last second of its motion, starting from rest, find the fall time. Answer the total time in seconds (two decimals or the exact form); the height is discussed in the solution. (Book's hint: use the quadratic equation of time.)",
++      ),
++      answer: {
++        kind: "numeric",
++        value: 3.41421356,
++        tolerance: { mode: "relative", value: 0.02 },
++      },
++      hints: [
++        L(
++          "Llamemos $T$ al tiempo total y $H = \\frac{1}{2}gT^{2}$ a la altura. La distancia recorrida en el último segundo es $H - \\frac{1}{2}g(T - 1)^{2}$.",
++          "Call the total time $T$ and the height $H = \\frac{1}{2}gT^{2}$. The distance covered in the last second is $H - \\frac{1}{2}g(T - 1)^{2}$.",
++        ),
++        L(
++          "La condición es $H - \\frac{1}{2}g(T-1)^{2} = \\frac{H}{2}$. Simplifica: el factor $\\frac{g}{2}$ se cancela en ambos lados.",
++          "The condition is $H - \\frac{1}{2}g(T-1)^{2} = \\frac{H}{2}$. Simplify: the factor $\\frac{g}{2}$ cancels on both sides.",
++        ),
++        L(
++          "Queda $T^{2} - (T-1)^{2} = \\frac{T^{2}}{2}$, es decir $2T - 1 = \\frac{T^{2}}{2}$; resuelve y quédate con la raíz $\\geq 1$ (necesitas un «último segundo»).",
++          "You get $T^{2} - (T-1)^{2} = \\frac{T^{2}}{2}$, i.e. $2T - 1 = \\frac{T^{2}}{2}$; solve and keep the root $\\geq 1$ (a “last second” must exist).",
++        ),
++      ],
++      answerDisplay: L(
++        "$T = 2 + \\sqrt{2} \\approx 3{,}41\\ \\text{s}$",
++        "$T = 2 + \\sqrt{2} \\approx 3.41\\ \\text{s}$",
++      ),
++      solution: [
++        step(
++          "given",
++          "Cuerpo en caída libre desde el reposo; la distancia del último segundo es la mitad de la altura total. Modelo: $y(t) = \\frac{1}{2}gt^{2}$.",
++          "Body in free fall from rest; the last-second distance is half the total height. Model: $y(t) = \\frac{1}{2}gt^{2}$.",
++        ),
++        step(
++          "approach",
++          "Traducir la frase a una ecuación en $T$ y descubrir que $g$ se cancela: el tiempo no depende de la gravedad (la altura sí).",
++          "Translate the sentence into an equation in $T$ and find that $g$ cancels: the time does not depend on gravity (the height does).",
++        ),
++        step(
++          "calculation",
++          "$H = \\frac{g}{2}T^{2}$; distancia del último segundo $= \\frac{g}{2}\\left[T^{2} - (T-1)^{2}\\right] = \\frac{g}{2}(2T - 1)$.<br>Condición: $\\frac{g}{2}(2T - 1) = \\frac{1}{2} \\cdot \\frac{g}{2}T^{2}$; cancelando $\\frac{g}{2}$: $2T - 1 = \\frac{T^{2}}{2}$.<br>$T^{2} - 4T + 2 = 0 \\Rightarrow T = \\dfrac{4 \\pm \\sqrt{16 - 8}}{2} = 2 \\pm \\sqrt{2}$.<br>La raíz $2 - \\sqrt{2} \\approx 0{,}59$ s es $< 1$: no existiría «último segundo». Se toma $T = 2 + \\sqrt{2} \\approx 3{,}41$ s.",
++          "$H = \\frac{g}{2}T^{2}$; last-second distance $= \\frac{g}{2}\\left[T^{2} - (T-1)^{2}\\right] = \\frac{g}{2}(2T - 1)$.<br>Condition: $\\frac{g}{2}(2T - 1) = \\frac{1}{2} \\cdot \\frac{g}{2}T^{2}$; canceling $\\frac{g}{2}$: $2T - 1 = \\frac{T^{2}}{2}$.<br>$T^{2} - 4T + 2 = 0 \\Rightarrow T = 2 \\pm \\sqrt{2}$.<br>The root $2 - \\sqrt{2} \\approx 0.59$ s is $< 1$: no “last second” would exist. Take $T = 2 + \\sqrt{2} \\approx 3.41$ s.",
++        ),
++        step(
++          "result",
++          "$T = 2 + \\sqrt{2} \\approx 3{,}41$ s (independiente de $g$; clave del libro: $2 + \\sqrt{2}$ ✓). La altura sería $H = \\frac{g}{2}T^{2} = \\frac{g}{2}(6 + 4\\sqrt{2})$: con $g = 9{,}8\\ \\text{m/s}^{2}$, $H \\approx 57{,}1$ m; con $g = 32\\ \\text{ft/s}^{2}$, $H \\approx 186{,}5$ ft. Verificación con $g = 9{,}8$: en el último segundo cae $\\frac{9{,}8}{2}(2 \\cdot 3.414 - 1) \\approx 28.55$ m $= \\frac{57.1}{2}$ ✓.",
++          "$T = 2 + \\sqrt{2} \\approx 3.41$ s (independent of $g$; the book's key: $2 + \\sqrt{2}$ ✓). The height would be $H = \\frac{g}{2}T^{2} = \\frac{g}{2}(6 + 4\\sqrt{2})$: with $g = 9.8\\ \\text{m/s}^{2}$, $H \\approx 57.1$ m; with $g = 32\\ \\text{ft/s}^{2}$, $H \\approx 186.5$ ft. Check at $g = 9.8$: in the last second it falls $\\frac{9.8}{2}(2 \\cdot 3.414 - 1) \\approx 28.55$ m $= \\frac{57.1}{2}$ ✓.",
++        ),
++      ],
++    }),
++  ),
++
++  /* 84 — ciclista 4 m/s², 3 m/s, a 20 m del punto → t = 5/2 s. */
++  template(
++    {
++      id: "quad-espol-ch2-84",
++      subject: "math",
++      topicId: "quadratics",
++      subtopicId: "applications",
++      difficulty: "medium",
++      questionType: "numeric-unit",
++      estimatedTimeSec: 210,
++      tags: ["modeling", "kinematics", "quadratic", "physics-flavored"],
++      prerequisites: ["quadratic-formula"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 84",
++        page: 241,
++      },
++      reasoning: "modeling",
++    },
++    () => ({
++      skill: L("Cinemática → cuadrática en el tiempo", "Kinematics → a quadratic in time"),
++      statement: L(
++        "Un ciclista acelera a $4\\ \\text{m/s}^{2}$ a partir de un cierto punto, con velocidad inicial de $3\\ \\text{m/s}$. Calcular el tiempo necesario para que el ciclista esté a 20 metros del punto. (Sugerencia del libro: usa la ecuación cuadrática del tiempo.)",
++        "A cyclist accelerates at $4\\ \\text{m/s}^{2}$ from a certain point, with initial velocity $3\\ \\text{m/s}$. Find the time needed for the cyclist to be 20 meters from the point. (Book's hint: use the quadratic equation of time.)",
++      ),
++      answer: {
++        kind: "numeric-unit",
++        value: 2.5,
++        units: ["s", "seg", "segundos", "seconds"],
++        unitChoices: ["s", "min", "m/s", "m", "h"],
++      },
++      hints: [
++        L(
++          "Modelo: $s(t) = v_{0}t + \\frac{1}{2}at^{2}$ con $v_{0} = 3$, $a = 4$.",
++          "Model: $s(t) = v_{0}t + \\frac{1}{2}at^{2}$ with $v_{0} = 3$, $a = 4$.",
++        ),
++        L(
++          "La condición es $3t + 2t^{2} = 20$, o sea $2t^{2} + 3t - 20 = 0$.",
++          "The condition is $3t + 2t^{2} = 20$, i.e. $2t^{2} + 3t - 20 = 0$.",
++        ),
++        L(
++          "Factoriza buscando dos números para $(2t \\pm \\dots)(t \\pm \\dots)$; una raíz será negativa y se descarta.",
++          "Factor it looking for two numbers for $(2t \\pm \\dots)(t \\pm \\dots)$; one root will be negative and is discarded.",
++        ),
++      ],
++      answerDisplay: L(
++        "$t = \\dfrac{5}{2}\\ \\text{s} = 2{,}5\\ \\text{s}$",
++        "$t = \\dfrac{5}{2}\\ \\text{s} = 2.5\\ \\text{s}$",
++      ),
++      solution: [
++        step(
++          "given",
++          "$v_{0} = 3\\ \\text{m/s}$, $a = 4\\ \\text{m/s}^{2}$, $s = 20\\ \\text{m}$; desde el punto, $s(t) = v_{0}t + \\frac{1}{2}at^{2}$.",
++          "$v_{0} = 3\\ \\text{m/s}$, $a = 4\\ \\text{m/s}^{2}$, $s = 20\\ \\text{m}$; from the point, $s(t) = v_{0}t + \\frac{1}{2}at^{2}$.",
++        ),
++        step(
++          "approach",
++          "Sustituir en la ecuación de posición y resolver la cuadrática resultante en $t$; el tiempo no puede ser negativo.",
++          "Substitute into the position equation and solve the resulting quadratic in $t$; time cannot be negative.",
++        ),
++        step(
++          "calculation",
++          "$3t + \\frac{1}{2}(4)t^{2} = 20 \\Rightarrow 2t^{2} + 3t - 20 = 0$<br>$\\Delta = 9 + 160 = 169$; $t = \\dfrac{-3 \\pm 13}{4}$<br>$t = \\dfrac{10}{4} = \\dfrac{5}{2}$ o $t = -4$ (descartada).",
++          "$3t + \\frac{1}{2}(4)t^{2} = 20 \\Rightarrow 2t^{2} + 3t - 20 = 0$<br>$\\Delta = 9 + 160 = 169$; $t = \\dfrac{-3 \\pm 13}{4}$<br>$t = \\dfrac{10}{4} = \\dfrac{5}{2}$ or $t = -4$ (discarded).",
++        ),
++        step(
++          "result",
++          "$t = \\frac{5}{2}\\ \\text{s} = 2{,}5$ s (clave del libro: $\\frac{5}{2}$ ✓). Verificación: $3(2.5) + 2(2.5)^{2} = 7.5 + 12.5 = 20$ ✓.",
++          "$t = \\frac{5}{2}\\ \\text{s} = 2.5$ s (the book's key: $\\frac{5}{2}$ ✓). Check: $3(2.5) + 2(2.5)^{2} = 7.5 + 12.5 = 20$ ✓.",
++        ),
++      ],
++    }),
++  ),
+ ];
+diff --git a/src/content/math/radicals.ts b/src/content/math/radicals.ts
+index b996a61..dca3c5f 100644
+--- a/src/content/math/radicals.ts
++++ b/src/content/math/radicals.ts
+@@ -1028,7 +1028,7 @@ export const templates: ProblemTemplate[] = [
+       },
+       reasoning: "spurious",
+     },
+-    () => {
++    (rng) => {
+       const options: McOption[] = [
+         { id: "a", text: L("$(9, \\infty)$", "$(9, \\infty)$"), correct: true },
+         { id: "b", text: L("$[9, \\infty)$", "$[9, \\infty)$"), correct: false },
+@@ -1041,7 +1041,7 @@ export const templates: ProblemTemplate[] = [
+           `Con $x \\in \\mathbb{R}$, determina el conjunto de verdad de $q(x):\\ 1 + \\sqrt{2x + 7} < x - 3$.`,
+           `With $x \\in \\mathbb{R}$, determine the truth set of $q(x):\\ 1 + \\sqrt{2x + 7} < x - 3$.`,
+         ),
+-        answer: { kind: "multiple-choice", options },
++        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+         hints: [
+           L(
+             "Despeja el radical: $\\sqrt{2x + 7} < x - 4$. Como la raíz es $\\geq 0$, ¿qué exiges sobre $x - 4$?",
+@@ -1106,7 +1106,7 @@ export const templates: ProblemTemplate[] = [
+       },
+       reasoning: "case-analysis",
+     },
+-    () => {
++    (rng) => {
+       const options: McOption[] = [
+         { id: "a", text: L("$[4, 5]\\cup[8, \\infty)$", "$[4, 5]\\cup[8, \\infty)$"), correct: true },
+         { id: "b", text: L("$[4, \\infty)$", "$[4, \\infty)$"), correct: false },
+@@ -1119,7 +1119,7 @@ export const templates: ProblemTemplate[] = [
+           `Con $x \\in \\mathbb{R}$, determina el conjunto de verdad de $r(x):\\ \\frac{x - 2}{3} \\geq \\sqrt{x - 4}$.`,
+           `With $x \\in \\mathbb{R}$, determine the truth set of $r(x):\\ \\frac{x - 2}{3} \\geq \\sqrt{x - 4}$.`,
+         ),
+-        answer: { kind: "multiple-choice", options },
++        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+         hints: [
+           L(
+             "Dominio primero: $x - 4 \\geq 0$, y además el lado izquierdo debe ser $\\geq 0$ para dominar a una raíz no negativa.",
+@@ -1164,6 +1164,157 @@ export const templates: ProblemTemplate[] = [
+     },
+   ),
+ 
++  /* ================================================================== */
++  /* Curated — ESPOL Fundamentos, EDICIÓN DIGITAL (TUTOR_LICENSED).      */
++  /* Chapter 2 «Ejercicios propuestos», §2.8 eq. 80, p. 241 (PDF 274).  */
++  /* Double-verified: printed key p. 939 (80b: 3; 80e: 4,5) + sympy.    */
++  /* Drive-by fix: rad-espol-128b/128c now shuffle their MC options      */
++  /* (they shipped with the correct option always first).                */
++  /* ================================================================== */
++
++  /* 80b — √(x+1) = x−1 → x = 3 (x = 0 espuria). */
++  template(
++    {
++      id: "rad-espol-ch2-80b",
++      subject: "math",
++      topicId: "radicals",
++      subtopicId: "equations",
++      difficulty: "medium",
++      questionType: "numeric",
++      estimatedTimeSec: 180,
++      tags: ["equation", "radical", "spurious-root"],
++      prerequisites: ["simplifying"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 80b",
++        page: 241,
++      },
++      reasoning: "spurious",
++    },
++    () => ({
++      skill: L("Raíz aislada: elevar, resolver y filtrar", "Isolated root: square, solve, filter"),
++      statement: L(
++        "Resuelve: $\\sqrt{x + 1} = x - 1$.",
++        "Solve: $\\sqrt{x + 1} = x - 1$.",
++      ),
++      answer: { kind: "numeric", value: 3 },
++      hints: [
++        L(
++          "Dominio: $x + 1 \\geq 0$; y como la raíz es $\\geq 0$, el lado derecho también: $x - 1 \\geq 0$.",
++          "Domain: $x + 1 \\geq 0$; and since the root is $\\geq 0$, so is the right side: $x - 1 \\geq 0$.",
++        ),
++        L(
++          "Eleva al cuadrado: $x + 1 = (x - 1)^{2} = x^{2} - 2x + 1$, que se reduce a una cuadrática sin constante.",
++          "Square: $x + 1 = (x - 1)^{2} = x^{2} - 2x + 1$, which reduces to a quadratic with no constant.",
++        ),
++        L(
++          "Obtendrás dos candidatos; prueba AMBOS en la ecuación original antes de responder (uno es espurio).",
++          "You will get two candidates; test BOTH in the original equation before answering (one is spurious).",
++        ),
++      ],
++      answerDisplay: L("$x = 3$", "$x = 3$"),
++      solution: [
++        step(
++          "given",
++          "$\\sqrt{x + 1} = x - 1$; dominio: $x \\geq -1$ y, por el signo de la raíz, $x \\geq 1$.",
++          "$\\sqrt{x + 1} = x - 1$; domain: $x \\geq -1$ and, by the root's sign, $x \\geq 1$.",
++        ),
++        step(
++          "approach",
++          "Elevar al cuadrado con el radical aislado, resolver la cuadrática y devolver cada candidato a la ecuación original: elevar puede fabricar soluciones.",
++          "Square with the radical isolated, solve the quadratic, and put every candidate back into the original equation: squaring can manufacture solutions.",
++        ),
++        step(
++          "calculation",
++          "$x + 1 = x^{2} - 2x + 1 \\Rightarrow 0 = x^{2} - 3x = x(x - 3)$<br>Candidatos: $x = 0$ y $x = 3$.<br>Prueba: $x = 0$: $\\sqrt{1} = 1$ pero $0 - 1 = -1$ ✗ (espuria). $x = 3$: $\\sqrt{4} = 2$ y $3 - 1 = 2$ ✓.",
++          "$x + 1 = x^{2} - 2x + 1 \\Rightarrow 0 = x^{2} - 3x = x(x - 3)$<br>Candidates: $x = 0$ and $x = 3$.<br>Test: $x = 0$: $\\sqrt{1} = 1$ but $0 - 1 = -1$ ✗ (spurious). $x = 3$: $\\sqrt{4} = 2$ and $3 - 1 = 2$ ✓.",
++        ),
++        step(
++          "result",
++          "$x = 3$; la raíz $x = 0$ nació al elevar y no sobrevive a la ecuación original.",
++          "$x = 3$; the root $x = 0$ was born when squaring and does not survive the original equation.",
++        ),
++      ],
++    }),
++  ),
++
++  /* 80e — [√(x+4)+√(x−4)]/[√(x+4)−√(x−4)] = x−3 → {4, 5}. */
++  template(
++    {
++      id: "rad-espol-ch2-80e",
++      subject: "math",
++      topicId: "radicals",
++      subtopicId: "equations",
++      difficulty: "hard",
++      questionType: "multiple-choice",
++      estimatedTimeSec: 300,
++      tags: ["equation", "radical", "rationalize", "domain"],
++      prerequisites: ["simplifying"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 80e",
++        page: 241,
++      },
++      reasoning: "multi-concept",
++    },
++    (rng) => {
++      const options: McOption[] = [
++        { id: "a", text: L(`$\\{4,\\ 5\\}$`, `$\\{4,\\ 5\\}$`), correct: true },
++        { id: "b", text: L(`$\\{4\\}$`, `$\\{4\\}$`), correct: false },
++        { id: "c", text: L(`$\\{5\\}$`, `$\\{5\\}$`), correct: false },
++        { id: "d", text: L(`$\\{4,\\ 5,\\ 6\\}$`, `$\\{4,\\ 5,\\ 6\\}$`), correct: false },
++        { id: "e", text: L(`$\\varnothing$`, `$\\varnothing$`), correct: false },
++      ];
++      return {
++        skill: L("Cociente de radicales: racionalizar antes de elevar", "Quotient of radicals: rationalize before squaring"),
++        statement: L(
++          "Resuelve: $$\\frac{\\sqrt{x + 4} + \\sqrt{x - 4}}{\\sqrt{x + 4} - \\sqrt{x - 4}} = x - 3.$$",
++          "Solve: $$\\frac{\\sqrt{x + 4} + \\sqrt{x - 4}}{\\sqrt{x + 4} - \\sqrt{x - 4}} = x - 3.$$",
++        ),
++        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
++        hints: [
++          L(
++            "Dominio: $x \\geq 4$ (necesitas $x - 4 \\geq 0$; en $x = 4$ el denominador es $\\sqrt{8} \\neq 0$, así que entra).",
++            "Domain: $x \\geq 4$ (you need $x - 4 \\geq 0$; at $x = 4$ the denominator is $\\sqrt{8} \\neq 0$, so it is allowed).",
++          ),
++          L(
++            "Racionaliza multiplicando por $(A+B)/(A+B)$ con $A = \\sqrt{x+4}$, $B = \\sqrt{x-4}$: el cociente vale $\\frac{(A+B)^{2}}{A^{2} - B^{2}} = \\frac{x + \\sqrt{x^{2} - 16}}{4}$.",
++            "Rationalize by multiplying by $(A+B)/(A+B)$ with $A = \\sqrt{x+4}$, $B = \\sqrt{x-4}$: the quotient equals $\\frac{(A+B)^{2}}{A^{2} - B^{2}} = \\frac{x + \\sqrt{x^{2} - 16}}{4}$.",
++          ),
++          L(
++            "La ecuación queda $x + \\sqrt{x^{2} - 16} = 4x - 12$, o sea $\\sqrt{x^{2} - 16} = 3x - 12$; eleva y obtendrás $(x - 4)(x - 5) = 0$.",
++            "The equation becomes $x + \\sqrt{x^{2} - 16} = 4x - 12$, i.e. $\\sqrt{x^{2} - 16} = 3x - 12$; square and you will get $(x - 4)(x - 5) = 0$.",
++          ),
++        ],
++        answerDisplay: L("$A = \\{4,\\ 5\\}$", "$A = \\{4,\\ 5\\}$"),
++        solution: [
++          step(
++            "given",
++            "$\\frac{\\sqrt{x+4} + \\sqrt{x-4}}{\\sqrt{x+4} - \\sqrt{x-4}} = x - 3$; dominio $x \\geq 4$.",
++            "$\\frac{\\sqrt{x+4} + \\sqrt{x-4}}{\\sqrt{x+4} - \\sqrt{x-4}} = x - 3$; domain $x \\geq 4$.",
++          ),
++          step(
++            "approach",
++            "Racionalizar el cociente con $A^{2} - B^{2} = 8$ lo convierte en $\\frac{x + \\sqrt{x^{2}-16}}{4}$; después se aísla el radical y se eleva una sola vez.",
++            "Rationalizing the quotient using $A^{2} - B^{2} = 8$ turns it into $\\frac{x + \\sqrt{x^{2}-16}}{4}$; then isolate the radical and square once.",
++          ),
++          step(
++            "calculation",
++            "$\\frac{(A+B)^{2}}{A^{2} - B^{2}} = \\frac{2x + 2\\sqrt{x^{2}-16}}{8} = \\frac{x + \\sqrt{x^{2}-16}}{4}$<br>$x + \\sqrt{x^{2}-16} = 4x - 12 \\Rightarrow \\sqrt{x^{2}-16} = 3x - 12$ (con $x \\geq 4$, $3x - 12 \\geq 0$ ✓)<br>$x^{2} - 16 = 9x^{2} - 72x + 144 \\Rightarrow 8x^{2} - 72x + 160 = 0 \\Rightarrow x^{2} - 9x + 20 = 0$<br>$(x - 4)(x - 5) = 0 \\Rightarrow x = 4$ o $x = 5$; ambos en el dominio.",
++            "$\\frac{(A+B)^{2}}{A^{2} - B^{2}} = \\frac{2x + 2\\sqrt{x^{2}-16}}{8} = \\frac{x + \\sqrt{x^{2}-16}}{4}$<br>$x + \\sqrt{x^{2}-16} = 4x - 12 \\Rightarrow \\sqrt{x^{2}-16} = 3x - 12$ (with $x \\geq 4$, $3x - 12 \\geq 0$ ✓)<br>$x^{2} - 16 = 9x^{2} - 72x + 144 \\Rightarrow 8x^{2} - 72x + 160 = 0 \\Rightarrow x^{2} - 9x + 20 = 0$<br>$(x - 4)(x - 5) = 0 \\Rightarrow x = 4$ or $x = 5$; both in the domain.",
++          ),
++          step(
++            "result",
++            "$A = \\{4, 5\\}$. Verificación en la original: $x = 4$: $\\frac{\\sqrt{8}}{\\sqrt{8}} = 1 = 4 - 3$ ✓; $x = 5$: $\\frac{3 + 1}{3 - 1} = 2 = 5 - 3$ ✓.",
++            "$A = \\{4, 5\\}$. Check in the original: $x = 4$: $\\frac{\\sqrt{8}}{\\sqrt{8}} = 1 = 4 - 3$ ✓; $x = 5$: $\\frac{3 + 1}{3 - 1} = 2 = 5 - 3$ ✓.",
++          ),
++        ],
++      };
++    },
++  ),
++
+ ];
+ 
+ /** greatest common divisor */
+diff --git a/src/content/math/rational.ts b/src/content/math/rational.ts
+index e5b5a88..dc20e3b 100644
+--- a/src/content/math/rational.ts
++++ b/src/content/math/rational.ts
+@@ -1975,4 +1975,380 @@ export const templates: ProblemTemplate[] = [
+       };
+     },
+   ),
++
++  /* ================================================================== */
++  /* Curated — ESPOL Fundamentos, EDICIÓN DIGITAL (TUTOR_LICENSED).      */
++  /* Chapter 2 «Ejercicios propuestos», pp. 231-235 (PDF 264-268).      */
++  /* Tutor's brief: the most difficult / integrative ones.              */
++  /* Double-verified: printed key pp. 938-939 + sympy (41/41 checks).   */
++  /* ================================================================== */
++
++  /* 35l — telescoping chain → 16a^15/(1−a^16). Key: idem. */
++  template(
++    {
++      id: "rat-espol-ch2-35l",
++      subject: "math",
++      topicId: "rational",
++      subtopicId: "simplifying",
++      difficulty: "hard",
++      questionType: "expression",
++      estimatedTimeSec: 300,
++      tags: ["simplifying", "telescoping", "pattern"],
++      prerequisites: ["add-sub"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 35l",
++        page: 231,
++      },
++      reasoning: "multi-concept",
++    },
++    () => ({
++      skill: L("Cadena telescópica: cada resta duplica el patrón", "Telescoping chain: each subtraction doubles the pattern"),
++      statement: L(
++        "Simplifica: $$\\frac{1}{1 - a} - \\frac{1}{1 + a} - \\frac{2a}{1 + a^{2}} - \\frac{4a^{3}}{1 + a^{4}} - \\frac{8a^{7}}{1 + a^{8}}$$",
++        "Simplify: $$\\frac{1}{1 - a} - \\frac{1}{1 + a} - \\frac{2a}{1 + a^{2}} - \\frac{4a^{3}}{1 + a^{4}} - \\frac{8a^{7}}{1 + a^{8}}$$",
++      ),
++      answer: {
++        kind: "expression",
++        accepted: ["16a^15/(1-a^16)", "(16a^15)/(1-a^16)"],
++        variables: ["a"],
++      },
++      hints: [
++        L(
++          "Opera de izquierda a derecha, de dos en dos: primero $\\frac{1}{1-a} - \\frac{1}{1+a}$ sobre el denominador común $1 - a^{2}$.",
++          "Work left to right, two at a time: first $\\frac{1}{1-a} - \\frac{1}{1+a}$ over the common denominator $1 - a^{2}$.",
++        ),
++        L(
++          "$\\frac{1}{1-a} - \\frac{1}{1+a} = \\frac{2a}{1-a^{2}}$; y al restarle $\\frac{2a}{1+a^{2}}$ queda $\\frac{4a^{3}}{1-a^{4}}$. El patrón se repite: numerador $2^{k}a^{2k-1}$, denominador «1 − potencia».",
++          "$\\frac{1}{1-a} - \\frac{1}{1+a} = \\frac{2a}{1-a^{2}}$; and subtracting $\\frac{2a}{1+a^{2}}$ leaves $\\frac{4a^{3}}{1-a^{4}}$. The pattern repeats: numerator $2^{k}a^{2k-1}$, denominator “1 − a power”.",
++        ),
++        L(
++          "Después de la última resta el denominador es $1 - a^{16}$ y el numerador $16a^{15}$ (siguiendo la secuencia 2, 4, 8 → 16 y exponentes 1, 3, 7 → 15).",
++          "After the last subtraction the denominator is $1 - a^{16}$ and the numerator $16a^{15}$ (following the sequence 2, 4, 8 → 16 and exponents 1, 3, 7 → 15).",
++        ),
++      ],
++      answerDisplay: L(
++        "$\\dfrac{16a^{15}}{1 - a^{16}}$",
++        "$\\dfrac{16a^{15}}{1 - a^{16}}$",
++      ),
++      solution: [
++        step(
++          "given",
++          "La cadena $\\frac{1}{1-a} - \\frac{1}{1+a} - \\frac{2a}{1+a^{2}} - \\frac{4a^{3}}{1+a^{4}} - \\frac{8a^{7}}{1+a^{8}}$.",
++          "The chain $\\frac{1}{1-a} - \\frac{1}{1+a} - \\frac{2a}{1+a^{2}} - \\frac{4a^{3}}{1+a^{4}} - \\frac{8a^{7}}{1+a^{8}}$.",
++        ),
++        step(
++          "approach",
++          "No busques el denominador común total: la cadena está diseñada para que cada resta deje la semilla de la siguiente (estructura telescópica).",
++          "Do not look for the full common denominator: the chain is designed so each subtraction leaves the seed of the next one (telescoping structure).",
++        ),
++        step(
++          "calculation",
++          "$\\frac{1}{1-a} - \\frac{1}{1+a} = \\frac{(1+a)-(1-a)}{1-a^{2}} = \\frac{2a}{1-a^{2}}$<br>$\\frac{2a}{1-a^{2}} - \\frac{2a}{1+a^{2}} = \\frac{2a\\left[(1+a^{2})-(1-a^{2})\\right]}{1-a^{4}} = \\frac{4a^{3}}{1-a^{4}}$<br>$\\frac{4a^{3}}{1-a^{4}} - \\frac{4a^{3}}{1+a^{4}} = \\frac{8a^{7}}{1-a^{8}}$<br>$\\frac{8a^{7}}{1-a^{8}} - \\frac{8a^{7}}{1+a^{8}} = \\frac{16a^{15}}{1-a^{16}}$",
++          "$\\frac{1}{1-a} - \\frac{1}{1+a} = \\frac{(1+a)-(1-a)}{1-a^{2}} = \\frac{2a}{1-a^{2}}$<br>$\\frac{2a}{1-a^{2}} - \\frac{2a}{1+a^{2}} = \\frac{2a\\left[(1+a^{2})-(1-a^{2})\\right]}{1-a^{4}} = \\frac{4a^{3}}{1-a^{4}}$<br>$\\frac{4a^{3}}{1-a^{4}} - \\frac{4a^{3}}{1+a^{4}} = \\frac{8a^{7}}{1-a^{8}}$<br>$\\frac{8a^{7}}{1-a^{8}} - \\frac{8a^{7}}{1+a^{8}} = \\frac{16a^{15}}{1-a^{16}}$",
++        ),
++        step(
++          "result",
++          "$\\frac{16a^{15}}{1 - a^{16}}$. Verificación con $a = \\frac{1}{2}$: la cadena da $\\approx 0{,}000488$ y $\\frac{16a^{15}}{1-a^{16}} = \\frac{16/32768}{1 - 1/65536} \\approx 0{,}000488$ ✓ (misma cifra).",
++          "$\\frac{16a^{15}}{1 - a^{16}}$. Check at $a = \\frac{1}{2}$: the chain gives $\\approx 0.000488$ and $\\frac{16a^{15}}{1-a^{16}} = \\frac{16/32768}{1 - 1/65536} \\approx 0.000488$ ✓ (same figure).",
++        ),
++      ],
++    }),
++  ),
++
++  /* 37a — cyclic sum → 0. Key: 0. */
++  template(
++    {
++      id: "rat-espol-ch2-37a",
++      subject: "math",
++      topicId: "rational",
++      subtopicId: "simplifying",
++      difficulty: "hard",
++      questionType: "expression",
++      estimatedTimeSec: 270,
++      tags: ["simplifying", "cyclic", "common-denominator"],
++      prerequisites: ["add-sub"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 37a",
++        page: 232,
++      },
++      reasoning: "multi-concept",
++    },
++    () => ({
++      skill: L("Suma cíclica sobre el denominador (a−b)(b−c)(c−a)", "Cyclic sum over the denominator (a−b)(b−c)(c−a)"),
++      statement: L(
++        "Simplifica: $$\\frac{1}{(a - b)(a - c)} + \\frac{1}{(b - c)(b - a)} + \\frac{1}{(c - a)(c - b)}$$",
++        "Simplify: $$\\frac{1}{(a - b)(a - c)} + \\frac{1}{(b - c)(b - a)} + \\frac{1}{(c - a)(c - b)}$$",
++      ),
++      answer: {
++        kind: "expression",
++        accepted: ["0"],
++        variables: ["a", "b", "c"],
++      },
++      hints: [
++        L(
++          "El denominador común natural es $(a-b)(b-c)(c-a)$. Reescribe cada fracción multiplicando arriba y abajo por lo que falta.",
++          "The natural common denominator is $(a-b)(b-c)(c-a)$. Rewrite each fraction by multiplying top and bottom by what is missing.",
++        ),
++        L(
++          "Cuidado con los signos: $a - c = -(c-a)$ y $b - a = -(a-b)$. La primera fracción queda $\\frac{-(b - c)}{(a-b)(b-c)(c-a)}$.",
++          "Mind the signs: $a - c = -(c-a)$ and $b - a = -(a-b)$. The first fraction becomes $\\frac{-(b - c)}{(a-b)(b-c)(c-a)}$.",
++        ),
++        L(
++          "Suma los tres numeradores: $-(b-c) - (c-a) - (a-b)$. ¿Cuánto da?",
++          "Add the three numerators: $-(b-c) - (c-a) - (a-b)$. How much is that?",
++        ),
++      ],
++      answerDisplay: L("$0$", "$0$"),
++      solution: [
++        step(
++          "given",
++          "$S = \\frac{1}{(a-b)(a-c)} + \\frac{1}{(b-c)(b-a)} + \\frac{1}{(c-a)(c-b)}$, con $a, b, c$ distintos dos a dos.",
++          "$S = \\frac{1}{(a-b)(a-c)} + \\frac{1}{(b-c)(b-a)} + \\frac{1}{(c-a)(c-b)}$, with $a, b, c$ pairwise distinct.",
++        ),
++        step(
++          "approach",
++          "Denominador común $D = (a-b)(b-c)(c-a)$, controlando los signos al reescribir cada factor «invertido» (como $a-c = -(c-a)$).",
++          "Common denominator $D = (a-b)(b-c)(c-a)$, controlling the signs while rewriting each “inverted” factor (such as $a-c = -(c-a)$).",
++        ),
++        step(
++          "calculation",
++          "$\\frac{1}{(a-b)(a-c)} = \\frac{-(b-c)}{D}$ &nbsp;(falta $b-c$; $a-c = -(c-a)$)<br>$\\frac{1}{(b-c)(b-a)} = \\frac{-(c-a)}{D}$ &nbsp;(falta $c-a$; $b-a = -(a-b)$)<br>$\\frac{1}{(c-a)(c-b)} = \\frac{-(a-b)}{D}$ &nbsp;(falta $a-b$; $c-b = -(b-c)$)<br>$S = \\frac{-\\left[(b-c) + (c-a) + (a-b)\\right]}{D} = \\frac{0}{D}$",
++          "$\\frac{1}{(a-b)(a-c)} = \\frac{-(b-c)}{D}$ &nbsp;($b-c$ missing; $a-c = -(c-a)$)<br>$\\frac{1}{(b-c)(b-a)} = \\frac{-(c-a)}{D}$ &nbsp;($c-a$ missing; $b-a = -(a-b)$)<br>$\\frac{1}{(c-a)(c-b)} = \\frac{-(a-b)}{D}$ &nbsp;($a-b$ missing; $c-b = -(b-c)$)<br>$S = \\frac{-\\left[(b-c) + (c-a) + (a-b)\\right]}{D} = \\frac{0}{D}$",
++        ),
++        step(
++          "result",
++          "$S = 0$: los tres numeradores se cancelan en cadena. Verificación con $(a,b,c) = (1,2,3)$: $\\frac{1}{2} - 1 + \\frac{1}{2} = 0$ ✓.",
++          "$S = 0$: the three numerators cancel in a chain. Check at $(a,b,c) = (1,2,3)$: $\\frac{1}{2} - 1 + \\frac{1}{2} = 0$ ✓.",
++        ),
++      ],
++    }),
++  ),
++
++  /* 37b — a/(a²−1)+… − 2a²/(a⁴−1) → a/(a²−1). Key: idem. */
++  template(
++    {
++      id: "rat-espol-ch2-37b",
++      subject: "math",
++      topicId: "rational",
++      subtopicId: "simplifying",
++      difficulty: "hard",
++      questionType: "expression",
++      estimatedTimeSec: 300,
++      tags: ["simplifying", "factor-denominators", "difference-of-squares"],
++      prerequisites: ["add-sub"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 37b",
++        page: 232,
++      },
++      reasoning: "multi-concept",
++    },
++    () => ({
++      skill: L("Factorizar los denominadores antes de sumar", "Factor the denominators before adding"),
++      statement: L(
++        "Simplifica: $$\\frac{a}{a^{2} - 1} + \\frac{a^{2} + a - 1}{a^{3} - a^{2} + a - 1} - \\frac{a^{2} + a + 1}{a^{3} + a^{2} + a + 1} - \\frac{2a^{2}}{a^{4} - 1}$$",
++        "Simplify: $$\\frac{a}{a^{2} - 1} + \\frac{a^{2} + a - 1}{a^{3} - a^{2} + a - 1} - \\frac{a^{2} + a + 1}{a^{3} + a^{2} + a + 1} - \\frac{2a^{2}}{a^{4} - 1}$$",
++      ),
++      answer: {
++        kind: "expression",
++        accepted: ["a/(a^2-1)", "a/((a-1)(a+1))"],
++        variables: ["a"],
++      },
++      hints: [
++        L(
++          "Factoriza los tres denominadores «largos»: $a^{3} - a^{2} + a - 1 = (a - 1)(a^{2} + 1)$, $a^{3} + a^{2} + a + 1 = (a + 1)(a^{2} + 1)$ y $a^{4} - 1 = (a^{2} - 1)(a^{2} + 1)$.",
++          "Factor the three “long” denominators: $a^{3} - a^{2} + a - 1 = (a - 1)(a^{2} + 1)$, $a^{3} + a^{2} + a + 1 = (a + 1)(a^{2} + 1)$ and $a^{4} - 1 = (a^{2} - 1)(a^{2} + 1)$.",
++        ),
++        L(
++          "Con eso, el denominador común es $a^{4} - 1 = (a-1)(a+1)(a^{2}+1)$; reescribe las cuatro fracciones sobre él.",
++          "With that, the common denominator is $a^{4} - 1 = (a-1)(a+1)(a^{2}+1)$; rewrite the four fractions over it.",
++        ),
++        L(
++          "El numerador total queda $a^{3} + a$; al final factoriza y cancela con el denominador.",
++          "The total numerator comes out as $a^{3} + a$; factor it at the end and cancel with the denominator.",
++        ),
++      ],
++      answerDisplay: L(
++        "$\\dfrac{a}{a^{2} - 1}$",
++        "$\\dfrac{a}{a^{2} - 1}$",
++      ),
++      solution: [
++        step(
++          "given",
++          "$S = \\frac{a}{a^{2}-1} + \\frac{a^{2}+a-1}{a^{3}-a^{2}+a-1} - \\frac{a^{2}+a+1}{a^{3}+a^{2}+a+1} - \\frac{2a^{2}}{a^{4}-1}$.",
++          "$S = \\frac{a}{a^{2}-1} + \\frac{a^{2}+a-1}{a^{3}-a^{2}+a-1} - \\frac{a^{2}+a+1}{a^{3}+a^{2}+a+1} - \\frac{2a^{2}}{a^{4}-1}$.",
++        ),
++        step(
++          "approach",
++          "Factorizar denominadores por agrupación; con el denominador común $a^{4}-1$ la suma se vuelve un simple conteo de numeradores.",
++          "Factor denominators by grouping; with the common denominator $a^{4}-1$ the sum becomes a simple count of numerators.",
++        ),
++        step(
++          "calculation",
++          "$a^{3}-a^{2}+a-1 = (a-1)(a^{2}+1)$; $a^{3}+a^{2}+a+1 = (a+1)(a^{2}+1)$; $a^{4}-1 = (a^{2}-1)(a^{2}+1)$.<br>Sobre $D = a^{4}-1$:<br>$\\frac{a}{a^{2}-1} = \\frac{a(a^{2}+1)}{D}$; $\\frac{a^{2}+a-1}{(a-1)(a^{2}+1)} = \\frac{(a^{2}+a-1)(a+1)}{D}$; $\\frac{a^{2}+a+1}{(a+1)(a^{2}+1)} = \\frac{(a^{2}+a+1)(a-1)}{D}$.<br>Numerador: $a^{3}+a + (a^{3}+2a^{2}-1) - (a^{3}-1) - 2a^{2} = a^{3} + a$.<br>$S = \\frac{a^{3}+a}{a^{4}-1} = \\frac{a(a^{2}+1)}{(a^{2}-1)(a^{2}+1)} = \\frac{a}{a^{2}-1}$.",
++          "$a^{3}-a^{2}+a-1 = (a-1)(a^{2}+1)$; $a^{3}+a^{2}+a+1 = (a+1)(a^{2}+1)$; $a^{4}-1 = (a^{2}-1)(a^{2}+1)$.<br>Over $D = a^{4}-1$:<br>$\\frac{a}{a^{2}-1} = \\frac{a(a^{2}+1)}{D}$; $\\frac{a^{2}+a-1}{(a-1)(a^{2}+1)} = \\frac{(a^{2}+a-1)(a+1)}{D}$; $\\frac{a^{2}+a+1}{(a+1)(a^{2}+1)} = \\frac{(a^{2}+a+1)(a-1)}{D}$.<br>Numerator: $a^{3}+a + (a^{3}+2a^{2}-1) - (a^{3}-1) - 2a^{2} = a^{3} + a$.<br>$S = \\frac{a^{3}+a}{a^{4}-1} = \\frac{a(a^{2}+1)}{(a^{2}-1)(a^{2}+1)} = \\frac{a}{a^{2}-1}$.",
++        ),
++        step(
++          "result",
++          "$S = \\frac{a}{a^{2}-1}$. Verificación con $a = 2$: cadena $= \\frac{2}{3} + \\frac{5}{5} - \\frac{7}{15} - \\frac{8}{15} = \\frac{2}{3} + 1 - 1 = \\frac{2}{3}$ y $\\frac{a}{a^{2}-1} = \\frac{2}{3}$ ✓.",
++          "$S = \\frac{a}{a^{2}-1}$. Check at $a = 2$: chain $= \\frac{2}{3} + \\frac{5}{5} - \\frac{7}{15} - \\frac{8}{15} = \\frac{2}{3} + 1 - 1 = \\frac{2}{3}$ and $\\frac{a}{a^{2}-1} = \\frac{2}{3}$ ✓.",
++        ),
++      ],
++    }),
++  ),
++
++  /* 37d — (a+b)/((b−c)(c−a)) + … → (a+c)/((c−a)(a−b)). Key: idem. */
++  template(
++    {
++      id: "rat-espol-ch2-37d",
++      subject: "math",
++      topicId: "rational",
++      subtopicId: "simplifying",
++      difficulty: "hard",
++      questionType: "expression",
++      estimatedTimeSec: 300,
++      tags: ["simplifying", "cyclic", "common-denominator", "signs"],
++      prerequisites: ["add-sub"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 37d",
++        page: 232,
++      },
++      reasoning: "multi-concept",
++    },
++    () => ({
++      skill: L("Suma cíclica con signos cruzados (¡cuidado con el tercero!)", "Cyclic sum with crossed signs (mind the third one!)"),
++      statement: L(
++        "Simplifica: $$\\frac{a + b}{(b - c)(c - a)} + \\frac{b + c}{(c - a)(a - b)} + \\frac{c + a}{(a - c)(b - c)}$$",
++        "Simplify: $$\\frac{a + b}{(b - c)(c - a)} + \\frac{b + c}{(c - a)(a - b)} + \\frac{c + a}{(a - c)(b - c)}$$",
++      ),
++      answer: {
++        kind: "expression",
++        accepted: ["(a+c)/((c-a)(a-b))", "(a+c)/((a-b)(c-a))"],
++        variables: ["a", "b", "c"],
++      },
++      hints: [
++        L(
++          "Denominador común $D = (a-b)(b-c)(c-a)$. Los dos primeros términos se reescriben limpios; el tercero tiene $(a-c)(b-c) = (c-a)(c-b)$ — ojo, es el que NO sigue el patrón.",
++          "Common denominator $D = (a-b)(b-c)(c-a)$. The first two terms rewrite cleanly; the third has $(a-c)(b-c) = (c-a)(c-b)$ — watch out, it is the one NOT following the pattern.",
++        ),
++        L(
++          "Sobre $D$: el primero aporta $(a+b)(a-b) = a^{2} - b^{2}$; el segundo aporta $(b+c)(b-c) = b^{2} - c^{2}$.",
++          "Over $D$: the first contributes $(a+b)(a-b) = a^{2} - b^{2}$; the second contributes $(b+c)(b-c) = b^{2} - c^{2}$.",
++        ),
++        L(
++          "El tercero aporta $-(c+a)(a-b)$. Suma los tres numeradores y factoriza el resultado: debería quedarte un binomio por $D$.",
++          "The third contributes $-(c+a)(a-b)$. Add the three numerators and factor: you should be left with one binomial over $D$.",
++        ),
++      ],
++      answerDisplay: L(
++        "$\\dfrac{a + c}{(c - a)(a - b)}$",
++        "$\\dfrac{a + c}{(c - a)(a - b)}$",
++      ),
++      solution: [
++        step(
++          "given",
++          "$S = \\frac{a+b}{(b-c)(c-a)} + \\frac{b+c}{(c-a)(a-b)} + \\frac{c+a}{(a-c)(b-c)}$, con $a, b, c$ distintos dos a dos.",
++          "$S = \\frac{a+b}{(b-c)(c-a)} + \\frac{b+c}{(c-a)(a-b)} + \\frac{c+a}{(a-c)(b-c)}$, with $a, b, c$ pairwise distinct.",
++        ),
++        step(
++          "approach",
++          "Denominador común $D = (a-b)(b-c)(c-a)$. Como el tercer término impreso usa $(a-c)$ y $(b-c)$ (equivalente a $(c-a)(c-b)$), su aporte sobre $D$ lleva signo distinto: $D / (a-c)(b-c) = -(a-b)$.",
++          "Common denominator $D = (a-b)(b-c)(c-a)$. Since the printed third term uses $(a-c)$ and $(b-c)$ (equal to $(c-a)(c-b)$), its contribution over $D$ carries a different sign: $D / (a-c)(b-c) = -(a-b)$.",
++        ),
++        step(
++          "calculation",
++          "Término 1 sobre $D$: $\\frac{(a+b)(a-b)}{D} = \\frac{a^{2}-b^{2}}{D}$<br>Término 2 sobre $D$: $\\frac{(b+c)(b-c)}{D} = \\frac{b^{2}-c^{2}}{D}$<br>Término 3 sobre $D$: $\\frac{(c+a)\\cdot\\left[-(a-b)\\right]}{D} = \\frac{-(c+a)(a-b)}{D}$<br>Numerador total: $(a^{2}-b^{2}) + (b^{2}-c^{2}) - (c+a)(a-b) = ab + bc - ac - c^{2} = (a+c)(b-c)$.<br>$S = \\frac{(a+c)(b-c)}{D} = \\frac{(a+c)(b-c)}{(a-b)(b-c)(c-a)} = \\frac{a+c}{(a-b)(c-a)}$.",
++          "Term 1 over $D$: $\\frac{(a+b)(a-b)}{D} = \\frac{a^{2}-b^{2}}{D}$<br>Term 2 over $D$: $\\frac{(b+c)(b-c)}{D} = \\frac{b^{2}-c^{2}}{D}$<br>Term 3 over $D$: $\\frac{(c+a)\\cdot\\left[-(a-b)\\right]}{D} = \\frac{-(c+a)(a-b)}{D}$<br>Total numerator: $(a^{2}-b^{2}) + (b^{2}-c^{2}) - (c+a)(a-b) = ab + bc - ac - c^{2} = (a+c)(b-c)$.<br>$S = \\frac{(a+c)(b-c)}{D} = \\frac{(a+c)(b-c)}{(a-b)(b-c)(c-a)} = \\frac{a+c}{(a-b)(c-a)}$.",
++        ),
++        step(
++          "result",
++          "$S = \\frac{a+c}{(c-a)(a-b)}$ (equivalente a $\\frac{a+c}{(a-b)(c-a)}$, forma impresa en la clave). Verificación con $(a,b,c) = (0,1,2)$: cadena $= -\\frac{1}{2} - \\frac{3}{2} + 1 = -1$ y $\\frac{a+c}{(a-b)(c-a)} = \\frac{2}{(-1)(2)} = -1$ ✓.",
++          "$S = \\frac{a+c}{(c-a)(a-b)}$ (same as $\\frac{a+c}{(a-b)(c-a)}$, the form printed in the key). Check at $(a,b,c) = (0,1,2)$: chain $= -\\frac{1}{2} - \\frac{3}{2} + 1 = -1$ and $\\frac{a+c}{(a-b)(c-a)} = \\frac{2}{(-1)(2)} = -1$ ✓.",
++        ),
++      ],
++    }),
++  ),
++
++  /* 48 — 2/(x+5)+1/(x−5)+20/(x²−25)=0 → ∅ (x=−5 es agujero). Key: ∅. */
++  template(
++    {
++      id: "rat-espol-ch2-48",
++      subject: "math",
++      topicId: "rational",
++      subtopicId: "equations",
++      difficulty: "medium",
++      questionType: "multiple-choice",
++      estimatedTimeSec: 180,
++      tags: ["equation", "domain", "extraneous-root"],
++      prerequisites: ["simplifying"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 48",
++        page: 235,
++      },
++      reasoning: "spurious",
++    },
++    (rng) => {
++      const options: McOption[] = [
++        { id: "a", text: L(`$A_{p(x)} = \\varnothing$`, `$A_{p(x)} = \\varnothing$`), correct: true },
++        { id: "b", text: L(`$A_{p(x)} = \\{-5\\}$`, `$A_{p(x)} = \\{-5\\}$`), correct: false },
++        { id: "c", text: L(`$A_{p(x)} = \\{5,\\ -5\\}$`, `$A_{p(x)} = \\{5,\\ -5\\}$`), correct: false },
++        { id: "d", text: L(`$A_{p(x)} = \\{5\\}$`, `$A_{p(x)} = \\{5\\}$`), correct: false },
++        { id: "e", text: L(`$A_{p(x)} = \\{0,\\ -5\\}$`, `$A_{p(x)} = \\{0,\\ -5\\}$`), correct: false },
++      ];
++      return {
++        skill: L("Ecuación racional: la raíz del numerador puede ser agujero", "Rational equation: the numerator's root may be a hole"),
++        statement: L(
++          "Con $x \\in \\mathbb{R}$, determina el conjunto de verdad de $$p(x):\\ \\frac{2}{x + 5} + \\frac{1}{x - 5} + \\frac{20}{x^{2} - 25} = 0.$$",
++          "With $x \\in \\mathbb{R}$, determine the truth set of $$p(x):\\ \\frac{2}{x + 5} + \\frac{1}{x - 5} + \\frac{20}{x^{2} - 25} = 0.$$",
++        ),
++        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
++        hints: [
++          L(
++            "El denominador común es $(x+5)(x-5) = x^{2} - 25$; antes que nada, anota qué valores de $x$ están prohibidos.",
++            "The common denominator is $(x+5)(x-5) = x^{2} - 25$; before anything else, note which $x$ values are forbidden.",
++          ),
++          L(
++            "Sobre $x^{2} - 25$: el numerador combinado es $2(x-5) + (x+5) + 20 = 3x + 15$, con raíz $x = -5$.",
++            "Over $x^{2} - 25$: the combined numerator is $2(x-5) + (x+5) + 20 = 3x + 15$, whose root is $x = -5$.",
++          ),
++          L(
++            "Comprueba esa raíz candidata contra el dominio: ¿es válida o queda anulada por el denominador?",
++            "Test that candidate root against the domain: is it valid, or is it killed by the denominator?",
++          ),
++        ],
++        answerDisplay: L("$A_{p(x)} = \\varnothing$", "$A_{p(x)} = \\varnothing$"),
++        solution: [
++          step(
++            "given",
++            "$\\frac{2}{x+5} + \\frac{1}{x-5} + \\frac{20}{x^{2}-25} = 0$; dominio: $x \\neq \\pm 5$.",
++            "$\\frac{2}{x+5} + \\frac{1}{x-5} + \\frac{20}{x^{2}-25} = 0$; domain: $x \\neq \\pm 5$.",
++          ),
++          step(
++            "approach",
++            "Combinar sobre $x^{2}-25$ y resolver el numerador; toda raíz del numerador debe pasar el filtro del dominio.",
++            "Combine over $x^{2}-25$ and solve the numerator; every numerator root must pass the domain filter.",
++          ),
++          step(
++            "calculation",
++            "$\\frac{2(x-5) + (x+5) + 20}{x^{2}-25} = 0 \\Rightarrow \\frac{3x + 15}{x^{2}-25} = 0$<br>Numerador: $3x + 15 = 0 \\Rightarrow x = -5$.<br>Pero $x = -5$ anula el denominador ($x^{2} - 25 = 0$): es un agujero, no solución. De hecho la fracción reducida es $\\frac{3}{x-5}$, que nunca vale 0.",
++            "$\\frac{2(x-5) + (x+5) + 20}{x^{2}-25} = 0 \\Rightarrow \\frac{3x + 15}{x^{2}-25} = 0$<br>Numerator: $3x + 15 = 0 \\Rightarrow x = -5$.<br>But $x = -5$ zeroes the denominator ($x^{2} - 25 = 0$): it is a hole, not a solution. Indeed the reduced fraction is $\\frac{3}{x-5}$, which is never 0.",
++          ),
++          step(
++            "result",
++            "$A_{p(x)} = \\varnothing$: la única candidata ($x = -5$) queda excluida por el dominio. Una fracción con numerador no nulo nunca es cero.",
++            "$A_{p(x)} = \\varnothing$: the only candidate ($x = -5$) is excluded by the domain. A fraction with non-zero numerator is never zero.",
++          ),
++        ],
++      };
++    },
++  ),
+ ];
+diff --git a/src/content/math/sequences.ts b/src/content/math/sequences.ts
+index e75112e..5b98d10 100644
+--- a/src/content/math/sequences.ts
++++ b/src/content/math/sequences.ts
+@@ -768,4 +768,593 @@ export const templates: ProblemTemplate[] = [
+       };
+     },
+   ),
++
++  /* ================================================================== */
++  /* Curated — ESPOL Fundamentos, EDICIÓN DIGITAL (TUTOR_LICENSED).      */
++  /* Chapter 2 «Ejercicios propuestos», §2.13, pp. 247-250 (PDF 280-283)*/
++  /* Tutor's brief: the most difficult / integrative ones.              */
++  /* Double-verified: printed key pp. 939-940 + sympy (41/41 checks).    */
++  /* #151 has no printed key — sympy-only (128 terms, 105..994).        */
++  /* ================================================================== */
++
++  /* 125 — PA: Sₙ=168, a₁=30, d=−2 → n = 7 ó 24 (aₙ: 18 ó −16). Key: a) 24,7 b) -16,18. */
++  template(
++    {
++      id: "seq-espol-ch2-125",
++      subject: "math",
++      topicId: "sequences",
++      subtopicId: "finite-sums",
++      difficulty: "hard",
++      questionType: "multiple-choice",
++      estimatedTimeSec: 270,
++      tags: ["arithmetic", "sum-formula", "quadratic-in-n"],
++      prerequisites: ["arithmetic"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 125",
++        page: 247,
++      },
++      reasoning: "parameters",
++    },
++    (rng) => {
++      const options: McOption[] = [
++        { id: "a", text: L(`$n = 7$ ó $n = 24$`, `$n = 7$ or $n = 24$`), correct: true },
++        { id: "b", text: L(`solo $n = 7$`, `only $n = 7$`), correct: false },
++        { id: "c", text: L(`solo $n = 24$`, `only $n = 24$`), correct: false },
++        { id: "d", text: L(`$n = 8$ ó $n = 21$`, `$n = 8$ or $n = 21$`), correct: false },
++        { id: "e", text: L(`$n = 6$ ó $n = 28$`, `$n = 6$ or $n = 28$`), correct: false },
++      ];
++      return {
++        skill: L("Sₙ conocida, n desconocido: la suma es cuadrática en n", "Sₙ known, n unknown: the sum is quadratic in n"),
++        statement: L(
++          "La suma de los $n$ primeros términos de una progresión aritmética es $168$. El primer término es $30$ y la diferencia es $-2$. Determinar los posibles valores de $n$ (los posibles valores de $a_{n}$ se desarrollan en la solución).",
++          "The sum of the first $n$ terms of an arithmetic progression is $168$. The first term is $30$ and the common difference is $-2$. Determine the possible values of $n$ (the possible values of $a_{n}$ are developed in the solution).",
++        ),
++        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
++        hints: [
++          L(
++            "Escribe la suma con la fórmula que usa $a_{1}$ y $d$: $S_{n} = \\frac{n}{2}\\left[2a_{1} + (n-1)d\\right]$.",
++            "Write the sum with the formula using $a_{1}$ and $d$: $S_{n} = \\frac{n}{2}\\left[2a_{1} + (n-1)d\\right]$.",
++          ),
++          L(
++            "Con $a_{1} = 30$, $d = -2$: $S_{n} = \\frac{n}{2}(60 - 2n + 2) = 31n - n^{2}$; iguala a $168$.",
++            "With $a_{1} = 30$, $d = -2$: $S_{n} = \\frac{n}{2}(60 - 2n + 2) = 31n - n^{2}$; set it equal to $168$.",
++          ),
++          L(
++            "Queda $n^{2} - 31n + 168 = 0$; factoriza buscando dos números que multipliquen $168$ y sumen $31$.",
++            "You get $n^{2} - 31n + 168 = 0$; factor looking for two numbers that multiply to $168$ and add to $31$.",
++          ),
++        ],
++        answerDisplay: L(
++          "$n \\in \\{7,\\ 24\\}$; con ellos $a_{n} \\in \\{18,\\ -16\\}$",
++          "$n \\in \\{7,\\ 24\\}$; accordingly $a_{n} \\in \\{18,\\ -16\\}$",
++        ),
++        solution: [
++          step(
++            "given",
++            "PA con $a_{1} = 30$, $d = -2$; $S_{n} = 168$; incógnita: $n$ (y después $a_{n}$).",
++            "AP with $a_{1} = 30$, $d = -2$; $S_{n} = 168$; unknown: $n$ (and then $a_{n}$).",
++          ),
++          step(
++            "approach",
++            "La fórmula de la suma es cuadrática en $n$: plantearla y resolver la cuadrática; ambos enteros positivos son válidos (la serie empieza a decrecer cuando $d < 0$).",
++            "The sum formula is quadratic in $n$: set it up and solve the quadratic; both positive integer roots are valid (with $d < 0$ the terms eventually decrease).",
++          ),
++          step(
++            "calculation",
++            "$S_{n} = \\frac{n}{2}\\left[60 - 2(n - 1)\\right] = \\frac{n}{2}(62 - 2n) = 31n - n^{2}$<br>$31n - n^{2} = 168 \\Rightarrow n^{2} - 31n + 168 = 0 \\Rightarrow (n - 7)(n - 24) = 0$<br>$n = 7$ o $n = 24$.<br>$a_{7} = 30 + 6(-2) = 18$; $\\quad a_{24} = 30 + 23(-2) = -16$.",
++            "$S_{n} = \\frac{n}{2}\\left[60 - 2(n - 1)\\right] = 31n - n^{2}$<br>$31n - n^{2} = 168 \\Rightarrow n^{2} - 31n + 168 = 0 \\Rightarrow (n - 7)(n - 24) = 0$<br>$n = 7$ or $n = 24$.<br>$a_{7} = 30 + 6(-2) = 18$; $\\quad a_{24} = 30 + 23(-2) = -16$.",
++          ),
++          step(
++            "result",
++            "$n \\in \\{7, 24\\}$ con $a_{n} \\in \\{18, -16\\}$ (clave del libro: a) 24, 7; b) −16, 18 ✓). Comprobación: $S_{7} = \\frac{7}{2}(30 + 18) = 168$ ✓ y $S_{24} = \\frac{24}{2}(30 - 16) = 12 \\cdot 14 = 168$ ✓.",
++            "$n \\in \\{7, 24\\}$ with $a_{n} \\in \\{18, -16\\}$ (book key: a) 24, 7; b) −16, 18 ✓). Check: $S_{7} = \\frac{7}{2}(30 + 18) = 168$ ✓ and $S_{24} = \\frac{24}{2}(30 - 16) = 168$ ✓.",
++          ),
++        ],
++      };
++    },
++  ),
++
++  /* 129 — PG a₁=2, Σ₃=86 → suma de los valores de r = −1 (r = 6 ó −7). Key: (c). */
++  template(
++    {
++      id: "seq-espol-ch2-129",
++      subject: "math",
++      topicId: "sequences",
++      subtopicId: "geometric",
++      difficulty: "medium",
++      questionType: "multiple-choice",
++      estimatedTimeSec: 240,
++      tags: ["geometric", "sum", "two-roots"],
++      prerequisites: ["geometric"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 129",
++        page: 247,
++      },
++      reasoning: "multi-concept",
++    },
++    (rng) => {
++      const options: McOption[] = [
++        { id: "a", text: L(`La media geométrica de los tres primeros números es $-\\frac{1}{2}$.`, `The geometric mean of the first three numbers is $-\\frac{1}{2}$.`), correct: false },
++        { id: "b", text: L(`Hay un solo valor posible de la razón $(r)$.`, `There is only one possible value of the ratio $(r)$.`), correct: false },
++        { id: "c", text: L(`La suma de los valores de $r$ es $-1$.`, `The sum of the values of $r$ is $-1$.`), correct: true },
++        { id: "d", text: L(`La suma de los valores de $r$ es $13$.`, `The sum of the values of $r$ is $13$.`), correct: false },
++        { id: "e", text: L(`La suma de los valores de $r$ es $-13$.`, `The sum of the values of $r$ is $-13$.`), correct: false },
++      ];
++      return {
++        skill: L("PG con suma conocida: la razón aparece dos veces", "GP with known sum: the ratio shows up twice"),
++        statement: L(
++          "Sea una progresión geométrica cuyo primer término es $2$ y la suma de los tres primeros términos es $86$, entonces es verdad que:",
++          "Let a geometric progression have first term $2$ and let the sum of its first three terms be $86$; then it is true that:",
++        ),
++        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
++        hints: [
++          L(
++            "Los tres primeros términos son $2$, $2r$, $2r^{2}$; su suma es $2(1 + r + r^{2}) = 86$.",
++            "The first three terms are $2$, $2r$, $2r^{2}$; their sum is $2(1 + r + r^{2}) = 86$.",
++          ),
++          L(
++            "Divide entre 2: $r^{2} + r - 42 = 0$; factoriza (¿dos números que multipliquen $-42$ y sumen $1$?).",
++            "Divide by 2: $r^{2} + r - 42 = 0$; factor it (two numbers multiplying to $-42$ adding to $1$?).",
++          ),
++          L(
++            "Obtendrás DOS valores de $r$; la pregunta es por su suma — o usa Vieta sin calcularlas.",
++            "You will get TWO values of $r$; the question asks for their sum — or use Vieta without computing them.",
++          ),
++        ],
++        answerDisplay: L(
++          "$r = 6$ ó $r = -7$; suma de los valores de $r$: $-1$",
++          "$r = 6$ or $r = -7$; sum of the $r$-values: $-1$",
++        ),
++        solution: [
++          step(
++            "given",
++            "PG con $a_{1} = 2$; $2 + 2r + 2r^{2} = 86$.",
++            "GP with $a_{1} = 2$; $2 + 2r + 2r^{2} = 86$.",
++          ),
++          step(
++            "approach",
++            "La suma de los tres primeros es cuadrática en $r$; aquí hay dos razones posibles, y el dato pedido (la suma de ambos valores) sale directo de Vieta.",
++            "The three-term sum is quadratic in $r$; there are two possible ratios, and the requested datum (the sum of both values) comes straight from Vieta.",
++          ),
++          step(
++            "calculation",
++            "$2(1 + r + r^{2}) = 86 \\Rightarrow r^{2} + r - 42 = 0 \\Rightarrow (r + 7)(r - 6) = 0$<br>$r = 6$ o $r = -7$.<br>Vieta: suma de raíces $= -\\frac{1}{1} = -1$ (producto $-42$).",
++            "$2(1 + r + r^{2}) = 86 \\Rightarrow r^{2} + r - 42 = 0 \\Rightarrow (r + 7)(r - 6) = 0$<br>$r = 6$ or $r = -7$.<br>Vieta: sum of roots $= -\\frac{1}{1} = -1$ (product $-42$).",
++          ),
++          step(
++            "result",
++            "La suma de los valores de $r$ es $-1$ (opción c; clave del libro: (c) ✓). Comprobación: $2 + 12 + 72 = 86$ ✓ con $r = 6$; $2 - 14 + 98 = 86$ ✓ con $r = -7$.",
++            "The sum of the $r$-values is $-1$ (option c; book key: (c) ✓). Check: $2 + 12 + 72 = 86$ ✓ with $r = 6$; $2 - 14 + 98 = 86$ ✓ with $r = -7$.",
++          ),
++        ],
++      };
++    },
++  ),
++
++  /* 136 — ganó cada día la mitad del anterior; día 10: $10 → día 1: $5120. */
++  template(
++    {
++      id: "seq-espol-ch2-136",
++      subject: "math",
++      topicId: "sequences",
++      subtopicId: "geometric",
++      difficulty: "medium",
++      questionType: "numeric",
++      estimatedTimeSec: 180,
++      tags: ["geometric", "backward", "halving"],
++      prerequisites: ["geometric"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 136",
++        page: 248,
++      },
++      reasoning: "modeling",
++    },
++    () => ({
++      skill: L("Retroceder una PG de razón ½ (cada día hacia atrás duplica)", "Walking a GP of ratio ½ backwards (each day back doubles)"),
++      statement: L(
++        "Un hombre jugó durante 10 días y cada día ganó $\\frac{1}{2}$ de lo que ganó el día anterior. Si el décimo día ganó $10$, ¿cuánto ganó el primer día? (Responde en dólares.)",
++        "A man gambled for 10 days and each day he won $\\frac{1}{2}$ of what he won the previous day. If on the tenth day he won $10$, how much did he win the first day? (Answer in dollars.)",
++      ),
++      answer: { kind: "numeric", value: 5120 },
++      hints: [
++        L(
++          "Las ganancias forman una PG con razón $\\frac{1}{2}$: si el día $k$ ganó $g_{k}$, el día $k-1$ ganó el doble.",
++          "The winnings form a GP with ratio $\\frac{1}{2}$: if day $k$ paid $g_{k}$, day $k-1$ paid twice as much.",
++        ),
++        L(
++          "El día 9 ganó $2 \\cdot 10 = 20$; el día 8, $40$… Retroceder del día 10 al día 1 son 9 pasos hacia atrás.",
++          "Day 9 paid $2 \\cdot 10 = 20$; day 8, $40$… Going back from day 10 to day 1 is 9 backward steps.",
++        ),
++        L(
++          "Día 1: $10 \\cdot 2^{9}$ — calcula la potencia.",
++          "Day 1: $10 \\cdot 2^{9}$ — compute the power.",
++        ),
++      ],
++      answerDisplay: L(`$\\$5120$`, `$\\$5120$`),
++      solution: [
++        step(
++          "given",
++          "PG de razón $\\frac{1}{2}$ hacia adelante; $g_{10} = \\$10$; se pide $g_{1}$.",
++          "GP of ratio $\\frac{1}{2}$ going forward; $g_{10} = \\$10$; find $g_{1}$.",
++        ),
++        step(
++          "approach",
++          "Recorrer la PG hacia atrás: cada paso hacia atrás multiplica por $2$ (recíproco de la razón).",
++          "Walk the GP backwards: each backward step multiplies by $2$ (the reciprocal of the ratio).",
++        ),
++        step(
++          "calculation",
++          "$g_{k} = g_{1} \\cdot \\left(\\frac{1}{2}\\right)^{k - 1}$, así que $g_{10} = g_{1} \\cdot 2^{-9} = 10$<br>$g_{1} = 10 \\cdot 2^{9} = 10 \\cdot 512 = 5120$.",
++          "$g_{k} = g_{1} \\cdot \\left(\\frac{1}{2}\\right)^{k - 1}$, so $g_{10} = g_{1} \\cdot 2^{-9} = 10$<br>$g_{1} = 10 \\cdot 2^{9} = 10 \\cdot 512 = 5120$.",
++        ),
++        step(
++          "result",
++          `El primer día ganó $\\$5120$ (clave del libro: 5120 ✓). Comprobación: $5120 \\to 2560 \\to 1280 \\to \\dots \\to 20 \\to 10$: son 9 mitades ✓.`,
++          `He won $\\$5120$ on day one (book key: 5120 ✓). Check: $5120 \\to 2560 \\to 1280 \\to \\dots \\to 20 \\to 10$: that is 9 halvings ✓.`,
++        ),
++      ],
++    }),
++  ),
++
++  /* 139 — PG positiva, Σ₂=15, Σ∞→27 → r = 2/3 (y a₁ = 9). Key: a) 2/3, b) 9. */
++  template(
++    {
++      id: "seq-espol-ch2-139",
++      subject: "math",
++      topicId: "sequences",
++      subtopicId: "geometric-sums",
++      difficulty: "hard",
++      questionType: "numeric",
++      estimatedTimeSec: 270,
++      tags: ["geometric", "infinite-sum", "convergence"],
++      prerequisites: ["geometric"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 139",
++        page: 249,
++      },
++      reasoning: "case-analysis",
++    },
++    () => ({
++      skill: L("Suma infinita: a/(1−r) junto con a(1+r)", "Infinite sum: a/(1−r) together with a(1+r)"),
++      statement: L(
++        "Una progresión geométrica tiene todos sus términos positivos. La suma de los dos primeros términos es $15$ y la suma de los infinitos términos de la sucesión tiende a $27$. Hallar el valor de la razón común (responde $r$ como fracción tipo 2/3 o dos decimales; el primer término va en la solución).",
++        "A geometric progression has all its terms positive. The sum of its first two terms is $15$ and the sum of the infinitely many terms tends to $27$. Find the common ratio (answer $r$ as a fraction like 2/3 or two decimals; the first term is in the solution).",
++      ),
++      answer: { kind: "numeric", value: 2 / 3 },
++      hints: [
++        L(
++          "Dos ecuaciones: $a(1 + r) = 15$ y $\\frac{a}{1 - r} = 27$ (convergencia exige $|r| < 1$).",
++          "Two equations: $a(1 + r) = 15$ and $\\frac{a}{1 - r} = 27$ (convergence requires $|r| < 1$).",
++        ),
++        L(
++          "De la segunda: $a = 27(1 - r)$; sustituye en la primera.",
++          "From the second: $a = 27(1 - r)$; substitute into the first.",
++        ),
++        L(
++          "Queda $27(1 - r)(1 + r) = 15$, o sea $1 - r^{2} = \\frac{5}{9}$; recuerda el requisito de términos positivos para elegir el signo de $r$.",
++          "You get $27(1 - r)(1 + r) = 15$, i.e. $1 - r^{2} = \\frac{5}{9}$; recall the positive-terms requirement to choose the sign of $r$.",
++        ),
++      ],
++      answerDisplay: L(
++        "$r = \\dfrac{2}{3}$ (y $a_{1} = 9$)",
++        "$r = \\dfrac{2}{3}$ (and $a_{1} = 9$)",
++      ),
++      solution: [
++        step(
++          "given",
++          "PG de términos positivos: $a(1 + r) = 15$, $\\frac{a}{1 - r} = 27$.",
++          "GP with positive terms: $a(1 + r) = 15$, $\\frac{a}{1 - r} = 27$.",
++        ),
++        step(
++          "approach",
++          "Combinar las dos condiciones para eliminar $a$; la elección del signo de $r$ la dicta «todos los términos positivos» (con $r < 0$ los términos alternan de signo).",
++          "Combine the two conditions to eliminate $a$; the sign of $r$ is dictated by “all terms positive” (with $r < 0$ the terms alternate in sign).",
++        ),
++        step(
++          "calculation",
++          "$a = 27(1 - r)$; en $a(1 + r) = 15$: $27(1 - r)(1 + r) = 15$<br>$1 - r^{2} = \\frac{15}{27} = \\frac{5}{9} \\Rightarrow r^{2} = \\frac{4}{9} \\Rightarrow r = \\pm\\frac{2}{3}$<br>Términos positivos $\\Rightarrow r > 0$: $r = \\frac{2}{3}$.<br>$a_{1} = \\frac{15}{1 + \\frac{2}{3}} = \\frac{15 \\cdot 3}{5} = 9$.",
++          "$a = 27(1 - r)$; in $a(1 + r) = 15$: $27(1 - r)(1 + r) = 15$<br>$1 - r^{2} = \\frac{15}{27} = \\frac{5}{9} \\Rightarrow r^{2} = \\frac{4}{9} \\Rightarrow r = \\pm\\frac{2}{3}$<br>Positive terms $\\Rightarrow r > 0$: $r = \\frac{2}{3}$.<br>$a_{1} = \\frac{15}{1 + \\frac{2}{3}} = 9$.",
++        ),
++        step(
++          "result",
++          "$r = \\frac{2}{3}$ y $a_{1} = 9$ (clave del libro: a) $\\frac{2}{3}$, b) 9 ✓). Comprobación: $9 + 6 = 15$ ✓ y $\\frac{9}{1 - \\frac{2}{3}} = \\frac{9}{1/3} = 27$ ✓.",
++          "$r = \\frac{2}{3}$ and $a_{1} = 9$ (book key: a) $\\frac{2}{3}$, b) 9 ✓). Check: $9 + 6 = 15$ ✓ and $\\frac{9}{1 - \\frac{2}{3}} = 27$ ✓.",
++        ),
++      ],
++    }),
++  ),
++
++  /* 141 — Sr. Dorado: $5000, 2% mensual sobre balance → total $6300. Key: a)25 b)204 c)6300 d)1300. */
++  template(
++    {
++      id: "seq-espol-ch2-141",
++      subject: "math",
++      topicId: "sequences",
++      subtopicId: "arithmetic",
++      difficulty: "hard",
++      questionType: "numeric",
++      estimatedTimeSec: 330,
++      tags: ["finance", "amortization", "application"],
++      prerequisites: ["arithmetic"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 141",
++        page: 249,
++      },
++      reasoning: "modeling",
++    },
++    () => ({
++      skill: L("Amortización: $200 al capital + 2% del balance pendiente", "Amortization: $200 to principal + 2% of the pending balance"),
++      statement: L(
++        "Considera el préstamo del banco al Sr. Dorado por $\\$5\\,000$ a un interés mensual del $2\\%$. Cada mes paga $\\$200$ al capital más el interés mensual del balance pendiente. Calcular el monto total pagado hasta saldar la deuda (el número de pagos, el último pago y el interés cancelado van en la solución).",
++        "Consider the bank loan to Mr. Dorado of $\\$5,\\!000$ at $2\\%$ monthly interest. Each month he pays $\\$200$ to the principal plus the monthly interest on the pending balance. Compute the total amount paid until the debt is settled (the number of payments, the last payment and the interest paid are in the solution).",
++      ),
++      answer: { kind: "numeric", value: 6300 },
++      hints: [
++        L(
++          "El balance antes del pago $k+1$ es $B_{k} = 5000 - 200k$; ese mes el interés es $0{,}02 \\cdot B_{k}$ y el pago total es $200 + 0{,}02B_{k}$.",
++          "The balance before payment $k+1$ is $B_{k} = 5000 - 200k$; that month's interest is $0.02 \\cdot B_{k}$ and the full payment is $200 + 0.02B_{k}$.",
++        ),
++        L(
++          "El último mes: $B_{24} = 200$, así que el interés final es $0{,}02 \\cdot 200 = 4$ y hay $25$ pagos.",
++          "The last month: $B_{24} = 200$, so the final interest is $0.02 \\cdot 200 = 4$ and there are $25$ payments.",
++        ),
++        L(
++          "Interés total: $0{,}02 \\sum_{k=0}^{24} B_{k}$ — la suma de una progresión aritmética de $25$ términos que va de $5000$ a $200$.",
++          "Total interest: $0.02 \\sum_{k=0}^{24} B_{k}$ — the sum of an arithmetic progression of $25$ terms running from $5000$ down to $200$.",
++        ),
++      ],
++      answerDisplay: L(
++        `total pagado: $\\$6300$ (25 pagos · último $\\$204$ · interés $\\$1300$)`,
++        `total paid: $\\$6300$ (25 payments · last one $\\$204$ · interest $\\$1300$)`,
++      ),
++      solution: [
++        step(
++          "given",
++          `Préstamo $\\$5000$; cada mes: $\\$200$ al capital + $2\\%$ del balance; $B_{k} = 5000 - 200k$.`,
++          `Loan $\\$5000$; each month: $\\$200$ to principal + $2\\%$ of the balance; $B_{k} = 5000 - 200k$.`,
++        ),
++        step(
++          "approach",
++          "Seguir el balance mes a mes: los pagos forman una sucesión decreciente (cada vez menos interés); el total pagado = capital + interés total.",
++          "Track the balance month by month: the payments form a decreasing sequence (less interest each time); total paid = principal + total interest.",
++        ),
++        step(
++          "calculation",
++          `Balances: $B_{0} = 5000, B_{1} = 4800, \\dots, B_{24} = 200$ → $25$ pagos.<br>Último pago: $200 + 0{,}02 \\cdot 200 = 200 + 4 = 204$.<br>$\\sum_{k=0}^{24} B_{k} = \\frac{25(5000 + 200)}{2} = 25 \\cdot 2600 = 65\\,000$<br>Interés total: $0{,}02 \\cdot 65\\,000 = 1300$.<br>Total pagado: $5000 + 1300 = 6300$.`,
++          `Balances: $B_{0} = 5000, B_{1} = 4800, \\dots, B_{24} = 200$ → $25$ payments.<br>Last payment: $200 + 0.02 \\cdot 200 = 204$.<br>$\\sum_{k=0}^{24} B_{k} = \\frac{25(5000 + 200)}{2} = 65,\\!000$<br>Total interest: $0.02 \\cdot 65,\\!000 = 1300$.<br>Total paid: $5000 + 1300 = 6300$.`,
++        ),
++        step(
++          "result",
++          `Monto total pagado: $\\$6300$ — a) 25 pagos, b) último pago $\\$204$, c) total $\\$6300$, d) interés $\\$1300$ (clave del libro ✓ en las cuatro partes). Comprobación: el primer pago sería $200 + 100 = \\$300$ y la suma de pagos $= 25 \\cdot 200 + 1300 = 6300$ ✓.`,
++          `Total amount paid: $\\$6300$ — a) 25 payments, b) last payment $\\$204$, c) total $\\$6300$, d) interest $\\$1300$ (book key ✓ on all four parts). Check: the first payment would be $200 + 100 = \\$300$ and the sum of payments $= 25 \\cdot 200 + 1300 = 6300$ ✓.`,
++        ),
++      ],
++    }),
++  ),
++
++  /* 146 — Sr. Piedra: 8º=$153, 15º=$181, total $5490 → 30 pagos (último $241). */
++  template(
++    {
++      id: "seq-espol-ch2-146",
++      subject: "math",
++      topicId: "sequences",
++      subtopicId: "finite-sums",
++      difficulty: "hard",
++      questionType: "numeric",
++      estimatedTimeSec: 300,
++      tags: ["finance", "arithmetic-series", "application"],
++      prerequisites: ["arithmetic"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 146",
++        page: 250,
++      },
++      reasoning: "multi-concept",
++    },
++    () => ({
++      skill: L("De dos términos de la PA a la suma total: tres pasos", "From two AP terms to the total sum: three steps"),
++      statement: L(
++        "Los pagos mensuales del Sr. Piedra al banco, ocasionados por un préstamo, forman una progresión aritmética. Si el octavo y el decimoquinto pagos son de $\\$153$ y $\\$181$, respectivamente, y en total pagó $5\\,490$ al banco, calcular el número de pagos que efectuó (el último pago va en la solución).",
++        "Mr. Piedra's monthly payments to the bank, caused by a loan, form an arithmetic progression. If the eighth and fifteenth payments are $\\$153$ and $\\$181$, respectively, and he paid a total of $5,\\!490$ to the bank, compute the number of payments he made (the last payment is in the solution).",
++      ),
++      answer: { kind: "numeric", value: 30 },
++      hints: [
++        L(
++          "De $a_{8} = a_{1} + 7d$ y $a_{15} = a_{1} + 14d$: la resta elimina $a_{1}$ y da $d$.",
++          "From $a_{8} = a_{1} + 7d$ and $a_{15} = a_{1} + 14d$: subtracting kills $a_{1}$ and yields $d$.",
++        ),
++        L(
++          "$7d = 181 - 153 = 28 \\Rightarrow d = 4$; luego $a_{1} = 153 - 7 \\cdot 4 = 125$.",
++          "$7d = 181 - 153 = 28 \\Rightarrow d = 4$; then $a_{1} = 153 - 7 \\cdot 4 = 125$.",
++        ),
++        L(
++          "Plantea $S_{n} = 125n + 2n(n - 1) = 5490$ y resuelve la cuadrática en $n$.",
++          "Set $S_{n} = 125n + 2n(n - 1) = 5490$ and solve the quadratic in $n$.",
++        ),
++      ],
++      answerDisplay: L(
++        `$30$ pagos (último pago: $\\$241$)`,
++        `$30$ payments (last payment: $\\$241$)`,
++      ),
++      solution: [
++        step(
++          "given",
++          `PA de pagos: $a_{8} = \\$153$, $a_{15} = \\$181$; suma total $\\$5\\,490$.`,
++          `AP of payments: $a_{8} = \\$153$, $a_{15} = \\$181$; total sum $\\$5,\\!490$.`,
++        ),
++        step(
++          "approach",
++          "Primero reconstruir la PA (diferencia y primer término), después igualar la fórmula de la suma al total y resolver la cuadrática en $n$.",
++          "First reconstruct the AP (difference and first term), then set the sum formula equal to the total and solve the quadratic in $n$.",
++        ),
++        step(
++          "calculation",
++          `$a_{15} - a_{8} = 7d = 28 \\Rightarrow d = 4$; $a_{1} = 153 - 7 \\cdot 4 = 125$.<br>$S_{n} = \\frac{n}{2}\\left[2 \\cdot 125 + (n - 1) \\cdot 4\\right] = 125n + 2n^{2} - 2n$<br>$2n^{2} + 123n - 5490 = 0 \\Rightarrow n = \\dfrac{-123 + \\sqrt{15\\,129 + 43\\,920}}{4} = \\dfrac{-123 + 243}{4} = 30$.<br>Último pago: $a_{30} = 125 + 29 \\cdot 4 = 241$.`,
++          `$a_{15} - a_{8} = 7d = 28 \\Rightarrow d = 4$; $a_{1} = 153 - 7 \\cdot 4 = 125$.<br>$S_{n} = 125n + 2n^{2} - 2n$<br>$2n^{2} + 123n - 5490 = 0 \\Rightarrow n = \\dfrac{-123 + 243}{4} = 30$.<br>Last payment: $a_{30} = 125 + 29 \\cdot 4 = 241$.`,
++        ),
++        step(
++          "result",
++          `Efectuó $30$ pagos y el último fue de $\\$241$ (clave del libro: a) 30, b) 241 ✓). Comprobación: $S_{30} = \\frac{30}{2}(125 + 241) = 15 \\cdot 366 = 5490$ ✓.`,
++          `He made $30$ payments and the last one was $\\$241$ (book key: a) 30, b) 241 ✓). Check: $S_{30} = \\frac{30}{2}(125 + 241) = 15 \\cdot 366 = 5490$ ✓.`,
++        ),
++      ],
++    }),
++  ),
++
++  /* 147 — deuda $1800, $150 + 1% mensual → total $1917. Key: a)168 b)151.5 c)1917 d)117. */
++  template(
++    {
++      id: "seq-espol-ch2-147",
++      subject: "math",
++      topicId: "sequences",
++      subtopicId: "arithmetic",
++      difficulty: "hard",
++      questionType: "numeric",
++      estimatedTimeSec: 330,
++      tags: ["finance", "amortization", "application"],
++      prerequisites: ["arithmetic"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 147",
++        page: 250,
++      },
++      reasoning: "modeling",
++    },
++    () => ({
++      skill: L("Interés sobre el balance restante: pagos decrecientes", "Interest on the remaining balance: shrinking payments"),
++      statement: L(
++        "Debe saldarse una deuda de $\\$1\\,800$ en un año, efectuando un pago de $\\$150$ al término de cada mes, más el interés a una tasa del $1\\%$ mensual sobre el balance restante. Hallar cuánto paga en total (el primer pago, el último pago y los intereses van en la solución).",
++        "A debt of $\\$1,\\!800$ must be settled within a year by paying $\\$150$ at the end of each month, plus interest at $1\\%$ monthly on the remaining balance. Find how much is paid in total (the first payment, the last payment and the interest are in the solution).",
++      ),
++      answer: { kind: "numeric", value: 1917 },
++      hints: [
++        L(
++          "Antes del pago $k$, el balance es $B_{k-1} = 1800 - 150(k - 1)$; el pago de ese mes es $150 + 0{,}01 \\cdot B_{k-1}$.",
++          "Before payment $k$, the balance is $B_{k-1} = 1800 - 150(k - 1)$; that month's payment is $150 + 0.01 \\cdot B_{k-1}$.",
++        ),
++        L(
++          "Con $\\$150$ al capital, la deuda se salda en $1800 / 150 = 12$ meses exactos; el balance antes del último pago es $\\$150$.",
++          "With $\\$150$ to principal, the debt clears in exactly $1800 / 150 = 12$ months; the balance before the last payment is $\\$150$.",
++        ),
++        L(
++          "Interés total: $0{,}01 \\sum_{k=0}^{11} B_{k}$ — suma aritmética de $1800$ hasta $150$.",
++          "Total interest: $0.01 \\sum_{k=0}^{11} B_{k}$ — an arithmetic sum from $1800$ down to $150$.",
++        ),
++      ],
++      answerDisplay: L(
++        `total pagado: $\\$1917$ (12 pagos · primero $\\$168$ · último $\\$151{,}50$ · interés $\\$117$)`,
++        `total paid: $\\$1917$ (12 payments · first $\\$168$ · last $\\$151.50$ · interest $\\$117$)`,
++      ),
++      solution: [
++        step(
++          "given",
++          `Deuda $\\$1800$; $\\$150$ mensuales al capital + $1\\%$ del balance restante; $B_{k} = 1800 - 150k$.`,
++          `Debt $\\$1800$; $\\$150$ monthly to principal + $1\\%$ of the remaining balance; $B_{k} = 1800 - 150k$.`,
++        ),
++        step(
++          "approach",
++          "Cada pago = cuota fija al capital + interés sobre balance: los pagos decaen mes a mes. Total = deuda + interés total.",
++          "Each payment = fixed principal installment + interest on balance: payments shrink month by month. Total = debt + total interest.",
++        ),
++        step(
++          "calculation",
++          `Primer pago: $150 + 0{,}01 \\cdot 1800 = 150 + 18 = 168$.<br>$1800 / 150 = 12$ pagos; balance antes del último: $B_{11} = 150$ → último pago $150 + 1{,}50 = 151{,}50$.<br>$\\sum_{k=0}^{11} B_{k} = \\frac{12(1800 + 150)}{2} = 6 \\cdot 1950 = 11\\,700$<br>Interés total: $0{,}01 \\cdot 11\\,700 = 117$. Total: $1800 + 117 = 1917$.`,
++          `First payment: $150 + 0.01 \\cdot 1800 = 168$.<br>$1800 / 150 = 12$ payments; balance before the last: $B_{11} = 150$ → last payment $150 + 1.5 = 151.5$.<br>$\\sum_{k=0}^{11} B_{k} = \\frac{12(1800 + 150)}{2} = 11,\\!700$<br>Total interest: $0.01 \\cdot 11,\\!700 = 117$. Total: $1800 + 117 = 1917$.`,
++        ),
++        step(
++          "result",
++          `Total pagado: $\\$1917$ — a) primer pago $\\$168$, b) último $\\$151{,}50$, c) total $\\$1917$, d) interés $\\$117$ (clave del libro ✓ en las cuatro partes). Comprobación: suma de pagos $= 12 \\cdot 150 + 117 = 1917$ ✓.`,
++          `Total paid: $\\$1917$ — a) first payment $\\$168$, b) last $\\$151.50$, c) total $\\$1917$, d) interest $\\$117$ (book key ✓ on all four parts). Check: sum of payments $= 12 \\cdot 150 + 117 = 1917$ ✓.`,
++        ),
++      ],
++    }),
++  ),
++
++  /* 151 — suma de múltiplos de 3 cifras de 7 → 70336. Sin clave impresa (sympy). */
++  template(
++    {
++      id: "seq-espol-ch2-151",
++      subject: "math",
++      topicId: "sequences",
++      subtopicId: "finite-sums",
++      difficulty: "hard",
++      questionType: "multiple-choice",
++      estimatedTimeSec: 270,
++      tags: ["arithmetic-series", "divisibility", "application"],
++      prerequisites: ["arithmetic"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 151",
++        page: 250,
++      },
++      reasoning: "multi-concept",
++    },
++    (rng) => {
++      const options: McOption[] = [
++        { id: "a", text: L(`$70\\,000$`, `$70,\\!000$`), correct: false },
++        { id: "b", text: L(`$60\\,000$`, `$60,\\!000$`), correct: false },
++        { id: "c", text: L(`$70\\,300$`, `$70,\\!300$`), correct: false },
++        { id: "d", text: L(`$60\\,360$`, `$60,\\!360$`), correct: false },
++        { id: "e", text: L(`$70\\,336$`, `$70,\\!336$`), correct: true },
++      ];
++      return {
++        skill: L("Serie de múltiplos: primero, último, cuántos y Gauss", "Series of multiples: first, last, how many, and Gauss"),
++        statement: L(
++          "La suma de todos los números de tres cifras que son múltiplos de $7$ es:",
++          "The sum of all three-digit numbers that are multiples of $7$ is:",
++        ),
++        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
++        hints: [
++          L(
++            "Primer múltiplo de 3 cifras: $7 \\cdot 15 = 105$; el último: el mayor $7k < 1000$.",
++            "First three-digit multiple: $7 \\cdot 15 = 105$; the last one: the largest $7k < 1000$.",
++          ),
++          L(
++            "$1000 / 7 \\approx 142{,}86$, así que el último es $7 \\cdot 142 = 994$; de $k = 15$ a $k = 142$ hay $142 - 15 + 1$ términos.",
++            "$1000 / 7 \\approx 142.86$, so the last is $7 \\cdot 142 = 994$; from $k = 15$ to $k = 142$ there are $142 - 15 + 1$ terms.",
++          ),
++          L(
++            "Suma $= \\frac{n(\\text{primero} + \\text{último})}{2}$ con $n = 128$.",
++            "Sum $= \\frac{n(\\text{first} + \\text{last})}{2}$ with $n = 128$.",
++          ),
++        ],
++        answerDisplay: L(`$70\\,336$ (128 términos: $105 \\to 994$)`, `$70,\\!336$ (128 terms: $105 \\to 994$)`),
++        solution: [
++          step(
++            "given",
++            "Se pide $\\Sigma$ de todos los múltiplos de $7$ con tres cifras.",
++            "Requested: the $\\Sigma$ of all three-digit multiples of $7$.",
++          ),
++          step(
++            "approach",
++            "Identificar extremos y cantidad de términos; aplicar la fórmula de Gauss. (Este ejercicio no tiene clave impresa en el libro: la respuesta se verificó de forma independiente con sympy.)",
++            "Identify the endpoints and the number of terms; apply Gauss's formula. (This exercise has no printed key in the book: the answer was independently verified with sympy.)",
++          ),
++          step(
++            "calculation",
++            `Primero: $7 \\cdot 15 = 105$; último: $7 \\cdot 142 = 994$ (pues $7 \\cdot 143 = 1001$).<br>$n = 142 - 15 + 1 = 128$ términos.<br>$S = \\dfrac{128(105 + 994)}{2} = 64 \\cdot 1099 = 70\\,336$.`,
++            `First: $7 \\cdot 15 = 105$; last: $7 \\cdot 142 = 994$ (since $7 \\cdot 143 = 1001$).<br>$n = 142 - 15 + 1 = 128$ terms.<br>$S = \\dfrac{128(105 + 994)}{2} = 64 \\cdot 1099 = 70,\\!336$.`,
++          ),
++          step(
++            "result",
++            `La suma es $70\\,336$ (opción e). Comprobación cruzada: $S = 7 \\cdot \\sum_{k=15}^{142} k = 7 \\cdot \\frac{128(15 + 142)}{2} = 7 \\cdot 10048 = 70\\,336$ ✓.`,
++            `The sum is $70,\\!336$ (option e). Cross-check: $S = 7 \\cdot \\frac{128(15 + 142)}{2} = 7 \\cdot 10048 = 70,\\!336$ ✓.`,
++          ),
++        ],
++      };
++    },
++  ),
+ ];
+diff --git a/src/content/math/systems.ts b/src/content/math/systems.ts
+index 9e36a38..2ecea52 100644
+--- a/src/content/math/systems.ts
++++ b/src/content/math/systems.ts
+@@ -1607,6 +1607,761 @@ const ownTemplates: ProblemTemplate[] = [
+       };
+     },
+   ),
++
++  /* ================================================================== */
++  /* Curated — ESPOL Fundamentos, EDICIÓN DIGITAL (TUTOR_LICENSED).      */
++  /* Chapter 2 «Ejercicios propuestos», §2.8, pp. 234-239 (PDF 267-272).*/
++  /* Tutor's brief: the most difficult / integrative ones.              */
++  /* Double-verified: printed key pp. 939 + sympy (41/41 checks).        */
++  /* ================================================================== */
++
++  /* 47 — jerez 10%/35% → 15%, 10 000 L → 8000 vino + 2000 brandy. Key: (a). */
++  template(
++    {
++      id: "sys-espol-ch2-47",
++      subject: "math",
++      topicId: "systems",
++      subtopicId: "applications",
++      difficulty: "medium",
++      questionType: "multiple-choice",
++      estimatedTimeSec: 240,
++      tags: ["mixture", "percent", "application"],
++      prerequisites: ["elimination"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 47",
++        page: 234,
++      },
++      reasoning: "modeling",
++    },
++    (rng) => {
++      const options: McOption[] = [
++        { id: "a", text: L(`$8000$ L de vino blanco y $2000$ L de brandy`, `$8000$ L of white wine and $2000$ L of brandy`), correct: true },
++        { id: "b", text: L(`$9000$ L y $1000$ L`, `$9000$ L and $1000$ L`), correct: false },
++        { id: "c", text: L(`$7000$ L y $3000$ L`, `$7000$ L and $3000$ L`), correct: false },
++        { id: "d", text: L(`$6500$ L y $3500$ L`, `$6500$ L and $3500$ L`), correct: false },
++        { id: "e", text: L(`$2000$ L de vino blanco y $8000$ L de brandy`, `$2000$ L of white wine and $8000$ L of brandy`), correct: false },
++      ];
++      return {
++        skill: L("Mezcla con porcentajes: ecuación de volumen + ecuación de alcohol", "Mixture with percents: volume equation + alcohol equation"),
++        statement: L(
++          "Una compañía vinícola requiere producir $10\\,000$ litros de jerez, mezclando vino blanco con brandy; el vino blanco contiene $10\\%$ de alcohol, y el brandy contiene $35\\%$ de alcohol por volumen. El jerez debe tener un contenido de alcohol del $15\\%$. Entonces las cantidades en litros de vino blanco y de brandy que deben mezclarse para obtener el resultado deseado, es:",
++          "A winery needs to produce $10,\\!000$ liters of sherry by blending white wine with brandy; the white wine contains $10\\%$ alcohol and the brandy $35\\%$ alcohol by volume. The sherry must have an alcohol content of $15\\%$. The amounts in liters of white wine and brandy to mix are:",
++        ),
++        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
++        hints: [
++          L(
++            "Dos incógnitas (vino $v$, brandy $b$) piden dos ecuaciones: una para el volumen total y otra para el alcohol puro.",
++            "Two unknowns (wine $v$, brandy $b$) ask for two equations: one for total volume and one for pure alcohol.",
++          ),
++          L(
++            "Volumen: $v + b = 10\\,000$. Alcohol: $0{,}10v + 0{,}35b = 0{,}15 \\cdot 10\\,000 = 1\\,500$.",
++            "Volume: $v + b = 10,\\!000$. Alcohol: $0.10v + 0.35b = 0.15 \\cdot 10,\\!000 = 1,\\!500$.",
++          ),
++          L(
++            "Sustituye $v = 10\\,000 - b$: $0{,}10(10\\,000 - b) + 0{,}35b = 1\\,500$ — queda una ecuación lineal en $b$.",
++            "Substitute $v = 10,\\!000 - b$: $0.10(10,\\!000 - b) + 0.35b = 1,\\!500$ — a linear equation in $b$ remains.",
++          ),
++        ],
++        answerDisplay: L(
++          `$8000$ L de vino blanco y $2000$ L de brandy`,
++          `$8000$ L of white wine and $2000$ L of brandy`,
++        ),
++        solution: [
++          step(
++            "given",
++            "Volumen total $10\\,000$ L al $15\\%$; vino blanco al $10\\%$; brandy al $35\\%$.",
++            "Total volume $10,\\!000$ L at $15\\%$; white wine at $10\\%$; brandy at $35\\%$.",
++          ),
++          step(
++            "approach",
++            "Mezclas: lo que se conserva es la cantidad de sustancia pura (alcohol), así que volumen y alcohol dan las dos ecuaciones.",
++            "Mixtures: what is conserved is the amount of pure substance (alcohol), so volume and alcohol provide the two equations.",
++          ),
++          step(
++            "calculation",
++            `$\\begin{cases} v + b = 10\\,000 \\\\ 0{,}10v + 0{,}35b = 1\\,500 \\end{cases}$<br>De (1): $v = 10\\,000 - b$; en (2): $1\\,000 - 0{,}10b + 0{,}35b = 1\\,500$<br>$0{,}25b = 500 \\Rightarrow b = 2\\,000$; $v = 8\\,000$`,
++            `$\\begin{cases} v + b = 10,\\!000 \\\\ 0.10v + 0.35b = 1,\\!500 \\end{cases}$<br>From (1): $v = 10,\\!000 - b$; in (2): $1,\\!000 - 0.10b + 0.35b = 1,\\!500$<br>$0.25b = 500 \\Rightarrow b = 2,\\!000$; $v = 8,\\!000$`,
++          ),
++          step(
++            "result",
++            `$8\\,000$ L de vino blanco y $2\\,000$ L de brandy (opción a). Comprobación: $0{,}10 \\cdot 8\\,000 + 0{,}35 \\cdot 2\\,000 = 800 + 700 = 1\\,500 = 0{,}15 \\cdot 10\\,000$ ✓ (el $15\\%$ está más cerca del $10\\%$: domina el vino).`,
++            `8,000 L of white wine and 2,000 L of brandy (option a). Check: $0.10 \\cdot 8,\\!000 + 0.35 \\cdot 2,\\!000 = 800 + 700 = 1,\\!500 = 0.15 \\cdot 10,\\!000$ ✓ ($15\\%$ is closer to $10\\%$: wine dominates).`,
++          ),
++        ],
++      };
++    },
++  ),
++
++  /* 56 — marco del cuadro: L = 2A, marco 2 cm, +244 cm² → 19 × 38 cm. Key: 19,38. */
++  template(
++    {
++      id: "sys-espol-ch2-56",
++      subject: "math",
++      topicId: "systems",
++      subtopicId: "applications",
++      difficulty: "hard",
++      questionType: "multiple-choice",
++      estimatedTimeSec: 270,
++      tags: ["geometry", "area", "application"],
++      prerequisites: ["elimination"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 56",
++        page: 237,
++      },
++      reasoning: "modeling",
++    },
++    (rng) => {
++      const options: McOption[] = [
++        { id: "a", text: L(`ancho $19$ cm, largo $38$ cm`, `width $19$ cm, length $38$ cm`), correct: true },
++        { id: "b", text: L(`ancho $18$ cm, largo $36$ cm`, `width $18$ cm, length $36$ cm`), correct: false },
++        { id: "c", text: L(`ancho $20$ cm, largo $40$ cm`, `width $20$ cm, length $40$ cm`), correct: false },
++        { id: "d", text: L(`ancho $22$ cm, largo $44$ cm`, `width $22$ cm, length $44$ cm`), correct: false },
++        { id: "e", text: L(`ancho $17$ cm, largo $34$ cm`, `width $17$ cm, length $34$ cm`), correct: false },
++      ];
++      return {
++        skill: L("Geometría: el marco agranda ambas dimensiones en 2·ancho del marco", "Geometry: the frame enlarges both dimensions by twice the frame width"),
++        statement: L(
++          "El largo de un cuadro es el doble del ancho. Si el marco del cuadro tiene $2$ cm de ancho y si el cuadro y su marco tienen una superficie $244\\ \\text{cm}^{2}$ mayor que la del cuadro, encontrar las dimensiones del cuadro (responde: ancho y largo).",
++          "The length of a picture is twice its width. If the frame is $2$ cm wide and the picture plus its frame have an area $244\\ \\text{cm}^{2}$ larger than the picture alone, find the dimensions of the picture (answer: width and length).",
++        ),
++        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
++        hints: [
++          L(
++            "Con marco de $2$ cm a cada lado, las dimensiones exteriores crecen $4$ cm en total: $(L + 4)$ y $(A + 4)$.",
++            "With a $2$ cm frame on each side, the outer dimensions grow by $4$ cm overall: $(L + 4)$ and $(W + 4)$.",
++          ),
++          L(
++            "El área extra es $(L+4)(A+4) - LA = 244$. Desarrolla: queda $4L + 4A + 16 = 244$.",
++            "The extra area is $(L+4)(W+4) - LW = 244$. Expand: it becomes $4L + 4W + 16 = 244$.",
++          ),
++          L(
++            "Como $L = 2A$: $4(2A) + 4A = 228 \\Rightarrow 12A = 228$.",
++            "Since $L = 2W$: $4(2W) + 4W = 228 \\Rightarrow 12W = 228$.",
++          ),
++        ],
++        answerDisplay: L(`ancho $19$ cm, largo $38$ cm`, `width $19$ cm, length $38$ cm`),
++        solution: [
++          step(
++            "given",
++            "$L = 2A$; marco de $2$ cm; área del conjunto = área del cuadro $+ 244\\ \\text{cm}^{2}$.",
++            "$L = 2W$; frame $2$ cm wide; combined area = picture area $+ 244\\ \\text{cm}^{2}$.",
++          ),
++          step(
++            "approach",
++            "Traducir el exceso de área sin expandir el producto: la diferencia $(L+4)(A+4) - LA$ elimina el término cuadrático y deja una ecuación lineal.",
++            "Translate the area excess without expanding the whole product: the difference $(L+4)(W+4) - LW$ kills the quadratic term and leaves a linear equation.",
++          ),
++          step(
++            "calculation",
++            `$(L + 4)(A + 4) - LA = 244$<br>$LA + 4L + 4A + 16 - LA = 244 \\Rightarrow 4L + 4A = 228 \\Rightarrow L + A = 57$<br>Con $L = 2A$: $3A = 57 \\Rightarrow A = 19$, $L = 38$`,
++            `$(L + 4)(W + 4) - LW = 244$<br>$LW + 4L + 4W + 16 - LW = 244 \\Rightarrow 4L + 4W = 228 \\Rightarrow L + W = 57$<br>With $L = 2W$: $3W = 57 \\Rightarrow W = 19$, $L = 38$`,
++          ),
++          step(
++            "result",
++            `El cuadro mide $19 \\times 38$ cm (clave del libro: 19, 38 ✓). Comprobación: exterior $23 \\times 42 = 966$; cuadro $19 \\times 38 = 722$; diferencia $966 - 722 = 244$ ✓.`,
++            `The picture is $19 \\times 38$ cm (book key: 19, 38 ✓). Check: outer $23 \\times 42 = 966$; picture $19 \\times 38 = 722$; difference $966 - 722 = 244$ ✓.`,
++          ),
++        ],
++      };
++    },
++  ),
++
++  /* 58 — piscina 15/20/30 h juntas → 20/3 h. Key: 20/3 h. */
++  template(
++    {
++      id: "sys-espol-ch2-58",
++      subject: "math",
++      topicId: "systems",
++      subtopicId: "applications",
++      difficulty: "medium",
++      questionType: "numeric",
++      estimatedTimeSec: 180,
++      tags: ["work-rate", "application"],
++      prerequisites: ["fractions"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 58",
++        page: 237,
++      },
++      reasoning: "modeling",
++    },
++    () => ({
++      skill: L("Razones de trabajo: sumar caudales, no tiempos", "Work rates: add flows, not times"),
++      statement: L(
++        "Una piscina puede ser llenada por tres cañerías en forma independiente. La primera cañería llena la piscina en 15 h; la segunda en 20 h y la última en 30 h. ¿En qué tiempo llenarían la piscina las tres cañerías juntas? Responde en horas (fracción exacta tipo 20/3 o dos decimales).",
++        "A pool can be filled by three pipes independently. The first pipe fills the pool in 15 h; the second in 20 h and the last in 30 h. In what time would the three pipes fill the pool together? Answer in hours (exact fraction like 20/3, or two decimals).",
++      ),
++      answer: { kind: "numeric", value: 20 / 3 },
++      hints: [
++        L(
++          "No promedies tiempos: las razones (fracción de piscina por hora) sí se suman.",
++          "Do not average times: the rates (fraction of pool per hour) do add up.",
++          ),
++        L(
++          "Razones: $\\frac{1}{15} + \\frac{1}{20} + \\frac{1}{30}$; usa denominador común $60$.",
++          "Rates: $\\frac{1}{15} + \\frac{1}{20} + \\frac{1}{30}$; use common denominator $60$.",
++        ),
++        L(
++          "La razón conjunta es $\\frac{9}{60} = \\frac{3}{20}$; el tiempo es su recíproco.",
++          "The joint rate is $\\frac{9}{60} = \\frac{3}{20}$; the time is its reciprocal.",
++        ),
++      ],
++      answerDisplay: L(
++        `$\\dfrac{20}{3}\\ \\text{h} \\approx 6{,}67\\ \\text{h}$ (6 h 40 min)`,
++        `$\\dfrac{20}{3}\\ \\text{h} \\approx 6.67\\ \\text{h}$ (6 h 40 min)`,
++      ),
++      solution: [
++        step(
++          "given",
++          "Cañerías independientes: 15 h, 20 h, 30 h para una piscina completa.",
++          "Independent pipes: 15 h, 20 h, 30 h for a full pool.",
++        ),
++        step(
++          "approach",
++          "Sumar razones de llenado (piscinas/hora); el tiempo conjunto es el recíproco de la razón total.",
++          "Add filling rates (pools/hour); the joint time is the reciprocal of the total rate.",
++        ),
++        step(
++          "calculation",
++          `$\\frac{1}{15} + \\frac{1}{20} + \\frac{1}{30} = \\frac{4}{60} + \\frac{3}{60} + \\frac{2}{60} = \\frac{9}{60} = \\frac{3}{20}$<br>$T = \\dfrac{1}{\\frac{3}{20}} = \\dfrac{20}{3} \\approx 6{,}67$ h`,
++          `$\\frac{1}{15} + \\frac{1}{20} + \\frac{1}{30} = \\frac{4}{60} + \\frac{3}{60} + \\frac{2}{60} = \\frac{9}{60} = \\frac{3}{20}$<br>$T = \\dfrac{1}{\\frac{3}{20}} = \\dfrac{20}{3} \\approx 6.67$ h`,
++        ),
++        step(
++          "result",
++          `$\\frac{20}{3}$ h = 6 h 40 min (clave del libro: $\\frac{20}{3}$ h ✓). Comprobación: en $20/3$ h la primera llena $\\frac{20}{3} \\cdot \\frac{1}{15} = \\frac{4}{9}$, la segunda $\\frac{1}{3}$ y la tercera $\\frac{2}{9}$; total $\\frac{4}{9} + \\frac{3}{9} + \\frac{2}{9} = 1$ piscina ✓.`,
++          `$\\frac{20}{3}$ h = 6 h 40 min (book key: $\\frac{20}{3}$ h ✓). Check: in $20/3$ h the first fills $\\frac{4}{9}$, the second $\\frac{1}{3}$ and the third $\\frac{2}{9}$; total $\\frac{4}{9} + \\frac{3}{9} + \\frac{2}{9} = 1$ pool ✓.`,
++        ),
++      ],
++    }),
++  ),
++
++  /* 60 — alambre 100 in, dos cuadrados, Σ áreas 397 in² → 76 y 24. Key: idem. */
++  template(
++    {
++      id: "sys-espol-ch2-60",
++      subject: "math",
++      topicId: "systems",
++      subtopicId: "applications",
++      difficulty: "hard",
++      questionType: "multiple-choice",
++      estimatedTimeSec: 300,
++      tags: ["geometry", "quadratic", "application"],
++      prerequisites: ["quadratic-formula"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 60",
++        page: 237,
++      },
++      reasoning: "modeling",
++    },
++    (rng) => {
++      const options: McOption[] = [
++        { id: "a", text: L(`$76$ y $24$ pulgadas`, `$76$ and $24$ inches`), correct: true },
++        { id: "b", text: L(`$64$ y $36$ pulgadas`, `$64$ and $36$ inches`), correct: false },
++        { id: "c", text: L(`$52$ y $48$ pulgadas`, `$52$ and $48$ inches`), correct: false },
++        { id: "d", text: L(`$78$ y $22$ pulgadas`, `$78$ and $22$ inches`), correct: false },
++        { id: "e", text: L(`$70$ y $30$ pulgadas`, `$70$ and $30$ inches`), correct: false },
++      ];
++      return {
++        skill: L("Un corte, dos cuadrados: el perímetro se reparte, las áreas no", "One cut, two squares: the perimeter splits, the areas do not"),
++        statement: L(
++          "Un trozo de alambre de $100$ pulgadas de largo se corta en dos, y cada pedazo se dobla para que tome la forma de un cuadrado. Si la suma de las áreas formadas es de $397\\ \\text{pulg}^{2}$, encontrar la longitud de cada pedazo de alambre.",
++          "A piece of wire $100$ inches long is cut in two, and each piece is bent into a square. If the sum of the areas formed is $397\\ \\text{in}^{2}$, find the length of each piece of wire.",
++        ),
++        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
++        hints: [
++          L(
++            "Si un pedazo mide $p$, el cuadrado tiene lado $p/4$ y área $(p/4)^{2}$; el otro pedazo mide $100 - p$.",
++            "If a piece has length $p$, its square has side $p/4$ and area $(p/4)^{2}$; the other piece measures $100 - p$.",
++          ),
++          L(
++            "La condición es $\\left(\\frac{p}{4}\\right)^{2} + \\left(\\frac{100 - p}{4}\\right)^{2} = 397$; multiplica por $16$.",
++            "The condition is $\\left(\\frac{p}{4}\\right)^{2} + \\left(\\frac{100 - p}{4}\\right)^{2} = 397$; multiply by $16$.",
++          ),
++          L(
++            "Queda $p^{2} + (100 - p)^{2} = 6352$, una cuadrática con dos raíces que se completan entre sí (¿cuánto suman?).",
++            "You get $p^{2} + (100 - p)^{2} = 6352$, a quadratic whose two roots complete each other (what do they add up to?).",
++          ),
++        ],
++        answerDisplay: L(`$76$ pulgadas y $24$ pulgadas`, `76 inches and 24 inches`),
++        solution: [
++          step(
++            "given",
++            "Alambre de $100$ in cortado en dos; cada pieza forma un cuadrado; $\\Sigma$ áreas $= 397\\ \\text{in}^{2}$.",
++            "A $100$ in wire cut in two; each piece forms a square; $\\Sigma$ areas $= 397\\ \\text{in}^{2}$.",
++          ),
++          step(
++            "approach",
++            "Una sola incógnita $p$ (la otra pieza es $100 - p$); el área del cuadrado usa el lado $p/4$. Sale una cuadrática simétrica: sus raíces son los dos pedazos.",
++            "A single unknown $p$ (the other piece is $100 - p$); the square's area uses side $p/4$. A symmetric quadratic comes out: its roots are the two pieces.",
++          ),
++          step(
++            "calculation",
++            `$\\frac{p^{2}}{16} + \\frac{(100 - p)^{2}}{16} = 397 \\Rightarrow p^{2} + (100 - p)^{2} = 6352$<br>$p^{2} + 10\\,000 - 200p + p^{2} = 6352 \\Rightarrow 2p^{2} - 200p + 3648 = 0$<br>$p^{2} - 100p + 1824 = 0 \\Rightarrow p = \\dfrac{100 \\pm \\sqrt{10\\,000 - 7296}}{2} = \\dfrac{100 \\pm 52}{2}$<br>$p = 76$ o $p = 24$ (los dos pedazos).`,
++            `$\\frac{p^{2}}{16} + \\frac{(100 - p)^{2}}{16} = 397 \\Rightarrow p^{2} + (100 - p)^{2} = 6352$<br>$p^{2} + 10,\\!000 - 200p + p^{2} = 6352 \\Rightarrow 2p^{2} - 200p + 3648 = 0$<br>$p^{2} - 100p + 1824 = 0 \\Rightarrow p = \\dfrac{100 \\pm \\sqrt{10,\\!000 - 7296}}{2} = \\dfrac{100 \\pm 52}{2}$<br>$p = 76$ or $p = 24$ (the two pieces).`,
++          ),
++          step(
++            "result",
++            `Los pedazos miden $76$ in y $24$ in (clave del libro: 76 y 24 ✓). Comprobación: cuadrados de lado $19$ y $6$: $19^{2} + 6^{2} = 361 + 36 = 397$ ✓.`,
++            `The pieces are $76$ in and $24$ in (book key: 76 and 24 ✓). Check: squares of side $19$ and $6$: $19^{2} + 6^{2} = 361 + 36 = 397$ ✓.`,
++          ),
++        ],
++      };
++    },
++  ),
++
++  /* 61 — alquiler con vacantes → $200. Key: (c). */
++  template(
++    {
++      id: "sys-espol-ch2-61",
++      subject: "math",
++      topicId: "systems",
++      subtopicId: "applications",
++      difficulty: "hard",
++      questionType: "multiple-choice",
++      estimatedTimeSec: 300,
++      tags: ["business", "revenue", "application"],
++      prerequisites: ["elimination"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 61",
++        page: 237,
++      },
++      reasoning: "modeling",
++    },
++    (rng) => {
++      const options: McOption[] = [
++        { id: "a", text: L(`$\\$160$`, `$\\$160$`), correct: false },
++        { id: "b", text: L(`$\\$180$`, `$\\$180$`), correct: false },
++        { id: "c", text: L(`$\\$200$`, `$\\$200$`), correct: true },
++        { id: "d", text: L(`$\\$220$`, `$\\$220$`), correct: false },
++        { id: "e", text: L(`$\\$240$`, `$\\$240$`), correct: false },
++      ];
++      return {
++        skill: L("Ingresos iguales con vacantes: modelar (120+5n)(40−n)", "Same revenue with vacancies: model (120+5n)(40−n)"),
++        statement: L(
++          "Bienes raíces «Chóez» construyó una unidad habitacional con $40$ departamentos. Se conoce que si se fija un alquiler mensual de $\\$120$ por departamento, todos serán ocupados, pero por cada $\\$5$ de incremento en el alquiler uno quedará vacante. El alquiler en dólares que deberá fijarse, con el objeto de obtener los mismos ingresos (que si se alquilaran a $120$ cada departamento), dejando algunos vacíos para mantenimiento, es:",
++          "Real-estate firm “Chóez” built a unit with $40$ apartments. It is known that at a monthly rent of $\\$120$ per apartment all are occupied, but for each $\\$5$ increase one apartment becomes vacant. The rent in dollars that should be set to obtain the same income (as renting all of them at $120$), leaving some vacant for maintenance, is:",
++        ),
++        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
++        hints: [
++          L(
++            "Ingreso base: $40 \\cdot 120 = 4800$ dólares. Ese es el número que hay que reproducir.",
++            "Base income: $40 \\cdot 120 = 4800$ dollars. That is the number to reproduce.",
++          ),
++          L(
++            "Con $n$ vacantes: alquiler $120 + 5n$, ocupados $40 - n$. El ingreso es $(120 + 5n)(40 - n)$.",
++            "With $n$ vacancies: rent $120 + 5n$, occupied $40 - n$. Income is $(120 + 5n)(40 - n)$.",
++          ),
++          L(
++            "Iguala a $4800$ y expande: el término independiente se cancela y queda $n(16 - n) = 0$.",
++            "Set it equal to $4800$ and expand: the constant term cancels leaving $n(16 - n) = 0$.",
++          ),
++        ],
++        answerDisplay: L(`$\\$200$ (con 24 ocupados)`, `$\\$200$ (with 24 occupied)`),
++        solution: [
++          step(
++            "given",
++            `40 departamentos; alquiler base $\\$120$; cada $\\$5$ de aumento deja 1 vacante; ingreso objetivo: el mismo que con todos ocupados.`,
++            `40 apartments; base rent $\\$120$; each $\\$5$ increase leaves 1 vacant; target income: same as fully occupied.`,
++          ),
++          step(
++            "approach",
++            "Modelar con una variable (número de vacantes $n$); el requisito «mismos ingresos» fija la ecuación cuadrática.",
++            "Model with one variable (number of vacancies $n$); the “same income” requirement fixes the quadratic.",
++          ),
++          step(
++            "calculation",
++            `Ingreso base: $40 \\cdot 120 = 4800$.<br>Con $n$ vacantes: $(120 + 5n)(40 - n) = 4800$<br>$4800 + 200n - 5n^{2} - 120n = 4800 \\Rightarrow 80n - 5n^{2} = 0 \\Rightarrow n(16 - n) = 0$<br>$n = 0$ (todos ocupados, se descarta) o $n = 16$.<br>Alquiler: $120 + 5 \\cdot 16 = 200$, con $40 - 16 = 24$ ocupados.`,
++            `Base income: $40 \\cdot 120 = 4800$.<br>With $n$ vacancies: $(120 + 5n)(40 - n) = 4800$<br>$4800 + 200n - 5n^{2} - 120n = 4800 \\Rightarrow 80n - 5n^{2} = 0 \\Rightarrow n(16 - n) = 0$<br>$n = 0$ (all occupied, discarded) or $n = 16$.<br>Rent: $120 + 5 \\cdot 16 = 200$, with $40 - 16 = 24$ occupied.`,
++          ),
++          step(
++            "result",
++            `Alquiler $\\$200$ con 24 departamentos ocupados (opción c; clave del libro: (c) ✓). Comprobación: $200 \\cdot 24 = 4800 = 120 \\cdot 40$ ✓.`,
++            `Rent $\\$200$ with 24 occupied apartments (option c; book key: (c) ✓). Check: $200 \\cdot 24 = 4800 = 120 \\cdot 40$ ✓.`,
++          ),
++        ],
++      };
++    },
++  ),
++
++  /* 62 — 60 habitaciones, ingreso $11 475 → $225 ó $255. Key: idem. */
++  template(
++    {
++      id: "sys-espol-ch2-62",
++      subject: "math",
++      topicId: "systems",
++      subtopicId: "applications",
++      difficulty: "hard",
++      questionType: "multiple-choice",
++      estimatedTimeSec: 300,
++      tags: ["business", "revenue", "two-answers"],
++      prerequisites: ["quadratic-formula"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 62",
++        page: 238,
++      },
++      reasoning: "modeling",
++    },
++    (rng) => {
++      const options: McOption[] = [
++        { id: "a", text: L(`$\\$225$ ó $\\$255$`, `$\\$225$ or $\\$255$`), correct: true },
++        { id: "b", text: L(`solo $\\$225$`, `only $\\$225$`), correct: false },
++        { id: "c", text: L(`solo $\\$255$`, `only $\\$255$`), correct: false },
++        { id: "d", text: L(`$\\$200$ ó $\\$240$`, `$\\$200$ or $\\$240$`), correct: false },
++        { id: "e", text: L(`$\\$235$`, `$\\$235$`), correct: false },
++      ];
++      return {
++        skill: L("Ingreso objetivo: dos alquileres lo logran (cuadrática con 2 raíces)", "Target income: two rents achieve it (quadratic with 2 roots)"),
++        statement: L(
++          "J. Cárdenas es propietario de un edificio de apartamentos que tiene $60$ habitaciones; él puede alquilar todas las habitaciones si fija un alquiler de $180$ al mes. Al subir el alquiler, algunas habitaciones quedarán vacías, en promedio, por cada incremento de $\\$5$, una habitación quedará vacía, sin posibilidad alguna de alquilarse. Encuentre el alquiler que debería cobrar con el fin de obtener un ingreso total de $\\$11\\,475$.",
++          "J. Cárdenas owns an apartment building with $60$ rooms; he can rent all the rooms at $180$ a month. As the rent rises, some rooms stay vacant — on average, for each $\\$5$ increase one room becomes vacant, with no chance of being rented. Find the rent he should charge to obtain a total income of $\\$11,\\!475$.",
++        ),
++        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
++        hints: [
++          L(
++            "Con $n$ incrementos de $\\$5$: alquiler $180 + 5n$, habitaciones ocupadas $60 - n$.",
++            "With $n$ increases of $\\$5$: rent $180 + 5n$, occupied rooms $60 - n$.",
++          ),
++          L(
++            "Plantea $(180 + 5n)(60 - n) = 11\\,475$ y expande.",
++            "Set up $(180 + 5n)(60 - n) = 11,\\!475$ and expand.",
++          ),
++          L(
++            "Queda $n^{2} - 24n + 135 = 0$; tiene DOS raíces enteras — ambas son válidas.",
++            "You get $n^{2} - 24n + 135 = 0$; it has TWO integer roots — both are valid.",
++          ),
++        ],
++        answerDisplay: L(
++          `$\\$225$ (51 habitaciones) ó $\\$255$ (45 habitaciones)`,
++          `$\\$225$ (51 rooms) or $\\$255$ (45 rooms)`,
++        ),
++        solution: [
++          step(
++            "given",
++            `60 habitaciones; base $\\$180$; cada $\\$5$ más → 1 vacante; ingreso requerido $\\$11\\,475$.`,
++            `60 rooms; base $\\$180$; each extra $\\$5$ → 1 vacancy; required income $\\$11,\\!475$.`,
++          ),
++          step(
++            "approach",
++            "Modelar con $n$ (aumentos de $\\$5$); la parabola de ingresos cruza el nivel objetivo dos veces: aquí hay DOS respuestas.",
++            "Model with $n$ (number of $\\$5$ increases); the income parabola crosses the target level twice: there are TWO answers here.",
++          ),
++          step(
++            "calculation",
++            `$(180 + 5n)(60 - n) = 11\\,475$<br>$10\\,800 + 300n - 180n - 5n^{2} = 11\\,475 \\Rightarrow -5n^{2} + 120n - 675 = 0$<br>$n^{2} - 24n + 135 = 0 \\Rightarrow n = \\dfrac{24 \\pm \\sqrt{576 - 540}}{2} = \\dfrac{24 \\pm 6}{2}$<br>$n = 9$ o $n = 15$. Alquileres: $180 + 45 = 225$ (51 hab.) y $180 + 75 = 255$ (45 hab.).`,
++            `$(180 + 5n)(60 - n) = 11,\\!475$<br>$10,\\!800 + 300n - 180n - 5n^{2} = 11,\\!475 \\Rightarrow -5n^{2} + 120n - 675 = 0$<br>$n^{2} - 24n + 135 = 0 \\Rightarrow n = \\dfrac{24 \\pm \\sqrt{576 - 540}}{2} = \\dfrac{24 \\pm 6}{2}$<br>$n = 9$ or $n = 15$. Rents: $180 + 45 = 225$ (51 rooms) and $180 + 75 = 255$ (45 rooms).`,
++          ),
++          step(
++            "result",
++            `Alquiler $\\$225$ con 51 habitaciones ó $\\$255$ con 45 (clave del libro: 225 ó 255 ✓). Comprobación: $225 \\cdot 51 = 11\\,475$ ✓ y $255 \\cdot 45 = 11\\,475$ ✓.`,
++            `Rent $\\$225$ with 51 rooms or $\\$255$ with 45 (book key: 225 or 255 ✓). Check: $225 \\cdot 51 = 11,\\!475$ ✓ and $255 \\cdot 45 = 11,\\!475$ ✓.`,
++          ),
++        ],
++      };
++    },
++  ),
++
++  /* 63 — capital $100, segunda tasa doble → 4% y 8%. Key: 4 y 8. */
++  template(
++    {
++      id: "sys-espol-ch2-63",
++      subject: "math",
++      topicId: "systems",
++      subtopicId: "applications",
++      difficulty: "hard",
++      questionType: "multiple-choice",
++      estimatedTimeSec: 270,
++      tags: ["finance", "compound", "application"],
++      prerequisites: ["quadratic-formula"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 63",
++        page: 238,
++      },
++      reasoning: "modeling",
++    },
++    (rng) => {
++      const options: McOption[] = [
++        { id: "a", text: L(`$4\\%$ y $8\\%$`, `$4\\%$ and $8\\%$`), correct: true },
++        { id: "b", text: L(`$5\\%$ y $10\\%$`, `$5\\%$ and $10\\%$`), correct: false },
++        { id: "c", text: L(`$3\\%$ y $6\\%$`, `$3\\%$ and $6\\%$`), correct: false },
++        { id: "d", text: L(`$4\\%$ y $6\\%$`, `$4\\%$ and $6\\%$`), correct: false },
++        { id: "e", text: L(`$6\\%$ y $12\\%$`, `$6\\%$ and $12\\%$`), correct: false },
++      ];
++      return {
++        skill: L("Interés compuesto en cadena: 100(1+r)(1+2r) = 112.32", "Chained interest: 100(1+r)(1+2r) = 112.32"),
++        statement: L(
++          "Un capital de $\\$100$ se invierte a cierto interés a un año; luego, con el interés ganado, se invierte en el segundo año a un interés igual al doble de la primera tasa de interés. Si la suma total obtenida es $\\$112{,}32$, ¿cuáles son las dos tasas de interés? (El modelo verificado — que reproduce la clave del libro — reinvierte el capital con su interés a la tasa doble).",
++          "A capital of $\\$100$ is invested for one year at some rate; then, with the earned interest, it is invested the second year at a rate equal to twice the first rate. If the total obtained is $\\$112.32$, what are the two interest rates? (The verified model — which reproduces the book's key — reinvests the capital plus its interest at the double rate.)",
++        ),
++        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
++        hints: [
++          L(
++            "Si la primera tasa es $r$ (en decimales), tras un año el capital vale $100(1 + r)$.",
++            "If the first rate is $r$ (in decimals), after one year the capital is worth $100(1 + r)$.",
++          ),
++          L(
++            "El segundo año corre a la tasa doble $2r$: el monto final es $100(1 + r)(1 + 2r) = 112{,}32$.",
++            "The second year runs at the double rate $2r$: the final amount is $100(1 + r)(1 + 2r) = 112.32$.",
++          ),
++          L(
++            "Divide entre $100$: $(1 + r)(1 + 2r) = 1{,}1232$; expande y resuelve la cuadrática (una raíz es negativa).",
++            "Divide by $100$: $(1 + r)(1 + 2r) = 1.1232$; expand and solve the quadratic (one root is negative).",
++          ),
++        ],
++        answerDisplay: L(`primera tasa $4\\%$, segunda tasa $8\\%$`, `first rate $4\\%$, second rate $8\\%$`),
++        solution: [
++          step(
++            "given",
++            `Capital $\\$100$; año 1 a tasa $r$; año 2 a tasa $2r$; monto final $\\$112{,}32$.`,
++            `Capital $\\$100$; year 1 at rate $r$; year 2 at rate $2r$; final amount $\\$112.32$.`,
++          ),
++          step(
++            "approach",
++            "El modelo verificado (consistente con la clave del libro «4 y 8»): el capital con su interés se reinvierte a la tasa doble — composición sobre el total, $100(1+r)(1+2r)$.",
++            "The verified model (consistent with the book's key “4 and 8”): the capital plus its interest is reinvested at the double rate — compounding on the total, $100(1+r)(1+2r)$.",
++          ),
++          step(
++            "calculation",
++            `$100(1 + r)(1 + 2r) = 112{,}32 \\Rightarrow (1 + r)(1 + 2r) = 1{,}1232$<br>$1 + 3r + 2r^{2} = 1{,}1232 \\Rightarrow 2r^{2} + 3r - 0{,}1232 = 0$<br>$\\Delta = 9 + 0{,}9856 = 9{,}9856$; $r = \\dfrac{-3 + 3{,}16}{4} = 0{,}04$ (la otra raíz es negativa).<br>Tasas: $r = 4\\%$ y $2r = 8\\%$.`,
++            `$100(1 + r)(1 + 2r) = 112.32 \\Rightarrow (1 + r)(1 + 2r) = 1.1232$<br>$1 + 3r + 2r^{2} = 1.1232 \\Rightarrow 2r^{2} + 3r - 0.1232 = 0$<br>$\\Delta = 9 + 0.9856 = 9.9856$; $r = \\dfrac{-3 + 3.16}{4} = 0.04$ (the other root is negative).<br>Rates: $r = 4\\%$ and $2r = 8\\%$.`,
++          ),
++          step(
++            "result",
++            `Las tasas son $4\\%$ y $8\\%$ (clave del libro: 4 y 8 ✓). Comprobación: $100 \\cdot 1{,}04 \\cdot 1{,}08 = 104 \\cdot 1{,}08 = 112{,}32$ ✓.`,
++            `The rates are $4\\%$ and $8\\%$ (book key: 4 and 8 ✓). Check: $100 \\cdot 1.04 \\cdot 1.08 = 112.32$ ✓.`,
++          ),
++        ],
++      };
++    },
++  ),
++
++  /* 64c — p = 600−5x, costos 8000+75x, utilidad $5500 → x = 60 ó 45. Key: c) 60 ó 45. */
++  template(
++    {
++      id: "sys-espol-ch2-64c",
++      subject: "math",
++      topicId: "systems",
++      subtopicId: "applications",
++      difficulty: "hard",
++      questionType: "multiple-choice",
++      estimatedTimeSec: 330,
++      tags: ["business", "profit", "revenue", "application"],
++      prerequisites: ["quadratic-formula"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 64c",
++        page: 238,
++      },
++      reasoning: "modeling",
++    },
++    (rng) => {
++      const options: McOption[] = [
++        { id: "a", text: L(`$60$ ó $45$ unidades`, `$60$ or $45$ units`), correct: true },
++        { id: "b", text: L(`$60$ ó $50$ unidades`, `$60$ or $50$ units`), correct: false },
++        { id: "c", text: L(`solo $60$ unidades`, `only $60$ units`), correct: false },
++        { id: "d", text: L(`$70$ ó $50$ unidades`, `$70$ or $50$ units`), correct: false },
++        { id: "e", text: L(`$55$ ó $40$ unidades`, `$55$ or $40$ units`), correct: false },
++      ];
++      return {
++        skill: L("Ingreso − costo = utilidad: dos volúmenes la alcanzan", "Revenue − cost = profit: two volumes reach it"),
++        statement: L(
++          "Cada semana, una compañía puede vender $x$ unidades de su producto a un precio de $p$ dólares cada uno, donde $p = 600 - 5x$. Producir $x$ unidades cuesta $(8000 + 75x)$ dólares. ¿Cuántas unidades debería producir y vender cada semana para lograr utilidades semanales de $5\\,500$? (Utilidad = ingresos − costos; ingresa $p \\cdot x$.) Las partes a, b y d del ejercicio original se desarrollan en la solución.",
++          "Each week a company can sell $x$ units of its product at a price of $p$ dollars each, where $p = 600 - 5x$. Producing $x$ units costs $(8000 + 75x)$ dollars. How many units should it produce and sell each week to achieve weekly profits of $5,\\!500$? (Profit = revenue − cost, revenue $= p \\cdot x$.) Parts a, b and d of the original exercise are developed in the solution.",
++        ),
++        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
++        hints: [
++          L(
++            "Ingresos: $I = x \\cdot p = x(600 - 5x)$. Costos: $C = 8000 + 75x$.",
++            "Revenue: $R = x \\cdot p = x(600 - 5x)$. Costs: $C = 8000 + 75x$.",
++          ),
++          L(
++            "Utilidad: $U = I - C = x(600 - 5x) - (8000 + 75x)$; iguala a $5500$.",
++            "Profit: $P = R - C = x(600 - 5x) - (8000 + 75x)$; set it equal to $5500$.",
++          ),
++          L(
++            "Queda $-5x^{2} + 525x - 13\\,500 = 0$, o bien $x^{2} - 105x + 2700 = 0$: dos raíces enteras.",
++            "You get $-5x^{2} + 525x - 13,\\!500 = 0$, i.e. $x^{2} - 105x + 2700 = 0$: two integer roots.",
++          ),
++        ],
++        answerDisplay: L(`$x = 60$ ó $x = 45$ unidades`, `$x = 60$ or $x = 45$ units`),
++        solution: [
++          step(
++            "given",
++            "Modelo semanal: $p = 600 - 5x$; costo $= 8000 + 75x$; objetivo: utilidad $\\$5\\,500$.",
++            "Weekly model: $p = 600 - 5x$; cost $= 8000 + 75x$; target: profit $\\$5,\\!500$.",
++          ),
++          step(
++            "approach",
++            "Armar ingreso, costo y utilidad; la utilidad es una parabola que cruza el nivel objetivo dos veces (dos volúmenes).",
++            "Build revenue, cost and profit; the profit is a parabola crossing the target level twice (two volumes).",
++          ),
++          step(
++            "calculation",
++            `Utilidad: $x(600 - 5x) - (8000 + 75x) = 5500$<br>$-5x^{2} + 600x - 75x - 8000 = 5500 \\Rightarrow -5x^{2} + 525x - 13\\,500 = 0$<br>$x^{2} - 105x + 2700 = 0 \\Rightarrow x = \\dfrac{105 \\pm \\sqrt{11\\,025 - 10\\,800}}{2} = \\dfrac{105 \\pm 15}{2}$<br>$x = 60$ o $x = 45$.`,
++            `Profit: $x(600 - 5x) - (8000 + 75x) = 5500$<br>$-5x^{2} + 600x - 75x - 8000 = 5500 \\Rightarrow -5x^{2} + 525x - 13,\\!500 = 0$<br>$x^{2} - 105x + 2700 = 0 \\Rightarrow x = \\dfrac{105 \\pm \\sqrt{11,\\!025 - 10,\\!800}}{2} = \\dfrac{105 \\pm 15}{2}$<br>$x = 60$ or $x = 45$.`,
++          ),
++          step(
++            "result",
++            `Con utilidad $\\$5\\,500$: $x = 60$ ó $x = 45$ unidades (clave del libro, parte c: 60 ó 45 ✓). Las demás partes del original: a) ingresos $\\$17\\,500$ → $x = 70$ ó $50$; b) ingresos $\\$18\\,000$ → $x = 60$, precio $p = 300$; d) utilidad $\\$5\\,750$ → $x = 55$ ó $50$, precios $\\$350$ ó $\\$325$. Comprobación de c) con $x = 60$: ingresos $60 \\cdot 300 = 18\\,000$, costos $8000 + 4500 = 12\\,500$, utilidad $5500$ ✓.`,
++            `For profit $\\$5,\\!500$: $x = 60$ or $x = 45$ units (book key, part c: 60 or 45 ✓). The other parts of the original: a) revenue $\\$17,\\!500$ → $x = 70$ or $50$; b) revenue $\\$18,\\!000$ → $x = 60$, price $p = 300$; d) profit $\\$5,\\!750$ → $x = 55$ or $50$, prices $\\$350$ or $\\$325$. Check of c) at $x = 60$: revenue $60 \\cdot 300 = 18,\\!000$, cost $8000 + 4500 = 12,\\!500$, profit $5500$ ✓.`,
++          ),
++        ],
++      };
++    },
++  ),
++
++  /* 68 — Yolanda 8h, Pablo 10h, Carlos 12h, relevos → 4.72 h. Key: 4 18/25 h. */
++  template(
++    {
++      id: "sys-espol-ch2-68",
++      subject: "math",
++      topicId: "systems",
++      subtopicId: "applications",
++      difficulty: "hard",
++      questionType: "numeric",
++      estimatedTimeSec: 330,
++      tags: ["work-rate", "staggered", "application"],
++      prerequisites: ["fractions"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 68",
++        page: 238,
++      },
++      reasoning: "modeling",
++    },
++    () => ({
++      skill: L("Relevos de trabajo: dos etapas con distinto equipo", "Work relays: two stages with different teams"),
++      statement: L(
++        "Yolanda puede hacer cierto trabajo en 8 horas, Pablo en 10 horas y Carlos en 12 horas. ¿Cuánto tiempo tomará efectuar el trabajo si Yolanda y Pablo se ponen a trabajar durante una hora e inmediatamente después Yolanda y Carlos lo terminan? Responde en horas (exacto tipo 118/25 o dos decimales).",
++        "Yolanda can do a certain job in 8 hours, Pablo in 10 hours and Carlos in 12 hours. How long will the job take if Yolanda and Pablo work for one hour and immediately afterwards Yolanda and Carlos finish it? Answer in hours (exact like 118/25, or two decimals).",
++      ),
++      answer: { kind: "numeric", value: 4.72 },
++      hints: [
++        L(
++          "Razones individuales: $Y = \\frac{1}{8}$, $P = \\frac{1}{10}$, $C = \\frac{1}{12}$ (trabajos por hora).",
++          "Individual rates: $Y = \\frac{1}{8}$, $P = \\frac{1}{10}$, $C = \\frac{1}{12}$ (jobs per hour).",
++        ),
++        L(
++          "Etapa 1 (1 h, Yolanda+Pablo): avanzan $\\frac{1}{8} + \\frac{1}{10} = \\frac{9}{40}$. ¿Cuánto queda?",
++          "Stage 1 (1 h, Yolanda+Pablo): they advance $\\frac{1}{8} + \\frac{1}{10} = \\frac{9}{40}$. How much is left?",
++        ),
++        L(
++          "Etapa 2: el resto $\\frac{31}{40}$ a la razón $\\frac{1}{8} + \\frac{1}{12} = \\frac{5}{24}$; el tiempo de la etapa es $\\frac{31/40}{5/24}$, y el total es 1 h + eso.",
++          "Stage 2: the remaining $\\frac{31}{40}$ at rate $\\frac{1}{8} + \\frac{1}{12} = \\frac{5}{24}$; the stage time is $\\frac{31/40}{5/24}$, and the total is 1 h + that.",
++        ),
++      ],
++      answerDisplay: L(
++        `$4{,}72\\ \\text{h} \\left(= \\dfrac{118}{25}\\ \\text{h}\\right)$`,
++        `$4.72\\ \\text{h} \\left(= \\dfrac{118}{25}\\ \\text{h}\\right)$`,
++      ),
++      solution: [
++        step(
++          "given",
++          "Yolanda 8 h, Pablo 10 h, Carlos 12 h (trabajos completos). Etapa 1: Yolanda+Pablo 1 h; etapa 2: Yolanda+Carlos terminan.",
++          "Yolanda 8 h, Pablo 10 h, Carlos 12 h (full jobs). Stage 1: Yolanda+Pablo for 1 h; stage 2: Yolanda+Carlos finish.",
++        ),
++        step(
++          "approach",
++          "Trabajo por etapas: en cada etapa la razón del equipo es la suma de las razones de sus miembros; el tiempo total es la suma de las etapas.",
++          "Staged work: in each stage the team's rate is the sum of its members' rates; the total time is the sum of the stages.",
++        ),
++        step(
++          "calculation",
++          `Etapa 1 (1 h): $\\frac{1}{8} + \\frac{1}{10} = \\frac{5}{40} + \\frac{4}{40} = \\frac{9}{40}$ hecho; queda $\\frac{31}{40}$.<br>Etapa 2: razón $\\frac{1}{8} + \\frac{1}{12} = \\frac{3}{24} + \\frac{2}{24} = \\frac{5}{24}$<br>Tiempo etapa 2: $\\dfrac{31/40}{5/24} = \\dfrac{31 \\cdot 24}{40 \\cdot 5} = \\dfrac{744}{200} = 3{,}72$ h<br>Total: $1 + 3{,}72 = 4{,}72$ h $= \\dfrac{118}{25}$ h.`,
++          `Stage 1 (1 h): $\\frac{1}{8} + \\frac{1}{10} = \\frac{9}{40}$ done; $\\frac{31}{40}$ left.<br>Stage 2: rate $\\frac{1}{8} + \\frac{1}{12} = \\frac{5}{24}$<br>Stage-2 time: $\\dfrac{31/40}{5/24} = \\dfrac{31 \\cdot 24}{40 \\cdot 5} = 3.72$ h<br>Total: $1 + 3.72 = 4.72$ h $= \\dfrac{118}{25}$ h.`,
++        ),
++        step(
++          "result",
++          `El trabajo toma $4{,}72$ h (clave del libro: $4\\frac{18}{25}$ h $= 4{,}72$ ✓). Comprobación: etapa 1 hace $9/40$; etapa 2 en $3{,}72$ h hace $\\frac{5}{24} \\cdot 3{,}72 = 0{,}775 = \\frac{31}{40}$; total $\\frac{9}{40} + \\frac{31}{40} = 1$ trabajo ✓.`,
++          `The job takes $4.72$ h (book key: $4\\frac{18}{25}$ h $= 4.72$ ✓). Check: stage 1 does $9/40$; stage 2 in $3.72$ h does $\\frac{5}{24} \\cdot 3.72 = 0.775 = \\frac{31}{40}$; total $\\frac{9}{40} + \\frac{31}{40} = 1$ job ✓.`,
++        ),
++      ],
++    }),
++  ),
++
++  /* 70 — radiador 10 L al 20% → 50%: vaciar 3.75 L. Key: 3 3/4 L. */
++  template(
++    {
++      id: "sys-espol-ch2-70",
++      subject: "math",
++      topicId: "systems",
++      subtopicId: "applications",
++      difficulty: "hard",
++      questionType: "numeric",
++      estimatedTimeSec: 270,
++      tags: ["mixture", "drain-and-replace", "application"],
++      prerequisites: ["fractions"],
++      source: {
++        sourceId: "fcnm-fundamentos-digital",
++        license: "TUTOR_LICENSED",
++        exerciseNumber: "2 · 70",
++        page: 239,
++      },
++      reasoning: "modeling",
++    },
++    () => ({
++      skill: L("Vaciar y reponer: la mezcla que queda conserva su concentración", "Drain and replace: the remaining mixture keeps its concentration"),
++      statement: L(
++        "El radiador de un automóvil contiene $10$ litros de una mezcla de agua y $20\\%$ de anticorrosivo. ¿Qué cantidad de esta mezcla debe vaciarse y reemplazarse por anticorrosivo puro para obtener una mezcla del $50\\%$ en el radiador? Responde en litros (exacto tipo 15/4 o dos decimales).",
++        "A car radiator holds $10$ liters of a water mixture with $20\\%$ antifreeze. How much of this mixture must be drained and replaced with pure antifreeze to obtain a $50\\%$ mixture in the radiator? Answer in liters (exact like 15/4, or two decimals).",
++      ),
++      answer: { kind: "numeric", value: 3.75 },
++      hints: [
++        L(
++          "Si vacías $x$ litros, quedan $(10 - x)$ litros de mezcla al $20\\%$: dentro hay $0{,}2(10 - x)$ litros de anticorrosivo.",
++          "If you drain $x$ liters, $(10 - x)$ liters of $20\\%$ mixture remain: it contains $0.2(10 - x)$ liters of antifreeze.",
++          ),
++        L(
++          "Al reponer con $x$ litros puros, el anticorrosivo total es $0{,}2(10 - x) + x$ y el volumen vuelve a $10$ L.",
++          "Refilling with $x$ pure liters, total antifreeze becomes $0.2(10 - x) + x$ while the volume returns to $10$ L.",
++        ),
++        L(
++          "La condición es $0{,}2(10 - x) + x = 0{,}5 \\cdot 10 = 5$: ecuación lineal en $x$.",
++          "The condition is $0.2(10 - x) + x = 0.5 \\cdot 10 = 5$: a linear equation in $x$.",
++        ),
++      ],
++      answerDisplay: L(
++        `$3\\frac{3}{4} = 3{,}75$ litros`,
++        `$3\\frac{3}{4} = 3.75$ liters`,
++      ),
++      solution: [
++        step(
++          "given",
++          "Radiador: $10$ L de mezcla al $20\\%$; objetivo: $50\\%$; mecanismo: vaciar $x$ L de mezcla y reponer con anticorrosivo puro.",
++          "Radiator: $10$ L of $20\\%$ mixture; target: $50\\%$; mechanism: drain $x$ L of mixture and refill with pure antifreeze.",
++        ),
++        step(
++          "approach",
++          "Seguir el anticorrosivo puro: lo que queda tras vaciar sigue al $20\\%$; lo repuesto entra al $100\\%$; el total debe ser la mitad del volumen.",
++          "Track the pure antifreeze: what remains after draining is still at $20\\%$; the refill enters at $100\\%$; the total must be half the volume.",
++        ),
++        step(
++          "calculation",
++          `Tras vaciar: mezcla $(10 - x)$ L al $20\\%$ → anticorrosivo $0{,}2(10 - x) = 2 - 0{,}2x$ L.<br>Reponiendo $x$ L puros: total $2 - 0{,}2x + x = 2 + 0{,}8x$ L.<br>Condición: $2 + 0{,}8x = 5 \\Rightarrow 0{,}8x = 3 \\Rightarrow x = 3{,}75$.`,
++          `After draining: $(10 - x)$ L at $20\\%$ → antifreeze $0.2(10 - x) = 2 - 0.2x$ L.<br>Refilling $x$ pure liters: total $2 - 0.2x + x = 2 + 0.8x$ L.<br>Condition: $2 + 0.8x = 5 \\Rightarrow 0.8x = 3 \\Rightarrow x = 3.75$.`,
++        ),
++        step(
++          "result",
++          `Hay que vaciar y reponer $3\\frac{3}{4} = 3{,}75$ L (clave del libro: $3\\frac{3}{4}$ litros ✓). Comprobación: quedan $6{,}25$ L de mezcla con $1{,}25$ L de anticorrosivo; al añadir $3{,}75$ L puros: $1{,}25 + 3{,}75 = 5$ L de anticorrosivo en $10$ L $= 50\\%$ ✓.`,
++          `Drain and replace $3\\frac{3}{4} = 3.75$ L (book key: $3\\frac{3}{4}$ liters ✓). Check: $6.25$ L of mixture remain holding $1.25$ L of antifreeze; adding $3.75$ pure liters: $1.25 + 3.75 = 5$ L of antifreeze in $10$ L $= 50\\%$ ✓.`,
++        ),
++      ],
++    }),
++  ),
+ ];
+ 
+ /** The bank for this topic: own generators + the tutor's curated Gauss/application set. */
+diff --git a/src/content/sources/registry.ts b/src/content/sources/registry.ts
+index ff216dc..d7d49db 100644
+--- a/src/content/sources/registry.ts
++++ b/src/content/sources/registry.ts
+@@ -177,12 +177,18 @@ export const SOURCES: SourceRecord[] = [
+     kind: "textbook",
+     language: "es",
+     license: "TUTOR_LICENSED",
+-    use: "Registered 2026-10-02 (tutor uploaded it to the sources Drive): digital edition with a NATIVE text layer — unlike the scanned edition (fcnm-fundamentos), statements extract reliably with no OCR damage. Awaiting page/chapter assignments from the tutor for the next import rounds. Page numbering differs from the scanned edition: always cite THIS edition for anything imported from it. Persisted at /home/z/espol-book/espol-digital.pdf.",
++    use: "Registered 2026-10-02 (tutor uploaded it to the sources Drive): digital edition with a NATIVE text layer — unlike the scanned edition (fcnm-fundamentos), statements extract reliably with no OCR damage. Page numbering differs from the scanned edition: always cite THIS edition for anything imported from it. Persisted at /home/z/espol-book/espol-digital.pdf. FIRST IMPORT ROUND (2026-10-03): Chapter 2 'Ejercicios propuestos' (printed pp. 225-250 = PDF 258-283), tutor's brief: 'extrae los que consideres más difíciles o los más integradores'. 41 curated templates selected; every answer double-verified (printed key pp. 938-939 + independent sympy). Notable: #82 — printed key lists only k=9/4, but the complete answer is k ∈ {0, 9/4} (k=0 makes it linear with a unique solution); shipped with the verified answer, key error flagged to the tutor. #77a and #151 have no printed key — sympy-only verification. Key items deliberately excluded this round (chapter sections without a curriculum home or non-reproducible keys): #46/#57/#127/#144 (key vs. derivation mismatch), §2.9 inequality MCs, §2.10 induction proofs (no proof-format UI), §2.11 counting, §2.12 binomial theorem — available for future rounds.",
+     topics: [
+       "álgebra",
++      "factorización",
++      "fracciones algebraicas",
++      "ecuaciones",
++      "valor absoluto",
++      "radicales",
+       "trigonometría",
+       "funciones",
+       "sistemas de ecuaciones",
++      "sucesiones",
+       "matrices",
+     ],
+     level: "Bachillerato ECU",
+-- 
+2.47.3
+

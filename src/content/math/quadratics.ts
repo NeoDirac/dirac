@@ -2274,4 +2274,318 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+
+  /* ================================================================== */
+  /* Curated — ESPOL Fundamentos, EDICIÓN DIGITAL (TUTOR_LICENSED).      */
+  /* Chapter 2 «Ejercicios propuestos», pp. 235-241 (PDF 268-274).      */
+  /* Tutor's brief: the most difficult / integrative ones.              */
+  /* Double-verified: printed key pp. 939 (49: c; 83: 2+√2; 84: 5/2)    */
+  /* + sympy (41/41 checks). #82: printed key lists only k = 9/4, but   */
+  /* k = 0 also gives a unique solution (linear case) — the COMPLETE    */
+  /* answer {0, 9/4} ships; discrepancy flagged to the tutor.           */
+  /* ================================================================== */
+
+  /* 49 — kx²+4kx+3 = x², suma de raíces 10 → k = 10/14. Key: (c). */
+  template(
+    {
+      id: "quad-espol-ch2-49",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "roots",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 210,
+      tags: ["vieta", "sum-of-roots", "parameter"],
+      prerequisites: ["standard-form"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 49",
+        page: 235,
+      },
+      reasoning: "parameters",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\dfrac{3}{4}$`, `$\\dfrac{3}{4}$`), correct: false },
+        { id: "b", text: L(`$\\dfrac{1}{2}$`, `$\\dfrac{1}{2}$`), correct: false },
+        { id: "c", text: L(`$\\dfrac{10}{14}$`, `$\\dfrac{10}{14}$`), correct: true },
+        { id: "d", text: L(`$\\dfrac{1}{3}$`, `$\\dfrac{1}{3}$`), correct: false },
+        { id: "e", text: L(`$\\dfrac{3}{8}$`, `$\\dfrac{3}{8}$`), correct: false },
+      ];
+      return {
+        skill: L("Vieta con trampa: primero pasa todo a un lado", "Vieta with a trap: move everything to one side first"),
+        statement: L(
+          "Un valor de $k$ para que la suma de las raíces de la ecuación $kx^{2} + 4kx + 3 = x^{2}$ sea 10, es:",
+          "A value of $k$ for which the sum of the roots of the equation $kx^{2} + 4kx + 3 = x^{2}$ equals 10 is:",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "La ecuación tal como está impresa NO es cuadrática con coeficientes limpios: pásala a $(k - 1)x^{2} + 4kx + 3 = 0$.",
+            "As printed the equation does NOT have clean coefficients: move it to $(k - 1)x^{2} + 4kx + 3 = 0$.",
+          ),
+          L(
+            "Suma de raíces (Vieta): $-\\dfrac{B}{A} = -\\dfrac{4k}{k - 1}$, y esa suma debe valer 10.",
+            "Sum of roots (Vieta): $-\\dfrac{B}{A} = -\\dfrac{4k}{k - 1}$, and that sum must equal 10.",
+          ),
+          L(
+            "Despeja: $-4k = 10(k - 1)$. La respuesta no es un entero — es una fracción que simplifica a $5/7$.",
+            "Solve: $-4k = 10(k - 1)$. The answer is not an integer — it is a fraction that simplifies to $5/7$.",
+          ),
+        ],
+        answerDisplay: L("$k = \\dfrac{10}{14} = \\dfrac{5}{7}$", "$k = \\dfrac{10}{14} = \\dfrac{5}{7}$"),
+        solution: [
+          step(
+            "given",
+            "$kx^{2} + 4kx + 3 = x^{2}$; incógnita del problema: el parámetro $k$.",
+            "$kx^{2} + 4kx + 3 = x^{2}$; the problem's unknown: the parameter $k$.",
+          ),
+          step(
+            "approach",
+            "Reducir a la forma general y aplicar Vieta (suma de raíces $= -B/A$). Si uno olvida pasar la $x^{2}$, la «suma» $-4k/k = -4$ es constante y no puede valer 10 — esa es la trampa.",
+            "Reduce to general form and apply Vieta (sum of roots $= -B/A$). If you forget to move the $x^{2}$, the “sum” $-4k/k = -4$ is constant and can never be 10 — that is the trap.",
+          ),
+          step(
+            "calculation",
+            "$(k - 1)x^{2} + 4kx + 3 = 0$, con $k \\neq 1$.<br>Suma de raíces: $-\\dfrac{4k}{k - 1} = 10 \\Rightarrow -4k = 10k - 10 \\Rightarrow 14k = 10 \\Rightarrow k = \\dfrac{10}{14} = \\dfrac{5}{7}$.",
+            "$(k - 1)x^{2} + 4kx + 3 = 0$, with $k \\neq 1$.<br>Sum of roots: $-\\dfrac{4k}{k - 1} = 10 \\Rightarrow -4k = 10k - 10 \\Rightarrow 14k = 10 \\Rightarrow k = \\dfrac{10}{14} = \\dfrac{5}{7}$.",
+          ),
+          step(
+            "result",
+            "$k = \\frac{10}{14} = \\frac{5}{7}$ (opción c). Verificación: con $k = \\frac{5}{7}$ la ecuación es $-\\frac{2}{7}x^{2} + \\frac{20}{7}x + 3 = 0$, o bien $x^{2} - 10x - \\frac{21}{2} = 0$, con raíces $5 \\pm \\frac{\\sqrt{142}}{2}$: su suma es 10 ✓.",
+            "$k = \\frac{10}{14} = \\frac{5}{7}$ (option c). Check: with $k = \\frac{5}{7}$ the equation is $x^{2} - 10x - \\frac{21}{2} = 0$, with roots $5 \\pm \\frac{\\sqrt{142}}{2}$: their sum is 10 ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 82 — kx²+3x+1 = 0 solución única → {0, 9/4} (clave impresa incompleta: solo 9/4). */
+  template(
+    {
+      id: "quad-espol-ch2-82",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "discriminant",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["discriminant", "unique-solution", "degenerate-quadratic"],
+      prerequisites: ["quadratic-formula"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 82",
+        page: 241,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$k \\in \\left\\{0,\\ \\dfrac{9}{4}\\right\\}$`, `$k \\in \\left\\{0,\\ \\dfrac{9}{4}\\right\\}$`), correct: true },
+        { id: "b", text: L(`$k = \\dfrac{9}{4}$`, `$k = \\dfrac{9}{4}$`), correct: false },
+        { id: "c", text: L(`$k = 0$`, `$k = 0$`), correct: false },
+        { id: "d", text: L(`$k = \\dfrac{9}{4}$ ó $k = \\dfrac{3}{2}$`, `$k = \\dfrac{9}{4}$ or $k = \\dfrac{3}{2}$`), correct: false },
+        { id: "e", text: L(`no existe tal $k$`, `no such $k$ exists`), correct: false },
+      ];
+      return {
+        skill: L("«Solución única»: dos caminos (lineal o discriminante cero)", "“Unique solution”: two routes (linear or zero discriminant)"),
+        statement: L(
+          "Halla el valor de $k$ para que el conjunto de verdad del predicado $p(x):\\ kx^{2} + 3x + 1 = 0$ tenga solución única.",
+          "Find the value of $k$ for which the truth set of the predicate $p(x):\\ kx^{2} + 3x + 1 = 0$ has a unique solution.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "«Solución única» tiene DOS fabricantes: un cuadrático con discriminante cero… y también una ecuación que ni siquiera es cuadrática. ¿Qué pasa con $k = 0$?",
+            "“Unique solution” has TWO manufacturers: a quadratic with zero discriminant… and also an equation that is not quadratic at all. What happens at $k = 0$?",
+          ),
+          L(
+            "Con $k = 0$: $3x + 1 = 0$ es lineal y tiene exactamente una solución. Con $k \\neq 0$: exige $\\Delta = 9 - 4k = 0$.",
+            "At $k = 0$: $3x + 1 = 0$ is linear and has exactly one solution. For $k \\neq 0$: require $\\Delta = 9 - 4k = 0$.",
+          ),
+          L(
+            "$\\Delta = 0$ da $k = \\frac{9}{4}$. La respuesta completa junta ambos casos.",
+            "$\\Delta = 0$ gives $k = \\frac{9}{4}$. The complete answer joins both cases.",
+          ),
+        ],
+        answerDisplay: L(
+          "$k \\in \\left\\{0,\\ \\dfrac{9}{4}\\right\\}$",
+          "$k \\in \\left\\{0,\\ \\dfrac{9}{4}\\right\\}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$kx^{2} + 3x + 1 = 0$; se pide solución única (una sola $x$ en el conjunto de verdad).",
+            "$kx^{2} + 3x + 1 = 0$; a unique solution is required (a single $x$ in the truth set).",
+          ),
+          step(
+            "approach",
+            "Separar por naturaleza de la ecuación: el caso $k = 0$ (lineal) es invisible si uno asume «cuadrática» por contexto — aquí está el interés del ejercicio.",
+            "Split by the equation's nature: the $k = 0$ case (linear) is invisible if one assumes “quadratic” from context — that is the point of this exercise.",
+          ),
+          step(
+            "calculation",
+            "Caso $k = 0$: $3x + 1 = 0 \\Rightarrow x = -\\dfrac{1}{3}$, única ✓.<br>Caso $k \\neq 0$ (cuadrática): solución única $\\Leftrightarrow \\Delta = 0$:<br>$\\Delta = 3^{2} - 4k = 9 - 4k = 0 \\Rightarrow k = \\dfrac{9}{4}$ (da $x = -\\frac{2}{3}$, doble).<br>Para cualquier otro $k$: $\\Delta > 0$ (dos soluciones) o $\\Delta < 0$ (ninguna).",
+            "Case $k = 0$: $3x + 1 = 0 \\Rightarrow x = -\\dfrac{1}{3}$, unique ✓.<br>Case $k \\neq 0$ (quadratic): unique solution $\\Leftrightarrow \\Delta = 0$:<br>$\\Delta = 3^{2} - 4k = 9 - 4k = 0 \\Rightarrow k = \\dfrac{9}{4}$ (giving $x = -\\frac{2}{3}$, double).<br>For any other $k$: $\\Delta > 0$ (two solutions) or $\\Delta < 0$ (none).",
+          ),
+          step(
+            "result",
+            "$k \\in \\left\\{0, \\frac{9}{4}\\right\\}$. Nota: la clave impresa del libro solo lista $\\frac{9}{4}$; con el enunciado tal cual, $k = 0$ (ecuación lineal) también produce solución única, así que la respuesta completa incluye ambos valores (verificado con sympy y por barrido de $k$).",
+            "$k \\in \\left\\{0, \\frac{9}{4}\\right\\}$. Note: the book's printed key lists only $\\frac{9}{4}$; as stated, $k = 0$ (a linear equation) also produces a unique solution, so the complete answer includes both values (verified with sympy and a sweep over $k$).",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 83 — caída libre: mitad de la distancia en el último segundo → T = 2+√2 s. */
+  template(
+    {
+      id: "quad-espol-ch2-83",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "applications",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 300,
+      tags: ["modeling", "free-fall", "quadratic", "physics-flavored"],
+      prerequisites: ["quadratic-formula"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 83",
+        page: 241,
+      },
+      reasoning: "modeling",
+    },
+    () => ({
+      skill: L("Modelo físico → cuadrática en el tiempo (g se cancela)", "Physical model → quadratic in time (g cancels out)"),
+      statement: L(
+        "Si un cuerpo recorre la mitad de la distancia total de caída libre durante el último segundo de su movimiento, a partir del reposo, calcular el tiempo de caída. Responde el tiempo total en segundos (dos decimales o la forma exacta); la altura se discute en la solución. (Sugerencia del libro: usa la ecuación cuadrática del tiempo.)",
+        "If a body covers half of the total free-fall distance during the last second of its motion, starting from rest, find the fall time. Answer the total time in seconds (two decimals or the exact form); the height is discussed in the solution. (Book's hint: use the quadratic equation of time.)",
+      ),
+      answer: {
+        kind: "numeric",
+        value: 3.41421356,
+        tolerance: { mode: "relative", value: 0.02 },
+      },
+      hints: [
+        L(
+          "Llamemos $T$ al tiempo total y $H = \\frac{1}{2}gT^{2}$ a la altura. La distancia recorrida en el último segundo es $H - \\frac{1}{2}g(T - 1)^{2}$.",
+          "Call the total time $T$ and the height $H = \\frac{1}{2}gT^{2}$. The distance covered in the last second is $H - \\frac{1}{2}g(T - 1)^{2}$.",
+        ),
+        L(
+          "La condición es $H - \\frac{1}{2}g(T-1)^{2} = \\frac{H}{2}$. Simplifica: el factor $\\frac{g}{2}$ se cancela en ambos lados.",
+          "The condition is $H - \\frac{1}{2}g(T-1)^{2} = \\frac{H}{2}$. Simplify: the factor $\\frac{g}{2}$ cancels on both sides.",
+        ),
+        L(
+          "Queda $T^{2} - (T-1)^{2} = \\frac{T^{2}}{2}$, es decir $2T - 1 = \\frac{T^{2}}{2}$; resuelve y quédate con la raíz $\\geq 1$ (necesitas un «último segundo»).",
+          "You get $T^{2} - (T-1)^{2} = \\frac{T^{2}}{2}$, i.e. $2T - 1 = \\frac{T^{2}}{2}$; solve and keep the root $\\geq 1$ (a “last second” must exist).",
+        ),
+      ],
+      answerDisplay: L(
+        "$T = 2 + \\sqrt{2} \\approx 3{,}41\\ \\text{s}$",
+        "$T = 2 + \\sqrt{2} \\approx 3.41\\ \\text{s}$",
+      ),
+      solution: [
+        step(
+          "given",
+          "Cuerpo en caída libre desde el reposo; la distancia del último segundo es la mitad de la altura total. Modelo: $y(t) = \\frac{1}{2}gt^{2}$.",
+          "Body in free fall from rest; the last-second distance is half the total height. Model: $y(t) = \\frac{1}{2}gt^{2}$.",
+        ),
+        step(
+          "approach",
+          "Traducir la frase a una ecuación en $T$ y descubrir que $g$ se cancela: el tiempo no depende de la gravedad (la altura sí).",
+          "Translate the sentence into an equation in $T$ and find that $g$ cancels: the time does not depend on gravity (the height does).",
+        ),
+        step(
+          "calculation",
+          "$H = \\frac{g}{2}T^{2}$; distancia del último segundo $= \\frac{g}{2}\\left[T^{2} - (T-1)^{2}\\right] = \\frac{g}{2}(2T - 1)$.<br>Condición: $\\frac{g}{2}(2T - 1) = \\frac{1}{2} \\cdot \\frac{g}{2}T^{2}$; cancelando $\\frac{g}{2}$: $2T - 1 = \\frac{T^{2}}{2}$.<br>$T^{2} - 4T + 2 = 0 \\Rightarrow T = \\dfrac{4 \\pm \\sqrt{16 - 8}}{2} = 2 \\pm \\sqrt{2}$.<br>La raíz $2 - \\sqrt{2} \\approx 0{,}59$ s es $< 1$: no existiría «último segundo». Se toma $T = 2 + \\sqrt{2} \\approx 3{,}41$ s.",
+          "$H = \\frac{g}{2}T^{2}$; last-second distance $= \\frac{g}{2}\\left[T^{2} - (T-1)^{2}\\right] = \\frac{g}{2}(2T - 1)$.<br>Condition: $\\frac{g}{2}(2T - 1) = \\frac{1}{2} \\cdot \\frac{g}{2}T^{2}$; canceling $\\frac{g}{2}$: $2T - 1 = \\frac{T^{2}}{2}$.<br>$T^{2} - 4T + 2 = 0 \\Rightarrow T = 2 \\pm \\sqrt{2}$.<br>The root $2 - \\sqrt{2} \\approx 0.59$ s is $< 1$: no “last second” would exist. Take $T = 2 + \\sqrt{2} \\approx 3.41$ s.",
+        ),
+        step(
+          "result",
+          "$T = 2 + \\sqrt{2} \\approx 3{,}41$ s (independiente de $g$; clave del libro: $2 + \\sqrt{2}$ ✓). La altura sería $H = \\frac{g}{2}T^{2} = \\frac{g}{2}(6 + 4\\sqrt{2})$: con $g = 9{,}8\\ \\text{m/s}^{2}$, $H \\approx 57{,}1$ m; con $g = 32\\ \\text{ft/s}^{2}$, $H \\approx 186{,}5$ ft. Verificación con $g = 9{,}8$: en el último segundo cae $\\frac{9{,}8}{2}(2 \\cdot 3.414 - 1) \\approx 28.55$ m $= \\frac{57.1}{2}$ ✓.",
+          "$T = 2 + \\sqrt{2} \\approx 3.41$ s (independent of $g$; the book's key: $2 + \\sqrt{2}$ ✓). The height would be $H = \\frac{g}{2}T^{2} = \\frac{g}{2}(6 + 4\\sqrt{2})$: with $g = 9.8\\ \\text{m/s}^{2}$, $H \\approx 57.1$ m; with $g = 32\\ \\text{ft/s}^{2}$, $H \\approx 186.5$ ft. Check at $g = 9.8$: in the last second it falls $\\frac{9.8}{2}(2 \\cdot 3.414 - 1) \\approx 28.55$ m $= \\frac{57.1}{2}$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* 84 — ciclista 4 m/s², 3 m/s, a 20 m del punto → t = 5/2 s. */
+  template(
+    {
+      id: "quad-espol-ch2-84",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "applications",
+      difficulty: "medium",
+      questionType: "numeric-unit",
+      estimatedTimeSec: 210,
+      tags: ["modeling", "kinematics", "quadratic", "physics-flavored"],
+      prerequisites: ["quadratic-formula"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 84",
+        page: 241,
+      },
+      reasoning: "modeling",
+    },
+    () => ({
+      skill: L("Cinemática → cuadrática en el tiempo", "Kinematics → a quadratic in time"),
+      statement: L(
+        "Un ciclista acelera a $4\\ \\text{m/s}^{2}$ a partir de un cierto punto, con velocidad inicial de $3\\ \\text{m/s}$. Calcular el tiempo necesario para que el ciclista esté a 20 metros del punto. (Sugerencia del libro: usa la ecuación cuadrática del tiempo.)",
+        "A cyclist accelerates at $4\\ \\text{m/s}^{2}$ from a certain point, with initial velocity $3\\ \\text{m/s}$. Find the time needed for the cyclist to be 20 meters from the point. (Book's hint: use the quadratic equation of time.)",
+      ),
+      answer: {
+        kind: "numeric-unit",
+        value: 2.5,
+        units: ["s", "seg", "segundos", "seconds"],
+        unitChoices: ["s", "min", "m/s", "m", "h"],
+      },
+      hints: [
+        L(
+          "Modelo: $s(t) = v_{0}t + \\frac{1}{2}at^{2}$ con $v_{0} = 3$, $a = 4$.",
+          "Model: $s(t) = v_{0}t + \\frac{1}{2}at^{2}$ with $v_{0} = 3$, $a = 4$.",
+        ),
+        L(
+          "La condición es $3t + 2t^{2} = 20$, o sea $2t^{2} + 3t - 20 = 0$.",
+          "The condition is $3t + 2t^{2} = 20$, i.e. $2t^{2} + 3t - 20 = 0$.",
+        ),
+        L(
+          "Factoriza buscando dos números para $(2t \\pm \\dots)(t \\pm \\dots)$; una raíz será negativa y se descarta.",
+          "Factor it looking for two numbers for $(2t \\pm \\dots)(t \\pm \\dots)$; one root will be negative and is discarded.",
+        ),
+      ],
+      answerDisplay: L(
+        "$t = \\dfrac{5}{2}\\ \\text{s} = 2{,}5\\ \\text{s}$",
+        "$t = \\dfrac{5}{2}\\ \\text{s} = 2.5\\ \\text{s}$",
+      ),
+      solution: [
+        step(
+          "given",
+          "$v_{0} = 3\\ \\text{m/s}$, $a = 4\\ \\text{m/s}^{2}$, $s = 20\\ \\text{m}$; desde el punto, $s(t) = v_{0}t + \\frac{1}{2}at^{2}$.",
+          "$v_{0} = 3\\ \\text{m/s}$, $a = 4\\ \\text{m/s}^{2}$, $s = 20\\ \\text{m}$; from the point, $s(t) = v_{0}t + \\frac{1}{2}at^{2}$.",
+        ),
+        step(
+          "approach",
+          "Sustituir en la ecuación de posición y resolver la cuadrática resultante en $t$; el tiempo no puede ser negativo.",
+          "Substitute into the position equation and solve the resulting quadratic in $t$; time cannot be negative.",
+        ),
+        step(
+          "calculation",
+          "$3t + \\frac{1}{2}(4)t^{2} = 20 \\Rightarrow 2t^{2} + 3t - 20 = 0$<br>$\\Delta = 9 + 160 = 169$; $t = \\dfrac{-3 \\pm 13}{4}$<br>$t = \\dfrac{10}{4} = \\dfrac{5}{2}$ o $t = -4$ (descartada).",
+          "$3t + \\frac{1}{2}(4)t^{2} = 20 \\Rightarrow 2t^{2} + 3t - 20 = 0$<br>$\\Delta = 9 + 160 = 169$; $t = \\dfrac{-3 \\pm 13}{4}$<br>$t = \\dfrac{10}{4} = \\dfrac{5}{2}$ or $t = -4$ (discarded).",
+        ),
+        step(
+          "result",
+          "$t = \\frac{5}{2}\\ \\text{s} = 2{,}5$ s (clave del libro: $\\frac{5}{2}$ ✓). Verificación: $3(2.5) + 2(2.5)^{2} = 7.5 + 12.5 = 20$ ✓.",
+          "$t = \\frac{5}{2}\\ \\text{s} = 2.5$ s (the book's key: $\\frac{5}{2}$ ✓). Check: $3(2.5) + 2(2.5)^{2} = 7.5 + 12.5 = 20$ ✓.",
+        ),
+      ],
+    }),
+  ),
 ];

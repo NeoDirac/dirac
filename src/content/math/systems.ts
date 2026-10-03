@@ -1607,6 +1607,761 @@ const ownTemplates: ProblemTemplate[] = [
       };
     },
   ),
+
+  /* ================================================================== */
+  /* Curated — ESPOL Fundamentos, EDICIÓN DIGITAL (TUTOR_LICENSED).      */
+  /* Chapter 2 «Ejercicios propuestos», §2.8, pp. 234-239 (PDF 267-272).*/
+  /* Tutor's brief: the most difficult / integrative ones.              */
+  /* Double-verified: printed key pp. 939 + sympy (41/41 checks).        */
+  /* ================================================================== */
+
+  /* 47 — jerez 10%/35% → 15%, 10 000 L → 8000 vino + 2000 brandy. Key: (a). */
+  template(
+    {
+      id: "sys-espol-ch2-47",
+      subject: "math",
+      topicId: "systems",
+      subtopicId: "applications",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["mixture", "percent", "application"],
+      prerequisites: ["elimination"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 47",
+        page: 234,
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$8000$ L de vino blanco y $2000$ L de brandy`, `$8000$ L of white wine and $2000$ L of brandy`), correct: true },
+        { id: "b", text: L(`$9000$ L y $1000$ L`, `$9000$ L and $1000$ L`), correct: false },
+        { id: "c", text: L(`$7000$ L y $3000$ L`, `$7000$ L and $3000$ L`), correct: false },
+        { id: "d", text: L(`$6500$ L y $3500$ L`, `$6500$ L and $3500$ L`), correct: false },
+        { id: "e", text: L(`$2000$ L de vino blanco y $8000$ L de brandy`, `$2000$ L of white wine and $8000$ L of brandy`), correct: false },
+      ];
+      return {
+        skill: L("Mezcla con porcentajes: ecuación de volumen + ecuación de alcohol", "Mixture with percents: volume equation + alcohol equation"),
+        statement: L(
+          "Una compañía vinícola requiere producir $10\\,000$ litros de jerez, mezclando vino blanco con brandy; el vino blanco contiene $10\\%$ de alcohol, y el brandy contiene $35\\%$ de alcohol por volumen. El jerez debe tener un contenido de alcohol del $15\\%$. Entonces las cantidades en litros de vino blanco y de brandy que deben mezclarse para obtener el resultado deseado, es:",
+          "A winery needs to produce $10,\\!000$ liters of sherry by blending white wine with brandy; the white wine contains $10\\%$ alcohol and the brandy $35\\%$ alcohol by volume. The sherry must have an alcohol content of $15\\%$. The amounts in liters of white wine and brandy to mix are:",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Dos incógnitas (vino $v$, brandy $b$) piden dos ecuaciones: una para el volumen total y otra para el alcohol puro.",
+            "Two unknowns (wine $v$, brandy $b$) ask for two equations: one for total volume and one for pure alcohol.",
+          ),
+          L(
+            "Volumen: $v + b = 10\\,000$. Alcohol: $0{,}10v + 0{,}35b = 0{,}15 \\cdot 10\\,000 = 1\\,500$.",
+            "Volume: $v + b = 10,\\!000$. Alcohol: $0.10v + 0.35b = 0.15 \\cdot 10,\\!000 = 1,\\!500$.",
+          ),
+          L(
+            "Sustituye $v = 10\\,000 - b$: $0{,}10(10\\,000 - b) + 0{,}35b = 1\\,500$ — queda una ecuación lineal en $b$.",
+            "Substitute $v = 10,\\!000 - b$: $0.10(10,\\!000 - b) + 0.35b = 1,\\!500$ — a linear equation in $b$ remains.",
+          ),
+        ],
+        answerDisplay: L(
+          `$8000$ L de vino blanco y $2000$ L de brandy`,
+          `$8000$ L of white wine and $2000$ L of brandy`,
+        ),
+        solution: [
+          step(
+            "given",
+            "Volumen total $10\\,000$ L al $15\\%$; vino blanco al $10\\%$; brandy al $35\\%$.",
+            "Total volume $10,\\!000$ L at $15\\%$; white wine at $10\\%$; brandy at $35\\%$.",
+          ),
+          step(
+            "approach",
+            "Mezclas: lo que se conserva es la cantidad de sustancia pura (alcohol), así que volumen y alcohol dan las dos ecuaciones.",
+            "Mixtures: what is conserved is the amount of pure substance (alcohol), so volume and alcohol provide the two equations.",
+          ),
+          step(
+            "calculation",
+            `$\\begin{cases} v + b = 10\\,000 \\\\ 0{,}10v + 0{,}35b = 1\\,500 \\end{cases}$<br>De (1): $v = 10\\,000 - b$; en (2): $1\\,000 - 0{,}10b + 0{,}35b = 1\\,500$<br>$0{,}25b = 500 \\Rightarrow b = 2\\,000$; $v = 8\\,000$`,
+            `$\\begin{cases} v + b = 10,\\!000 \\\\ 0.10v + 0.35b = 1,\\!500 \\end{cases}$<br>From (1): $v = 10,\\!000 - b$; in (2): $1,\\!000 - 0.10b + 0.35b = 1,\\!500$<br>$0.25b = 500 \\Rightarrow b = 2,\\!000$; $v = 8,\\!000$`,
+          ),
+          step(
+            "result",
+            `$8\\,000$ L de vino blanco y $2\\,000$ L de brandy (opción a). Comprobación: $0{,}10 \\cdot 8\\,000 + 0{,}35 \\cdot 2\\,000 = 800 + 700 = 1\\,500 = 0{,}15 \\cdot 10\\,000$ ✓ (el $15\\%$ está más cerca del $10\\%$: domina el vino).`,
+            `8,000 L of white wine and 2,000 L of brandy (option a). Check: $0.10 \\cdot 8,\\!000 + 0.35 \\cdot 2,\\!000 = 800 + 700 = 1,\\!500 = 0.15 \\cdot 10,\\!000$ ✓ ($15\\%$ is closer to $10\\%$: wine dominates).`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 56 — marco del cuadro: L = 2A, marco 2 cm, +244 cm² → 19 × 38 cm. Key: 19,38. */
+  template(
+    {
+      id: "sys-espol-ch2-56",
+      subject: "math",
+      topicId: "systems",
+      subtopicId: "applications",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 270,
+      tags: ["geometry", "area", "application"],
+      prerequisites: ["elimination"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 56",
+        page: 237,
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`ancho $19$ cm, largo $38$ cm`, `width $19$ cm, length $38$ cm`), correct: true },
+        { id: "b", text: L(`ancho $18$ cm, largo $36$ cm`, `width $18$ cm, length $36$ cm`), correct: false },
+        { id: "c", text: L(`ancho $20$ cm, largo $40$ cm`, `width $20$ cm, length $40$ cm`), correct: false },
+        { id: "d", text: L(`ancho $22$ cm, largo $44$ cm`, `width $22$ cm, length $44$ cm`), correct: false },
+        { id: "e", text: L(`ancho $17$ cm, largo $34$ cm`, `width $17$ cm, length $34$ cm`), correct: false },
+      ];
+      return {
+        skill: L("Geometría: el marco agranda ambas dimensiones en 2·ancho del marco", "Geometry: the frame enlarges both dimensions by twice the frame width"),
+        statement: L(
+          "El largo de un cuadro es el doble del ancho. Si el marco del cuadro tiene $2$ cm de ancho y si el cuadro y su marco tienen una superficie $244\\ \\text{cm}^{2}$ mayor que la del cuadro, encontrar las dimensiones del cuadro (responde: ancho y largo).",
+          "The length of a picture is twice its width. If the frame is $2$ cm wide and the picture plus its frame have an area $244\\ \\text{cm}^{2}$ larger than the picture alone, find the dimensions of the picture (answer: width and length).",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Con marco de $2$ cm a cada lado, las dimensiones exteriores crecen $4$ cm en total: $(L + 4)$ y $(A + 4)$.",
+            "With a $2$ cm frame on each side, the outer dimensions grow by $4$ cm overall: $(L + 4)$ and $(W + 4)$.",
+          ),
+          L(
+            "El área extra es $(L+4)(A+4) - LA = 244$. Desarrolla: queda $4L + 4A + 16 = 244$.",
+            "The extra area is $(L+4)(W+4) - LW = 244$. Expand: it becomes $4L + 4W + 16 = 244$.",
+          ),
+          L(
+            "Como $L = 2A$: $4(2A) + 4A = 228 \\Rightarrow 12A = 228$.",
+            "Since $L = 2W$: $4(2W) + 4W = 228 \\Rightarrow 12W = 228$.",
+          ),
+        ],
+        answerDisplay: L(`ancho $19$ cm, largo $38$ cm`, `width $19$ cm, length $38$ cm`),
+        solution: [
+          step(
+            "given",
+            "$L = 2A$; marco de $2$ cm; área del conjunto = área del cuadro $+ 244\\ \\text{cm}^{2}$.",
+            "$L = 2W$; frame $2$ cm wide; combined area = picture area $+ 244\\ \\text{cm}^{2}$.",
+          ),
+          step(
+            "approach",
+            "Traducir el exceso de área sin expandir el producto: la diferencia $(L+4)(A+4) - LA$ elimina el término cuadrático y deja una ecuación lineal.",
+            "Translate the area excess without expanding the whole product: the difference $(L+4)(W+4) - LW$ kills the quadratic term and leaves a linear equation.",
+          ),
+          step(
+            "calculation",
+            `$(L + 4)(A + 4) - LA = 244$<br>$LA + 4L + 4A + 16 - LA = 244 \\Rightarrow 4L + 4A = 228 \\Rightarrow L + A = 57$<br>Con $L = 2A$: $3A = 57 \\Rightarrow A = 19$, $L = 38$`,
+            `$(L + 4)(W + 4) - LW = 244$<br>$LW + 4L + 4W + 16 - LW = 244 \\Rightarrow 4L + 4W = 228 \\Rightarrow L + W = 57$<br>With $L = 2W$: $3W = 57 \\Rightarrow W = 19$, $L = 38$`,
+          ),
+          step(
+            "result",
+            `El cuadro mide $19 \\times 38$ cm (clave del libro: 19, 38 ✓). Comprobación: exterior $23 \\times 42 = 966$; cuadro $19 \\times 38 = 722$; diferencia $966 - 722 = 244$ ✓.`,
+            `The picture is $19 \\times 38$ cm (book key: 19, 38 ✓). Check: outer $23 \\times 42 = 966$; picture $19 \\times 38 = 722$; difference $966 - 722 = 244$ ✓.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 58 — piscina 15/20/30 h juntas → 20/3 h. Key: 20/3 h. */
+  template(
+    {
+      id: "sys-espol-ch2-58",
+      subject: "math",
+      topicId: "systems",
+      subtopicId: "applications",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 180,
+      tags: ["work-rate", "application"],
+      prerequisites: ["fractions"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 58",
+        page: 237,
+      },
+      reasoning: "modeling",
+    },
+    () => ({
+      skill: L("Razones de trabajo: sumar caudales, no tiempos", "Work rates: add flows, not times"),
+      statement: L(
+        "Una piscina puede ser llenada por tres cañerías en forma independiente. La primera cañería llena la piscina en 15 h; la segunda en 20 h y la última en 30 h. ¿En qué tiempo llenarían la piscina las tres cañerías juntas? Responde en horas (fracción exacta tipo 20/3 o dos decimales).",
+        "A pool can be filled by three pipes independently. The first pipe fills the pool in 15 h; the second in 20 h and the last in 30 h. In what time would the three pipes fill the pool together? Answer in hours (exact fraction like 20/3, or two decimals).",
+      ),
+      answer: { kind: "numeric", value: 20 / 3 },
+      hints: [
+        L(
+          "No promedies tiempos: las razones (fracción de piscina por hora) sí se suman.",
+          "Do not average times: the rates (fraction of pool per hour) do add up.",
+          ),
+        L(
+          "Razones: $\\frac{1}{15} + \\frac{1}{20} + \\frac{1}{30}$; usa denominador común $60$.",
+          "Rates: $\\frac{1}{15} + \\frac{1}{20} + \\frac{1}{30}$; use common denominator $60$.",
+        ),
+        L(
+          "La razón conjunta es $\\frac{9}{60} = \\frac{3}{20}$; el tiempo es su recíproco.",
+          "The joint rate is $\\frac{9}{60} = \\frac{3}{20}$; the time is its reciprocal.",
+        ),
+      ],
+      answerDisplay: L(
+        `$\\dfrac{20}{3}\\ \\text{h} \\approx 6{,}67\\ \\text{h}$ (6 h 40 min)`,
+        `$\\dfrac{20}{3}\\ \\text{h} \\approx 6.67\\ \\text{h}$ (6 h 40 min)`,
+      ),
+      solution: [
+        step(
+          "given",
+          "Cañerías independientes: 15 h, 20 h, 30 h para una piscina completa.",
+          "Independent pipes: 15 h, 20 h, 30 h for a full pool.",
+        ),
+        step(
+          "approach",
+          "Sumar razones de llenado (piscinas/hora); el tiempo conjunto es el recíproco de la razón total.",
+          "Add filling rates (pools/hour); the joint time is the reciprocal of the total rate.",
+        ),
+        step(
+          "calculation",
+          `$\\frac{1}{15} + \\frac{1}{20} + \\frac{1}{30} = \\frac{4}{60} + \\frac{3}{60} + \\frac{2}{60} = \\frac{9}{60} = \\frac{3}{20}$<br>$T = \\dfrac{1}{\\frac{3}{20}} = \\dfrac{20}{3} \\approx 6{,}67$ h`,
+          `$\\frac{1}{15} + \\frac{1}{20} + \\frac{1}{30} = \\frac{4}{60} + \\frac{3}{60} + \\frac{2}{60} = \\frac{9}{60} = \\frac{3}{20}$<br>$T = \\dfrac{1}{\\frac{3}{20}} = \\dfrac{20}{3} \\approx 6.67$ h`,
+        ),
+        step(
+          "result",
+          `$\\frac{20}{3}$ h = 6 h 40 min (clave del libro: $\\frac{20}{3}$ h ✓). Comprobación: en $20/3$ h la primera llena $\\frac{20}{3} \\cdot \\frac{1}{15} = \\frac{4}{9}$, la segunda $\\frac{1}{3}$ y la tercera $\\frac{2}{9}$; total $\\frac{4}{9} + \\frac{3}{9} + \\frac{2}{9} = 1$ piscina ✓.`,
+          `$\\frac{20}{3}$ h = 6 h 40 min (book key: $\\frac{20}{3}$ h ✓). Check: in $20/3$ h the first fills $\\frac{4}{9}$, the second $\\frac{1}{3}$ and the third $\\frac{2}{9}$; total $\\frac{4}{9} + \\frac{3}{9} + \\frac{2}{9} = 1$ pool ✓.`,
+        ),
+      ],
+    }),
+  ),
+
+  /* 60 — alambre 100 in, dos cuadrados, Σ áreas 397 in² → 76 y 24. Key: idem. */
+  template(
+    {
+      id: "sys-espol-ch2-60",
+      subject: "math",
+      topicId: "systems",
+      subtopicId: "applications",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["geometry", "quadratic", "application"],
+      prerequisites: ["quadratic-formula"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 60",
+        page: 237,
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$76$ y $24$ pulgadas`, `$76$ and $24$ inches`), correct: true },
+        { id: "b", text: L(`$64$ y $36$ pulgadas`, `$64$ and $36$ inches`), correct: false },
+        { id: "c", text: L(`$52$ y $48$ pulgadas`, `$52$ and $48$ inches`), correct: false },
+        { id: "d", text: L(`$78$ y $22$ pulgadas`, `$78$ and $22$ inches`), correct: false },
+        { id: "e", text: L(`$70$ y $30$ pulgadas`, `$70$ and $30$ inches`), correct: false },
+      ];
+      return {
+        skill: L("Un corte, dos cuadrados: el perímetro se reparte, las áreas no", "One cut, two squares: the perimeter splits, the areas do not"),
+        statement: L(
+          "Un trozo de alambre de $100$ pulgadas de largo se corta en dos, y cada pedazo se dobla para que tome la forma de un cuadrado. Si la suma de las áreas formadas es de $397\\ \\text{pulg}^{2}$, encontrar la longitud de cada pedazo de alambre.",
+          "A piece of wire $100$ inches long is cut in two, and each piece is bent into a square. If the sum of the areas formed is $397\\ \\text{in}^{2}$, find the length of each piece of wire.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Si un pedazo mide $p$, el cuadrado tiene lado $p/4$ y área $(p/4)^{2}$; el otro pedazo mide $100 - p$.",
+            "If a piece has length $p$, its square has side $p/4$ and area $(p/4)^{2}$; the other piece measures $100 - p$.",
+          ),
+          L(
+            "La condición es $\\left(\\frac{p}{4}\\right)^{2} + \\left(\\frac{100 - p}{4}\\right)^{2} = 397$; multiplica por $16$.",
+            "The condition is $\\left(\\frac{p}{4}\\right)^{2} + \\left(\\frac{100 - p}{4}\\right)^{2} = 397$; multiply by $16$.",
+          ),
+          L(
+            "Queda $p^{2} + (100 - p)^{2} = 6352$, una cuadrática con dos raíces que se completan entre sí (¿cuánto suman?).",
+            "You get $p^{2} + (100 - p)^{2} = 6352$, a quadratic whose two roots complete each other (what do they add up to?).",
+          ),
+        ],
+        answerDisplay: L(`$76$ pulgadas y $24$ pulgadas`, `76 inches and 24 inches`),
+        solution: [
+          step(
+            "given",
+            "Alambre de $100$ in cortado en dos; cada pieza forma un cuadrado; $\\Sigma$ áreas $= 397\\ \\text{in}^{2}$.",
+            "A $100$ in wire cut in two; each piece forms a square; $\\Sigma$ areas $= 397\\ \\text{in}^{2}$.",
+          ),
+          step(
+            "approach",
+            "Una sola incógnita $p$ (la otra pieza es $100 - p$); el área del cuadrado usa el lado $p/4$. Sale una cuadrática simétrica: sus raíces son los dos pedazos.",
+            "A single unknown $p$ (the other piece is $100 - p$); the square's area uses side $p/4$. A symmetric quadratic comes out: its roots are the two pieces.",
+          ),
+          step(
+            "calculation",
+            `$\\frac{p^{2}}{16} + \\frac{(100 - p)^{2}}{16} = 397 \\Rightarrow p^{2} + (100 - p)^{2} = 6352$<br>$p^{2} + 10\\,000 - 200p + p^{2} = 6352 \\Rightarrow 2p^{2} - 200p + 3648 = 0$<br>$p^{2} - 100p + 1824 = 0 \\Rightarrow p = \\dfrac{100 \\pm \\sqrt{10\\,000 - 7296}}{2} = \\dfrac{100 \\pm 52}{2}$<br>$p = 76$ o $p = 24$ (los dos pedazos).`,
+            `$\\frac{p^{2}}{16} + \\frac{(100 - p)^{2}}{16} = 397 \\Rightarrow p^{2} + (100 - p)^{2} = 6352$<br>$p^{2} + 10,\\!000 - 200p + p^{2} = 6352 \\Rightarrow 2p^{2} - 200p + 3648 = 0$<br>$p^{2} - 100p + 1824 = 0 \\Rightarrow p = \\dfrac{100 \\pm \\sqrt{10,\\!000 - 7296}}{2} = \\dfrac{100 \\pm 52}{2}$<br>$p = 76$ or $p = 24$ (the two pieces).`,
+          ),
+          step(
+            "result",
+            `Los pedazos miden $76$ in y $24$ in (clave del libro: 76 y 24 ✓). Comprobación: cuadrados de lado $19$ y $6$: $19^{2} + 6^{2} = 361 + 36 = 397$ ✓.`,
+            `The pieces are $76$ in and $24$ in (book key: 76 and 24 ✓). Check: squares of side $19$ and $6$: $19^{2} + 6^{2} = 361 + 36 = 397$ ✓.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 61 — alquiler con vacantes → $200. Key: (c). */
+  template(
+    {
+      id: "sys-espol-ch2-61",
+      subject: "math",
+      topicId: "systems",
+      subtopicId: "applications",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["business", "revenue", "application"],
+      prerequisites: ["elimination"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 61",
+        page: 237,
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\$160$`, `$\\$160$`), correct: false },
+        { id: "b", text: L(`$\\$180$`, `$\\$180$`), correct: false },
+        { id: "c", text: L(`$\\$200$`, `$\\$200$`), correct: true },
+        { id: "d", text: L(`$\\$220$`, `$\\$220$`), correct: false },
+        { id: "e", text: L(`$\\$240$`, `$\\$240$`), correct: false },
+      ];
+      return {
+        skill: L("Ingresos iguales con vacantes: modelar (120+5n)(40−n)", "Same revenue with vacancies: model (120+5n)(40−n)"),
+        statement: L(
+          "Bienes raíces «Chóez» construyó una unidad habitacional con $40$ departamentos. Se conoce que si se fija un alquiler mensual de $\\$120$ por departamento, todos serán ocupados, pero por cada $\\$5$ de incremento en el alquiler uno quedará vacante. El alquiler en dólares que deberá fijarse, con el objeto de obtener los mismos ingresos (que si se alquilaran a $120$ cada departamento), dejando algunos vacíos para mantenimiento, es:",
+          "Real-estate firm “Chóez” built a unit with $40$ apartments. It is known that at a monthly rent of $\\$120$ per apartment all are occupied, but for each $\\$5$ increase one apartment becomes vacant. The rent in dollars that should be set to obtain the same income (as renting all of them at $120$), leaving some vacant for maintenance, is:",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Ingreso base: $40 \\cdot 120 = 4800$ dólares. Ese es el número que hay que reproducir.",
+            "Base income: $40 \\cdot 120 = 4800$ dollars. That is the number to reproduce.",
+          ),
+          L(
+            "Con $n$ vacantes: alquiler $120 + 5n$, ocupados $40 - n$. El ingreso es $(120 + 5n)(40 - n)$.",
+            "With $n$ vacancies: rent $120 + 5n$, occupied $40 - n$. Income is $(120 + 5n)(40 - n)$.",
+          ),
+          L(
+            "Iguala a $4800$ y expande: el término independiente se cancela y queda $n(16 - n) = 0$.",
+            "Set it equal to $4800$ and expand: the constant term cancels leaving $n(16 - n) = 0$.",
+          ),
+        ],
+        answerDisplay: L(`$\\$200$ (con 24 ocupados)`, `$\\$200$ (with 24 occupied)`),
+        solution: [
+          step(
+            "given",
+            `40 departamentos; alquiler base $\\$120$; cada $\\$5$ de aumento deja 1 vacante; ingreso objetivo: el mismo que con todos ocupados.`,
+            `40 apartments; base rent $\\$120$; each $\\$5$ increase leaves 1 vacant; target income: same as fully occupied.`,
+          ),
+          step(
+            "approach",
+            "Modelar con una variable (número de vacantes $n$); el requisito «mismos ingresos» fija la ecuación cuadrática.",
+            "Model with one variable (number of vacancies $n$); the “same income” requirement fixes the quadratic.",
+          ),
+          step(
+            "calculation",
+            `Ingreso base: $40 \\cdot 120 = 4800$.<br>Con $n$ vacantes: $(120 + 5n)(40 - n) = 4800$<br>$4800 + 200n - 5n^{2} - 120n = 4800 \\Rightarrow 80n - 5n^{2} = 0 \\Rightarrow n(16 - n) = 0$<br>$n = 0$ (todos ocupados, se descarta) o $n = 16$.<br>Alquiler: $120 + 5 \\cdot 16 = 200$, con $40 - 16 = 24$ ocupados.`,
+            `Base income: $40 \\cdot 120 = 4800$.<br>With $n$ vacancies: $(120 + 5n)(40 - n) = 4800$<br>$4800 + 200n - 5n^{2} - 120n = 4800 \\Rightarrow 80n - 5n^{2} = 0 \\Rightarrow n(16 - n) = 0$<br>$n = 0$ (all occupied, discarded) or $n = 16$.<br>Rent: $120 + 5 \\cdot 16 = 200$, with $40 - 16 = 24$ occupied.`,
+          ),
+          step(
+            "result",
+            `Alquiler $\\$200$ con 24 departamentos ocupados (opción c; clave del libro: (c) ✓). Comprobación: $200 \\cdot 24 = 4800 = 120 \\cdot 40$ ✓.`,
+            `Rent $\\$200$ with 24 occupied apartments (option c; book key: (c) ✓). Check: $200 \\cdot 24 = 4800 = 120 \\cdot 40$ ✓.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 62 — 60 habitaciones, ingreso $11 475 → $225 ó $255. Key: idem. */
+  template(
+    {
+      id: "sys-espol-ch2-62",
+      subject: "math",
+      topicId: "systems",
+      subtopicId: "applications",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["business", "revenue", "two-answers"],
+      prerequisites: ["quadratic-formula"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 62",
+        page: 238,
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\$225$ ó $\\$255$`, `$\\$225$ or $\\$255$`), correct: true },
+        { id: "b", text: L(`solo $\\$225$`, `only $\\$225$`), correct: false },
+        { id: "c", text: L(`solo $\\$255$`, `only $\\$255$`), correct: false },
+        { id: "d", text: L(`$\\$200$ ó $\\$240$`, `$\\$200$ or $\\$240$`), correct: false },
+        { id: "e", text: L(`$\\$235$`, `$\\$235$`), correct: false },
+      ];
+      return {
+        skill: L("Ingreso objetivo: dos alquileres lo logran (cuadrática con 2 raíces)", "Target income: two rents achieve it (quadratic with 2 roots)"),
+        statement: L(
+          "J. Cárdenas es propietario de un edificio de apartamentos que tiene $60$ habitaciones; él puede alquilar todas las habitaciones si fija un alquiler de $180$ al mes. Al subir el alquiler, algunas habitaciones quedarán vacías, en promedio, por cada incremento de $\\$5$, una habitación quedará vacía, sin posibilidad alguna de alquilarse. Encuentre el alquiler que debería cobrar con el fin de obtener un ingreso total de $\\$11\\,475$.",
+          "J. Cárdenas owns an apartment building with $60$ rooms; he can rent all the rooms at $180$ a month. As the rent rises, some rooms stay vacant — on average, for each $\\$5$ increase one room becomes vacant, with no chance of being rented. Find the rent he should charge to obtain a total income of $\\$11,\\!475$.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Con $n$ incrementos de $\\$5$: alquiler $180 + 5n$, habitaciones ocupadas $60 - n$.",
+            "With $n$ increases of $\\$5$: rent $180 + 5n$, occupied rooms $60 - n$.",
+          ),
+          L(
+            "Plantea $(180 + 5n)(60 - n) = 11\\,475$ y expande.",
+            "Set up $(180 + 5n)(60 - n) = 11,\\!475$ and expand.",
+          ),
+          L(
+            "Queda $n^{2} - 24n + 135 = 0$; tiene DOS raíces enteras — ambas son válidas.",
+            "You get $n^{2} - 24n + 135 = 0$; it has TWO integer roots — both are valid.",
+          ),
+        ],
+        answerDisplay: L(
+          `$\\$225$ (51 habitaciones) ó $\\$255$ (45 habitaciones)`,
+          `$\\$225$ (51 rooms) or $\\$255$ (45 rooms)`,
+        ),
+        solution: [
+          step(
+            "given",
+            `60 habitaciones; base $\\$180$; cada $\\$5$ más → 1 vacante; ingreso requerido $\\$11\\,475$.`,
+            `60 rooms; base $\\$180$; each extra $\\$5$ → 1 vacancy; required income $\\$11,\\!475$.`,
+          ),
+          step(
+            "approach",
+            "Modelar con $n$ (aumentos de $\\$5$); la parabola de ingresos cruza el nivel objetivo dos veces: aquí hay DOS respuestas.",
+            "Model with $n$ (number of $\\$5$ increases); the income parabola crosses the target level twice: there are TWO answers here.",
+          ),
+          step(
+            "calculation",
+            `$(180 + 5n)(60 - n) = 11\\,475$<br>$10\\,800 + 300n - 180n - 5n^{2} = 11\\,475 \\Rightarrow -5n^{2} + 120n - 675 = 0$<br>$n^{2} - 24n + 135 = 0 \\Rightarrow n = \\dfrac{24 \\pm \\sqrt{576 - 540}}{2} = \\dfrac{24 \\pm 6}{2}$<br>$n = 9$ o $n = 15$. Alquileres: $180 + 45 = 225$ (51 hab.) y $180 + 75 = 255$ (45 hab.).`,
+            `$(180 + 5n)(60 - n) = 11,\\!475$<br>$10,\\!800 + 300n - 180n - 5n^{2} = 11,\\!475 \\Rightarrow -5n^{2} + 120n - 675 = 0$<br>$n^{2} - 24n + 135 = 0 \\Rightarrow n = \\dfrac{24 \\pm \\sqrt{576 - 540}}{2} = \\dfrac{24 \\pm 6}{2}$<br>$n = 9$ or $n = 15$. Rents: $180 + 45 = 225$ (51 rooms) and $180 + 75 = 255$ (45 rooms).`,
+          ),
+          step(
+            "result",
+            `Alquiler $\\$225$ con 51 habitaciones ó $\\$255$ con 45 (clave del libro: 225 ó 255 ✓). Comprobación: $225 \\cdot 51 = 11\\,475$ ✓ y $255 \\cdot 45 = 11\\,475$ ✓.`,
+            `Rent $\\$225$ with 51 rooms or $\\$255$ with 45 (book key: 225 or 255 ✓). Check: $225 \\cdot 51 = 11,\\!475$ ✓ and $255 \\cdot 45 = 11,\\!475$ ✓.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 63 — capital $100, segunda tasa doble → 4% y 8%. Key: 4 y 8. */
+  template(
+    {
+      id: "sys-espol-ch2-63",
+      subject: "math",
+      topicId: "systems",
+      subtopicId: "applications",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 270,
+      tags: ["finance", "compound", "application"],
+      prerequisites: ["quadratic-formula"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 63",
+        page: 238,
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$4\\%$ y $8\\%$`, `$4\\%$ and $8\\%$`), correct: true },
+        { id: "b", text: L(`$5\\%$ y $10\\%$`, `$5\\%$ and $10\\%$`), correct: false },
+        { id: "c", text: L(`$3\\%$ y $6\\%$`, `$3\\%$ and $6\\%$`), correct: false },
+        { id: "d", text: L(`$4\\%$ y $6\\%$`, `$4\\%$ and $6\\%$`), correct: false },
+        { id: "e", text: L(`$6\\%$ y $12\\%$`, `$6\\%$ and $12\\%$`), correct: false },
+      ];
+      return {
+        skill: L("Interés compuesto en cadena: 100(1+r)(1+2r) = 112.32", "Chained interest: 100(1+r)(1+2r) = 112.32"),
+        statement: L(
+          "Un capital de $\\$100$ se invierte a cierto interés a un año; luego, con el interés ganado, se invierte en el segundo año a un interés igual al doble de la primera tasa de interés. Si la suma total obtenida es $\\$112{,}32$, ¿cuáles son las dos tasas de interés? (El modelo verificado — que reproduce la clave del libro — reinvierte el capital con su interés a la tasa doble).",
+          "A capital of $\\$100$ is invested for one year at some rate; then, with the earned interest, it is invested the second year at a rate equal to twice the first rate. If the total obtained is $\\$112.32$, what are the two interest rates? (The verified model — which reproduces the book's key — reinvests the capital plus its interest at the double rate.)",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Si la primera tasa es $r$ (en decimales), tras un año el capital vale $100(1 + r)$.",
+            "If the first rate is $r$ (in decimals), after one year the capital is worth $100(1 + r)$.",
+          ),
+          L(
+            "El segundo año corre a la tasa doble $2r$: el monto final es $100(1 + r)(1 + 2r) = 112{,}32$.",
+            "The second year runs at the double rate $2r$: the final amount is $100(1 + r)(1 + 2r) = 112.32$.",
+          ),
+          L(
+            "Divide entre $100$: $(1 + r)(1 + 2r) = 1{,}1232$; expande y resuelve la cuadrática (una raíz es negativa).",
+            "Divide by $100$: $(1 + r)(1 + 2r) = 1.1232$; expand and solve the quadratic (one root is negative).",
+          ),
+        ],
+        answerDisplay: L(`primera tasa $4\\%$, segunda tasa $8\\%$`, `first rate $4\\%$, second rate $8\\%$`),
+        solution: [
+          step(
+            "given",
+            `Capital $\\$100$; año 1 a tasa $r$; año 2 a tasa $2r$; monto final $\\$112{,}32$.`,
+            `Capital $\\$100$; year 1 at rate $r$; year 2 at rate $2r$; final amount $\\$112.32$.`,
+          ),
+          step(
+            "approach",
+            "El modelo verificado (consistente con la clave del libro «4 y 8»): el capital con su interés se reinvierte a la tasa doble — composición sobre el total, $100(1+r)(1+2r)$.",
+            "The verified model (consistent with the book's key “4 and 8”): the capital plus its interest is reinvested at the double rate — compounding on the total, $100(1+r)(1+2r)$.",
+          ),
+          step(
+            "calculation",
+            `$100(1 + r)(1 + 2r) = 112{,}32 \\Rightarrow (1 + r)(1 + 2r) = 1{,}1232$<br>$1 + 3r + 2r^{2} = 1{,}1232 \\Rightarrow 2r^{2} + 3r - 0{,}1232 = 0$<br>$\\Delta = 9 + 0{,}9856 = 9{,}9856$; $r = \\dfrac{-3 + 3{,}16}{4} = 0{,}04$ (la otra raíz es negativa).<br>Tasas: $r = 4\\%$ y $2r = 8\\%$.`,
+            `$100(1 + r)(1 + 2r) = 112.32 \\Rightarrow (1 + r)(1 + 2r) = 1.1232$<br>$1 + 3r + 2r^{2} = 1.1232 \\Rightarrow 2r^{2} + 3r - 0.1232 = 0$<br>$\\Delta = 9 + 0.9856 = 9.9856$; $r = \\dfrac{-3 + 3.16}{4} = 0.04$ (the other root is negative).<br>Rates: $r = 4\\%$ and $2r = 8\\%$.`,
+          ),
+          step(
+            "result",
+            `Las tasas son $4\\%$ y $8\\%$ (clave del libro: 4 y 8 ✓). Comprobación: $100 \\cdot 1{,}04 \\cdot 1{,}08 = 104 \\cdot 1{,}08 = 112{,}32$ ✓.`,
+            `The rates are $4\\%$ and $8\\%$ (book key: 4 and 8 ✓). Check: $100 \\cdot 1.04 \\cdot 1.08 = 112.32$ ✓.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 64c — p = 600−5x, costos 8000+75x, utilidad $5500 → x = 60 ó 45. Key: c) 60 ó 45. */
+  template(
+    {
+      id: "sys-espol-ch2-64c",
+      subject: "math",
+      topicId: "systems",
+      subtopicId: "applications",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 330,
+      tags: ["business", "profit", "revenue", "application"],
+      prerequisites: ["quadratic-formula"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 64c",
+        page: 238,
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$60$ ó $45$ unidades`, `$60$ or $45$ units`), correct: true },
+        { id: "b", text: L(`$60$ ó $50$ unidades`, `$60$ or $50$ units`), correct: false },
+        { id: "c", text: L(`solo $60$ unidades`, `only $60$ units`), correct: false },
+        { id: "d", text: L(`$70$ ó $50$ unidades`, `$70$ or $50$ units`), correct: false },
+        { id: "e", text: L(`$55$ ó $40$ unidades`, `$55$ or $40$ units`), correct: false },
+      ];
+      return {
+        skill: L("Ingreso − costo = utilidad: dos volúmenes la alcanzan", "Revenue − cost = profit: two volumes reach it"),
+        statement: L(
+          "Cada semana, una compañía puede vender $x$ unidades de su producto a un precio de $p$ dólares cada uno, donde $p = 600 - 5x$. Producir $x$ unidades cuesta $(8000 + 75x)$ dólares. ¿Cuántas unidades debería producir y vender cada semana para lograr utilidades semanales de $5\\,500$? (Utilidad = ingresos − costos; ingresa $p \\cdot x$.) Las partes a, b y d del ejercicio original se desarrollan en la solución.",
+          "Each week a company can sell $x$ units of its product at a price of $p$ dollars each, where $p = 600 - 5x$. Producing $x$ units costs $(8000 + 75x)$ dollars. How many units should it produce and sell each week to achieve weekly profits of $5,\\!500$? (Profit = revenue − cost, revenue $= p \\cdot x$.) Parts a, b and d of the original exercise are developed in the solution.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Ingresos: $I = x \\cdot p = x(600 - 5x)$. Costos: $C = 8000 + 75x$.",
+            "Revenue: $R = x \\cdot p = x(600 - 5x)$. Costs: $C = 8000 + 75x$.",
+          ),
+          L(
+            "Utilidad: $U = I - C = x(600 - 5x) - (8000 + 75x)$; iguala a $5500$.",
+            "Profit: $P = R - C = x(600 - 5x) - (8000 + 75x)$; set it equal to $5500$.",
+          ),
+          L(
+            "Queda $-5x^{2} + 525x - 13\\,500 = 0$, o bien $x^{2} - 105x + 2700 = 0$: dos raíces enteras.",
+            "You get $-5x^{2} + 525x - 13,\\!500 = 0$, i.e. $x^{2} - 105x + 2700 = 0$: two integer roots.",
+          ),
+        ],
+        answerDisplay: L(`$x = 60$ ó $x = 45$ unidades`, `$x = 60$ or $x = 45$ units`),
+        solution: [
+          step(
+            "given",
+            "Modelo semanal: $p = 600 - 5x$; costo $= 8000 + 75x$; objetivo: utilidad $\\$5\\,500$.",
+            "Weekly model: $p = 600 - 5x$; cost $= 8000 + 75x$; target: profit $\\$5,\\!500$.",
+          ),
+          step(
+            "approach",
+            "Armar ingreso, costo y utilidad; la utilidad es una parabola que cruza el nivel objetivo dos veces (dos volúmenes).",
+            "Build revenue, cost and profit; the profit is a parabola crossing the target level twice (two volumes).",
+          ),
+          step(
+            "calculation",
+            `Utilidad: $x(600 - 5x) - (8000 + 75x) = 5500$<br>$-5x^{2} + 600x - 75x - 8000 = 5500 \\Rightarrow -5x^{2} + 525x - 13\\,500 = 0$<br>$x^{2} - 105x + 2700 = 0 \\Rightarrow x = \\dfrac{105 \\pm \\sqrt{11\\,025 - 10\\,800}}{2} = \\dfrac{105 \\pm 15}{2}$<br>$x = 60$ o $x = 45$.`,
+            `Profit: $x(600 - 5x) - (8000 + 75x) = 5500$<br>$-5x^{2} + 600x - 75x - 8000 = 5500 \\Rightarrow -5x^{2} + 525x - 13,\\!500 = 0$<br>$x^{2} - 105x + 2700 = 0 \\Rightarrow x = \\dfrac{105 \\pm \\sqrt{11,\\!025 - 10,\\!800}}{2} = \\dfrac{105 \\pm 15}{2}$<br>$x = 60$ or $x = 45$.`,
+          ),
+          step(
+            "result",
+            `Con utilidad $\\$5\\,500$: $x = 60$ ó $x = 45$ unidades (clave del libro, parte c: 60 ó 45 ✓). Las demás partes del original: a) ingresos $\\$17\\,500$ → $x = 70$ ó $50$; b) ingresos $\\$18\\,000$ → $x = 60$, precio $p = 300$; d) utilidad $\\$5\\,750$ → $x = 55$ ó $50$, precios $\\$350$ ó $\\$325$. Comprobación de c) con $x = 60$: ingresos $60 \\cdot 300 = 18\\,000$, costos $8000 + 4500 = 12\\,500$, utilidad $5500$ ✓.`,
+            `For profit $\\$5,\\!500$: $x = 60$ or $x = 45$ units (book key, part c: 60 or 45 ✓). The other parts of the original: a) revenue $\\$17,\\!500$ → $x = 70$ or $50$; b) revenue $\\$18,\\!000$ → $x = 60$, price $p = 300$; d) profit $\\$5,\\!750$ → $x = 55$ or $50$, prices $\\$350$ or $\\$325$. Check of c) at $x = 60$: revenue $60 \\cdot 300 = 18,\\!000$, cost $8000 + 4500 = 12,\\!500$, profit $5500$ ✓.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 68 — Yolanda 8h, Pablo 10h, Carlos 12h, relevos → 4.72 h. Key: 4 18/25 h. */
+  template(
+    {
+      id: "sys-espol-ch2-68",
+      subject: "math",
+      topicId: "systems",
+      subtopicId: "applications",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 330,
+      tags: ["work-rate", "staggered", "application"],
+      prerequisites: ["fractions"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 68",
+        page: 238,
+      },
+      reasoning: "modeling",
+    },
+    () => ({
+      skill: L("Relevos de trabajo: dos etapas con distinto equipo", "Work relays: two stages with different teams"),
+      statement: L(
+        "Yolanda puede hacer cierto trabajo en 8 horas, Pablo en 10 horas y Carlos en 12 horas. ¿Cuánto tiempo tomará efectuar el trabajo si Yolanda y Pablo se ponen a trabajar durante una hora e inmediatamente después Yolanda y Carlos lo terminan? Responde en horas (exacto tipo 118/25 o dos decimales).",
+        "Yolanda can do a certain job in 8 hours, Pablo in 10 hours and Carlos in 12 hours. How long will the job take if Yolanda and Pablo work for one hour and immediately afterwards Yolanda and Carlos finish it? Answer in hours (exact like 118/25, or two decimals).",
+      ),
+      answer: { kind: "numeric", value: 4.72 },
+      hints: [
+        L(
+          "Razones individuales: $Y = \\frac{1}{8}$, $P = \\frac{1}{10}$, $C = \\frac{1}{12}$ (trabajos por hora).",
+          "Individual rates: $Y = \\frac{1}{8}$, $P = \\frac{1}{10}$, $C = \\frac{1}{12}$ (jobs per hour).",
+        ),
+        L(
+          "Etapa 1 (1 h, Yolanda+Pablo): avanzan $\\frac{1}{8} + \\frac{1}{10} = \\frac{9}{40}$. ¿Cuánto queda?",
+          "Stage 1 (1 h, Yolanda+Pablo): they advance $\\frac{1}{8} + \\frac{1}{10} = \\frac{9}{40}$. How much is left?",
+        ),
+        L(
+          "Etapa 2: el resto $\\frac{31}{40}$ a la razón $\\frac{1}{8} + \\frac{1}{12} = \\frac{5}{24}$; el tiempo de la etapa es $\\frac{31/40}{5/24}$, y el total es 1 h + eso.",
+          "Stage 2: the remaining $\\frac{31}{40}$ at rate $\\frac{1}{8} + \\frac{1}{12} = \\frac{5}{24}$; the stage time is $\\frac{31/40}{5/24}$, and the total is 1 h + that.",
+        ),
+      ],
+      answerDisplay: L(
+        `$4{,}72\\ \\text{h} \\left(= \\dfrac{118}{25}\\ \\text{h}\\right)$`,
+        `$4.72\\ \\text{h} \\left(= \\dfrac{118}{25}\\ \\text{h}\\right)$`,
+      ),
+      solution: [
+        step(
+          "given",
+          "Yolanda 8 h, Pablo 10 h, Carlos 12 h (trabajos completos). Etapa 1: Yolanda+Pablo 1 h; etapa 2: Yolanda+Carlos terminan.",
+          "Yolanda 8 h, Pablo 10 h, Carlos 12 h (full jobs). Stage 1: Yolanda+Pablo for 1 h; stage 2: Yolanda+Carlos finish.",
+        ),
+        step(
+          "approach",
+          "Trabajo por etapas: en cada etapa la razón del equipo es la suma de las razones de sus miembros; el tiempo total es la suma de las etapas.",
+          "Staged work: in each stage the team's rate is the sum of its members' rates; the total time is the sum of the stages.",
+        ),
+        step(
+          "calculation",
+          `Etapa 1 (1 h): $\\frac{1}{8} + \\frac{1}{10} = \\frac{5}{40} + \\frac{4}{40} = \\frac{9}{40}$ hecho; queda $\\frac{31}{40}$.<br>Etapa 2: razón $\\frac{1}{8} + \\frac{1}{12} = \\frac{3}{24} + \\frac{2}{24} = \\frac{5}{24}$<br>Tiempo etapa 2: $\\dfrac{31/40}{5/24} = \\dfrac{31 \\cdot 24}{40 \\cdot 5} = \\dfrac{744}{200} = 3{,}72$ h<br>Total: $1 + 3{,}72 = 4{,}72$ h $= \\dfrac{118}{25}$ h.`,
+          `Stage 1 (1 h): $\\frac{1}{8} + \\frac{1}{10} = \\frac{9}{40}$ done; $\\frac{31}{40}$ left.<br>Stage 2: rate $\\frac{1}{8} + \\frac{1}{12} = \\frac{5}{24}$<br>Stage-2 time: $\\dfrac{31/40}{5/24} = \\dfrac{31 \\cdot 24}{40 \\cdot 5} = 3.72$ h<br>Total: $1 + 3.72 = 4.72$ h $= \\dfrac{118}{25}$ h.`,
+        ),
+        step(
+          "result",
+          `El trabajo toma $4{,}72$ h (clave del libro: $4\\frac{18}{25}$ h $= 4{,}72$ ✓). Comprobación: etapa 1 hace $9/40$; etapa 2 en $3{,}72$ h hace $\\frac{5}{24} \\cdot 3{,}72 = 0{,}775 = \\frac{31}{40}$; total $\\frac{9}{40} + \\frac{31}{40} = 1$ trabajo ✓.`,
+          `The job takes $4.72$ h (book key: $4\\frac{18}{25}$ h $= 4.72$ ✓). Check: stage 1 does $9/40$; stage 2 in $3.72$ h does $\\frac{5}{24} \\cdot 3.72 = 0.775 = \\frac{31}{40}$; total $\\frac{9}{40} + \\frac{31}{40} = 1$ job ✓.`,
+        ),
+      ],
+    }),
+  ),
+
+  /* 70 — radiador 10 L al 20% → 50%: vaciar 3.75 L. Key: 3 3/4 L. */
+  template(
+    {
+      id: "sys-espol-ch2-70",
+      subject: "math",
+      topicId: "systems",
+      subtopicId: "applications",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 270,
+      tags: ["mixture", "drain-and-replace", "application"],
+      prerequisites: ["fractions"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 70",
+        page: 239,
+      },
+      reasoning: "modeling",
+    },
+    () => ({
+      skill: L("Vaciar y reponer: la mezcla que queda conserva su concentración", "Drain and replace: the remaining mixture keeps its concentration"),
+      statement: L(
+        "El radiador de un automóvil contiene $10$ litros de una mezcla de agua y $20\\%$ de anticorrosivo. ¿Qué cantidad de esta mezcla debe vaciarse y reemplazarse por anticorrosivo puro para obtener una mezcla del $50\\%$ en el radiador? Responde en litros (exacto tipo 15/4 o dos decimales).",
+        "A car radiator holds $10$ liters of a water mixture with $20\\%$ antifreeze. How much of this mixture must be drained and replaced with pure antifreeze to obtain a $50\\%$ mixture in the radiator? Answer in liters (exact like 15/4, or two decimals).",
+      ),
+      answer: { kind: "numeric", value: 3.75 },
+      hints: [
+        L(
+          "Si vacías $x$ litros, quedan $(10 - x)$ litros de mezcla al $20\\%$: dentro hay $0{,}2(10 - x)$ litros de anticorrosivo.",
+          "If you drain $x$ liters, $(10 - x)$ liters of $20\\%$ mixture remain: it contains $0.2(10 - x)$ liters of antifreeze.",
+          ),
+        L(
+          "Al reponer con $x$ litros puros, el anticorrosivo total es $0{,}2(10 - x) + x$ y el volumen vuelve a $10$ L.",
+          "Refilling with $x$ pure liters, total antifreeze becomes $0.2(10 - x) + x$ while the volume returns to $10$ L.",
+        ),
+        L(
+          "La condición es $0{,}2(10 - x) + x = 0{,}5 \\cdot 10 = 5$: ecuación lineal en $x$.",
+          "The condition is $0.2(10 - x) + x = 0.5 \\cdot 10 = 5$: a linear equation in $x$.",
+        ),
+      ],
+      answerDisplay: L(
+        `$3\\frac{3}{4} = 3{,}75$ litros`,
+        `$3\\frac{3}{4} = 3.75$ liters`,
+      ),
+      solution: [
+        step(
+          "given",
+          "Radiador: $10$ L de mezcla al $20\\%$; objetivo: $50\\%$; mecanismo: vaciar $x$ L de mezcla y reponer con anticorrosivo puro.",
+          "Radiator: $10$ L of $20\\%$ mixture; target: $50\\%$; mechanism: drain $x$ L of mixture and refill with pure antifreeze.",
+        ),
+        step(
+          "approach",
+          "Seguir el anticorrosivo puro: lo que queda tras vaciar sigue al $20\\%$; lo repuesto entra al $100\\%$; el total debe ser la mitad del volumen.",
+          "Track the pure antifreeze: what remains after draining is still at $20\\%$; the refill enters at $100\\%$; the total must be half the volume.",
+        ),
+        step(
+          "calculation",
+          `Tras vaciar: mezcla $(10 - x)$ L al $20\\%$ → anticorrosivo $0{,}2(10 - x) = 2 - 0{,}2x$ L.<br>Reponiendo $x$ L puros: total $2 - 0{,}2x + x = 2 + 0{,}8x$ L.<br>Condición: $2 + 0{,}8x = 5 \\Rightarrow 0{,}8x = 3 \\Rightarrow x = 3{,}75$.`,
+          `After draining: $(10 - x)$ L at $20\\%$ → antifreeze $0.2(10 - x) = 2 - 0.2x$ L.<br>Refilling $x$ pure liters: total $2 - 0.2x + x = 2 + 0.8x$ L.<br>Condition: $2 + 0.8x = 5 \\Rightarrow 0.8x = 3 \\Rightarrow x = 3.75$.`,
+        ),
+        step(
+          "result",
+          `Hay que vaciar y reponer $3\\frac{3}{4} = 3{,}75$ L (clave del libro: $3\\frac{3}{4}$ litros ✓). Comprobación: quedan $6{,}25$ L de mezcla con $1{,}25$ L de anticorrosivo; al añadir $3{,}75$ L puros: $1{,}25 + 3{,}75 = 5$ L de anticorrosivo en $10$ L $= 50\\%$ ✓.`,
+          `Drain and replace $3\\frac{3}{4} = 3.75$ L (book key: $3\\frac{3}{4}$ liters ✓). Check: $6.25$ L of mixture remain holding $1.25$ L of antifreeze; adding $3.75$ pure liters: $1.25 + 3.75 = 5$ L of antifreeze in $10$ L $= 50\\%$ ✓.`,
+        ),
+      ],
+    }),
+  ),
 ];
 
 /** The bank for this topic: own generators + the tutor's curated Gauss/application set. */

@@ -1028,7 +1028,7 @@ export const templates: ProblemTemplate[] = [
       },
       reasoning: "spurious",
     },
-    () => {
+    (rng) => {
       const options: McOption[] = [
         { id: "a", text: L("$(9, \\infty)$", "$(9, \\infty)$"), correct: true },
         { id: "b", text: L("$[9, \\infty)$", "$[9, \\infty)$"), correct: false },
@@ -1041,7 +1041,7 @@ export const templates: ProblemTemplate[] = [
           `Con $x \\in \\mathbb{R}$, determina el conjunto de verdad de $q(x):\\ 1 + \\sqrt{2x + 7} < x - 3$.`,
           `With $x \\in \\mathbb{R}$, determine the truth set of $q(x):\\ 1 + \\sqrt{2x + 7} < x - 3$.`,
         ),
-        answer: { kind: "multiple-choice", options },
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
         hints: [
           L(
             "Despeja el radical: $\\sqrt{2x + 7} < x - 4$. Como la raíz es $\\geq 0$, ¿qué exiges sobre $x - 4$?",
@@ -1106,7 +1106,7 @@ export const templates: ProblemTemplate[] = [
       },
       reasoning: "case-analysis",
     },
-    () => {
+    (rng) => {
       const options: McOption[] = [
         { id: "a", text: L("$[4, 5]\\cup[8, \\infty)$", "$[4, 5]\\cup[8, \\infty)$"), correct: true },
         { id: "b", text: L("$[4, \\infty)$", "$[4, \\infty)$"), correct: false },
@@ -1119,7 +1119,7 @@ export const templates: ProblemTemplate[] = [
           `Con $x \\in \\mathbb{R}$, determina el conjunto de verdad de $r(x):\\ \\frac{x - 2}{3} \\geq \\sqrt{x - 4}$.`,
           `With $x \\in \\mathbb{R}$, determine the truth set of $r(x):\\ \\frac{x - 2}{3} \\geq \\sqrt{x - 4}$.`,
         ),
-        answer: { kind: "multiple-choice", options },
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
         hints: [
           L(
             "Dominio primero: $x - 4 \\geq 0$, y además el lado izquierdo debe ser $\\geq 0$ para dominar a una raíz no negativa.",
@@ -1158,6 +1158,157 @@ export const templates: ProblemTemplate[] = [
             "result",
             `El conjunto de verdad es $[4, 5]\\cup[8, \\infty)$. Comprobación: $x = 4$: $\\frac{2}{3} \\geq 0$ ✓; $x = 6$: $\\frac{4}{3} < \\sqrt{2} \\approx 1{,}41$ ✗ (está en el hueco); $x = 9$: $\\frac{7}{3} \\approx 2{,}33 \\geq \\sqrt{5} \\approx 2{,}24$ ✓.`,
             `The truth set is $[4, 5]\\cup[8, \\infty)$. Check: $x = 4$: $\\frac{2}{3} \\geq 0$ ✓; $x = 6$: $\\frac{4}{3} < \\sqrt{2} \\approx 1.41$ ✗ (it is in the gap); $x = 9$: $\\frac{7}{3} \\approx 2.33 \\geq \\sqrt{5} \\approx 2.24$ ✓.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* ================================================================== */
+  /* Curated — ESPOL Fundamentos, EDICIÓN DIGITAL (TUTOR_LICENSED).      */
+  /* Chapter 2 «Ejercicios propuestos», §2.8 eq. 80, p. 241 (PDF 274).  */
+  /* Double-verified: printed key p. 939 (80b: 3; 80e: 4,5) + sympy.    */
+  /* Drive-by fix: rad-espol-128b/128c now shuffle their MC options      */
+  /* (they shipped with the correct option always first).                */
+  /* ================================================================== */
+
+  /* 80b — √(x+1) = x−1 → x = 3 (x = 0 espuria). */
+  template(
+    {
+      id: "rad-espol-ch2-80b",
+      subject: "math",
+      topicId: "radicals",
+      subtopicId: "equations",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 180,
+      tags: ["equation", "radical", "spurious-root"],
+      prerequisites: ["simplifying"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 80b",
+        page: 241,
+      },
+      reasoning: "spurious",
+    },
+    () => ({
+      skill: L("Raíz aislada: elevar, resolver y filtrar", "Isolated root: square, solve, filter"),
+      statement: L(
+        "Resuelve: $\\sqrt{x + 1} = x - 1$.",
+        "Solve: $\\sqrt{x + 1} = x - 1$.",
+      ),
+      answer: { kind: "numeric", value: 3 },
+      hints: [
+        L(
+          "Dominio: $x + 1 \\geq 0$; y como la raíz es $\\geq 0$, el lado derecho también: $x - 1 \\geq 0$.",
+          "Domain: $x + 1 \\geq 0$; and since the root is $\\geq 0$, so is the right side: $x - 1 \\geq 0$.",
+        ),
+        L(
+          "Eleva al cuadrado: $x + 1 = (x - 1)^{2} = x^{2} - 2x + 1$, que se reduce a una cuadrática sin constante.",
+          "Square: $x + 1 = (x - 1)^{2} = x^{2} - 2x + 1$, which reduces to a quadratic with no constant.",
+        ),
+        L(
+          "Obtendrás dos candidatos; prueba AMBOS en la ecuación original antes de responder (uno es espurio).",
+          "You will get two candidates; test BOTH in the original equation before answering (one is spurious).",
+        ),
+      ],
+      answerDisplay: L("$x = 3$", "$x = 3$"),
+      solution: [
+        step(
+          "given",
+          "$\\sqrt{x + 1} = x - 1$; dominio: $x \\geq -1$ y, por el signo de la raíz, $x \\geq 1$.",
+          "$\\sqrt{x + 1} = x - 1$; domain: $x \\geq -1$ and, by the root's sign, $x \\geq 1$.",
+        ),
+        step(
+          "approach",
+          "Elevar al cuadrado con el radical aislado, resolver la cuadrática y devolver cada candidato a la ecuación original: elevar puede fabricar soluciones.",
+          "Square with the radical isolated, solve the quadratic, and put every candidate back into the original equation: squaring can manufacture solutions.",
+        ),
+        step(
+          "calculation",
+          "$x + 1 = x^{2} - 2x + 1 \\Rightarrow 0 = x^{2} - 3x = x(x - 3)$<br>Candidatos: $x = 0$ y $x = 3$.<br>Prueba: $x = 0$: $\\sqrt{1} = 1$ pero $0 - 1 = -1$ ✗ (espuria). $x = 3$: $\\sqrt{4} = 2$ y $3 - 1 = 2$ ✓.",
+          "$x + 1 = x^{2} - 2x + 1 \\Rightarrow 0 = x^{2} - 3x = x(x - 3)$<br>Candidates: $x = 0$ and $x = 3$.<br>Test: $x = 0$: $\\sqrt{1} = 1$ but $0 - 1 = -1$ ✗ (spurious). $x = 3$: $\\sqrt{4} = 2$ and $3 - 1 = 2$ ✓.",
+        ),
+        step(
+          "result",
+          "$x = 3$; la raíz $x = 0$ nació al elevar y no sobrevive a la ecuación original.",
+          "$x = 3$; the root $x = 0$ was born when squaring and does not survive the original equation.",
+        ),
+      ],
+    }),
+  ),
+
+  /* 80e — [√(x+4)+√(x−4)]/[√(x+4)−√(x−4)] = x−3 → {4, 5}. */
+  template(
+    {
+      id: "rad-espol-ch2-80e",
+      subject: "math",
+      topicId: "radicals",
+      subtopicId: "equations",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["equation", "radical", "rationalize", "domain"],
+      prerequisites: ["simplifying"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 80e",
+        page: 241,
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\{4,\\ 5\\}$`, `$\\{4,\\ 5\\}$`), correct: true },
+        { id: "b", text: L(`$\\{4\\}$`, `$\\{4\\}$`), correct: false },
+        { id: "c", text: L(`$\\{5\\}$`, `$\\{5\\}$`), correct: false },
+        { id: "d", text: L(`$\\{4,\\ 5,\\ 6\\}$`, `$\\{4,\\ 5,\\ 6\\}$`), correct: false },
+        { id: "e", text: L(`$\\varnothing$`, `$\\varnothing$`), correct: false },
+      ];
+      return {
+        skill: L("Cociente de radicales: racionalizar antes de elevar", "Quotient of radicals: rationalize before squaring"),
+        statement: L(
+          "Resuelve: $$\\frac{\\sqrt{x + 4} + \\sqrt{x - 4}}{\\sqrt{x + 4} - \\sqrt{x - 4}} = x - 3.$$",
+          "Solve: $$\\frac{\\sqrt{x + 4} + \\sqrt{x - 4}}{\\sqrt{x + 4} - \\sqrt{x - 4}} = x - 3.$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Dominio: $x \\geq 4$ (necesitas $x - 4 \\geq 0$; en $x = 4$ el denominador es $\\sqrt{8} \\neq 0$, así que entra).",
+            "Domain: $x \\geq 4$ (you need $x - 4 \\geq 0$; at $x = 4$ the denominator is $\\sqrt{8} \\neq 0$, so it is allowed).",
+          ),
+          L(
+            "Racionaliza multiplicando por $(A+B)/(A+B)$ con $A = \\sqrt{x+4}$, $B = \\sqrt{x-4}$: el cociente vale $\\frac{(A+B)^{2}}{A^{2} - B^{2}} = \\frac{x + \\sqrt{x^{2} - 16}}{4}$.",
+            "Rationalize by multiplying by $(A+B)/(A+B)$ with $A = \\sqrt{x+4}$, $B = \\sqrt{x-4}$: the quotient equals $\\frac{(A+B)^{2}}{A^{2} - B^{2}} = \\frac{x + \\sqrt{x^{2} - 16}}{4}$.",
+          ),
+          L(
+            "La ecuación queda $x + \\sqrt{x^{2} - 16} = 4x - 12$, o sea $\\sqrt{x^{2} - 16} = 3x - 12$; eleva y obtendrás $(x - 4)(x - 5) = 0$.",
+            "The equation becomes $x + \\sqrt{x^{2} - 16} = 4x - 12$, i.e. $\\sqrt{x^{2} - 16} = 3x - 12$; square and you will get $(x - 4)(x - 5) = 0$.",
+          ),
+        ],
+        answerDisplay: L("$A = \\{4,\\ 5\\}$", "$A = \\{4,\\ 5\\}$"),
+        solution: [
+          step(
+            "given",
+            "$\\frac{\\sqrt{x+4} + \\sqrt{x-4}}{\\sqrt{x+4} - \\sqrt{x-4}} = x - 3$; dominio $x \\geq 4$.",
+            "$\\frac{\\sqrt{x+4} + \\sqrt{x-4}}{\\sqrt{x+4} - \\sqrt{x-4}} = x - 3$; domain $x \\geq 4$.",
+          ),
+          step(
+            "approach",
+            "Racionalizar el cociente con $A^{2} - B^{2} = 8$ lo convierte en $\\frac{x + \\sqrt{x^{2}-16}}{4}$; después se aísla el radical y se eleva una sola vez.",
+            "Rationalizing the quotient using $A^{2} - B^{2} = 8$ turns it into $\\frac{x + \\sqrt{x^{2}-16}}{4}$; then isolate the radical and square once.",
+          ),
+          step(
+            "calculation",
+            "$\\frac{(A+B)^{2}}{A^{2} - B^{2}} = \\frac{2x + 2\\sqrt{x^{2}-16}}{8} = \\frac{x + \\sqrt{x^{2}-16}}{4}$<br>$x + \\sqrt{x^{2}-16} = 4x - 12 \\Rightarrow \\sqrt{x^{2}-16} = 3x - 12$ (con $x \\geq 4$, $3x - 12 \\geq 0$ ✓)<br>$x^{2} - 16 = 9x^{2} - 72x + 144 \\Rightarrow 8x^{2} - 72x + 160 = 0 \\Rightarrow x^{2} - 9x + 20 = 0$<br>$(x - 4)(x - 5) = 0 \\Rightarrow x = 4$ o $x = 5$; ambos en el dominio.",
+            "$\\frac{(A+B)^{2}}{A^{2} - B^{2}} = \\frac{2x + 2\\sqrt{x^{2}-16}}{8} = \\frac{x + \\sqrt{x^{2}-16}}{4}$<br>$x + \\sqrt{x^{2}-16} = 4x - 12 \\Rightarrow \\sqrt{x^{2}-16} = 3x - 12$ (with $x \\geq 4$, $3x - 12 \\geq 0$ ✓)<br>$x^{2} - 16 = 9x^{2} - 72x + 144 \\Rightarrow 8x^{2} - 72x + 160 = 0 \\Rightarrow x^{2} - 9x + 20 = 0$<br>$(x - 4)(x - 5) = 0 \\Rightarrow x = 4$ or $x = 5$; both in the domain.",
+          ),
+          step(
+            "result",
+            "$A = \\{4, 5\\}$. Verificación en la original: $x = 4$: $\\frac{\\sqrt{8}}{\\sqrt{8}} = 1 = 4 - 3$ ✓; $x = 5$: $\\frac{3 + 1}{3 - 1} = 2 = 5 - 3$ ✓.",
+            "$A = \\{4, 5\\}$. Check in the original: $x = 4$: $\\frac{\\sqrt{8}}{\\sqrt{8}} = 1 = 4 - 3$ ✓; $x = 5$: $\\frac{3 + 1}{3 - 1} = 2 = 5 - 3$ ✓.",
           ),
         ],
       };

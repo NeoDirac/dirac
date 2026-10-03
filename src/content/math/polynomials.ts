@@ -2158,4 +2158,458 @@ export const templates: ProblemTemplate[] = [
     },
   ),
 
+  /* ================================================================== */
+  /* Curated — ESPOL Fundamentos, EDICIÓN DIGITAL (TUTOR_LICENSED).      */
+  /* Chapter 2 «Ejercicios propuestos», pp. 230-232 (PDF 263-265).      */
+  /* Tutor's brief: the most difficult / integrative ones.              */
+  /* Every answer double-verified: printed key pp. 938-939 + sympy      */
+  /* (download/verify_espol_ch2.py, 41/41 checks).                       */
+  /* ================================================================== */
+
+  /* 34e — x³−7x+6 → (x−1)(x+3)(x−2). Key: (x-1)(x+3)(x-2). */
+  template(
+    {
+      id: "poly-espol-ch2-34e",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "medium",
+      questionType: "expression",
+      estimatedTimeSec: 150,
+      tags: ["factoring", "cubic", "rational-roots", "ruffini"],
+      prerequisites: ["special-products"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 34e",
+        page: 230,
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L("Factorización de una cúbica por raíces racionales", "Factoring a cubic via rational roots"),
+      statement: L(
+        "Descompón como producto de tres factores: $x^{3} - 7x + 6$.",
+        "Decompose as a product of three factors: $x^{3} - 7x + 6$.",
+      ),
+      answer: {
+        kind: "expression",
+        accepted: ["(x-1)(x+3)(x-2)", "(x-1)(x-2)(x+3)"],
+        variables: ["x"],
+      },
+      hints: [
+        L(
+          "Prueba raíces racionales entre los divisores del término independiente: $\\pm 1, \\pm 2, \\pm 3, \\pm 6$.",
+          "Try rational roots among the divisors of the constant term: $\\pm 1, \\pm 2, \\pm 3, \\pm 6$.",
+        ),
+        L(
+          "Con $x = 1$: $1 - 7 + 6 = 0$, así que $(x - 1)$ divide al polinomio. Divide (Ruffini por $1$).",
+          "At $x = 1$: $1 - 7 + 6 = 0$, so $(x - 1)$ divides the polynomial. Divide (synthetic division by $1$).",
+        ),
+        L(
+          "El cociente es $x^{2} + x - 6$: factorízalo buscando dos números que multipliquen $-6$ y sumen $1$.",
+          "The quotient is $x^{2} + x - 6$: factor it by looking for two numbers that multiply to $-6$ and add to $1$.",
+        ),
+      ],
+      answerDisplay: L("$x^{3} - 7x + 6 = (x-1)(x+3)(x-2)$", "$x^{3} - 7x + 6 = (x-1)(x+3)(x-2)$"),
+      solution: [
+        step(
+          "given",
+          "El polinomio $x^{3} - 7x + 6$ (grado 3, sin término cuadrático).",
+          "The polynomial $x^{3} - 7x + 6$ (degree 3, no quadratic term).",
+        ),
+        step(
+          "approach",
+          "Raíz racional probable entre los divisores de 6; con una raíz, Ruffini baja el grado y el cociente cuadrático se factoriza a ojo.",
+          "A rational root among the divisors of 6; with one root, synthetic division lowers the degree and the quadratic quotient factors by inspection.",
+        ),
+        step(
+          "calculation",
+          "$x = 1$: $1 - 7 + 6 = 0$ ✓ raíz.<br>Ruffini por $1$: $x^{3} - 7x + 6 = (x - 1)\\left(x^{2} + x - 6\\right)$.<br>$x^{2} + x - 6 = (x + 3)(x - 2)$ (producto $-6$, suma $1$).",
+          "$x = 1$: $1 - 7 + 6 = 0$ ✓ a root.<br>Synthetic division by $1$: $x^{3} - 7x + 6 = (x - 1)\\left(x^{2} + x - 6\\right)$.<br>$x^{2} + x - 6 = (x + 3)(x - 2)$ (product $-6$, sum $1$).",
+        ),
+        step(
+          "result",
+          "$(x-1)(x+3)(x-2)$, con raíces $1, -3, 2$. Verificación expandiendo: $(x-1)(x^{2}+x-6) = x^{3} + x^{2} - 6x - x^{2} - x + 6 = x^{3} - 7x + 6$ ✓.",
+          "$(x-1)(x+3)(x-2)$, with roots $1, -3, 2$. Check by expanding: $(x-1)(x^{2}+x-6) = x^{3} - 7x + 6$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* 36a — a²b²(b−a)+b²c²(c−b)+a²c²(a−c) → (a−b)(b−c)(c−a)(ab+bc+ca). Key: idem. */
+  template(
+    {
+      id: "poly-espol-ch2-36a",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "hard",
+      questionType: "expression",
+      estimatedTimeSec: 300,
+      tags: ["factoring", "cyclic", "symmetry", "four-factors"],
+      prerequisites: ["special-products"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 36a",
+        page: 232,
+      },
+      reasoning: "definition-hunting",
+    },
+    () => ({
+      skill: L("Factor cíclico de grado 5 (anulación por pares)", "Degree-5 cyclic factor (vanishing by pairs)"),
+      statement: L(
+        "Descompón en cuatro factores: $a^{2}b^{2}(b - a) + b^{2}c^{2}(c - b) + a^{2}c^{2}(a - c)$.",
+        "Decompose into four factors: $a^{2}b^{2}(b - a) + b^{2}c^{2}(c - b) + a^{2}c^{2}(a - c)$.",
+      ),
+      answer: {
+        kind: "expression",
+        accepted: ["(a-b)(b-c)(c-a)(a*b+b*c+a*c)", "(a-b)(b-c)(c-a)(ab+bc+ca)"],
+        variables: ["a", "b", "c"],
+      },
+      hints: [
+        L(
+          "Evalúa la expresión con $a = b$: los tres términos se cancelan. Eso prueba que $(a-b)$ es factor. ¿Qué otros pares dan cero?",
+          "Evaluate the expression at $a = b$: the three terms cancel out. That proves $(a-b)$ is a factor. Which other pairs give zero?",
+        ),
+        L(
+          "Por la misma simetría cíclica, $(b-c)$ y $(c-a)$ también son factores: son tres factores de grado 1 y la expresión tiene grado 5, así que queda un factor $F$ de grado 2, simétrico.",
+          "By the same cyclic symmetry, $(b-c)$ and $(c-a)$ are factors too: that is three degree-1 factors while the expression has degree 5, so a degree-2 factor $F$ remains, and it is symmetric.",
+        ),
+        L(
+          "Prueba $F = k(ab + bc + ca)$ y calcula $k$ evaluando en un punto cómodo, por ejemplo $(a,b,c) = (1, 2, 3)$.",
+          "Try $F = k(ab + bc + ca)$ and find $k$ by evaluating at a convenient point, e.g. $(a,b,c) = (1, 2, 3)$.",
+        ),
+      ],
+      answerDisplay: L(
+        "$a^{2}b^{2}(b - a) + b^{2}c^{2}(c - b) + a^{2}c^{2}(a - c) = (a-b)(b-c)(c-a)(ab+bc+ca)$",
+        "$a^{2}b^{2}(b - a) + b^{2}c^{2}(c - b) + a^{2}c^{2}(a - c) = (a-b)(b-c)(c-a)(ab+bc+ca)$",
+      ),
+      solution: [
+        step(
+          "given",
+          "$E = a^{2}b^{2}(b - a) + b^{2}c^{2}(c - b) + a^{2}c^{2}(a - c)$, grado 5, cíclica en $(a, b, c)$.",
+          "$E = a^{2}b^{2}(b - a) + b^{2}c^{2}(c - b) + a^{2}c^{2}(a - c)$, degree 5, cyclic in $(a, b, c)$.",
+        ),
+        step(
+          "approach",
+          "Detectar factores por anulación: si al igualar dos variables la expresión se hace 0, su diferencia es factor. La estructura cíclica regala tres factores lineales; el resto es un factor simétrico de grado 2.",
+          "Detect factors by vanishing: if setting two variables equal makes the expression 0, their difference is a factor. The cyclic structure hands you three linear factors; the rest is a symmetric degree-2 factor.",
+        ),
+        step(
+          "calculation",
+          "Con $a = b$: $a^{4}(0) + a^{2}c^{2}(c - a) + a^{2}c^{2}(a - c) = 0$ ✓ → $(a-b)$ es factor; ídem $(b-c)$, $(c-a)$.<br>$E = (a-b)(b-c)(c-a)\\,F$, con $F$ simétrico de grado 2 → candidato $k(ab + bc + ca)$.<br>Con $(a,b,c) = (1,2,3)$: $E = 1^{2}2^{2}(2-1) + 2^{2}3^{2}(3-2) + 1^{2}3^{2}(1-3) = 4 + 36 - 18 = 22$.<br>$(a-b)(b-c)(c-a) = (-1)(-1)(2) = 2$, y $ab + bc + ca = 2 + 6 + 3 = 11$, así que $k = \\frac{22}{2 \\cdot 11} = 1$.",
+          "At $a = b$: $a^{4}(0) + a^{2}c^{2}(c - a) + a^{2}c^{2}(a - c) = 0$ ✓ → $(a-b)$ is a factor; likewise $(b-c)$, $(c-a)$.<br>$E = (a-b)(b-c)(c-a)\\,F$, with $F$ a symmetric degree-2 factor → candidate $k(ab + bc + ca)$.<br>At $(a,b,c) = (1,2,3)$: $E = 1^{2}2^{2}(2-1) + 2^{2}3^{2}(3-2) + 1^{2}3^{2}(1-3) = 4 + 36 - 18 = 22$.<br>$(a-b)(b-c)(c-a) = (-1)(-1)(2) = 2$, and $ab + bc + ca = 2 + 6 + 3 = 11$, so $k = \\frac{22}{2 \\cdot 11} = 1$.",
+        ),
+        step(
+          "result",
+          "$E = (a-b)(b-c)(c-a)(ab+bc+ca)$. Verificación con $(a,b,c) = (0,1,2)$: $E = 0 + 1·4·1 + 0 = 4$ y $(0-1)(1-2)(2-0)(0 + 2 + 0) = (-1)(-1)(2)(2) = 4$ ✓.",
+          "$E = (a-b)(b-c)(c-a)(ab+bc+ca)$. Check at $(a,b,c) = (0,1,2)$: $E = 0 + 1·4·1 + 0 = 4$ and $(0-1)(1-2)(2-0)(0 + 2 + 0) = (-1)(-1)(2)(2) = 4$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* 36b — (a−b)³−(a−c)³+(b−c)³ → 3(a−b)(b−c)(c−a). Key: idem. */
+  template(
+    {
+      id: "poly-espol-ch2-36b",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "hard",
+      questionType: "expression",
+      estimatedTimeSec: 240,
+      tags: ["factoring", "substitution", "cubic-expansion"],
+      prerequisites: ["special-products"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 36b",
+        page: 232,
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L("Cúbica cíclica por sustitución u = a−b, v = b−c", "Cyclic cubic via u = a−b, v = b−c"),
+      statement: L(
+        "Descompón en cuatro factores: $(a - b)^{3} - (a - c)^{3} + (b - c)^{3}$.",
+        "Decompose into four factors: $(a - b)^{3} - (a - c)^{3} + (b - c)^{3}$.",
+      ),
+      answer: {
+        kind: "expression",
+        accepted: ["3(a-b)(b-c)(c-a)", "3*(a-b)*(b-c)*(c-a)"],
+        variables: ["a", "b", "c"],
+      },
+      hints: [
+        L(
+          "Nombra $u = a - b$ y $v = b - c$. ¿Cuánto vale entonces $a - c$ en función de $u$ y $v$?",
+          "Name $u = a - b$ and $v = b - c$. How much is $a - c$ in terms of $u$ and $v$?",
+        ),
+        L(
+          "$a - c = (a - b) + (b - c) = u + v$, así que la expresión es $u^{3} - (u+v)^{3} + v^{3}$.",
+          "$a - c = (a - b) + (b - c) = u + v$, so the expression is $u^{3} - (u+v)^{3} + v^{3}$.",
+        ),
+        L(
+          "Desarrolla $(u+v)^{3}$: los términos $u^{3}$ y $v^{3}$ se cancelan y queda $-3uv(\\dots)$.",
+          "Expand $(u+v)^{3}$: the $u^{3}$ and $v^{3}$ terms cancel and what remains is $-3uv(\\dots)$.",
+        ),
+      ],
+      answerDisplay: L(
+        "$(a - b)^{3} - (a - c)^{3} + (b - c)^{3} = 3(a-b)(b-c)(c-a)$",
+        "$(a - b)^{3} - (a - c)^{3} + (b - c)^{3} = 3(a-b)(b-c)(c-a)$",
+      ),
+      solution: [
+        step(
+          "given",
+          "$E = (a - b)^{3} - (a - c)^{3} + (b - c)^{3}$, grado 3.",
+          "$E = (a - b)^{3} - (a - c)^{3} + (b - c)^{3}$, degree 3.",
+        ),
+        step(
+          "approach",
+          "Sustitución que linealiza la estructura: $u = a - b$, $v = b - c$ ⇒ $a - c = u + v$. La expresión se vuelve simétrica en $u, v$ y se abre con el binomio de Newton.",
+          "A substitution that linearizes the structure: $u = a - b$, $v = b - c$ ⇒ $a - c = u + v$. The expression becomes symmetric in $u, v$ and opens with the binomial theorem.",
+        ),
+        step(
+          "calculation",
+          "$E = u^{3} - (u + v)^{3} + v^{3}$<br>$= u^{3} - \\left(u^{3} + 3u^{2}v + 3uv^{2} + v^{3}\\right) + v^{3}$<br>$= -3u^{2}v - 3uv^{2} = -3uv(u + v)$<br>De vuelta con $u = a-b$, $v = b-c$, $u + v = a - c$: $E = -3(a-b)(b-c)(a-c) = 3(a-b)(b-c)(c-a)$.",
+          "$E = u^{3} - (u + v)^{3} + v^{3}$<br>$= u^{3} - \\left(u^{3} + 3u^{2}v + 3uv^{2} + v^{3}\\right) + v^{3}$<br>$= -3u^{2}v - 3uv^{2} = -3uv(u + v)$<br>Back with $u = a-b$, $v = b-c$, $u + v = a - c$: $E = -3(a-b)(b-c)(a-c) = 3(a-b)(b-c)(c-a)$.",
+        ),
+        step(
+          "result",
+          "$E = 3(a-b)(b-c)(c-a)$ (el «cuarto factor» es la constante 3). Verificación con $(a,b,c) = (1,2,3)$: $E = (-1)^{3} - (-2)^{3} + (-1)^{3} = -1 + 8 - 1 = 6$ y $3(-1)(-1)(2) = 6$ ✓.",
+          "$E = 3(a-b)(b-c)(c-a)$ (the “fourth factor” is the constant 3). Check at $(a,b,c) = (1,2,3)$: $E = (-1)^{3} - (-2)^{3} + (-1)^{3} = -1 + 8 - 1 = 6$ and $3(-1)(-1)(2) = 6$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* 36d — 3x⁴−10x³+10x−3 → (x+1)(x−1)(x−3)(3x−1). Key: idem. */
+  template(
+    {
+      id: "poly-espol-ch2-36d",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "hard",
+      questionType: "expression",
+      estimatedTimeSec: 270,
+      tags: ["factoring", "quartic", "rational-roots"],
+      prerequisites: ["special-products"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 36d",
+        page: 232,
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L("Cuártica completa en cuatro factores lineales", "Full quartic into four linear factors"),
+      statement: L(
+        "Descompón en cuatro factores: $3x^{4} - 10x^{3} + 10x - 3$.",
+        "Decompose into four factors: $3x^{4} - 10x^{3} + 10x - 3$.",
+      ),
+      answer: {
+        kind: "expression",
+        accepted: ["(x+1)(x-1)(x-3)(3x-1)", "(x-1)(x+1)(3x-1)(x-3)"],
+        variables: ["x"],
+      },
+      hints: [
+        L(
+          "Busca raíces racionales: divisores de 3 ($\\pm 1, \\pm 3$) divididos por divisores del coeficiente principal 3 — prueba también $\\pm\\frac{1}{3}$.",
+          "Hunt rational roots: divisors of 3 ($\\pm 1, \\pm 3$) over divisors of the leading coefficient 3 — try $\\pm\\frac{1}{3}$ as well.",
+        ),
+        L(
+          "$x = 1$ y $x = -1$ son raíces: saca $(x^{2} - 1)$ de golpe y quédate con una cuadrática.",
+          "$x = 1$ and $x = -1$ are roots: pull out $(x^{2} - 1)$ in one go and you are left with a quadratic.",
+        ),
+        L(
+          "La cuadrática restante es $3x^{2} - 10x + 3$: resuélvela con el discriminante $\\Delta = 100 - 36$.",
+          "The remaining quadratic is $3x^{2} - 10x + 3$: solve it with the discriminant $\\Delta = 100 - 36$.",
+        ),
+      ],
+      answerDisplay: L(
+        "$3x^{4} - 10x^{3} + 10x - 3 = (x+1)(x-1)(x-3)(3x-1)$",
+        "$3x^{4} - 10x^{3} + 10x - 3 = (x+1)(x-1)(x-3)(3x-1)$",
+      ),
+      solution: [
+        step(
+          "given",
+          "El polinomio $3x^{4} - 10x^{3} + 10x - 3$ (grado 4, sin término cuadrático).",
+          "The polynomial $3x^{4} - 10x^{3} + 10x - 3$ (degree 4, no quadratic term).",
+        ),
+        step(
+          "approach",
+          "Raíces racionales candidates: $\\pm 1, \\pm 3, \\pm\\frac{1}{3}$; cada raíz hallada baja el grado. Con dos raíces se extrae $(x^{2}-1)$ de una vez.",
+          "Candidate rational roots: $\\pm 1, \\pm 3, \\pm\\frac{1}{3}$; each root found lowers the degree. With two roots, $(x^{2}-1)$ comes out in one shot.",
+        ),
+        step(
+          "calculation",
+          "$x = 1$: $3 - 10 + 10 - 3 = 0$ ✓; $x = -1$: $3 + 10 - 10 - 3 = 0$ ✓.<br>$3x^{4} - 10x^{3} + 10x - 3 = (x^{2}-1)(3x^{2} - 10x + 3)$.<br>$\\Delta = 100 - 4·3·3 = 64$ → raíces $\\frac{10 \\pm 8}{6} = 3, \\frac{1}{3}$ → $3x^{2} - 10x + 3 = (x - 3)(3x - 1)$.",
+          "$x = 1$: $3 - 10 + 10 - 3 = 0$ ✓; $x = -1$: $3 + 10 - 10 - 3 = 0$ ✓.<br>$3x^{4} - 10x^{3} + 10x - 3 = (x^{2}-1)(3x^{2} - 10x + 3)$.<br>$\\Delta = 100 - 4·3·3 = 64$ → roots $\\frac{10 \\pm 8}{6} = 3, \\frac{1}{3}$ → $3x^{2} - 10x + 3 = (x - 3)(3x - 1)$.",
+        ),
+        step(
+          "result",
+          "$(x+1)(x-1)(x-3)(3x-1)$, raíces $1, -1, 3, \\frac{1}{3}$. Doble verificación: el producto de las cuatro raíces es $1 \\cdot (-1) \\cdot 3 \\cdot \\frac{1}{3} = -1 = \\frac{-3}{3}$ (constante / coeficiente principal) ✓, y con $x = 2$: original $48 - 80 + 20 - 3 = -15$, factorizado $3 \\cdot 1 \\cdot (-1)(-1)(-5) = -15$ ✓.",
+          "$(x+1)(x-1)(x-3)(3x-1)$, roots $1, -1, 3, \\frac{1}{3}$. Check: at $x = 2$: original $48 - 80 + 20 - 3 = -15$; factored $3·1·(-1)(-1)(-5) = -15$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* 36e — (3x−6)(x²−1)−(5x−10)(x−1)² → −2(x−2)(x−4)(x−1). Key: idem. */
+  template(
+    {
+      id: "poly-espol-ch2-36e",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "hard",
+      questionType: "expression",
+      estimatedTimeSec: 210,
+      tags: ["factoring", "common-factor", "grouping"],
+      prerequisites: ["special-products"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 36e",
+        page: 232,
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L("Factor común antes de expandir (no abras el paréntesis)", "Common factor before expanding (do not open the parentheses)"),
+      statement: L(
+        "Descompón en cuatro factores: $(3x - 6)(x^{2} - 1) - (5x - 10)(x - 1)^{2}$.",
+        "Decompose into four factors: $(3x - 6)(x^{2} - 1) - (5x - 10)(x - 1)^{2}$.",
+      ),
+      answer: {
+        kind: "expression",
+        accepted: ["-2(x-2)(x-4)(x-1)", "-2(x-1)(x-2)(x-4)", "2(2-x)(x-4)(x-1)"],
+        variables: ["x"],
+      },
+      hints: [
+        L(
+          "No expandas: escribe cada bloque factorizado. $3x - 6 = 3(x - 2)$, $x^{2} - 1 = (x-1)(x+1)$, $5x - 10 = 5(x - 2)$.",
+          "Do not expand: write each block factored. $3x - 6 = 3(x - 2)$, $x^{2} - 1 = (x-1)(x+1)$, $5x - 10 = 5(x - 2)$.",
+        ),
+        L(
+          "La expresión queda $3(x-2)(x-1)(x+1) - 5(x-2)(x-1)^{2}$: hay un factor común grande, ¿cuál?",
+          "The expression becomes $3(x-2)(x-1)(x+1) - 5(x-2)(x-1)^{2}$: there is a big common factor — which one?",
+        ),
+        L(
+          "Factor común $(x-2)(x-1)$; dentro del corchete queda $3(x+1) - 5(x-1)$, que se reduce a un binomio de grado 1.",
+          "Common factor $(x-2)(x-1)$; inside the bracket you get $3(x+1) - 5(x-1)$, which reduces to a degree-1 binomial.",
+        ),
+      ],
+      answerDisplay: L(
+        "$(3x - 6)(x^{2} - 1) - (5x - 10)(x - 1)^{2} = -2(x-2)(x-4)(x-1)$",
+        "$(3x - 6)(x^{2} - 1) - (5x - 10)(x - 1)^{2} = -2(x-2)(x-4)(x-1)$",
+      ),
+      solution: [
+        step(
+          "given",
+          "$E = (3x - 6)(x^{2} - 1) - (5x - 10)(x - 1)^{2}$.",
+          "$E = (3x - 6)(x^{2} - 1) - (5x - 10)(x - 1)^{2}$.",
+        ),
+        step(
+          "approach",
+          "Factorizar cada bloque y extraer el factor común $(x-2)(x-1)$ — expandir aquí solo esclaviza la aritmética.",
+          "Factor every block and pull the common factor $(x-2)(x-1)$ — expanding here only enslaves the arithmetic.",
+        ),
+        step(
+          "calculation",
+          "$3x - 6 = 3(x-2)$, $x^{2} - 1 = (x-1)(x+1)$, $5x - 10 = 5(x-2)$<br>$E = 3(x-2)(x-1)(x+1) - 5(x-2)(x-1)^{2} = (x-2)(x-1)\\left[3(x+1) - 5(x-1)\\right]$<br>$3x + 3 - 5x + 5 = -2x + 8 = -2(x - 4)$",
+          "$3x - 6 = 3(x-2)$, $x^{2} - 1 = (x-1)(x+1)$, $5x - 10 = 5(x-2)$<br>$E = 3(x-2)(x-1)(x+1) - 5(x-2)(x-1)^{2} = (x-2)(x-1)\\left[3(x+1) - 5(x-1)\\right]$<br>$3x + 3 - 5x + 5 = -2x + 8 = -2(x - 4)$",
+        ),
+        step(
+          "result",
+          "$E = -2(x-2)(x-4)(x-1)$ (constante $-2$ + tres binomios = cuatro factores). Verificación con $x = 0$: original $(-6)(-1) - (-10)(1) = 6 + 10 = 16$; factorizado $-2(-2)(-4)(-1) = 16$ ✓.",
+          "$E = -2(x-2)(x-4)(x-1)$ (constant $-2$ + three binomials = four factors). Check at $x = 0$: original $(-6)(-1) - (-10)(1) = 6 + 10 = 16$; factored $-2(-2)(-4)(-1) = 16$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* 78a — (x+1)(x+2)(x+3) = x(x+4)(x+5) → x = (−3±√17)/2. Key: idem. */
+  template(
+    {
+      id: "poly-espol-ch2-78a",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "equations",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["equation", "expand", "quadratic-formula"],
+      prerequisites: ["quadratics"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 78a",
+        page: 240,
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$x = \\dfrac{-3 \\pm \\sqrt{17}}{2}$`, `$x = \\dfrac{-3 \\pm \\sqrt{17}}{2}$`), correct: true },
+        { id: "b", text: L(`$x = \\dfrac{3 \\pm \\sqrt{17}}{2}$`, `$x = \\dfrac{3 \\pm \\sqrt{17}}{2}$`), correct: false },
+        { id: "c", text: L(`$x = \\dfrac{-3 \\pm \\sqrt{19}}{2}$`, `$x = \\dfrac{-3 \\pm \\sqrt{19}}{2}$`), correct: false },
+        { id: "d", text: L(`$x = -3 \\pm \\sqrt{17}$`, `$x = -3 \\pm \\sqrt{17}$`), correct: false },
+        { id: "e", text: L(`$A_{m(x)} = \\varnothing$`, `$A_{m(x)} = \\varnothing$`), correct: false },
+      ];
+      return {
+        skill: L("Ecuación de productos: expandir, cancelar y fórmula", "Product equation: expand, cancel, formula"),
+        statement: L(
+          "Halla el conjunto de verdad de $m(x):\\ (x + 1)(x + 2)(x + 3) = x(x + 4)(x + 5)$.",
+          "Find the truth set of $m(x):\\ (x + 1)(x + 2)(x + 3) = x(x + 4)(x + 5)$.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Expande ambos lados. Fíjate: los dos tienen el mismo coeficiente de $x^{3}$, así que el cubo se va a cancelar.",
+            "Expand both sides. Note: both have the same $x^{3}$ coefficient, so the cubic terms will cancel.",
+          ),
+          L(
+            "Izquierda: $x^{3} + 6x^{2} + 11x + 6$; derecha: $x^{3} + 9x^{2} + 20x$. Restando: $3x^{2} + 9x - 6 = 0$.",
+            "Left: $x^{3} + 6x^{2} + 11x + 6$; right: $x^{3} + 9x^{2} + 20x$. Subtracting: $3x^{2} + 9x - 6 = 0$.",
+          ),
+          L(
+            "Divide entre 3: $x^{2} + 3x - 2 = 0$ y aplica la fórmula cuadrática con $\\Delta = 9 + 8$.",
+            "Divide by 3: $x^{2} + 3x - 2 = 0$ and apply the quadratic formula with $\\Delta = 9 + 8$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$A_{m(x)} = \\left\\{\\dfrac{-3 - \\sqrt{17}}{2},\\ \\dfrac{-3 + \\sqrt{17}}{2}\\right\\}$",
+          "$A_{m(x)} = \\left\\{\\dfrac{-3 - \\sqrt{17}}{2},\\ \\dfrac{-3 + \\sqrt{17}}{2}\\right\\}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$(x + 1)(x + 2)(x + 3) = x(x + 4)(x + 5)$, $x \\in \\mathbb{R}$.",
+            "$(x + 1)(x + 2)(x + 3) = x(x + 4)(x + 5)$, $x \\in \\mathbb{R}$.",
+          ),
+          step(
+            "approach",
+            "Expandir y restar: la igualdad de los cúbicos garantiza que queda una cuadrática; se resuelve con la fórmula general.",
+            "Expand and subtract: the matching cubics guarantee a quadratic remains; solve it with the general formula.",
+          ),
+          step(
+            "calculation",
+            "Izquierda: $(x+1)(x+2)(x+3) = (x^{2} + 3x + 2)(x + 3) = x^{3} + 6x^{2} + 11x + 6$.<br>Derecha: $x(x^{2} + 9x + 20) = x^{3} + 9x^{2} + 20x$.<br>Resta: $3x^{2} + 9x - 6 = 0 \\Rightarrow x^{2} + 3x - 2 = 0$.<br>$\\Delta = 9 + 8 = 17$ → $x = \\dfrac{-3 \\pm \\sqrt{17}}{2}$.",
+            "Left: $(x+1)(x+2)(x+3) = (x^{2} + 3x + 2)(x + 3) = x^{3} + 6x^{2} + 11x + 6$.<br>Right: $x(x^{2} + 9x + 20) = x^{3} + 9x^{2} + 20x$.<br>Subtract: $3x^{2} + 9x - 6 = 0 \\Rightarrow x^{2} + 3x - 2 = 0$.<br>$\\Delta = 9 + 8 = 17$ → $x = \\dfrac{-3 \\pm \\sqrt{17}}{2}$.",
+          ),
+          step(
+            "result",
+            "$A_{m(x)} = \\left\\{\\dfrac{-3 - \\sqrt{17}}{2},\\ \\dfrac{-3 + \\sqrt{17}}{2}\\right\\}$ (≈ $-3.56$ y $0.56$). Verificación con $x \\approx 0.5616$: izquierda $(1.5616)(2.5616)(3.5616) \\approx 14.23$; derecha $0.5616(4.5616)(5.5616) \\approx 14.23$ ✓.",
+            "$A_{m(x)} = \\left\\{\\dfrac{-3 - \\sqrt{17}}{2},\\ \\dfrac{-3 + \\sqrt{17}}{2}\\right\\}$ (≈ $-3.56$ and $0.56$). Check at $x \\approx 0.5616$: left $(1.5616)(2.5616)(3.5616) \\approx 14.23$; right $0.5616(4.5616)(5.5616) \\approx 14.23$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
 ];

@@ -2018,4 +2018,409 @@ export const templates: ProblemTemplate[] = [
     }),
   ),
 
+  /* ================================================================== */
+  /* Curated — ESPOL Fundamentos, EDICIÓN DIGITAL (TUTOR_LICENSED).      */
+  /* Chapter 2 «Ejercicios propuestos», pp. 236-240 (PDF 269-273).      */
+  /* Tutor's brief: the most difficult / integrative ones.              */
+  /* Double-verified: printed key pp. 939 (54d: 9; 54e: (-inf,-2];       */
+  /* 54j: -2,0; 78c: 2a±c; 78d: -b/a, c/a) + sympy (41/41 checks).      */
+  /* ================================================================== */
+
+  /* 54d — |5−x| = 13−x → x = 9. */
+  template(
+    {
+      id: "lin-espol-ch2-54d",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-equations",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 150,
+      tags: ["absolute-value", "equation", "sign-condition"],
+      prerequisites: ["abs-equations"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 54d",
+        page: 236,
+      },
+      reasoning: "case-analysis",
+    },
+    () => ({
+      skill: L("Valor absoluto con condición de signo en el otro lado", "Absolute value with a sign condition on the other side"),
+      statement: L(
+        "Resuelve: $|5 - x| = 13 - x$.",
+        "Solve: $|5 - x| = 13 - x$.",
+      ),
+      answer: { kind: "numeric", value: 9 },
+      hints: [
+        L(
+          "Como $|5 - x| \\geq 0$, el lado derecho debe ser $\\geq 0$: $13 - x \\geq 0$, o sea $x \\leq 13$.",
+          "Since $|5 - x| \\geq 0$, the right side must be $\\geq 0$: $13 - x \\geq 0$, i.e. $x \\leq 13$.",
+        ),
+        L(
+          "Dos casos: $5 - x = 13 - x$ (¿tiene solución?) y $5 - x = -(13 - x) = x - 13$.",
+          "Two cases: $5 - x = 13 - x$ (does it have a solution?) and $5 - x = -(13 - x) = x - 13$.",
+        ),
+        L(
+          "El primer caso lleva a $5 = 13$, imposible; el segundo a $18 = 2x$. Comprueba que la solución cumpla $x \\leq 13$.",
+          "The first case gives $5 = 13$, impossible; the second gives $18 = 2x$. Verify the solution satisfies $x \\leq 13$.",
+        ),
+      ],
+      answerDisplay: L("$x = 9$", "$x = 9$"),
+      solution: [
+        step(
+          "given",
+          "$|5 - x| = 13 - x$; condición: $13 - x \\geq 0 \\Rightarrow x \\leq 13$.",
+          "$|5 - x| = 13 - x$; condition: $13 - x \\geq 0 \\Rightarrow x \\leq 13$.",
+        ),
+        step(
+          "approach",
+          "Abrir el valor absoluto en los dos casos y conservar la condición de signo como filtro final.",
+          "Open the absolute value in both cases and keep the sign condition as the final filter.",
+        ),
+        step(
+          "calculation",
+          "Caso 1: $5 - x = 13 - x \\Rightarrow 5 = 13$ ✗ (sin solución).<br>Caso 2: $5 - x = x - 13 \\Rightarrow 18 = 2x \\Rightarrow x = 9$.<br>Filtro: $9 \\leq 13$ ✓.",
+          "Case 1: $5 - x = 13 - x \\Rightarrow 5 = 13$ ✗ (no solution).<br>Case 2: $5 - x = x - 13 \\Rightarrow 18 = 2x \\Rightarrow x = 9$.<br>Filter: $9 \\leq 13$ ✓.",
+        ),
+        step(
+          "result",
+          "$x = 9$. Verificación: $|5 - 9| = 4$ y $13 - 9 = 4$ ✓.",
+          "$x = 9$. Check: $|5 - 9| = 4$ and $13 - 9 = 4$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* 54e — |3−x|−|x+2| = 5 → (−∞, −2]. Answer type: text (interval). */
+  template(
+    {
+      id: "lin-espol-ch2-54e",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-equations",
+      difficulty: "hard",
+      questionType: "text",
+      estimatedTimeSec: 300,
+      tags: ["absolute-value", "equation", "case-analysis", "interval"],
+      prerequisites: ["abs-equations"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 54e",
+        page: 236,
+      },
+      reasoning: "case-analysis",
+    },
+    () => ({
+      skill: L("Dos valores absolutos: tres tramos, y un tramo entero sirve", "Two absolute values: three tranches, and a whole tranche works"),
+      statement: L(
+        "Resuelve y da el conjunto solución como intervalo (admite notaciones como (2, 5], x<=-2 o (-inf, 3]): $|3 - x| - |x + 2| = 5$.",
+        "Solve and give the solution set as an interval (notations like (2, 5], x<=-2 or (-inf, 3] are accepted): $|3 - x| - |x + 2| = 5$.",
+      ),
+      answer: {
+        kind: "text",
+        accepted: [
+          "(-inf, -2]",
+          "(-∞, -2]",
+          "x<=-2",
+          "x≤-2",
+          "x <= -2",
+          "x ≤ -2",
+          "x<= -2",
+          "(-inf,-2]",
+        ],
+      },
+      hints: [
+        L(
+          "Los puntos críticos ($x = -2$ y $x = 3$) cortan la recta en tres tramos. Analiza la expresión en cada uno.",
+          "The critical points ($x = -2$ and $x = 3$) cut the line into three tranches. Analyze the expression on each.",
+        ),
+        L(
+          "Con $x < -2$: $|3 - x| = 3 - x$ y $|x + 2| = -(x + 2)$, así que la expresión vale $(3 - x) + (x + 2) = 5$… ¿qué dice eso de TODO el tramo?",
+          "For $x < -2$: $|3 - x| = 3 - x$ and $|x + 2| = -(x + 2)$, so the expression equals $(3 - x) + (x + 2) = 5$… what does that say about the WHOLE tranche?",
+        ),
+        L(
+          "En $[-2, 3)$ la expresión vale $1 - 2x$ (iguala a 5 y revisa si la solución cae dentro); con $x \\geq 3$ vale $-5 \\neq 5$. No olvides revisar el propio $x = -2$.",
+          "On $[-2, 3)$ the expression equals $1 - 2x$ (set it to 5 and check the solution lands inside); for $x \\geq 3$ it equals $-5 \\neq 5$. Do not forget to test $x = -2$ itself.",
+        ),
+      ],
+      answerDisplay: L("$(-\\infty, -2]$", "$(-\\infty, -2]$"),
+      solution: [
+        step(
+          "given",
+          "$|3 - x| - |x + 2| = 5$; puntos críticos $x = -2$, $x = 3$.",
+          "$|3 - x| - |x + 2| = 5$; critical points $x = -2$, $x = 3$.",
+        ),
+        step(
+          "approach",
+          "Análisis por tramos (la única vía honesta con dos valores absolutos): simplificar la expresión en cada tramo y resolver; el hallazgo típico es que un tramo completo satisfaga la ecuación.",
+          "Tranche analysis (the only honest route with two absolute values): simplify the expression on each tranche and solve; the typical finding is that an entire tranche satisfies the equation.",
+        ),
+        step(
+          "calculation",
+          "Tramo $x < -2$: $(3 - x) - (-(x+2)) = 3 - x + x + 2 = 5$ → la ecuación se cumple **para todo** $x < -2$ ✓<br>Tramo $-2 \\leq x < 3$: $(3 - x) - (x + 2) = 1 - 2x$; $1 - 2x = 5 \\Rightarrow x = -2$, que SÍ está en el tramo ✓ (incluye el borde)<br>Tramo $x \\geq 3$: $(x - 3) - (x + 2) = -5 \\neq 5$ ✗",
+          "Tranche $x < -2$: $(3 - x) - (-(x+2)) = 3 - x + x + 2 = 5$ → the equation holds **for every** $x < -2$ ✓<br>Tranche $-2 \\leq x < 3$: $(3 - x) - (x + 2) = 1 - 2x$; $1 - 2x = 5 \\Rightarrow x = -2$, which IS inside the tranche ✓ (border included)<br>Tranche $x \\geq 3$: $(x - 3) - (x + 2) = -5 \\neq 5$ ✗",
+        ),
+        step(
+          "result",
+          "La unión es $(-\\infty, -2]$: el tramo $x < -2$ entra completo y el borde $x = -2$ también ($|5| - 0 = 5$ ✓). Verificación: $x = -10$: $13 - 8 = 5$ ✓; $x = -1.99$: $|4.99| - 0.01 = 4.98 \\neq 5$ ✗.",
+          "The union is $(-\\infty, -2]$: the tranche $x < -2$ enters whole and the border $x = -2$ too ($|5| - 0 = 5$ ✓). Check: $x = -10$: $13 - 8 = 5$ ✓; $x = -1.99$: $|4.99| - 0.01 = 4.98 \\neq 5$ ✗.",
+        ),
+      ],
+    }),
+  ),
+
+  /* 54j — (x+1)²|x+1| = 1 → {−2, 0}. */
+  template(
+    {
+      id: "lin-espol-ch2-54j",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-equations",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 180,
+      tags: ["absolute-value", "equation", "rewrite"],
+      prerequisites: ["abs-equations"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 54j",
+        page: 236,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$x \\in \\{-2,\\ 0\\}$`, `$x \\in \\{-2,\\ 0\\}$`), correct: true },
+        { id: "b", text: L(`$x \\in \\{0\\}$`, `$x \\in \\{0\\}$`), correct: false },
+        { id: "c", text: L(`$x \\in \\{-2\\}$`, `$x \\in \\{-2\\}$`), correct: false },
+        { id: "d", text: L(`$x \\in \\{-1,\\ 1\\}$`, `$x \\in \\{-1,\\ 1\\}$`), correct: false },
+        { id: "e", text: L(`$A = \\varnothing$`, `$A = \\varnothing$`), correct: false },
+      ];
+      return {
+        skill: L("Potencia de un valor absoluto = valor absoluto de la potencia", "A power of an absolute value = absolute value of the power"),
+        statement: L(
+          "Resuelve: $(x + 1)^{2}\\,|x + 1| = 1$.",
+          "Solve: $(x + 1)^{2}\\,|x + 1| = 1$.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "$(x+1)^{2} = |x+1|^{2}$, así que el producto es $|x+1|^{3}$.",
+            "$(x+1)^{2} = |x+1|^{2}$, so the product is $|x+1|^{3}$.",
+          ),
+          L(
+            "La ecuación queda $|x + 1|^{3} = 1$; como la función cubo es inyectiva, $|x + 1| = 1$.",
+            "The equation becomes $|x + 1|^{3} = 1$; since the cubing function is injective, $|x + 1| = 1$.",
+          ),
+          L(
+            "Despacha los dos casos $x + 1 = 1$ y $x + 1 = -1$.",
+            "Dispatch the two cases $x + 1 = 1$ and $x + 1 = -1$.",
+          ),
+        ],
+        answerDisplay: L("$x \\in \\{-2,\\ 0\\}$", "$x \\in \\{-2,\\ 0\\}$"),
+        solution: [
+          step(
+            "given",
+            "$(x + 1)^{2}\\,|x + 1| = 1$.",
+            "$(x + 1)^{2}\\,|x + 1| = 1$.",
+          ),
+          step(
+            "approach",
+            "Reescribir el producto como una sola potencia del valor absoluto; elevar conserva la inyectividad del cubo, así que no aparecen soluciones espurias.",
+            "Rewrite the product as a single power of the absolute value; cubing is injective, so no spurious solutions appear.",
+          ),
+          step(
+            "calculation",
+            "$(x+1)^{2}|x+1| = |x+1|^{2}|x+1| = |x+1|^{3}$<br>$|x+1|^{3} = 1 \\Rightarrow |x+1| = \\sqrt[3]{1} = 1$<br>Caso +: $x + 1 = 1 \\Rightarrow x = 0$. Caso −: $x + 1 = -1 \\Rightarrow x = -2$.",
+            "$(x+1)^{2}|x+1| = |x+1|^{2}|x+1| = |x+1|^{3}$<br>$|x+1|^{3} = 1 \\Rightarrow |x+1| = \\sqrt[3]{1} = 1$<br>Case +: $x + 1 = 1 \\Rightarrow x = 0$. Case −: $x + 1 = -1 \\Rightarrow x = -2$.",
+          ),
+          step(
+            "result",
+            "$x \\in \\{-2, 0\\}$. Verificación: $x = 0$: $1^{2} \\cdot 1 = 1$ ✓; $x = -2$: $(-1)^{2} \\cdot |-1| = 1$ ✓.",
+            "$x \\in \\{-2, 0\\}$. Check: $x = 0$: $1^{2} \\cdot 1 = 1$ ✓; $x = -2$: $(-1)^{2} \\cdot |-1| = 1$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 78c — x²−4ax+4a²−c² = 0 → x = 2a ± c. */
+  template(
+    {
+      id: "lin-espol-ch2-78c",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "literal",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 180,
+      tags: ["literal-equation", "perfect-square", "parameters"],
+      prerequisites: ["multi-step"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 78c",
+        page: 240,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$x = 2a \\pm c$`, `$x = 2a \\pm c$`), correct: true },
+        { id: "b", text: L(`$x = 2a \\pm 2c$`, `$x = 2a \\pm 2c$`), correct: false },
+        { id: "c", text: L(`$x = a \\pm c$`, `$x = a \\pm c$`), correct: false },
+        { id: "d", text: L(`$x = 4a \\pm c$`, `$x = 4a \\pm c$`), correct: false },
+        { id: "e", text: L(`$x = \\pm c$`, `$x = \\pm c$`), correct: false },
+      ];
+      return {
+        skill: L("Ecuación literal: reconocer el cuadrado perfecto escondido", "Literal equation: spot the hidden perfect square"),
+        statement: L(
+          "Halla el conjunto de verdad de $p(x):\\ x^{2} - 4ax + 4a^{2} - c^{2} = 0$ (en función de los parámetros $a$ y $c$).",
+          "Find the truth set of $p(x):\\ x^{2} - 4ax + 4a^{2} - c^{2} = 0$ (in terms of the parameters $a$ and $c$).",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Mira los dos primeros términos con $x$: $x^{2} - 4ax + 4a^{2}$ ¿te suena a $(x - \\text{algo})^{2}$?",
+            "Look at the first terms with $x$: $x^{2} - 4ax + 4a^{2}$ — does it ring like $(x - \\text{something})^{2}$?",
+          ),
+          L(
+            "$x^{2} - 4ax + 4a^{2} = (x - 2a)^{2}$, así que la ecuación es $(x - 2a)^{2} = c^{2}$.",
+            "$x^{2} - 4ax + 4a^{2} = (x - 2a)^{2}$, so the equation is $(x - 2a)^{2} = c^{2}$.",
+          ),
+          L(
+            "De $W^{2} = c^{2}$ sale $W = \\pm c$; aplica eso con $W = x - 2a$.",
+            "From $W^{2} = c^{2}$ you get $W = \\pm c$; apply it with $W = x - 2a$.",
+          ),
+        ],
+        answerDisplay: L("$A_{p(x)} = \\{2a - c,\\ 2a + c\\}$", "$A_{p(x)} = \\{2a - c,\\ 2a + c\\}$"),
+        solution: [
+          step(
+            "given",
+            "$x^{2} - 4ax + 4a^{2} - c^{2} = 0$, con parámetros $a, c$ ($x$ es la incógnita).",
+            "$x^{2} - 4ax + 4a^{2} - c^{2} = 0$, with parameters $a, c$ ($x$ is the unknown).",
+          ),
+          step(
+            "approach",
+            "Completar el cuadrado ya hecho: los términos en $x$ forman $(x - 2a)^{2}$; la ecuación se reduce a una diferencia de cuadrados igual a cero.",
+            "The square is already complete: the $x$-terms form $(x - 2a)^{2}$; the equation reduces to a difference of squares set to zero.",
+          ),
+          step(
+            "calculation",
+            "$(x - 2a)^{2} - c^{2} = 0 \\Rightarrow (x - 2a)^{2} = c^{2}$<br>$x - 2a = \\pm c$<br>$x = 2a - c$ o $x = 2a + c$.",
+            "$(x - 2a)^{2} - c^{2} = 0 \\Rightarrow (x - 2a)^{2} = c^{2}$<br>$x - 2a = \\pm c$<br>$x = 2a - c$ or $x = 2a + c$.",
+          ),
+          step(
+            "result",
+            "$A_{p(x)} = \\{2a - c,\\ 2a + c\\}$. Verificación con $a = 1, c = 3$: $x^{2} - 4x - 5 = 0$ da $x = -1, 5 = 2a \\pm c$ ✓.",
+            "$A_{p(x)} = \\{2a - c,\\ 2a + c\\}$. Check with $a = 1, c = 3$: $x^{2} - 4x - 5 = 0$ gives $x = -1, 5 = 2a \\pm c$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 78d — a²x²+a(b−c)x−bc = 0 → x = c/a ó x = −b/a. */
+  template(
+    {
+      id: "lin-espol-ch2-78d",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "literal",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 270,
+      tags: ["literal-equation", "factoring", "parameters"],
+      prerequisites: ["multi-step"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 78d",
+        page: 240,
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(`$x = \\dfrac{c}{a}$ ó $x = -\\dfrac{b}{a}$`, `$x = \\dfrac{c}{a}$ or $x = -\\dfrac{b}{a}$`),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L(`$x = \\dfrac{b}{a}$ ó $x = -\\dfrac{c}{a}$`, `$x = \\dfrac{b}{a}$ or $x = -\\dfrac{c}{a}$`),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L(`$x = \\dfrac{c}{a}$ ó $x = \\dfrac{b}{a}$`, `$x = \\dfrac{c}{a}$ or $x = \\dfrac{b}{a}$`),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L(`$x = -\\dfrac{c}{a}$ ó $x = -\\dfrac{b}{a}$`, `$x = -\\dfrac{c}{a}$ or $x = -\\dfrac{b}{a}$`),
+          correct: false,
+        },
+        {
+          id: "e",
+          text: L(`$x = \\dfrac{a}{c}$ ó $x = -\\dfrac{a}{b}$`, `$x = \\dfrac{a}{c}$ or $x = -\\dfrac{a}{b}$`),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L("Ecuación literal: adivina la factorización (ax + p)(ax + q)", "Literal equation: guess the factorization (ax + p)(ax + q)"),
+        statement: L(
+          "Halla el conjunto de verdad de $q(x):\\ a^{2}x^{2} + a(b - c)x - bc = 0$ (en función de los parámetros $a, b, c$, con $a \\neq 0$).",
+          "Find the truth set of $q(x):\\ a^{2}x^{2} + a(b - c)x - bc = 0$ (in terms of the parameters $a, b, c$, with $a \\neq 0$).",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Busca una factorización de la forma $(ax + p)(ax + q)$: el producto de los términos libres debe dar $-bc$ y su suma por $a$, el término del medio.",
+            "Look for a factorization of the form $(ax + p)(ax + q)$: the product of the free terms must give $-bc$ and, times $a$, their sum the middle term.",
+          ),
+          L(
+            "Prueba $p = -c$, $q = b$: $(ax - c)(ax + b) = a^{2}x^{2} + abx - acx - bc = a^{2}x^{2} + a(b - c)x - bc$ ✓.",
+            "Try $p = -c$, $q = b$: $(ax - c)(ax + b) = a^{2}x^{2} + abx - acx - bc = a^{2}x^{2} + a(b - c)x - bc$ ✓.",
+          ),
+          L(
+            "De $(ax - c)(ax + b) = 0$ salen dos ecuaciones lineales en $x$; despéjalas (con $a \\neq 0$).",
+            "From $(ax - c)(ax + b) = 0$ come two linear equations in $x$; solve each (with $a \\neq 0$).",
+          ),
+        ],
+        answerDisplay: L(
+          "$A_{q(x)} = \\left\\{-\\dfrac{b}{a},\\ \\dfrac{c}{a}\\right\\}$",
+          "$A_{q(x)} = \\left\\{-\\dfrac{b}{a},\\ \\dfrac{c}{a}\\right\\}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$a^{2}x^{2} + a(b - c)x - bc = 0$, con $a \\neq 0$; incógnita $x$.",
+            "$a^{2}x^{2} + a(b - c)x - bc = 0$, with $a \\neq 0$; unknown $x$.",
+          ),
+          step(
+            "approach",
+            "Factorizar «a lo Ruffini» buscando dos binomios en $ax$: la estructura del término del medio, $a(b - c)$, sugiere los pares $(-c, b)$.",
+            "Factorize “Ruffini-style” looking for two binomials in $ax$: the middle term's structure, $a(b - c)$, suggests the pair $(-c, b)$.",
+          ),
+          step(
+            "calculation",
+            "$(ax - c)(ax + b) = a^{2}x^{2} + abx - acx - bc = a^{2}x^{2} + a(b - c)x - bc$ ✓<br>$ax - c = 0 \\Rightarrow x = \\dfrac{c}{a}$; $\\quad ax + b = 0 \\Rightarrow x = -\\dfrac{b}{a}$.",
+            "$(ax - c)(ax + b) = a^{2}x^{2} + abx - acx - bc = a^{2}x^{2} + a(b - c)x - bc$ ✓<br>$ax - c = 0 \\Rightarrow x = \\dfrac{c}{a}$; $\\quad ax + b = 0 \\Rightarrow x = -\\dfrac{b}{a}$.",
+          ),
+          step(
+            "result",
+            "$A_{q(x)} = \\left\\{-\\dfrac{b}{a},\\ \\dfrac{c}{a}\\right\\}$. Verificación con $a = 2, b = 3, c = 1$: $4x^{2} + 4x - 3 = 0$ da $x = \\frac{1}{2}, -\\frac{3}{2}$ ✓ (la fórmula general da lo mismo).",
+            "$A_{q(x)} = \\left\\{-\\dfrac{b}{a},\\ \\dfrac{c}{a}\\right\\}$. Check with $a = 2, b = 3, c = 1$: $4x^{2} + 4x - 3 = 0$ gives $x = \\frac{1}{2}, -\\frac{3}{2}$ ✓ (the general formula agrees).",
+          ),
+        ],
+      };
+    },
+  ),
+
 ];

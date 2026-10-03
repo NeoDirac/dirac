@@ -1975,4 +1975,380 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+
+  /* ================================================================== */
+  /* Curated — ESPOL Fundamentos, EDICIÓN DIGITAL (TUTOR_LICENSED).      */
+  /* Chapter 2 «Ejercicios propuestos», pp. 231-235 (PDF 264-268).      */
+  /* Tutor's brief: the most difficult / integrative ones.              */
+  /* Double-verified: printed key pp. 938-939 + sympy (41/41 checks).   */
+  /* ================================================================== */
+
+  /* 35l — telescoping chain → 16a^15/(1−a^16). Key: idem. */
+  template(
+    {
+      id: "rat-espol-ch2-35l",
+      subject: "math",
+      topicId: "rational",
+      subtopicId: "simplifying",
+      difficulty: "hard",
+      questionType: "expression",
+      estimatedTimeSec: 300,
+      tags: ["simplifying", "telescoping", "pattern"],
+      prerequisites: ["add-sub"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 35l",
+        page: 231,
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L("Cadena telescópica: cada resta duplica el patrón", "Telescoping chain: each subtraction doubles the pattern"),
+      statement: L(
+        "Simplifica: $$\\frac{1}{1 - a} - \\frac{1}{1 + a} - \\frac{2a}{1 + a^{2}} - \\frac{4a^{3}}{1 + a^{4}} - \\frac{8a^{7}}{1 + a^{8}}$$",
+        "Simplify: $$\\frac{1}{1 - a} - \\frac{1}{1 + a} - \\frac{2a}{1 + a^{2}} - \\frac{4a^{3}}{1 + a^{4}} - \\frac{8a^{7}}{1 + a^{8}}$$",
+      ),
+      answer: {
+        kind: "expression",
+        accepted: ["16a^15/(1-a^16)", "(16a^15)/(1-a^16)"],
+        variables: ["a"],
+      },
+      hints: [
+        L(
+          "Opera de izquierda a derecha, de dos en dos: primero $\\frac{1}{1-a} - \\frac{1}{1+a}$ sobre el denominador común $1 - a^{2}$.",
+          "Work left to right, two at a time: first $\\frac{1}{1-a} - \\frac{1}{1+a}$ over the common denominator $1 - a^{2}$.",
+        ),
+        L(
+          "$\\frac{1}{1-a} - \\frac{1}{1+a} = \\frac{2a}{1-a^{2}}$; y al restarle $\\frac{2a}{1+a^{2}}$ queda $\\frac{4a^{3}}{1-a^{4}}$. El patrón se repite: numerador $2^{k}a^{2k-1}$, denominador «1 − potencia».",
+          "$\\frac{1}{1-a} - \\frac{1}{1+a} = \\frac{2a}{1-a^{2}}$; and subtracting $\\frac{2a}{1+a^{2}}$ leaves $\\frac{4a^{3}}{1-a^{4}}$. The pattern repeats: numerator $2^{k}a^{2k-1}$, denominator “1 − a power”.",
+        ),
+        L(
+          "Después de la última resta el denominador es $1 - a^{16}$ y el numerador $16a^{15}$ (siguiendo la secuencia 2, 4, 8 → 16 y exponentes 1, 3, 7 → 15).",
+          "After the last subtraction the denominator is $1 - a^{16}$ and the numerator $16a^{15}$ (following the sequence 2, 4, 8 → 16 and exponents 1, 3, 7 → 15).",
+        ),
+      ],
+      answerDisplay: L(
+        "$\\dfrac{16a^{15}}{1 - a^{16}}$",
+        "$\\dfrac{16a^{15}}{1 - a^{16}}$",
+      ),
+      solution: [
+        step(
+          "given",
+          "La cadena $\\frac{1}{1-a} - \\frac{1}{1+a} - \\frac{2a}{1+a^{2}} - \\frac{4a^{3}}{1+a^{4}} - \\frac{8a^{7}}{1+a^{8}}$.",
+          "The chain $\\frac{1}{1-a} - \\frac{1}{1+a} - \\frac{2a}{1+a^{2}} - \\frac{4a^{3}}{1+a^{4}} - \\frac{8a^{7}}{1+a^{8}}$.",
+        ),
+        step(
+          "approach",
+          "No busques el denominador común total: la cadena está diseñada para que cada resta deje la semilla de la siguiente (estructura telescópica).",
+          "Do not look for the full common denominator: the chain is designed so each subtraction leaves the seed of the next one (telescoping structure).",
+        ),
+        step(
+          "calculation",
+          "$\\frac{1}{1-a} - \\frac{1}{1+a} = \\frac{(1+a)-(1-a)}{1-a^{2}} = \\frac{2a}{1-a^{2}}$<br>$\\frac{2a}{1-a^{2}} - \\frac{2a}{1+a^{2}} = \\frac{2a\\left[(1+a^{2})-(1-a^{2})\\right]}{1-a^{4}} = \\frac{4a^{3}}{1-a^{4}}$<br>$\\frac{4a^{3}}{1-a^{4}} - \\frac{4a^{3}}{1+a^{4}} = \\frac{8a^{7}}{1-a^{8}}$<br>$\\frac{8a^{7}}{1-a^{8}} - \\frac{8a^{7}}{1+a^{8}} = \\frac{16a^{15}}{1-a^{16}}$",
+          "$\\frac{1}{1-a} - \\frac{1}{1+a} = \\frac{(1+a)-(1-a)}{1-a^{2}} = \\frac{2a}{1-a^{2}}$<br>$\\frac{2a}{1-a^{2}} - \\frac{2a}{1+a^{2}} = \\frac{2a\\left[(1+a^{2})-(1-a^{2})\\right]}{1-a^{4}} = \\frac{4a^{3}}{1-a^{4}}$<br>$\\frac{4a^{3}}{1-a^{4}} - \\frac{4a^{3}}{1+a^{4}} = \\frac{8a^{7}}{1-a^{8}}$<br>$\\frac{8a^{7}}{1-a^{8}} - \\frac{8a^{7}}{1+a^{8}} = \\frac{16a^{15}}{1-a^{16}}$",
+        ),
+        step(
+          "result",
+          "$\\frac{16a^{15}}{1 - a^{16}}$. Verificación con $a = \\frac{1}{2}$: la cadena da $\\approx 0{,}000488$ y $\\frac{16a^{15}}{1-a^{16}} = \\frac{16/32768}{1 - 1/65536} \\approx 0{,}000488$ ✓ (misma cifra).",
+          "$\\frac{16a^{15}}{1 - a^{16}}$. Check at $a = \\frac{1}{2}$: the chain gives $\\approx 0.000488$ and $\\frac{16a^{15}}{1-a^{16}} = \\frac{16/32768}{1 - 1/65536} \\approx 0.000488$ ✓ (same figure).",
+        ),
+      ],
+    }),
+  ),
+
+  /* 37a — cyclic sum → 0. Key: 0. */
+  template(
+    {
+      id: "rat-espol-ch2-37a",
+      subject: "math",
+      topicId: "rational",
+      subtopicId: "simplifying",
+      difficulty: "hard",
+      questionType: "expression",
+      estimatedTimeSec: 270,
+      tags: ["simplifying", "cyclic", "common-denominator"],
+      prerequisites: ["add-sub"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 37a",
+        page: 232,
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L("Suma cíclica sobre el denominador (a−b)(b−c)(c−a)", "Cyclic sum over the denominator (a−b)(b−c)(c−a)"),
+      statement: L(
+        "Simplifica: $$\\frac{1}{(a - b)(a - c)} + \\frac{1}{(b - c)(b - a)} + \\frac{1}{(c - a)(c - b)}$$",
+        "Simplify: $$\\frac{1}{(a - b)(a - c)} + \\frac{1}{(b - c)(b - a)} + \\frac{1}{(c - a)(c - b)}$$",
+      ),
+      answer: {
+        kind: "expression",
+        accepted: ["0"],
+        variables: ["a", "b", "c"],
+      },
+      hints: [
+        L(
+          "El denominador común natural es $(a-b)(b-c)(c-a)$. Reescribe cada fracción multiplicando arriba y abajo por lo que falta.",
+          "The natural common denominator is $(a-b)(b-c)(c-a)$. Rewrite each fraction by multiplying top and bottom by what is missing.",
+        ),
+        L(
+          "Cuidado con los signos: $a - c = -(c-a)$ y $b - a = -(a-b)$. La primera fracción queda $\\frac{-(b - c)}{(a-b)(b-c)(c-a)}$.",
+          "Mind the signs: $a - c = -(c-a)$ and $b - a = -(a-b)$. The first fraction becomes $\\frac{-(b - c)}{(a-b)(b-c)(c-a)}$.",
+        ),
+        L(
+          "Suma los tres numeradores: $-(b-c) - (c-a) - (a-b)$. ¿Cuánto da?",
+          "Add the three numerators: $-(b-c) - (c-a) - (a-b)$. How much is that?",
+        ),
+      ],
+      answerDisplay: L("$0$", "$0$"),
+      solution: [
+        step(
+          "given",
+          "$S = \\frac{1}{(a-b)(a-c)} + \\frac{1}{(b-c)(b-a)} + \\frac{1}{(c-a)(c-b)}$, con $a, b, c$ distintos dos a dos.",
+          "$S = \\frac{1}{(a-b)(a-c)} + \\frac{1}{(b-c)(b-a)} + \\frac{1}{(c-a)(c-b)}$, with $a, b, c$ pairwise distinct.",
+        ),
+        step(
+          "approach",
+          "Denominador común $D = (a-b)(b-c)(c-a)$, controlando los signos al reescribir cada factor «invertido» (como $a-c = -(c-a)$).",
+          "Common denominator $D = (a-b)(b-c)(c-a)$, controlling the signs while rewriting each “inverted” factor (such as $a-c = -(c-a)$).",
+        ),
+        step(
+          "calculation",
+          "$\\frac{1}{(a-b)(a-c)} = \\frac{-(b-c)}{D}$ &nbsp;(falta $b-c$; $a-c = -(c-a)$)<br>$\\frac{1}{(b-c)(b-a)} = \\frac{-(c-a)}{D}$ &nbsp;(falta $c-a$; $b-a = -(a-b)$)<br>$\\frac{1}{(c-a)(c-b)} = \\frac{-(a-b)}{D}$ &nbsp;(falta $a-b$; $c-b = -(b-c)$)<br>$S = \\frac{-\\left[(b-c) + (c-a) + (a-b)\\right]}{D} = \\frac{0}{D}$",
+          "$\\frac{1}{(a-b)(a-c)} = \\frac{-(b-c)}{D}$ &nbsp;($b-c$ missing; $a-c = -(c-a)$)<br>$\\frac{1}{(b-c)(b-a)} = \\frac{-(c-a)}{D}$ &nbsp;($c-a$ missing; $b-a = -(a-b)$)<br>$\\frac{1}{(c-a)(c-b)} = \\frac{-(a-b)}{D}$ &nbsp;($a-b$ missing; $c-b = -(b-c)$)<br>$S = \\frac{-\\left[(b-c) + (c-a) + (a-b)\\right]}{D} = \\frac{0}{D}$",
+        ),
+        step(
+          "result",
+          "$S = 0$: los tres numeradores se cancelan en cadena. Verificación con $(a,b,c) = (1,2,3)$: $\\frac{1}{2} - 1 + \\frac{1}{2} = 0$ ✓.",
+          "$S = 0$: the three numerators cancel in a chain. Check at $(a,b,c) = (1,2,3)$: $\\frac{1}{2} - 1 + \\frac{1}{2} = 0$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* 37b — a/(a²−1)+… − 2a²/(a⁴−1) → a/(a²−1). Key: idem. */
+  template(
+    {
+      id: "rat-espol-ch2-37b",
+      subject: "math",
+      topicId: "rational",
+      subtopicId: "simplifying",
+      difficulty: "hard",
+      questionType: "expression",
+      estimatedTimeSec: 300,
+      tags: ["simplifying", "factor-denominators", "difference-of-squares"],
+      prerequisites: ["add-sub"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 37b",
+        page: 232,
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L("Factorizar los denominadores antes de sumar", "Factor the denominators before adding"),
+      statement: L(
+        "Simplifica: $$\\frac{a}{a^{2} - 1} + \\frac{a^{2} + a - 1}{a^{3} - a^{2} + a - 1} - \\frac{a^{2} + a + 1}{a^{3} + a^{2} + a + 1} - \\frac{2a^{2}}{a^{4} - 1}$$",
+        "Simplify: $$\\frac{a}{a^{2} - 1} + \\frac{a^{2} + a - 1}{a^{3} - a^{2} + a - 1} - \\frac{a^{2} + a + 1}{a^{3} + a^{2} + a + 1} - \\frac{2a^{2}}{a^{4} - 1}$$",
+      ),
+      answer: {
+        kind: "expression",
+        accepted: ["a/(a^2-1)", "a/((a-1)(a+1))"],
+        variables: ["a"],
+      },
+      hints: [
+        L(
+          "Factoriza los tres denominadores «largos»: $a^{3} - a^{2} + a - 1 = (a - 1)(a^{2} + 1)$, $a^{3} + a^{2} + a + 1 = (a + 1)(a^{2} + 1)$ y $a^{4} - 1 = (a^{2} - 1)(a^{2} + 1)$.",
+          "Factor the three “long” denominators: $a^{3} - a^{2} + a - 1 = (a - 1)(a^{2} + 1)$, $a^{3} + a^{2} + a + 1 = (a + 1)(a^{2} + 1)$ and $a^{4} - 1 = (a^{2} - 1)(a^{2} + 1)$.",
+        ),
+        L(
+          "Con eso, el denominador común es $a^{4} - 1 = (a-1)(a+1)(a^{2}+1)$; reescribe las cuatro fracciones sobre él.",
+          "With that, the common denominator is $a^{4} - 1 = (a-1)(a+1)(a^{2}+1)$; rewrite the four fractions over it.",
+        ),
+        L(
+          "El numerador total queda $a^{3} + a$; al final factoriza y cancela con el denominador.",
+          "The total numerator comes out as $a^{3} + a$; factor it at the end and cancel with the denominator.",
+        ),
+      ],
+      answerDisplay: L(
+        "$\\dfrac{a}{a^{2} - 1}$",
+        "$\\dfrac{a}{a^{2} - 1}$",
+      ),
+      solution: [
+        step(
+          "given",
+          "$S = \\frac{a}{a^{2}-1} + \\frac{a^{2}+a-1}{a^{3}-a^{2}+a-1} - \\frac{a^{2}+a+1}{a^{3}+a^{2}+a+1} - \\frac{2a^{2}}{a^{4}-1}$.",
+          "$S = \\frac{a}{a^{2}-1} + \\frac{a^{2}+a-1}{a^{3}-a^{2}+a-1} - \\frac{a^{2}+a+1}{a^{3}+a^{2}+a+1} - \\frac{2a^{2}}{a^{4}-1}$.",
+        ),
+        step(
+          "approach",
+          "Factorizar denominadores por agrupación; con el denominador común $a^{4}-1$ la suma se vuelve un simple conteo de numeradores.",
+          "Factor denominators by grouping; with the common denominator $a^{4}-1$ the sum becomes a simple count of numerators.",
+        ),
+        step(
+          "calculation",
+          "$a^{3}-a^{2}+a-1 = (a-1)(a^{2}+1)$; $a^{3}+a^{2}+a+1 = (a+1)(a^{2}+1)$; $a^{4}-1 = (a^{2}-1)(a^{2}+1)$.<br>Sobre $D = a^{4}-1$:<br>$\\frac{a}{a^{2}-1} = \\frac{a(a^{2}+1)}{D}$; $\\frac{a^{2}+a-1}{(a-1)(a^{2}+1)} = \\frac{(a^{2}+a-1)(a+1)}{D}$; $\\frac{a^{2}+a+1}{(a+1)(a^{2}+1)} = \\frac{(a^{2}+a+1)(a-1)}{D}$.<br>Numerador: $a^{3}+a + (a^{3}+2a^{2}-1) - (a^{3}-1) - 2a^{2} = a^{3} + a$.<br>$S = \\frac{a^{3}+a}{a^{4}-1} = \\frac{a(a^{2}+1)}{(a^{2}-1)(a^{2}+1)} = \\frac{a}{a^{2}-1}$.",
+          "$a^{3}-a^{2}+a-1 = (a-1)(a^{2}+1)$; $a^{3}+a^{2}+a+1 = (a+1)(a^{2}+1)$; $a^{4}-1 = (a^{2}-1)(a^{2}+1)$.<br>Over $D = a^{4}-1$:<br>$\\frac{a}{a^{2}-1} = \\frac{a(a^{2}+1)}{D}$; $\\frac{a^{2}+a-1}{(a-1)(a^{2}+1)} = \\frac{(a^{2}+a-1)(a+1)}{D}$; $\\frac{a^{2}+a+1}{(a+1)(a^{2}+1)} = \\frac{(a^{2}+a+1)(a-1)}{D}$.<br>Numerator: $a^{3}+a + (a^{3}+2a^{2}-1) - (a^{3}-1) - 2a^{2} = a^{3} + a$.<br>$S = \\frac{a^{3}+a}{a^{4}-1} = \\frac{a(a^{2}+1)}{(a^{2}-1)(a^{2}+1)} = \\frac{a}{a^{2}-1}$.",
+        ),
+        step(
+          "result",
+          "$S = \\frac{a}{a^{2}-1}$. Verificación con $a = 2$: cadena $= \\frac{2}{3} + \\frac{5}{5} - \\frac{7}{15} - \\frac{8}{15} = \\frac{2}{3} + 1 - 1 = \\frac{2}{3}$ y $\\frac{a}{a^{2}-1} = \\frac{2}{3}$ ✓.",
+          "$S = \\frac{a}{a^{2}-1}$. Check at $a = 2$: chain $= \\frac{2}{3} + \\frac{5}{5} - \\frac{7}{15} - \\frac{8}{15} = \\frac{2}{3} + 1 - 1 = \\frac{2}{3}$ and $\\frac{a}{a^{2}-1} = \\frac{2}{3}$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* 37d — (a+b)/((b−c)(c−a)) + … → (a+c)/((c−a)(a−b)). Key: idem. */
+  template(
+    {
+      id: "rat-espol-ch2-37d",
+      subject: "math",
+      topicId: "rational",
+      subtopicId: "simplifying",
+      difficulty: "hard",
+      questionType: "expression",
+      estimatedTimeSec: 300,
+      tags: ["simplifying", "cyclic", "common-denominator", "signs"],
+      prerequisites: ["add-sub"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 37d",
+        page: 232,
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L("Suma cíclica con signos cruzados (¡cuidado con el tercero!)", "Cyclic sum with crossed signs (mind the third one!)"),
+      statement: L(
+        "Simplifica: $$\\frac{a + b}{(b - c)(c - a)} + \\frac{b + c}{(c - a)(a - b)} + \\frac{c + a}{(a - c)(b - c)}$$",
+        "Simplify: $$\\frac{a + b}{(b - c)(c - a)} + \\frac{b + c}{(c - a)(a - b)} + \\frac{c + a}{(a - c)(b - c)}$$",
+      ),
+      answer: {
+        kind: "expression",
+        accepted: ["(a+c)/((c-a)(a-b))", "(a+c)/((a-b)(c-a))"],
+        variables: ["a", "b", "c"],
+      },
+      hints: [
+        L(
+          "Denominador común $D = (a-b)(b-c)(c-a)$. Los dos primeros términos se reescriben limpios; el tercero tiene $(a-c)(b-c) = (c-a)(c-b)$ — ojo, es el que NO sigue el patrón.",
+          "Common denominator $D = (a-b)(b-c)(c-a)$. The first two terms rewrite cleanly; the third has $(a-c)(b-c) = (c-a)(c-b)$ — watch out, it is the one NOT following the pattern.",
+        ),
+        L(
+          "Sobre $D$: el primero aporta $(a+b)(a-b) = a^{2} - b^{2}$; el segundo aporta $(b+c)(b-c) = b^{2} - c^{2}$.",
+          "Over $D$: the first contributes $(a+b)(a-b) = a^{2} - b^{2}$; the second contributes $(b+c)(b-c) = b^{2} - c^{2}$.",
+        ),
+        L(
+          "El tercero aporta $-(c+a)(a-b)$. Suma los tres numeradores y factoriza el resultado: debería quedarte un binomio por $D$.",
+          "The third contributes $-(c+a)(a-b)$. Add the three numerators and factor: you should be left with one binomial over $D$.",
+        ),
+      ],
+      answerDisplay: L(
+        "$\\dfrac{a + c}{(c - a)(a - b)}$",
+        "$\\dfrac{a + c}{(c - a)(a - b)}$",
+      ),
+      solution: [
+        step(
+          "given",
+          "$S = \\frac{a+b}{(b-c)(c-a)} + \\frac{b+c}{(c-a)(a-b)} + \\frac{c+a}{(a-c)(b-c)}$, con $a, b, c$ distintos dos a dos.",
+          "$S = \\frac{a+b}{(b-c)(c-a)} + \\frac{b+c}{(c-a)(a-b)} + \\frac{c+a}{(a-c)(b-c)}$, with $a, b, c$ pairwise distinct.",
+        ),
+        step(
+          "approach",
+          "Denominador común $D = (a-b)(b-c)(c-a)$. Como el tercer término impreso usa $(a-c)$ y $(b-c)$ (equivalente a $(c-a)(c-b)$), su aporte sobre $D$ lleva signo distinto: $D / (a-c)(b-c) = -(a-b)$.",
+          "Common denominator $D = (a-b)(b-c)(c-a)$. Since the printed third term uses $(a-c)$ and $(b-c)$ (equal to $(c-a)(c-b)$), its contribution over $D$ carries a different sign: $D / (a-c)(b-c) = -(a-b)$.",
+        ),
+        step(
+          "calculation",
+          "Término 1 sobre $D$: $\\frac{(a+b)(a-b)}{D} = \\frac{a^{2}-b^{2}}{D}$<br>Término 2 sobre $D$: $\\frac{(b+c)(b-c)}{D} = \\frac{b^{2}-c^{2}}{D}$<br>Término 3 sobre $D$: $\\frac{(c+a)\\cdot\\left[-(a-b)\\right]}{D} = \\frac{-(c+a)(a-b)}{D}$<br>Numerador total: $(a^{2}-b^{2}) + (b^{2}-c^{2}) - (c+a)(a-b) = ab + bc - ac - c^{2} = (a+c)(b-c)$.<br>$S = \\frac{(a+c)(b-c)}{D} = \\frac{(a+c)(b-c)}{(a-b)(b-c)(c-a)} = \\frac{a+c}{(a-b)(c-a)}$.",
+          "Term 1 over $D$: $\\frac{(a+b)(a-b)}{D} = \\frac{a^{2}-b^{2}}{D}$<br>Term 2 over $D$: $\\frac{(b+c)(b-c)}{D} = \\frac{b^{2}-c^{2}}{D}$<br>Term 3 over $D$: $\\frac{(c+a)\\cdot\\left[-(a-b)\\right]}{D} = \\frac{-(c+a)(a-b)}{D}$<br>Total numerator: $(a^{2}-b^{2}) + (b^{2}-c^{2}) - (c+a)(a-b) = ab + bc - ac - c^{2} = (a+c)(b-c)$.<br>$S = \\frac{(a+c)(b-c)}{D} = \\frac{(a+c)(b-c)}{(a-b)(b-c)(c-a)} = \\frac{a+c}{(a-b)(c-a)}$.",
+        ),
+        step(
+          "result",
+          "$S = \\frac{a+c}{(c-a)(a-b)}$ (equivalente a $\\frac{a+c}{(a-b)(c-a)}$, forma impresa en la clave). Verificación con $(a,b,c) = (0,1,2)$: cadena $= -\\frac{1}{2} - \\frac{3}{2} + 1 = -1$ y $\\frac{a+c}{(a-b)(c-a)} = \\frac{2}{(-1)(2)} = -1$ ✓.",
+          "$S = \\frac{a+c}{(c-a)(a-b)}$ (same as $\\frac{a+c}{(a-b)(c-a)}$, the form printed in the key). Check at $(a,b,c) = (0,1,2)$: chain $= -\\frac{1}{2} - \\frac{3}{2} + 1 = -1$ and $\\frac{a+c}{(a-b)(c-a)} = \\frac{2}{(-1)(2)} = -1$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* 48 — 2/(x+5)+1/(x−5)+20/(x²−25)=0 → ∅ (x=−5 es agujero). Key: ∅. */
+  template(
+    {
+      id: "rat-espol-ch2-48",
+      subject: "math",
+      topicId: "rational",
+      subtopicId: "equations",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 180,
+      tags: ["equation", "domain", "extraneous-root"],
+      prerequisites: ["simplifying"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 48",
+        page: 235,
+      },
+      reasoning: "spurious",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$A_{p(x)} = \\varnothing$`, `$A_{p(x)} = \\varnothing$`), correct: true },
+        { id: "b", text: L(`$A_{p(x)} = \\{-5\\}$`, `$A_{p(x)} = \\{-5\\}$`), correct: false },
+        { id: "c", text: L(`$A_{p(x)} = \\{5,\\ -5\\}$`, `$A_{p(x)} = \\{5,\\ -5\\}$`), correct: false },
+        { id: "d", text: L(`$A_{p(x)} = \\{5\\}$`, `$A_{p(x)} = \\{5\\}$`), correct: false },
+        { id: "e", text: L(`$A_{p(x)} = \\{0,\\ -5\\}$`, `$A_{p(x)} = \\{0,\\ -5\\}$`), correct: false },
+      ];
+      return {
+        skill: L("Ecuación racional: la raíz del numerador puede ser agujero", "Rational equation: the numerator's root may be a hole"),
+        statement: L(
+          "Con $x \\in \\mathbb{R}$, determina el conjunto de verdad de $$p(x):\\ \\frac{2}{x + 5} + \\frac{1}{x - 5} + \\frac{20}{x^{2} - 25} = 0.$$",
+          "With $x \\in \\mathbb{R}$, determine the truth set of $$p(x):\\ \\frac{2}{x + 5} + \\frac{1}{x - 5} + \\frac{20}{x^{2} - 25} = 0.$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "El denominador común es $(x+5)(x-5) = x^{2} - 25$; antes que nada, anota qué valores de $x$ están prohibidos.",
+            "The common denominator is $(x+5)(x-5) = x^{2} - 25$; before anything else, note which $x$ values are forbidden.",
+          ),
+          L(
+            "Sobre $x^{2} - 25$: el numerador combinado es $2(x-5) + (x+5) + 20 = 3x + 15$, con raíz $x = -5$.",
+            "Over $x^{2} - 25$: the combined numerator is $2(x-5) + (x+5) + 20 = 3x + 15$, whose root is $x = -5$.",
+          ),
+          L(
+            "Comprueba esa raíz candidata contra el dominio: ¿es válida o queda anulada por el denominador?",
+            "Test that candidate root against the domain: is it valid, or is it killed by the denominator?",
+          ),
+        ],
+        answerDisplay: L("$A_{p(x)} = \\varnothing$", "$A_{p(x)} = \\varnothing$"),
+        solution: [
+          step(
+            "given",
+            "$\\frac{2}{x+5} + \\frac{1}{x-5} + \\frac{20}{x^{2}-25} = 0$; dominio: $x \\neq \\pm 5$.",
+            "$\\frac{2}{x+5} + \\frac{1}{x-5} + \\frac{20}{x^{2}-25} = 0$; domain: $x \\neq \\pm 5$.",
+          ),
+          step(
+            "approach",
+            "Combinar sobre $x^{2}-25$ y resolver el numerador; toda raíz del numerador debe pasar el filtro del dominio.",
+            "Combine over $x^{2}-25$ and solve the numerator; every numerator root must pass the domain filter.",
+          ),
+          step(
+            "calculation",
+            "$\\frac{2(x-5) + (x+5) + 20}{x^{2}-25} = 0 \\Rightarrow \\frac{3x + 15}{x^{2}-25} = 0$<br>Numerador: $3x + 15 = 0 \\Rightarrow x = -5$.<br>Pero $x = -5$ anula el denominador ($x^{2} - 25 = 0$): es un agujero, no solución. De hecho la fracción reducida es $\\frac{3}{x-5}$, que nunca vale 0.",
+            "$\\frac{2(x-5) + (x+5) + 20}{x^{2}-25} = 0 \\Rightarrow \\frac{3x + 15}{x^{2}-25} = 0$<br>Numerator: $3x + 15 = 0 \\Rightarrow x = -5$.<br>But $x = -5$ zeroes the denominator ($x^{2} - 25 = 0$): it is a hole, not a solution. Indeed the reduced fraction is $\\frac{3}{x-5}$, which is never 0.",
+          ),
+          step(
+            "result",
+            "$A_{p(x)} = \\varnothing$: la única candidata ($x = -5$) queda excluida por el dominio. Una fracción con numerador no nulo nunca es cero.",
+            "$A_{p(x)} = \\varnothing$: the only candidate ($x = -5$) is excluded by the domain. A fraction with non-zero numerator is never zero.",
+          ),
+        ],
+      };
+    },
+  ),
 ];
