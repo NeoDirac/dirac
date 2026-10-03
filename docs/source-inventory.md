@@ -162,3 +162,37 @@ el banco quedan MARCADOS como provisionales (badge ámbar en el problema,
 aviso de cobertura en la página del tema, reporte por tema en
 `bun run validate:content`) a la espera de reemplazo progresivo por
 material real (el tutor irá añadiendo libros como el de la ESPOL).
+
+## Actualización — SEGUNDA TANDA edición digital ESPOL (2026-10-04)
+
+Encargo del tutor: «el 2.9 debe ir y el 2.12 también. Quiero que ahora vayas a
+por los ejercicios del cap 3». Estado tras la importación:
+
+| Sección | Contenido | Estado |
+|---|---|---|
+| 2 §2.9 Inecuaciones | #85, 86, 89 (V/F + MC), 92b, 93a–f, 94b–h (intervalos de texto y MC) | **16 importados** (pruebas #95–#100 fuera: falta UI de demostración) |
+| 2 §2.12 Teorema del binomio | #116–124 (coeficientes, término k-ésimo, término independiente, análisis de exponentes) | **8 importados** (subtema nuevo polynomials/binomial-theorem) |
+| 3 §3.1–3.3 Dominios, par/impar | #5e, #7, #8 (dominios duros), #14 (descomposición par/impar), #15d | **5 importados** (subtema nuevo functions/even-odd) |
+| 3 §3.4 Asíntotas | #21, #22, #24a (agujero vs asíntota) | **3 importados** (subtema nuevo rational/asymptotes) |
+| 3 §3.6–3.7 Tramos + modelización lineal | #31b (rango a trozos), #35, #37c, #39a | **4 importados** |
+| 3 §3.8 Cuadráticas | #42, #44, #48, #53c, #54, #57b | **6 importados** |
+| 3 §3.9–3.11 Composición e inversas | #61 (f∘g a trozos), #65, #66, #79, #85 | **5 importados** |
+| 3 §3.12 Polinomiales | #87, #89, #90, #93, #94, #95, #97 | **7 importados** |
+| 3 §3.13–3.14 Exponencial y logarítmica | #103a/b, #106, #121, #123, #113, #118a, #120a, #115b, #131e, #137a, #137d | **12 importados** |
+
+Total de la tanda: **67 plantillas reales** (banco 643 → 710; con fuente real
+181 → 248). Verificación: **69/69 checks sympy**
+(`download/verify_espol_ch3.py`, clave impresa pp. 938–940 + derivación
+independiente). Los enunciados con radicales/fracciones dañadas por la capa de
+texto (#5e, #7, #8, #14, #61, #65, #66, #79, #85, #93c) se re-leyeron con el
+modelo de visión contra la página impresa antes de transcribir. En #93c la
+capa de texto había perdido las barras de valor absoluto (la transcripción
+naiva contradecía la clave impresa); recuperadas visualmente.
+
+**Corrección de fidelidad**: ninguna discrepancia clave-derivación en esta
+tanda (a diferencia de #82 de la tanda 1); #117b y #121 no tienen clave
+impresa — verificación solo sympy, anotado dentro de sus soluciones.
+
+Pendiente del libro digital: §2.9 pruebas #95–#100, §2.10–2.11, resto del
+cap. 3 (ver registro `fcnm-fundamentos-digital` para la lista completa),
+cap. 4 (trigonometría) — a la espera de encargo del tutor.

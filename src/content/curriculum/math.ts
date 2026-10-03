@@ -102,6 +102,7 @@ export const mathCurriculum: TopicDef[] = [
     subtopics: [
       { id: "operations", name: l10n("Operaciones con polinomios", "Polynomial operations") },
       { id: "special-products", name: l10n("Productos notables", "Special products") },
+      { id: "binomial-theorem", name: l10n("Teorema del binomio", "Binomial theorem") },
       { id: "factoring", name: l10n("Factorización", "Factoring") },
       { id: "equations", name: l10n("Ecuaciones polinómicas", "Polynomial equations") },
       { id: "remainder-theorem", name: l10n("Teorema del resto y del factor", "Remainder & factor theorems") },
@@ -145,6 +146,7 @@ export const mathCurriculum: TopicDef[] = [
       { id: "add-sub", name: l10n("Suma y resta", "Addition & subtraction") },
       { id: "equations", name: l10n("Ecuaciones racionales", "Rational equations") },
       { id: "domain", name: l10n("Restricciones del dominio", "Domain restrictions") },
+      { id: "asymptotes", name: l10n("Asíntotas", "Asymptotes") },
       { id: "inequalities", name: l10n("Desigualdades racionales", "Rational inequalities") },
     ],
     prerequisites: ["polynomials"],
@@ -178,6 +180,7 @@ export const mathCurriculum: TopicDef[] = [
       { id: "notation", name: l10n("Notación funcional", "Function notation") },
       { id: "domain-range", name: l10n("Dominio y rango", "Domain & range") },
       { id: "evaluation", name: l10n("Evaluación", "Evaluation") },
+      { id: "even-odd", name: l10n("Funciones pares e impares", "Even & odd functions") },
       { id: "composition", name: l10n("Composición de funciones", "Composition") },
       { id: "inverse", name: l10n("Funciones inversas", "Inverse functions") },
       { id: "transformations", name: l10n("Transformaciones", "Transformations") },

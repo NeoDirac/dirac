@@ -2351,4 +2351,664 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+
+  /* ================================================================== */
+  /* Curated — ESPOL Fundamentos, EDICIÓN DIGITAL (TUTOR_LICENSED).      */
+  /* §2.9 «Inecuaciones» racionales (pp. 242-243) + Capítulo 3           */
+  /* «Funciones de variable real» §3.4 Asíntotas (p. 371).               */
+  /* Double-verified: printed key pp. 938-939 + sympy                    */
+  /* (download/verify_espol_ch3.py). #93c: the absolute-value bars       */
+  /* around the fraction were lost in the text layer — confirmed         */
+  /* visually against the printed page.                                   */
+  /* ================================================================== */
+
+  /* 93c — |(x−3)/(x−4)| < 5/2 → (−∞,26/7) ∪ (14/3,+∞). */
+  template(
+    {
+      id: "rat-espol-ch2-93c",
+      subject: "math",
+      topicId: "rational",
+      subtopicId: "inequalities",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 270,
+      tags: ["rational-inequality", "absolute-value", "double-inequality"],
+      prerequisites: ["equations", "domain"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 93c",
+        page: 243,
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => ({
+      skill: L("Valor absoluto de una fracción: desigualdad doble racional", "Absolute value of a fraction: a rational double inequality"),
+      statement: L(
+        "Resuelve $\\left| \\dfrac{x - 3}{x - 4} \\right| < \\dfrac{5}{2}$, $x \\in \\mathbb{R}$. El conjunto solución es:",
+        "Solve $\\left| \\dfrac{x - 3}{x - 4} \\right| < \\dfrac{5}{2}$, $x \\in \\mathbb{R}$. The solution set is:",
+      ),
+      answer: {
+        kind: "multiple-choice",
+        options: rng.shuffle([
+          { id: "a", text: L("$\\left(-\\infty,\\ \\dfrac{26}{7}\\right) \\cup \\left(\\dfrac{14}{3},\\ +\\infty\\right)$", "$\\left(-\\infty,\\ \\dfrac{26}{7}\\right) \\cup \\left(\\dfrac{14}{3},\\ +\\infty\\right)$"), correct: true },
+          { id: "b", text: L("$\\left(-\\infty,\\ 4\\right) \\cup \\left(\\dfrac{14}{3},\\ +\\infty\\right)$", "$\\left(-\\infty,\\ 4\\right) \\cup \\left(\\dfrac{14}{3},\\ +\\infty\\right)$"), correct: false },
+          { id: "c", text: L("$\\left(\\dfrac{26}{7},\\ \\dfrac{14}{3}\\right)$", "$\\left(\\dfrac{26}{7},\\ \\dfrac{14}{3}\\right)$"), correct: false },
+          { id: "d", text: L("$\\left(-\\infty,\\ \\dfrac{26}{7}\\right) \\cup (4, +\\infty)$", "$\\left(-\\infty,\\ \\dfrac{26}{7}\\right) \\cup (4, +\\infty)$"), correct: false },
+          { id: "e", text: L("$\\left(\\dfrac{26}{7},\\ 4\\right) \\cup \\left(4,\\ \\dfrac{14}{3}\\right)$", "$\\left(\\dfrac{26}{7},\\ 4\\right) \\cup \\left(4,\\ \\dfrac{14}{3}\\right)$"), correct: false },
+        ]),
+      },
+      hints: [
+        L(
+          "$|u| < a$ con $a > 0$ equivale a $-a < u < a$: aquí $u$ es toda la fracción, y quedan **dos** desigualdades racionales.",
+          "$|u| < a$ with $a > 0$ means $-a < u < a$: here $u$ is the whole fraction, leaving **two** rational inequalities.",
+        ),
+        L(
+          "Para cada una, pasa todo a un lado y estudia el signo del numerador contra el del denominador (no multipliques en cruz sin saber el signo).",
+          "For each one, move everything to one side and study the sign of the numerator against the denominator (do not cross-multiply without knowing the sign).",
+        ),
+        L(
+          "Derecha: $\\frac{x-3}{x-4} < \\frac{5}{2}$ da $x < 4$ o $x > \\frac{14}{3}$. Izquierda: $\\frac{x-3}{x-4} > -\\frac{5}{2}$ da $x < \\frac{26}{7}$ o $x > 4$. Intersecta.",
+          "Right: $\\frac{x-3}{x-4} < \\frac{5}{2}$ gives $x < 4$ or $x > \\frac{14}{3}$. Left: $\\frac{x-3}{x-4} > -\\frac{5}{2}$ gives $x < \\frac{26}{7}$ or $x > 4$. Intersect.",
+        ),
+      ],
+      answerDisplay: L("$\\left(-\\infty,\\ \\dfrac{26}{7}\\right) \\cup \\left(\\dfrac{14}{3},\\ +\\infty\\right)$", "$\\left(-\\infty,\\ \\dfrac{26}{7}\\right) \\cup \\left(\\dfrac{14}{3},\\ +\\infty\\right)$"),
+      solution: [
+        step(
+          "given",
+          "$\\left|\\frac{x-3}{x-4}\\right| < \\frac{5}{2}$, con $x \\neq 4$.",
+          "$\\left|\\frac{x-3}{x-4}\\right| < \\frac{5}{2}$, with $x \\neq 4$.",
+        ),
+        step(
+          "approach",
+          "Doble desigualdad $-\\frac{5}{2} < \\frac{x-3}{x-4} < \\frac{5}{2}$; resolver cada rama por signos y quedarse con la intersección.",
+          "Double inequality $-\\frac{5}{2} < \\frac{x-3}{x-4} < \\frac{5}{2}$; solve each branch by signs and keep the intersection.",
+        ),
+        step(
+          "calculation",
+          "Rama derecha: $\\frac{x-3}{x-4} - \\frac{5}{2} < 0 \\Rightarrow \\frac{2x-6-5x+20}{2(x-4)} = \\frac{-3x+14}{2(x-4)} < 0 \\Rightarrow x < 4 \\ \\vee\\ x > \\frac{14}{3}$.<br>Rama izquierda: $\\frac{x-3}{x-4} + \\frac{5}{2} > 0 \\Rightarrow \\frac{2x-6+5x-20}{2(x-4)} = \\frac{7x-26}{2(x-4)} > 0 \\Rightarrow x < \\frac{26}{7} \\ \\vee\\ x > 4$.",
+          "Right branch: $\\frac{x-3}{x-4} - \\frac{5}{2} < 0 \\Rightarrow \\frac{2x-6-5x+20}{2(x-4)} = \\frac{-3x+14}{2(x-4)} < 0 \\Rightarrow x < 4 \\ \\vee\\ x > \\frac{14}{3}$.<br>Left branch: $\\frac{x-3}{x-4} + \\frac{5}{2} > 0 \\Rightarrow \\frac{2x-6+5x-20}{2(x-4)} = \\frac{7x-26}{2(x-4)} > 0 \\Rightarrow x < \\frac{26}{7} \\ \\vee\\ x > 4$.",
+        ),
+        step(
+          "result",
+          "Intersección: $\\left(-\\infty, \\frac{26}{7}\\right) \\cup \\left(\\frac{14}{3}, +\\infty\\right)$. Verificación: $x = 0$: $\\left|\\frac{-3}{-4}\\right| = 0.75 < 2.5$ ✓; $x = 3.8$ (entre $\\frac{26}{7} \\approx 3.71$ y 4): $\\left|\\frac{0.8}{-0.2}\\right| = 4 \\not< 2.5$ ✗; $x = 5$: $\\left|\\frac{2}{1}\\right| = 2 < 2.5$ ✓.",
+          "Intersection: $\\left(-\\infty, \\frac{26}{7}\\right) \\cup \\left(\\frac{14}{3}, +\\infty\\right)$. Check: $x = 0$: $\\left|\\frac{-3}{-4}\\right| = 0.75 < 2.5$ ✓; $x = 3.8$ (between $\\frac{26}{7} \\approx 3.71$ and 4): $\\left|\\frac{0.8}{-0.2}\\right| = 4 \\not< 2.5$ ✗; $x = 5$: $\\left|\\frac{2}{1}\\right| = 2 < 2.5$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* 93d — 4/(x+1) − 3/(x+2) > 1 → (−3,−2)∪(−1,1). */
+  template(
+    {
+      id: "rat-espol-ch2-93d",
+      subject: "math",
+      topicId: "rational",
+      subtopicId: "inequalities",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 270,
+      tags: ["rational-inequality", "sign-table", "three-critical-points"],
+      prerequisites: ["add-sub", "domain"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 93d",
+        page: 243,
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => ({
+      skill: L("Desigualdad racional con tres puntos críticos", "Rational inequality with three critical points"),
+      statement: L(
+        "Resuelve $\\dfrac{4}{x + 1} - \\dfrac{3}{x + 2} > 1$, $x \\in \\mathbb{R}$. El conjunto solución es:",
+        "Solve $\\dfrac{4}{x + 1} - \\dfrac{3}{x + 2} > 1$, $x \\in \\mathbb{R}$. The solution set is:",
+      ),
+      answer: {
+        kind: "multiple-choice",
+        options: rng.shuffle([
+          { id: "a", text: L("$(-3, -2) \\cup (-1, 1)$", "$(-3, -2) \\cup (-1, 1)$"), correct: true },
+          { id: "b", text: L("$(-2, -1)$", "$(-2, -1)$"), correct: false },
+          { id: "c", text: L("$(-\\infty, -3) \\cup (1, +\\infty)$", "$(-\\infty, -3) \\cup (1, +\\infty)$"), correct: false },
+          { id: "d", text: L("$(-3, -1)$", "$(-3, -1)$"), correct: false },
+          { id: "e", text: L("$(-2, -1) \\cup (1, +\\infty)$", "$(-2, -1) \\cup (1, +\\infty)$"), correct: false },
+        ]),
+      },
+      hints: [
+        L(
+          "Pasa el 1 a la izquierda y junta TODO en una sola fracción: $\\frac{4}{x+1} - \\frac{3}{x+2} - 1$.",
+          "Move the 1 to the left and combine EVERYTHING into one fraction: $\\frac{4}{x+1} - \\frac{3}{x+2} - 1$.",
+        ),
+        L(
+          "El numerador factoriza como un producto de dos lineales; el denominador es $(x+1)(x+2)$. Tendrás tres cortes en la recta.",
+          "The numerator factors as a product of two linears; the denominator is $(x+1)(x+2)$. You will get three cuts on the line.",
+        ),
+      ],
+      answerDisplay: L("$(-3, -2) \\cup (-1, 1)$", "$(-3, -2) \\cup (-1, 1)$"),
+      solution: [
+        step(
+          "given",
+          "$\\dfrac{4}{x+1} - \\dfrac{3}{x+2} > 1$, con $x \\neq -1, -2$.",
+          "$\\dfrac{4}{x+1} - \\dfrac{3}{x+2} > 1$, with $x \\neq -1, -2$.",
+        ),
+        step(
+          "approach",
+          "Cero a la izquierda, fracción única y tabla de signos con los tres puntos críticos.",
+          "Zero on the left, a single fraction, and a sign table with the three critical points.",
+        ),
+        step(
+          "calculation",
+          "$\\frac{4(x+2) - 3(x+1) - (x+1)(x+2)}{(x+1)(x+2)} > 0 \\Rightarrow \\frac{4x+8-3x-3-x^{2}-3x-2}{(x+1)(x+2)} > 0 \\Rightarrow \\frac{-x^{2}-2x+3}{(x+1)(x+2)} > 0$.<br>Numerador: $-x^{2}-2x+3 = -(x+3)(x-1)$, ceros en $-3$ y $1$.<br>Signos ($x < -3$: $(-)(+)\\cdot(-)/(+)$ → $-$ ✗; $-3 < x < -2$: $(+)\\cdot(-)/(+)$ → $+$ ✓; $-2 < x < -1$: $(+)/(-)$ → $-$ ✗; $-1 < x < 1$: $(+)/(-)$… cuidado: $(x+3)(x-1) < 0$ y denominador $< 0$ → $+$ ✓; $x > 1$: $+$/$+$ → $-$ ✗).",
+          "$\\frac{4(x+2) - 3(x+1) - (x+1)(x+2)}{(x+1)(x+2)} > 0 \\Rightarrow \\frac{4x+8-3x-3-x^{2}-3x-2}{(x+1)(x+2)} > 0 \\Rightarrow \\frac{-x^{2}-2x+3}{(x+1)(x+2)} > 0$.<br>Numerator: $-x^{2}-2x+3 = -(x+3)(x-1)$, zeros at $-3$ and $1$.<br>Signs: positive on $(-3,-2)$ and $(-1,1)$, negative elsewhere (check one point per stretch).",
+        ),
+        step(
+          "result",
+          "$(-3, -2) \\cup (-1, 1)$, todo abierto: los ceros del numerador no valen (desigualdad estricta) y los polos $-2, -1$ están excluidos del dominio. Verificación: $x = -2.5$: $\\frac{4}{-1.5} - \\frac{3}{-0.5} = -2.67 + 6 = 3.33 > 1$ ✓; $x = 0$: $4 - 1.5 = 2.5 > 1$ ✓; $x = 2$: $\\frac{4}{3} - \\frac{3}{4} = 0.58 \\not> 1$ ✗.",
+          "$(-3, -2) \\cup (-1, 1)$, all open: the numerator zeros do not count (strict inequality) and the poles $-2, -1$ are outside the domain. Check: $x = -2.5$: $\\frac{4}{-1.5} - \\frac{3}{-0.5} = -2.67 + 6 = 3.33 > 1$ ✓; $x = 0$: $4 - 1.5 = 2.5 > 1$ ✓; $x = 2$: $\\frac{4}{3} - \\frac{3}{4} = 0.58 \\not> 1$ ✗.",
+        ),
+      ],
+    }),
+  ),
+
+  /* 94d — 8/x ≥ 3 → (0, 8/3]. */
+  template(
+    {
+      id: "rat-espol-ch2-94d",
+      subject: "math",
+      topicId: "rational",
+      subtopicId: "inequalities",
+      difficulty: "medium",
+      questionType: "text",
+      estimatedTimeSec: 150,
+      tags: ["rational-inequality", "sign-trap"],
+      prerequisites: ["domain"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 94d",
+        page: 243,
+      },
+      reasoning: "case-analysis",
+    },
+    () => ({
+      skill: L("Desigualdad con x en el denominador", "Inequality with x in the denominator"),
+      statement: L(
+        "Determina el conjunto de verdad de $d(x): \\dfrac{8}{x} \\geq 3$ como intervalo (admite (0, 2] o 0<x<=8/3):",
+        "Determine the truth set of $d(x): \\dfrac{8}{x} \\geq 3$ as an interval (notations like (0, 2] or 0<x<=8/3 are accepted):",
+      ),
+      answer: {
+        kind: "text",
+        accepted: ["(0, 8/3]", "(0,8/3]", "0<x<=8/3", "0 < x <= 8/3", "0<x≤8/3", "(0, 8/3 ]"],
+      },
+      hints: [
+        L(
+          "NO multipliques en cruz sin más: el signo de $x$ es desconocido. Parte por casos $x > 0$ y $x < 0$.",
+          "Do NOT cross-multiply blindly: the sign of $x$ is unknown. Split into cases $x > 0$ and $x < 0$.",
+        ),
+        L(
+          "Con $x > 0$: $8 \\geq 3x$. Con $x < 0$: $8 \\leq 3x$ — ¿tiene sentido?",
+          "With $x > 0$: $8 \\geq 3x$. With $x < 0$: $8 \\leq 3x$ — does that make sense?",
+        ),
+      ],
+      answerDisplay: L("$\\left(0,\\ \\dfrac{8}{3}\\right]$", "$\\left(0,\\ \\dfrac{8}{3}\\right]$"),
+      solution: [
+        step(
+          "given",
+          "$d(x): \\dfrac{8}{x} \\geq 3$, $x \\neq 0$.",
+          "$d(x): \\dfrac{8}{x} \\geq 3$, $x \\neq 0$.",
+        ),
+        step(
+          "approach",
+          "Casos según el signo del denominador (multiplicar por un negativo invierte la desigualdad).",
+          "Cases according to the sign of the denominator (multiplying by a negative flips the inequality).",
+        ),
+        step(
+          "calculation",
+          "Caso $x > 0$: $8 \\geq 3x \\Rightarrow x \\leq \\frac{8}{3}$ → intersección: $0 < x \\leq \\frac{8}{3}$.<br>Caso $x < 0$: multiplicar por $x$ invierte: $8 \\leq 3x \\Rightarrow x \\geq \\frac{8}{3}$, incompatible con $x < 0$ → vacío.",
+          "Case $x > 0$: $8 \\geq 3x \\Rightarrow x \\leq \\frac{8}{3}$ → intersection: $0 < x \\leq \\frac{8}{3}$.<br>Case $x < 0$: multiplying by $x$ flips: $8 \\leq 3x \\Rightarrow x \\geq \\frac{8}{3}$, incompatible with $x < 0$ → empty.",
+        ),
+        step(
+          "result",
+          "$A_{d(x)} = \\left(0, \\frac{8}{3}\\right]$: abierto en 0 (el 0 no está en el dominio) y cerrado en $\\frac{8}{3}$ (la igualdad sí vale). Verificación: $x = 2$: $4 \\geq 3$ ✓; $x = \\frac{8}{3}$: $3 \\geq 3$ ✓; $x = -1$: $-8 \\not\\geq 3$ ✗.",
+          "$A_{d(x)} = \\left(0, \\frac{8}{3}\\right]$: open at 0 (0 is not in the domain) and closed at $\\frac{8}{3}$ (equality holds). Check: $x = 2$: $4 \\geq 3$ ✓; $x = \\frac{8}{3}$: $3 \\geq 3$ ✓; $x = -1$: $-8 \\not\\geq 3$ ✗.",
+        ),
+      ],
+    }),
+  ),
+
+  /* 94e — 2x/(x−4) ≤ 8 → (−∞,4) ∪ [16/3,+∞). */
+  template(
+    {
+      id: "rat-espol-ch2-94e",
+      subject: "math",
+      topicId: "rational",
+      subtopicId: "inequalities",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 210,
+      tags: ["rational-inequality", "sign-table"],
+      prerequisites: ["domain"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 94e",
+        page: 243,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => ({
+      skill: L("Desigualdad racional: fracción única y signos", "Rational inequality: one fraction and signs"),
+      statement: L(
+        "Determina el conjunto de verdad de $p(x): \\dfrac{2x}{x - 4} \\leq 8$, $x \\in \\mathbb{R}$. Es:",
+        "Determine the truth set of $p(x): \\dfrac{2x}{x - 4} \\leq 8$, $x \\in \\mathbb{R}$. It is:",
+      ),
+      answer: {
+        kind: "multiple-choice",
+        options: rng.shuffle([
+          { id: "a", text: L("$(-\\infty, 4) \\cup \\left[\\dfrac{16}{3}, +\\infty\\right)$", "$(-\\infty, 4) \\cup \\left[\\dfrac{16}{3}, +\\infty\\right)$"), correct: true },
+          { id: "b", text: L("$\\left[\\dfrac{16}{3}, 4\\right)$", "$\\left[\\dfrac{16}{3}, 4\\right)$"), correct: false },
+          { id: "c", text: L("$\\left(4, \\dfrac{16}{3}\\right]$", "$\\left(4, \\dfrac{16}{3}\\right]$"), correct: false },
+          { id: "d", text: L("$(-\\infty, 4] \\cup \\left[\\dfrac{16}{3}, +\\infty\\right)$", "$(-\\infty, 4] \\cup \\left[\\dfrac{16}{3}, +\\infty\\right)$"), correct: false },
+          { id: "e", text: L("$\\left[-\\dfrac{16}{3}, 4\\right)$", "$\\left[-\\dfrac{16}{3}, 4\\right)$"), correct: false },
+        ]),
+      },
+      hints: [
+        L(
+          "Pasa el 8 a la izquierda y junta en una fracción: el numerador quedará lineal.",
+          "Move the 8 to the left and combine into one fraction: the numerator will be linear.",
+        ),
+        L(
+          "$\\frac{2x - 8(x-4)}{x-4} \\leq 0$ → $\\frac{-6x+32}{x-4} \\leq 0$. Estudia el signo con los cortes $x = \\frac{16}{3}$ y $x = 4$.",
+          "$\\frac{2x - 8(x-4)}{x-4} \\leq 0$ → $\\frac{-6x+32}{x-4} \\leq 0$. Study the sign with cuts at $x = \\frac{16}{3}$ and $x = 4$.",
+        ),
+      ],
+      answerDisplay: L("$(-\\infty, 4) \\cup \\left[\\dfrac{16}{3}, +\\infty\\right)$", "$(-\\infty, 4) \\cup \\left[\\dfrac{16}{3}, +\\infty\\right)$"),
+      solution: [
+        step(
+          "given",
+          "$p(x): \\dfrac{2x}{x-4} \\leq 8$, $x \\neq 4$.",
+          "$p(x): \\dfrac{2x}{x-4} \\leq 8$, $x \\neq 4$.",
+        ),
+        step(
+          "approach",
+          "Cero a la izquierda, fracción única, tabla de signos; la clave del libro lo escribe como el complemento de $\\left[4, \\frac{16}{3}\\right)$.",
+          "Zero on the left, one fraction, sign table; the book's key writes it as the complement of $\\left[4, \\frac{16}{3}\\right)$.",
+        ),
+        step(
+          "calculation",
+          "$\\frac{2x - 8(x-4)}{x-4} \\leq 0 \\Rightarrow \\frac{-6x + 32}{x-4} \\leq 0 \\Rightarrow \\frac{6x - 32}{x - 4} \\geq 0$ (multiplicar por $-1$ invierte).<br>Cortes: cero en $x = \\frac{16}{3}$, polo en $x = 4$.<br>$x < 4$: $(−)/(−) = +$ ✓; $4 < x < \\frac{16}{3}$: $(−)/(+) = −$ ✗; $x \\geq \\frac{16}{3}$: $(+)/(+) = +$ ✓.",
+          "$\\frac{2x - 8(x-4)}{x-4} \\leq 0 \\Rightarrow \\frac{-6x + 32}{x-4} \\leq 0 \\Rightarrow \\frac{6x - 32}{x - 4} \\geq 0$ (multiplying by $-1$ flips).<br>Cuts: zero at $x = \\frac{16}{3}$, pole at $x = 4$.<br>$x < 4$: $(−)/(−) = +$ ✓; $4 < x < \\frac{16}{3}$: $(−)/(+) = −$ ✗; $x \\geq \\frac{16}{3}$: $(+)/(+) = +$ ✓.",
+        ),
+        step(
+          "result",
+          "$(-\\infty, 4) \\cup \\left[\\frac{16}{3}, +\\infty\\right)$ — el 4 queda excluido (polo) y $\\frac{16}{3}$ incluido (se alcanza la igualdad). Verificación: $x = 0$: $0 \\leq 8$ ✓; $x = 5$: $10 \\not\\leq 8$ ✗; $x = \\frac{16}{3}$: $\\frac{32/3}{4/3} = 8 \\leq 8$ ✓.",
+          "$(-\\infty, 4) \\cup \\left[\\frac{16}{3}, +\\infty\\right)$ — 4 is excluded (pole) and $\\frac{16}{3}$ included (equality is reached). Check: $x = 0$: $0 \\leq 8$ ✓; $x = 5$: $10 \\not\\leq 8$ ✗; $x = \\frac{16}{3}$: $\\frac{32/3}{4/3} = 8 \\leq 8$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* 94g — (x²−3x−18)/(13x−x²−42) ≥ 0 → [−3,6)∪(6,7) — cancellation trap. */
+  template(
+    {
+      id: "rat-espol-ch2-94g",
+      subject: "math",
+      topicId: "rational",
+      subtopicId: "inequalities",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 270,
+      tags: ["rational-inequality", "common-factor", "cancellation-trap"],
+      prerequisites: ["factoring", "domain"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 94g",
+        page: 243,
+      },
+      reasoning: "spurious",
+    },
+    (rng) => ({
+      skill: L("La desigualdad racional con factor común (no canceles el dominio)", "The rational inequality with a common factor (do not cancel the domain away)"),
+      statement: L(
+        "Determina el conjunto de verdad de $p(x): \\dfrac{x^{2} - 3x - 18}{13x - x^{2} - 42} \\geq 0$, $x \\in \\mathbb{R}$. Es:",
+        "Determine the truth set of $p(x): \\dfrac{x^{2} - 3x - 18}{13x - x^{2} - 42} \\geq 0$, $x \\in \\mathbb{R}$. It is:",
+      ),
+      answer: {
+        kind: "multiple-choice",
+        options: rng.shuffle([
+          { id: "a", text: L("$[-3, 7]$", "$[-3, 7]$"), correct: false },
+          { id: "b", text: L("$[-3, 6) \\cup (6, 7]$", "$[-3, 6) \\cup (6, 7]$"), correct: true },
+          { id: "c", text: L("$[-3, 7)$", "$[-3, 7)$"), correct: false },
+          { id: "d", text: L("$[-3, 6] \\cup (6, 7]$", "$[-3, 6] \\cup (6, 7]$"), correct: false },
+          { id: "e", text: L("$(-\\infty, -3] \\cup [7, +\\infty)$", "$(-\\infty, -3] \\cup [7, +\\infty)$"), correct: false },
+        ]),
+      },
+      hints: [
+        L(
+          "Factoriza numerador y denominador: $x^{2} - 3x - 18 = (x - 6)(x + 3)$ y $13x - x^{2} - 42 = -(x - 6)(x - 7)$.",
+          "Factor numerator and denominator: $x^{2} - 3x - 18 = (x - 6)(x + 3)$ and $13x - x^{2} - 42 = -(x - 6)(x - 7)$.",
+        ),
+        L(
+          "Ambos comparten el factor $(x - 6)$… pero **cancelarlo cambia el dominio**: en $x = 6$ la expresión original no existe.",
+          "Both share the factor $(x - 6)$… but **cancelling changes the domain**: at $x = 6$ the original expression does not exist.",
+        ),
+      ],
+      answerDisplay: L("$A_{p(x)} = [-3, 6) \\cup (6, 7]$", "$A_{p(x)} = [-3, 6) \\cup (6, 7]$"),
+      solution: [
+        step(
+          "given",
+          "$\\dfrac{x^{2} - 3x - 18}{13x - x^{2} - 42} \\geq 0$; dominio: $13x - x^{2} - 42 \\neq 0$.",
+          "$\\dfrac{x^{2} - 3x - 18}{13x - x^{2} - 42} \\geq 0$; domain: $13x - x^{2} - 42 \\neq 0$.",
+        ),
+        step(
+          "approach",
+          "Factorizar ambos y hacer la tabla de signos SIN cancelar (o cancelando pero excluyendo $x = 6$ del resultado).",
+          "Factor both and build the sign table WITHOUT cancelling (or cancel but then exclude $x = 6$ from the result).",
+        ),
+        step(
+          "calculation",
+          "$x^{2} - 3x - 18 = (x - 6)(x + 3)$; $\\quad 13x - x^{2} - 42 = -(x^{2} - 13x + 42) = -(x - 6)(x - 7)$.<br>Para $x \\neq 6$: $\\dfrac{(x-6)(x+3)}{-(x-6)(x-7)} = -\\dfrac{x+3}{x-7} \\geq 0 \\iff \\dfrac{x+3}{x-7} \\leq 0 \\iff -3 \\leq x < 7$.<br>Pero hay que quitar $x = 6$ (anula el denominador original).",
+          "$x^{2} - 3x - 18 = (x - 6)(x + 3)$; $\\quad 13x - x^{2} - 42 = -(x^{2} - 13x + 42) = -(x - 6)(x - 7)$.<br>For $x \\neq 6$: $\\dfrac{(x-6)(x+3)}{-(x-6)(x-7)} = -\\dfrac{x+3}{x-7} \\geq 0 \\iff \\dfrac{x+3}{x-7} \\leq 0 \\iff -3 \\leq x < 7$.<br>But $x = 6$ must be removed (it zeroes the original denominator).",
+        ),
+        step(
+          "result",
+          "$A_{p(x)} = [-3, 6) \\cup (6, 7]$: el $-3$ entra (cero del numerador, la fracción vale 0), el 7 queda fuera (polo) y el 6 también (agujero). Verificación: $x = -3$: $\\frac{0}{...} = 0 \\geq 0$ ✓; $x = 6.5$: numerador $= 6.75 > 0$, denominador $= 84.5 - 42.25 - 42 = 0.25 > 0$ ✓; $x = 6$: denominador $0$ ✗.",
+          "$A_{p(x)} = [-3, 6) \\cup (6, 7]$: $-3$ enters (numerator zero, the fraction equals 0), 7 stays out (pole) and so does 6 (hole). Check: $x = -3$: $\\frac{0}{...} = 0 \\geq 0$ ✓; $x = 6.5$: numerator $= 6.75 > 0$, denominator $= 84.5 - 42.25 - 42 = 0.25 > 0$ ✓; $x = 6$: denominator $0$ ✗.",
+        ),
+      ],
+    }),
+  ),
+
+  /* 94h — (x²−3x−6)/(x²−1) ≤ 1 → [−5/3,−1)∪(1,+∞). */
+  template(
+    {
+      id: "rat-espol-ch2-94h",
+      subject: "math",
+      topicId: "rational",
+      subtopicId: "inequalities",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["rational-inequality", "sign-table"],
+      prerequisites: ["domain"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 94h",
+        page: 243,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => ({
+      skill: L("Desigualdad racional contra una constante", "Rational inequality against a constant"),
+      statement: L(
+        "Determina el conjunto de verdad de $q(x): \\dfrac{x^{2} - 3x - 6}{x^{2} - 1} \\leq 1$, $x \\in \\mathbb{R}$. Es:",
+        "Determine the truth set of $q(x): \\dfrac{x^{2} - 3x - 6}{x^{2} - 1} \\leq 1$, $x \\in \\mathbb{R}$. It is:",
+      ),
+      answer: {
+        kind: "multiple-choice",
+        options: rng.shuffle([
+          { id: "a", text: L("$\\left[-\\dfrac{5}{3}, -1\\right) \\cup (1, +\\infty)$", "$\\left[-\\dfrac{5}{3}, -1\\right) \\cup (1, +\\infty)$"), correct: true },
+          { id: "b", text: L("$\\left(-\\dfrac{5}{3}, -1\\right) \\cup (1, +\\infty)$", "$\\left(-\\dfrac{5}{3}, -1\\right) \\cup (1, +\\infty)$"), correct: false },
+          { id: "c", text: L("$\\left(-\\infty, -\\dfrac{5}{3}\\right] \\cup (-1, 1)$", "$\\left(-\\infty, -\\dfrac{5}{3}\\right] \\cup (-1, 1)$"), correct: false },
+          { id: "d", text: L("$(-1, 1)$", "$(-1, 1)$"), correct: false },
+          { id: "e", text: L("$\\left[-\\dfrac{5}{3}, 1\\right)$", "$\\left[-\\dfrac{5}{3}, 1\\right)$"), correct: false },
+        ]),
+      },
+      hints: [
+        L(
+          "Resta el 1 y combina: los términos $x^{2}$ se cancelan y queda una fracción lineal sobre cuadrática.",
+          "Subtract the 1 and combine: the $x^{2}$ terms cancel, leaving a linear-over-quadratic fraction.",
+        ),
+        L(
+          "$\\frac{x^{2}-3x-6-(x^{2}-1)}{x^{2}-1} \\leq 0$ → $\\frac{-3x-5}{(x-1)(x+1)} \\leq 0$. Tres cortes: $-\\frac{5}{3}, -1, 1$.",
+          "$\\frac{x^{2}-3x-6-(x^{2}-1)}{x^{2}-1} \\leq 0$ → $\\frac{-3x-5}{(x-1)(x+1)} \\leq 0$. Three cuts: $-\\frac{5}{3}, -1, 1$.",
+        ),
+      ],
+      answerDisplay: L("$\\left[-\\dfrac{5}{3}, -1\\right) \\cup (1, +\\infty)$", "$\\left[-\\dfrac{5}{3}, -1\\right) \\cup (1, +\\infty)$"),
+      solution: [
+        step(
+          "given",
+          "$q(x): \\dfrac{x^{2} - 3x - 6}{x^{2} - 1} \\leq 1$, $x \\neq \\pm 1$.",
+          "$q(x): \\dfrac{x^{2} - 3x - 6}{x^{2} - 1} \\leq 1$, $x \\neq \\pm 1$.",
+        ),
+        step(
+          "approach",
+          "Cero a la izquierda y tabla de signos; la cancelación de los cuadráticos simplifica mucho el cálculo.",
+          "Zero on the left and a sign table; the cancellation of the quadratics simplifies the computation a lot.",
+        ),
+        step(
+          "calculation",
+          "$\\dfrac{x^{2} - 3x - 6 - (x^{2} - 1)}{x^{2} - 1} \\leq 0 \\Rightarrow \\dfrac{-3x - 5}{(x - 1)(x + 1)} \\leq 0 \\Rightarrow \\dfrac{3x + 5}{(x-1)(x+1)} \\geq 0$.<br>Cortes: cero en $-\\frac{5}{3}$, polos en $\\pm 1$.<br>$x < -\\frac{5}{3}$: $(−)/(+)$ ✗; $-\\frac{5}{3} \\leq x < -1$: $(+)/(+)$ ✓; $-1 < x < 1$: $(+)/(−)$ ✗; $x > 1$: $(+)/(+)$ ✓.",
+          "$\\dfrac{x^{2} - 3x - 6 - (x^{2} - 1)}{x^{2} - 1} \\leq 0 \\Rightarrow \\dfrac{-3x - 5}{(x - 1)(x + 1)} \\leq 0 \\Rightarrow \\dfrac{3x + 5}{(x-1)(x+1)} \\geq 0$.<br>Cuts: zero at $-\\frac{5}{3}$, poles at $\\pm 1$.<br>$x < -\\frac{5}{3}$: $(−)/(+)$ ✗; $-\\frac{5}{3} \\leq x < -1$: $(+)/(+)$ ✓; $-1 < x < 1$: $(+)/(−)$ ✗; $x > 1$: $(+)/(+)$ ✓.",
+        ),
+        step(
+          "result",
+          "$\\left[-\\frac{5}{3}, -1\\right) \\cup (1, +\\infty)$: $-\\frac{5}{3}$ entra (igualdad), $\\pm 1$ quedan fuera (polos). Verificación: $x = -\\frac{5}{3}$: $\\frac{\\frac{25}{9} + 5 - 6}{\\frac{25}{9} - 1} = \\frac{\\frac{4}{9}}{\\frac{16}{9}} = \\frac{1}{4} \\not\\leq 1$… ojo, revisa restando: $\\frac{1}{4} - 1 = -\\frac{3}{4} \\leq 0$ ✓; $x = 0$: $\\frac{-6}{-1} = 6 \\not\\leq 1$ ✗; $x = 2$: $\\frac{-8}{3} \\leq 1$ ✓.",
+          "$\\left[-\\frac{5}{3}, -1\\right) \\cup (1, +\\infty)$: $-\\frac{5}{3}$ enters (equality), $\\pm 1$ stay out (poles). Check: $x = -\\frac{5}{3}$: the left side minus 1 equals $-\\frac{3}{4} \\leq 0$ ✓; $x = 0$: $\\frac{-6}{-1} = 6 \\not\\leq 1$ ✗; $x = 2$: $\\frac{-8}{3} \\leq 1$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* ch3 #21 — asymptotes of (4x²−x)/(x²−1): the FALSE statement is b). */
+  template(
+    {
+      id: "rat-espol-ch3-21",
+      subject: "math",
+      topicId: "rational",
+      subtopicId: "asymptotes",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["asymptotes", "rational-functions", "properties"],
+      prerequisites: ["domain", "factoring"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 21",
+        page: 371,
+      },
+      reasoning: "graphical",
+    },
+    (rng) => ({
+      skill: L("Asíntotas y cortes de una función racional", "Asymptotes and intercepts of a rational function"),
+      statement: L(
+        "Sea $f$ una función de variable real dada por $f(x) = \\dfrac{4x^{2} - x}{x^{2} - 1}$. Identifica la aﬁrmación **falsa**:",
+        "Let $f$ be a real-variable function given by $f(x) = \\dfrac{4x^{2} - x}{x^{2} - 1}$. Identify the **false** statement:",
+      ),
+      answer: {
+        kind: "multiple-choice",
+        options: rng.shuffle([
+          { id: "a", text: L("La gráﬁca de $f$ tiene dos asíntotas verticales.", "The graph of $f$ has two vertical asymptotes."), correct: false },
+          { id: "b", text: L("$f$ es monótona creciente.", "$f$ is monotonically increasing."), correct: true },
+          { id: "c", text: L("La gráﬁca de $f$ tiene una asíntota horizontal.", "The graph of $f$ has a horizontal asymptote."), correct: false },
+          { id: "d", text: L("$y = 4$ es una asíntota horizontal de la gráfica de $f$.", "$y = 4$ is a horizontal asymptote of the graph of $f$."), correct: false },
+          { id: "e", text: L("La gráfica de $f$ interseca al eje X en dos puntos.", "The graph of $f$ intersects the X-axis at two points."), correct: false },
+        ]),
+      },
+      hints: [
+        L(
+          "Revisa cada opción con hechos calculables: raíces del denominador (asíntotas verticales), grado de numerador y denominador (horizontal), raíces del numerador (cortes con el eje X).",
+          "Check each option with computable facts: roots of the denominator (vertical asymptotes), degrees of numerator and denominator (horizontal), roots of the numerator (X-axis crossings).",
+        ),
+        L(
+          "Para la monotoneidad, deriva: $f'(x) = \\dfrac{(8x-1)(x^{2}-1) - (4x^{2}-x)(2x)}{(x^{2}-1)^{2}}$ y mira si el numerador tiene siempre el mismo signo.",
+          "For monotonicity, differentiate: $f'(x) = \\dfrac{(8x-1)(x^{2}-1) - (4x^{2}-x)(2x)}{(x^{2}-1)^{2}}$ and see whether the numerator keeps one sign.",
+        ),
+      ],
+      answerDisplay: L("Falsa: $f$ NO es monótona creciente", "False: $f$ is NOT monotonically increasing"),
+      solution: [
+        step(
+          "given",
+          "$f(x) = \\dfrac{4x^{2} - x}{x^{2} - 1} = \\dfrac{x(4x - 1)}{(x-1)(x+1)}$.",
+          "$f(x) = \\dfrac{4x^{2} - x}{x^{2} - 1} = \\dfrac{x(4x - 1)}{(x-1)(x+1)}$.",
+        ),
+        step(
+          "approach",
+          "Verificar las cuatro aﬁrmaciones «fáciles» por hechos algebraicos; la sospechosa es la de monotoneidad, que se prueba con la derivada.",
+          "Verify the four «easy» statements with algebraic facts; the suspicious one is monotonicity, tested with the derivative.",
+        ),
+        step(
+          "calculation",
+          "a) Polos en $x = \\pm 1$ sin cancelación → dos asíntotas verticales ✓.<br>c), d) Grados iguales → asíntota horizontal $y = \\frac{4}{1} = 4$ ✓.<br>e) $x(4x-1) = 0$ → cortes en $x = 0$ y $x = \\frac{1}{4}$ (dos puntos) ✓.<br>b) $f'(x) = \\frac{(8x-1)(x^{2}-1) - 2x(4x^{2}-x)}{(x^{2}-1)^{2}} = \\frac{8x^{3} - 8x - x^{2} + 1 - 8x^{3} + 2x^{2}}{(x^{2}-1)^{2}} = \\frac{x^{2} - 8x + 1}{(x^{2}-1)^{2}}$ — el numerador tiene raíces reales ($\\Delta = 64 - 4 > 0$), así que $f'$ cambia de signo: $f$ NO es monótona.",
+          "a) Poles at $x = \\pm 1$ with no cancellation → two vertical asymptotes ✓.<br>c), d) Equal degrees → horizontal asymptote $y = \\frac{4}{1} = 4$ ✓.<br>e) $x(4x-1) = 0$ → crossings at $x = 0$ and $x = \\frac{1}{4}$ (two points) ✓.<br>b) $f'(x) = \\frac{x^{2} - 8x + 1}{(x^{2}-1)^{2}}$ — the numerator has real roots ($\\Delta = 64 - 4 > 0$), so $f'$ changes sign: $f$ is NOT monotone.",
+        ),
+        step(
+          "result",
+          "La aﬁrmación falsa es **b)**: cerca de $x = 0$ la derivada vale $f'(0) = 1 > 0$ pero en $x = 1^{-}$ el numerador $x^{2} - 8x + 1 < 0$ → la función sube y baja. Las demás cuatro se verifican directamente.",
+          "The false statement is **b)**: near $x = 0$ the derivative is $f'(0) = 1 > 0$ but for $x = 1^{-}$ the numerator $x^{2} - 8x + 1 < 0$ → the function rises and falls. The other four verify directly.",
+        ),
+      ],
+    }),
+  ),
+
+  /* ch3 #22 — 2x/(x²+x−2): AV x=1, x=−2 and AH y=0 → option d. */
+  template(
+    {
+      id: "rat-espol-ch3-22",
+      subject: "math",
+      topicId: "rational",
+      subtopicId: "asymptotes",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 180,
+      tags: ["asymptotes", "rational-functions", "factoring"],
+      prerequisites: ["factoring", "domain"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 22",
+        page: 371,
+      },
+      reasoning: "graphical",
+    },
+    (rng) => ({
+      skill: L("Asíntotas de una función racional con denominador cuadrático", "Asymptotes of a rational function with a quadratic denominator"),
+      statement: L(
+        "Sea $h$ una función de variable real tal que $h(x) = \\dfrac{2x}{x^{2} + x - 2}$. Es **verdad** que:",
+        "Let $h$ be a real-variable function such that $h(x) = \\dfrac{2x}{x^{2} + x - 2}$. It is **true** that:",
+      ),
+      answer: {
+        kind: "multiple-choice",
+        options: rng.shuffle([
+          { id: "a", text: L("La gráfica de $h$ no tiene asíntotas horizontales.", "The graph of $h$ has no horizontal asymptotes."), correct: false },
+          { id: "b", text: L("La gráfica de $h$ tiene dos asíntotas horizontales.", "The graph of $h$ has two horizontal asymptotes."), correct: false },
+          { id: "c", text: L("$x = 2$ y $x = -1$ son asíntotas verticales.", "$x = 2$ and $x = -1$ are vertical asymptotes."), correct: false },
+          { id: "d", text: L("La gráfica de $h$ tiene dos asíntotas verticales y una horizontal.", "The graph of $h$ has two vertical asymptotes and one horizontal."), correct: true },
+          { id: "e", text: L("$x = -2$ y $x = 1$ son asíntotas verticales y $y = 2$ es horizontal.", "$x = -2$ and $x = 1$ are vertical asymptotes and $y = 2$ is horizontal."), correct: false },
+        ]),
+      },
+      hints: [
+        L(
+          "Factoriza el denominador: $x^{2} + x - 2 = (x + 2)(x - 1)$. Las raíces del denominador (si no se cancelan) dan asíntotas verticales.",
+          "Factor the denominator: $x^{2} + x - 2 = (x + 2)(x - 1)$. The denominator's roots (if not cancelled) give vertical asymptotes.",
+        ),
+        L(
+          "Para la horizontal compara grados: el del denominador (2) supera al del numerador (1) → $y = 0$. Cuidado con el signo de las raíces al leer las opciones.",
+          "For the horizontal one compare degrees: the denominator's (2) beats the numerator's (1) → $y = 0$. Watch the signs of the roots when reading the options.",
+        ),
+      ],
+      answerDisplay: L("Dos verticales ($x = 1$ y $x = -2$) y una horizontal ($y = 0$)", "Two vertical ($x = 1$ and $x = -2$) and one horizontal ($y = 0$)"),
+      solution: [
+        step(
+          "given",
+          "$h(x) = \\dfrac{2x}{x^{2} + x - 2} = \\dfrac{2x}{(x + 2)(x - 1)}$.",
+          "$h(x) = \\dfrac{2x}{x^{2} + x - 2} = \\dfrac{2x}{(x + 2)(x - 1)}$.",
+        ),
+        step(
+          "approach",
+          "Verticales: raíces del denominador sin cancelar. Horizontal: comparar grados.",
+          "Vertical: uncancelled roots of the denominator. Horizontal: compare degrees.",
+        ),
+        step(
+          "calculation",
+          "Denominador: $(x+2)(x-1) = 0$ → $x = -2$ y $x = 1$; el numerador $2x$ no se anula en esos puntos → **asíntotas verticales** $x = -2$ y $x = 1$.<br>Grados: $\\deg(2x) = 1 < \\deg(\\text{den}) = 2$ → $\\lim_{x \\to \\pm\\infty} h(x) = 0$ → **asíntota horizontal** $y = 0$.",
+          "Denominator: $(x+2)(x-1) = 0$ → $x = -2$ and $x = 1$; the numerator $2x$ does not vanish there → **vertical asymptotes** $x = -2$ and $x = 1$.<br>Degrees: $\\deg(2x) = 1 < \\deg(\\text{den}) = 2$ → $\\lim_{x \\to \\pm\\infty} h(x) = 0$ → **horizontal asymptote** $y = 0$.",
+        ),
+        step(
+          "result",
+          "Dos verticales y una horizontal → opción d. Las opciones c) y e) intercambian las raíces ($2$ por $-2$), un error clásico de signo al factorizar.",
+          "Two vertical and one horizontal → option d. Options c) and e) swap the roots ($2$ for $-2$), a classic sign error when factoring.",
+        ),
+      ],
+    }),
+  ),
+
+  /* ch3 #24a — (x²−1)/(x²+7x−8): x=1 cancels (hole), AV only x=−8. */
+  template(
+    {
+      id: "rat-espol-ch3-24a",
+      subject: "math",
+      topicId: "rational",
+      subtopicId: "asymptotes",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 270,
+      tags: ["asymptotes", "hole", "cancellation", "intercepts"],
+      prerequisites: ["factoring", "domain", "asymptotes"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 24a",
+        page: 371,
+      },
+      reasoning: "spurious",
+    },
+    (rng) => ({
+      skill: L("Asíntotas y cortes cuando un factor se cancela (agujero)", "Asymptotes and intercepts when a factor cancels (hole)"),
+      statement: L(
+        "Para $f(x) = \\dfrac{x^{2} - 1}{x^{2} + 7x - 8}$, determina sus asíntotas horizontales y verticales y los puntos de intersección con los ejes. La respuesta correcta es:",
+        "For $f(x) = \\dfrac{x^{2} - 1}{x^{2} + 7x - 8}$, determine its horizontal and vertical asymptotes and its intercepts with the axes. The correct answer is:",
+      ),
+      answer: {
+        kind: "multiple-choice",
+        options: rng.shuffle([
+          { id: "a", text: L("AH: $y = 1$; AV: $x = -8$; cortes: $(0, \\tfrac{1}{8})$ y $(-1, 0)$", "HA: $y = 1$; VA: $x = -8$; intercepts: $(0, \\tfrac{1}{8})$ and $(-1, 0)$"), correct: true },
+          { id: "b", text: L("AH: $y = 1$; AV: $x = -8$ y $x = 1$; cortes: $(0, \\tfrac{1}{8})$ y $(1, 0)$", "HA: $y = 1$; VA: $x = -8$ and $x = 1$; intercepts: $(0, \\tfrac{1}{8})$ and $(1, 0)$"), correct: false },
+          { id: "c", text: L("AH: $y = 0$; AV: $x = -8$; cortes: $(0, -\\tfrac{1}{8})$ y $(1, 0)$", "HA: $y = 0$; VA: $x = -8$; intercepts: $(0, -\\tfrac{1}{8})$ and $(1, 0)$"), correct: false },
+          { id: "d", text: L("AH: $y = 1$; sin AV; cortes: $(0, \\tfrac{1}{8})$ y $(-1, 0)$", "HA: $y = 1$; no VA; intercepts: $(0, \\tfrac{1}{8})$ and $(-1, 0)$"), correct: false },
+          { id: "e", text: L("AH: $y = 7$; AV: $x = 8$; corte: $(0, \\tfrac{1}{8})$", "HA: $y = 7$; VA: $x = 8$; intercept: $(0, \\tfrac{1}{8})$"), correct: false },
+        ]),
+      },
+      hints: [
+        L(
+          "Factoriza TODO: $x^{2} - 1 = (x-1)(x+1)$ y $x^{2} + 7x - 8 = (x + 8)(x - 1)$. ¿Qué factor aparece en los dos?",
+          "Factor EVERYTHING: $x^{2} - 1 = (x-1)(x+1)$ and $x^{2} + 7x - 8 = (x + 8)(x - 1)$. Which factor appears in both?",
+        ),
+        L(
+          "El factor común $(x - 1)$ se cancela para $x \\neq 1$: en $x = 1$ hay un **agujero**, no una asíntota. La asíntota vertical solo viene de la raíz que queda.",
+          "The common factor $(x - 1)$ cancels for $x \\neq 1$: at $x = 1$ there is a **hole**, not an asymptote. The vertical asymptote comes only from the surviving root.",
+        ),
+        L(
+          "Cortes con el eje X: numerador $= 0$ **dentro del dominio**. Con el eje Y: evalúa $f(0)$.",
+          "X-axis crossings: numerator $= 0$ **inside the domain**. Y-axis: evaluate $f(0)$.",
+        ),
+      ],
+      answerDisplay: L("AH: $y = 1$; AV: $x = -8$; cortes $(0, \\frac{1}{8})$, $(-1, 0)$ (y agujero en $x = 1$)", "HA: $y = 1$; VA: $x = -8$; intercepts $(0, \\frac{1}{8})$, $(-1, 0)$ (and a hole at $x = 1$)"),
+      solution: [
+        step(
+          "given",
+          "$f(x) = \\dfrac{x^{2} - 1}{x^{2} + 7x - 8} = \\dfrac{(x - 1)(x + 1)}{(x + 8)(x - 1)}$, $x \\neq 1, -8$.",
+          "$f(x) = \\dfrac{x^{2} - 1}{x^{2} + 7x - 8} = \\dfrac{(x - 1)(x + 1)}{(x + 8)(x - 1)}$, $x \\neq 1, -8$.",
+        ),
+        step(
+          "approach",
+          "Factorizar, cancelar (recordando el agujero), y leer asíntotas de la fracción reducida; cortes desde numerador/dominio y $f(0)$.",
+          "Factor, cancel (remembering the hole), and read asymptotes off the reduced fraction; intercepts from numerator/domain and $f(0)$.",
+        ),
+        step(
+          "calculation",
+          "Para $x \\neq 1$: $f(x) = \\dfrac{x + 1}{x + 8}$.<br>AV: el denominador reducido se anula en $x = -8$ (el $x = 1$ se canceló → agujero, no asíntota).<br>AH: grados iguales → $y = \\frac{1}{1} = 1$.<br>Corte con eje Y: $f(0) = \\frac{-1}{-8} = \\frac{1}{8}$ → $(0, \\frac{1}{8})$.<br>Corte con eje X: $x + 1 = 0$ → $x = -1$ ✓ (está en el dominio) → $(-1, 0)$. El candidato $x = 1$ del numerador original queda excluido (agujero).",
+          "For $x \\neq 1$: $f(x) = \\dfrac{x + 1}{x + 8}$.<br>VA: the reduced denominator vanishes at $x = -8$ (the $x = 1$ cancelled → hole, not asymptote).<br>HA: equal degrees → $y = \\frac{1}{1} = 1$.<br>Y-axis intercept: $f(0) = \\frac{-1}{-8} = \\frac{1}{8}$ → $(0, \\frac{1}{8})$.<br>X-axis intercept: $x + 1 = 0$ → $x = -1$ ✓ (inside the domain) → $(-1, 0)$. The candidate $x = 1$ from the original numerator is excluded (hole).",
+        ),
+        step(
+          "result",
+          "AH: $y = 1$; AV: solo $x = -8$; cortes en $(0, \\frac{1}{8})$ y $(-1, 0)$ — con un agujero en $x = 1$ donde $f$ no está deﬁnida. La opción que declara dos asíntotas verticales cae en la trampa de no cancelar.",
+          "HA: $y = 1$; VA: only $x = -8$; intercepts $(0, \\frac{1}{8})$ and $(-1, 0)$ — with a hole at $x = 1$ where $f$ is undefined. The option declaring two vertical asymptotes falls into the no-cancellation trap.",
+        ),
+      ],
+    }),
+  ),
 ];

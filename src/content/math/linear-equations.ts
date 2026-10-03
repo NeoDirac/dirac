@@ -2423,4 +2423,713 @@ export const templates: ProblemTemplate[] = [
     },
   ),
 
+  /* ================================================================== */
+  /* Curated — ESPOL Fundamentos, EDICIÓN DIGITAL (TUTOR_LICENSED).      */
+  /* Chapter 2 §2.9 «Inecuaciones», pp. 242-243 (PDF 275-276).          */
+  /* Tutor's instruction (2026-10-03): «el 2.9 debe ir». Proofs         */
+  /* (#95-#100) excluded — they need a proof-format UI.                 */
+  /* Every answer double-verified: printed key p. 938 + sympy           */
+  /* (download/verify_espol_ch3.py).                                     */
+  /* ================================================================== */
+
+  /* 85 — ||x−1|+1| ≤ 0 never holds → N(Ap(x)) = 0 is TRUE. Key: a). */
+  template(
+    {
+      id: "lin-espol-ch2-85",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-inequalities",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 180,
+      tags: ["absolute-value", "nested", "predicate", "truth-set"],
+      prerequisites: ["abs-inequalities", "interval-notation"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 85",
+        page: 242,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => ({
+      skill: L("Valor absoluto anidado y cardinalidad del conjunto de verdad", "Nested absolute value and the size of a truth set"),
+      statement: L(
+        "Dado el predicado $p(x): \\bigl||x - 1| + 1\\bigr| \\leq 0$ con $x \\in \\mathbb{R}$, la aﬁrmación $N\\bigl(A_{p(x)}\\bigr) = 0$ (el conjunto de verdad no tiene elementos) es:",
+        "Given the predicate $p(x): \\bigl||x - 1| + 1\\bigr| \\leq 0$ with $x \\in \\mathbb{R}$, the claim $N\\bigl(A_{p(x)}\\bigr) = 0$ (the truth set has no elements) is:",
+      ),
+      answer: {
+        kind: "multiple-choice",
+        options: rng.shuffle([
+          { id: "v", text: L("Verdadero", "True"), correct: true },
+          { id: "f", text: L("Falso", "False"), correct: false },
+        ]),
+      },
+      hints: [
+        L(
+          "Un valor absoluto nunca es negativo: $|u| \\geq 0$ para todo $u$ real. ¿Cuándo vale exactamente $0$?",
+          "An absolute value is never negative: $|u| \\geq 0$ for every real $u$. When is it exactly $0$?",
+        ),
+        L(
+          "$|x - 1| + 1$ es una suma: el mínimo de $|x-1|$ es $0$ (en $x = 1$), así que la suma interior vale al menos $1$.",
+          "$|x - 1| + 1$ is a sum: the minimum of $|x-1|$ is $0$ (at $x = 1$), so the inner sum is at least $1$.",
+        ),
+        L(
+          "Entonces $\\bigl||x-1|+1\\bigr| \\geq 1 > 0$ para todo $x$: la desigualdad $\\leq 0$ no tiene solución.",
+          "Hence $\\bigl||x-1|+1\\bigr| \\geq 1 > 0$ for every $x$: the inequality $\\leq 0$ has no solution.",
+        ),
+      ],
+      answerDisplay: L("Verdadero: $A_{p(x)} = \\emptyset$", "True: $A_{p(x)} = \\emptyset$"),
+      solution: [
+        step(
+          "given",
+          "$p(x): \\bigl||x - 1| + 1\\bigr| \\leq 0$, $x \\in \\mathbb{R}$; $N(A)$ denota el número de elementos del conjunto de verdad.",
+          "$p(x): \\bigl||x - 1| + 1\\bigr| \\leq 0$, $x \\in \\mathbb{R}$; $N(A)$ denotes the number of elements of the truth set.",
+        ),
+        step(
+          "approach",
+          "No hay que resolver: basta acotar la expresión. El valor absoluto exterior se aplica a algo que ya es positivo.",
+          "No solving needed: it is enough to bound the expression. The outer absolute value acts on something already positive.",
+        ),
+        step(
+          "calculation",
+          "$|x - 1| \\geq 0$ → $|x - 1| + 1 \\geq 1$ → $\\bigl||x-1|+1\\bigr| \\geq 1$ para todo $x$ (en $x = 1$ vale exactamente $1$).<br>Pedir que sea $\\leq 0$ es imposible.",
+          "$|x - 1| \\geq 0$ → $|x - 1| + 1 \\geq 1$ → $\\bigl||x-1|+1\\bigr| \\geq 1$ for every $x$ (at $x = 1$ it equals exactly $1$).<br>Requiring it to be $\\leq 0$ is impossible.",
+        ),
+        step(
+          "result",
+          "$A_{p(x)} = \\emptyset$, así que $N\\bigl(A_{p(x)}\\bigr) = 0$ y la aﬁrmación es **verdadera**. Un valor absoluto solo puede ser $0$ si su interior es $0$, y aquí el interior $|x-1|+1 \\geq 1$ nunca lo es.",
+          "$A_{p(x)} = \\emptyset$, so $N\\bigl(A_{p(x)}\\bigr) = 0$ and the claim is **true**. An absolute value can only be $0$ if its inside is $0$, and here the inside $|x-1|+1 \\geq 1$ never is.",
+        ),
+      ],
+    }),
+  ),
+
+  /* 86 — |x−a| < δ → (a−δ, a+δ). Key: a). */
+  template(
+    {
+      id: "lin-espol-ch2-86",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-inequalities",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 120,
+      tags: ["absolute-value", "delta-neighborhood", "predicate"],
+      prerequisites: ["abs-inequalities"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 86",
+        page: 242,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => ({
+      skill: L("Vecindad δ como desigualdad con valor absoluto", "A δ-neighborhood as an absolute-value inequality"),
+      statement: L(
+        "Si $\\mathrm{Re} = \\mathbb{R}$ y $p(x): |x - a| < \\delta$ (con $\\delta > 0$), entonces $A_{p(x)} = (a - \\delta,\\ a + \\delta)$.",
+        "If $\\mathrm{Re} = \\mathbb{R}$ and $p(x): |x - a| < \\delta$ (with $\\delta > 0$), then $A_{p(x)} = (a - \\delta,\\ a + \\delta)$.",
+      ),
+      answer: {
+        kind: "multiple-choice",
+        options: rng.shuffle([
+          { id: "v", text: L("Verdadero", "True"), correct: true },
+          { id: "f", text: L("Falso", "False"), correct: false },
+        ]),
+      },
+      hints: [
+        L(
+          "$|x - a|$ mide la **distancia** entre $x$ y $a$ en la recta real.",
+          "$|x - a|$ measures the **distance** between $x$ and $a$ on the real line.",
+        ),
+        L(
+          "«Distancia menor que $\\delta$» = todos los puntos a menos de $\\delta$ de $a$, sin incluir los extremos.",
+          "«Distance less than $\\delta$» = every point less than $\\delta$ away from $a$, endpoints excluded.",
+        ),
+      ],
+      answerDisplay: L("Verdadero: $A_{p(x)} = (a-\\delta,\\,a+\\delta)$", "True: $A_{p(x)} = (a-\\delta,\\,a+\\delta)$"),
+      solution: [
+        step(
+          "given",
+          "$p(x): |x - a| < \\delta$, con $a \\in \\mathbb{R}$ y $\\delta > 0$.",
+          "$p(x): |x - a| < \\delta$, with $a \\in \\mathbb{R}$ and $\\delta > 0$.",
+        ),
+        step(
+          "approach",
+          "Traducir el valor absoluto como distancia y luego como doble desigualdad.",
+          "Translate the absolute value as a distance and then as a double inequality.",
+        ),
+        step(
+          "calculation",
+          "$|x - a| < \\delta \\iff -\\delta < x - a < \\delta \\iff a - \\delta < x < a + \\delta$.",
+          "$|x - a| < \\delta \\iff -\\delta < x - a < \\delta \\iff a - \\delta < x < a + \\delta$.",
+        ),
+        step(
+          "result",
+          "$A_{p(x)} = (a - \\delta,\\ a + \\delta)$ — el intervalo abierto de centro $a$ y radio $\\delta$; la aﬁrmación es **verdadera**. Es exactamente la «vecindad» que se usa en límites y continuidad.",
+          "$A_{p(x)} = (a - \\delta,\\ a + \\delta)$ — the open interval of center $a$ and radius $\\delta$; the claim is **true**. This is exactly the «neighborhood» used in limits and continuity.",
+        ),
+      ],
+    }),
+  ),
+
+  /* 89 — 1−x ≥ 2x+6 → x ≤ −5/3 (option d). */
+  template(
+    {
+      id: "lin-espol-ch2-89",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "inequalities",
+      difficulty: "easy",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 90,
+      tags: ["linear-inequality", "sign-flip"],
+      prerequisites: ["multi-step"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 89",
+        page: 242,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => ({
+      skill: L("Desigualdad lineal con cambio de signo", "Linear inequality with a sign flip"),
+      statement: L(
+        "Los valores reales de $x$ que satisfacen $1 - x \\geq 2x + 6$ son:",
+        "The real values of $x$ satisfying $1 - x \\geq 2x + 6$ are:",
+      ),
+      answer: {
+        kind: "multiple-choice",
+        options: rng.shuffle([
+          { id: "a", text: L("$x \\geq -\\dfrac{5}{3}$", "$x \\geq -\\dfrac{5}{3}$"), correct: false },
+          { id: "b", text: L("$x \\leq \\dfrac{5}{3}$", "$x \\leq \\dfrac{5}{3}$"), correct: false },
+          { id: "c", text: L("$x \\geq \\dfrac{2}{3}$", "$x \\geq \\dfrac{2}{3}$"), correct: false },
+          { id: "d", text: L("$x \\leq -\\dfrac{5}{3}$", "$x \\leq -\\dfrac{5}{3}$"), correct: true },
+          { id: "e", text: L("$x \\in (0, +\\infty)$", "$x \\in (0, +\\infty)$"), correct: false },
+        ]),
+      },
+      hints: [
+        L(
+          "Agrupa los términos con $x$ en un lado y los números en el otro, igual que en una ecuación.",
+          "Group the $x$-terms on one side and the numbers on the other, as in an equation.",
+        ),
+        L(
+          "Al pasar los términos obtendrás un coeficiente de $x$ positivo y un número **negativo** al otro lado — cuidado con la dirección.",
+          "After moving terms you will get a positive coefficient for $x$ and a **negative** number on the other side — watch the direction.",
+        ),
+      ],
+      answerDisplay: L("$x \\leq -\\dfrac{5}{3}$", "$x \\leq -\\dfrac{5}{3}$"),
+      solution: [
+        step(
+          "given",
+          "$1 - x \\geq 2x + 6$, $x \\in \\mathbb{R}$.",
+          "$1 - x \\geq 2x + 6$, $x \\in \\mathbb{R}$.",
+        ),
+        step(
+          "approach",
+          "Despejar como en una ecuación, con la regla extra: multiplicar o dividir por un negativo invierte la desigualdad.",
+          "Isolate as in an equation, with the extra rule: multiplying or dividing by a negative flips the inequality.",
+        ),
+        step(
+          "calculation",
+          "$1 - 6 \\geq 2x + x \\Rightarrow -5 \\geq 3x \\Rightarrow 3x \\leq -5 \\Rightarrow x \\leq -\\dfrac{5}{3}$.",
+          "$1 - 6 \\geq 2x + x \\Rightarrow -5 \\geq 3x \\Rightarrow 3x \\leq -5 \\Rightarrow x \\leq -\\dfrac{5}{3}$.",
+        ),
+        step(
+          "result",
+          "$x \\leq -\\dfrac{5}{3}$, es decir $\\left(-\\infty, -\\dfrac{5}{3}\\right]$. Verificación con $x = -2$: $1 - (-2) = 3 \\geq 2(-2) + 6 = 2$ ✓.",
+          "$x \\leq -\\dfrac{5}{3}$, i.e. $\\left(-\\infty, -\\dfrac{5}{3}\\right]$. Check at $x = -2$: $1 - (-2) = 3 \\geq 2(-2) + 6 = 2$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* 92b — interval operations with an empty branch → [3,5]. */
+  template(
+    {
+      id: "lin-espol-ch2-92b",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "interval-notation",
+      difficulty: "medium",
+      questionType: "text",
+      estimatedTimeSec: 150,
+      tags: ["intervals", "set-operations", "interval-notation"],
+      prerequisites: ["compound", "interval-notation"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 92b",
+        page: 243,
+      },
+      reasoning: "case-analysis",
+    },
+    () => ({
+      skill: L("Operaciones de intervalos con una rama vacía", "Interval operations with an empty branch"),
+      statement: L(
+        "Expresa como un intervalo (admite notaciones como (2, 5] o 3<=x<=5): $\\bigl[(x \\leq -3) \\wedge (x > 2)\\bigr] \\vee \\bigl[(x \\geq 3) \\wedge (x \\leq 5)\\bigr]$.",
+        "Express as an interval (notations like (2, 5] or 3<=x<=5 are accepted): $\\bigl[(x \\leq -3) \\wedge (x > 2)\\bigr] \\vee \\bigl[(x \\geq 3) \\wedge (x \\leq 5)\\bigr]$.",
+      ),
+      answer: {
+        kind: "text",
+        accepted: ["[3, 5]", "[3,5]", "3<=x<=5", "3≤x≤5", "3 <= x <= 5", "3 ≤ x ≤ 5"],
+      },
+      hints: [
+        L(
+          "Evalúa cada corchete por separado: dentro de un corchete manda la **intersección** ($\\wedge$), y entre corchetes la **unión** ($\\vee$).",
+          "Evaluate each bracket separately: inside a bracket the **intersection** ($\\wedge$) rules, and between brackets the **union** ($\\vee$).",
+        ),
+        L(
+          "¿Puede un número ser a la vez $\\leq -3$ y $> 2$? Ese primer corchete puede sorprenderte.",
+          "Can a number be simultaneously $\\leq -3$ and $> 2$? That first bracket may surprise you.",
+        ),
+      ],
+      answerDisplay: L("$[3, 5]$", "$[3, 5]$"),
+      solution: [
+        step(
+          "given",
+          "$\\bigl[(x \\leq -3) \\wedge (x > 2)\\bigr] \\vee \\bigl[(x \\geq 3) \\wedge (x \\leq 5)\\bigr]$.",
+          "$\\bigl[(x \\leq -3) \\wedge (x > 2)\\bigr] \\vee \\bigl[(x \\geq 3) \\wedge (x \\leq 5)\\bigr]$.",
+        ),
+        step(
+          "approach",
+          "Traducir cada condición a intervalos y operar: $\\wedge$ = intersección, $\\vee$ = unión.",
+          "Translate each condition to intervals and operate: $\\wedge$ = intersection, $\\vee$ = union.",
+        ),
+        step(
+          "calculation",
+          "Primer corchete: $(-\\infty, -3] \\cap (2, +\\infty) = \\emptyset$ (ningún número es $\\leq -3$ y además $> 2$).<br>Segundo corchete: $[3, +\\infty) \\cap (-\\infty, 5] = [3, 5]$.",
+          "First bracket: $(-\\infty, -3] \\cap (2, +\\infty) = \\emptyset$ (no number is both $\\leq -3$ and $> 2$).<br>Second bracket: $[3, +\\infty) \\cap (-\\infty, 5] = [3, 5]$.",
+        ),
+        step(
+          "result",
+          "$\\emptyset \\cup [3,5] = [3, 5]$. La trampa del ejercicio es el corchete vacío: unir con $\\emptyset$ no aporta nada.",
+          "$\\emptyset \\cup [3,5] = [3, 5]$. The trap of this exercise is the empty bracket: union with $\\emptyset$ adds nothing.",
+        ),
+      ],
+    }),
+  ),
+
+  /* 93a — 5(x−1)−x(7−x) > x² → x < −5/2 (the x² cancels). */
+  template(
+    {
+      id: "lin-espol-ch2-93a",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "inequalities",
+      difficulty: "medium",
+      questionType: "text",
+      estimatedTimeSec: 150,
+      tags: ["inequality", "expansion", "hidden-linear"],
+      prerequisites: ["parentheses"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 93a",
+        page: 243,
+      },
+      reasoning: "spurious",
+    },
+    () => ({
+      skill: L("La inecuación «cuadrática» que es lineal", "The «quadratic» inequality that is linear"),
+      statement: L(
+        "Resuelve y da el conjunto solución como intervalo (admite (2, 5], x<-3 o (-inf, 1]): $5(x - 1) - x(7 - x) > x^{2}$.",
+        "Solve and give the solution set as an interval (notations like (2, 5], x<-3 or (-inf, 1] are accepted): $5(x - 1) - x(7 - x) > x^{2}$.",
+      ),
+      answer: {
+        kind: "text",
+        accepted: [
+          "(-inf, -5/2)",
+          "(-inf,-5/2)",
+          "(-∞, -5/2)",
+          "(-∞,-5/2)",
+          "x<-5/2",
+          "x < -5/2",
+          "(-inf, -2.5)",
+          "x<- 5/2",
+        ],
+      },
+      hints: [
+        L(
+          "Desarrolla $-x(7 - x)$ con cuidado: el signo menos afecta a los dos factores.",
+          "Expand $-x(7 - x)$ carefully: the minus sign applies to both factors.",
+        ),
+        L(
+          "Después de simplificar, los términos $x^{2}$ deberían cancelarse… y quedar algo mucho más simple.",
+          "After simplifying, the $x^{2}$ terms should cancel… leaving something far simpler.",
+        ),
+      ],
+      answerDisplay: L("$\\left(-\\infty, -\\dfrac{5}{2}\\right)$", "$\\left(-\\infty, -\\dfrac{5}{2}\\right)$"),
+      solution: [
+        step(
+          "given",
+          "$5(x - 1) - x(7 - x) > x^{2}$, $x \\in \\mathbb{R}$.",
+          "$5(x - 1) - x(7 - x) > x^{2}$, $x \\in \\mathbb{R}$.",
+        ),
+        step(
+          "approach",
+          "Expandir ambos lados: la apariencia cuadrática es un disfraz.",
+          "Expand both sides: the quadratic look is a disguise.",
+        ),
+        step(
+          "calculation",
+          "Izquierda: $5x - 5 - 7x + x^{2} = x^{2} - 2x - 5$.<br>Desigualdad: $x^{2} - 2x - 5 > x^{2} \\Rightarrow -2x - 5 > 0 \\Rightarrow -2x > 5 \\Rightarrow x < -\\dfrac{5}{2}$ (dividir entre $-2$ invierte).",
+          "Left: $5x - 5 - 7x + x^{2} = x^{2} - 2x - 5$.<br>Inequality: $x^{2} - 2x - 5 > x^{2} \\Rightarrow -2x - 5 > 0 \\Rightarrow -2x > 5 \\Rightarrow x < -\\dfrac{5}{2}$ (dividing by $-2$ flips it).",
+        ),
+        step(
+          "result",
+          "$\\left(-\\infty, -\\dfrac{5}{2}\\right)$. Verificación con $x = -3$: $5(-4) - (-3)(10) = -20 + 30 = 10 > 9$ ✓; con $x = -2$: $5(-3) - (-2)(9) = -15 + 18 = 3 \\not> 4$ ✗.",
+          "$\\left(-\\infty, -\\dfrac{5}{2}\\right)$. Check at $x = -3$: $5(-4) - (-3)(10) = -20 + 30 = 10 > 9$ ✓; at $x = -2$: $5(-3) - (-2)(9) = -15 + 18 = 3 \\not> 4$ ✗.",
+        ),
+      ],
+    }),
+  ),
+
+  /* 93b — |2x+4| < 10 → (−7,3). */
+  template(
+    {
+      id: "lin-espol-ch2-93b",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-inequalities",
+      difficulty: "medium",
+      questionType: "text",
+      estimatedTimeSec: 120,
+      tags: ["absolute-value", "inequality", "interval"],
+      prerequisites: ["abs-inequalities", "interval-notation"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 93b",
+        page: 243,
+      },
+      reasoning: "definition-hunting",
+    },
+    () => ({
+      skill: L("Desigualdad con valor absoluto tipo «menor que»", "«Less than» absolute-value inequality"),
+      statement: L(
+        "Resuelve y da el conjunto solución como intervalo (admite (2, 5] o -7<x<3): $|2x + 4| < 10$.",
+        "Solve and give the solution set as an interval (notations like (2, 5] or -7<x<3 are accepted): $|2x + 4| < 10$.",
+      ),
+      answer: {
+        kind: "text",
+        accepted: ["(-7, 3)", "(-7,3)", "-7<x<3", "-7 < x < 3", "-7<x< 3", "(-7, 3 )"],
+      },
+      hints: [
+        L(
+          "$|u| < a$ (con $a > 0$) equivale a la doble desigualdad $-a < u < a$.",
+          "$|u| < a$ (with $a > 0$) is equivalent to the double inequality $-a < u < a$.",
+        ),
+        L(
+          "Con $u = 2x + 4$: despeja $x$ en los **tres** miembros a la vez restando 4 y dividiendo entre 2.",
+          "With $u = 2x + 4$: isolate $x$ in **all three** parts at once, subtracting 4 and dividing by 2.",
+        ),
+      ],
+      answerDisplay: L("$(-7, 3)$", "$(-7, 3)$"),
+      solution: [
+        step(
+          "given",
+          "$|2x + 4| < 10$, $x \\in \\mathbb{R}$.",
+          "$|2x + 4| < 10$, $x \\in \\mathbb{R}$.",
+        ),
+        step(
+          "approach",
+          "Regla directa para «menor que»: el interior queda atrapado entre $-10$ y $10$.",
+          "Direct rule for «less than»: the inside gets trapped between $-10$ and $10$.",
+        ),
+        step(
+          "calculation",
+          "$-10 < 2x + 4 < 10 \\Rightarrow -14 < 2x < 6 \\Rightarrow -7 < x < 3$.",
+          "$-10 < 2x + 4 < 10 \\Rightarrow -14 < 2x < 6 \\Rightarrow -7 < x < 3$.",
+        ),
+        step(
+          "result",
+          "$(-7, 3)$, abierto en ambos extremos porque la desigualdad es estricta. Verificación con $x = 0$: $|4| = 4 < 10$ ✓; con $x = 3$: $|10| = 10 \\not< 10$ ✗ (borde excluido).",
+          "$(-7, 3)$, open at both ends because the inequality is strict. Check at $x = 0$: $|4| = 4 < 10$ ✓; at $x = 3$: $|10| = 10 \\not< 10$ ✗ (endpoint excluded).",
+        ),
+      ],
+    }),
+  ),
+
+  /* 93e — |x−1| ≥ (x+1)/2 → (−∞,1/3] ∪ [3,∞). */
+  template(
+    {
+      id: "lin-espol-ch2-93e",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-inequalities",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["absolute-value", "inequality", "case-analysis", "linear-right-side"],
+      prerequisites: ["abs-inequalities", "interval-notation"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 93e",
+        page: 243,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => ({
+      skill: L("Valor absoluto contra una expresión lineal (sin regla directa)", "Absolute value against a linear expression (no direct rule)"),
+      statement: L(
+        "Resuelve $|x - 1| \\geq \\dfrac{x + 1}{2}$, $x \\in \\mathbb{R}$. El conjunto solución es:",
+        "Solve $|x - 1| \\geq \\dfrac{x + 1}{2}$, $x \\in \\mathbb{R}$. The solution set is:",
+      ),
+      answer: {
+        kind: "multiple-choice",
+        options: rng.shuffle([
+          { id: "a", text: L("$\\left[-\\dfrac{1}{3},\\ 3\\right]$", "$\\left[-\\dfrac{1}{3},\\ 3\\right]$"), correct: false },
+          { id: "b", text: L("$\\left(-\\infty,\\ \\dfrac{1}{3}\\right] \\cup [3,\\ +\\infty)$", "$\\left(-\\infty,\\ \\dfrac{1}{3}\\right] \\cup [3,\\ +\\infty)$"), correct: true },
+          { id: "c", text: L("$\\left(-\\infty,\\ \\dfrac{1}{3}\\right) \\cup (3,\\ +\\infty)$", "$\\left(-\\infty,\\ \\dfrac{1}{3}\\right) \\cup (3,\\ +\\infty)$"), correct: false },
+          { id: "d", text: L("$\\left[\\dfrac{1}{3},\\ 3\\right]$", "$\\left[\\dfrac{1}{3},\\ 3\\right]$"), correct: false },
+          { id: "e", text: L("$\\left[-3,\\ \\dfrac{1}{3}\\right] \\cup [3, +\\infty)$", "$\\left[-3,\\ \\dfrac{1}{3}\\right] \\cup [3, +\\infty)$"), correct: false },
+        ]),
+      },
+      hints: [
+        L(
+          "El lado derecho **no es una constante**, así que la regla $|u| \\geq a$ no aplica. Hay que partir por casos según el signo de $x - 1$.",
+          "The right side is **not a constant**, so the rule $|u| \\geq a$ does not apply. Split into cases according to the sign of $x - 1$.",
+        ),
+        L(
+          "Caso 1 ($x \\geq 1$): $|x-1| = x - 1$. Caso 2 ($x < 1$): $|x-1| = 1 - x$. Resuelve cada desigualdad y **revisa que la solución caiga dentro del caso**.",
+          "Case 1 ($x \\geq 1$): $|x-1| = x - 1$. Case 2 ($x < 1$): $|x-1| = 1 - x$. Solve each inequality and **check the solution stays inside the case**.",
+        ),
+      ],
+      answerDisplay: L("$\\left(-\\infty,\\ \\dfrac{1}{3}\\right] \\cup [3,\\ +\\infty)$", "$\\left(-\\infty,\\ \\dfrac{1}{3}\\right] \\cup [3,\\ +\\infty)$"),
+      solution: [
+        step(
+          "given",
+          "$|x - 1| \\geq \\dfrac{x+1}{2}$; punto crítico del valor absoluto: $x = 1$.",
+          "$|x - 1| \\geq \\dfrac{x+1}{2}$; critical point of the absolute value: $x = 1$.",
+        ),
+        step(
+          "approach",
+          "Análisis por casos (la derecha no es constante): resolver en cada tramo y conservar solo las soluciones coherentes con el tramo.",
+          "Case analysis (the right side is not constant): solve on each tranche and keep only the solutions consistent with it.",
+        ),
+        step(
+          "calculation",
+          "Caso $x \\geq 1$: $x - 1 \\geq \\dfrac{x+1}{2} \\Rightarrow 2x - 2 \\geq x + 1 \\Rightarrow x \\geq 3$ ✓ (cae en el tramo).<br>Caso $x < 1$: $1 - x \\geq \\dfrac{x+1}{2} \\Rightarrow 2 - 2x \\geq x + 1 \\Rightarrow 1 \\geq 3x \\Rightarrow x \\leq \\dfrac{1}{3}$ ✓ (todo el tramo $x \\leq \\frac{1}{3}$ cumple).",
+          "Case $x \\geq 1$: $x - 1 \\geq \\dfrac{x+1}{2} \\Rightarrow 2x - 2 \\geq x + 1 \\Rightarrow x \\geq 3$ ✓ (inside the tranche).<br>Case $x < 1$: $1 - x \\geq \\dfrac{x+1}{2} \\Rightarrow 2 - 2x \\geq x + 1 \\Rightarrow 1 \\geq 3x \\Rightarrow x \\leq \\dfrac{1}{3}$ ✓ (the whole ray $x \\leq \\frac{1}{3}$ qualifies).",
+        ),
+        step(
+          "result",
+          "Unión: $\\left(-\\infty, \\dfrac{1}{3}\\right] \\cup [3, +\\infty)$ — igual al complemento de $\\left(\\frac{1}{3}, 3\\right)$, como anota la clave del libro. Verificación: $x = 0$: $1 \\geq 0.5$ ✓; $x = 2$: $1 \\geq 1.5$ ✗; $x = 3$: $2 \\geq 2$ ✓.",
+          "Union: $\\left(-\\infty, \\dfrac{1}{3}\\right] \\cup [3, +\\infty)$ — equal to the complement of $\\left(\\frac{1}{3}, 3\\right)$, as the book's key notes. Check: $x = 0$: $1 \\geq 0.5$ ✓; $x = 2$: $1 \\geq 1.5$ ✗; $x = 3$: $2 \\geq 2$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* 93f — 3x/2 + 3|x−2| ≤ 3 → {2} (single point!). */
+  template(
+    {
+      id: "lin-espol-ch2-93f",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-inequalities",
+      difficulty: "hard",
+      questionType: "text",
+      estimatedTimeSec: 240,
+      tags: ["absolute-value", "inequality", "case-analysis", "single-point"],
+      prerequisites: ["abs-inequalities"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 93f",
+        page: 243,
+      },
+      reasoning: "case-analysis",
+    },
+    () => ({
+      skill: L("Inecuación con valor absoluto cuya solución es un solo punto", "Absolute-value inequality whose solution is a single point"),
+      statement: L(
+        "Resuelve $\\dfrac{3x}{2} + 3|x - 2| \\leq 3$, $x \\in \\mathbb{R}$. Da el conjunto solución (admite x=2, {2} o 2):",
+        "Solve $\\dfrac{3x}{2} + 3|x - 2| \\leq 3$, $x \\in \\mathbb{R}$. Give the solution set (x=2, {2} or 2 are accepted):",
+      ),
+      answer: {
+        kind: "text",
+        accepted: ["x=2", "x = 2", "{2}", "2", "x= 2"],
+      },
+      hints: [
+        L(
+          "Parte por casos en $x = 2$ (donde $|x-2|$ cambia de forma). No olvides revisar el propio $x = 2$.",
+          "Split into cases at $x = 2$ (where $|x-2|$ changes form). Do not forget to test $x = 2$ itself.",
+        ),
+        L(
+          "Caso $x \\geq 2$: la expresión queda $\\frac{9x}{2} - 6 \\leq 3$. ¿Qué resultado da y en qué tramo cae?",
+          "Case $x \\geq 2$: the expression becomes $\\frac{9x}{2} - 6 \\leq 3$. What does it give, and inside which tranche?",
+        ),
+        L(
+          "Caso $x < 2$: queda $6 - \\frac{3x}{2} \\leq 3$, es decir $x \\geq 2$… contradicción con el propio caso.",
+          "Case $x < 2$: it becomes $6 - \\frac{3x}{2} \\leq 3$, i.e. $x \\geq 2$… contradicting the case itself.",
+        ),
+      ],
+      answerDisplay: L("$\\{2\\}$", "$\\{2\\}$"),
+      solution: [
+        step(
+          "given",
+          "$\\dfrac{3x}{2} + 3|x - 2| \\leq 3$; punto crítico $x = 2$.",
+          "$\\dfrac{3x}{2} + 3|x - 2| \\leq 3$; critical point $x = 2$.",
+        ),
+        step(
+          "approach",
+          "Análisis por casos con verificación de coherencia: en cada tramo se resuelve una lineal y se conserva solo lo que cae dentro.",
+          "Case analysis with consistency check: on each tranche solve a linear inequality and keep only what lands inside.",
+        ),
+        step(
+          "calculation",
+          "Caso $x \\geq 2$: $|x-2| = x-2$ → $\\frac{3x}{2} + 3x - 6 \\leq 3 \\Rightarrow \\frac{9x}{2} \\leq 9 \\Rightarrow x \\leq 2$. Junto con $x \\geq 2$: solo $x = 2$.<br>Caso $x < 2$: $|x-2| = 2-x$ → $\\frac{3x}{2} + 6 - 3x \\leq 3 \\Rightarrow -\\frac{3x}{2} \\leq -3 \\Rightarrow x \\geq 2$, contradictorio con $x < 2$ → vacío.",
+          "Case $x \\geq 2$: $|x-2| = x-2$ → $\\frac{3x}{2} + 3x - 6 \\leq 3 \\Rightarrow \\frac{9x}{2} \\leq 9 \\Rightarrow x \\leq 2$. Together with $x \\geq 2$: only $x = 2$.<br>Case $x < 2$: $|x-2| = 2-x$ → $\\frac{3x}{2} + 6 - 3x \\leq 3 \\Rightarrow -\\frac{3x}{2} \\leq -3 \\Rightarrow x \\geq 2$, contradicting $x < 2$ → empty.",
+        ),
+        step(
+          "result",
+          "$A = \\{2\\}$ — una solución única. Verificación: $\\frac{3(2)}{2} + 3|0| = 3 \\leq 3$ ✓; $x = 1$: $1.5 + 3 = 4.5 \\not\\leq 3$ ✗; $x = 3$: $4.5 + 3 = 7.5 \\not\\leq 3$ ✗.",
+          "$A = \\{2\\}$ — a single solution. Check: $\\frac{3(2)}{2} + 3|0| = 3 \\leq 3$ ✓; $x = 1$: $1.5 + 3 = 4.5 \\not\\leq 3$ ✗; $x = 3$: $4.5 + 3 = 7.5 \\not\\leq 3$ ✗.",
+        ),
+      ],
+    }),
+  ),
+
+  /* 94b — 2 < 2x−2 ≤ 12 → (2,7]. */
+  template(
+    {
+      id: "lin-espol-ch2-94b",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "compound",
+      difficulty: "medium",
+      questionType: "text",
+      estimatedTimeSec: 120,
+      tags: ["compound-inequality", "interval"],
+      prerequisites: ["compound", "interval-notation"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 94b",
+        page: 243,
+      },
+      reasoning: "definition-hunting",
+    },
+    () => ({
+      skill: L("Conjunto de verdad de una desigualdad doble", "Truth set of a double inequality"),
+      statement: L(
+        "Determina el conjunto de verdad de $q(x): 2 < 2x - 2 \\leq 12$ como intervalo (admite (2, 5] o 2<x<=7):",
+        "Determine the truth set of $q(x): 2 < 2x - 2 \\leq 12$ as an interval (notations like (2, 5] or 2<x<=7 are accepted):",
+      ),
+      answer: {
+        kind: "text",
+        accepted: ["(2, 7]", "(2,7]", "2<x<=7", "2 < x <= 7", "2<x≤7", "2 < x ≤ 7"],
+      },
+      hints: [
+        L(
+          "Una desigualdad doble se trata como dos desigualdades simultáneas: $2 < 2x-2$ y $2x-2 \\leq 12$.",
+          "A double inequality is two simultaneous inequalities: $2 < 2x-2$ and $2x-2 \\leq 12$.",
+        ),
+        L(
+          "Puedes sumar 2 y dividir entre 2 en los **tres** miembros a la vez.",
+          "You may add 2 and divide by 2 across **all three** parts at once.",
+        ),
+      ],
+      answerDisplay: L("$(2, 7]$", "$(2, 7]$"),
+      solution: [
+        step(
+          "given",
+          "$q(x): 2 < 2x - 2 \\leq 12$, $x \\in \\mathbb{R}$.",
+          "$q(x): 2 < 2x - 2 \\leq 12$, $x \\in \\mathbb{R}$.",
+        ),
+        step(
+          "approach",
+          "Despejar el bloque $2x - 2$ en la doble desigualdad, operando simultáneamente en los tres miembros.",
+          "Isolate the block $2x - 2$ inside the double inequality, operating on all three parts at once.",
+        ),
+        step(
+          "calculation",
+          "$2 + 2 < 2x \\leq 12 + 2 \\Rightarrow 4 < 2x \\leq 14 \\Rightarrow 2 < x \\leq 7$.",
+          "$2 + 2 < 2x \\leq 12 + 2 \\Rightarrow 4 < 2x \\leq 14 \\Rightarrow 2 < x \\leq 7$.",
+        ),
+        step(
+          "result",
+          "$A_{q(x)} = (2, 7]$: abierto en 2 (desigualdad estricta) y cerrado en 7. Verificación: $x = 2$: $2 \\not< 2$ ✗; $x = 7$: $2 < 12 \\leq 12$ ✓.",
+          "$A_{q(x)} = (2, 7]$: open at 2 (strict inequality) and closed at 7. Check: $x = 2$: $2 \\not< 2$ ✗; $x = 7$: $2 < 12 \\leq 12$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* 94c — 8−3x ≤ 2x−7 < x−13 → ∅. */
+  template(
+    {
+      id: "lin-espol-ch2-94c",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "compound",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["compound-inequality", "empty-set", "truth-set"],
+      prerequisites: ["compound"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 94c",
+        page: 243,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => ({
+      skill: L("Desigualdad doble con conjunto de verdad vacío", "Double inequality with an empty truth set"),
+      statement: L(
+        "Determina el conjunto de verdad de $r(x): 8 - 3x \\leq 2x - 7 < x - 13$, $x \\in \\mathbb{R}$.",
+        "Determine the truth set of $r(x): 8 - 3x \\leq 2x - 7 < x - 13$, $x \\in \\mathbb{R}$.",
+      ),
+      answer: {
+        kind: "multiple-choice",
+        options: rng.shuffle([
+          { id: "a", text: L("$[3, +\\infty)$", "$[3, +\\infty)$"), correct: false },
+          { id: "b", text: L("$(-\\infty, -6)$", "$(-\\infty, -6)$"), correct: false },
+          { id: "c", text: L("$[-6, 3]$", "$[-6, 3]$"), correct: false },
+          { id: "d", text: L("$\\emptyset$ (no hay ningún $x$ que cumpla)", "$\\emptyset$ (no $x$ satisfies it)"), correct: true },
+          { id: "e", text: L("$(-\\infty, 3] \\cup [-6, +\\infty)$", "$(-\\infty, 3] \\cup [-6, +\\infty)$"), correct: false },
+        ]),
+      },
+      hints: [
+        L(
+          "Separa la desigualdad doble en dos desigualdades simples y resuelve cada una.",
+          "Split the double inequality into two simple inequalities and solve each.",
+        ),
+        L(
+          "El conjunto de verdad de la doble es la **intersección** de los dos resultados. ¿Se cruzan?",
+          "The truth set of the double inequality is the **intersection** of the two results. Do they cross?",
+        ),
+      ],
+      answerDisplay: L("$A_{r(x)} = \\emptyset$", "$A_{r(x)} = \\emptyset$"),
+      solution: [
+        step(
+          "given",
+          "$r(x): 8 - 3x \\leq 2x - 7 < x - 13$.",
+          "$r(x): 8 - 3x \\leq 2x - 7 < x - 13$.",
+        ),
+        step(
+          "approach",
+          "Resolver las dos desigualdades por separado e intersectar; el orden de los resultados revela la trampa.",
+          "Solve the two inequalities separately and intersect; the order of the results reveals the trap.",
+        ),
+        step(
+          "calculation",
+          "Izquierda: $8 - 3x \\leq 2x - 7 \\Rightarrow 15 \\leq 5x \\Rightarrow x \\geq 3$.<br>Derecha: $2x - 7 < x - 13 \\Rightarrow x < -6$.<br>Intersección: $x \\geq 3 \\wedge x < -6$ — ningún número cumple ambas.",
+          "Left: $8 - 3x \\leq 2x - 7 \\Rightarrow 15 \\leq 5x \\Rightarrow x \\geq 3$.<br>Right: $2x - 7 < x - 13 \\Rightarrow x < -6$.<br>Intersection: $x \\geq 3 \\wedge x < -6$ — no number satisfies both.",
+        ),
+        step(
+          "result",
+          "$A_{r(x)} = \\emptyset$: las exigencias son incompatibles ($x$ tendría que ser $\\geq 3$ y a la vez $< -6$). Una desigualdad doble «en cadena» solo tiene solución si los tramos se solapan.",
+          "$A_{r(x)} = \\emptyset$: the demands are incompatible ($x$ would need to be $\\geq 3$ and $< -6$ at once). A chained double inequality only has solutions when the stretches overlap.",
+        ),
+      ],
+    }),
+  ),
 ];

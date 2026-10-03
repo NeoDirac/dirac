@@ -2588,4 +2588,504 @@ export const templates: ProblemTemplate[] = [
       ],
     }),
   ),
+
+  /* ================================================================== */
+  /* Curated — ESPOL Fundamentos, EDICIÓN DIGITAL (TUTOR_LICENSED).     */
+  /* Chapter 3 «Funciones de variable real» §3.8, pp. 375-380.          */
+  /* Tutor's brief: «vayas a por los ejercicios del cap 3».             */
+  /* Every answer double-verified: printed key pp. 939-940 + sympy      */
+  /* (download/verify_espol_ch3.py).                                    */
+  /* ================================================================== */
+
+  /* ch3 42 — producto de raíces = suma de raíces ⟺ b = −c (opción b). */
+  template(
+    {
+      id: "quad-espol-ch3-42",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "roots",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 210,
+      tags: ["vieta", "sum-product", "conceptual"],
+      prerequisites: ["roots"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 42",
+        page: 375,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$a = b$`, `$a = b$`), correct: false },
+        { id: "b", text: L(`$b = -c$`, `$b = -c$`), correct: true },
+        { id: "c", text: L(`$a = c$`, `$a = c$`), correct: false },
+        { id: "d", text: L(`$b = c$`, `$b = c$`), correct: false },
+        { id: "e", text: L(`$c = -a$`, `$c = -a$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Vieta: ¿cuándo coinciden la suma y el producto de las raíces?",
+          "Vieta: when do the sum and the product of the roots coincide?",
+        ),
+        statement: L(
+          "Dada la función cuadrática $f(x) = ax^{2} + bx + c$, con $a, b, c \\in \\mathbb{R}$, $a \\neq 0$ y $b^{2} - 4ac > 0$, una condición necesaria y suficiente para que el producto de sus raíces sea igual a la suma de sus raíces es:",
+          "Given the quadratic function $f(x) = ax^{2} + bx + c$, with $a, b, c \\in \\mathbb{R}$, $a \\neq 0$ and $b^{2} - 4ac > 0$, a necessary and sufficient condition for the product of its roots to equal the sum of its roots is:",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Escribe las dos fórmulas de Vieta: suma de raíces $= -\\dfrac{b}{a}$ y producto de raíces $= \\dfrac{c}{a}$.",
+            "Write down the two Vieta formulas: sum of roots $= -\\dfrac{b}{a}$ and product of roots $= \\dfrac{c}{a}$.",
+          ),
+          L(
+            "La condición «producto = suma» se traduce en $\\dfrac{c}{a} = -\\dfrac{b}{a}$. Como $a \\neq 0$, puedes multiplicar por $a$ sin peligro.",
+            "The condition “product = sum” translates to $\\dfrac{c}{a} = -\\dfrac{b}{a}$. Since $a \\neq 0$, you may safely multiply by $a$.",
+          ),
+          L(
+            "Obtendrás una relación donde $a$ desaparece: queda solo un vínculo entre $b$ y $c$. Comprueba tu candidata con una cuadrática concreta que cumpla $b^{2} - 4ac > 0$.",
+            "You will get a relation where $a$ disappears: only a link between $b$ and $c$ remains. Test your candidate with a concrete quadratic satisfying $b^{2} - 4ac > 0$.",
+          ),
+        ],
+        answerDisplay: L("$b = -c$", "$b = -c$"),
+        solution: [
+          step(
+            "given",
+            "$f(x) = ax^{2} + bx + c$, con $a, b, c \\in \\mathbb{R}$, $a \\neq 0$ y $b^{2} - 4ac > 0$ (raíces reales distintas $x_{1}, x_{2}$).",
+            "$f(x) = ax^{2} + bx + c$, with $a, b, c \\in \\mathbb{R}$, $a \\neq 0$ and $b^{2} - 4ac > 0$ (two distinct real roots $x_{1}, x_{2}$).",
+          ),
+          step(
+            "approach",
+            "Expresar suma y producto con Vieta e imponer la igualdad; la hipótesis $b^{2} - 4ac > 0$ solo garantiza que las raíces existen — la condición que sale es un vínculo puramente entre coeficientes.",
+            "Express sum and product via Vieta and impose the equality; the hypothesis $b^{2} - 4ac > 0$ only guarantees that the roots exist — the resulting condition is a link purely between coefficients.",
+          ),
+          step(
+            "calculation",
+            "Suma de raíces: $x_{1} + x_{2} = -\\dfrac{b}{a}$. Producto: $x_{1}x_{2} = \\dfrac{c}{a}$.<br>Igualar: $\\dfrac{c}{a} = -\\dfrac{b}{a}$; multiplicando por $a \\neq 0$: $c = -b$, es decir, $b = -c$.<br>El recíproco es inmediato: si $c = -b$, entonces $\\dfrac{c}{a} = -\\dfrac{b}{a}$ y el producto iguala a la suma. Necesaria y suficiente ✓.",
+            "Sum of roots: $x_{1} + x_{2} = -\\dfrac{b}{a}$. Product: $x_{1}x_{2} = \\dfrac{c}{a}$.<br>Set them equal: $\\dfrac{c}{a} = -\\dfrac{b}{a}$; multiplying by $a \\neq 0$: $c = -b$, i.e. $b = -c$.<br>The converse is immediate: if $c = -b$ then $\\dfrac{c}{a} = -\\dfrac{b}{a}$ and the product equals the sum. Necessary and sufficient ✓.",
+          ),
+          step(
+            "result",
+            "La condición es $b = -c$ (opción b; clave del libro ✓). Verificación con $a = 1$, $b = -5$, $c = 5$: $x^{2} - 5x + 5$ cumple $\\Delta = 25 - 20 = 5 > 0$ y sus raíces tienen suma $5$ y producto $5$ — coinciden ✓.",
+            "The condition is $b = -c$ (option b; the book's key ✓). Check with $a = 1$, $b = -5$, $c = 5$: $x^{2} - 5x + 5$ satisfies $\\Delta = 25 - 20 = 5 > 0$ and its roots have sum $5$ and product $5$ — they coincide ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* ch3 44 — f = |2x²−3x+1| − 2: la verdadera es la simetría respecto a x = 3/4 (opción b). */
+  template(
+    {
+      id: "quad-espol-ch3-44",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "graphs",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 270,
+      tags: ["absolute-value", "quadratic", "symmetry", "monotonicity"],
+      prerequisites: ["graphs", "abs-equations"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 44",
+        page: 376,
+      },
+      reasoning: "graphical",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(
+            `$f$ es creciente en $\\left[\\tfrac{1}{2}, +\\infty\\right)$`,
+            `$f$ is increasing on $\\left[\\tfrac{1}{2}, +\\infty\\right)$`,
+          ),
+          correct: false,
+        },
+        {
+          id: "b",
+          text: L(
+            `$f$ es simétrica respecto a la recta $x = \\tfrac{3}{4}$`,
+            `$f$ is symmetric about the line $x = \\tfrac{3}{4}$`,
+          ),
+          correct: true,
+        },
+        {
+          id: "c",
+          text: L(`$f$ es par`, `$f$ is even`),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L(
+            `$f(1) + f\\left(\\tfrac{1}{2}\\right) > 0$`,
+            `$f(1) + f\\left(\\tfrac{1}{2}\\right) > 0$`,
+          ),
+          correct: false,
+        },
+        {
+          id: "e",
+          text: L(`$f$ es decreciente en $(-\\infty, 1)$`, `$f$ is decreasing on $(-\\infty, 1)$`),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L(
+          "Qué le hace el valor absoluto al eje de simetría de una parábola",
+          "What the absolute value does to a parabola's axis of symmetry",
+        ),
+        statement: L(
+          "Si $f(x) = \\left|2x^{2} - 3x + 1\\right| - 2$, es **verdad** que:",
+          "If $f(x) = \\left|2x^{2} - 3x + 1\\right| - 2$, it is **true** that:",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Empieza por la parábola interna $g(x) = 2x^{2} - 3x + 1$: completa el cuadrado para encontrar su eje de simetría.",
+            "Start with the inner parabola $g(x) = 2x^{2} - 3x + 1$: complete the square to find its axis of symmetry.",
+          ),
+          L(
+            "Pregúntate qué le pasa a ese eje cuando aplicas $|\\cdot|$ y luego restas 2: ¿alguna de las dos operaciones rompe la simetría?",
+            "Ask yourself what happens to that axis when you apply $|\\cdot|$ and then subtract 2: does either operation break the symmetry?",
+          ),
+          L(
+            "Para refutar las demás opciones basta un contraejemplo por opción: evalúa $f$ en $x = 1$, $x = \\frac{1}{2}$, $x = -1$, $x = 0$ y en dos puntos entre $\\frac{1}{2}$ y $\\frac{3}{4}$.",
+            "To refute the remaining options one counterexample each is enough: evaluate $f$ at $x = 1$, $x = \\frac{1}{2}$, $x = -1$, $x = 0$ and at two points between $\\frac{1}{2}$ and $\\frac{3}{4}$.",
+          ),
+        ],
+        answerDisplay: L(
+          "Verdadera: $f$ es simétrica respecto a la recta $x = \\frac{3}{4}$",
+          "True: $f$ is symmetric about the line $x = \\frac{3}{4}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$f(x) = \\left|2x^{2} - 3x + 1\\right| - 2$. La parábola interna $g(x) = 2x^{2} - 3x + 1$ tiene raíces $\\frac{1}{2}$ y $1$, y es negativa entre ellas.",
+            "$f(x) = \\left|2x^{2} - 3x + 1\\right| - 2$. The inner parabola $g(x) = 2x^{2} - 3x + 1$ has roots $\\frac{1}{2}$ and $1$, and is negative between them.",
+          ),
+          step(
+            "approach",
+            "Completar el cuadrado para ver la simetría de $g$ y razonar por qué la conserva el valor absoluto; después refutar las otras opciones con evaluaciones concretas (un contraejemplo basta).",
+            "Complete the square to see the symmetry of $g$ and reason why the absolute value preserves it; then refute the other options with concrete evaluations (one counterexample is enough).",
+          ),
+          step(
+            "calculation",
+            "$g(x) = 2\\left(x - \\frac{3}{4}\\right)^{2} - \\frac{1}{8}$: simétrica respecto a $x = \\frac{3}{4}$. El valor absoluto conserva esa simetría porque $\\left|g\\left(\\frac{3}{4} + t\\right)\\right| = \\left|g\\left(\\frac{3}{4} - t\\right)\\right|$, y restar 2 tampoco la rompe → **b) verdadera**.<br>a) Falsa: en $\\left(\\frac{3}{4}, 1\\right)$ la parábola interna es negativa y sube hacia 0, así que $|g|$ cae de $\\frac{1}{8}$ a $0$ y $f$ decae.<br>c) Falsa: $f(-1) = |6| - 2 = 4 \\neq -2 = f(1)$ → no es par.<br>d) Falsa: $f(1) = -2$ y $f\\left(\\frac{1}{2}\\right) = -2$, suma $= -4 < 0$.<br>e) Falsa: $f\\left(\\frac{3}{5}\\right) = -\\frac{48}{25} < -\\frac{47}{25} = f\\left(\\frac{7}{10}\\right)$: $f$ crece entre esos dos puntos de $(-\\infty, 1)$.",
+            "$g(x) = 2\\left(x - \\frac{3}{4}\\right)^{2} - \\frac{1}{8}$: symmetric about $x = \\frac{3}{4}$. The absolute value preserves that symmetry because $\\left|g\\left(\\frac{3}{4} + t\\right)\\right| = \\left|g\\left(\\frac{3}{4} - t\\right)\\right|$, and subtracting 2 does not break it either → **b is true**.<br>a) False: on $\\left(\\frac{3}{4}, 1\\right)$ the inner parabola is negative and rises toward 0, so $|g|$ falls from $\\frac{1}{8}$ to $0$ and $f$ decreases.<br>c) False: $f(-1) = |6| - 2 = 4 \\neq -2 = f(1)$ → not even.<br>d) False: $f(1) = -2$ and $f\\left(\\frac{1}{2}\\right) = -2$, sum $= -4 < 0$.<br>e) False: $f\\left(\\frac{3}{5}\\right) = -\\frac{48}{25} < -\\frac{47}{25} = f\\left(\\frac{7}{10}\\right)$: $f$ increases between those two points of $(-\\infty, 1)$.",
+          ),
+          step(
+            "result",
+            "Es **verdadera** la b): $f$ es simétrica respecto a la recta $x = \\frac{3}{4}$ — el valor absoluto «refleja» hacia arriba la parte negativa de la parábola pero mantiene su eje. Verificación con puntos simétricos: $f(0) = |1| - 2 = -1$ y $f\\left(\\frac{3}{2}\\right) = |1| - 2 = -1$, con $0$ y $\\frac{3}{2}$ simétricos respecto a $\\frac{3}{4}$ ✓.",
+            "Statement **b** is true: $f$ is symmetric about the line $x = \\frac{3}{4}$ — the absolute value “reflects” the negative part of the parabola upward but keeps its axis. Check with symmetric points: $f(0) = |1| - 2 = -1$ and $f\\left(\\frac{3}{2}\\right) = |1| - 2 = -1$, with $0$ and $\\frac{3}{2}$ symmetric about $\\frac{3}{4}$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* ch3 48 — vértice (3,1) y P(5,9) → y = 2x²−12x+19 (claves: a) h,k; b) a=2; c) forma general). */
+  template(
+    {
+      id: "quad-espol-ch3-48",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "completing-square",
+      difficulty: "hard",
+      questionType: "expression",
+      estimatedTimeSec: 270,
+      tags: ["vertex-form", "expansion", "graph-reading"],
+      prerequisites: ["completing-square", "vertex"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 48",
+        page: 378,
+      },
+      reasoning: "graphical",
+    },
+    () => ({
+      skill: L(
+        "De la forma de vértice a la forma general",
+        "From vertex form to general form",
+      ),
+      statement: L(
+        "La figura del libro, aquí descrita con palabras, muestra parte de la curva $y = a(x - h)^{2} + k$: su **vértice** es el punto $(3, 1)$ y el punto $P(5, 9)$ pertenece a la curva. Escribe la ecuación de la curva en forma general (desarrollada), dando solo el lado derecho (por ejemplo en la forma $ax^{2} + bx + c$).",
+        "The book's figure, described here in words, shows part of the curve $y = a(x - h)^{2} + k$: its **vertex** is the point $(3, 1)$ and the point $P(5, 9)$ lies on the curve. Write the equation of the curve in general (expanded) form, giving only the right-hand side (for instance in the form $ax^{2} + bx + c$).",
+      ),
+      answer: {
+        kind: "expression",
+        accepted: ["2x^2-12x+19", "2(x-3)^2+1", "2x^2 - 12x + 19"],
+        variables: ["x"],
+      },
+      hints: [
+        L(
+          "Del vértice $(3, 1)$ salen dos de los tres parámetros de la forma de vértice: $h$ y $k$.",
+          "Two of the three parameters of the vertex form come from the vertex $(3, 1)$: $h$ and $k$.",
+        ),
+        L(
+          "Sustituye el punto $P(5, 9)$ en $y = a(x - 3)^{2} + 1$ para despejar el único parámetro restante, $a$.",
+          "Substitute the point $P(5, 9)$ into $y = a(x - 3)^{2} + 1$ to solve for the only remaining parameter, $a$.",
+        ),
+        L(
+          "Con $a$, $h$ y $k$ conocidos, desarrolla el binomio al cuadrado, multiplica por $a$ y suma $k$ para llegar a la forma general.",
+          "With $a$, $h$ and $k$ known, expand the squared binomial, multiply by $a$ and add $k$ to reach the general form.",
+        ),
+      ],
+      answerDisplay: L(
+        "$y = 2(x - 3)^{2} + 1 = 2x^{2} - 12x + 19$",
+        "$y = 2(x - 3)^{2} + 1 = 2x^{2} - 12x + 19$",
+      ),
+      solution: [
+        step(
+          "given",
+          "Curva $y = a(x - h)^{2} + k$ con vértice $(3, 1)$ y punto $P(5, 9)$ sobre ella.",
+          "Curve $y = a(x - h)^{2} + k$ with vertex $(3, 1)$ and point $P(5, 9)$ on it.",
+        ),
+        step(
+          "approach",
+          "Leer $h$ y $k$ del vértice, hallar $a$ imponiendo el punto $P$ y finalmente desarrollar la forma de vértice hasta la forma general (así lo pide el libro en su inciso c).",
+          "Read $h$ and $k$ from the vertex, find $a$ by imposing the point $P$ and finally expand the vertex form into the general form (as the book's item c asks).",
+        ),
+        step(
+          "calculation",
+          "Vértice $(3, 1)$: $h = 3$, $k = 1$.<br>Punto $P(5, 9)$: $a(5 - 3)^{2} + 1 = 9 \\Rightarrow 4a = 8 \\Rightarrow a = 2$.<br>$y = 2(x - 3)^{2} + 1 = 2(x^{2} - 6x + 9) + 1 = 2x^{2} - 12x + 18 + 1 = 2x^{2} - 12x + 19$.",
+          "Vertex $(3, 1)$: $h = 3$, $k = 1$.<br>Point $P(5, 9)$: $a(5 - 3)^{2} + 1 = 9 \\Rightarrow 4a = 8 \\Rightarrow a = 2$.<br>$y = 2(x - 3)^{2} + 1 = 2(x^{2} - 6x + 9) + 1 = 2x^{2} - 12x + 18 + 1 = 2x^{2} - 12x + 19$.",
+        ),
+        step(
+          "result",
+          "$y = 2x^{2} - 12x + 19$ (clave del libro, inciso c ✓; sus claves a) $h = 3$, $k = 1$ y b) $a = 2$ son los pasos intermedios). Verificación: $2(5)^{2} - 12(5) + 19 = 50 - 60 + 19 = 9$ → el punto $P$ cumple ✓; el vértice está en $x = \\frac{12}{2 \\cdot 2} = 3$ y $y(3) = 18 - 36 + 19 = 1$ ✓.",
+          "$y = 2x^{2} - 12x + 19$ (the book's key, item c ✓; its keys a) $h = 3$, $k = 1$ and b) $a = 2$ are the intermediate steps). Check: $2(5)^{2} - 12(5) + 19 = 50 - 60 + 19 = 9$ → the point $P$ lies on it ✓; the vertex sits at $x = \\frac{12}{2 \\cdot 2} = 3$ and $y(3) = 18 - 36 + 19 = 1$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* ch3 53c — bien a 100 dólares, costo x²+20x+700 → utilidad máxima 900 (con x = 40). */
+  template(
+    {
+      id: "quad-espol-ch3-53c",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "applications",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 300,
+      tags: ["modeling", "profit", "maximum"],
+      prerequisites: ["applications", "vertex"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 53c",
+        page: 380,
+      },
+      reasoning: "modeling",
+    },
+    () => ({
+      skill: L(
+        "Utilidad máxima: ingreso menos costo, vértice de la parábola",
+        "Maximum profit: revenue minus cost, vertex of the parabola",
+      ),
+      statement: L(
+        "Una empresa puede vender un bien de primera necesidad a 100 dólares por unidad. Si se producen $x$ unidades diarias, el costo diario de producción en dólares es $x^{2} + 20x + 700$. Calcula la **máxima utilidad diaria** (responde en dólares).",
+        "A company can sell a staple good at 100 dollars per unit. If $x$ units are produced per day, the daily production cost in dollars is $x^{2} + 20x + 700$. Find the **maximum daily profit** (answer in dollars).",
+      ),
+      answer: { kind: "numeric", value: 900 },
+      hints: [
+        L(
+          "La utilidad es ingreso menos costo. El ingreso diario es precio por cantidad: $I(x) = 100x$ dólares.",
+          "Profit is revenue minus cost. The daily revenue is price times quantity: $I(x) = 100x$ dollars.",
+        ),
+        L(
+          "La utilidad queda $U(x) = 100x - (x^{2} + 20x + 700)$; simplifícala: es una cuadrática que abre hacia abajo.",
+          "The profit becomes $U(x) = 100x - (x^{2} + 20x + 700)$; simplify it: a downward-opening quadratic.",
+        ),
+        L(
+          "El máximo de una parábola que abre hacia abajo está en su vértice, $x_{v} = -\\dfrac{B}{2A}$. Evalúa la utilidad en ese punto.",
+          "The maximum of a downward-opening parabola sits at its vertex, $x_{v} = -\\dfrac{B}{2A}$. Evaluate the profit there.",
+        ),
+      ],
+      answerDisplay: L(
+        "Utilidad máxima $= 900$ dólares (con $x = 40$ unidades diarias)",
+        "Maximum profit $= 900$ dollars (at $x = 40$ units per day)",
+      ),
+      solution: [
+        step(
+          "given",
+          "Precio de venta: 100 dólares por unidad; costo diario $C(x) = x^{2} + 20x + 700$ dólares al producir $x$ unidades diarias.",
+          "Selling price: 100 dollars per unit; daily cost $C(x) = x^{2} + 20x + 700$ dollars when $x$ units per day are produced.",
+        ),
+        step(
+          "approach",
+          "Construir la función de utilidad $U(x) = I(x) - C(x)$ y maximizarla con el vértice de la parábola (coeficiente principal negativo).",
+          "Build the profit function $U(x) = I(x) - C(x)$ and maximize it with the vertex of the parabola (negative leading coefficient).",
+        ),
+        step(
+          "calculation",
+          "$U(x) = 100x - (x^{2} + 20x + 700) = -x^{2} + 80x - 700$.<br>Vértice: $x_{v} = -\\dfrac{80}{2(-1)} = 40$.<br>$U(40) = -(40)^{2} + 80(40) - 700 = -1600 + 3200 - 700 = 900$.",
+          "$U(x) = 100x - (x^{2} + 20x + 700) = -x^{2} + 80x - 700$.<br>Vertex: $x_{v} = -\\dfrac{80}{2(-1)} = 40$.<br>$U(40) = -(40)^{2} + 80(40) - 700 = -1600 + 3200 - 700 = 900$.",
+        ),
+        step(
+          "result",
+          "La máxima utilidad diaria es 900 dólares, alcanzada produciendo $x = 40$ unidades (clave del libro ✓). Verificación: ingreso $= 100 \\cdot 40 = 4000$ y costo $= 1600 + 800 + 700 = 3100$; $4000 - 3100 = 900$ ✓. Además $U(39) = 3900 - (1521 + 780 + 700) = 899 < 900$: el máximo está en 40 ✓.",
+          "The maximum daily profit is 900 dollars, attained at $x = 40$ units (the book's key ✓). Check: revenue $= 100 \\cdot 40 = 4000$ and cost $= 1600 + 800 + 700 = 3100$; $4000 - 3100 = 900$ ✓. Also $U(39) = 3900 - (1521 + 780 + 700) = 899 < 900$: the maximum is at 40 ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* ch3 54 — demanda p²+x² = 169, oferta p = x+7 → precio de equilibrio 12 (opción b). */
+  template(
+    {
+      id: "quad-espol-ch3-54",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "applications",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["modeling", "supply-demand", "equilibrium"],
+      prerequisites: ["applications", "quadratic-formula"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 54",
+        page: 380,
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$5$`, `$5$`), correct: false },
+        { id: "b", text: L(`$12$`, `$12$`), correct: true },
+        { id: "c", text: L(`$22$`, `$22$`), correct: false },
+        { id: "d", text: L(`$19$`, `$19$`), correct: false },
+        { id: "e", text: L(`$17$`, `$17$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Equilibrio oferta-demanda con una demanda cuadrática",
+          "Supply-demand equilibrium with a quadratic demand",
+        ),
+        statement: L(
+          "La demanda de los bienes producidos por una industria está dada por $p^{2} + x^{2} = 169$, donde $p$ es el precio unitario y $x$ la cantidad demandada. La oferta es $p = x + 7$. El precio de equilibrio es:",
+          "The demand for the goods produced by an industry is given by $p^{2} + x^{2} = 169$, where $p$ is the unit price and $x$ the quantity demanded. The supply is $p = x + 7$. The equilibrium price is:",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "En el equilibrio, oferta y demanda describen el mismo par $(x, p)$: sustituye $p = x + 7$ en la ecuación de la demanda.",
+            "At equilibrium, supply and demand describe the same pair $(x, p)$: substitute $p = x + 7$ into the demand equation.",
+          ),
+          L(
+            "Al sustituir queda una cuadrática en $x$ con un factor 2 común; divídela entre 2 y factoriza buscando dos números con producto $-60$.",
+            "After substituting you get a quadratic in $x$ with a common factor 2; divide by 2 and factor it looking for two numbers with product $-60$.",
+          ),
+          L(
+            "Descarta la raíz negativa (una cantidad demandada no puede serlo) y recupera el precio con $p = x + 7$.",
+            "Discard the negative root (a demanded quantity cannot be negative) and recover the price with $p = x + 7$.",
+          ),
+        ],
+        answerDisplay: L("$p = 12$", "$p = 12$"),
+        solution: [
+          step(
+            "given",
+            "Demanda: $p^{2} + x^{2} = 169$; oferta: $p = x + 7$.",
+            "Demand: $p^{2} + x^{2} = 169$; supply: $p = x + 7$.",
+          ),
+          step(
+            "approach",
+            "Igualar los dos modelos (mismo punto de equilibrio), resolver la cuadrática resultante en $x$ y quedarse con la solución económicamente válida ($x \\geq 0$).",
+            "Set the two models equal (the same equilibrium point), solve the resulting quadratic in $x$ and keep the economically valid solution ($x \\geq 0$).",
+          ),
+          step(
+            "calculation",
+            "$(x + 7)^{2} + x^{2} = 169 \\Rightarrow x^{2} + 14x + 49 + x^{2} = 169 \\Rightarrow 2x^{2} + 14x - 120 = 0 \\Rightarrow x^{2} + 7x - 60 = 0$.<br>$(x + 12)(x - 5) = 0 \\Rightarrow x = 5$ (se descarta $x = -12$: cantidad negativa).<br>Precio de equilibrio: $p = x + 7 = 12$.",
+            "$(x + 7)^{2} + x^{2} = 169 \\Rightarrow x^{2} + 14x + 49 + x^{2} = 169 \\Rightarrow 2x^{2} + 14x - 120 = 0 \\Rightarrow x^{2} + 7x - 60 = 0$.<br>$(x + 12)(x - 5) = 0 \\Rightarrow x = 5$ (discarding $x = -12$: a negative quantity).<br>Equilibrium price: $p = x + 7 = 12$.",
+          ),
+          step(
+            "result",
+            "El precio de equilibrio es $p = 12$ (opción b; clave del libro ✓). Verificación: en la demanda, $12^{2} + 5^{2} = 144 + 25 = 169$ ✓, y la oferta da $p = 5 + 7 = 12$ ✓.",
+            "The equilibrium price is $p = 12$ (option b; the book's key ✓). Check: in the demand, $12^{2} + 5^{2} = 144 + 25 = 169$ ✓, and the supply gives $p = 5 + 7 = 12$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* ch3 57b — libro: costo 15, precio x, ventas (100000−4000x) → precio óptimo x = 20 (opción b; 20000 libros: c). */
+  template(
+    {
+      id: "quad-espol-ch3-57b",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "applications",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 300,
+      tags: ["modeling", "profit", "maximum", "vertex"],
+      prerequisites: ["applications", "vertex"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 57b",
+        page: 380,
+      },
+      reasoning: "modeling",
+    },
+    () => ({
+      skill: L(
+        "Precio que maximiza la utilidad: (precio − costo) × ventas",
+        "Price that maximizes profit: (price − cost) × sales",
+      ),
+      statement: L(
+        "Un libro de texto de matemáticas cuesta 15 dólares de producir y luego se vende a $x$ dólares. En total se venden $(100000 - 4000x)$ libros. Determina el precio de venta $x$ que produce la **máxima utilidad total** (responde $x$ en dólares).",
+        "A math textbook costs 15 dollars to produce and is then sold for $x$ dollars. A total of $(100000 - 4000x)$ books are sold. Determine the selling price $x$ that produces the **maximum total profit** (answer $x$ in dollars).",
+      ),
+      answer: { kind: "numeric", value: 20 },
+      hints: [
+        L(
+          "La utilidad por libro es $(x - 15)$ dólares y el número de libros vendidos es $(100000 - 4000x)$.",
+          "The profit per book is $(x - 15)$ dollars and the number of books sold is $(100000 - 4000x)$.",
+        ),
+        L(
+          "La utilidad total es el producto: $U(x) = (x - 15)(100000 - 4000x)$, una cuadrática que abre hacia abajo.",
+          "The total profit is the product: $U(x) = (x - 15)(100000 - 4000x)$, a downward-opening quadratic.",
+        ),
+        L(
+          "Vía corta: halla los dos ceros de $U$ (uno se lee directo en el primer factor) y usa la simetría de la parábola — el vértice está en el punto medio de sus ceros.",
+          "Shortcut: find the two zeros of $U$ (one reads off directly from the first factor) and use the parabola's symmetry — the vertex lies at the midpoint of its zeros.",
+        ),
+      ],
+      answerDisplay: L(
+        "$x = 20$ dólares (se venden 20000 libros)",
+        "$x = 20$ dollars (20000 books are sold)",
+      ),
+      solution: [
+        step(
+          "given",
+          "Costo de producción: 15 dólares por libro; precio de venta: $x$ dólares; libros vendidos: $(100000 - 4000x)$.",
+          "Production cost: 15 dollars per book; selling price: $x$ dollars; books sold: $(100000 - 4000x)$.",
+        ),
+        step(
+          "approach",
+          "Modelar la utilidad total como (precio − costo) × cantidad vendida y maximizar la cuadrática resultante con su vértice.",
+          "Model the total profit as (price − cost) × quantity sold and maximize the resulting quadratic with its vertex.",
+        ),
+        step(
+          "calculation",
+          "$U(x) = (x - 15)(100000 - 4000x) = 100000x - 4000x^{2} - 1500000 + 60000x = -4000x^{2} + 160000x - 1500000$.<br>Vértice: $x_{v} = -\\dfrac{160000}{2(-4000)} = 20$.<br>(Equivalente: los ceros son $x = 15$ y $x = 25$; el vértice está en su punto medio).",
+          "$U(x) = (x - 15)(100000 - 4000x) = 100000x - 4000x^{2} - 1500000 + 60000x = -4000x^{2} + 160000x - 1500000$.<br>Vertex: $x_{v} = -\\dfrac{160000}{2(-4000)} = 20$.<br>(Equivalent: the zeros are $x = 15$ and $x = 25$; the vertex is at their midpoint).",
+        ),
+        step(
+          "result",
+          "El precio que maximiza la utilidad total es $x = 20$ dólares (opción b del libro ✓); con ese precio se venden $100000 - 4000(20) = 20000$ libros (opción c). Verificación: $U(20) = (20 - 15) \\cdot 20000 = 100000$; $U(19) = 4 \\cdot 24000 = 96000$ y $U(21) = 6 \\cdot 16000 = 96000$: el máximo está en 20 ✓.",
+          "The price that maximizes the total profit is $x = 20$ dollars (the book's option b ✓); at that price $100000 - 4000(20) = 20000$ books are sold (option c). Check: $U(20) = (20 - 15) \\cdot 20000 = 100000$; $U(19) = 4 \\cdot 24000 = 96000$ and $U(21) = 6 \\cdot 16000 = 96000$: the maximum is at 20 ✓.",
+        ),
+      ],
+    }),
+  ),
 ];

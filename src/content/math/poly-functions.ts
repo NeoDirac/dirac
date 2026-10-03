@@ -1063,4 +1063,234 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+
+  /* ================================================================== */
+  /* Curated — ESPOL Fundamentos, EDICIÓN DIGITAL (TUTOR_LICENSED).     */
+  /* Chapter 3 «Funciones de variable real» §3.7, pp. 374-375.          */
+  /* Tutor's brief: «vayas a por los ejercicios del cap 3».             */
+  /* Every answer double-verified: printed key pp. 939-940 + sympy      */
+  /* (download/verify_espol_ch3.py).                                    */
+  /* ================================================================== */
+
+  /* ch3 35 — bungalow: 12 sem → 2925 AUD, 20 sem → 4525 AUD → r = 200 (opción a; s = 525: b). */
+  template(
+    {
+      id: "pf-espol-ch3-35",
+      subject: "math",
+      topicId: "poly-functions",
+      subtopicId: "modeling",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 240,
+      tags: ["modeling", "linear-model", "system"],
+      prerequisites: ["modeling"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 35",
+        page: 374,
+      },
+      reasoning: "modeling",
+    },
+    () => ({
+      skill: L(
+        "Modelo lineal con depósito fijo: sistema 2×2",
+        "Linear model with a fixed deposit: a 2×2 system",
+      ),
+      statement: L(
+        "(Aplicación a la administración.) El costo $C$ en dólares australianos (AUD) de alquilar un bungalow por $n$ semanas lo da la función lineal $C(n) = nr + s$, donde $s$ es la garantía (costo fijo) y $r$ el alquiler semanal (costo variable). Jenny alquiló el bungalow 12 semanas y pagó en total 2925 AUD; Yolanda alquiló el mismo bungalow 20 semanas y pagó en total 4525 AUD. Determina el alquiler semanal $r$ (responde en AUD).",
+        "(Application to administration.) The cost $C$ in Australian dollars (AUD) of renting a bungalow for $n$ weeks is given by the linear function $C(n) = nr + s$, where $s$ is the security deposit (fixed cost) and $r$ the weekly rent (variable cost). Jenny rented the bungalow for 12 weeks and paid a total of 2925 AUD; Yolanda rented the same bungalow for 20 weeks and paid a total of 4525 AUD. Determine the weekly rent $r$ (answer in AUD).",
+      ),
+      answer: { kind: "numeric", value: 200 },
+      hints: [
+        L(
+          "Traduce cada alquiler a una ecuación: $C(12) = 12r + s = 2925$ y $C(20) = 20r + s = 4525$.",
+          "Translate each rental into an equation: $C(12) = 12r + s = 2925$ and $C(20) = 20r + s = 4525$.",
+        ),
+        L(
+          "Resta la primera ecuación de la segunda: la garantía $s$ se cancela y queda una sola incógnita.",
+          "Subtract the first equation from the second: the deposit $s$ cancels and a single unknown remains.",
+        ),
+        L(
+          "El coeficiente que acompaña a $r$ tras la resta es la diferencia de semanas. Con $r$ hallada, recupera $s$ y comprueba en la otra ecuación.",
+          "The coefficient next to $r$ after the subtraction is the difference of weeks. Once $r$ is found, recover $s$ and check against the other equation.",
+        ),
+      ],
+      answerDisplay: L(
+        "$r = 200$ AUD semanales (y garantía $s = 525$ AUD)",
+        "$r = 200$ AUD per week (and deposit $s = 525$ AUD)",
+      ),
+      solution: [
+        step(
+          "given",
+          "$C(n) = nr + s$; Jenny: $C(12) = 2925$ AUD; Yolanda: $C(20) = 4525$ AUD.",
+          "$C(n) = nr + s$; Jenny: $C(12) = 2925$ AUD; Yolanda: $C(20) = 4525$ AUD.",
+        ),
+        step(
+          "approach",
+          "Plantear el sistema lineal 2×2 en $r$ y $s$ y eliminar la garantía $s$ restando las ecuaciones (método de reducción).",
+          "Set up the 2×2 linear system in $r$ and $s$ and eliminate the deposit $s$ by subtracting the equations (elimination method).",
+        ),
+        step(
+          "calculation",
+          "$12r + s = 2925$<br>$20r + s = 4525$<br>Resta: $8r = 1600 \\Rightarrow r = 200$.<br>Garantía: $s = 2925 - 12(200) = 2925 - 2400 = 525$.",
+          "$12r + s = 2925$<br>$20r + s = 4525$<br>Subtract: $8r = 1600 \\Rightarrow r = 200$.<br>Deposit: $s = 2925 - 12(200) = 2925 - 2400 = 525$.",
+        ),
+        step(
+          "result",
+          "El alquiler semanal es $r = 200$ AUD (opción a del libro ✓; la garantía es $s = 525$ AUD, opción b). Verificación: $C(20) = 20 \\cdot 200 + 525 = 4525$ ✓ y $C(12) = 12 \\cdot 200 + 525 = 2925$ ✓.",
+          "The weekly rent is $r = 200$ AUD (the book's option a ✓; the deposit is $s = 525$ AUD, option b). Check: $C(20) = 20 \\cdot 200 + 525 = 4525$ ✓ and $C(12) = 12 \\cdot 200 + 525 = 2925$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* ch3 37c — fijos 2500, C(200) = 3300, precio 5.25 → equilibrio en x = 2000 (opción c: (2000, 10500)). */
+  template(
+    {
+      id: "pf-espol-ch3-37c",
+      subject: "math",
+      topicId: "poly-functions",
+      subtopicId: "modeling",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 300,
+      tags: ["modeling", "break-even", "cost-revenue"],
+      prerequisites: ["modeling"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 37c",
+        page: 374,
+      },
+      reasoning: "modeling",
+    },
+    () => ({
+      skill: L(
+        "Punto de equilibrio: ingreso igual al costo",
+        "Break-even point: revenue equals cost",
+      ),
+      statement: L(
+        "(Aplicación a la economía.) Una empresa tiene costos fijos de 2500 dólares y el costo total de producir 200 unidades es de 3300 dólares. Cada artículo se vende a $5{,}25$ dólares. Suponiendo linealidad, determina el número de unidades en el **punto de equilibrio** (donde el ingreso iguala al costo; responde solo el número de unidades).",
+        "(Application to economics.) A company has fixed costs of 2500 dollars and the total cost of producing 200 units is 3300 dollars. Each article is sold for $5.25$ dollars. Assuming linearity, determine the number of units at the **break-even point** (where revenue equals cost; answer just the number of units).",
+      ),
+      answer: { kind: "numeric", value: 2000 },
+      hints: [
+        L(
+          "Con linealidad, el costo es $C(x) = mx + 2500$: la pendiente $m$ (costo variable por unidad) sale del dato de las 200 unidades.",
+          "With linearity, the cost is $C(x) = mx + 2500$: the slope $m$ (unit variable cost) comes from the 200-unit data point.",
+        ),
+        L(
+          "El ingreso por vender $x$ artículos es $I(x) = 5{,}25x$ dólares.",
+          "The revenue from selling $x$ articles is $I(x) = 5.25x$ dollars.",
+        ),
+        L(
+          "En el equilibrio $I(x) = C(x)$: queda una ecuación lineal en $x$; despeja.",
+          "At break-even $I(x) = C(x)$: a linear equation in $x$ remains; solve it.",
+        ),
+      ],
+      answerDisplay: L(
+        "$x = 2000$ unidades (punto de equilibrio $(2000, 10500)$)",
+        "$x = 2000$ units (break-even point $(2000, 10500)$)",
+      ),
+      solution: [
+        step(
+          "given",
+          "Costos fijos: 2500 dólares; $C(200) = 3300$ dólares; precio de venta: $5{,}25$ dólares por artículo; modelos lineales.",
+          "Fixed costs: 2500 dollars; $C(200) = 3300$ dollars; selling price: $5.25$ dollars per article; linear models.",
+        ),
+        step(
+          "approach",
+          "Hallar el modelo de costo con la pendiente $m = \\frac{C(200) - 2500}{200}$, plantear el ingreso $I(x) = 5{,}25x$ e igualar ingreso y costo.",
+          "Find the cost model with slope $m = \\frac{C(200) - 2500}{200}$, set up the revenue $I(x) = 5.25x$ and equate revenue and cost.",
+        ),
+        step(
+          "calculation",
+          "$m = \\dfrac{3300 - 2500}{200} = \\dfrac{800}{200} = 4 \\Rightarrow C(x) = 4x + 2500$.<br>Equilibrio: $5{,}25x = 4x + 2500 \\Rightarrow 1{,}25x = 2500 \\Rightarrow x = 2000$.<br>En ese punto ingreso $=$ costo $= 5{,}25 \\cdot 2000 = 10500$ dólares.",
+          "$m = \\dfrac{3300 - 2500}{200} = \\dfrac{800}{200} = 4 \\Rightarrow C(x) = 4x + 2500$.<br>Break-even: $5.25x = 4x + 2500 \\Rightarrow 1.25x = 2500 \\Rightarrow x = 2000$.<br>At that point revenue $=$ cost $= 5.25 \\cdot 2000 = 10500$ dollars.",
+        ),
+        step(
+          "result",
+          "El punto de equilibrio está en $x = 2000$ unidades — el punto completo es $(2000, 10500)$, opción c del libro ✓. Verificación: $C(2000) = 4 \\cdot 2000 + 2500 = 10500 = I(2000)$ ✓; con 1999 unidades el costo aún supera al ingreso, y con 2001 ya lo supera el ingreso.",
+          "The break-even point is at $x = 2000$ units — the full point is $(2000, 10500)$, the book's option c ✓. Check: $C(2000) = 4 \\cdot 2000 + 2500 = 10500 = I(2000)$ ✓; at 1999 units the cost still exceeds the revenue, and at 2001 the revenue exceeds it.",
+        ),
+      ],
+    }),
+  ),
+
+  /* ch3 39a — tanque A = 388 m², densidad 0,859 t/m³, capacidad 5000 t → altura ≈ 15 m. */
+  template(
+    {
+      id: "pf-espol-ch3-39a",
+      subject: "math",
+      topicId: "poly-functions",
+      subtopicId: "modeling",
+      difficulty: "medium",
+      questionType: "numeric-unit",
+      estimatedTimeSec: 270,
+      tags: ["modeling", "units", "volume", "density"],
+      prerequisites: ["modeling"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 39a",
+        page: 375,
+      },
+      reasoning: "modeling",
+    },
+    () => ({
+      skill: L(
+        "Masa, densidad y volumen encadenados con V = Ah",
+        "Mass, density and volume chained through V = Ah",
+      ),
+      statement: L(
+        "(Producción de aceite de palma.) Agrícola Palmera almacena el aceite en tanques cilíndricos con volumen $V = Ah$, donde $A$ es el área de la base y $h$ la altura. El área de la base es $388\\ \\text{m}^{2}$ y la densidad del aceite es de 0,859 toneladas por metro cúbico. Si la capacidad del tanque es de 5000 toneladas, determina la altura del tanque redondeada al metro más cercano.",
+        "(Palm-oil production.) Agrícola Palmera stores oil in cylindrical tanks with volume $V = Ah$, where $A$ is the base area and $h$ the height. The base area is $388\\ \\text{m}^{2}$ and the oil density is 0.859 tonnes per cubic meter. If the tank capacity is 5000 tonnes, determine the height of the tank, rounded to the nearest meter.",
+      ),
+      answer: {
+        kind: "numeric-unit",
+        value: 15,
+        tolerance: { mode: "absolute", value: 0.5 },
+        units: ["m", "metros", "meters"],
+        unitChoices: ["m", "cm", "km", "m2", "m3"],
+      },
+      hints: [
+        L(
+          "La masa almacenada es masa $=$ densidad $\\times$ volumen. Con $V = Ah$, la masa es $0{,}859 \\cdot 388 \\cdot h$ toneladas.",
+          "The stored mass is mass $=$ density $\\times$ volume. With $V = Ah$, the mass is $0.859 \\cdot 388 \\cdot h$ tonnes.",
+        ),
+        L(
+          "Iguala esa expresión a 5000 toneladas y despeja $h$: queda una sola división.",
+          "Set that expression equal to 5000 tonnes and solve for $h$: a single division remains.",
+        ),
+        L(
+          "El denominador es $0{,}859 \\times 388 = 333{,}292$; el cociente cae casi exactamente sobre un entero — redondea al metro.",
+          "The denominator is $0.859 \\times 388 = 333.292$; the quotient lands almost exactly on an integer — round to the nearest meter.",
+        ),
+      ],
+      answerDisplay: L("$h \\approx 15$ m", "$h \\approx 15$ m"),
+      solution: [
+        step(
+          "given",
+          "$V = Ah$ con $A = 388\\ \\text{m}^{2}$; densidad del aceite $d = 0{,}859\\ \\text{t/m}^{3}$; capacidad del tanque: 5000 toneladas.",
+          "$V = Ah$ with $A = 388\\ \\text{m}^{2}$; oil density $d = 0.859\\ \\text{t/m}^{3}$; tank capacity: 5000 tonnes.",
+        ),
+        step(
+          "approach",
+          "Encadenar masa $=$ densidad $\\times$ volumen con $V = Ah$ y despejar $h$ de la ecuación lineal resultante; al final, redondear al metro.",
+          "Chain mass $=$ density $\\times$ volume with $V = Ah$ and solve the resulting linear equation for $h$; finally round to the nearest meter.",
+        ),
+        step(
+          "calculation",
+          "Masa $= d \\cdot V = 0{,}859 \\cdot 388 \\cdot h = 333{,}292\\,h$.<br>$333{,}292\\,h = 5000 \\Rightarrow h = \\dfrac{5000}{333{,}292} = 15{,}0019\\ldots$",
+          "Mass $= d \\cdot V = 0.859 \\cdot 388 \\cdot h = 333.292\\,h$.<br>$333.292\\,h = 5000 \\Rightarrow h = \\dfrac{5000}{333.292} = 15.0019\\ldots$",
+        ),
+        step(
+          "result",
+          "$h \\approx 15$ m (clave del libro: ≈15 m ✓ — un resultado casi entero: el cociente difiere de 15 en menos de dos milésimas). Verificación: $0{,}859 \\cdot 388 \\cdot 15 = 4999{,}38 \\approx 5000$ toneladas ✓.",
+          "$h \\approx 15$ m (the book's key: ≈15 m ✓ — a nearly integer result: the quotient differs from 15 by less than two thousandths). Check: $0.859 \\cdot 388 \\cdot 15 = 4999.38 \\approx 5000$ tonnes ✓.",
+        ),
+      ],
+    }),
+  ),
 ];

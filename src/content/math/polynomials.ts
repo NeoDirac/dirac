@@ -2612,4 +2612,1210 @@ export const templates: ProblemTemplate[] = [
     },
   ),
 
+  /* ================================================================== */
+  /* Curated — ESPOL Fundamentos, EDICIÓN DIGITAL (TUTOR_LICENSED).      */
+  /* §2.9 #94f (p. 243) + §2.12 «Teorema del binomio» #116-124          */
+  /* (pp. 246-247) + Chapter 3 «Funciones de variable real» §3.12,      */
+  /* pp. 387-388. Tutor's instruction: «el 2.12 también [debe ir]».     */
+  /* Every answer double-verified: printed key pp. 938-939 + sympy      */
+  /* (download/verify_espol_ch3.py). #117b and #121 have no printed     */
+  /* key — sympy-only verification, noted inside those solutions.       */
+  /* ================================================================== */
+
+  /* 94f — 2x³−5x²+2x ≤ 0 → (−∞,0] ∪ [1/2,2], zeros included. Key: idem. */
+  template(
+    {
+      id: "poly-espol-ch2-94f",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "inequalities",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["polynomial-inequality", "cubic", "sign-table"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 94f",
+        page: 243,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$(-\\infty, 0] \\cup [\\tfrac{1}{2}, 2]$", "$(-\\infty, 0] \\cup [\\tfrac{1}{2}, 2]$"), correct: true },
+        { id: "b", text: L("$(-\\infty, 0) \\cup (\\tfrac{1}{2}, 2)$", "$(-\\infty, 0) \\cup (\\tfrac{1}{2}, 2)$"), correct: false },
+        { id: "c", text: L("$[0, \\tfrac{1}{2}] \\cup [2, +\\infty)$", "$[0, \\tfrac{1}{2}] \\cup [2, +\\infty)$"), correct: false },
+        { id: "d", text: L("$\\mathbb{R}$", "$\\mathbb{R}$"), correct: false },
+        { id: "e", text: L("$(0, \\tfrac{1}{2}) \\cup (2, +\\infty)$", "$(0, \\tfrac{1}{2}) \\cup (2, +\\infty)$"), correct: false },
+      ];
+      return {
+        skill: L("Tabla de signos de una cúbica factorizable", "Sign table of a factorable cubic"),
+        statement: L(
+          "Determina el conjunto de verdad de $p(x):\\ 2x^{3} - 5x^{2} + 2x \\leq 0$, $x \\in \\mathbb{R}$.",
+          "Determine the truth set of $p(x):\\ 2x^{3} - 5x^{2} + 2x \\leq 0$, $x \\in \\mathbb{R}$.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Saca primero el factor común $x$; el factor cuadrático que queda también se factoriza (busca raíces racionales).",
+            "Pull out the common factor $x$ first; the quadratic factor that remains factors as well (look for rational roots).",
+          ),
+          L(
+            "Los cortes $x = 0$, $x = \\tfrac{1}{2}$ y $x = 2$ parten la recta en cuatro tramos: estudia el signo del producto en cada uno (evalúa un punto cómodo).",
+            "The cuts $x = 0$, $x = \\tfrac{1}{2}$ and $x = 2$ split the line into four tranches: study the sign of the product on each (evaluate a convenient point).",
+          ),
+          L(
+            "La desigualdad es $\\leq$ (no $<$): decide si los ceros del polinomio pertenecen al conjunto de verdad.",
+            "The inequality is $\\leq$ (not $<$): decide whether the zeros of the polynomial belong to the truth set.",
+          ),
+        ],
+        answerDisplay: L(
+          "$A_{p(x)} = (-\\infty, 0] \\cup \\left[\\tfrac{1}{2}, 2\\right]$",
+          "$A_{p(x)} = (-\\infty, 0] \\cup \\left[\\tfrac{1}{2}, 2\\right]$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$p(x):\\ 2x^{3} - 5x^{2} + 2x \\leq 0$, $x \\in \\mathbb{R}$ (polinomio de grado 3).",
+            "$p(x):\\ 2x^{3} - 5x^{2} + 2x \\leq 0$, $x \\in \\mathbb{R}$ (degree-3 polynomial).",
+          ),
+          step(
+            "approach",
+            "Factorizar por completo y levantar una tabla de signos con los cortes; como la desigualdad es $\\leq$, los ceros se incluyen.",
+            "Factor completely and build a sign table with the cuts; since the inequality is $\\leq$, the zeros are included.",
+          ),
+          step(
+            "calculation",
+            "$2x^{3} - 5x^{2} + 2x = x\\left(2x^{2} - 5x + 2\\right) = x(2x - 1)(x - 2)$, con cortes $x = 0$, $\\tfrac{1}{2}$, $2$.<br>Signos de $x(2x-1)(x-2)$: en $(-\\infty, 0)$ da $(-)(-)(-) < 0$; en $\\left(0, \\tfrac{1}{2}\\right)$ da $(+)(-)(-) > 0$; en $\\left(\\tfrac{1}{2}, 2\\right)$ da $(+)(+)(-) < 0$; en $(2, +\\infty)$ todo positivo.",
+            "$2x^{3} - 5x^{2} + 2x = x\\left(2x^{2} - 5x + 2\\right) = x(2x - 1)(x - 2)$, with cuts $x = 0$, $\\tfrac{1}{2}$, $2$.<br>Signs of $x(2x-1)(x-2)$: on $(-\\infty, 0)$ it gives $(-)(-)(-) < 0$; on $\\left(0, \\tfrac{1}{2}\\right)$ it gives $(+)(-)(-) > 0$; on $\\left(\\tfrac{1}{2}, 2\\right)$ it gives $(+)(+)(-) < 0$; on $(2, +\\infty)$ all positive.",
+          ),
+          step(
+            "result",
+            "$A_{p(x)} = (-\\infty, 0] \\cup \\left[\\tfrac{1}{2}, 2\\right]$ — los ceros entran por el $\\leq$ (coincide con la clave impresa). Verificación: $x = -1$: $-2 - 5 - 2 = -9 \\leq 0$ ✓; $x = 0.25$: $2(0.015625) - 5(0.0625) + 0.5 = 0.21875 > 0$ ✗ (correctamente fuera del conjunto); $x = 1$: $2 - 5 + 2 = -1 \\leq 0$ ✓.",
+            "$A_{p(x)} = (-\\infty, 0] \\cup \\left[\\tfrac{1}{2}, 2\\right]$ — the zeros enter because of the $\\leq$ (matches the printed key). Check: $x = -1$: $-2 - 5 - 2 = -9 \\leq 0$ ✓; $x = 0.25$: $2(0.015625) - 5(0.0625) + 0.5 = 0.21875 > 0$ ✗ (correctly outside the set); $x = 1$: $2 - 5 + 2 = -1 \\leq 0$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 116 — (x+k)⁵: coefficient of x² is 10k³ = 80 → k = 2 (option b). */
+  template(
+    {
+      id: "poly-espol-ch2-116",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "binomial-theorem",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["binomial-theorem", "coefficient", "parameter"],
+      prerequisites: ["special-products"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 116",
+        page: 246,
+      },
+      reasoning: "parameters",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$1$", "$1$"), correct: false },
+        { id: "b", text: L("$2$", "$2$"), correct: true },
+        { id: "c", text: L("$-2$", "$-2$"), correct: false },
+        { id: "d", text: L("$-1$", "$-1$"), correct: false },
+        { id: "e", text: L("$3$", "$3$"), correct: false },
+      ];
+      return {
+        skill: L("Coeficiente de un término del binomio con un parámetro", "Coefficient of a binomial term with a parameter"),
+        statement: L(
+          "Si en el desarrollo de $(x + k)^{5}$ el coeficiente de $x^{2}$ es $80$, entonces $k$ vale:",
+          "If in the expansion of $(x + k)^{5}$ the coefficient of $x^{2}$ is $80$, then $k$ equals:",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "En el desarrollo de $(x + k)^{5}$, el término general es $\\binom{5}{j}x^{5-j}k^{j}$.",
+            "In the expansion of $(x + k)^{5}$, the general term is $\\binom{5}{j}x^{5-j}k^{j}$.",
+          ),
+          L(
+            "El término en $x^{2}$ corresponde a $j = 3$; su coeficiente es $\\binom{5}{3}k^{3} = 10k^{3}$.",
+            "The term in $x^{2}$ corresponds to $j = 3$; its coefficient is $\\binom{5}{3}k^{3} = 10k^{3}$.",
+          ),
+          L(
+            "Plantea $10k^{3} = 80$ y despeja $k$ (cuida el signo: $k^{3}$ conserva el signo de $k$).",
+            "Set $10k^{3} = 80$ and solve for $k$ (mind the sign: $k^{3}$ keeps the sign of $k$).",
+          ),
+        ],
+        answerDisplay: L("$k = 2$", "$k = 2$"),
+        solution: [
+          step(
+            "given",
+            "$(x + k)^{5}$; el coeficiente del término en $x^{2}$ del desarrollo es $80$.",
+            "$(x + k)^{5}$; the coefficient of the $x^{2}$ term of the expansion is $80$.",
+          ),
+          step(
+            "approach",
+            "Escribir el término general del binomio, identificar el que contiene $x^{2}$ e igualar su coeficiente a $80$.",
+            "Write the general term of the binomial, identify the one containing $x^{2}$ and set its coefficient equal to $80$.",
+          ),
+          step(
+            "calculation",
+            "Término general: $\\binom{5}{j}x^{5-j}k^{j}$; con $j = 3$ (para que quede $x^{2}$): $\\binom{5}{3}k^{3}x^{2} = 10k^{3}x^{2}$.<br>$10k^{3} = 80 \\Rightarrow k^{3} = 8 \\Rightarrow k = 2$.",
+            "General term: $\\binom{5}{j}x^{5-j}k^{j}$; with $j = 3$ (so that $x^{2}$ remains): $\\binom{5}{3}k^{3}x^{2} = 10k^{3}x^{2}$.<br>$10k^{3} = 80 \\Rightarrow k^{3} = 8 \\Rightarrow k = 2$.",
+          ),
+          step(
+            "result",
+            "$k = 2$ (opción b; clave impresa b). Verificación: en $(x + 2)^{5}$ el término en $x^{2}$ es $\\binom{5}{3}\\,2^{3}x^{2} = 10 \\cdot 8\\,x^{2} = 80x^{2}$ ✓.",
+            "$k = 2$ (option b; printed key b). Check: in $(x + 2)^{5}$ the $x^{2}$ term is $\\binom{5}{3}\\,2^{3}x^{2} = 10 \\cdot 8\\,x^{2} = 80x^{2}$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 117b — (a − 1/a)⁵ = a⁵ − 5a³ + 10a − 10/a + 5/a³ − 1/a⁵. No printed key. */
+  template(
+    {
+      id: "poly-espol-ch2-117b",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "binomial-theorem",
+      difficulty: "medium",
+      questionType: "expression",
+      estimatedTimeSec: 210,
+      tags: ["binomial-theorem", "expansion", "negative-exponents"],
+      prerequisites: ["special-products"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 117b",
+        page: 246,
+      },
+      reasoning: "definition-hunting",
+    },
+    () => ({
+      skill: L("Desarrollo completo de un binomio con potencias negativas", "Full expansion of a binomial with negative powers"),
+      statement: L(
+        "Escribe el desarrollo completo de $\\left(a - \\dfrac{1}{a}\\right)^{5}$ (se admite 1/a o a^-1 para las potencias negativas).",
+        "Write the full expansion of $\\left(a - \\dfrac{1}{a}\\right)^{5}$ (1/a or a^-1 are both accepted for negative powers).",
+      ),
+      answer: {
+        kind: "expression",
+        accepted: [
+          "a^5-5a^3+10a-10/a+5/a^3-1/a^5",
+          "a^5 - 5a^3 + 10a - 10/a + 5/a^3 - 1/a^5",
+          "a^5-5a^3+10a-10a^-1+5a^-3-a^-5",
+        ],
+        variables: ["a"],
+      },
+      hints: [
+        L(
+          "Fila de Pascal para $n = 5$: $1, 5, 10, 10, 5, 1$.",
+          "Pascal's row for $n = 5$: $1, 5, 10, 10, 5, 1$.",
+        ),
+        L(
+          "El término general es $\\binom{5}{j}(-1)^{j}a^{5-2j}$: el exponente de $a$ baja de dos en dos.",
+          "The general term is $\\binom{5}{j}(-1)^{j}a^{5-2j}$: the exponent of $a$ drops by two at each step.",
+        ),
+        L(
+          "Los exponentes que aparecen son $5, 3, 1, -1, -3, -5$; solo queda colocar los coeficientes y los signos alternados.",
+          "The exponents that appear are $5, 3, 1, -1, -3, -5$; you only need to place the coefficients and the alternating signs.",
+        ),
+      ],
+      answerDisplay: L(
+        "$\\left(a - \\dfrac{1}{a}\\right)^{5} = a^{5} - 5a^{3} + 10a - \\dfrac{10}{a} + \\dfrac{5}{a^{3}} - \\dfrac{1}{a^{5}}$",
+        "$\\left(a - \\dfrac{1}{a}\\right)^{5} = a^{5} - 5a^{3} + 10a - \\dfrac{10}{a} + \\dfrac{5}{a^{3}} - \\dfrac{1}{a^{5}}$",
+      ),
+      solution: [
+        step(
+          "given",
+          "Desarrollar $\\left(a - \\dfrac{1}{a}\\right)^{5}$.",
+          "Expand $\\left(a - \\dfrac{1}{a}\\right)^{5}$.",
+        ),
+        step(
+          "approach",
+          "Término general del binomio con $n = 5$: los exponentes de $a$ bajan de dos en dos y los signos alternan porque el segundo término es negativo.",
+          "General term of the binomial with $n = 5$: the exponents of $a$ drop by two and the signs alternate because the second term is negative.",
+        ),
+        step(
+          "calculation",
+          "$T_{j+1} = \\binom{5}{j}a^{5-j}\\left(-\\dfrac{1}{a}\\right)^{j} = \\binom{5}{j}(-1)^{j}a^{5-2j}$.<br>$j = 0$: $a^{5}$; $j = 1$: $-5a^{3}$; $j = 2$: $10a$; $j = 3$: $-10a^{-1} = -\\dfrac{10}{a}$; $j = 4$: $5a^{-3} = \\dfrac{5}{a^{3}}$; $j = 5$: $-a^{-5} = -\\dfrac{1}{a^{5}}$.",
+          "$T_{j+1} = \\binom{5}{j}a^{5-j}\\left(-\\dfrac{1}{a}\\right)^{j} = \\binom{5}{j}(-1)^{j}a^{5-2j}$.<br>$j = 0$: $a^{5}$; $j = 1$: $-5a^{3}$; $j = 2$: $10a$; $j = 3$: $-10a^{-1} = -\\dfrac{10}{a}$; $j = 4$: $5a^{-3} = \\dfrac{5}{a^{3}}$; $j = 5$: $-a^{-5} = -\\dfrac{1}{a^{5}}$.",
+        ),
+        step(
+          "result",
+          "$a^{5} - 5a^{3} + 10a - \\dfrac{10}{a} + \\dfrac{5}{a^{3}} - \\dfrac{1}{a^{5}}$. Este ejercicio no tiene clave impresa: se verificó con sympy. Verificación numérica con $a = 2$: $\\left(2 - \\dfrac{1}{2}\\right)^{5} = 1.5^{5} = 7.59375$ y el desarrollo da $32 - 40 + 20 - 5 + 0.625 - 0.03125 = 7.59375$ ✓.",
+          "$a^{5} - 5a^{3} + 10a - \\dfrac{10}{a} + \\dfrac{5}{a^{3}} - \\dfrac{1}{a^{5}}$. This exercise has no printed key: it was verified with sympy. Numerical check at $a = 2$: $\\left(2 - \\dfrac{1}{2}\\right)^{5} = 1.5^{5} = 7.59375$ and the expansion gives $32 - 40 + 20 - 5 + 0.625 - 0.03125 = 7.59375$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* 118 — 7th term of (u/2 − 2v)^10 = 840u⁴v⁶. Key: idem. */
+  template(
+    {
+      id: "poly-espol-ch2-118",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "binomial-theorem",
+      difficulty: "medium",
+      questionType: "expression",
+      estimatedTimeSec: 180,
+      tags: ["binomial-theorem", "general-term"],
+      prerequisites: ["special-products"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 118",
+        page: 246,
+      },
+      reasoning: "definition-hunting",
+    },
+    () => ({
+      skill: L("Término k-ésimo de un binomio con dos variables", "The k-th term of a two-variable binomial"),
+      statement: L(
+        "Halla el séptimo término del desarrollo de $\\left(\\dfrac{u}{2} - 2v\\right)^{10}$ (escribe solo el término, por ejemplo 5u^2v^3).",
+        "Find the seventh term of the expansion of $\\left(\\dfrac{u}{2} - 2v\\right)^{10}$ (write just the term, for example 5u^2v^3).",
+      ),
+      answer: {
+        kind: "expression",
+        accepted: ["840u^4v^6", "840 u^4 v^6", "840u^4 v^6"],
+        variables: ["u", "v"],
+      },
+      hints: [
+        L(
+          "El término general es $T_{k+1} = \\binom{10}{k}\\left(\\dfrac{u}{2}\\right)^{10-k}(-2v)^{k}$.",
+          "The general term is $T_{k+1} = \\binom{10}{k}\\left(\\dfrac{u}{2}\\right)^{10-k}(-2v)^{k}$.",
+        ),
+        L(
+          "El séptimo término corresponde a $k = 6$: $\\binom{10}{6}\\left(\\dfrac{u}{2}\\right)^{4}(-2v)^{6}$.",
+          "The seventh term corresponds to $k = 6$: $\\binom{10}{6}\\left(\\dfrac{u}{2}\\right)^{4}(-2v)^{6}$.",
+        ),
+        L(
+          "$(-2v)^{6}$ es positivo; agrupa las potencias de $2$: $\\dfrac{64}{16}$.",
+          "$(-2v)^{6}$ is positive; collect the powers of $2$: $\\dfrac{64}{16}$.",
+        ),
+      ],
+      answerDisplay: L("$T_{7} = 840u^{4}v^{6}$", "$T_{7} = 840u^{4}v^{6}$"),
+      solution: [
+        step(
+          "given",
+          "$\\left(\\dfrac{u}{2} - 2v\\right)^{10}$; se pide el séptimo término.",
+          "$\\left(\\dfrac{u}{2} - 2v\\right)^{10}$; the seventh term is requested.",
+        ),
+        step(
+          "approach",
+          "Usar el término general con $k = 6$ (el séptimo término es $T_{k+1}$ con $k = 6$) y no desarrollar nada más.",
+          "Use the general term with $k = 6$ (the seventh term is $T_{k+1}$ with $k = 6$) and expand nothing else.",
+        ),
+        step(
+          "calculation",
+          "$T_{7} = \\binom{10}{6}\\left(\\dfrac{u}{2}\\right)^{10-6}(-2v)^{6} = 210 \\cdot \\dfrac{u^{4}}{16} \\cdot 64v^{6} = 210 \\cdot 4 \\cdot u^{4}v^{6} = 840u^{4}v^{6}$.",
+          "$T_{7} = \\binom{10}{6}\\left(\\dfrac{u}{2}\\right)^{10-6}(-2v)^{6} = 210 \\cdot \\dfrac{u^{4}}{16} \\cdot 64v^{6} = 210 \\cdot 4 \\cdot u^{4}v^{6} = 840u^{4}v^{6}$.",
+        ),
+        step(
+          "result",
+          "$T_{7} = 840u^{4}v^{6}$ (clave impresa: idem). Verificación con $u = v = 1$: $\\binom{10}{6}\\left(\\tfrac{1}{2}\\right)^{4}(-2)^{6} = 210 \\cdot \\tfrac{1}{16} \\cdot 64 = 840$ ✓.",
+          "$T_{7} = 840u^{4}v^{6}$ (printed key: idem). Check at $u = v = 1$: $\\binom{10}{6}\\left(\\tfrac{1}{2}\\right)^{4}(-2)^{6} = 210 \\cdot \\tfrac{1}{16} \\cdot 64 = 840$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* 120 — term free of x in (6x − 1/(2x))¹⁰ = −61236 (6th term). Key: idem. */
+  template(
+    {
+      id: "poly-espol-ch2-120",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "binomial-theorem",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 240,
+      tags: ["binomial-theorem", "independent-term"],
+      prerequisites: ["special-products"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 120",
+        page: 246,
+      },
+      reasoning: "parameters",
+    },
+    () => ({
+      skill: L("Término independiente de un binomio en x y 1/x", "The independent term of a binomial in x and 1/x"),
+      statement: L(
+        "Halla el término que no contiene $x$ en el desarrollo de $\\left(6x - \\dfrac{1}{2x}\\right)^{10}$ (da solo el número).",
+        "Find the term that contains no $x$ in the expansion of $\\left(6x - \\dfrac{1}{2x}\\right)^{10}$ (give just the number).",
+      ),
+      answer: { kind: "numeric", value: -61236 },
+      hints: [
+        L(
+          "El término general es $\\binom{10}{k}(6x)^{10-k}\\left(-\\dfrac{1}{2x}\\right)^{k}$: mira cómo cambia el exponente de $x$ con $k$.",
+          "The general term is $\\binom{10}{k}(6x)^{10-k}\\left(-\\dfrac{1}{2x}\\right)^{k}$: watch how the exponent of $x$ changes with $k$.",
+        ),
+        L(
+          "El exponente de $x$ es $10 - k - k = 10 - 2k$; «que no contenga $x$» significa exponente $0$.",
+          "The exponent of $x$ is $10 - k - k = 10 - 2k$; «containing no $x$» means exponent $0$.",
+        ),
+        L(
+          "Con $k = 5$ (sexto término): $\\binom{10}{5}6^{5}\\left(-\\dfrac{1}{2}\\right)^{5}$ — cuida el signo.",
+          "With $k = 5$ (sixth term): $\\binom{10}{5}6^{5}\\left(-\\dfrac{1}{2}\\right)^{5}$ — mind the sign.",
+        ),
+      ],
+      answerDisplay: L(
+        "$T_{6} = \\binom{10}{5}6^{5}\\left(-\\dfrac{1}{2}\\right)^{5} = -61236$",
+        "$T_{6} = \\binom{10}{5}6^{5}\\left(-\\dfrac{1}{2}\\right)^{5} = -61236$",
+      ),
+      solution: [
+        step(
+          "given",
+          "$\\left(6x - \\dfrac{1}{2x}\\right)^{10}$; se busca el término independiente de $x$.",
+          "$\\left(6x - \\dfrac{1}{2x}\\right)^{10}$; the term independent of $x$ is sought.",
+        ),
+        step(
+          "approach",
+          "El exponente de $x$ en el término general es $10 - 2k$; imponer que valga $0$ fija $k$, y con él el término completo.",
+          "The exponent of $x$ in the general term is $10 - 2k$; forcing it to be $0$ fixes $k$, and with it the whole term.",
+        ),
+        step(
+          "calculation",
+          "$\\binom{10}{k}(6x)^{10-k}\\left(-\\dfrac{1}{2x}\\right)^{k}$ lleva $x^{10-2k}$; con $10 - 2k = 0$, $k = 5$ (sexto término).<br>$T_{6} = \\binom{10}{5}6^{5}\\left(-\\dfrac{1}{2}\\right)^{5} = 252 \\cdot 7776 \\cdot \\left(-\\dfrac{1}{32}\\right) = -252 \\cdot 243 = -61236$.",
+          "$\\binom{10}{k}(6x)^{10-k}\\left(-\\dfrac{1}{2x}\\right)^{k}$ carries $x^{10-2k}$; with $10 - 2k = 0$, $k = 5$ (sixth term).<br>$T_{6} = \\binom{10}{5}6^{5}\\left(-\\dfrac{1}{2}\\right)^{5} = 252 \\cdot 7776 \\cdot \\left(-\\dfrac{1}{32}\\right) = -252 \\cdot 243 = -61236$.",
+        ),
+        step(
+          "result",
+          "$T_{6} = -61236$ (clave impresa: sexto término, $-61236$). Verificación aritmética: $252 \\cdot 7776 = 1959552$ y $1959552/32 = 61236$, con el signo de $(-1)^{5}$ ✓.",
+          "$T_{6} = -61236$ (printed key: sixth term, $-61236$). Arithmetic check: $252 \\cdot 7776 = 1959552$ and $1959552/32 = 61236$, with the sign of $(-1)^{5}$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* 121 — (x²+3/x³)⁷: exponents 14−5k never equal 1 → no x term (option e). */
+  template(
+    {
+      id: "poly-espol-ch2-121",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "binomial-theorem",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 210,
+      tags: ["binomial-theorem", "exponent-analysis"],
+      prerequisites: ["special-products"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 121",
+        page: 247,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$21$", "$21$"), correct: false },
+        { id: "b", text: L("$35$", "$35$"), correct: false },
+        { id: "c", text: L("$7$", "$7$"), correct: false },
+        { id: "d", text: L("$-35$", "$-35$"), correct: false },
+        { id: "e", text: L("No existe ningún término en $x$", "No term in $x$ exists"), correct: true },
+      ];
+      return {
+        skill: L("¿Existe el término pedido? Análisis de exponentes", "Does the requested term exist? Exponent analysis"),
+        statement: L(
+          "En el desarrollo de $\\left(x^{2} + \\dfrac{3}{x^{3}}\\right)^{7}$, ¿cuál es el coeficiente del término en $x$? ¿Existen términos en $x$? Justifica.",
+          "In the expansion of $\\left(x^{2} + \\dfrac{3}{x^{3}}\\right)^{7}$, what is the coefficient of the term in $x$? Do terms in $x$ exist? Justify.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "No multipliques nada todavía: escribe el término general y mira solo el **exponente** de $x$.",
+            "Do not multiply anything yet: write the general term and look only at the **exponent** of $x$.",
+          ),
+          L(
+            "$T_{k+1} = \\binom{7}{k}(x^{2})^{7-k}\\left(\\dfrac{3}{x^{3}}\\right)^{k}$ lleva $x^{\\,2(7-k) - 3k} = x^{\\,14-5k}$.",
+            "$T_{k+1} = \\binom{7}{k}(x^{2})^{7-k}\\left(\\dfrac{3}{x^{3}}\\right)^{k}$ carries $x^{\\,2(7-k) - 3k} = x^{\\,14-5k}$.",
+          ),
+          L(
+            "Recorre $k = 0, 1, \\ldots, 7$: ¿algún valor de $14 - 5k$ da exactamente $1$?",
+            "Run through $k = 0, 1, \\ldots, 7$: does any value of $14 - 5k$ give exactly $1$?",
+          ),
+        ],
+        answerDisplay: L("No existe ningún término en $x$", "No term in $x$ exists"),
+        solution: [
+          step(
+            "given",
+            "$\\left(x^{2} + \\dfrac{3}{x^{3}}\\right)^{7}$; se pide el coeficiente del término en $x$ (si existe).",
+            "$\\left(x^{2} + \\dfrac{3}{x^{3}}\\right)^{7}$; the coefficient of the term in $x$ is requested (if it exists).",
+          ),
+          step(
+            "approach",
+            "Antes de calcular coeficientes hay que saber SI el término existe: basta analizar el exponente de $x$ en el término general.",
+            "Before computing coefficients one must know WHETHER the term exists: it is enough to analyze the exponent of $x$ in the general term.",
+          ),
+          step(
+            "calculation",
+            "$T_{k+1} = \\binom{7}{k}x^{\\,2(7-k)} \\cdot 3^{k}x^{-3k}$, con exponente $14 - 5k$.<br>Con $k = 0, \\ldots, 7$: $14, 9, 4, -1, -6, -11, -16, -21$ — el $1$ no aparece (resolver $14 - 5k = 1$ da $k = \\tfrac{13}{5}$, no entero).",
+            "$T_{k+1} = \\binom{7}{k}x^{\\,2(7-k)} \\cdot 3^{k}x^{-3k}$, with exponent $14 - 5k$.<br>For $k = 0, \\ldots, 7$: $14, 9, 4, -1, -6, -11, -16, -21$ — the $1$ never appears (solving $14 - 5k = 1$ gives $k = \\tfrac{13}{5}$, not an integer).",
+          ),
+          step(
+            "result",
+            "No existe ningún término en $x$ (opción e). Este ejercicio no tiene clave impresa: se verificó con sympy — el desarrollo solo contiene $x^{14}, x^{9}, x^{4}, x^{-1}, x^{-6}, \\ldots$. La gracia del ejercicio: pide un coeficiente, pero lo que examina es la lectura de exponentes.",
+            "No term in $x$ exists (option e). This exercise has no printed key: it was verified with sympy — the expansion only contains $x^{14}, x^{9}, x^{4}, x^{-1}, x^{-6}, \\ldots$. The point of the exercise: it asks for a coefficient, but what it tests is reading exponents.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 122 — independent term of (x²+1/x)⁹ = 84 (7th term). Key: idem. */
+  template(
+    {
+      id: "poly-espol-ch2-122",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "binomial-theorem",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 180,
+      tags: ["binomial-theorem", "independent-term"],
+      prerequisites: ["special-products"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 122",
+        page: 247,
+      },
+      reasoning: "parameters",
+    },
+    () => ({
+      skill: L("Término independiente por cancelación de exponentes", "The independent term by cancelling exponents"),
+      statement: L(
+        "Halla el término independiente de $x$ en el desarrollo de $\\left(x^{2} + \\dfrac{1}{x}\\right)^{9}$ (da solo el número).",
+        "Find the term independent of $x$ in the expansion of $\\left(x^{2} + \\dfrac{1}{x}\\right)^{9}$ (give just the number).",
+      ),
+      answer: { kind: "numeric", value: 84 },
+      hints: [
+        L(
+          "Término general: $\\binom{9}{k}(x^{2})^{9-k}\\left(\\dfrac{1}{x}\\right)^{k}$, con exponente de $x$ igual a $18 - 3k$.",
+          "General term: $\\binom{9}{k}(x^{2})^{9-k}\\left(\\dfrac{1}{x}\\right)^{k}$, with exponent of $x$ equal to $18 - 3k$.",
+        ),
+        L(
+          "«Independiente de $x$» significa exponente $0$: resuelve $18 - 3k = 0$.",
+          "«Independent of $x$» means exponent $0$: solve $18 - 3k = 0$.",
+        ),
+        L(
+          "Con $k = 6$ (séptimo término) las potencias de $x$ se cancelan: $\\binom{9}{6}(x^{2})^{3}(x^{-1})^{6}$.",
+          "With $k = 6$ (seventh term) the powers of $x$ cancel out: $\\binom{9}{6}(x^{2})^{3}(x^{-1})^{6}$.",
+        ),
+      ],
+      answerDisplay: L("$T_{7} = 84$", "$T_{7} = 84$"),
+      solution: [
+        step(
+          "given",
+          "$\\left(x^{2} + \\dfrac{1}{x}\\right)^{9}$; se busca el término independiente de $x$.",
+          "$\\left(x^{2} + \\dfrac{1}{x}\\right)^{9}$; the term independent of $x$ is sought.",
+        ),
+        step(
+          "approach",
+          "Analizar el exponente de $x$ en el término general; el valor de $k$ que lo anula identifica el término buscado.",
+          "Analyze the exponent of $x$ in the general term; the value of $k$ that nullifies it identifies the requested term.",
+        ),
+        step(
+          "calculation",
+          "Exponente: $2(9 - k) - k = 18 - 3k$; con $18 - 3k = 0$, $k = 6$ → séptimo término:<br>$T_{7} = \\binom{9}{6}(x^{2})^{3}\\left(\\dfrac{1}{x}\\right)^{6} = 84 \\cdot x^{6} \\cdot x^{-6} = 84$.",
+          "Exponent: $2(9 - k) - k = 18 - 3k$; with $18 - 3k = 0$, $k = 6$ → seventh term:<br>$T_{7} = \\binom{9}{6}(x^{2})^{3}\\left(\\dfrac{1}{x}\\right)^{6} = 84 \\cdot x^{6} \\cdot x^{-6} = 84$.",
+        ),
+        step(
+          "result",
+          "El término independiente es $84$ (clave impresa: séptimo término, $84$). Verificación: $\\binom{9}{6} = \\binom{9}{3} = \\dfrac{9 \\cdot 8 \\cdot 7}{3 \\cdot 2 \\cdot 1} = 84$ y $x^{6} \\cdot x^{-6} = 1$ ✓.",
+          "The independent term is $84$ (printed key: seventh term, $84$). Check: $\\binom{9}{6} = \\binom{9}{3} = \\dfrac{9 \\cdot 8 \\cdot 7}{3 \\cdot 2 \\cdot 1} = 84$ and $x^{6} \\cdot x^{-6} = 1$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* 123 — term with x¹⁰ in (5+2x²)⁷ = 16800x¹⁰ (6th term). Key: idem. */
+  template(
+    {
+      id: "poly-espol-ch2-123",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "binomial-theorem",
+      difficulty: "medium",
+      questionType: "expression",
+      estimatedTimeSec: 180,
+      tags: ["binomial-theorem", "general-term"],
+      prerequisites: ["special-products"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 123",
+        page: 247,
+      },
+      reasoning: "parameters",
+    },
+    () => ({
+      skill: L("Término con un exponente dado en un binomio", "The term with a given exponent in a binomial"),
+      statement: L(
+        "Halla el término que contiene $x^{10}$ en el desarrollo de $(5 + 2x^{2})^{7}$ (escribe solo el término, por ejemplo 12x^3).",
+        "Find the term that contains $x^{10}$ in the expansion of $(5 + 2x^{2})^{7}$ (write just the term, for example 12x^3).",
+      ),
+      answer: {
+        kind: "expression",
+        accepted: ["16800x^10", "16800 x^10"],
+        variables: ["x"],
+      },
+      hints: [
+        L(
+          "El término general es $\\binom{7}{k}5^{\\,7-k}(2x^{2})^{k}$; el exponente de $x$ es $2k$.",
+          "The general term is $\\binom{7}{k}5^{\\,7-k}(2x^{2})^{k}$; the exponent of $x$ is $2k$.",
+        ),
+        L(
+          "Impón $2k = 10$ para identificar el término.",
+          "Impose $2k = 10$ to identify the term.",
+        ),
+        L(
+          "Con $k = 5$ (sexto término): $\\binom{7}{5}5^{2}(2x^{2})^{5}$; calcula $21 \\cdot 25 \\cdot 32$.",
+          "With $k = 5$ (sixth term): $\\binom{7}{5}5^{2}(2x^{2})^{5}$; compute $21 \\cdot 25 \\cdot 32$.",
+        ),
+      ],
+      answerDisplay: L("$T_{6} = 16800x^{10}$", "$T_{6} = 16800x^{10}$"),
+      solution: [
+        step(
+          "given",
+          "$(5 + 2x^{2})^{7}$; se pide el término que contiene $x^{10}$.",
+          "$(5 + 2x^{2})^{7}$; the term containing $x^{10}$ is requested.",
+        ),
+        step(
+          "approach",
+          "El exponente de $x$ solo proviene de $(2x^{2})^{k}$: igualar $2k = 10$ fija el término.",
+          "The exponent of $x$ comes only from $(2x^{2})^{k}$: setting $2k = 10$ pins down the term.",
+        ),
+        step(
+          "calculation",
+          "$2k = 10 \\Rightarrow k = 5$ (sexto término).<br>$T_{6} = \\binom{7}{5}5^{\\,7-5}(2x^{2})^{5} = 21 \\cdot 25 \\cdot 32x^{10} = 16800x^{10}$.",
+          "$2k = 10 \\Rightarrow k = 5$ (sixth term).<br>$T_{6} = \\binom{7}{5}5^{\\,7-5}(2x^{2})^{5} = 21 \\cdot 25 \\cdot 32x^{10} = 16800x^{10}$.",
+        ),
+        step(
+          "result",
+          "$T_{6} = 16800x^{10}$ (clave impresa: sexto término, $16800x^{10}$). Verificación: $21 \\cdot 25 = 525$ y $525 \\cdot 32 = 16800$ ✓.",
+          "$T_{6} = 16800x^{10}$ (printed key: sixth term, $16800x^{10}$). Check: $21 \\cdot 25 = 525$ and $525 \\cdot 32 = 16800$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* 124 — (x²+y/x)⁵: exponents 10−3k never equal 3 → no such term (option e). */
+  template(
+    {
+      id: "poly-espol-ch2-124",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "binomial-theorem",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["binomial-theorem", "exponent-analysis"],
+      prerequisites: ["special-products"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "2 · 124",
+        page: 247,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$21$", "$21$"), correct: false },
+        { id: "b", text: L("$30$", "$30$"), correct: false },
+        { id: "c", text: L("$-12$", "$-12$"), correct: false },
+        { id: "d", text: L("$72$", "$72$"), correct: false },
+        { id: "e", text: L("No existe tal término", "No such term exists"), correct: true },
+      ];
+      return {
+        skill: L("Buscar un término que no existe: análisis de exponentes", "Hunting for a term that does not exist: exponent analysis"),
+        statement: L(
+          "El término del desarrollo de $\\left(x^{2} + \\dfrac{y}{x}\\right)^{5}$ que contiene $x^{3}$ es:",
+          "The term of the expansion of $\\left(x^{2} + \\dfrac{y}{x}\\right)^{5}$ that contains $x^{3}$ is:",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Como en todo binomio: término general y análisis del exponente de $x$ antes de calcular nada.",
+            "As with every binomial: general term and analysis of the exponent of $x$ before computing anything.",
+          ),
+          L(
+            "$T_{k+1} = \\binom{5}{k}(x^{2})^{5-k}\\left(\\dfrac{y}{x}\\right)^{k}$ lleva exponente de $x$ igual a $10 - 3k$.",
+            "$T_{k+1} = \\binom{5}{k}(x^{2})^{5-k}\\left(\\dfrac{y}{x}\\right)^{k}$ carries an exponent of $x$ equal to $10 - 3k$.",
+          ),
+          L(
+            "Con $k = 0, \\ldots, 5$ los exponentes son $10, 7, 4, 1, -2, -5$: ¿aparece el $3$?",
+            "For $k = 0, \\ldots, 5$ the exponents are $10, 7, 4, 1, -2, -5$: does $3$ appear?",
+          ),
+        ],
+        answerDisplay: L("No existe tal término", "No such term exists"),
+        solution: [
+          step(
+            "given",
+            "$\\left(x^{2} + \\dfrac{y}{x}\\right)^{5}$; se busca el término que contiene $x^{3}$.",
+            "$\\left(x^{2} + \\dfrac{y}{x}\\right)^{5}$; the term containing $x^{3}$ is sought.",
+          ),
+          step(
+            "approach",
+            "El exponente de $x$ manda: solo si algún término tuviera exponente $3$ tendría sentido calcular su coeficiente.",
+            "The exponent of $x$ rules: only if some term had exponent $3$ would it make sense to compute its coefficient.",
+          ),
+          step(
+            "calculation",
+            "$T_{k+1} = \\binom{5}{k}x^{\\,2(5-k)}y^{k}x^{-k}$, con exponente $10 - 3k$; para $k = 0, \\ldots, 5$: $10, 7, 4, 1, -2, -5$.<br>$10 - 3k = 3 \\Rightarrow 3k = 7 \\Rightarrow k = \\dfrac{7}{3}$, no entero.",
+            "$T_{k+1} = \\binom{5}{k}x^{\\,2(5-k)}y^{k}x^{-k}$, with exponent $10 - 3k$; for $k = 0, \\ldots, 5$: $10, 7, 4, 1, -2, -5$.<br>$10 - 3k = 3 \\Rightarrow 3k = 7 \\Rightarrow k = \\dfrac{7}{3}$, not an integer.",
+          ),
+          step(
+            "result",
+            "No existe tal término (opción e; clave impresa e): el exponente $3$ no aparece en el desarrollo. Verificación: los únicos exponentes de $x$ posibles son $10, 7, 4, 1, -2, -5$ ✓.",
+            "No such term exists (option e; printed key e): the exponent $3$ never appears in the expansion. Check: the only possible exponents of $x$ are $10, 7, 4, 1, -2, -5$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 3.12 #87 — one condition p(3)=1 does not determine a+b → Falso (option b). */
+  template(
+    {
+      id: "poly-espol-ch3-87",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "remainder-theorem",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["remainder-theorem", "conceptual"],
+      prerequisites: ["remainder-theorem"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 87",
+        page: 387,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("Verdadero", "True"), correct: false },
+        { id: "b", text: L("Falso", "False"), correct: true },
+      ];
+      return {
+        skill: L("Teorema del resto y suficiencia de datos", "The remainder theorem and sufficiency of data"),
+        statement: L(
+          "Sea $p$ la función polinomial $p(x) = x^{2} + ax + b$. Si al dividir $p(x)$ entre $(x - 3)$ se obtiene resto $1$, entonces $a + b = 1$. La afirmación es:",
+          "Let $p$ be the polynomial function $p(x) = x^{2} + ax + b$. If dividing $p(x)$ by $(x - 3)$ gives remainder $1$, then $a + b = 1$. The claim is:",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "El teorema del resto dice: el resto de dividir $p(x)$ entre $x - c$ es $p(c)$.",
+            "The remainder theorem says: the remainder of dividing $p(x)$ by $x - c$ is $p(c)$.",
+          ),
+          L(
+            "Escribe la condición $p(3) = 1$ y cuenta: ¿cuántas ecuaciones y cuántas incógnitas obtienes?",
+            "Write the condition $p(3) = 1$ and count: how many equations and how many unknowns do you get?",
+          ),
+          L(
+            "Prueba a construir dos parejas $(a, b)$ distintas que cumplan la condición y compara sus sumas $a + b$.",
+            "Try to build two different pairs $(a, b)$ satisfying the condition and compare their sums $a + b$.",
+          ),
+        ],
+        answerDisplay: L("Falso: $a + b$ no queda determinado", "False: $a + b$ is not determined"),
+        solution: [
+          step(
+            "given",
+            "$p(x) = x^{2} + ax + b$; el resto de dividir $p(x)$ entre $(x - 3)$ es $1$; se afirma que $a + b = 1$.",
+            "$p(x) = x^{2} + ax + b$; the remainder of dividing $p(x)$ by $(x - 3)$ is $1$; the claim is that $a + b = 1$.",
+          ),
+          step(
+            "approach",
+            "Traducir el resto con el teorema del resto ($p(3) = 1$) y preguntarse si UNA ecuación alcanza para determinar la suma de dos incógnitas.",
+            "Translate the remainder with the remainder theorem ($p(3) = 1$) and ask whether ONE equation suffices to determine the sum of two unknowns.",
+          ),
+          step(
+            "calculation",
+            "$p(3) = 9 + 3a + b = 1 \\Rightarrow 3a + b = -8$ — una ecuación, dos incógnitas.<br>Ejemplos que la cumplen: $(a, b) = (0, -8)$, con suma $-8$; y $(a, b) = (-1, -5)$, con suma $-6$.",
+            "$p(3) = 9 + 3a + b = 1 \\Rightarrow 3a + b = -8$ — one equation, two unknowns.<br>Pairs satisfying it: $(a, b) = (0, -8)$, with sum $-8$; and $(a, b) = (-1, -5)$, with sum $-6$.",
+          ),
+          step(
+            "result",
+            "**Falso** (opción b; clave impresa b): $a + b$ no queda determinado — una sola condición no fija la suma. Verificación: ambas parejas cumplen $3a + b = -8$ ($0 - 8 = -8$ ✓; $-3 - 5 = -8$ ✓) pero dan sumas distintas.",
+            "**False** (option b; printed key b): $a + b$ is not determined — a single condition does not fix the sum. Check: both pairs satisfy $3a + b = -8$ ($0 - 8 = -8$ ✓; $-3 - 5 = -8$ ✓) yet they give different sums.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 3.12 #89 — (x−1/2) factor of x³+x²−(k+7)x+21/8 → k = −1 (option a). */
+  template(
+    {
+      id: "poly-espol-ch3-89",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "remainder-theorem",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 180,
+      tags: ["factor-theorem", "parameter"],
+      prerequisites: ["remainder-theorem"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 89",
+        page: 387,
+      },
+      reasoning: "parameters",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$-1$", "$-1$"), correct: true },
+        { id: "b", text: L("$7$", "$7$"), correct: false },
+        { id: "c", text: L("$14$", "$14$"), correct: false },
+        { id: "d", text: L("$-14$", "$-14$"), correct: false },
+        { id: "e", text: L("$-7$", "$-7$"), correct: false },
+      ];
+      return {
+        skill: L("Teorema del factor con un parámetro y fracciones", "The factor theorem with a parameter and fractions"),
+        statement: L(
+          "El valor de $k$ para el cual $(x - \\tfrac{1}{2})$ es factor de $p(x) = x^{3} + x^{2} - (k + 7)x + \\tfrac{21}{8}$ es:",
+          "The value of $k$ for which $(x - \\tfrac{1}{2})$ is a factor of $p(x) = x^{3} + x^{2} - (k + 7)x + \\tfrac{21}{8}$ is:",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Teorema del factor: $(x - c)$ es factor de $p(x)$ si y solo si $p(c) = 0$. Aquí $c = \\tfrac{1}{2}$.",
+            "Factor theorem: $(x - c)$ is a factor of $p(x)$ if and only if $p(c) = 0$. Here $c = \\tfrac{1}{2}$.",
+          ),
+          L(
+            "Calcula $p\\left(\\tfrac{1}{2}\\right)$ agrupando primero los términos sin $k$: $\\tfrac{1}{8} + \\tfrac{1}{4} + \\tfrac{21}{8}$.",
+            "Compute $p\\left(\\tfrac{1}{2}\\right)$ by grouping the $k$-free terms first: $\\tfrac{1}{8} + \\tfrac{1}{4} + \\tfrac{21}{8}$.",
+          ),
+          L(
+            "Te debe quedar $3 - \\tfrac{k + 7}{2} = 0$; despeja $k$.",
+            "You should get $3 - \\tfrac{k + 7}{2} = 0$; solve for $k$.",
+          ),
+        ],
+        answerDisplay: L("$k = -1$", "$k = -1$"),
+        solution: [
+          step(
+            "given",
+            "$p(x) = x^{3} + x^{2} - (k + 7)x + \\tfrac{21}{8}$; $(x - \\tfrac{1}{2})$ debe ser factor.",
+            "$p(x) = x^{3} + x^{2} - (k + 7)x + \\tfrac{21}{8}$; $(x - \\tfrac{1}{2})$ must be a factor.",
+          ),
+          step(
+            "approach",
+            "Teorema del factor: imponer $p\\left(\\tfrac{1}{2}\\right) = 0$ y despejar $k$, con cuidado en la aritmética de fracciones.",
+            "Factor theorem: impose $p\\left(\\tfrac{1}{2}\\right) = 0$ and solve for $k$, carefully with the fraction arithmetic.",
+          ),
+          step(
+            "calculation",
+            "$p\\left(\\tfrac{1}{2}\\right) = \\tfrac{1}{8} + \\tfrac{1}{4} - \\tfrac{k + 7}{2} + \\tfrac{21}{8} = \\tfrac{1 + 2 + 21}{8} - \\tfrac{k + 7}{2} = 3 - \\tfrac{k + 7}{2}$.<br>$3 - \\tfrac{k + 7}{2} = 0 \\Rightarrow \\tfrac{k + 7}{2} = 3 \\Rightarrow k = -1$.",
+            "$p\\left(\\tfrac{1}{2}\\right) = \\tfrac{1}{8} + \\tfrac{1}{4} - \\tfrac{k + 7}{2} + \\tfrac{21}{8} = \\tfrac{1 + 2 + 21}{8} - \\tfrac{k + 7}{2} = 3 - \\tfrac{k + 7}{2}$.<br>$3 - \\tfrac{k + 7}{2} = 0 \\Rightarrow \\tfrac{k + 7}{2} = 3 \\Rightarrow k = -1$.",
+          ),
+          step(
+            "result",
+            "$k = -1$ (opción a; clave impresa a). Verificación: con $k = -1$, $p\\left(\\tfrac{1}{2}\\right) = 3 - \\tfrac{6}{2} = 3 - 3 = 0$ ✓, así que $(x - \\tfrac{1}{2})$ divide exactamente.",
+            "$k = -1$ (option a; printed key a). Check: with $k = -1$, $p\\left(\\tfrac{1}{2}\\right) = 3 - \\tfrac{6}{2} = 3 - 3 = 0$ ✓, so $(x - \\tfrac{1}{2})$ divides exactly.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 3.12 #90 — x³+ax²+b divisible by x²−x−2 → a+b = 1 (option a; shortcut p(−1)=0). */
+  template(
+    {
+      id: "poly-espol-ch3-90",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "remainder-theorem",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 210,
+      tags: ["factor-theorem", "system"],
+      prerequisites: ["remainder-theorem", "factoring"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 90",
+        page: 387,
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$1$", "$1$"), correct: true },
+        { id: "b", text: L("$-1$", "$-1$"), correct: false },
+        { id: "c", text: L("$7$", "$7$"), correct: false },
+        { id: "d", text: L("$-7$", "$-7$"), correct: false },
+        { id: "e", text: L("$2$", "$2$"), correct: false },
+      ];
+      return {
+        skill: L("Divisibilidad por un trinomio: sistema con atajo", "Divisibility by a trinomial: a system with a shortcut"),
+        statement: L(
+          "La suma de $a$ y $b$ para que la función polinomial $p(x) = x^{3} + ax^{2} + b$ sea divisible por el trinomio $x^{2} - x - 2$ es:",
+          "The sum of $a$ and $b$ such that the polynomial function $p(x) = x^{3} + ax^{2} + b$ is divisible by the trinomial $x^{2} - x - 2$ is:",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Factoriza el trinomio: $x^{2} - x - 2 = (x - 2)(x + 1)$.",
+            "Factor the trinomial: $x^{2} - x - 2 = (x - 2)(x + 1)$.",
+          ),
+          L(
+            "«Divisible por el trinomio» equivale a divisible por sus DOS factores: $p(2) = 0$ y $p(-1) = 0$.",
+            "«Divisible by the trinomial» is equivalent to divisible by BOTH factors: $p(2) = 0$ and $p(-1) = 0$.",
+          ),
+          L(
+            "Escribe las dos ecuaciones y míralas antes de resolver: una de ellas ya contiene casi literalmente lo que te piden.",
+            "Write both equations and look at them before solving: one of them already contains almost literally what is asked.",
+          ),
+        ],
+        answerDisplay: L("$a + b = 1$", "$a + b = 1$"),
+        solution: [
+          step(
+            "given",
+            "$p(x) = x^{3} + ax^{2} + b$ divisible entre $x^{2} - x - 2$; se pide $a + b$.",
+            "$p(x) = x^{3} + ax^{2} + b$ divisible by $x^{2} - x - 2$; $a + b$ is requested.",
+          ),
+          step(
+            "approach",
+            "Factorizar el trinomio → dos condiciones de raíz (teorema del factor) → sistema $2 \\times 2$. Atajo: leer bien las ecuaciones antes de resolverlas.",
+            "Factor the trinomial → two root conditions (factor theorem) → a $2 \\times 2$ system. Shortcut: read the equations carefully before solving.",
+          ),
+          step(
+            "calculation",
+            "$x^{2} - x - 2 = (x - 2)(x + 1)$, así que $p(2) = 0$ y $p(-1) = 0$:<br>$p(2) = 8 + 4a + b = 0$; $p(-1) = -1 + a + b = 0$.<br>La segunda ecuación dice directamente $a + b = 1$. Resolviendo completo: $b = 1 - a \\Rightarrow 8 + 4a + 1 - a = 0 \\Rightarrow a = -3$, $b = 4$.",
+            "$x^{2} - x - 2 = (x - 2)(x + 1)$, so $p(2) = 0$ and $p(-1) = 0$:<br>$p(2) = 8 + 4a + b = 0$; $p(-1) = -1 + a + b = 0$.<br>The second equation directly says $a + b = 1$. Solving fully: $b = 1 - a \\Rightarrow 8 + 4a + 1 - a = 0 \\Rightarrow a = -3$, $b = 4$.",
+          ),
+          step(
+            "result",
+            "$a + b = 1$ (opción a; clave impresa a) — el atajo: $p(-1) = 0$ ya ES la ecuación pedida. Verificación con $a = -3$, $b = 4$: $p(2) = 8 - 12 + 4 = 0$ ✓ y $p(-1) = -1 - 3 + 4 = 0$ ✓.",
+            "$a + b = 1$ (option a; printed key a) — the shortcut: $p(-1) = 0$ already IS the requested equation. Check with $a = -3$, $b = 4$: $p(2) = 8 - 12 + 4 = 0$ ✓ and $p(-1) = -1 - 3 + 4 = 0$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 3.12 #93 — p(2)=0, p(1)=−10 → a=10/3, b=−38/3 → remainder p(3) = 160/3 (option c). */
+  template(
+    {
+      id: "poly-espol-ch3-93",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "remainder-theorem",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 270,
+      tags: ["remainder-theorem", "system"],
+      prerequisites: ["remainder-theorem"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 93",
+        page: 388,
+      },
+      reasoning: "parameters",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$120$", "$120$"), correct: false },
+        { id: "b", text: L("$150$", "$150$"), correct: false },
+        { id: "c", text: L("$\\dfrac{160}{3}$", "$\\dfrac{160}{3}$"), correct: true },
+        { id: "d", text: L("$\\dfrac{160}{30}$", "$\\dfrac{160}{30}$"), correct: false },
+        { id: "e", text: L("$\\dfrac{244}{3}$", "$\\dfrac{244}{3}$"), correct: false },
+      ];
+      return {
+        skill: L("Resto con parámetros: sistema de dos condiciones", "A remainder with parameters: a two-condition system"),
+        statement: L(
+          "Una de las raíces de $p(x) = x^{4} - ax^{2} + 5x + b$ es $2$, y $p(1) + 10 = 0$. El resto de dividir $p(x)$ entre $(x - 3)$ es:",
+          "One of the roots of $p(x) = x^{4} - ax^{2} + 5x + b$ is $2$, and $p(1) + 10 = 0$. The remainder of dividing $p(x)$ by $(x - 3)$ is:",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Dos datos, dos incógnitas: «raíz 2» significa $p(2) = 0$ y la otra condición es $p(1) = -10$.",
+            "Two data, two unknowns: «root 2» means $p(2) = 0$ and the other condition is $p(1) = -10$.",
+          ),
+          L(
+            "Plantea el sistema en $a$ y $b$ y resta las ecuaciones para eliminar $b$.",
+            "Set up the system in $a$ and $b$ and subtract the equations to eliminate $b$.",
+          ),
+          L(
+            "Con $a$ y $b$ hallados, el resto pedido NO requiere dividir: es $p(3)$.",
+            "With $a$ and $b$ found, the requested remainder needs NO division: it is $p(3)$.",
+          ),
+        ],
+        answerDisplay: L("resto $= \\dfrac{160}{3}$", "remainder $= \\dfrac{160}{3}$"),
+        solution: [
+          step(
+            "given",
+            "$p(x) = x^{4} - ax^{2} + 5x + b$ con $p(2) = 0$ y $p(1) = -10$; se pide el resto de dividir entre $(x - 3)$.",
+            "$p(x) = x^{4} - ax^{2} + 5x + b$ with $p(2) = 0$ and $p(1) = -10$; the remainder of the division by $(x - 3)$ is requested.",
+          ),
+          step(
+            "approach",
+            "Primero determinar $a$ y $b$ con un sistema (teorema del factor + dato puntual); después, el resto pedido es simplemente $p(3)$ (teorema del resto).",
+            "First determine $a$ and $b$ with a system (factor theorem + point datum); afterwards, the requested remainder is simply $p(3)$ (remainder theorem).",
+          ),
+          step(
+            "calculation",
+            "$p(2) = 16 - 4a + 10 + b = 0 \\Rightarrow -4a + b = -26$;<br>$p(1) = 1 - a + 5 + b = -10 \\Rightarrow -a + b = -16$.<br>Restando: $-3a = -10 \\Rightarrow a = \\tfrac{10}{3}$ y $b = -16 + \\tfrac{10}{3} = -\\tfrac{38}{3}$.<br>Resto $= p(3) = 81 - 9 \\cdot \\tfrac{10}{3} + 15 - \\tfrac{38}{3} = 96 - 30 - \\tfrac{38}{3} = \\tfrac{160}{3}$.",
+            "$p(2) = 16 - 4a + 10 + b = 0 \\Rightarrow -4a + b = -26$;<br>$p(1) = 1 - a + 5 + b = -10 \\Rightarrow -a + b = -16$.<br>Subtracting: $-3a = -10 \\Rightarrow a = \\tfrac{10}{3}$ and $b = -16 + \\tfrac{10}{3} = -\\tfrac{38}{3}$.<br>Remainder $= p(3) = 81 - 9 \\cdot \\tfrac{10}{3} + 15 - \\tfrac{38}{3} = 96 - 30 - \\tfrac{38}{3} = \\tfrac{160}{3}$.",
+          ),
+          step(
+            "result",
+            "El resto es $\\dfrac{160}{3}$ (opción c; clave impresa c). Verificación: con $a = \\tfrac{10}{3}$, $b = -\\tfrac{38}{3}$: $p(2) = 26 - \\tfrac{40}{3} - \\tfrac{38}{3} = 26 - 26 = 0$ ✓, y $\\tfrac{160}{3} \\approx 53.33$ coincide con $96 - 30 - 12.67$ ✓.",
+            "The remainder is $\\dfrac{160}{3}$ (option c; printed key c). Check: with $a = \\tfrac{10}{3}$, $b = -\\tfrac{38}{3}$: $p(2) = 26 - \\tfrac{40}{3} - \\tfrac{38}{3} = 26 - 26 = 0$ ✓, and $\\tfrac{160}{3} \\approx 53.33$ matches $96 - 30 - 12.67$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 3.12 #94 — p(1)=0 gives a+b−15=0 → a+b = 15 directly (option e). */
+  template(
+    {
+      id: "poly-espol-ch3-94",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "remainder-theorem",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 270,
+      tags: ["remainder-theorem", "system"],
+      prerequisites: ["remainder-theorem"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 94",
+        page: 388,
+      },
+      reasoning: "parameters",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$11$", "$11$"), correct: false },
+        { id: "b", text: L("$12$", "$12$"), correct: false },
+        { id: "c", text: L("$13$", "$13$"), correct: false },
+        { id: "d", text: L("$14$", "$14$"), correct: false },
+        { id: "e", text: L("$15$", "$15$"), correct: true },
+      ];
+      return {
+        skill: L("Restos con parámetros: un dato ya contiene la respuesta", "Remainders with parameters: one condition already holds the answer"),
+        statement: L(
+          "Si al dividir $p(x) = (a + 1)x^{5} + (b - 2)x^{4} - 31x^{3} - 39x^{2} + 76x - 20$ entre $(x - 1)$ se obtiene resto $0$, y al dividirlo entre $(x + 3)$ se obtiene resto $400$, entonces $a + b$ es:",
+          "If dividing $p(x) = (a + 1)x^{5} + (b - 2)x^{4} - 31x^{3} - 39x^{2} + 76x - 20$ by $(x - 1)$ gives remainder $0$, and dividing it by $(x + 3)$ gives remainder $400$, then $a + b$ is:",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Teorema del resto dos veces: los restos son $p(1)$ y $p(-3)$. Empieza por $p(1)$.",
+            "Remainder theorem twice: the remainders are $p(1)$ and $p(-3)$. Start with $p(1)$.",
+          ),
+          L(
+            "Al evaluar $p(1)$ casi todo son números conocidos; agrupa lo que queda con $a$ y $b$.",
+            "When evaluating $p(1)$ almost everything is known numbers; collect what remains with $a$ and $b$.",
+          ),
+          L(
+            "Mira la forma final de $p(1)$: ¿qué contiene exactamente lo que te piden?",
+            "Look at the final shape of $p(1)$: what does it contain exactly of what is asked?",
+          ),
+        ],
+        answerDisplay: L("$a + b = 15$", "$a + b = 15$"),
+        solution: [
+          step(
+            "given",
+            "$p(x) = (a + 1)x^{5} + (b - 2)x^{4} - 31x^{3} - 39x^{2} + 76x - 20$; $p(1) = 0$ y $p(-3) = 400$; se pide $a + b$.",
+            "$p(x) = (a + 1)x^{5} + (b - 2)x^{4} - 31x^{3} - 39x^{2} + 76x - 20$; $p(1) = 0$ and $p(-3) = 400$; $a + b$ is requested.",
+          ),
+          step(
+            "approach",
+            "Evaluar $p(1)$ primero: la condición del divisor $(x - 1)$ puede bastar sola; la segunda condición permite verificar (o hallar $a$ y $b$ por separado).",
+            "Evaluate $p(1)$ first: the condition with the divisor $(x - 1)$ may suffice on its own; the second condition allows verification (or finding $a$ and $b$ separately).",
+          ),
+          step(
+            "calculation",
+            "$p(1) = (a + 1) + (b - 2) - 31 - 39 + 76 - 20 = a + b - 15 = 0 \\Rightarrow a + b = 15$.<br>Verificación con la otra condición: $p(-3) = -243(a + 1) + 81(b - 2) + 837 - 351 - 228 - 20 = -243a + 81b - 167 = 400 \\Rightarrow -3a + b = 7$; con $a + b = 15$: $a = 2$, $b = 13$.",
+            "$p(1) = (a + 1) + (b - 2) - 31 - 39 + 76 - 20 = a + b - 15 = 0 \\Rightarrow a + b = 15$.<br>Verification with the other condition: $p(-3) = -243(a + 1) + 81(b - 2) + 837 - 351 - 228 - 20 = -243a + 81b - 167 = 400 \\Rightarrow -3a + b = 7$; with $a + b = 15$: $a = 2$, $b = 13$.",
+          ),
+          step(
+            "result",
+            "$a + b = 15$ (opción e; clave impresa e) — la primera condición lo resuelve sola. Verificación con $a = 2$, $b = 13$: $p(1) = 3 + 11 - 31 - 39 + 76 - 20 = 0$ ✓ y $p(-3) = -486 + 1053 - 167 = 400$ ✓.",
+            "$a + b = 15$ (option e; printed key e) — the first condition solves it alone. Check with $a = 2$, $b = 13$: $p(1) = 3 + 11 - 31 - 39 + 76 - 20 = 0$ ✓ and $p(-3) = -486 + 1053 - 167 = 400$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 3.12 #95 — q(1)=−3, q(2)=−7 → a=−7, b=3 → ab = −21 (option c). */
+  template(
+    {
+      id: "poly-espol-ch3-95",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "remainder-theorem",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 210,
+      tags: ["remainder-theorem", "system"],
+      prerequisites: ["remainder-theorem"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 95",
+        page: 388,
+      },
+      reasoning: "parameters",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$-6$", "$-6$"), correct: false },
+        { id: "b", text: L("$-24$", "$-24$"), correct: false },
+        { id: "c", text: L("$-21$", "$-21$"), correct: true },
+        { id: "d", text: L("$6$", "$6$"), correct: false },
+        { id: "e", text: L("$21$", "$21$"), correct: false },
+      ];
+      return {
+        skill: L("Dos restos, dos incógnitas y un producto final", "Two remainders, two unknowns and a final product"),
+        statement: L(
+          "Si al dividir $q(x) = x^{2} + ax + b$ entre $(x - 1)$ se obtiene resto $-3$, y al dividirlo entre $(x - 2)$ se obtiene resto $-7$, entonces $ab$ es:",
+          "If dividing $q(x) = x^{2} + ax + b$ by $(x - 1)$ gives remainder $-3$, and dividing it by $(x - 2)$ gives remainder $-7$, then $ab$ is:",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Dos restos = dos evaluaciones: $q(1) = -3$ y $q(2) = -7$.",
+            "Two remainders = two evaluations: $q(1) = -3$ and $q(2) = -7$.",
+          ),
+          L(
+            "Plantea el sistema lineal en $a$ y $b$ y réstalo para eliminar $b$.",
+            "Set up the linear system in $a$ and $b$ and subtract it to eliminate $b$.",
+          ),
+          L(
+            "Te piden el PRODUCTO $ab$, no la suma: no contestes con $a + b$.",
+            "You are asked for the PRODUCT $ab$, not the sum: do not answer with $a + b$.",
+          ),
+        ],
+        answerDisplay: L("$ab = -21$", "$ab = -21$"),
+        solution: [
+          step(
+            "given",
+            "$q(x) = x^{2} + ax + b$ con $q(1) = -3$ y $q(2) = -7$; se pide $ab$.",
+            "$q(x) = x^{2} + ax + b$ with $q(1) = -3$ and $q(2) = -7$; $ab$ is requested.",
+          ),
+          step(
+            "approach",
+            "Teorema del resto → sistema lineal $2 \\times 2$ en $a$ y $b$; después multiplicar (no sumar).",
+            "Remainder theorem → a $2 \\times 2$ linear system in $a$ and $b$; then multiply (not add).",
+          ),
+          step(
+            "calculation",
+            "$q(1) = 1 + a + b = -3 \\Rightarrow a + b = -4$;<br>$q(2) = 4 + 2a + b = -7 \\Rightarrow 2a + b = -11$.<br>Restando: $a = -7$ y entonces $b = -4 + 7 = 3$.",
+            "$q(1) = 1 + a + b = -3 \\Rightarrow a + b = -4$;<br>$q(2) = 4 + 2a + b = -7 \\Rightarrow 2a + b = -11$.<br>Subtracting: $a = -7$ and then $b = -4 + 7 = 3$.",
+          ),
+          step(
+            "result",
+            "$ab = -7 \\cdot 3 = -21$ (opción c; clave impresa c). Verificación con $q(x) = x^{2} - 7x + 3$: $q(1) = 1 - 7 + 3 = -3$ ✓ y $q(2) = 4 - 14 + 3 = -7$ ✓.",
+            "$ab = -7 \\cdot 3 = -21$ (option c; printed key c). Check with $q(x) = x^{2} - 7x + 3$: $q(1) = 1 - 7 + 3 = -3$ ✓ and $q(2) = 4 - 14 + 3 = -7$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 3.12 #97 — four conditions → p(x) = x⁴+2x³+x²−2x−2. Key: idem. */
+  template(
+    {
+      id: "poly-espol-ch3-97",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "equations",
+      difficulty: "hard",
+      questionType: "expression",
+      estimatedTimeSec: 300,
+      tags: ["polynomial-construction", "factor-theorem", "system"],
+      prerequisites: ["remainder-theorem", "factoring"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 97",
+        page: 388,
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L("Construcción de un polinomio con cuatro condiciones", "Constructing a polynomial from four conditions"),
+      statement: L(
+        "Determina la función polinomial $p(x)$ de cuarto grado que cumple TODAS estas condiciones: I) el coeficiente de $x^{4}$ es $1$; II) $p(1) = 0$; III) $p(x)$ es divisible por el trinomio $x^{2} + 2x + 2$; IV) al dividir $p(x)$ entre $x$ se obtiene resto $-2$. (Puedes darla desarrollada, por ejemplo x^4 - x^2 + 1, o factorizada.)",
+        "Determine the fourth-degree polynomial function $p(x)$ satisfying ALL of: I) the coefficient of $x^{4}$ is $1$; II) $p(1) = 0$; III) $p(x)$ is divisible by the trinomial $x^{2} + 2x + 2$; IV) dividing $p(x)$ by $x$ gives remainder $-2$. (You may give it expanded, for example x^4 - x^2 + 1, or factored.)",
+      ),
+      answer: {
+        kind: "expression",
+        accepted: [
+          "x^4+2x^3+x^2-2x-2",
+          "x^4 + 2x^3 + x^2 - 2x - 2",
+          "(x^2+2x+2)(x^2-1)",
+          "(x^2-1)(x^2+2x+2)",
+        ],
+        variables: ["x"],
+      },
+      hints: [
+        L(
+          "Las condiciones I y III juntas sugieren escribir $p(x) = (x^{2} + 2x + 2)(x^{2} + cx + d)$: el coeficiente de $x^{4}$ sale $1$ automáticamente.",
+          "Conditions I and III together suggest writing $p(x) = (x^{2} + 2x + 2)(x^{2} + cx + d)$: the coefficient of $x^{4}$ comes out $1$ automatically.",
+        ),
+        L(
+          "La condición IV habla del resto al dividir entre $x$: ese resto es simplemente $p(0)$.",
+          "Condition IV is about the remainder of the division by $x$: that remainder is simply $p(0)$.",
+        ),
+        L(
+          "Al expandir $p(x) = (x^{2} + 2x + 2)(x^{2} + cx + d)$, el término independiente es $2d$ y $p(1) = 5(1 + c + d)$.",
+          "When expanding $p(x) = (x^{2} + 2x + 2)(x^{2} + cx + d)$, the constant term is $2d$ and $p(1) = 5(1 + c + d)$.",
+        ),
+      ],
+      answerDisplay: L(
+        "$p(x) = x^{4} + 2x^{3} + x^{2} - 2x - 2$",
+        "$p(x) = x^{4} + 2x^{3} + x^{2} - 2x - 2$",
+      ),
+      solution: [
+        step(
+          "given",
+          "I) coeficiente de $x^{4}$ igual a $1$; II) $p(1) = 0$; III) divisible entre $x^{2} + 2x + 2$; IV) resto de dividir entre $x$ igual a $-2$.",
+          "I) coefficient of $x^{4}$ equal to $1$; II) $p(1) = 0$; III) divisible by $x^{2} + 2x + 2$; IV) remainder of the division by $x$ equal to $-2$.",
+        ),
+        step(
+          "approach",
+          "Construir en lugar de adivinar: I + III fijan la forma $p(x) = (x^{2} + 2x + 2)(x^{2} + cx + d)$; IV da $d$ y II da $c$.",
+          "Construct instead of guessing: I + III fix the shape $p(x) = (x^{2} + 2x + 2)(x^{2} + cx + d)$; IV gives $d$ and II gives $c$.",
+        ),
+        step(
+          "calculation",
+          "Expandiendo: $p(x) = x^{4} + (c + 2)x^{3} + (d + 2c + 2)x^{2} + (2d + 2c)x + 2d$.<br>IV: $p(0) = 2d = -2 \\Rightarrow d = -1$.<br>II: $p(1) = (1 + 2 + 2)(1 + c + d) = 5c = 0 \\Rightarrow c = 0$.<br>Así $p(x) = (x^{2} + 2x + 2)(x^{2} - 1) = x^{4} + 2x^{3} + x^{2} - 2x - 2$.",
+          "Expanding: $p(x) = x^{4} + (c + 2)x^{3} + (d + 2c + 2)x^{2} + (2d + 2c)x + 2d$.<br>IV: $p(0) = 2d = -2 \\Rightarrow d = -1$.<br>II: $p(1) = (1 + 2 + 2)(1 + c + d) = 5c = 0 \\Rightarrow c = 0$.<br>Hence $p(x) = (x^{2} + 2x + 2)(x^{2} - 1) = x^{4} + 2x^{3} + x^{2} - 2x - 2$.",
+        ),
+        step(
+          "result",
+          "$p(x) = x^{4} + 2x^{3} + x^{2} - 2x - 2$ (clave impresa: idem). Verificación de las CUATRO condiciones: coeficiente de $x^{4}$: $1$ ✓; $p(1) = 1 + 2 + 1 - 2 - 2 = 0$ ✓; $p(x) = (x^{2} + 2x + 2)(x - 1)(x + 1)$, divisible entre $x^{2} + 2x + 2$ ✓; $p(0) = -2$ ✓.",
+          "$p(x) = x^{4} + 2x^{3} + x^{2} - 2x - 2$ (printed key: idem). Check of ALL FOUR conditions: coefficient of $x^{4}$: $1$ ✓; $p(1) = 1 + 2 + 1 - 2 - 2 = 0$ ✓; $p(x) = (x^{2} + 2x + 2)(x - 1)(x + 1)$, divisible by $x^{2} + 2x + 2$ ✓; $p(0) = -2$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
 ];

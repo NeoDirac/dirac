@@ -1189,4 +1189,1060 @@ export const templates: ProblemTemplate[] = [
     },
   ),
 
+  /* ================================================================== */
+  /* Curated — ESPOL Fundamentos, EDICIÓN DIGITAL (TUTOR_LICENSED).      */
+  /* Chapter 3 «Funciones de variable real», pp. 367-387.               */
+  /* Tutor's brief (2026-10-03): «vayas a por los ejercicios del        */
+  /* cap 3» — the most difficult / integrative ones.                    */
+  /* Every answer double-verified: printed key pp. 939-940 + sympy      */
+  /* (download/verify_espol_ch3.py). Statements were re-checked         */
+  /* visually against the printed pages where the PDF text layer        */
+  /* lost radicals/fractions.                                            */
+  /* ================================================================== */
+
+  /* 5e — domain of 2/√(|x−2|−1): strict (radical AND denominator) → (−∞,1)∪(3,∞) (option b). */
+  template(
+    {
+      id: "fn-espol-ch3-5e",
+      subject: "math",
+      topicId: "functions",
+      subtopicId: "domain-range",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["domain", "absolute-value", "radical", "denominator"],
+      prerequisites: ["domain-range"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 5e",
+        page: 367,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$[1, 3]$", "$[1, 3]$"), correct: false },
+        {
+          id: "b",
+          text: L(
+            "$(-\\infty, 1) \\cup (3, +\\infty)$",
+            "$(-\\infty, 1) \\cup (3, +\\infty)$",
+          ),
+          correct: true,
+        },
+        { id: "c", text: L("$\\mathbb{R} - \\{2\\}$", "$\\mathbb{R} - \\{2\\}$"), correct: false },
+        { id: "d", text: L("$(1, 3)$", "$(1, 3)$"), correct: false },
+        {
+          id: "e",
+          text: L("$\\mathbb{R} - \\{1, 3\\}$", "$\\mathbb{R} - \\{1, 3\\}$"),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L(
+          "Dominio de un cociente con radical y valor absoluto",
+          "Domain of a quotient with a radical and an absolute value",
+        ),
+        statement: L(
+          "Determina el dominio (máximo) de la función de variable real $g(x) = \\dfrac{2}{\\sqrt{|x - 2| - 1}}$.",
+          "Determine the (maximal) domain of the real-variable function $g(x) = \\dfrac{2}{\\sqrt{|x - 2| - 1}}$.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Hay dos condiciones simultáneas: lo que está dentro de la raíz y el hecho de que esa raíz está en el denominador.",
+            "Two simultaneous conditions: what sits inside the radical and the fact that this radical is in the denominator.",
+          ),
+          L(
+            "Al estar la raíz en el denominador, la condición es **estricta**: $|x - 2| - 1 > 0$ (ni cero ni negativo).",
+            "With the radical in the denominator, the condition is **strict**: $|x - 2| - 1 > 0$ (neither zero nor negative).",
+          ),
+          L(
+            "$|x - 2| > 1$ se lee como distancia: los puntos cuya distancia a $2$ supera $1$.",
+            "$|x - 2| > 1$ reads as a distance: the points whose distance to $2$ exceeds $1$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(-\\infty, 1) \\cup (3, +\\infty)$ — la clave impresa lo escribe $[1, 3]^{C}$",
+          "$(-\\infty, 1) \\cup (3, +\\infty)$ — the printed key writes it as $[1, 3]^{C}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$g(x) = \\dfrac{2}{\\sqrt{|x - 2| - 1}}$: el radical está a su vez en el **denominador**.",
+            "$g(x) = \\dfrac{2}{\\sqrt{|x - 2| - 1}}$: the radical sits in the **denominator**.",
+          ),
+          step(
+            "approach",
+            "La expresión solo existe si $|x - 2| - 1 > 0$, estricto: como radicando pediría $\\geq 0$ y como denominador $\\neq 0$; la intersección de ambas condiciones es $> 0$.",
+            "The expression exists only if $|x - 2| - 1 > 0$, strictly: as a radicand it would need $\\geq 0$ and as a denominator $\\neq 0$; the intersection of both conditions is $> 0$.",
+          ),
+          step(
+            "calculation",
+            "$|x - 2| - 1 > 0 \\iff |x - 2| > 1 \\iff x - 2 < -1$ o $x - 2 > 1 \\iff x < 1$ o $x > 3$.",
+            "$|x - 2| - 1 > 0 \\iff |x - 2| > 1 \\iff x - 2 < -1$ or $x - 2 > 1 \\iff x < 1$ or $x > 3$.",
+          ),
+          step(
+            "result",
+            "Dominio maximal $= (-\\infty, 1) \\cup (3, +\\infty)$, que la clave del libro anota como $[1, 3]^{C}$ (y de paso su rango es $(0, +\\infty)$). Verificación: $x = 0$: $|{-2}| - 1 = 1 > 0$ y $g(0) = \\dfrac{2}{\\sqrt{1}} = 2$ ✓; $x = 2$: radicando $-1 < 0$ ✗; $x = 1$: radicando $0$ → división entre $\\sqrt{0}$ ✗.",
+            "Maximal domain $= (-\\infty, 1) \\cup (3, +\\infty)$, which the book's key writes as $[1, 3]^{C}$ (its range, by the way, is $(0, +\\infty)$). Check: $x = 0$: $|{-2}| - 1 = 1 > 0$ and $g(0) = \\dfrac{2}{\\sqrt{1}} = 2$ ✓; $x = 2$: radicand $-1 < 0$ ✗; $x = 1$: radicand $0$ → division by $\\sqrt{0}$ ✗.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 7 — domain of √(4−x²)/(x²+6x−7) → [−2,1)∪(1,2] (option c). Denominator NOT under the radical (visual re-check). */
+  template(
+    {
+      id: "fn-espol-ch3-7",
+      subject: "math",
+      topicId: "functions",
+      subtopicId: "domain-range",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["domain", "radical", "denominator", "quadratic"],
+      prerequisites: ["domain-range"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 7",
+        page: 368,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$[-2, 2]$", "$[-2, 2]$"), correct: false },
+        {
+          id: "b",
+          text: L("$[-7, -2] \\cup [1, 2]$", "$[-7, -2] \\cup [1, 2]$"),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L("$[-2, 1) \\cup (1, 2]$", "$[-2, 1) \\cup (1, 2]$"),
+          correct: true,
+        },
+        {
+          id: "d",
+          text: L("$(-2, 1] \\cup [-1, 2)$", "$(-2, 1] \\cup [-1, 2)$"),
+          correct: false,
+        },
+        { id: "e", text: L("$(-2, 2)^{C}$", "$(-2, 2)^{C}$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Dominio: radical en el numerador y denominador cuadrático",
+          "Domain: radical in the numerator and a quadratic denominator",
+        ),
+        statement: L(
+          "Si $f$ es una función de variable real definida por $f(x) = \\dfrac{\\sqrt{4 - x^{2}}}{x^{2} + 6x - 7}$, un dominio de $f$ es:",
+          "If $f$ is a real-variable function defined by $f(x) = \\dfrac{\\sqrt{4 - x^{2}}}{x^{2} + 6x - 7}$, one domain of $f$ is:",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "El numerador impone una condición (radicando $\\geq 0$) y el denominador otra (ser $\\neq 0$); resuelve cada una por separado y cruza.",
+            "The numerator imposes one condition (radicand $\\geq 0$) and the denominator another (being $\\neq 0$); solve each separately and intersect.",
+          ),
+          L(
+            "El denominador NO está dentro de la raíz (comprobado contra la página impresa): la barra del radical cubre solo a $4 - x^{2}$.",
+            "The denominator is NOT inside the radical (checked against the printed page): the radical bar covers only $4 - x^{2}$.",
+          ),
+          L(
+            "Factoriza el denominador: $x^{2} + 6x - 7 = (x + 7)(x - 1)$, y mira cuáles de esas raíces caen dentro del intervalo que permite el numerador.",
+            "Factor the denominator: $x^{2} + 6x - 7 = (x + 7)(x - 1)$, and see which of those roots lie inside the interval allowed by the numerator.",
+          ),
+        ],
+        answerDisplay: L("$[-2, 1) \\cup (1, 2]$", "$[-2, 1) \\cup (1, 2]$"),
+        solution: [
+          step(
+            "given",
+            "$f(x) = \\dfrac{\\sqrt{4 - x^{2}}}{x^{2} + 6x - 7}$. Nota: el denominador NO está bajo el radical (revisado visualmente en la página impresa, donde la capa de texto del PDF perdía la barra).",
+            "$f(x) = \\dfrac{\\sqrt{4 - x^{2}}}{x^{2} + 6x - 7}$. Note: the denominator is NOT under the radical (re-checked visually on the printed page, where the PDF text layer lost the bar).",
+          ),
+          step(
+            "approach",
+            "Dos condiciones: radicando $\\geq 0$ y denominador $\\neq 0$; el dominio maximal es la intersección, y cualquier subconjunto suyo también sirve como «un dominio».",
+            "Two conditions: radicand $\\geq 0$ and denominator $\\neq 0$; the maximal domain is the intersection, and any subset of it also works as «one domain».",
+          ),
+          step(
+            "calculation",
+            "Radicando: $4 - x^{2} \\geq 0 \\iff x^{2} \\leq 4 \\iff -2 \\leq x \\leq 2$.<br>Denominador: $x^{2} + 6x - 7 = (x + 7)(x - 1) = 0$ para $x = -7$ o $x = 1$; de esas dos raíces, solo $x = 1$ cae dentro de $[-2, 2]$ (se excluye).",
+            "Radicand: $4 - x^{2} \\geq 0 \\iff x^{2} \\leq 4 \\iff -2 \\leq x \\leq 2$.<br>Denominator: $x^{2} + 6x - 7 = (x + 7)(x - 1) = 0$ at $x = -7$ or $x = 1$; of those two roots, only $x = 1$ lies inside $[-2, 2]$ (excluded).",
+          ),
+          step(
+            "result",
+            "Dominio maximal: $[-2, 1) \\cup (1, 2]$ — la única opción que puede servir de dominio (coincide con el maximal). Verificación: $x = -2$: $\\dfrac{\\sqrt{0}}{-15} = 0$ ✓ definida; $x = 0$: $\\dfrac{\\sqrt{4}}{-7}$ ✓ definida; $x = 1$: denominador $0$ ✗.",
+            "Maximal domain: $[-2, 1) \\cup (1, 2]$ — the only option that can serve as a domain (it matches the maximal one). Check: $x = -2$: $\\dfrac{\\sqrt{0}}{-15} = 0$ ✓ defined; $x = 0$: $\\dfrac{\\sqrt{4}}{-7}$ ✓ defined; $x = 1$: denominator $0$ ✗.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 8 — domain of √(x−4+|3x−5|) by cases → (−∞,1/2]∪[9/4,∞); option c is that very set. */
+  template(
+    {
+      id: "fn-espol-ch3-8",
+      subject: "math",
+      topicId: "functions",
+      subtopicId: "domain-range",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 270,
+      tags: ["domain", "radical", "absolute-value", "case-analysis"],
+      prerequisites: ["domain-range"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 8",
+        page: 368,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(
+            "$\\left(\\tfrac{9}{8}, \\tfrac{9}{4}\\right)$",
+            "$\\left(\\tfrac{9}{8}, \\tfrac{9}{4}\\right)$",
+          ),
+          correct: false,
+        },
+        {
+          id: "b",
+          text: L(
+            "$\\left[\\tfrac{1}{2}, \\tfrac{9}{4}\\right)$",
+            "$\\left[\\tfrac{1}{2}, \\tfrac{9}{4}\\right)$",
+          ),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L(
+            "$\\left(\\tfrac{1}{2}, \\tfrac{9}{4}\\right)^{C}$",
+            "$\\left(\\tfrac{1}{2}, \\tfrac{9}{4}\\right)^{C}$",
+          ),
+          correct: true,
+        },
+        {
+          id: "d",
+          text: L(
+            "$\\left[0, \\tfrac{9}{4}\\right)$",
+            "$\\left[0, \\tfrac{9}{4}\\right)$",
+          ),
+          correct: false,
+        },
+        {
+          id: "e",
+          text: L(
+            "$\\left[\\tfrac{1}{2}, \\tfrac{9}{4}\\right]$",
+            "$\\left[\\tfrac{1}{2}, \\tfrac{9}{4}\\right]$",
+          ),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L(
+          "Dominio de un radical con valor absoluto, por casos",
+          "Domain of a radical with an absolute value, by cases",
+        ),
+        statement: L(
+          "Sea $h$ una función de variable real con regla $h(x) = \\sqrt{x - 4 + |3x - 5|}$. Un conjunto que puede ser dominio de esta función es:",
+          "Let $h$ be a real-variable function with rule $h(x) = \\sqrt{x - 4 + |3x - 5|}$. A set that can be a domain of this function is:",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "El radicando mezcla $x$ con $|3x - 5|$: parte por casos según el signo de $3x - 5$ (punto crítico $x = \\tfrac{5}{3}$).",
+            "The radicand mixes $x$ with $|3x - 5|$: split into cases on the sign of $3x - 5$ (critical point $x = \\tfrac{5}{3}$).",
+          ),
+          L(
+            "Cada caso deja una desigualdad lineal sencilla: resuélvela y conserva solo la parte coherente con el propio tramo.",
+            "Each case leaves a simple linear inequality: solve it and keep only the part consistent with the tranche itself.",
+          ),
+          L(
+            "Lee la letra pequeña: no se pide EL dominio máximo, sino UN conjunto que PUEDA ser dominio (un subconjunto del máximo también vale).",
+            "Read the fine print: it does not ask for THE maximal domain, but for A set that CAN be a domain (a subset of the maximal one also counts).",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\left(\\tfrac{1}{2}, \\tfrac{9}{4}\\right)^{C} = \\left(-\\infty, \\tfrac{1}{2}\\right] \\cup \\left[\\tfrac{9}{4}, +\\infty\\right)$",
+          "$\\left(\\tfrac{1}{2}, \\tfrac{9}{4}\\right)^{C} = \\left(-\\infty, \\tfrac{1}{2}\\right] \\cup \\left[\\tfrac{9}{4}, +\\infty\\right)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$h(x) = \\sqrt{x - 4 + |3x - 5|}$. Se pide **un** conjunto que pueda ser dominio: no necesariamente el máximo.",
+            "$h(x) = \\sqrt{x - 4 + |3x - 5|}$. We are asked for **a** set that can be a domain: not necessarily the maximal one.",
+          ),
+          step(
+            "approach",
+            "Analizar el radicando por casos según el signo de $3x - 5$ (punto crítico $x = \\tfrac{5}{3}$) para hallar el dominio máximo, y comparar después cada opción contra él.",
+            "Analyze the radicand by cases on the sign of $3x - 5$ (critical point $x = \\tfrac{5}{3}$) to find the maximal domain, then compare each option against it.",
+          ),
+          step(
+            "calculation",
+            "Caso $x \\geq \\tfrac{5}{3}$: $|3x - 5| = 3x - 5$ → radicando $= x - 4 + 3x - 5 = 4x - 9 \\geq 0 \\iff x \\geq \\tfrac{9}{4}$.<br>Caso $x < \\tfrac{5}{3}$: $|3x - 5| = 5 - 3x$ → radicando $= x - 4 + 5 - 3x = 1 - 2x \\geq 0 \\iff x \\leq \\tfrac{1}{2}$.<br>Dominio máximo: $\\left(-\\infty, \\tfrac{1}{2}\\right] \\cup \\left[\\tfrac{9}{4}, +\\infty\\right)$, es decir $\\left(\\tfrac{1}{2}, \\tfrac{9}{4}\\right)^{C}$.",
+            "Case $x \\geq \\tfrac{5}{3}$: $|3x - 5| = 3x - 5$ → radicand $= x - 4 + 3x - 5 = 4x - 9 \\geq 0 \\iff x \\geq \\tfrac{9}{4}$.<br>Case $x < \\tfrac{5}{3}$: $|3x - 5| = 5 - 3x$ → radicand $= x - 4 + 5 - 3x = 1 - 2x \\geq 0 \\iff x \\leq \\tfrac{1}{2}$.<br>Maximal domain: $\\left(-\\infty, \\tfrac{1}{2}\\right] \\cup \\left[\\tfrac{9}{4}, +\\infty\\right)$, i.e. $\\left(\\tfrac{1}{2}, \\tfrac{9}{4}\\right)^{C}$.",
+          ),
+          step(
+            "result",
+            "La opción c) es exactamente ese conjunto, así que puede ser dominio. Las demás contienen puntos del hueco $\\left(\\tfrac{1}{2}, \\tfrac{9}{4}\\right)$: por ejemplo la e) incluye $x = 1$, donde el radicando vale $1 - 4 + |3 - 5| = -1 < 0$ ✗. Verificación de fronteras: $x = \\tfrac{1}{2}$: $\\tfrac{1}{2} - 4 + \\left|\\tfrac{3}{2} - 5\\right| = \\tfrac{1}{2} - 4 + \\tfrac{7}{2} = 0$ ✓ ($\\sqrt{0}$ definida); $x = \\tfrac{9}{4}$: $\\tfrac{9}{4} - 4 + \\tfrac{7}{4} = 0$ ✓.",
+            "Option c) is exactly that set, so it can be a domain. The others contain points of the gap $\\left(\\tfrac{1}{2}, \\tfrac{9}{4}\\right)$: for instance e) includes $x = 1$, where the radicand equals $1 - 4 + |3 - 5| = -1 < 0$ ✗. Boundary check: $x = \\tfrac{1}{2}$: $\\tfrac{1}{2} - 4 + \\left|\\tfrac{3}{2} - 5\\right| = \\tfrac{1}{2} - 4 + \\tfrac{7}{2} = 0$ ✓ ($\\sqrt{0}$ defined); $x = \\tfrac{9}{4}$: $\\tfrac{9}{4} - 4 + \\tfrac{7}{4} = 0$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 14 — even/odd parts of f: the FALSE statement is a) g(x)=h(−x) (key a). */
+  template(
+    {
+      id: "fn-espol-ch3-14",
+      subject: "math",
+      topicId: "functions",
+      subtopicId: "even-odd",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["even-odd", "decomposition", "properties"],
+      prerequisites: ["evaluation"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 14",
+        page: 370,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(
+            "$\\forall x \\in \\mathbb{R}\\ [g(x) = h(-x)]$",
+            "$\\forall x \\in \\mathbb{R}\\ [g(x) = h(-x)]$",
+          ),
+          correct: true,
+        },
+        { id: "b", text: L("$h$ es impar", "$h$ is odd"), correct: false },
+        {
+          id: "c",
+          text: L("$f(a) = g(-a) - h(-a)$", "$f(a) = g(-a) - h(-a)$"),
+          correct: false,
+        },
+        { id: "d", text: L("$g$ es par", "$g$ is even"), correct: false },
+        { id: "e", text: L("$-g$ es par", "$-g$ is even"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Parte par y parte impar de una función",
+          "Even part and odd part of a function",
+        ),
+        statement: L(
+          "Sea $f$ una función de $\\mathbb{R}$ en $\\mathbb{R}$. Se definen $g$ y $h$ mediante $g(x) = \\dfrac{f(x) + f(-x)}{2}$ y $h(x) = \\dfrac{f(x) - f(-x)}{2}$. Identifica la afirmación **falsa**:",
+          "Let $f$ be a function from $\\mathbb{R}$ to $\\mathbb{R}$. Define $g$ and $h$ by $g(x) = \\dfrac{f(x) + f(-x)}{2}$ and $h(x) = \\dfrac{f(x) - f(-x)}{2}$. Identify the **false** statement:",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Calcula $g(-x)$ y $h(-x)$ en términos de $g(x)$ y $h(x)$: al sustituir usa que $f(-(-x)) = f(x)$.",
+            "Compute $g(-x)$ and $h(-x)$ in terms of $g(x)$ and $h(x)$: when substituting, use $f(-(-x)) = f(x)$.",
+          ),
+          L(
+            "$g$ es la «parte par» de $f$ y $h$ su «parte impar»: de hecho $f = g + h$.",
+            "$g$ is the «even part» of $f$ and $h$ its «odd part»: indeed $f = g + h$.",
+          ),
+          L(
+            "Para la opción a), prueba con una $f$ concreta que no sea par ni impar (por ejemplo $f(x) = x^{3} + 2x - 1$) y evalúa ambos lados en $x = 0$.",
+            "For option a), test a concrete $f$ that is neither even nor odd (for instance $f(x) = x^{3} + 2x - 1$) and evaluate both sides at $x = 0$.",
+          ),
+        ],
+        answerDisplay: L(
+          "La falsa es la a): $g(x) = h(-x)$ no se cumple en general.",
+          "The false one is a): $g(x) = h(-x)$ does not hold in general.",
+        ),
+        solution: [
+          step(
+            "given",
+            "$g(x) = \\dfrac{f(x) + f(-x)}{2}$ y $h(x) = \\dfrac{f(x) - f(-x)}{2}$, con $f: \\mathbb{R} \\to \\mathbb{R}$ arbitraria.",
+            "$g(x) = \\dfrac{f(x) + f(-x)}{2}$ and $h(x) = \\dfrac{f(x) - f(-x)}{2}$, with $f: \\mathbb{R} \\to \\mathbb{R}$ arbitrary.",
+          ),
+          step(
+            "approach",
+            "$g$ es la **parte par** de $f$ y $h$ la **parte impar** ($f = g + h$). Se comprueba cada opción con las definiciones; para desenmascarar la falsa basta un contraejemplo con una $f$ concreta.",
+            "$g$ is the **even part** of $f$ and $h$ the **odd part** ($f = g + h$). Each option is checked against the definitions; to unmask the false one, a counterexample with a concrete $f$ suffices.",
+          ),
+          step(
+            "calculation",
+            "b) $h(-x) = \\dfrac{f(-x) - f(x)}{2} = -h(x)$ → $h$ impar ✓<br>c) $g(-a) - h(-a) = g(a) + h(a) = f(a)$ ✓<br>d) $g(-x) = \\dfrac{f(-x) + f(x)}{2} = g(x)$ → par ✓; e) $(-g)(-x) = -g(-x) = -g(x)$ → $-g$ par ✓<br>a) $g(x) = h(-x)$ exigiría $g = -h$, es decir $f = g + h \\equiv 0$; con $f(x) = x^{3} + 2x - 1$ sale $g(x) = -1$ y $h(x) = x^{3} + 2x$, luego $g(0) = -1 \\neq 0 = h(-0)$ ✗",
+            "b) $h(-x) = \\dfrac{f(-x) - f(x)}{2} = -h(x)$ → $h$ odd ✓<br>c) $g(-a) - h(-a) = g(a) + h(a) = f(a)$ ✓<br>d) $g(-x) = \\dfrac{f(-x) + f(x)}{2} = g(x)$ → even ✓; e) $(-g)(-x) = -g(-x) = -g(x)$ → $-g$ even ✓<br>a) $g(x) = h(-x)$ would force $g = -h$, i.e. $f = g + h \\equiv 0$; with $f(x) = x^{3} + 2x - 1$ one gets $g(x) = -1$ and $h(x) = x^{3} + 2x$, so $g(0) = -1 \\neq 0 = h(-0)$ ✗",
+          ),
+          step(
+            "result",
+            "La afirmación falsa es la **a)**: la parte par de una función arbitraria no coincide con el opuesto de su parte impar (eso solo pasaría si $f \\equiv 0$). Verificación con la $f$ de prueba: $g(0) = -1 \\neq h(0) = 0$; en cambio b), c), d) y e) se cumplen para cualquier $f$.",
+            "The false statement is **a)**: the even part of an arbitrary function does not coincide with the opposite of its odd part (that could only happen if $f \\equiv 0$). Verification with the test $f$: $g(0) = -1 \\neq h(0) = 0$; whereas b), c), d) and e) hold for every $f$.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 15d — |2−x|−|x+2| is odd: |2−x| = |x−2| (key: impar). */
+  template(
+    {
+      id: "fn-espol-ch3-15d",
+      subject: "math",
+      topicId: "functions",
+      subtopicId: "even-odd",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["even-odd", "absolute-value"],
+      prerequisites: ["evaluation"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 15d",
+        page: 370,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("Es par", "Even"), correct: false },
+        { id: "b", text: L("Es impar", "Odd"), correct: true },
+        {
+          id: "c",
+          text: L("No es par ni impar", "Neither even nor odd"),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L("Es par e impar a la vez", "Both even and odd at once"),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L(
+          "Paridad de una función con valores absolutos",
+          "Parity of a function with absolute values",
+        ),
+        statement: L(
+          "Analiza si $j(x) = |2 - x| - |x + 2|$ es par, impar o ninguna de las dos.",
+          "Analyze whether $j(x) = |2 - x| - |x + 2|$ is even, odd or neither.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Recuerda la simetría del valor absoluto: $|a| = |-a|$. Aplícala al primer término.",
+            "Recall the symmetry of absolute value: $|a| = |-a|$. Apply it to the first term.",
+          ),
+          L(
+            "Con esa equivalencia, $j$ queda escrita con $|x - 2|$ y $|x + 2|$: ahora calcula $j(-x)$ y compara término a término.",
+            "With that equivalence, $j$ is written with $|x - 2|$ and $|x + 2|$: now compute $j(-x)$ and compare term by term.",
+          ),
+          L(
+            "Si al final $j(-x) = -j(x)$ para todo $x$, la clasificación es inmediata.",
+            "If in the end $j(-x) = -j(x)$ for every $x$, the classification is immediate.",
+          ),
+        ],
+        answerDisplay: L(
+          "$j$ es impar: $j(-x) = -j(x)$ para todo $x$.",
+          "$j$ is odd: $j(-x) = -j(x)$ for every $x$.",
+        ),
+        solution: [
+          step(
+            "given",
+            "$j(x) = |2 - x| - |x + 2|$, con dominio $\\mathbb{R}$ (simétrico respecto a $0$, así que cabe analizar la paridad).",
+            "$j(x) = |2 - x| - |x + 2|$, with domain $\\mathbb{R}$ (symmetric about $0$, so the parity can be analyzed).",
+          ),
+          step(
+            "approach",
+            "Simplificar primero con la simetría del valor absoluto ($|a| = |-a|$) y luego comparar $j(-x)$ con $j(x)$.",
+            "Simplify first with the symmetry of absolute value ($|a| = |-a|$), then compare $j(-x)$ with $j(x)$.",
+          ),
+          step(
+            "calculation",
+            "$|2 - x| = |-(2 - x)| = |x - 2|$, así que $j(x) = |x - 2| - |x + 2|$.<br>$j(-x) = |-x - 2| - |-x + 2| = |x + 2| - |x - 2| = -j(x)$ para todo $x \\in \\mathbb{R}$.",
+            "$|2 - x| = |-(2 - x)| = |x - 2|$, so $j(x) = |x - 2| - |x + 2|$.<br>$j(-x) = |-x - 2| - |-x + 2| = |x + 2| - |x - 2| = -j(x)$ for every $x \\in \\mathbb{R}$.",
+          ),
+          step(
+            "result",
+            "$j(-x) = -j(x)$ → $j$ es **impar** (el término $|2 - x|$ «se disfraza», pero en realidad es $|x - 2|$). Verificación: $j(3) = |2 - 3| - |3 + 2| = 1 - 5 = -4$ y $j(-3) = |2 + 3| - |-3 + 2| = 5 - 1 = 4 = -j(3)$ ✓.",
+            "$j(-x) = -j(x)$ → $j$ is **odd** (the term $|2 - x|$ is «in disguise», but it is really $|x - 2|$). Check: $j(3) = |2 - 3| - |3 + 2| = 1 - 5 = -4$ and $j(-3) = |2 + 3| - |-3 + 2| = 5 - 1 = 4 = -j(3)$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 31b — range of a 3-branch piecewise g: branch values (−∞,0] ∪ (−1,1) ∪ {3} = (−∞,1)∪{3} (option b). */
+  template(
+    {
+      id: "fn-espol-ch3-31b",
+      subject: "math",
+      topicId: "functions",
+      subtopicId: "piecewise",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 270,
+      tags: ["piecewise", "range"],
+      prerequisites: ["piecewise", "domain-range"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 31b",
+        page: 373,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$(-\\infty, 1]$", "$(-\\infty, 1]$"), correct: false },
+        {
+          id: "b",
+          text: L("$(-\\infty, 1) \\cup \\{3\\}$", "$(-\\infty, 1) \\cup \\{3\\}$"),
+          correct: true,
+        },
+        { id: "c", text: L("$(-\\infty, 3)$", "$(-\\infty, 3)$"), correct: false },
+        { id: "d", text: L("$\\mathbb{R}$", "$\\mathbb{R}$"), correct: false },
+        {
+          id: "e",
+          text: L(
+            "$(-\\infty, 1) \\cup (1, 3) \\cup (3, +\\infty)$",
+            "$(-\\infty, 1) \\cup (1, 3) \\cup (3, +\\infty)$",
+          ),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L("Rango de una función a trozos", "Range of a piecewise function"),
+        statement: L(
+          "Sea $g$ una función de variable real con $$g(x) = \\begin{cases} 3 & ;\\ x \\geq 2 \\\\ 1 - x & ;\\ 0 < x < 2 \\\\ 4x & ;\\ x \\leq 0 \\end{cases}$$ Su rango es:",
+          "Let $g$ be a real-variable function with $$g(x) = \\begin{cases} 3 & ;\\ x \\geq 2 \\\\ 1 - x & ;\\ 0 < x < 2 \\\\ 4x & ;\\ x \\leq 0 \\end{cases}$$ Its range is:",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Hallar el rango no es despejar: pregunta qué valores $y$ puede devolver cada rama.",
+            "Finding the range is not about isolating: ask which $y$-values each branch can return.",
+          ),
+          L(
+            "Rama a rama: la constante aporta un único valor; $1 - x$ sobre $(0, 2)$ y $4x$ sobre $(-\\infty, 0]$ aportan intervalos.",
+            "Branch by branch: the constant contributes a single value; $1 - x$ on $(0, 2)$ and $4x$ on $(-\\infty, 0]$ contribute intervals.",
+          ),
+          L(
+            "Al unir, revisa si algún valor frontera se alcanza: resuelve $1 - x = 1$ y $4x = 1$ y comprueba si esas $x$ están en su rama.",
+            "When taking the union, check whether some boundary value is attained: solve $1 - x = 1$ and $4x = 1$ and verify those $x$ lie in their branch.",
+          ),
+        ],
+        answerDisplay: L("$(-\\infty, 1) \\cup \\{3\\}$", "$(-\\infty, 1) \\cup \\{3\\}$"),
+        solution: [
+          step(
+            "given",
+            "$g(x) = \\begin{cases} 3 & ;\\ x \\geq 2 \\\\ 1 - x & ;\\ 0 < x < 2 \\\\ 4x & ;\\ x \\leq 0 \\end{cases}$; se pide el rango (los valores $y$ que $g$ alcanza realmente).",
+            "$g(x) = \\begin{cases} 3 & ;\\ x \\geq 2 \\\\ 1 - x & ;\\ 0 < x < 2 \\\\ 4x & ;\\ x \\leq 0 \\end{cases}$; we want the range (the $y$-values $g$ actually attains).",
+          ),
+          step(
+            "approach",
+            "Hallar la imagen de cada rama por separado y unir los tres resultados.",
+            "Find the image of each branch separately and take the union of the three results.",
+          ),
+          step(
+            "calculation",
+            "Rama $x \\geq 2$: valor constante $3$ → aporta $\\{3\\}$.<br>Rama $0 < x < 2$: $1 - x$ recorre $(-1, 1)$.<br>Rama $x \\leq 0$: $4x$ recorre $(-\\infty, 0]$.<br>Unión: $(-\\infty, 0] \\cup (-1, 1) \\cup \\{3\\} = (-\\infty, 1) \\cup \\{3\\}$.",
+            "Branch $x \\geq 2$: constant value $3$ → contributes $\\{3\\}$.<br>Branch $0 < x < 2$: $1 - x$ runs over $(-1, 1)$.<br>Branch $x \\leq 0$: $4x$ runs over $(-\\infty, 0]$.<br>Union: $(-\\infty, 0] \\cup (-1, 1) \\cup \\{3\\} = (-\\infty, 1) \\cup \\{3\\}$.",
+          ),
+          step(
+            "result",
+            "Rango $= (-\\infty, 1) \\cup \\{3\\}$ (opción b). El valor $1$ NO se alcanza: $1 - x = 1$ exigiría $x = 0$, que no está en la rama $0 < x < 2$; $4x = 1$ exigiría $x = \\tfrac{1}{4}$, que no está en $x \\leq 0$. Verificación: $g(2) = 3$ ✓, $g(0) = 0$ ✓, $g(1{,}5) = -0{,}5$ ✓ — todos dentro del rango anunciado.",
+            "Range $= (-\\infty, 1) \\cup \\{3\\}$ (option b). The value $1$ is NOT attained: $1 - x = 1$ would force $x = 0$, which is not in the branch $0 < x < 2$; $4x = 1$ would force $x = \\tfrac{1}{4}$, which is not in $x \\leq 0$. Check: $g(2) = 3$ ✓, $g(0) = 0$ ✓, $g(1.5) = -0.5$ ✓ — all inside the claimed range.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 61 — f∘g with two piecewise rules; the trap branch x<−4 gives 1 → option e. */
+  template(
+    {
+      id: "fn-espol-ch3-61",
+      subject: "math",
+      topicId: "functions",
+      subtopicId: "composition",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["composition", "piecewise", "case-analysis"],
+      prerequisites: ["composition", "piecewise"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 61",
+        page: 381,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(
+            "$\\begin{cases} x + 1 & ;\\ x > 4 \\\\ 3 - x & ;\\ -4 \\leq x < 2 \\\\ 1 & ;\\ x < -4 \\end{cases}$",
+            "$\\begin{cases} x + 1 & ;\\ x > 4 \\\\ 3 - x & ;\\ -4 \\leq x < 2 \\\\ 1 & ;\\ x < -4 \\end{cases}$",
+          ),
+          correct: false,
+        },
+        {
+          id: "b",
+          text: L(
+            "$\\begin{cases} 2 & ;\\ |x| \\leq 4 \\\\ x + 1 & ;\\ |x| > 4 \\end{cases}$",
+            "$\\begin{cases} 2 & ;\\ |x| \\leq 4 \\\\ x + 1 & ;\\ |x| > 4 \\end{cases}$",
+          ),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L(
+            "$\\begin{cases} 3 - x & ;\\ x > 0 \\\\ x + 1 & ;\\ -4 \\leq x \\leq 0 \\\\ 1 & ;\\ x < -4 \\end{cases}$",
+            "$\\begin{cases} 3 - x & ;\\ x > 0 \\\\ x + 1 & ;\\ -4 \\leq x \\leq 0 \\\\ 1 & ;\\ x < -4 \\end{cases}$",
+          ),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L(
+            "$\\begin{cases} 2 & ;\\ -4 \\leq x < 2 \\\\ x + 1 & ;\\ x > 4 \\\\ 1 & ;\\ 2 \\leq x \\leq 4 \\ \\vee\\ x < -4 \\end{cases}$",
+            "$\\begin{cases} 2 & ;\\ -4 \\leq x < 2 \\\\ x + 1 & ;\\ x > 4 \\\\ 1 & ;\\ 2 \\leq x \\leq 4 \\ \\vee\\ x < -4 \\end{cases}$",
+          ),
+          correct: false,
+        },
+        {
+          id: "e",
+          text: L(
+            "$\\begin{cases} x + 1 & ;\\ x > 4 \\\\ 3 - x & ;\\ -4 \\leq x < 2 \\\\ 1 & ;\\ 2 \\leq x \\leq 4 \\ \\vee\\ x < -4 \\end{cases}$",
+            "$\\begin{cases} x + 1 & ;\\ x > 4 \\\\ 3 - x & ;\\ -4 \\leq x < 2 \\\\ 1 & ;\\ 2 \\leq x \\leq 4 \\ \\vee\\ x < -4 \\end{cases}$",
+          ),
+          correct: true,
+        },
+      ];
+      return {
+        skill: L(
+          "Composición de funciones definidas a trozos",
+          "Composing piecewise-defined functions",
+        ),
+        statement: L(
+          "Si $f$ y $g$ son funciones de $\\mathbb{R}$ en $\\mathbb{R}$ con $$f(x) = \\begin{cases} x & ;\\ x > 1 \\\\ 1 & ;\\ x \\leq 1 \\end{cases}$$ y $$g(x) = \\begin{cases} 3 - x & ;\\ |x| \\leq 4 \\\\ x + 1 & ;\\ |x| > 4 \\end{cases}$$ entonces la regla de $f \\circ g$ es:",
+          "If $f$ and $g$ are functions from $\\mathbb{R}$ to $\\mathbb{R}$ with $$f(x) = \\begin{cases} x & ;\\ x > 1 \\\\ 1 & ;\\ x \\leq 1 \\end{cases}$$ and $$g(x) = \\begin{cases} 3 - x & ;\\ |x| \\leq 4 \\\\ x + 1 & ;\\ |x| > 4 \\end{cases}$$ then the rule of $f \\circ g$ is:",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "$(f \\circ g)(x) = f(g(x))$: primero decide qué rama de $g$ aplica según $x$; después, qué rama de $f$ aplica según ese valor.",
+            "$(f \\circ g)(x) = f(g(x))$: first decide which branch of $g$ applies given $x$; then which branch of $f$ applies given that value.",
+          ),
+          L(
+            "Para $|x| \\leq 4$ se tiene $g(x) = 3 - x$, y $3 - x > 1$ exactamente cuando $x < 2$ — eso corta el tramo en dos.",
+            "For $|x| \\leq 4$ we have $g(x) = 3 - x$, and $3 - x > 1$ exactly when $x < 2$ — that cuts the tranche in two.",
+          ),
+          L(
+            "Cuidado con $x < -4$: allí $g(x) = x + 1$, pero $x + 1 < -3 \\leq 1$… ¿qué rama de $f$ toca usar?",
+            "Careful with $x < -4$: there $g(x) = x + 1$, but $x + 1 < -3 \\leq 1$… which branch of $f$ must be used?",
+          ),
+        ],
+        answerDisplay: L(
+          "$(f \\circ g)(x) = \\begin{cases} x + 1 & ;\\ x > 4 \\\\ 3 - x & ;\\ -4 \\leq x < 2 \\\\ 1 & ;\\ 2 \\leq x \\leq 4 \\ \\vee\\ x < -4 \\end{cases}$",
+          "$(f \\circ g)(x) = \\begin{cases} x + 1 & ;\\ x > 4 \\\\ 3 - x & ;\\ -4 \\leq x < 2 \\\\ 1 & ;\\ 2 \\leq x \\leq 4 \\ \\vee\\ x < -4 \\end{cases}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$(f \\circ g)(x) = f(g(x))$, con $f(u) = u$ si $u > 1$ (y $1$ en caso contrario) y $g(x) = 3 - x$ si $|x| \\leq 4$ (y $x + 1$ si $|x| > 4$).",
+            "$(f \\circ g)(x) = f(g(x))$, with $f(u) = u$ if $u > 1$ (and $1$ otherwise) and $g(x) = 3 - x$ if $|x| \\leq 4$ (and $x + 1$ if $|x| > 4$).",
+          ),
+          step(
+            "approach",
+            "Componer rama a rama: para cada $x$, primero la rama de $g$ (según $|x|$ frente a $4$) y después la rama de $f$ (el valor $g(x)$ frente a $1$).",
+            "Compose branch by branch: for each $x$, first the branch of $g$ (according to $|x|$ versus $4$), then the branch of $f$ (the value $g(x)$ versus $1$).",
+          ),
+          step(
+            "calculation",
+            "Para $-4 \\leq x \\leq 4$: $g(x) = 3 - x$; como $3 - x > 1 \\iff x < 2$, resulta $3 - x$ si $-4 \\leq x < 2$ y $1$ si $2 \\leq x \\leq 4$.<br>Para $x > 4$: $g(x) = x + 1 > 5 > 1$ → $x + 1$.<br>Para $x < -4$: $g(x) = x + 1 < -3 \\leq 1$ → $1$ (la trampa: casi nadie comprueba que en este tramo $x + 1 < 1$).",
+            "For $-4 \\leq x \\leq 4$: $g(x) = 3 - x$; since $3 - x > 1 \\iff x < 2$, we get $3 - x$ if $-4 \\leq x < 2$ and $1$ if $2 \\leq x \\leq 4$.<br>For $x > 4$: $g(x) = x + 1 > 5 > 1$ → $x + 1$.<br>For $x < -4$: $g(x) = x + 1 < -3 \\leq 1$ → $1$ (the trap: almost nobody checks that in this tranche $x + 1 < 1$).",
+          ),
+          step(
+            "result",
+            "$(f \\circ g)(x) = \\begin{cases} x + 1 & ;\\ x > 4 \\\\ 3 - x & ;\\ -4 \\leq x < 2 \\\\ 1 & ;\\ 2 \\leq x \\leq 4 \\ \\vee\\ x < -4 \\end{cases}$ — la opción e). Verificación: $(f \\circ g)(10) = f(11) = 11$; $(f \\circ g)(0) = f(3) = 3$; $(f \\circ g)(3) = f(0) = 1$; $(f \\circ g)(-5) = f(-4) = 1$ ✓.",
+            "$(f \\circ g)(x) = \\begin{cases} x + 1 & ;\\ x > 4 \\\\ 3 - x & ;\\ -4 \\leq x < 2 \\\\ 1 & ;\\ 2 \\leq x \\leq 4 \\ \\vee\\ x < -4 \\end{cases}$ — option e). Check: $(f \\circ g)(10) = f(11) = 11$; $(f \\circ g)(0) = f(3) = 3$; $(f \\circ g)(3) = f(0) = 1$; $(f \\circ g)(-5) = f(-4) = 1$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 65 — √∘(·)²∘(x−1) = √((x−1)²) = |x−1| (expression; printed key |x−1|). */
+  template(
+    {
+      id: "fn-espol-ch3-65",
+      subject: "math",
+      topicId: "functions",
+      subtopicId: "composition",
+      difficulty: "medium",
+      questionType: "expression",
+      estimatedTimeSec: 180,
+      tags: ["composition", "triple-composition", "absolute-value"],
+      prerequisites: ["composition"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 65",
+        page: 382,
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L(
+        "Composición triple y el radical de un cuadrado",
+        "Triple composition and the radical of a square",
+      ),
+      statement: L(
+        "Dadas las funciones de variable real $f(x) = \\sqrt{x}$, $g(x) = x^{2}$ y $h(x) = x - 1$, determina la regla de $f \\circ g \\circ h$ (puedes escribir el valor absoluto como abs(...), por ejemplo abs(x+3)).",
+        "Given the real-variable functions $f(x) = \\sqrt{x}$, $g(x) = x^{2}$ and $h(x) = x - 1$, determine the rule of $f \\circ g \\circ h$ (you may write the absolute value as abs(...), e.g. abs(x+3)).",
+      ),
+      answer: {
+        kind: "expression",
+        accepted: ["abs(x-1)", "sqrt((x-1)^2)", "((x-1)^2)^(1/2)"],
+        variables: ["x"],
+      },
+      hints: [
+        L(
+          "$f \\circ g \\circ h$ se evalúa de dentro hacia afuera: primero $h$, después $g$ y al final $f$.",
+          "$f \\circ g \\circ h$ evaluates inside-out: first $h$, then $g$ and finally $f$.",
+        ),
+        L(
+          "$(g \\circ h)(x) = (x - 1)^{2}$ nunca es negativo, así que la raíz de $f$ siempre existe.",
+          "$(g \\circ h)(x) = (x - 1)^{2}$ is never negative, so the radical of $f$ always exists.",
+        ),
+        L(
+          "La clave está en $\\sqrt{u^{2}}$: no es $u$ — prueba con $u = -3$ antes de responder.",
+          "The key lies in $\\sqrt{u^{2}}$: it is not $u$ — test $u = -3$ before answering.",
+        ),
+      ],
+      answerDisplay: L(
+        "$(f \\circ g \\circ h)(x) = \\sqrt{(x - 1)^{2}} = |x - 1|$",
+        "$(f \\circ g \\circ h)(x) = \\sqrt{(x - 1)^{2}} = |x - 1|$",
+      ),
+      solution: [
+        step(
+          "given",
+          "$f(x) = \\sqrt{x}$, $g(x) = x^{2}$ y $h(x) = x - 1$.",
+          "$f(x) = \\sqrt{x}$, $g(x) = x^{2}$ and $h(x) = x - 1$.",
+        ),
+        step(
+          "approach",
+          "$(f \\circ g \\circ h)(x) = f(g(h(x)))$: se evalúa de dentro hacia afuera — primero $h$, luego $g$, al final $f$.",
+          "$(f \\circ g \\circ h)(x) = f(g(h(x)))$: evaluate inside-out — first $h$, then $g$, finally $f$.",
+        ),
+        step(
+          "calculation",
+          "$(g \\circ h)(x) = g(x - 1) = (x - 1)^{2}$; después $(f \\circ g \\circ h)(x) = f\\left((x - 1)^{2}\\right) = \\sqrt{(x - 1)^{2}}$.",
+          "$(g \\circ h)(x) = g(x - 1) = (x - 1)^{2}$; then $(f \\circ g \\circ h)(x) = f\\left((x - 1)^{2}\\right) = \\sqrt{(x - 1)^{2}}$.",
+        ),
+        step(
+          "result",
+          "$\\sqrt{(x - 1)^{2}} = |x - 1|$ — el radical de un cuadrado es el **valor absoluto**, no $x - 1$. Verificación: $x = 5$: $\\sqrt{(5 - 1)^{2}} = \\sqrt{16} = 4 = |5 - 1|$ ✓; $x = -2$: $\\sqrt{(-2 - 1)^{2}} = \\sqrt{9} = 3 = |{-3}|$ ✓ (si fuera $x - 1$ daría $-3$, imposible para una raíz principal).",
+          "$\\sqrt{(x - 1)^{2}} = |x - 1|$ — the radical of a square is the **absolute value**, not $x - 1$. Check: $x = 5$: $\\sqrt{(5 - 1)^{2}} = \\sqrt{16} = 4 = |5 - 1|$ ✓; $x = -2$: $\\sqrt{(-2 - 1)^{2}} = \\sqrt{9} = 3 = |{-3}|$ ✓ (if it were $x - 1$ it would give $-3$, impossible for a principal root).",
+        ),
+      ],
+    }),
+  ),
+
+  /* 66 — (f∘g)(x)=x²+2x+6, f(0)=9, g(x)=x−k with k∈ℕ → g(x)=x−1 (option a; x+3 is the k∈ℤ⁻ branch, the book's part b). */
+  template(
+    {
+      id: "fn-espol-ch3-66",
+      subject: "math",
+      topicId: "functions",
+      subtopicId: "composition",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 270,
+      tags: ["composition", "inverse-reasoning", "parameter"],
+      prerequisites: ["composition"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 66",
+        page: 382,
+      },
+      reasoning: "parameters",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$g(x) = x - 1$", "$g(x) = x - 1$"), correct: true },
+        { id: "b", text: L("$g(x) = x + 3$", "$g(x) = x + 3$"), correct: false },
+        { id: "c", text: L("$g(x) = x + 1$", "$g(x) = x + 1$"), correct: false },
+        { id: "d", text: L("$g(x) = x - 3$", "$g(x) = x - 3$"), correct: false },
+        { id: "e", text: L("$g(x) = x$", "$g(x) = x$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Composición con un parámetro y un dato puntual",
+          "Composition with a parameter and a point datum",
+        ),
+        statement: L(
+          "Dado que $(f \\circ g)(x) = x^{2} + 2x + 6$ y que $f(0) = 9$, determina la regla de $g$ si $g(x) = x - k$ con $k$ un número NATURAL ($k \\in \\mathbb{N}$).",
+          "Given that $(f \\circ g)(x) = x^{2} + 2x + 6$ and that $f(0) = 9$, determine the rule of $g$ if $g(x) = x - k$ with $k$ a NATURAL number ($k \\in \\mathbb{N}$).",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Como $g$ recorre todo $\\mathbb{R}$ ($t = x - k$ con $x = t + k$), puedes despejar $f$ sustituyendo $x = t + k$ en $(f \\circ g)(x) = x^{2} + 2x + 6$.",
+            "Since $g$ runs over all of $\\mathbb{R}$ ($t = x - k$ with $x = t + k$), you can recover $f$ by substituting $x = t + k$ in $(f \\circ g)(x) = x^{2} + 2x + 6$.",
+          ),
+          L(
+            "Obtendrás $f(t) = (t + k)^{2} + 2(t + k) + 6$. Ahora entra el dato puntual $f(0) = 9$.",
+            "You will get $f(t) = (t + k)^{2} + 2(t + k) + 6$. Now bring in the point datum $f(0) = 9$.",
+          ),
+          L(
+            "$k^{2} + 2k + 6 = 9$ es una cuadrática en $k$; de sus dos raíces, solo una es un número natural.",
+            "$k^{2} + 2k + 6 = 9$ is a quadratic in $k$; of its two roots, only one is a natural number.",
+          ),
+        ],
+        answerDisplay: L(
+          "$g(x) = x - 1$ (con $k = 1 \\in \\mathbb{N}$)",
+          "$g(x) = x - 1$ (with $k = 1 \\in \\mathbb{N}$)",
+        ),
+        solution: [
+          step(
+            "given",
+            "$(f \\circ g)(x) = x^{2} + 2x + 6$, $f(0) = 9$ y $g(x) = x - k$ con $k \\in \\mathbb{N}$.",
+            "$(f \\circ g)(x) = x^{2} + 2x + 6$, $f(0) = 9$ and $g(x) = x - k$ with $k \\in \\mathbb{N}$.",
+          ),
+          step(
+            "approach",
+            "Como toda $t$ real se escribe $t = x - k$ (con $x = t + k$), la igualdad $f(x - k) = x^{2} + 2x + 6$ determina $f$ en función de $k$; después, el dato $f(0) = 9$ fija los valores posibles de $k$.",
+            "Since every real $t$ can be written $t = x - k$ (with $x = t + k$), the identity $f(x - k) = x^{2} + 2x + 6$ determines $f$ as a function of $k$; then the datum $f(0) = 9$ pins down the possible values of $k$.",
+          ),
+          step(
+            "calculation",
+            "Sustituyendo $x = t + k$: $f(t) = (t + k)^{2} + 2(t + k) + 6$ (y en efecto $f(x - k) = x^{2} + 2x + 6$ para cualquier $k$).<br>El dato puntual: $f(0) = k^{2} + 2k + 6 = 9 \\Rightarrow k^{2} + 2k - 3 = 0 \\Rightarrow (k + 3)(k - 1) = 0 \\Rightarrow k = 1$ o $k = -3$.",
+            "Substituting $x = t + k$: $f(t) = (t + k)^{2} + 2(t + k) + 6$ (and indeed $f(x - k) = x^{2} + 2x + 6$ for any $k$).<br>The point datum: $f(0) = k^{2} + 2k + 6 = 9 \\Rightarrow k^{2} + 2k - 3 = 0 \\Rightarrow (k + 3)(k - 1) = 0 \\Rightarrow k = 1$ or $k = -3$.",
+          ),
+          step(
+            "result",
+            "Con $k \\in \\mathbb{N}$ se toma $k = 1$ → $g(x) = x - 1$ (opción a). La otra raíz, $k = -3$, daría $g(x) = x + 3$ — la opción b), que es precisamente la respuesta de la parte b) del libro para $k \\in \\mathbb{Z}^{-}$. Verificación con $k = 1$: $f(t) = (t + 1)^{2} + 2(t + 1) + 6 = t^{2} + 4t + 9$, luego $f(0) = 9$ ✓ y $f(g(x)) = f(x - 1) = (x - 1)^{2} + 4(x - 1) + 9 = x^{2} + 2x + 6$ ✓.",
+            "With $k \\in \\mathbb{N}$ we take $k = 1$ → $g(x) = x - 1$ (option a). The other root, $k = -3$, would give $g(x) = x + 3$ — option b), which is precisely the answer to the book's part b) for $k \\in \\mathbb{Z}^{-}$. Check with $k = 1$: $f(t) = (t + 1)^{2} + 2(t + 1) + 6 = t^{2} + 4t + 9$, so $f(0) = 9$ ✓ and $f(g(x)) = f(x - 1) = (x - 1)^{2} + 4(x - 1) + 9 = x^{2} + 2x + 6$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 79 — inverse of x²−4x−3 on (−∞,2]: negative branch → f⁻¹(x)=2−√(7+x), x≥−7 (option b). */
+  template(
+    {
+      id: "fn-espol-ch3-79",
+      subject: "math",
+      topicId: "functions",
+      subtopicId: "inverse",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 270,
+      tags: ["inverse", "quadratic", "branch"],
+      prerequisites: ["inverse", "quadratic-formula"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 79",
+        page: 386,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(
+            "$f^{-1}(x) = 2 + \\sqrt{7 - x}$; $x \\geq -7$",
+            "$f^{-1}(x) = 2 + \\sqrt{7 - x}$; $x \\geq -7$",
+          ),
+          correct: false,
+        },
+        {
+          id: "b",
+          text: L(
+            "$f^{-1}(x) = 2 - \\sqrt{7 + x}$; $x \\geq -7$",
+            "$f^{-1}(x) = 2 - \\sqrt{7 + x}$; $x \\geq -7$",
+          ),
+          correct: true,
+        },
+        {
+          id: "c",
+          text: L(
+            "$f^{-1}(x) = 2 + \\sqrt{7 + x}$; $x \\geq -7$",
+            "$f^{-1}(x) = 2 + \\sqrt{7 + x}$; $x \\geq -7$",
+          ),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L(
+            "$f^{-1}(x) = 2 - \\sqrt{7 - x}$; $x \\geq -7$",
+            "$f^{-1}(x) = 2 - \\sqrt{7 - x}$; $x \\geq -7$",
+          ),
+          correct: false,
+        },
+        {
+          id: "e",
+          text: L(
+            "$f^{-1}(x) = 2 - \\sqrt{7 + x}$; $x \\leq -7$",
+            "$f^{-1}(x) = 2 - \\sqrt{7 + x}$; $x \\leq -7$",
+          ),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L(
+          "Inversa de una cuadrática restringida a una rama",
+          "Inverse of a quadratic restricted to one branch",
+        ),
+        statement: L(
+          "Si $f(x) = x^{2} - 4x - 3$, $x \\in (-\\infty, 2]$, es la regla de una función invertible, entonces la regla de su inversa es:",
+          "If $f(x) = x^{2} - 4x - 3$, $x \\in (-\\infty, 2]$, is the rule of an invertible function, then the rule of its inverse is:",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Una cuadrática solo se puede invertir restringida a una rama; sobre $(-\\infty, 2]$ esta parábola es monótona.",
+            "A quadratic can only be inverted when restricted to one branch; on $(-\\infty, 2]$ this parabola is monotone.",
+          ),
+          L(
+            "Completa el cuadrado: $x^{2} - 4x - 3 = (x - 2)^{2} - 7$. El vértice te da de paso el rango de $f$.",
+            "Complete the square: $x^{2} - 4x - 3 = (x - 2)^{2} - 7$. The vertex also gives you the range of $f$.",
+          ),
+          L(
+            "Al despejar aparece $\\pm\\sqrt{\\;\\cdot\\;}$: elige el signo recordando que la $x$ original debe cumplir $x \\leq 2$.",
+            "When isolating, a $\\pm\\sqrt{\\;\\cdot\\;}$ appears: choose the sign remembering that the original $x$ must satisfy $x \\leq 2$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$f^{-1}(x) = 2 - \\sqrt{7 + x}$, con $x \\geq -7$",
+          "$f^{-1}(x) = 2 - \\sqrt{7 + x}$, with $x \\geq -7$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$f(x) = x^{2} - 4x - 3$ con $x \\in (-\\infty, 2]$ — la restricción a una sola rama de la parábola la hace inyectiva (invertible).",
+            "$f(x) = x^{2} - 4x - 3$ with $x \\in (-\\infty, 2]$ — restricting to a single branch of the parabola makes it injective (invertible).",
+          ),
+          step(
+            "approach",
+            "Completar el cuadrado para leer el vértice y el rango; luego despejar $x$ en $y = f(x)$, eligiendo el signo de la raíz compatible con $x \\leq 2$.",
+            "Complete the square to read off the vertex and the range; then isolate $x$ in $y = f(x)$, choosing the root sign compatible with $x \\leq 2$.",
+          ),
+          step(
+            "calculation",
+            "$x^{2} - 4x - 3 = (x - 2)^{2} - 7$: vértice $(2, -7)$; sobre $(-\\infty, 2]$ la parábola desciende de $+\\infty$ hasta $-7$, así que el rango es $[-7, +\\infty)$ → el dominio de $f^{-1}$ es $x \\geq -7$.<br>Despeje: $y = (x - 2)^{2} - 7 \\Rightarrow (x - 2)^{2} = y + 7 \\Rightarrow x - 2 = \\pm\\sqrt{y + 7}$; como la $x$ original cumple $x \\leq 2$, se toma $x - 2 = -\\sqrt{y + 7}$, es decir $x = 2 - \\sqrt{y + 7}$.",
+            "$x^{2} - 4x - 3 = (x - 2)^{2} - 7$: vertex $(2, -7)$; on $(-\\infty, 2]$ the parabola descends from $+\\infty$ down to $-7$, so the range is $[-7, +\\infty)$ → the domain of $f^{-1}$ is $x \\geq -7$.<br>Isolation: $y = (x - 2)^{2} - 7 \\Rightarrow (x - 2)^{2} = y + 7 \\Rightarrow x - 2 = \\pm\\sqrt{y + 7}$; since the original $x$ satisfies $x \\leq 2$, we take $x - 2 = -\\sqrt{y + 7}$, i.e. $x = 2 - \\sqrt{y + 7}$.",
+          ),
+          step(
+            "result",
+            "$f^{-1}(x) = 2 - \\sqrt{7 + x}$, con $x \\geq -7$ (opción b). Verificación: $f^{-1}(2) = 2 - \\sqrt{9} = -1$ y $f(-1) = 1 + 4 - 3 = 2$ ✓; además $f^{-1}(-7) = 2 - 0 = 2$, coherente con que el mínimo $f(2) = -7$ se alcanza justo en el vértice ✓.",
+            "$f^{-1}(x) = 2 - \\sqrt{7 + x}$, with $x \\geq -7$ (option b). Check: $f^{-1}(2) = 2 - \\sqrt{9} = -1$ and $f(-1) = 1 + 4 - 3 = 2$ ✓; moreover $f^{-1}(-7) = 2 - 0 = 2$, consistent with the minimum $f(2) = -7$ being attained exactly at the vertex ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 85 — 1/(ax²−1) on (1,∞) through (2,⅓): a=1 and f⁻¹(x)=√((x+1)/x), x>0 (expression). */
+  template(
+    {
+      id: "fn-espol-ch3-85",
+      subject: "math",
+      topicId: "functions",
+      subtopicId: "inverse",
+      difficulty: "hard",
+      questionType: "expression",
+      estimatedTimeSec: 300,
+      tags: ["inverse", "parameter", "rational"],
+      prerequisites: ["inverse", "domain-range"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 85",
+        page: 387,
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L(
+        "Inversa de una función racional con parámetro",
+        "Inverse of a rational function with a parameter",
+      ),
+      statement: L(
+        "La gráfica de $f(x) = \\dfrac{1}{ax^{2} - 1}$ con dominio $(1, +\\infty)$ contiene al punto $\\left(2, \\tfrac{1}{3}\\right)$. Determina la regla de correspondencia de $f^{-1}$ (escribe la raíz como sqrt(...), por ejemplo sqrt(x+2)).",
+        "The graph of $f(x) = \\dfrac{1}{ax^{2} - 1}$ with domain $(1, +\\infty)$ contains the point $\\left(2, \\tfrac{1}{3}\\right)$. Determine the rule of correspondence of $f^{-1}$ (write the root as sqrt(...), e.g. sqrt(x+2)).",
+      ),
+      answer: {
+        kind: "expression",
+        accepted: [
+          "sqrt((x+1)/x)",
+          "sqrt(1+1/x)",
+          "((x+1)/x)^(1/2)",
+          "sqrt((1+x)/x)",
+        ],
+        variables: ["x"],
+      },
+      hints: [
+        L(
+          "Primero el dato puntual: $f(2) = \\tfrac{1}{3}$ te da una ecuación sencilla para $a$.",
+          "First the point datum: $f(2) = \\tfrac{1}{3}$ gives you a simple equation for $a$.",
+        ),
+        L(
+          "Con $a$ hallado, mira cómo se comporta $f$ sobre $(1, +\\infty)$: ¿es monótona allí? Observa qué pasa cuando $x \\to 1^{+}$ y cuando $x \\to +\\infty$.",
+          "With $a$ found, look at how $f$ behaves on $(1, +\\infty)$: is it monotone there? Watch what happens as $x \\to 1^{+}$ and as $x \\to +\\infty$.",
+        ),
+        L(
+          "Despeja $x$: $y = \\dfrac{1}{x^{2} - 1} \\Rightarrow x^{2} = 1 + \\dfrac{1}{y}$, y elige la raíz correcta recordando que $x > 1$.",
+          "Isolate $x$: $y = \\dfrac{1}{x^{2} - 1} \\Rightarrow x^{2} = 1 + \\dfrac{1}{y}$, and pick the correct root remembering that $x > 1$.",
+        ),
+      ],
+      answerDisplay: L(
+        "$f^{-1}(x) = \\sqrt{\\dfrac{x + 1}{x}}$, con $x > 0$",
+        "$f^{-1}(x) = \\sqrt{\\dfrac{x + 1}{x}}$, with $x > 0$",
+      ),
+      solution: [
+        step(
+          "given",
+          "$f(x) = \\dfrac{1}{ax^{2} - 1}$ sobre el dominio $(1, +\\infty)$, y el punto $\\left(2, \\tfrac{1}{3}\\right)$ pertenece a su gráfica.",
+          "$f(x) = \\dfrac{1}{ax^{2} - 1}$ on the domain $(1, +\\infty)$, and the point $\\left(2, \\tfrac{1}{3}\\right)$ belongs to its graph.",
+        ),
+        step(
+          "approach",
+          "Primero hallar $a$ con el punto dado; después invertir el despeje $y = f(x)$ sobre $x > 1$ (rama donde $f$ es decreciente y, por tanto, invertible).",
+          "First find $a$ using the given point; then invert the relation $y = f(x)$ on $x > 1$ (the branch where $f$ is decreasing and therefore invertible).",
+        ),
+        step(
+          "calculation",
+          "$f(2) = \\dfrac{1}{4a - 1} = \\dfrac{1}{3} \\Rightarrow 4a - 1 = 3 \\Rightarrow a = 1$, así que $f(x) = \\dfrac{1}{x^{2} - 1}$ sobre $x > 1$ (decreciente: de $+\\infty$ hacia $0^{+}$ → invertible, con rango $(0, +\\infty)$).<br>Despeje: $y = \\dfrac{1}{x^{2} - 1} \\Rightarrow x^{2} - 1 = \\dfrac{1}{y} \\Rightarrow x^{2} = \\dfrac{y + 1}{y} \\Rightarrow x = \\sqrt{\\dfrac{y + 1}{y}}$ (raíz positiva, pues $x > 1 > 0$).",
+          "$f(2) = \\dfrac{1}{4a - 1} = \\dfrac{1}{3} \\Rightarrow 4a - 1 = 3 \\Rightarrow a = 1$, so $f(x) = \\dfrac{1}{x^{2} - 1}$ on $x > 1$ (decreasing: from $+\\infty$ towards $0^{+}$ → invertible, with range $(0, +\\infty)$).<br>Isolation: $y = \\dfrac{1}{x^{2} - 1} \\Rightarrow x^{2} - 1 = \\dfrac{1}{y} \\Rightarrow x^{2} = \\dfrac{y + 1}{y} \\Rightarrow x = \\sqrt{\\dfrac{y + 1}{y}}$ (positive root, since $x > 1 > 0$).",
+        ),
+        step(
+          "result",
+          "$f^{-1}(x) = \\sqrt{\\dfrac{x + 1}{x}}$, definida para $x > 0$: sobre $(1, +\\infty)$ la función decrece de $+\\infty$ (cuando $x \\to 1^{+}$) hacia $0^{+}$ (cuando $x \\to +\\infty$), así que su rango —el dominio de $f^{-1}$— es $(0, +\\infty)$. (Clave impresa: a) $a = 1$; b) $\\sqrt{\\dfrac{x+1}{x}}$, $x > 0$.) Verificación: $f\\left(\\sqrt{\\tfrac{2+1}{2}}\\right) = f\\left(\\sqrt{1{,}5}\\right) = \\dfrac{1}{1{,}5 - 1} = 2$ ✓.",
+          "$f^{-1}(x) = \\sqrt{\\dfrac{x + 1}{x}}$, defined for $x > 0$: on $(1, +\\infty)$ the function decreases from $+\\infty$ (as $x \\to 1^{+}$) towards $0^{+}$ (as $x \\to +\\infty$), so its range — the domain of $f^{-1}$ — is $(0, +\\infty)$. (Printed key: a) $a = 1$; b) $\\sqrt{\\dfrac{x+1}{x}}$, $x > 0$.) Check: $f\\left(\\sqrt{\\tfrac{2+1}{2}}\\right) = f\\left(\\sqrt{1.5}\\right) = \\dfrac{1}{1.5 - 1} = 2$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
 ];
