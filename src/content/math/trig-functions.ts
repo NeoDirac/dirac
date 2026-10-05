@@ -2055,4 +2055,2258 @@ export const templates: ProblemTemplate[] = [
     },
   ),
 
+  /* ---------------------------------------------------------------- */
+  /* Cap. 4 «Trigonometría» (ed. digital) — ronda 1 en funciones:      */
+  /* modelización sinusoidal (15, 17, 19), trig. inversa (20-22) y la  */
+  /* forma armónica R·cos(x−α) (48). Clave impresa + sympy:            */
+  /* download/verify_espol_ch4.py.                                      */
+  /* ---------------------------------------------------------------- */
+
+  /* 4 · 15 — y = p + q·cos(x) por (0, 3) y (π, −1) → p = 1, q = 2,
+     p² − q² = −3. La opción impresa «p + q = −3» se descarta para
+     respetar la regla de casa de exactamente 4 opciones. */
+  template(
+    {
+      id: "trigfn-espol-ch4-15",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "amplitude",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["sinusoid", "parameters", "points-on-graph"],
+      prerequisites: ["amplitude"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 15",
+        page: 468,
+      },
+      reasoning: "parameters",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$p^{2} - q^{2} = -3$`, `$p^{2} - q^{2} = -3$`), correct: true },
+        { id: "b", text: L(`$p^{2} + q^{2} = 9$`, `$p^{2} + q^{2} = 9$`), correct: false },
+        { id: "c", text: L(`$p^{2} - q^{2} = 3$`, `$p^{2} - q^{2} = 3$`), correct: false },
+        { id: "d", text: L(`$p^{2} - q^{2} = -9$`, `$p^{2} - q^{2} = -9$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Parámetros de una sinusoidal a partir de dos puntos",
+          "Parameters of a sinusoid from two points",
+        ),
+        statement: L(
+          `Parte de la gráfica de $y = p + q\\cos(x)$ contiene los puntos $(0, 3)$ y $(\\pi, -1)$. Determine cuál de los siguientes enunciados es verdadero:`,
+          `Part of the graph of $y = p + q\\cos(x)$ contains the points $(0, 3)$ and $(\\pi, -1)$. Determine which of the following statements is true:`,
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "En $x = 0$ el coseno vale $1$ y en $x = \\pi$ vale $-1$: sustituye cada punto en $y = p + q\\cos(x)$.",
+            "At $x = 0$ the cosine equals $1$ and at $x = \\pi$ it equals $-1$: substitute each point into $y = p + q\\cos(x)$.",
+          ),
+          L(
+            "Los dos puntos dan un sistema lineal $2 \\times 2$ en $p$ y $q$; súmalo y réstalo para despejar ambos parámetros.",
+            "The two points give a $2 \\times 2$ linear system in $p$ and $q$; add and subtract it to solve for both parameters.",
+          ),
+          L(
+            "Con $p$ y $q$ ya conocidos, sustituye en cada enunciado candidato: solo uno es una igualdad numérica verdadera.",
+            "With $p$ and $q$ known, substitute into each candidate statement: only one is a true numerical equality.",
+          ),
+        ],
+        answerDisplay: L(
+          `Con $p = 1$ y $q = 2$: $p^{2} - q^{2} = 1 - 4 = -3$`,
+          `With $p = 1$ and $q = 2$: $p^{2} - q^{2} = 1 - 4 = -3$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "La gráfica de $y = p + q\\cos(x)$ pasa por $(0, 3)$ y $(\\pi, -1)$.",
+            "The graph of $y = p + q\\cos(x)$ passes through $(0, 3)$ and $(\\pi, -1)$.",
+          ),
+          step(
+            "approach",
+            "Los dos puntos son un máximo y un mínimo del coseno: al sustituirlos, $q$ aparece con signos opuestos y el sistema lineal resultante se resuelve de inmediato.",
+            "The two points are a maximum and a minimum of the cosine: substituting them makes $q$ appear with opposite signs, and the resulting linear system solves at once.",
+          ),
+          step(
+            "calculation",
+            `$x = 0:\\ p + q\\cos(0) = p + q = 3$<br>$x = \\pi:\\ p + q\\cos(\\pi) = p - q = -1$<br>Sumando: $2p = 2 \\Rightarrow p = 1$; restando: $2q = 4 \\Rightarrow q = 2$<br>$p^{2} - q^{2} = 1^{2} - 2^{2} = 1 - 4 = -3$`,
+            `$x = 0:\\ p + q\\cos(0) = p + q = 3$<br>$x = \\pi:\\ p + q\\cos(\\pi) = p - q = -1$<br>Adding: $2p = 2 \\Rightarrow p = 1$; subtracting: $2q = 4 \\Rightarrow q = 2$<br>$p^{2} - q^{2} = 1^{2} - 2^{2} = 1 - 4 = -3$`,
+          ),
+          step(
+            "result",
+            `El enunciado verdadero es $p^{2} - q^{2} = -3$. Comprobación con la curva recuperada $y = 1 + 2\\cos(x)$: $y(0) = 1 + 2 = 3$ ✓ y $y(\\pi) = 1 - 2 = -1$ ✓ (las demás opciones fallan: $p^{2} + q^{2} = 5 \\ne 9$).`,
+            `The true statement is $p^{2} - q^{2} = -3$. Check with the recovered curve $y = 1 + 2\\cos(x)$: $y(0) = 1 + 2 = 3$ ✓ and $y(\\pi) = 1 - 2 = -1$ ✓ (the other options fail: $p^{2} + q^{2} = 5 \\ne 9$).`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 4 · 17 — senoidal f(x) = p + q·sen(kx): período 4π, mínimo 3,
+     máximo 11 → (p, q, k) = (7, 4, 1/2) */
+  template(
+    {
+      id: "trigfn-espol-ch4-17",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "amplitude",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["sinusoid", "period", "parameters"],
+      prerequisites: ["amplitude", "period"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 17",
+        page: 469,
+      },
+      reasoning: "parameters",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\left(7, 4, \\dfrac{1}{2}\\right)$`, `$\\left(7, 4, \\dfrac{1}{2}\\right)$`), correct: true },
+        { id: "b", text: L(`$\\left(7, 4, 2\\right)$`, `$\\left(7, 4, 2\\right)$`), correct: false },
+        { id: "c", text: L(`$\\left(7, 8, \\dfrac{1}{2}\\right)$`, `$\\left(7, 8, \\dfrac{1}{2}\\right)$`), correct: false },
+        { id: "d", text: L(`$\\left(14, 4, \\dfrac{1}{2}\\right)$`, `$\\left(14, 4, \\dfrac{1}{2}\\right)$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Línea media, amplitud y frecuencia de una senoidal",
+          "Midline, amplitude and frequency of a sinusoid",
+        ),
+        statement: L(
+          `El diagrama muestra parte de la gráfica de una curva senoidal $f(x) = p + q\\,\\operatorname{sen}(kx)$. El período es $4\\pi$, el valor mínimo es 3 y el valor máximo es 11. Halle el valor de $(p, q, k)$.`,
+          `The diagram shows part of the graph of a sinusoidal curve $f(x) = p + q\\,\\sin(kx)$. The period is $4\\pi$, the minimum value is 3 and the maximum value is 11. Find the value of $(p, q, k)$.`,
+        ),
+        diagram: {
+          kind: "function-graph",
+          xMin: 0,
+          xMax: 12.6,
+          yMin: 0,
+          yMax: 12,
+          curves: [{ fn: "7 + 4*sin(x/2)", color: "primary" }],
+          points: [
+            { x: Math.PI, y: 11, label: "(π, 11)" },
+            { x: 3 * Math.PI, y: 3, label: "(3π, 3)" },
+          ],
+          showGrid: true,
+          xLabel: "x",
+          yLabel: "f(x)",
+        },
+        diagramLabel: L(
+          "Curva senoidal: máximo 11 en x = π y mínimo 3 en x = 3π (un período completo mide 4π).",
+          "Sinusoidal curve: maximum 11 at x = π and minimum 3 at x = 3π (a full period measures 4π).",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "La línea media es el promedio del máximo y el mínimo, y la amplitud es la mitad del recorrido total: de ahí salen $p$ y $q$.",
+            "The midline is the average of the maximum and the minimum, and the amplitude is half the total swing: that gives $p$ and $q$.",
+          ),
+          L(
+            "Para $k$ usa el período: un ciclo completo ocurre cuando $kx$ recorre $2\\pi$, así que $\\frac{2\\pi}{k} = 4\\pi$.",
+            "For $k$ use the period: a full cycle happens when $kx$ covers $2\\pi$, so $\\frac{2\\pi}{k} = 4\\pi$.",
+          ),
+          L(
+            "Comprueba tu triple con un punto del diagrama: la curva alcanza su máximo 11 exactamente en $x = \\pi$.",
+            "Check your triple with a point from the diagram: the curve reaches its maximum 11 exactly at $x = \\pi$.",
+          ),
+        ],
+        answerDisplay: L(
+          `$(p, q, k) = \\left(7, 4, \\dfrac{1}{2}\\right)$`,
+          `$(p, q, k) = \\left(7, 4, \\dfrac{1}{2}\\right)$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "Curva senoidal $f(x) = p + q\\,\\operatorname{sen}(kx)$ con período $4\\pi$, valor mínimo 3 y valor máximo 11.",
+            "Sinusoidal curve $f(x) = p + q\\,\\sin(kx)$ with period $4\\pi$, minimum value 3 and maximum value 11.",
+          ),
+          step(
+            "approach",
+            "De los extremos salen la línea media $p$ y la amplitud $q$; del período sale la frecuencia $k$ mediante $\\frac{2\\pi}{k} = 4\\pi$.",
+            "The extremes give the midline $p$ and the amplitude $q$; the period gives the frequency $k$ through $\\frac{2\\pi}{k} = 4\\pi$.",
+          ),
+          step(
+            "calculation",
+            `$p = \\dfrac{3 + 11}{2} = 7$<br>$q = \\dfrac{11 - 3}{2} = 4$<br>$\\dfrac{2\\pi}{k} = 4\\pi \\Rightarrow k = \\dfrac{2\\pi}{4\\pi} = \\dfrac{1}{2}$`,
+            `$p = \\dfrac{3 + 11}{2} = 7$<br>$q = \\dfrac{11 - 3}{2} = 4$<br>$\\dfrac{2\\pi}{k} = 4\\pi \\Rightarrow k = \\dfrac{2\\pi}{4\\pi} = \\dfrac{1}{2}$`,
+          ),
+          step(
+            "result",
+            `$(p, q, k) = \\left(7, 4, \\dfrac{1}{2}\\right)$. Comprobación con el máximo del diagrama: $f(\\pi) = 7 + 4\\,\\operatorname{sen}\\left(\\dfrac{\\pi}{2}\\right) = 7 + 4 = 11$ ✓ (con $k = 2$ el máximo aparecería en $x = \\dfrac{\\pi}{4}$, y con $q = 8$ el máximo sería 15).`,
+            `$(p, q, k) = \\left(7, 4, \\dfrac{1}{2}\\right)$. Check with the diagram's maximum: $f(\\pi) = 7 + 4\\,\\sin\\left(\\dfrac{\\pi}{2}\\right) = 7 + 4 = 11$ ✓ (with $k = 2$ the maximum would appear at $x = \\dfrac{\\pi}{4}$, and with $q = 8$ the maximum would be 15).`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 4 · 19a — marea de Tahiti h(t) = a·cos(bt) + 3 → a = 3/2, b = π/4 */
+  template(
+    {
+      id: "trigfn-espol-ch4-19a",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "amplitude",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["modeling", "tides", "amplitude", "period"],
+      prerequisites: ["amplitude", "period"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 19a",
+        page: 470,
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\left(\\dfrac{3}{2}, \\dfrac{\\pi}{4}\\right)$`, `$\\left(\\dfrac{3}{2}, \\dfrac{\\pi}{4}\\right)$`), correct: true },
+        { id: "b", text: L(`$\\left(2, \\dfrac{\\pi}{4}\\right)$`, `$\\left(2, \\dfrac{\\pi}{4}\\right)$`), correct: false },
+        { id: "c", text: L(`$\\left(\\dfrac{3}{2}, \\dfrac{\\pi}{2}\\right)$`, `$\\left(\\dfrac{3}{2}, \\dfrac{\\pi}{2}\\right)$`), correct: false },
+        { id: "d", text: L(`$\\left(\\dfrac{1}{2}, \\dfrac{\\pi}{4}\\right)$`, `$\\left(\\dfrac{1}{2}, \\dfrac{\\pi}{4}\\right)$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Mareas: amplitud y frecuencia desde la gráfica",
+          "Tides: amplitude and frequency from the graph",
+        ),
+        statement: L(
+          `La gráfica muestra la altura $h$ de las mareas, en metros, a las $t$ horas pasadas la media noche en la isla de Tahiti: máximo de $4{,}5$ m en $t = 0$, mínimo de $1{,}5$ m y período de 8 horas. La altura puede modelarse con $h(t) = a\\cos(bt) + 3$. Use la gráfica para hallar $(a, b)$.`,
+          `The graph shows the height $h$ of the tides, in meters, $t$ hours after midnight on the island of Tahiti: maximum of 4.5 m at $t = 0$, minimum of 1.5 m, and an 8-hour period. The height can be modeled with $h(t) = a\\cos(bt) + 3$. Use the graph to find $(a, b)$.`,
+        ),
+        diagram: {
+          kind: "function-graph",
+          xMin: 0,
+          xMax: 16,
+          yMin: 0,
+          yMax: 6,
+          curves: [{ fn: "1.5*cos(pi*x/4)+3", color: "primary" }],
+          points: [
+            { x: 0, y: 4.5, label: "(0, 4.5)" },
+            { x: 4, y: 1.5, label: "(4, 1.5)" },
+            { x: 12, y: 1.5, label: "(12, 1.5)" },
+          ],
+          showGrid: true,
+          xLabel: "t (h)",
+          yLabel: "h (m)",
+        },
+        diagramLabel: L(
+          "Marea en Tahiti: máximo 4,5 m a la media noche, mínimo 1,5 m, período 8 horas.",
+          "Tahiti tide: maximum 4.5 m at midnight, minimum 1.5 m, 8-hour period.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "La línea media ya está dada: $y = 3$. La amplitud $|a|$ es la distancia del máximo a la línea media.",
+            "The midline is already given: $y = 3$. The amplitude $|a|$ is the distance from the maximum to the midline.",
+          ),
+          L(
+            "El máximo ocurre en $t = 0$, donde $\\cos(bt) = \\cos(0) = 1$: eso fija el valor (y el signo) de $a$ con la altura máxima.",
+            "The maximum occurs at $t = 0$, where $\\cos(bt) = \\cos(0) = 1$: that fixes the value (and sign) of $a$ from the maximum height.",
+          ),
+          L(
+            "Para $b$ usa el período: de un máximo al siguiente pasan 8 horas, así que $\\frac{2\\pi}{b} = 8$.",
+            "For $b$ use the period: from one maximum to the next 8 hours elapse, so $\\frac{2\\pi}{b} = 8$.",
+          ),
+        ],
+        answerDisplay: L(
+          `$a = \\dfrac{3}{2}$ (amplitud) y $b = \\dfrac{\\pi}{4}$ (período de 8 horas)`,
+          `$a = \\dfrac{3}{2}$ (amplitude) and $b = \\dfrac{\\pi}{4}$ (8-hour period)`,
+        ),
+        solution: [
+          step(
+            "given",
+            "Marea de Tahiti modelada por $h(t) = a\\cos(bt) + 3$, con línea media $y = 3$: máximo $4{,}5$ m en $t = 0$, mínimo $1{,}5$ m y período de 8 horas.",
+            "Tahiti tide modeled by $h(t) = a\\cos(bt) + 3$, with midline $y = 3$: maximum $4.5$ m at $t = 0$, minimum $1.5$ m, and an 8-hour period.",
+          ),
+          step(
+            "approach",
+            "El máximo en $t = 0$ determina $a$ (allí $\\cos(0) = 1$) y el período determina $b$ mediante $\\frac{2\\pi}{b} = 8$.",
+            "The maximum at $t = 0$ determines $a$ (there $\\cos(0) = 1$) and the period determines $b$ through $\\frac{2\\pi}{b} = 8$.",
+          ),
+          step(
+            "calculation",
+            `$a = 4{,}5 - 3 = 1{,}5 = \\dfrac{3}{2}$ (máximo en $t = 0$: $\\cos(0) = 1$)<br>$\\dfrac{2\\pi}{b} = 8 \\Rightarrow b = \\dfrac{2\\pi}{8} = \\dfrac{\\pi}{4}$`,
+            `$a = 4.5 - 3 = 1.5 = \\dfrac{3}{2}$ (maximum at $t = 0$: $\\cos(0) = 1$)<br>$\\dfrac{2\\pi}{b} = 8 \\Rightarrow b = \\dfrac{2\\pi}{8} = \\dfrac{\\pi}{4}$`,
+          ),
+          step(
+            "result",
+            `$(a, b) = \\left(\\dfrac{3}{2}, \\dfrac{\\pi}{4}\\right)$. Comprobación con los mínimos marcados en la gráfica: $h(4) = \\dfrac{3}{2}\\cos(\\pi) + 3 = 1{,}5$ ✓ y $h(12) = \\dfrac{3}{2}\\cos(3\\pi) + 3 = 1{,}5$ ✓ (el mínimo se repite cada 8 horas).`,
+            `$(a, b) = \\left(\\dfrac{3}{2}, \\dfrac{\\pi}{4}\\right)$. Check with the minima marked on the graph: $h(4) = \\dfrac{3}{2}\\cos(\\pi) + 3 = 1.5$ ✓ and $h(12) = \\dfrac{3}{2}\\cos(3\\pi) + 3 = 1.5$ ✓ (the minimum repeats every 8 hours).`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 4 · 19b — h(13) = 3 − 3√2/4 ≈ 1,94 m */
+  template(
+    {
+      id: "trigfn-espol-ch4-19b",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "amplitude",
+      difficulty: "hard",
+      questionType: "numeric-unit",
+      estimatedTimeSec: 240,
+      tags: ["modeling", "tides", "evaluation"],
+      prerequisites: ["amplitude", "period"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 19b",
+        page: 470,
+      },
+      reasoning: "modeling",
+    },
+    () => ({
+      skill: L(
+        "Evaluar el modelo de marea en un instante dado",
+        "Evaluating the tide model at a given instant",
+      ),
+      statement: L(
+        `Con el modelo de marea de la parte anterior, $h(t) = \\dfrac{3}{2}\\cos\\left(\\dfrac{\\pi}{4}t\\right) + 3$, calcule la altura de la marea a las 13:00 (en metros, redondeada a dos decimales).`,
+        `With the tide model from the previous part, $h(t) = \\dfrac{3}{2}\\cos\\left(\\dfrac{\\pi}{4}t\\right) + 3$, compute the height of the tide at 13:00 (in meters, rounded to two decimals).`,
+      ),
+      answer: {
+        kind: "numeric-unit",
+        value: 1.94,
+        tolerance: { mode: "relative", value: 0.02 },
+        units: ["m", "metros", "meters"],
+        unitChoices: ["m", "cm", "km", "m2", "m3"],
+      },
+      hints: [
+        L(
+          "Las 13:00 corresponden a $t = 13$ horas pasadas la media noche: sustituye para obtener $h(13) = \\dfrac{3}{2}\\cos\\left(\\dfrac{13\\pi}{4}\\right) + 3$.",
+          "13:00 corresponds to $t = 13$ hours after midnight: substitute to get $h(13) = \\dfrac{3}{2}\\cos\\left(\\dfrac{13\\pi}{4}\\right) + 3$.",
+        ),
+        L(
+          "El argumento $\\dfrac{13\\pi}{4}$ supera $2\\pi$: réstale $2\\pi$ (una marea completa, 8 horas) sin cambiar el coseno.",
+          "The argument $\\dfrac{13\\pi}{4}$ exceeds $2\\pi$: subtract $2\\pi$ (a full tide cycle, 8 hours) without changing the cosine.",
+        ),
+        L(
+          "Queda un ángulo notable del tercer cuadrante, con coseno negativo; multiplica por $\\dfrac{3}{2}$ y suma 3.",
+          "What remains is a notable third-quadrant angle with a negative cosine; multiply by $\\dfrac{3}{2}$ and add 3.",
+        ),
+      ],
+      answerDisplay: L(
+        `$h(13) = 3 - \\dfrac{3\\sqrt{2}}{4} \\approx 1{,}94$ m`,
+        `$h(13) = 3 - \\dfrac{3\\sqrt{2}}{4} \\approx 1.94$ m`,
+      ),
+      solution: [
+        step(
+          "given",
+          "Modelo de marea $h(t) = \\dfrac{3}{2}\\cos\\left(\\dfrac{\\pi}{4}t\\right) + 3$; se pide la altura a las 13:00, es decir $h(13)$.",
+          "Tide model $h(t) = \\dfrac{3}{2}\\cos\\left(\\dfrac{\\pi}{4}t\\right) + 3$; the height at 13:00 is requested, i.e. $h(13)$.",
+        ),
+        step(
+          "approach",
+          "Evaluar $h(13)$ reduciendo antes el argumento $\\dfrac{13\\pi}{4}$ con el período $2\\pi$ del coseno.",
+          "Evaluate $h(13)$ by first reducing the argument $\\dfrac{13\\pi}{4}$ using the cosine's $2\\pi$ period.",
+        ),
+        step(
+          "calculation",
+          `$\\dfrac{13\\pi}{4} - 2\\pi = \\dfrac{13\\pi - 8\\pi}{4} = \\dfrac{5\\pi}{4}$<br>$h(13) = \\dfrac{3}{2}\\cos\\left(\\dfrac{5\\pi}{4}\\right) + 3 = \\dfrac{3}{2}\\left(-\\dfrac{\\sqrt{2}}{2}\\right) + 3 = 3 - \\dfrac{3\\sqrt{2}}{4} \\approx 1{,}94$`,
+          `$\\dfrac{13\\pi}{4} - 2\\pi = \\dfrac{13\\pi - 8\\pi}{4} = \\dfrac{5\\pi}{4}$<br>$h(13) = \\dfrac{3}{2}\\cos\\left(\\dfrac{5\\pi}{4}\\right) + 3 = \\dfrac{3}{2}\\left(-\\dfrac{\\sqrt{2}}{2}\\right) + 3 = 3 - \\dfrac{3\\sqrt{2}}{4} \\approx 1.94$`,
+        ),
+        step(
+          "result",
+          `A las 13:00 la marea mide $3 - \\dfrac{3\\sqrt{2}}{4} \\approx 1{,}94$ m. Comprobación: las 13:00 están una hora después del mínimo de las 12:00, donde $h(12) = \\dfrac{3}{2}\\cos(3\\pi) + 3 = 1{,}5$ ✓, y el nivel ya sube hacia la línea media: $1{,}5 < 1{,}94 < 3$ ✓.`,
+          `At 13:00 the tide measures $3 - \\dfrac{3\\sqrt{2}}{4} \\approx 1.94$ m. Check: 13:00 is one hour after the 12:00 minimum, where $h(12) = \\dfrac{3}{2}\\cos(3\\pi) + 3 = 1.5$ ✓, and the level is already rising toward the midline: $1.5 < 1.94 < 3$ ✓.`,
+        ),
+      ],
+    }),
+  ),
+
+  /* 4 · 20 — sen(2π/3) + tan(5π/3) = −√3/2 */
+  template(
+    {
+      id: "trigfn-espol-ch4-20",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "inverse-trig",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 270,
+      tags: ["inverse-trig", "exact-values", "quadrants"],
+      prerequisites: ["inverse-trig"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 20",
+        page: 470,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$-\\dfrac{\\sqrt{3}}{2}$`, `$-\\dfrac{\\sqrt{3}}{2}$`), correct: true },
+        { id: "b", text: L(`$\\dfrac{\\sqrt{3}}{2}$`, `$\\dfrac{\\sqrt{3}}{2}$`), correct: false },
+        { id: "c", text: L(`$-\\sqrt{3}$`, `$-\\sqrt{3}$`), correct: false },
+        { id: "d", text: L(`$0$`, `$0$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Arcos con rangos no principales: valores exactos",
+          "Arcs with non-principal ranges: exact values",
+        ),
+        statement: L(
+          `Sea $\\alpha = \\arccos\\left(-\\dfrac{1}{2}\\right)$, con $\\dfrac{\\pi}{2} < \\alpha < \\pi$, y $\\beta = \\operatorname{arcsen}\\left(-\\dfrac{\\sqrt{3}}{2}\\right)$, con $\\dfrac{3\\pi}{2} < \\beta < 2\\pi$. Encuentre el valor de $\\operatorname{sen}(\\alpha) + \\tan(\\beta)$.`,
+          `Let $\\alpha = \\arccos\\left(-\\dfrac{1}{2}\\right)$, with $\\dfrac{\\pi}{2} < \\alpha < \\pi$, and $\\beta = \\arcsin\\left(-\\dfrac{\\sqrt{3}}{2}\\right)$, with $\\dfrac{3\\pi}{2} < \\beta < 2\\pi$. Find the value of $\\sin(\\alpha) + \\tan(\\beta)$.`,
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "El intervalo que acompaña a cada arco dice en qué cuadrante vive el ángulo: ahí está toda la información de los signos.",
+            "The interval accompanying each arc tells which quadrant the angle lives in: that is where all the sign information lies.",
+          ),
+          L(
+            "Para $\\alpha$: ángulo del segundo cuadrante con coseno $-\\dfrac{1}{2}$ (ángulo de referencia $\\dfrac{\\pi}{3}$). Para $\\beta$: ángulo del cuarto cuadrante con seno $-\\dfrac{\\sqrt{3}}{2}$.",
+            "For $\\alpha$: a second-quadrant angle with cosine $-\\dfrac{1}{2}$ (reference angle $\\dfrac{\\pi}{3}$). For $\\beta$: a fourth-quadrant angle with sine $-\\dfrac{\\sqrt{3}}{2}$.",
+          ),
+          L(
+            "Con los dos ángulos hallados, evalúa seno y tangente con valores notables y súmalos; cuida el signo de cada término.",
+            "With both angles found, evaluate the sine and tangent with notable values and add them; mind the sign of each term.",
+          ),
+        ],
+        answerDisplay: L(
+          `$\\operatorname{sen}\\left(\\dfrac{2\\pi}{3}\\right) + \\tan\\left(\\dfrac{5\\pi}{3}\\right) = \\dfrac{\\sqrt{3}}{2} - \\sqrt{3} = -\\dfrac{\\sqrt{3}}{2}$`,
+          `$\\sin\\left(\\dfrac{2\\pi}{3}\\right) + \\tan\\left(\\dfrac{5\\pi}{3}\\right) = \\dfrac{\\sqrt{3}}{2} - \\sqrt{3} = -\\dfrac{\\sqrt{3}}{2}$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$\\alpha = \\arccos\\left(-\\frac{1}{2}\\right)$ con $\\frac{\\pi}{2} < \\alpha < \\pi$, y $\\beta = \\operatorname{arcsen}\\left(-\\frac{\\sqrt{3}}{2}\\right)$ con $\\frac{3\\pi}{2} < \\beta < 2\\pi$.",
+            "$\\alpha = \\arccos\\left(-\\frac{1}{2}\\right)$ with $\\frac{\\pi}{2} < \\alpha < \\pi$, and $\\beta = \\arcsin\\left(-\\frac{\\sqrt{3}}{2}\\right)$ with $\\frac{3\\pi}{2} < \\beta < 2\\pi$.",
+          ),
+          step(
+            "approach",
+            "Los rangos dados no son los principales: hay que identificar los ángulos concretos de esos cuadrantes que cumplen cada condición y luego evaluar con valores notables.",
+            "The given ranges are not the principal ones: identify the concrete angles in those quadrants satisfying each condition, then evaluate with notable values.",
+          ),
+          step(
+            "calculation",
+            `$\\alpha = \\dfrac{2\\pi}{3}$ (II cuadrante: $\\cos\\alpha = -\\dfrac{1}{2}$)<br>$\\beta = \\dfrac{5\\pi}{3}$ (IV cuadrante: $\\operatorname{sen}\\beta = -\\dfrac{\\sqrt{3}}{2}$)<br>$\\operatorname{sen}\\left(\\dfrac{2\\pi}{3}\\right) = \\dfrac{\\sqrt{3}}{2}$, y $\\tan\\left(\\dfrac{5\\pi}{3}\\right) = \\dfrac{-\\sqrt{3}/2}{1/2} = -\\sqrt{3}$`,
+            `$\\alpha = \\dfrac{2\\pi}{3}$ (quadrant II: $\\cos\\alpha = -\\dfrac{1}{2}$)<br>$\\beta = \\dfrac{5\\pi}{3}$ (quadrant IV: $\\sin\\beta = -\\dfrac{\\sqrt{3}}{2}$)<br>$\\sin\\left(\\dfrac{2\\pi}{3}\\right) = \\dfrac{\\sqrt{3}}{2}$, and $\\tan\\left(\\dfrac{5\\pi}{3}\\right) = \\dfrac{-\\sqrt{3}/2}{1/2} = -\\sqrt{3}$`,
+          ),
+          step(
+            "result",
+            `El valor es $-\\dfrac{\\sqrt{3}}{2} \\approx -0{,}866$. Comprobación: $\\operatorname{sen}\\left(\\dfrac{2\\pi}{3}\\right) + \\tan\\left(\\dfrac{5\\pi}{3}\\right) = \\dfrac{\\sqrt{3}}{2} - \\sqrt{3} = -\\dfrac{\\sqrt{3}}{2}$ ✓.`,
+            `The value is $-\\dfrac{\\sqrt{3}}{2} \\approx -0.866$. Check: $\\sin\\left(\\dfrac{2\\pi}{3}\\right) + \\tan\\left(\\dfrac{5\\pi}{3}\\right) = \\dfrac{\\sqrt{3}}{2} - \\sqrt{3} = -\\dfrac{\\sqrt{3}}{2}$ ✓.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 4 · 21 — arctan(4/7) con x ∈ (π, 3π/2) → cos x = −7√65/65 */
+  template(
+    {
+      id: "trigfn-espol-ch4-21",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "inverse-trig",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 270,
+      tags: ["inverse-trig", "quadrants", "rationalization"],
+      prerequisites: ["inverse-trig"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 21",
+        page: 470,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$-\\dfrac{7\\sqrt{65}}{65}$`, `$-\\dfrac{7\\sqrt{65}}{65}$`), correct: true },
+        { id: "b", text: L(`$\\dfrac{7\\sqrt{65}}{65}$`, `$\\dfrac{7\\sqrt{65}}{65}$`), correct: false },
+        { id: "c", text: L(`$-\\dfrac{4\\sqrt{65}}{65}$`, `$-\\dfrac{4\\sqrt{65}}{65}$`), correct: false },
+        { id: "d", text: L(`$-\\dfrac{\\sqrt{65}}{7}$`, `$-\\dfrac{\\sqrt{65}}{7}$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Arctan en el tercer cuadrante: triángulo de referencia",
+          "Arctan in the third quadrant: reference triangle",
+        ),
+        statement: L(
+          `Encuentre el valor de $\\cos(x)$ si $x = \\arctan\\left(\\dfrac{4}{7}\\right)$, $x \\in \\left(\\pi, \\dfrac{3\\pi}{2}\\right)$.`,
+          `Find the value of $\\cos(x)$ if $x = \\arctan\\left(\\dfrac{4}{7}\\right)$, $x \\in \\left(\\pi, \\dfrac{3\\pi}{2}\\right)$.`,
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "La tangente tiene período $\\pi$: el intervalo $\\left(\\pi, \\frac{3\\pi}{2}\\right)$ elige la copia del tercer cuadrante del ángulo cuya tangente es $\\frac{4}{7}$.",
+            "The tangent has period $\\pi$: the interval $\\left(\\pi, \\frac{3\\pi}{2}\\right)$ picks the third-quadrant copy of the angle whose tangent is $\\frac{4}{7}$.",
+          ),
+          L(
+            "Construye el triángulo de referencia: cateto opuesto $4$, cateto adyacente $7$; la hipotenusa sale con Pitágoras.",
+            "Build the reference triangle: opposite leg $4$, adjacent leg $7$; the hypotenuse comes from Pythagoras.",
+          ),
+          L(
+            "En el tercer cuadrante seno y coseno son negativos; al final racionaliza: $\\dfrac{1}{\\sqrt{65}} = \\dfrac{\\sqrt{65}}{65}$.",
+            "In the third quadrant both sine and cosine are negative; rationalize at the end: $\\dfrac{1}{\\sqrt{65}} = \\dfrac{\\sqrt{65}}{65}$.",
+          ),
+        ],
+        answerDisplay: L(
+          `$\\cos(x) = -\\dfrac{7}{\\sqrt{65}} = -\\dfrac{7\\sqrt{65}}{65}$`,
+          `$\\cos(x) = -\\dfrac{7}{\\sqrt{65}} = -\\dfrac{7\\sqrt{65}}{65}$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$x$ con $\\tan(x) = \\dfrac{4}{7}$ y $x \\in \\left(\\pi, \\dfrac{3\\pi}{2}\\right)$ (tercer cuadrante).",
+            "$x$ with $\\tan(x) = \\dfrac{4}{7}$ and $x \\in \\left(\\pi, \\dfrac{3\\pi}{2}\\right)$ (third quadrant).",
+          ),
+          step(
+            "approach",
+            "Triángulo de referencia para la tangente $\\frac{4}{7}$, signos del tercer cuadrante y racionalización del denominador.",
+            "Reference triangle for the tangent $\\frac{4}{7}$, third-quadrant signs, and rationalization of the denominator.",
+          ),
+          step(
+            "calculation",
+            `$\\text{hipotenusa} = \\sqrt{4^{2} + 7^{2}} = \\sqrt{16 + 49} = \\sqrt{65}$<br>$|\\cos(x)| = \\dfrac{7}{\\sqrt{65}}$; en el III cuadrante $\\cos(x) < 0$<br>$\\cos(x) = -\\dfrac{7}{\\sqrt{65}} = -\\dfrac{7\\sqrt{65}}{65}$`,
+            `$\\text{hypotenuse} = \\sqrt{4^{2} + 7^{2}} = \\sqrt{16 + 49} = \\sqrt{65}$<br>$|\\cos(x)| = \\dfrac{7}{\\sqrt{65}}$; in quadrant III $\\cos(x) < 0$<br>$\\cos(x) = -\\dfrac{7}{\\sqrt{65}} = -\\dfrac{7\\sqrt{65}}{65}$`,
+          ),
+          step(
+            "result",
+            `$\\cos(x) = -\\dfrac{7\\sqrt{65}}{65} \\approx -0{,}868$. Comprobación: $\\tan(x) = \\dfrac{\\operatorname{sen}(x)}{\\cos(x)} = \\dfrac{-4/\\sqrt{65}}{-7/\\sqrt{65}} = \\dfrac{4}{7}$ ✓, con $x = \\pi + \\arctan\\left(\\frac{4}{7}\\right) \\approx 3{,}66$ rad dentro de $\\left(\\pi, \\frac{3\\pi}{2}\\right)$ ✓.`,
+            `$\\cos(x) = -\\dfrac{7\\sqrt{65}}{65} \\approx -0.868$. Check: $\\tan(x) = \\dfrac{\\sin(x)}{\\cos(x)} = \\dfrac{-4/\\sqrt{65}}{-7/\\sqrt{65}} = \\dfrac{4}{7}$ ✓, with $x = \\pi + \\arctan\\left(\\frac{4}{7}\\right) \\approx 3.66$ rad inside $\\left(\\pi, \\frac{3\\pi}{2}\\right)$ ✓.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 4 · 22a — cos(arcsen x) = √(1−x²) */
+  template(
+    {
+      id: "trigfn-espol-ch4-22a",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "inverse-trig",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["inverse-trig", "reference-triangle", "simplification"],
+      prerequisites: ["inverse-trig"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 22a",
+        page: 470,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\sqrt{1 - x^{2}}$`, `$\\sqrt{1 - x^{2}}$`), correct: true },
+        { id: "b", text: L(`$1 - x^{2}$`, `$1 - x^{2}$`), correct: false },
+        { id: "c", text: L(`$\\sqrt{1 + x^{2}}$`, `$\\sqrt{1 + x^{2}}$`), correct: false },
+        { id: "d", text: L(`$-\\sqrt{1 - x^{2}}$`, `$-\\sqrt{1 - x^{2}}$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Coseno de un arcseno: triángulo de referencia",
+          "Cosine of an arcsine: reference triangle",
+        ),
+        statement: L(
+          `Simplificar: $\\cos\\left(\\operatorname{arcsen}(x)\\right)$`,
+          `Simplify: $\\cos\\left(\\arcsin(x)\\right)$`,
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Nombra el arco: $\\theta = \\operatorname{arcsen}(x)$ significa $\\operatorname{sen}(\\theta) = x$ con $\\theta \\in \\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$.",
+            "Name the arc: $\\theta = \\arcsin(x)$ means $\\sin(\\theta) = x$ with $\\theta \\in \\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$.",
+          ),
+          L(
+            "Dibuja el triángulo de referencia: hipotenusa $1$ y cateto opuesto $x$; el cateto adyacente sale por Pitágoras.",
+            "Draw the reference triangle: hypotenuse $1$ and opposite leg $x$; the adjacent leg comes from Pythagoras.",
+          ),
+          L(
+            "El rango de $\\operatorname{arcsen}$ garantiza $\\cos(\\theta) \\ge 0$: elige el signo de la raíz en consecuencia.",
+            "The range of $\\arcsin$ guarantees $\\cos(\\theta) \\ge 0$: choose the sign of the root accordingly.",
+          ),
+        ],
+        answerDisplay: L(
+          `$\\cos\\left(\\operatorname{arcsen}(x)\\right) = \\sqrt{1 - x^{2}}$`,
+          `$\\cos\\left(\\arcsin(x)\\right) = \\sqrt{1 - x^{2}}$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$\\cos\\left(\\operatorname{arcsen}(x)\\right)$, con $\\operatorname{arcsen}(x) \\in \\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$.",
+            "$\\cos\\left(\\arcsin(x)\\right)$, with $\\arcsin(x) \\in \\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$.",
+          ),
+          step(
+            "approach",
+            "Nombrar el arco, dibujar su triángulo de referencia y leer el coseno; el rango de $\\operatorname{arcsen}$ fija el signo.",
+            "Name the arc, draw its reference triangle and read off the cosine; the range of $\\arcsin$ fixes the sign.",
+          ),
+          step(
+            "calculation",
+            `$\\theta = \\operatorname{arcsen}(x) \\Rightarrow \\operatorname{sen}(\\theta) = x = \\dfrac{x}{1}$<br>Triángulo: opuesto $x$, hipotenusa $1$ $\\Rightarrow$ adyacente $= \\sqrt{1 - x^{2}}$<br>$\\cos(\\theta) = \\dfrac{\\text{adyacente}}{\\text{hipotenusa}} = \\sqrt{1 - x^{2}}$ (positivo: $\\theta \\in \\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$)`,
+            `$\\theta = \\arcsin(x) \\Rightarrow \\sin(\\theta) = x = \\dfrac{x}{1}$<br>Triangle: opposite $x$, hypotenuse $1$ $\\Rightarrow$ adjacent $= \\sqrt{1 - x^{2}}$<br>$\\cos(\\theta) = \\dfrac{\\text{adjacent}}{\\text{hypotenuse}} = \\sqrt{1 - x^{2}}$ (positive: $\\theta \\in \\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$)`,
+          ),
+          step(
+            "result",
+            `$\\cos\\left(\\operatorname{arcsen}(x)\\right) = \\sqrt{1 - x^{2}}$. Comprobación con $x = 0{,}6$: $\\operatorname{arcsen}(0{,}6) \\approx 0{,}6435$ rad y $\\cos(0{,}6435) = 0{,}8 = \\sqrt{1 - 0{,}36}$ ✓ (con $x = -0{,}6$ también da $0{,}8 > 0$, lo que descarta la raíz negativa).`,
+            `$\\cos\\left(\\arcsin(x)\\right) = \\sqrt{1 - x^{2}}$. Check with $x = 0.6$: $\\arcsin(0.6) \\approx 0.6435$ rad and $\\cos(0.6435) = 0.8 = \\sqrt{1 - 0.36}$ ✓ (with $x = -0.6$ it also gives $0.8 > 0$, which rules out the negative root).`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 4 · 22b — cos(arctan x) = 1/√(1+x²) = √(1+x²)/(1+x²) */
+  template(
+    {
+      id: "trigfn-espol-ch4-22b",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "inverse-trig",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["inverse-trig", "reference-triangle", "rationalization"],
+      prerequisites: ["inverse-trig"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 22b",
+        page: 470,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\dfrac{1}{\\sqrt{1 + x^{2}}}$`, `$\\dfrac{1}{\\sqrt{1 + x^{2}}}$`), correct: true },
+        { id: "b", text: L(`$\\sqrt{1 + x^{2}}$`, `$\\sqrt{1 + x^{2}}$`), correct: false },
+        { id: "c", text: L(`$\\dfrac{1}{1 + x^{2}}$`, `$\\dfrac{1}{1 + x^{2}}$`), correct: false },
+        { id: "d", text: L(`$\\dfrac{x}{\\sqrt{1 + x^{2}}}$`, `$\\dfrac{x}{\\sqrt{1 + x^{2}}}$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Coseno de un arctan: triángulo de referencia",
+          "Cosine of an arctan: reference triangle",
+        ),
+        statement: L(
+          `Simplificar: $\\cos\\left(\\arctan(x)\\right)$`,
+          `Simplify: $\\cos\\left(\\arctan(x)\\right)$`,
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Nombra el arco: $\\theta = \\arctan(x)$ significa $\\tan(\\theta) = \\dfrac{x}{1}$ (cateto opuesto $x$, cateto adyacente $1$).",
+            "Name the arc: $\\theta = \\arctan(x)$ means $\\tan(\\theta) = \\dfrac{x}{1}$ (opposite leg $x$, adjacent leg $1$).",
+          ),
+          L(
+            "La hipotenusa del triángulo de referencia sale de Pitágoras y es la misma raíz que aparece en las opciones.",
+            "The hypotenuse of the reference triangle comes from Pythagoras and is the same root that appears in the options.",
+          ),
+          L(
+            "El coseno es adyacente sobre hipotenusa; como $\\theta \\in \\left(-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right)$, el resultado siempre es positivo.",
+            "The cosine is adjacent over hypotenuse; since $\\theta \\in \\left(-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right)$, the result is always positive.",
+          ),
+        ],
+        answerDisplay: L(
+          `$\\cos\\left(\\arctan(x)\\right) = \\dfrac{1}{\\sqrt{1 + x^{2}}} = \\dfrac{\\sqrt{1 + x^{2}}}{1 + x^{2}}$`,
+          `$\\cos\\left(\\arctan(x)\\right) = \\dfrac{1}{\\sqrt{1 + x^{2}}} = \\dfrac{\\sqrt{1 + x^{2}}}{1 + x^{2}}$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$\\cos\\left(\\arctan(x)\\right)$, con $\\arctan(x) \\in \\left(-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right)$.",
+            "$\\cos\\left(\\arctan(x)\\right)$, with $\\arctan(x) \\in \\left(-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right)$.",
+          ),
+          step(
+            "approach",
+            "Triángulo de referencia de la tangente $\\frac{x}{1}$ y lectura del coseno; el libro imprime el resultado racionalizado.",
+            "Reference triangle of the tangent $\\frac{x}{1}$ and reading of the cosine; the book prints the result rationalized.",
+          ),
+          step(
+            "calculation",
+            `$\\theta = \\arctan(x) \\Rightarrow \\tan(\\theta) = \\dfrac{x}{1}$<br>Hipotenusa: $\\sqrt{x^{2} + 1^{2}} = \\sqrt{1 + x^{2}}$<br>$\\cos(\\theta) = \\dfrac{1}{\\sqrt{1 + x^{2}}} = \\dfrac{\\sqrt{1 + x^{2}}}{1 + x^{2}}$ (forma racionalizada del libro)`,
+            `$\\theta = \\arctan(x) \\Rightarrow \\tan(\\theta) = \\dfrac{x}{1}$<br>Hypotenuse: $\\sqrt{x^{2} + 1^{2}} = \\sqrt{1 + x^{2}}$<br>$\\cos(\\theta) = \\dfrac{1}{\\sqrt{1 + x^{2}}} = \\dfrac{\\sqrt{1 + x^{2}}}{1 + x^{2}}$ (the book's rationalized form)`,
+          ),
+          step(
+            "result",
+            `$\\cos\\left(\\arctan(x)\\right) = \\dfrac{1}{\\sqrt{1 + x^{2}}}$. Comprobación con $x = 1$: $\\arctan(1) = \\frac{\\pi}{4}$ y $\\cos\\left(\\frac{\\pi}{4}\\right) = \\frac{\\sqrt{2}}{2} \\approx 0{,}707 = \\dfrac{1}{\\sqrt{2}}$ ✓ (y con $x = 2$: $\\cos(\\arctan(2)) \\approx 0{,}447 = \\frac{1}{\\sqrt{5}}$ ✓).`,
+            `$\\cos\\left(\\arctan(x)\\right) = \\dfrac{1}{\\sqrt{1 + x^{2}}}$. Check with $x = 1$: $\\arctan(1) = \\frac{\\pi}{4}$ and $\\cos\\left(\\frac{\\pi}{4}\\right) = \\frac{\\sqrt{2}}{2} \\approx 0.707 = \\dfrac{1}{\\sqrt{2}}$ ✓ (and with $x = 2$: $\\cos(\\arctan(2)) \\approx 0.447 = \\frac{1}{\\sqrt{5}}$ ✓).`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 4 · 22c — arccos[cos(−17π/5)] = 3π/5 */
+  template(
+    {
+      id: "trigfn-espol-ch4-22c",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "inverse-trig",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 270,
+      tags: ["inverse-trig", "periodicity", "principal-range"],
+      prerequisites: ["inverse-trig"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 22c",
+        page: 470,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\dfrac{3\\pi}{5}$`, `$\\dfrac{3\\pi}{5}$`), correct: true },
+        { id: "b", text: L(`$-\\dfrac{17\\pi}{5}$`, `$-\\dfrac{17\\pi}{5}$`), correct: false },
+        { id: "c", text: L(`$-\\dfrac{2\\pi}{5}$`, `$-\\dfrac{2\\pi}{5}$`), correct: false },
+        { id: "d", text: L(`$\\dfrac{2\\pi}{5}$`, `$\\dfrac{2\\pi}{5}$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "arccos∘cos solo se cancela dentro de [0, π]",
+          "arccos∘cos cancels only inside [0, π]",
+        ),
+        statement: L(
+          `Simplificar: $\\arccos\\left[\\cos\\left(-\\dfrac{17\\pi}{5}\\right)\\right]$`,
+          `Simplify: $\\arccos\\left[\\cos\\left(-\\dfrac{17\\pi}{5}\\right)\\right]$`,
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "$\\arccos$ solo devuelve ángulos en $[0, \\pi]$: eso ya descarta las opciones negativas.",
+            "$\\arccos$ only returns angles in $[0, \\pi]$: that already rules out the negative options.",
+          ),
+          L(
+            "El coseno tiene período $2\\pi$: puedes sumar $2\\pi$ al ángulo interior sin cambiar su coseno.",
+            "The cosine has period $2\\pi$: you may add $2\\pi$ to the inner angle without changing its cosine.",
+          ),
+          L(
+            "Una sola vuelta no basta: $-\\dfrac{17\\pi}{5} + 2\\pi$ sigue siendo negativo; suma $2\\pi$ otra vez y mira en qué cuadrante cae.",
+            "One full turn is not enough: $-\\dfrac{17\\pi}{5} + 2\\pi$ is still negative; add $2\\pi$ once more and see which quadrant it lands in.",
+          ),
+        ],
+        answerDisplay: L(
+          `$\\arccos\\left[\\cos\\left(-\\dfrac{17\\pi}{5}\\right)\\right] = \\dfrac{3\\pi}{5}$`,
+          `$\\arccos\\left[\\cos\\left(-\\dfrac{17\\pi}{5}\\right)\\right] = \\dfrac{3\\pi}{5}$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$\\arccos\\left[\\cos\\left(-\\frac{17\\pi}{5}\\right)\\right]$, donde $\\arccos$ devuelve valores en $[0, \\pi]$.",
+            "$\\arccos\\left[\\cos\\left(-\\frac{17\\pi}{5}\\right)\\right]$, where $\\arccos$ returns values in $[0, \\pi]$.",
+          ),
+          step(
+            "approach",
+            "Como $-\\frac{17\\pi}{5} \\notin [0, \\pi]$, reducir el argumento módulo $2\\pi$ hasta caer en el rango principal; allí $\\arccos$ y $\\cos$ sí se cancelan.",
+            "Since $-\\frac{17\\pi}{5} \\notin [0, \\pi]$, reduce the argument modulo $2\\pi$ until it falls in the principal range; there $\\arccos$ and $\\cos$ do cancel.",
+          ),
+          step(
+            "calculation",
+            `$-\\dfrac{17\\pi}{5} + 2\\pi = -\\dfrac{7\\pi}{5}$ (todavía negativo)<br>$-\\dfrac{17\\pi}{5} + 4\\pi = \\dfrac{3\\pi}{5} \\in [0, \\pi]$<br>$\\arccos\\left[\\cos\\left(-\\dfrac{17\\pi}{5}\\right)\\right] = \\arccos\\left[\\cos\\left(\\dfrac{3\\pi}{5}\\right)\\right] = \\dfrac{3\\pi}{5}$`,
+            `$-\\dfrac{17\\pi}{5} + 2\\pi = -\\dfrac{7\\pi}{5}$ (still negative)<br>$-\\dfrac{17\\pi}{5} + 4\\pi = \\dfrac{3\\pi}{5} \\in [0, \\pi]$<br>$\\arccos\\left[\\cos\\left(-\\dfrac{17\\pi}{5}\\right)\\right] = \\arccos\\left[\\cos\\left(\\dfrac{3\\pi}{5}\\right)\\right] = \\dfrac{3\\pi}{5}$`,
+          ),
+          step(
+            "result",
+            `El valor es $\\dfrac{3\\pi}{5} \\approx 1{,}885$ rad. Comprobación numérica: $\\cos\\left(-\\dfrac{17\\pi}{5}\\right) = \\cos\\left(\\dfrac{3\\pi}{5}\\right) \\approx -0{,}309$ y $\\arccos(-0{,}309) \\approx 1{,}885 = \\dfrac{3\\pi}{5}$ ✓.`,
+            `The value is $\\dfrac{3\\pi}{5} \\approx 1.885$ rad. Numerical check: $\\cos\\left(-\\dfrac{17\\pi}{5}\\right) = \\cos\\left(\\dfrac{3\\pi}{5}\\right) \\approx -0.309$ and $\\arccos(-0.309) \\approx 1.885 = \\dfrac{3\\pi}{5}$ ✓.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 4 · 22d — sen[arctan(−5/3)] = −5√34/34 */
+  template(
+    {
+      id: "trigfn-espol-ch4-22d",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "inverse-trig",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["inverse-trig", "reference-triangle", "quadrants"],
+      prerequisites: ["inverse-trig"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 22d",
+        page: 470,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$-\\dfrac{5\\sqrt{34}}{34}$`, `$-\\dfrac{5\\sqrt{34}}{34}$`), correct: true },
+        { id: "b", text: L(`$\\dfrac{5\\sqrt{34}}{34}$`, `$\\dfrac{5\\sqrt{34}}{34}$`), correct: false },
+        { id: "c", text: L(`$-\\dfrac{3\\sqrt{34}}{34}$`, `$-\\dfrac{3\\sqrt{34}}{34}$`), correct: false },
+        { id: "d", text: L(`$-\\dfrac{\\sqrt{34}}{5}$`, `$-\\dfrac{\\sqrt{34}}{5}$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Seno de un arctan negativo: triángulo y signo",
+          "Sine of a negative arctan: triangle and sign",
+        ),
+        statement: L(
+          `Simplificar: $\\operatorname{sen}\\left[\\arctan\\left(-\\dfrac{5}{3}\\right)\\right]$`,
+          `Simplify: $\\sin\\left[\\arctan\\left(-\\dfrac{5}{3}\\right)\\right]$`,
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Sea $\\theta = \\arctan\\left(-\\frac{5}{3}\\right)$: la tangente es $-\\frac{5}{3}$ y $\\theta \\in \\left(-\\frac{\\pi}{2}, 0\\right)$ (cuarto cuadrante).",
+            "Let $\\theta = \\arctan\\left(-\\frac{5}{3}\\right)$: the tangent is $-\\frac{5}{3}$ and $\\theta \\in \\left(-\\frac{\\pi}{2}, 0\\right)$ (fourth quadrant).",
+          ),
+          L(
+            "Triángulo de referencia con catetos $5$ y $3$: la hipotenusa mide $\\sqrt{34}$.",
+            "Reference triangle with legs $5$ and $3$: the hypotenuse measures $\\sqrt{34}$.",
+          ),
+          L(
+            "El seno es opuesto sobre hipotenusa y en el cuarto cuadrante es negativo; racionaliza al final.",
+            "The sine is opposite over hypotenuse and in the fourth quadrant it is negative; rationalize at the end.",
+          ),
+        ],
+        answerDisplay: L(
+          `$\\operatorname{sen}\\left[\\arctan\\left(-\\dfrac{5}{3}\\right)\\right] = -\\dfrac{5\\sqrt{34}}{34}$`,
+          `$\\sin\\left[\\arctan\\left(-\\dfrac{5}{3}\\right)\\right] = -\\dfrac{5\\sqrt{34}}{34}$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$\\operatorname{sen}\\left[\\arctan\\left(-\\frac{5}{3}\\right)\\right]$, con $\\arctan\\left(-\\frac{5}{3}\\right) \\in \\left(-\\frac{\\pi}{2}, 0\\right)$.",
+            "$\\sin\\left[\\arctan\\left(-\\frac{5}{3}\\right)\\right]$, with $\\arctan\\left(-\\frac{5}{3}\\right) \\in \\left(-\\frac{\\pi}{2}, 0\\right)$.",
+          ),
+          step(
+            "approach",
+            "Triángulo de referencia de la tangente $-\\frac{5}{3}$, signo del cuarto cuadrante y racionalización.",
+            "Reference triangle of the tangent $-\\frac{5}{3}$, fourth-quadrant sign, and rationalization.",
+          ),
+          step(
+            "calculation",
+            `$\\theta = \\arctan\\left(-\\dfrac{5}{3}\\right) \\Rightarrow \\tan(\\theta) = -\\dfrac{5}{3}$ (opuesto $-5$, adyacente $3$)<br>Hipotenusa: $\\sqrt{5^{2} + 3^{2}} = \\sqrt{34}$<br>$\\operatorname{sen}(\\theta) = \\dfrac{-5}{\\sqrt{34}} = -\\dfrac{5\\sqrt{34}}{34}$`,
+            `$\\theta = \\arctan\\left(-\\dfrac{5}{3}\\right) \\Rightarrow \\tan(\\theta) = -\\dfrac{5}{3}$ (opposite $-5$, adjacent $3$)<br>Hypotenuse: $\\sqrt{5^{2} + 3^{2}} = \\sqrt{34}$<br>$\\sin(\\theta) = \\dfrac{-5}{\\sqrt{34}} = -\\dfrac{5\\sqrt{34}}{34}$`,
+          ),
+          step(
+            "result",
+            `$\\operatorname{sen}\\left[\\arctan\\left(-\\dfrac{5}{3}\\right)\\right] = -\\dfrac{5\\sqrt{34}}{34} \\approx -0{,}857$. Comprobación: $\\arctan\\left(-\\frac{5}{3}\\right) \\approx -1{,}0304$ rad y $\\operatorname{sen}(-1{,}0304) \\approx -0{,}857$ ✓.`,
+            `$\\sin\\left[\\arctan\\left(-\\dfrac{5}{3}\\right)\\right] = -\\dfrac{5\\sqrt{34}}{34} \\approx -0.857$. Check: $\\arctan\\left(-\\frac{5}{3}\\right) \\approx -1.0304$ rad and $\\sin(-1.0304) \\approx -0.857$ ✓.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 4 · 48 a+b — cos x + √3·sen x = 2·cos(x − π/3); rango en [0, π/2]: [1, 2] */
+  template(
+    {
+      id: "trigfn-espol-ch4-48ab",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "transformations",
+      difficulty: "challenge",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 360,
+      tags: ["harmonic-form", "range", "amplitude", "phase-shift"],
+      prerequisites: ["transformations", "amplitude"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 48 a+b",
+        page: 474,
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\left(2, \\dfrac{\\pi}{3}, [1, 2]\\right)$`, `$\\left(2, \\dfrac{\\pi}{3}, [1, 2]\\right)$`), correct: true },
+        { id: "b", text: L(`$\\left(2, \\dfrac{\\pi}{6}, [1, 2]\\right)$`, `$\\left(2, \\dfrac{\\pi}{6}, [1, 2]\\right)$`), correct: false },
+        { id: "c", text: L(`$\\left(2, \\dfrac{\\pi}{3}, [-2, 2]\\right)$`, `$\\left(2, \\dfrac{\\pi}{3}, [-2, 2]\\right)$`), correct: false },
+        { id: "d", text: L(`$\\left(2, \\dfrac{\\pi}{3}, [1, \\sqrt{3}]\\right)$`, `$\\left(2, \\dfrac{\\pi}{3}, [1, \\sqrt{3}]\\right)$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Forma armónica R·cos(x−α) y rango en un dominio recortado",
+          "Harmonic form R·cos(x−α) and range on a clipped domain",
+        ),
+        statement: L(
+          `La función $f$, de dominio $\\left[0, \\dfrac{\\pi}{2}\\right]$, se define como $f(x) = \\cos(x) + \\sqrt{3}\\,\\operatorname{sen}(x)$. Esta función puede expresarse de la forma $f(x) = R\\cos(x - \\alpha)$, con $R > 0$ y $0 < \\alpha < \\dfrac{\\pi}{2}$. Halle $R$, $\\alpha$ y el rango de $f$.`,
+          `The function $f$, with domain $\\left[0, \\dfrac{\\pi}{2}\\right]$, is defined by $f(x) = \\cos(x) + \\sqrt{3}\\,\\sin(x)$. This function can be written in the form $f(x) = R\\cos(x - \\alpha)$, with $R > 0$ and $0 < \\alpha < \\dfrac{\\pi}{2}$. Find $R$, $\\alpha$ and the range of $f$.`,
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Desarrolla $R\\cos(x - \\alpha) = R\\cos(\\alpha)\\cos(x) + R\\operatorname{sen}(\\alpha)\\operatorname{sen}(x)$ y compara coeficiente a coeficiente con $f$.",
+            "Expand $R\\cos(x - \\alpha) = R\\cos(\\alpha)\\cos(x) + R\\sin(\\alpha)\\sin(x)$ and match coefficients with $f$.",
+          ),
+          L(
+            "De la comparación: $R\\cos(\\alpha) = 1$ y $R\\operatorname{sen}(\\alpha) = \\sqrt{3}$. Eleva al cuadrado y suma para obtener $R$; divide para obtener $\\tan(\\alpha)$.",
+            "From the comparison: $R\\cos(\\alpha) = 1$ and $R\\sin(\\alpha) = \\sqrt{3}$. Square and add to get $R$; divide to get $\\tan(\\alpha)$.",
+          ),
+          L(
+            "El máximo de $R\\cos(x - \\alpha)$ es claro, pero el dominio está recortado: evalúa $f$ en los DOS extremos de $\\left[0, \\frac{\\pi}{2}\\right]$ para decidir el mínimo.",
+            "The maximum of $R\\cos(x - \\alpha)$ is clear, but the domain is clipped: evaluate $f$ at BOTH endpoints of $\\left[0, \\frac{\\pi}{2}\\right]$ to decide the minimum.",
+          ),
+        ],
+        answerDisplay: L(
+          `$R = 2$, $\\alpha = \\dfrac{\\pi}{3}$, rango de $f$: $[1, 2]$`,
+          `$R = 2$, $\\alpha = \\dfrac{\\pi}{3}$, range of $f$: $[1, 2]$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$f(x) = \\cos(x) + \\sqrt{3}\\,\\operatorname{sen}(x)$ en $\\left[0, \\frac{\\pi}{2}\\right]$, en la forma $f(x) = R\\cos(x - \\alpha)$ con $R > 0$ y $0 < \\alpha < \\frac{\\pi}{2}$.",
+            "$f(x) = \\cos(x) + \\sqrt{3}\\,\\sin(x)$ on $\\left[0, \\frac{\\pi}{2}\\right]$, in the form $f(x) = R\\cos(x - \\alpha)$ with $R > 0$ and $0 < \\alpha < \\frac{\\pi}{2}$.",
+          ),
+          step(
+            "approach",
+            "Comparar coeficientes con el desarrollo de $R\\cos(x - \\alpha)$ para hallar $R$ y $\\alpha$; después hallar máximo y mínimo de la cosenoidal sobre el dominio recortado.",
+            "Match coefficients with the expansion of $R\\cos(x - \\alpha)$ to find $R$ and $\\alpha$; then find the maximum and minimum of the cosine wave over the clipped domain.",
+          ),
+          step(
+            "calculation",
+            `$R\\cos(\\alpha) = 1$, $R\\operatorname{sen}(\\alpha) = \\sqrt{3}$<br>$R^{2} = 1^{2} + (\\sqrt{3})^{2} = 4 \\Rightarrow R = 2$; $\\tan(\\alpha) = \\sqrt{3} \\Rightarrow \\alpha = \\dfrac{\\pi}{3}$<br>$f(x) = 2\\cos\\left(x - \\dfrac{\\pi}{3}\\right)$: máximo $2$ en $x = \\frac{\\pi}{3}$<br>Extremos: $f(0) = 2\\cos\\left(-\\frac{\\pi}{3}\\right) = 1$; $f\\left(\\frac{\\pi}{2}\\right) = 2\\cos\\left(\\frac{\\pi}{6}\\right) = \\sqrt{3}$`,
+            `$R\\cos(\\alpha) = 1$, $R\\sin(\\alpha) = \\sqrt{3}$<br>$R^{2} = 1^{2} + (\\sqrt{3})^{2} = 4 \\Rightarrow R = 2$; $\\tan(\\alpha) = \\sqrt{3} \\Rightarrow \\alpha = \\dfrac{\\pi}{3}$<br>$f(x) = 2\\cos\\left(x - \\dfrac{\\pi}{3}\\right)$: maximum $2$ at $x = \\frac{\\pi}{3}$<br>Endpoints: $f(0) = 2\\cos\\left(-\\frac{\\pi}{3}\\right) = 1$; $f\\left(\\frac{\\pi}{2}\\right) = 2\\cos\\left(\\frac{\\pi}{6}\\right) = \\sqrt{3}$`,
+          ),
+          step(
+            "result",
+            `$R = 2$, $\\alpha = \\dfrac{\\pi}{3}$ y el rango de $f$ es $[1, 2]$. Comprobación directa: $f\\left(\\frac{\\pi}{3}\\right) = \\cos\\left(\\frac{\\pi}{3}\\right) + \\sqrt{3}\\,\\operatorname{sen}\\left(\\frac{\\pi}{3}\\right) = \\frac{1}{2} + \\frac{3}{2} = 2$ ✓ y $f(0) = 1 + 0 = 1$ ✓ (el mínimo está en el extremo $x = 0$, no en un valle del coseno).`,
+            `$R = 2$, $\\alpha = \\dfrac{\\pi}{3}$ and the range of $f$ is $[1, 2]$. Direct check: $f\\left(\\frac{\\pi}{3}\\right) = \\cos\\left(\\frac{\\pi}{3}\\right) + \\sqrt{3}\\,\\sin\\left(\\frac{\\pi}{3}\\right) = \\frac{1}{2} + \\frac{3}{2} = 2$ ✓ and $f(0) = 1 + 0 = 1$ ✓ (the minimum sits at the endpoint $x = 0$, not at a trough of the cosine).`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* ---------------------------------------------------------------- */
+  /* Cap. 4 (ed. digital) — ronda 2 en funciones: identidades y        */
+  /* simplificación (ítems 24-42). Clave impresa (p. 941) + sympy:     */
+  /* download/verify_espol_ch4.py.                                      */
+  /* ---------------------------------------------------------------- */
+
+  /* 4 · 24 — 8·cos(10°)·cos(20°)·cos(40°) = cot(10°) vía la cadena de
+     ángulo doble (sen(80°)/sen(10°)). El libro repite este ejercicio
+     como 5.5 · 49a (ya importado como trigf-espol-49a con otros
+     distractores); aquí llega con las opciones impresas del Cap. 4.
+     La opción impresa «8» se descarta (regla de casa: exactamente 4
+     opciones). */
+  template(
+    {
+      id: "trigfn-espol-ch4-24",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "identities",
+      difficulty: "challenge",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 420,
+      tags: ["identities", "double-angle", "product"],
+      prerequisites: ["identities"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 24",
+        page: 471,
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\cot(10^\\circ)$`, `$\\cot(10^\\circ)$`), correct: true },
+        { id: "b", text: L(`$8\\cos(70^\\circ)$`, `$8\\cos(70^\\circ)$`), correct: false },
+        { id: "c", text: L(`$1$`, `$1$`), correct: false },
+        { id: "d", text: L(`$\\tan(10^\\circ)$`, `$\\tan(10^\\circ)$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Cadena de ángulo doble en un producto de cosenos",
+          "Double-angle chain in a product of cosines",
+        ),
+        statement: L(
+          `El valor de la expresión $8\\cos(10^\\circ)\\cos(20^\\circ)\\cos(40^\\circ)$ es:`,
+          `The value of the expression $8\\cos(10^\\circ)\\cos(20^\\circ)\\cos(40^\\circ)$ is:`,
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Los ángulos se duplican ($10^\\circ \\to 20^\\circ \\to 40^\\circ$): multiplica y divide por $2\\operatorname{sen}(10^\\circ)$.",
+            "The angles double ($10^\\circ \\to 20^\\circ \\to 40^\\circ$): multiply and divide by $2\\sin(10^\\circ)$.",
+          ),
+          L(
+            "Cada aplicación de $2\\operatorname{sen}(u)\\cos(u) = \\operatorname{sen}(2u)$ consume un coseno y produce el seno del siguiente ángulo.",
+            "Each application of $2\\sin(u)\\cos(u) = \\sin(2u)$ consumes one cosine and produces the sine of the next angle.",
+          ),
+          L(
+            "La cadena termina en el cociente $\\frac{\\operatorname{sen}(80^\\circ)}{\\operatorname{sen}(10^\\circ)}$, con ángulos complementarios en numerador y denominador.",
+            "The chain ends at the quotient $\\frac{\\sin(80^\\circ)}{\\sin(10^\\circ)}$, with complementary angles in numerator and denominator.",
+          ),
+        ],
+        answerDisplay: L(
+          `$8\\cos(10^\\circ)\\cos(20^\\circ)\\cos(40^\\circ) = \\dfrac{\\operatorname{sen}(80^\\circ)}{\\operatorname{sen}(10^\\circ)} = \\cot(10^\\circ)$`,
+          `$8\\cos(10^\\circ)\\cos(20^\\circ)\\cos(40^\\circ) = \\dfrac{\\sin(80^\\circ)}{\\sin(10^\\circ)} = \\cot(10^\\circ)$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "La expresión $8\\cos(10^\\circ)\\cos(20^\\circ)\\cos(40^\\circ)$.",
+            "The expression $8\\cos(10^\\circ)\\cos(20^\\circ)\\cos(40^\\circ)$.",
+          ),
+          step(
+            "approach",
+            "Como los ángulos se duplican, multiplicar por $\\frac{2\\operatorname{sen}(10^\\circ)}{2\\operatorname{sen}(10^\\circ)}$ dispara una reacción en cadena de identidades de ángulo doble que consume cada coseno.",
+            "Since the angles double, multiplying by $\\frac{2\\sin(10^\\circ)}{2\\sin(10^\\circ)}$ triggers a chain reaction of double-angle identities that consumes each cosine.",
+          ),
+          step(
+            "calculation",
+            `$8\\cos(10^\\circ)\\cos(20^\\circ)\\cos(40^\\circ) \\cdot \\dfrac{2\\operatorname{sen}(10^\\circ)}{2\\operatorname{sen}(10^\\circ)} = \\dfrac{4\\operatorname{sen}(20^\\circ)\\cos(20^\\circ)\\cos(40^\\circ)}{\\operatorname{sen}(10^\\circ)}$<br>$= \\dfrac{2\\operatorname{sen}(40^\\circ)\\cos(40^\\circ)}{\\operatorname{sen}(10^\\circ)} = \\dfrac{\\operatorname{sen}(80^\\circ)}{\\operatorname{sen}(10^\\circ)}$<br>$= \\dfrac{\\cos(10^\\circ)}{\\operatorname{sen}(10^\\circ)} = \\cot(10^\\circ)$`,
+            `$8\\cos(10^\\circ)\\cos(20^\\circ)\\cos(40^\\circ) \\cdot \\dfrac{2\\sin(10^\\circ)}{2\\sin(10^\\circ)} = \\dfrac{4\\sin(20^\\circ)\\cos(20^\\circ)\\cos(40^\\circ)}{\\sin(10^\\circ)}$<br>$= \\dfrac{2\\sin(40^\\circ)\\cos(40^\\circ)}{\\sin(10^\\circ)} = \\dfrac{\\sin(80^\\circ)}{\\sin(10^\\circ)}$<br>$= \\dfrac{\\cos(10^\\circ)}{\\sin(10^\\circ)} = \\cot(10^\\circ)$`,
+          ),
+          step(
+            "result",
+            `El valor es $\\cot(10^\\circ)$. Comprobación numérica: $8 \\cdot 0{,}9848 \\cdot 0{,}9397 \\cdot 0{,}7660 \\approx 5{,}671$ y $\\cot(10^\\circ) = \\frac{0{,}9848}{0{,}1736} \\approx 5{,}671$ ✓ (los distractores fallan: $8\\cos(70^\\circ) \\approx 2{,}736$, $\\tan(10^\\circ) \\approx 0{,}176$).`,
+            `The value is $\\cot(10^\\circ)$. Numeric check: $8 \\cdot 0.9848 \\cdot 0.9397 \\cdot 0.7660 \\approx 5.671$ and $\\cot(10^\\circ) = \\frac{0.9848}{0.1736} \\approx 5.671$ ✓ (the distractors fail: $8\\cos(70^\\circ) \\approx 2.736$, $\\tan(10^\\circ) \\approx 0.176$).`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 4 · 26 — QII con sen(x) = 5/13: cos(x + π/3) = −(12 + 5√3)/26.
+     Distractores impresos (lectura VLM): (5√3+7)/√74 y (3√3−1)/74; la
+     opción impresa (5−7√3)/√74 se descarta (regla de casa: exactamente
+     4 opciones). */
+  template(
+    {
+      id: "trigfn-espol-ch4-26",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "identities",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["identities", "angle-addition", "quadrants"],
+      prerequisites: ["identities"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 26",
+        page: 471,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$-\\dfrac{12+5\\sqrt{3}}{26}$`, `$-\\dfrac{12+5\\sqrt{3}}{26}$`), correct: true },
+        { id: "b", text: L(`$\\dfrac{5\\sqrt{3}+7}{\\sqrt{74}}$`, `$\\dfrac{5\\sqrt{3}+7}{\\sqrt{74}}$`), correct: false },
+        { id: "c", text: L(`$\\dfrac{3\\sqrt{3}-1}{74}$`, `$\\dfrac{3\\sqrt{3}-1}{74}$`), correct: false },
+        { id: "d", text: L(`$\\dfrac{3-7\\sqrt{3}}{26}$`, `$\\dfrac{3-7\\sqrt{3}}{26}$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Coseno de una suma con cuadrante negativo",
+          "Cosine of a sum with a negative-quadrant sign",
+        ),
+        statement: L(
+          `Si $\\dfrac{\\pi}{2} < x < \\pi$ y $\\operatorname{sen}(x) = \\dfrac{5}{13}$, entonces el valor de $\\cos\\left(x + \\dfrac{\\pi}{3}\\right)$ es:`,
+          `If $\\dfrac{\\pi}{2} < x < \\pi$ and $\\sin(x) = \\dfrac{5}{13}$, then the value of $\\cos\\left(x + \\dfrac{\\pi}{3}\\right)$ is:`,
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Con $x$ en el segundo cuadrante el coseno es negativo: $\\cos(x) = -\\sqrt{1 - \\operatorname{sen}^{2}(x)}$ (triángulo $5$-$12$-$13$).",
+            "With $x$ in the second quadrant the cosine is negative: $\\cos(x) = -\\sqrt{1 - \\sin^{2}(x)}$ ($5$-$12$-$13$ triangle).",
+          ),
+          L(
+            "Desarrolla el coseno de la suma: $\\cos\\left(x + \\frac{\\pi}{3}\\right) = \\cos(x)\\cos\\left(\\frac{\\pi}{3}\\right) - \\operatorname{sen}(x)\\operatorname{sen}\\left(\\frac{\\pi}{3}\\right)$.",
+            "Expand the cosine of the sum: $\\cos\\left(x + \\frac{\\pi}{3}\\right) = \\cos(x)\\cos\\left(\\frac{\\pi}{3}\\right) - \\sin(x)\\sin\\left(\\frac{\\pi}{3}\\right)$.",
+          ),
+          L(
+            "Sustituye $\\cos\\left(\\frac{\\pi}{3}\\right) = \\frac{1}{2}$ y $\\operatorname{sen}\\left(\\frac{\\pi}{3}\\right) = \\frac{\\sqrt{3}}{2}$, y reúne los dos términos sobre el denominador común $26$.",
+            "Substitute $\\cos\\left(\\frac{\\pi}{3}\\right) = \\frac{1}{2}$ and $\\sin\\left(\\frac{\\pi}{3}\\right) = \\frac{\\sqrt{3}}{2}$, and gather both terms over the common denominator $26$.",
+          ),
+        ],
+        answerDisplay: L(
+          `$\\cos\\left(x + \\dfrac{\\pi}{3}\\right) = -\\dfrac{12+5\\sqrt{3}}{26} \\approx -0{,}795$`,
+          `$\\cos\\left(x + \\dfrac{\\pi}{3}\\right) = -\\dfrac{12+5\\sqrt{3}}{26} \\approx -0.795$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$\\dfrac{\\pi}{2} < x < \\pi$ y $\\operatorname{sen}(x) = \\dfrac{5}{13}$; se pide $\\cos\\left(x + \\dfrac{\\pi}{3}\\right)$.",
+            "$\\dfrac{\\pi}{2} < x < \\pi$ and $\\sin(x) = \\dfrac{5}{13}$; find $\\cos\\left(x + \\dfrac{\\pi}{3}\\right)$.",
+          ),
+          step(
+            "approach",
+            "El intervalo fija el cuadrante (II) y con ello el signo del coseno; después interviene la fórmula del coseno de una suma con los valores notales de $\\frac{\\pi}{3}$.",
+            "The interval fixes the quadrant (II) and hence the sign of the cosine; then the cosine-of-a-sum formula enters with the notable values of $\\frac{\\pi}{3}$.",
+          ),
+          step(
+            "calculation",
+            `$\\cos(x) = -\\sqrt{1 - \\left(\\frac{5}{13}\\right)^{2}} = -\\sqrt{\\frac{144}{169}} = -\\frac{12}{13}$ (cuadrante II)<br>$\\cos\\left(x + \\frac{\\pi}{3}\\right) = \\left(-\\frac{12}{13}\\right) \\cdot \\frac{1}{2} - \\frac{5}{13} \\cdot \\frac{\\sqrt{3}}{2} = \\frac{-12 - 5\\sqrt{3}}{26} = -\\frac{12+5\\sqrt{3}}{26}$`,
+            `$\\cos(x) = -\\sqrt{1 - \\left(\\frac{5}{13}\\right)^{2}} = -\\sqrt{\\frac{144}{169}} = -\\frac{12}{13}$ (second quadrant)<br>$\\cos\\left(x + \\frac{\\pi}{3}\\right) = \\left(-\\frac{12}{13}\\right) \\cdot \\frac{1}{2} - \\frac{5}{13} \\cdot \\frac{\\sqrt{3}}{2} = \\frac{-12 - 5\\sqrt{3}}{26} = -\\frac{12+5\\sqrt{3}}{26}$`,
+          ),
+          step(
+            "result",
+            `El valor es $-\\frac{12+5\\sqrt{3}}{26} \\approx -0{,}795$. Comprobación: $x = \\pi - \\operatorname{arcsen}\\left(\\frac{5}{13}\\right) \\approx 2{,}7468$ rad, así que $\\cos\\left(x + \\frac{\\pi}{3}\\right) = \\cos(3{,}7940) \\approx -0{,}795$ ✓ (los distractores impresos valen $\\approx 1{,}820$, $0{,}057$ y $-0{,}351$).`,
+            `The value is $-\\frac{12+5\\sqrt{3}}{26} \\approx -0.795$. Check: $x = \\pi - \\arcsin\\left(\\frac{5}{13}\\right) \\approx 2.7468$ rad, so $\\cos\\left(x + \\frac{\\pi}{3}\\right) = \\cos(3.7940) \\approx -0.795$ ✓ (the printed distractors equal $\\approx 1.820$, $0.057$ and $-0.351$).`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 4 · 27 — sen(2x) con sen(x) = 5/13 en QII: 2·(5/13)·(−12/13) =
+     −120/169. La opción impresa 120/169 (sin signo) se descarta
+     (regla de casa: exactamente 4 opciones). */
+  template(
+    {
+      id: "trigfn-espol-ch4-27",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "identities",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["identities", "double-angle", "quadrants"],
+      prerequisites: ["identities"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 27",
+        page: 471,
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$-\\dfrac{120}{169}$`, `$-\\dfrac{120}{169}$`), correct: true },
+        { id: "b", text: L(`$-\\dfrac{10}{13}$`, `$-\\dfrac{10}{13}$`), correct: false },
+        { id: "c", text: L(`$\\dfrac{12}{13}$`, `$\\dfrac{12}{13}$`), correct: false },
+        { id: "d", text: L(`$-\\dfrac{12}{13}$`, `$-\\dfrac{12}{13}$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Seno del ángulo doble con control de cuadrante",
+          "Double-angle sine with quadrant control",
+        ),
+        statement: L(
+          `Si $\\dfrac{\\pi}{2} < x < \\pi$ y $\\operatorname{sen}(x) = \\dfrac{5}{13}$, entonces el valor de $\\operatorname{sen}(2x)$ es:`,
+          `If $\\dfrac{\\pi}{2} < x < \\pi$ and $\\sin(x) = \\dfrac{5}{13}$, then the value of $\\sin(2x)$ is:`,
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "En el segundo cuadrante el coseno es negativo: del triángulo $5$-$12$-$13$ sale $\\cos(x) = -\\frac{12}{13}$.",
+            "In the second quadrant the cosine is negative: the $5$-$12$-$13$ triangle gives $\\cos(x) = -\\frac{12}{13}$.",
+          ),
+          L(
+            "La identidad del seno doble: $\\operatorname{sen}(2x) = 2\\operatorname{sen}(x)\\cos(x)$.",
+            "The double-angle identity for sine: $\\sin(2x) = 2\\sin(x)\\cos(x)$.",
+          ),
+          L(
+            "Multiplica conservando el signo: $2 \\cdot \\frac{5}{13} \\cdot \\left(-\\frac{12}{13}\\right)$ es un cociente con numerador negativo.",
+            "Multiply keeping the sign: $2 \\cdot \\frac{5}{13} \\cdot \\left(-\\frac{12}{13}\\right)$ is a quotient with a negative numerator.",
+          ),
+        ],
+        answerDisplay: L(
+          `$\\operatorname{sen}(2x) = 2 \\cdot \\dfrac{5}{13} \\cdot \\left(-\\dfrac{12}{13}\\right) = -\\dfrac{120}{169}$`,
+          `$\\sin(2x) = 2 \\cdot \\dfrac{5}{13} \\cdot \\left(-\\dfrac{12}{13}\\right) = -\\dfrac{120}{169}$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$\\dfrac{\\pi}{2} < x < \\pi$ y $\\operatorname{sen}(x) = \\dfrac{5}{13}$; se pide $\\operatorname{sen}(2x)$.",
+            "$\\dfrac{\\pi}{2} < x < \\pi$ and $\\sin(x) = \\dfrac{5}{13}$; find $\\sin(2x)$.",
+          ),
+          step(
+            "approach",
+            "El cuadrante II fija el signo del coseno; la identidad del seno doble hace el resto sin calcular $2x$.",
+            "Quadrant II fixes the sign of the cosine; the double-angle identity for sine does the rest without computing $2x$.",
+          ),
+          step(
+            "calculation",
+            `$\\cos(x) = -\\sqrt{1 - \\left(\\frac{5}{13}\\right)^{2}} = -\\frac{12}{13}$ (cuadrante II)<br>$\\operatorname{sen}(2x) = 2\\operatorname{sen}(x)\\cos(x) = 2 \\cdot \\frac{5}{13} \\cdot \\left(-\\frac{12}{13}\\right) = -\\frac{120}{169}$`,
+            `$\\cos(x) = -\\sqrt{1 - \\left(\\frac{5}{13}\\right)^{2}} = -\\frac{12}{13}$ (second quadrant)<br>$\\sin(2x) = 2\\sin(x)\\cos(x) = 2 \\cdot \\frac{5}{13} \\cdot \\left(-\\frac{12}{13}\\right) = -\\frac{120}{169}$`,
+          ),
+          step(
+            "result",
+            `El valor es $-\\frac{120}{169} \\approx -0{,}710$. Comprobación: $x \\approx 2{,}7468$ rad, así que $\\operatorname{sen}(2x) = \\operatorname{sen}(5{,}4936) = \\operatorname{sen}(-0{,}7896) \\approx -0{,}710$ ✓ (los distractores $-\\frac{10}{13} \\approx -0{,}769$ y $\\pm\\frac{12}{13} \\approx \\pm 0{,}923$ no coinciden).`,
+            `The value is $-\\frac{120}{169} \\approx -0.710$. Check: $x \\approx 2.7468$ rad, so $\\sin(2x) = \\sin(5.4936) = \\sin(-0.7896) \\approx -0.710$ ✓ (the distractors $-\\frac{10}{13} \\approx -0.769$ and $\\pm\\frac{12}{13} \\approx \\pm 0.923$ do not match).`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 4 · 28 — √(2sec(3x)/(1+sec(3x))) = sec(3x/2): 2/(1+cos θ) =
+     sec²(θ/2) con θ = 3x, y la raíz devuelve el valor positivo. La
+     opción impresa «−1» se descarta (regla de casa: 4 opciones). */
+  template(
+    {
+      id: "trigfn-espol-ch4-28",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "identities",
+      difficulty: "challenge",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 360,
+      tags: ["identities", "half-angle", "secant"],
+      prerequisites: ["identities"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 28",
+        page: 471,
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\sec\\left(\\dfrac{3x}{2}\\right)$`, `$\\sec\\left(\\dfrac{3x}{2}\\right)$`), correct: true },
+        { id: "b", text: L(`$\\sec(3x)$`, `$\\sec(3x)$`), correct: false },
+        { id: "c", text: L(`$\\sec(2x)$`, `$\\sec(2x)$`), correct: false },
+        { id: "d", text: L(`$\\cos\\left(\\dfrac{3x}{2}\\right)$`, `$\\cos\\left(\\dfrac{3x}{2}\\right)$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "De la secante al ángulo medio bajo un radical",
+          "From secant to the half angle under a radical",
+        ),
+        statement: L(
+          `La expresión $\\sqrt{\\dfrac{2\\sec(3x)}{1+\\sec(3x)}}$ es equivalente a:`,
+          `The expression $\\sqrt{\\dfrac{2\\sec(3x)}{1+\\sec(3x)}}$ is equivalent to:`,
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Escribe $\\sec(3x) = \\frac{1}{\\cos(3x)}$ y multiplica numerador y denominador por $\\cos(3x)$: la fracción queda $\\frac{2}{1+\\cos(3x)}$.",
+            "Write $\\sec(3x) = \\frac{1}{\\cos(3x)}$ and multiply numerator and denominator by $\\cos(3x)$: the fraction becomes $\\frac{2}{1+\\cos(3x)}$.",
+          ),
+          L(
+            "La identidad de ángulo medio $1+\\cos(\\theta) = 2\\cos^{2}\\left(\\frac{\\theta}{2}\\right)$ convierte el denominador en un cuadrado perfecto.",
+            "The half-angle identity $1+\\cos(\\theta) = 2\\cos^{2}\\left(\\frac{\\theta}{2}\\right)$ turns the denominator into a perfect square.",
+          ),
+          L(
+            "Con $\\theta = 3x$, el radicando queda como $\\sec^{2}\\left(\\frac{3x}{2}\\right)$; solo falta decidir qué hace la raíz cuadrada con ese cuadrado.",
+            "With $\\theta = 3x$, the radicand becomes $\\sec^{2}\\left(\\frac{3x}{2}\\right)$; it only remains to decide what the square root does to that square.",
+          ),
+        ],
+        answerDisplay: L(
+          `$\\sqrt{\\dfrac{2\\sec(3x)}{1+\\sec(3x)}} = \\sqrt{\\sec^{2}\\left(\\dfrac{3x}{2}\\right)} = \\sec\\left(\\dfrac{3x}{2}\\right)$`,
+          `$\\sqrt{\\dfrac{2\\sec(3x)}{1+\\sec(3x)}} = \\sqrt{\\sec^{2}\\left(\\dfrac{3x}{2}\\right)} = \\sec\\left(\\dfrac{3x}{2}\\right)$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "La expresión $\\sqrt{\\dfrac{2\\sec(3x)}{1+\\sec(3x)}}$, con $\\sec(3x) = \\frac{1}{\\cos(3x)}$.",
+            "The expression $\\sqrt{\\dfrac{2\\sec(3x)}{1+\\sec(3x)}}$, with $\\sec(3x) = \\frac{1}{\\cos(3x)}$.",
+          ),
+          step(
+            "approach",
+            "Convertir la secante en coseno, multiplicar por $\\cos(3x)$ arriba y abajo, y usar el ángulo medio $1+\\cos(3x) = 2\\cos^{2}\\left(\\frac{3x}{2}\\right)$: el radicando se vuelve un cuadrado perfecto.",
+            "Turn the secant into a cosine, multiply by $\\cos(3x)$ top and bottom, and use the half angle $1+\\cos(3x) = 2\\cos^{2}\\left(\\frac{3x}{2}\\right)$: the radicand becomes a perfect square.",
+          ),
+          step(
+            "calculation",
+            `$\\dfrac{2\\sec(3x)}{1+\\sec(3x)} = \\dfrac{\\frac{2}{\\cos(3x)}}{\\frac{1+\\cos(3x)}{\\cos(3x)}} = \\dfrac{2}{1+\\cos(3x)} = \\dfrac{2}{2\\cos^{2}\\left(\\frac{3x}{2}\\right)} = \\sec^{2}\\left(\\dfrac{3x}{2}\\right)$<br>$\\sqrt{\\sec^{2}\\left(\\frac{3x}{2}\\right)} = \\sec\\left(\\dfrac{3x}{2}\\right)$`,
+            `$\\dfrac{2\\sec(3x)}{1+\\sec(3x)} = \\dfrac{\\frac{2}{\\cos(3x)}}{\\frac{1+\\cos(3x)}{\\cos(3x)}} = \\dfrac{2}{1+\\cos(3x)} = \\dfrac{2}{2\\cos^{2}\\left(\\frac{3x}{2}\\right)} = \\sec^{2}\\left(\\dfrac{3x}{2}\\right)$<br>$\\sqrt{\\sec^{2}\\left(\\frac{3x}{2}\\right)} = \\sec\\left(\\dfrac{3x}{2}\\right)$`,
+          ),
+          step(
+            "result",
+            `La expresión equivale a $\\sec\\left(\\frac{3x}{2}\\right)$: en el dominio natural de la expresión la raíz devuelve el valor positivo del cuadrado. Comprobación numérica con $x = 0{,}2$: $\\sqrt{\\frac{2\\sec(0{,}6)}{1+\\sec(0{,}6)}} \\approx 1{,}0468$ y $\\sec(0{,}3) = \\frac{1}{\\cos(0{,}3)} \\approx 1{,}0468$ ✓ (los distractores valen $\\approx 1{,}2116$, $1{,}0857$ y $0{,}9553$ en ese mismo punto).`,
+            `The expression equals $\\sec\\left(\\frac{3x}{2}\\right)$: on the expression's natural domain the root returns the positive value of the square. Numeric check at $x = 0.2$: $\\sqrt{\\frac{2\\sec(0.6)}{1+\\sec(0.6)}} \\approx 1.0468$ and $\\sec(0.3) = \\frac{1}{\\cos(0.3)} \\approx 1.0468$ ✓ (the distractors equal $\\approx 1.2116$, $1.0857$ and $0.9553$ at that same point).`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 4 · 29 — la pitagórica con u = 2x da 1, no 2: la única NO
+     identidad. La opción impresa «tan(x)cos(x) = 1/csc(x)» (que sí es
+     identidad) se descarta (regla de casa: 4 opciones). */
+  template(
+    {
+      id: "trigfn-espol-ch4-29",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "identities",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 210,
+      tags: ["identities", "pythagorean", "double-angle"],
+      prerequisites: ["identities"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 29",
+        page: 471,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\operatorname{sen}^{2}(2x) + \\cos^{2}(2x) = 2$`, `$\\sin^{2}(2x) + \\cos^{2}(2x) = 2$`), correct: true },
+        { id: "b", text: L(`$\\operatorname{sen}\\left(\\dfrac{x}{2}\\right)\\cos\\left(\\dfrac{x}{2}\\right) = \\dfrac{1}{2}\\operatorname{sen}(x)$`, `$\\sin\\left(\\dfrac{x}{2}\\right)\\cos\\left(\\dfrac{x}{2}\\right) = \\dfrac{1}{2}\\sin(x)$`), correct: false },
+        { id: "c", text: L(`$\\cos(4x) = \\cos^{2}(2x) - \\operatorname{sen}^{2}(2x)$`, `$\\cos(4x) = \\cos^{2}(2x) - \\sin^{2}(2x)$`), correct: false },
+        { id: "d", text: L(`$\\tan(2x) = \\dfrac{2\\tan(x)}{1-\\tan^{2}(x)}$`, `$\\tan(2x) = \\dfrac{2\\tan(x)}{1-\\tan^{2}(x)}$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Detectar la identidad falsa entre cuatro candidatas",
+          "Spotting the false identity among four candidates",
+        ),
+        statement: L(
+          `La expresión que NO representa una identidad trigonométrica es:`,
+          `The expression that does NOT represent a trigonometric identity is:`,
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Una identidad debe cumplirse para **todo** valor de $x$ del dominio común: basta un contraejemplo para descalificar una candidata.",
+            "An identity must hold for **every** value of $x$ in the common domain: a single counterexample disqualifies a candidate.",
+          ),
+          L(
+            "Tres candidatas son fórmulas estándar: el seno doble leído al revés, el coseno doble y la tangente doble.",
+            "Three candidates are standard formulas: the double-angle sine read backwards, the double-angle cosine, and the double-angle tangent.",
+          ),
+          L(
+            "Aplica la pitagórica con $u = 2x$ a la primera candidata: $\\operatorname{sen}^{2}(u) + \\cos^{2}(u)$ produce una constante; compárala con el lado derecho.",
+            "Apply the Pythagorean identity with $u = 2x$ to the first candidate: $\\sin^{2}(u) + \\cos^{2}(u)$ produces a constant; compare it with the right-hand side.",
+          ),
+        ],
+        answerDisplay: L(
+          `No es identidad: $\\operatorname{sen}^{2}(2x) + \\cos^{2}(2x) = 1 \\ne 2$`,
+          `Not an identity: $\\sin^{2}(2x) + \\cos^{2}(2x) = 1 \\ne 2$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "Cuatro ecuaciones candidatas a identidad trigonométrica; una de ellas falla.",
+            "Four candidate trigonometric identities; one of them fails.",
+          ),
+          step(
+            "approach",
+            "Probar cada candidata contra las identidades fundamentales (pitagórica y ángulos dobles); la que no llegue a su lado derecho es la respuesta.",
+            "Test each candidate against the fundamental identities (Pythagorean and double angles); the one that does not reach its right-hand side is the answer.",
+          ),
+          step(
+            "calculation",
+            `$\\operatorname{sen}^{2}(2x) + \\cos^{2}(2x) = 1 \\ne 2$: falla para todo $x$<br>$\\operatorname{sen}\\left(\\frac{x}{2}\\right)\\cos\\left(\\frac{x}{2}\\right) = \\frac{1}{2}\\operatorname{sen}(x)$: seno doble ✓<br>$\\cos(4x) = \\cos^{2}(2x) - \\operatorname{sen}^{2}(2x)$: coseno doble ✓<br>$\\tan(2x) = \\frac{2\\tan(x)}{1-\\tan^{2}(x)}$: tangente doble ✓`,
+            `$\\sin^{2}(2x) + \\cos^{2}(2x) = 1 \\ne 2$: fails for every $x$<br>$\\sin\\left(\\frac{x}{2}\\right)\\cos\\left(\\frac{x}{2}\\right) = \\frac{1}{2}\\sin(x)$: double-angle sine ✓<br>$\\cos(4x) = \\cos^{2}(2x) - \\sin^{2}(2x)$: double-angle cosine ✓<br>$\\tan(2x) = \\frac{2\\tan(x)}{1-\\tan^{2}(x)}$: double-angle tangent ✓`,
+          ),
+          step(
+            "result",
+            `La que NO es identidad es $\\operatorname{sen}^{2}(2x) + \\cos^{2}(2x) = 2$: el lado izquierdo vale $1$ para todo $x$. Comprobación con $x = \\frac{\\pi}{6}$: $\\operatorname{sen}^{2}\\left(\\frac{\\pi}{3}\\right) + \\cos^{2}\\left(\\frac{\\pi}{3}\\right) = \\frac{3}{4} + \\frac{1}{4} = 1 \\ne 2$ ✓, mientras que las otras tres se cumplen en ese mismo punto: $\\operatorname{sen}\\left(\\frac{\\pi}{12}\\right)\\cos\\left(\\frac{\\pi}{12}\\right) = \\frac{1}{4} = \\frac{1}{2}\\operatorname{sen}\\left(\\frac{\\pi}{6}\\right)$, $\\cos\\left(\\frac{2\\pi}{3}\\right) = -\\frac{1}{2} = \\cos^{2}\\left(\\frac{\\pi}{3}\\right) - \\operatorname{sen}^{2}\\left(\\frac{\\pi}{3}\\right)$ y $\\tan\\left(\\frac{\\pi}{3}\\right) = \\sqrt{3} = \\frac{2\\tan\\left(\\frac{\\pi}{6}\\right)}{1-\\tan^{2}\\left(\\frac{\\pi}{6}\\right)}$.`,
+            `The one that is NOT an identity is $\\sin^{2}(2x) + \\cos^{2}(2x) = 2$: the left-hand side equals $1$ for every $x$. Check at $x = \\frac{\\pi}{6}$: $\\sin^{2}\\left(\\frac{\\pi}{3}\\right) + \\cos^{2}\\left(\\frac{\\pi}{3}\\right) = \\frac{3}{4} + \\frac{1}{4} = 1 \\ne 2$ ✓, while the other three hold at that same point: $\\sin\\left(\\frac{\\pi}{12}\\right)\\cos\\left(\\frac{\\pi}{12}\\right) = \\frac{1}{4} = \\frac{1}{2}\\sin\\left(\\frac{\\pi}{6}\\right)$, $\\cos\\left(\\frac{2\\pi}{3}\\right) = -\\frac{1}{2} = \\cos^{2}\\left(\\frac{\\pi}{3}\\right) - \\sin^{2}\\left(\\frac{\\pi}{3}\\right)$ and $\\tan\\left(\\frac{\\pi}{3}\\right) = \\sqrt{3} = \\frac{2\\tan\\left(\\frac{\\pi}{6}\\right)}{1-\\tan^{2}\\left(\\frac{\\pi}{6}\\right)}$.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 4 · 32 — con a = tan(25°): tan(245°) = 1/a, tan(335°) = −a,
+     tan(205°) = a, tan(115°) = −1/a → (1−a²)/(1+a²). El orden
+     numerador/denominador (245+335 sobre 205−115) está confirmado por
+     la clave impresa (1−a²)/(1+a²); una pasada de VLM lo invirtió. */
+  template(
+    {
+      id: "trigfn-espol-ch4-32",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "simplification",
+      difficulty: "challenge",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 420,
+      tags: ["simplification", "periodicity", "tangent"],
+      prerequisites: ["simplification"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 32",
+        page: 471,
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\dfrac{1-a^{2}}{1+a^{2}}$`, `$\\dfrac{1-a^{2}}{1+a^{2}}$`), correct: true },
+        { id: "b", text: L(`$\\dfrac{a^{2}-1}{1+a^{2}}$`, `$\\dfrac{a^{2}-1}{1+a^{2}}$`), correct: false },
+        { id: "c", text: L(`$\\dfrac{1-a^{2}}{a^{2}-1}$`, `$\\dfrac{1-a^{2}}{a^{2}-1}$`), correct: false },
+        { id: "d", text: L(`$\\dfrac{1+a^{2}}{1-a^{2}}$`, `$\\dfrac{1+a^{2}}{1-a^{2}}$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Reducir ángulos por período a una tangente dada",
+          "Reducing angles by period to a given tangent",
+        ),
+        statement: L(
+          `Si $\\tan(25^\\circ) = a$, representar en términos de $a$ la expresión $\\dfrac{\\tan(245^\\circ)+\\tan(335^\\circ)}{\\tan(205^\\circ)-\\tan(115^\\circ)}$.`,
+          `If $\\tan(25^\\circ) = a$, express in terms of $a$ the value of $\\dfrac{\\tan(245^\\circ)+\\tan(335^\\circ)}{\\tan(205^\\circ)-\\tan(115^\\circ)}$.`,
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "La tangente tiene período $180^\\circ$: réstale $180^\\circ$ a cada ángulo mayor que $180^\\circ$, y $360^\\circ$ al que pase de $270^\\circ$.",
+            "The tangent has period $180^\\circ$: subtract $180^\\circ$ from every angle above $180^\\circ$, and $360^\\circ$ from the one above $270^\\circ$.",
+          ),
+          L(
+            "Los ángulos reducidos caen en $\\pm 25^\\circ$ o en $\\pm 65^\\circ$; como $65^\\circ = 90^\\circ - 25^\\circ$, sus tangentes valen $\\cot(25^\\circ) = \\frac{1}{a}$ con su signo.",
+            "The reduced angles land on $\\pm 25^\\circ$ or $\\pm 65^\\circ$; since $65^\\circ = 90^\\circ - 25^\\circ$, their tangents equal $\\cot(25^\\circ) = \\frac{1}{a}$ with the corresponding sign.",
+          ),
+          L(
+            "Sustituye las cuatro tangentes reducidas: al reunir cada par aparece el denominador $a$, común al numerador y al denominador de la fracción compuesta.",
+            "Substitute the four reduced tangents: combining each pair produces the denominator $a$, shared by the numerator and the denominator of the compound fraction.",
+          ),
+        ],
+        answerDisplay: L(
+          `$\\dfrac{\\tan(245^\\circ)+\\tan(335^\\circ)}{\\tan(205^\\circ)-\\tan(115^\\circ)} = \\dfrac{\\frac{1}{a}-a}{a+\\frac{1}{a}} = \\dfrac{1-a^{2}}{1+a^{2}}$`,
+          `$\\dfrac{\\tan(245^\\circ)+\\tan(335^\\circ)}{\\tan(205^\\circ)-\\tan(115^\\circ)} = \\dfrac{\\frac{1}{a}-a}{a+\\frac{1}{a}} = \\dfrac{1-a^{2}}{1+a^{2}}$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$\\tan(25^\\circ) = a$; hay que escribir $\\dfrac{\\tan(245^\\circ)+\\tan(335^\\circ)}{\\tan(205^\\circ)-\\tan(115^\\circ)}$ en términos de $a$.",
+            "$\\tan(25^\\circ) = a$; the value of $\\dfrac{\\tan(245^\\circ)+\\tan(335^\\circ)}{\\tan(205^\\circ)-\\tan(115^\\circ)}$ must be written in terms of $a$.",
+          ),
+          step(
+            "approach",
+            "Reducir cada ángulo con el período $180^\\circ$ de la tangente y la relación $\\tan(90^\\circ - \\theta) = \\cot(\\theta) = \\frac{1}{\\tan(\\theta)}$; después simplificar la fracción compuesta.",
+            "Reduce each angle using the tangent's $180^\\circ$ period and the relation $\\tan(90^\\circ - \\theta) = \\cot(\\theta) = \\frac{1}{\\tan(\\theta)}$; then simplify the compound fraction.",
+          ),
+          step(
+            "calculation",
+            `$\\tan(245^\\circ) = \\tan(65^\\circ) = \\frac{1}{a}$, $\\quad \\tan(335^\\circ) = -\\tan(25^\\circ) = -a$<br>$\\tan(205^\\circ) = \\tan(25^\\circ) = a$, $\\quad \\tan(115^\\circ) = -\\tan(65^\\circ) = -\\frac{1}{a}$<br>$\\dfrac{\\frac{1}{a}-a}{a+\\frac{1}{a}} = \\dfrac{\\frac{1-a^{2}}{a}}{\\frac{1+a^{2}}{a}} = \\dfrac{1-a^{2}}{1+a^{2}}$`,
+            `$\\tan(245^\\circ) = \\tan(65^\\circ) = \\frac{1}{a}$, $\\quad \\tan(335^\\circ) = -\\tan(25^\\circ) = -a$<br>$\\tan(205^\\circ) = \\tan(25^\\circ) = a$, $\\quad \\tan(115^\\circ) = -\\tan(65^\\circ) = -\\frac{1}{a}$<br>$\\dfrac{\\frac{1}{a}-a}{a+\\frac{1}{a}} = \\dfrac{\\frac{1-a^{2}}{a}}{\\frac{1+a^{2}}{a}} = \\dfrac{1-a^{2}}{1+a^{2}}$`,
+          ),
+          step(
+            "result",
+            `La expresión vale $\\frac{1-a^{2}}{1+a^{2}}$. Comprobación numérica con $a = \\tan(25^\\circ) \\approx 0{,}4663$: la fórmula da $\\frac{1-0{,}2174}{1+0{,}2174} \\approx 0{,}6428$, y evaluando directo $\\frac{\\tan(245^\\circ)+\\tan(335^\\circ)}{\\tan(205^\\circ)-\\tan(115^\\circ)} \\approx \\frac{2{,}1445-0{,}4663}{0{,}4663+2{,}1445} \\approx 0{,}6428$ ✓ (los distractores valen $\\approx -0{,}6428$, $-1$ y $\\approx 1{,}556$).`,
+            `The expression equals $\\frac{1-a^{2}}{1+a^{2}}$. Numeric check with $a = \\tan(25^\\circ) \\approx 0.4663$: the formula gives $\\frac{1-0.2174}{1+0.2174} \\approx 0.6428$, and direct evaluation gives $\\frac{\\tan(245^\\circ)+\\tan(335^\\circ)}{\\tan(205^\\circ)-\\tan(115^\\circ)} \\approx \\frac{2.1445-0.4663}{0.4663+2.1445} \\approx 0.6428$ ✓ (the distractors equal $\\approx -0.6428$, $-1$ and $\\approx 1.556$).`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 4 · 33a — 1/(2sen(10°)) − 2sen(70°) = 1: común denominador y
+     producto a suma con cos(80°) = sen(10°) (4sen10·sen70 = 1−2sen10). */
+  template(
+    {
+      id: "trigfn-espol-ch4-33a",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "simplification",
+      difficulty: "challenge",
+      questionType: "numeric",
+      estimatedTimeSec: 360,
+      tags: ["simplification", "product-to-sum", "cofunction"],
+      prerequisites: ["simplification"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 33a",
+        page: 472,
+      },
+      reasoning: "estimation",
+    },
+    () => ({
+      skill: L(
+        "Producto a suma para cancelar un denominador",
+        "Product-to-sum to cancel a denominator",
+      ),
+      statement: L(
+        `Simplificar y hallar el valor de: $\\dfrac{1}{2\\operatorname{sen}(10^\\circ)} - 2\\operatorname{sen}(70^\\circ)$`,
+        `Simplify and find the value of: $\\dfrac{1}{2\\sin(10^\\circ)} - 2\\sin(70^\\circ)$`,
+      ),
+      answer: {
+        kind: "numeric",
+        value: 1,
+        tolerance: { mode: "absolute", value: 0.05 },
+      },
+      hints: [
+        L(
+          "Escribe todo sobre el denominador común $2\\operatorname{sen}(10^\\circ)$: el numerador queda $1 - 4\\operatorname{sen}(10^\\circ)\\operatorname{sen}(70^\\circ)$.",
+          "Put everything over the common denominator $2\\sin(10^\\circ)$: the numerator becomes $1 - 4\\sin(10^\\circ)\\sin(70^\\circ)$.",
+        ),
+        L(
+          "Convierte el producto con $2\\operatorname{sen}(u)\\operatorname{sen}(v) = \\cos(u-v) - \\cos(u+v)$: aparece $\\cos(60^\\circ)$, un valor notable.",
+          "Convert the product with $2\\sin(u)\\sin(v) = \\cos(u-v) - \\cos(u+v)$: $\\cos(60^\\circ)$ appears, a notable value.",
+        ),
+        L(
+          "El otro término que aparece es $\\cos(80^\\circ)$; usa $\\cos(80^\\circ) = \\operatorname{sen}(10^\\circ)$ para cerrar el numerador.",
+          "The other term that appears is $\\cos(80^\\circ)$; use $\\cos(80^\\circ) = \\sin(10^\\circ)$ to close off the numerator.",
+        ),
+      ],
+      answerDisplay: L(
+        `$\\dfrac{1}{2\\operatorname{sen}(10^\\circ)} - 2\\operatorname{sen}(70^\\circ) = \\dfrac{2\\operatorname{sen}(10^\\circ)}{2\\operatorname{sen}(10^\\circ)} = 1$`,
+        `$\\dfrac{1}{2\\sin(10^\\circ)} - 2\\sin(70^\\circ) = \\dfrac{2\\sin(10^\\circ)}{2\\sin(10^\\circ)} = 1$`,
+      ),
+      solution: [
+        step(
+          "given",
+          "La expresión $\\dfrac{1}{2\\operatorname{sen}(10^\\circ)} - 2\\operatorname{sen}(70^\\circ)$.",
+          "The expression $\\dfrac{1}{2\\sin(10^\\circ)} - 2\\sin(70^\\circ)$.",
+        ),
+        step(
+          "approach",
+          "Común denominador y producto a suma: el numerador $1 - 4\\operatorname{sen}(10^\\circ)\\operatorname{sen}(70^\\circ)$ se evalúa con $2\\operatorname{sen}(u)\\operatorname{sen}(v) = \\cos(u-v) - \\cos(u+v)$ y la cofunción $\\cos(80^\\circ) = \\operatorname{sen}(10^\\circ)$.",
+          "Common denominator and product-to-sum: the numerator $1 - 4\\sin(10^\\circ)\\sin(70^\\circ)$ is evaluated with $2\\sin(u)\\sin(v) = \\cos(u-v) - \\cos(u+v)$ and the cofunction $\\cos(80^\\circ) = \\sin(10^\\circ)$.",
+        ),
+        step(
+          "calculation",
+          `$1 - 4\\operatorname{sen}(10^\\circ)\\operatorname{sen}(70^\\circ) = 1 - 2\\left[\\cos(60^\\circ) - \\cos(80^\\circ)\\right] = 1 - 2\\left(\\frac{1}{2} - \\operatorname{sen}(10^\\circ)\\right) = 2\\operatorname{sen}(10^\\circ)$<br>$\\Rightarrow \\dfrac{1}{2\\operatorname{sen}(10^\\circ)} - 2\\operatorname{sen}(70^\\circ) = \\dfrac{2\\operatorname{sen}(10^\\circ)}{2\\operatorname{sen}(10^\\circ)} = 1$`,
+          `$1 - 4\\sin(10^\\circ)\\sin(70^\\circ) = 1 - 2\\left[\\cos(60^\\circ) - \\cos(80^\\circ)\\right] = 1 - 2\\left(\\frac{1}{2} - \\sin(10^\\circ)\\right) = 2\\sin(10^\\circ)$<br>$\\Rightarrow \\dfrac{1}{2\\sin(10^\\circ)} - 2\\sin(70^\\circ) = \\dfrac{2\\sin(10^\\circ)}{2\\sin(10^\\circ)} = 1$`,
+        ),
+        step(
+          "result",
+          `El valor exacto es $1$. Comprobación numérica: $\\frac{1}{2\\operatorname{sen}(10^\\circ)} \\approx 2{,}8794$ y $2\\operatorname{sen}(70^\\circ) \\approx 1{,}8794$, así que la expresión vale $2{,}8794 - 1{,}8794 = 1{,}0000$ ✓ (la clave de la cancelación perfecta es $\\cos(80^\\circ) = \\operatorname{sen}(10^\\circ)$, ángulos complementarios).`,
+          `The exact value is $1$. Numeric check: $\\frac{1}{2\\sin(10^\\circ)} \\approx 2.8794$ and $2\\sin(70^\\circ) \\approx 1.8794$, so the expression equals $2.8794 - 1.8794 = 1.0000$ ✓ (the key to the perfect cancellation is $\\cos(80^\\circ) = \\sin(10^\\circ)$, complementary angles).`,
+        ),
+      ],
+    }),
+  ),
+
+  /* 4 · 33b — sen(π/12)cos(π/12) = ½·sen(π/6) = 1/4. */
+  template(
+    {
+      id: "trigfn-espol-ch4-33b",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "simplification",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 180,
+      tags: ["simplification", "double-angle", "exact-values"],
+      prerequisites: ["simplification"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 33b",
+        page: 472,
+      },
+      reasoning: "definition-hunting",
+    },
+    () => ({
+      skill: L(
+        "Producto seno-coseno vía el ángulo doble",
+        "Sine-cosine product via the double angle",
+      ),
+      statement: L(
+        `Simplificar y hallar el valor de: $\\operatorname{sen}\\left(\\dfrac{\\pi}{12}\\right)\\cos\\left(\\dfrac{\\pi}{12}\\right)$`,
+        `Simplify and find the value of: $\\sin\\left(\\dfrac{\\pi}{12}\\right)\\cos\\left(\\dfrac{\\pi}{12}\\right)$`,
+      ),
+      answer: {
+        kind: "numeric",
+        value: 0.25,
+        tolerance: { mode: "relative", value: 0.02 },
+      },
+      hints: [
+        L(
+          "El ángulo doble de $\\frac{\\pi}{12}$ es $\\frac{\\pi}{6}$, un valor notable de la tabla.",
+          "The double of $\\frac{\\pi}{12}$ is $\\frac{\\pi}{6}$, a notable value from the table.",
+        ),
+        L(
+          "La identidad del seno doble leída al revés: $\\operatorname{sen}(u)\\cos(u) = \\frac{1}{2}\\operatorname{sen}(2u)$.",
+          "The double-angle identity for sine read backwards: $\\sin(u)\\cos(u) = \\frac{1}{2}\\sin(2u)$.",
+        ),
+        L(
+          "Sustituye el valor exacto de $\\operatorname{sen}\\left(\\frac{\\pi}{6}\\right)$ y divide entre $2$.",
+          "Substitute the exact value of $\\sin\\left(\\frac{\\pi}{6}\\right)$ and divide by $2$.",
+        ),
+      ],
+      answerDisplay: L(
+        `$\\operatorname{sen}\\left(\\dfrac{\\pi}{12}\\right)\\cos\\left(\\dfrac{\\pi}{12}\\right) = \\dfrac{1}{2}\\operatorname{sen}\\left(\\dfrac{\\pi}{6}\\right) = \\dfrac{1}{4}$`,
+        `$\\sin\\left(\\dfrac{\\pi}{12}\\right)\\cos\\left(\\dfrac{\\pi}{12}\\right) = \\dfrac{1}{2}\\sin\\left(\\dfrac{\\pi}{6}\\right) = \\dfrac{1}{4}$`,
+      ),
+      solution: [
+        step(
+          "given",
+          "El producto $\\operatorname{sen}\\left(\\dfrac{\\pi}{12}\\right)\\cos\\left(\\dfrac{\\pi}{12}\\right)$.",
+          "The product $\\sin\\left(\\dfrac{\\pi}{12}\\right)\\cos\\left(\\dfrac{\\pi}{12}\\right)$.",
+        ),
+        step(
+          "approach",
+          "Reconocer el patrón $\\operatorname{sen}(u)\\cos(u)$ con $u = \\frac{\\pi}{12}$: es medio seno del ángulo doble $2u = \\frac{\\pi}{6}$, un valor notable.",
+          "Recognize the pattern $\\sin(u)\\cos(u)$ with $u = \\frac{\\pi}{12}$: it is half the sine of the double angle $2u = \\frac{\\pi}{6}$, a notable value.",
+        ),
+        step(
+          "calculation",
+          `$\\operatorname{sen}\\left(\\frac{\\pi}{12}\\right)\\cos\\left(\\frac{\\pi}{12}\\right) = \\frac{1}{2}\\operatorname{sen}\\left(\\frac{\\pi}{6}\\right) = \\frac{1}{2} \\cdot \\frac{1}{2} = \\frac{1}{4}$`,
+          `$\\sin\\left(\\frac{\\pi}{12}\\right)\\cos\\left(\\frac{\\pi}{12}\\right) = \\frac{1}{2}\\sin\\left(\\frac{\\pi}{6}\\right) = \\frac{1}{2} \\cdot \\frac{1}{2} = \\frac{1}{4}$`,
+        ),
+        step(
+          "result",
+          `El valor es $\\frac{1}{4} = 0{,}25$. Comprobación con los valores exactos $\\operatorname{sen}\\left(\\frac{\\pi}{12}\\right) = \\frac{\\sqrt{6}-\\sqrt{2}}{4}$ y $\\cos\\left(\\frac{\\pi}{12}\\right) = \\frac{\\sqrt{6}+\\sqrt{2}}{4}$: el producto es $\\frac{(\\sqrt{6})^{2}-(\\sqrt{2})^{2}}{16} = \\frac{6-2}{16} = \\frac{1}{4}$ ✓.`,
+          `The value is $\\frac{1}{4} = 0.25$. Check with the exact values $\\sin\\left(\\frac{\\pi}{12}\\right) = \\frac{\\sqrt{6}-\\sqrt{2}}{4}$ and $\\cos\\left(\\frac{\\pi}{12}\\right) = \\frac{\\sqrt{6}+\\sqrt{2}}{4}$: the product is $\\frac{(\\sqrt{6})^{2}-(\\sqrt{2})^{2}}{16} = \\frac{6-2}{16} = \\frac{1}{4}$ ✓.`,
+        ),
+      ],
+    }),
+  ),
+
+  /* 4 · 33c — tan(55°) − tan(35°) = sen(20°)/(cos(55°)cos(35°)) =
+     2tan(20°); la clave del libro DEJA la respuesta como expresión
+     trigonométrica (2tan(20°)). */
+  template(
+    {
+      id: "trigfn-espol-ch4-33c",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "simplification",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["simplification", "product-to-sum", "tangent"],
+      prerequisites: ["simplification"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 33c",
+        page: 472,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$2\\tan(20^\\circ)$`, `$2\\tan(20^\\circ)$`), correct: true },
+        { id: "b", text: L(`$2\\cot(20^\\circ)$`, `$2\\cot(20^\\circ)$`), correct: false },
+        { id: "c", text: L(`$\\tan(20^\\circ)$`, `$\\tan(20^\\circ)$`), correct: false },
+        { id: "d", text: L(`$\\cot(20^\\circ)$`, `$\\cot(20^\\circ)$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Diferencia de tangentes con producto a suma",
+          "Tangent difference via product-to-sum",
+        ),
+        statement: L(
+          `Simplificar y hallar el valor de: $\\tan(55^\\circ) - \\tan(35^\\circ)$`,
+          `Simplify and find the value of: $\\tan(55^\\circ) - \\tan(35^\\circ)$`,
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Pasa cada tangente a $\\frac{\\operatorname{sen}}{\\cos}$ con denominador común $\\cos(55^\\circ)\\cos(35^\\circ)$: el numerador es un seno de diferencia.",
+            "Rewrite each tangent as $\\frac{\\sin}{\\cos}$ over the common denominator $\\cos(55^\\circ)\\cos(35^\\circ)$: the numerator is a sine of a difference.",
+          ),
+          L(
+            "El numerador es $\\operatorname{sen}(55^\\circ)\\cos(35^\\circ) - \\cos(55^\\circ)\\operatorname{sen}(35^\\circ) = \\operatorname{sen}(20^\\circ)$.",
+            "The numerator is $\\sin(55^\\circ)\\cos(35^\\circ) - \\cos(55^\\circ)\\sin(35^\\circ) = \\sin(20^\\circ)$.",
+          ),
+          L(
+            "Para el denominador usa $2\\cos(55^\\circ)\\cos(35^\\circ) = \\cos(90^\\circ) + \\cos(20^\\circ)$: uno de los dos términos se anula.",
+            "For the denominator use $2\\cos(55^\\circ)\\cos(35^\\circ) = \\cos(90^\\circ) + \\cos(20^\\circ)$: one of the two terms vanishes.",
+          ),
+        ],
+        answerDisplay: L(
+          `$\\tan(55^\\circ) - \\tan(35^\\circ) = \\dfrac{\\operatorname{sen}(20^\\circ)}{\\frac{1}{2}\\cos(20^\\circ)} = 2\\tan(20^\\circ)$`,
+          `$\\tan(55^\\circ) - \\tan(35^\\circ) = \\dfrac{\\sin(20^\\circ)}{\\frac{1}{2}\\cos(20^\\circ)} = 2\\tan(20^\\circ)$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "La diferencia $\\tan(55^\\circ) - \\tan(35^\\circ)$.",
+            "The difference $\\tan(55^\\circ) - \\tan(35^\\circ)$.",
+          ),
+          step(
+            "approach",
+            "Pasar a senos y cosenos: el numerador se convierte en $\\operatorname{sen}(55^\\circ - 35^\\circ)$ y el denominador $\\cos(55^\\circ)\\cos(35^\\circ)$ se ataca con producto a suma.",
+            "Convert to sines and cosines: the numerator becomes $\\sin(55^\\circ - 35^\\circ)$ and the denominator $\\cos(55^\\circ)\\cos(35^\\circ)$ is attacked with product-to-sum.",
+          ),
+          step(
+            "calculation",
+            `$\\tan(55^\\circ) - \\tan(35^\\circ) = \\dfrac{\\operatorname{sen}(55^\\circ)\\cos(35^\\circ) - \\cos(55^\\circ)\\operatorname{sen}(35^\\circ)}{\\cos(55^\\circ)\\cos(35^\\circ)} = \\dfrac{\\operatorname{sen}(20^\\circ)}{\\cos(55^\\circ)\\cos(35^\\circ)}$<br>$2\\cos(55^\\circ)\\cos(35^\\circ) = \\cos(90^\\circ) + \\cos(20^\\circ) = \\cos(20^\\circ) \\Rightarrow \\cos(55^\\circ)\\cos(35^\\circ) = \\dfrac{\\cos(20^\\circ)}{2}$<br>$\\Rightarrow \\tan(55^\\circ) - \\tan(35^\\circ) = \\dfrac{\\operatorname{sen}(20^\\circ)}{\\frac{1}{2}\\cos(20^\\circ)} = 2\\tan(20^\\circ)$`,
+            `$\\tan(55^\\circ) - \\tan(35^\\circ) = \\dfrac{\\sin(55^\\circ)\\cos(35^\\circ) - \\cos(55^\\circ)\\sin(35^\\circ)}{\\cos(55^\\circ)\\cos(35^\\circ)} = \\dfrac{\\sin(20^\\circ)}{\\cos(55^\\circ)\\cos(35^\\circ)}$<br>$2\\cos(55^\\circ)\\cos(35^\\circ) = \\cos(90^\\circ) + \\cos(20^\\circ) = \\cos(20^\\circ) \\Rightarrow \\cos(55^\\circ)\\cos(35^\\circ) = \\dfrac{\\cos(20^\\circ)}{2}$<br>$\\Rightarrow \\tan(55^\\circ) - \\tan(35^\\circ) = \\dfrac{\\sin(20^\\circ)}{\\frac{1}{2}\\cos(20^\\circ)} = 2\\tan(20^\\circ)$`,
+          ),
+          step(
+            "result",
+            `El valor queda como $2\\tan(20^\\circ)$ (así lo deja el libro: expresión trigonométrica, no decimal). Comprobación numérica: $\\tan(55^\\circ) - \\tan(35^\\circ) \\approx 1{,}4281 - 0{,}7002 = 0{,}7279$ y $2\\tan(20^\\circ) \\approx 2 \\cdot 0{,}3640 = 0{,}7279$ ✓ (los distractores valen $\\approx 5{,}495$, $0{,}364$ y $2{,}747$).`,
+            `The value stays as $2\\tan(20^\\circ)$ (that is how the book leaves it: a trig expression, not a decimal). Numeric check: $\\tan(55^\\circ) - \\tan(35^\\circ) \\approx 1.4281 - 0.7002 = 0.7279$ and $2\\tan(20^\\circ) \\approx 2 \\cdot 0.3640 = 0.7279$ ✓ (the distractors equal $\\approx 5.495$, $0.364$ and $2.747$).`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 4 · 33d — cos(π/5)cos(3π/5) = ½[cos(4π/5)+cos(2π/5)] = −1/4 por
+     la suma de las raíces quintas de la unidad (pentágono regular). */
+  template(
+    {
+      id: "trigfn-espol-ch4-33d",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "simplification",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["simplification", "product-to-sum", "exact-values", "roots-of-unity"],
+      prerequisites: ["simplification"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 33d",
+        page: 472,
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$-\\dfrac{1}{4}$`, `$-\\dfrac{1}{4}$`), correct: true },
+        { id: "b", text: L(`$\\dfrac{1}{4}$`, `$\\dfrac{1}{4}$`), correct: false },
+        { id: "c", text: L(`$-\\dfrac{1}{2}$`, `$-\\dfrac{1}{2}$`), correct: false },
+        { id: "d", text: L(`$\\dfrac{1}{2}$`, `$\\dfrac{1}{2}$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Producto de cosenos y la suma de las raíces quintas",
+          "Cosine product and the fifth-roots sum",
+        ),
+        statement: L(
+          `Simplificar y hallar el valor de: $\\cos\\left(\\dfrac{\\pi}{5}\\right)\\cos\\left(\\dfrac{3\\pi}{5}\\right)$`,
+          `Simplify and find the value of: $\\cos\\left(\\dfrac{\\pi}{5}\\right)\\cos\\left(\\dfrac{3\\pi}{5}\\right)$`,
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Producto a suma: $2\\cos\\left(\\frac{\\pi}{5}\\right)\\cos\\left(\\frac{3\\pi}{5}\\right) = \\cos\\left(\\frac{4\\pi}{5}\\right) + \\cos\\left(\\frac{2\\pi}{5}\\right)$.",
+            "Product-to-sum: $2\\cos\\left(\\frac{\\pi}{5}\\right)\\cos\\left(\\frac{3\\pi}{5}\\right) = \\cos\\left(\\frac{4\\pi}{5}\\right) + \\cos\\left(\\frac{2\\pi}{5}\\right)$.",
+          ),
+          L(
+            "Los ángulos $\\frac{2\\pi}{5}$ y $\\frac{4\\pi}{5}$ son los pasos del pentágono regular: sus cosenos aparecen al sumar las cinco raíces quintas de la unidad.",
+            "The angles $\\frac{2\\pi}{5}$ and $\\frac{4\\pi}{5}$ are the steps of the regular pentagon: their cosines appear when adding the five fifth roots of unity.",
+          ),
+          L(
+            "De $1 + 2\\cos\\left(\\frac{2\\pi}{5}\\right) + 2\\cos\\left(\\frac{4\\pi}{5}\\right) = 0$ sale la suma que necesitas; no olvides el factor $\\frac{1}{2}$ del paso inicial.",
+            "From $1 + 2\\cos\\left(\\frac{2\\pi}{5}\\right) + 2\\cos\\left(\\frac{4\\pi}{5}\\right) = 0$ comes the sum you need; do not forget the $\\frac{1}{2}$ factor from the first step.",
+          ),
+        ],
+        answerDisplay: L(
+          `$\\cos\\left(\\dfrac{\\pi}{5}\\right)\\cos\\left(\\dfrac{3\\pi}{5}\\right) = \\dfrac{1}{2}\\left[\\cos\\left(\\dfrac{4\\pi}{5}\\right) + \\cos\\left(\\dfrac{2\\pi}{5}\\right)\\right] = -\\dfrac{1}{4}$`,
+          `$\\cos\\left(\\dfrac{\\pi}{5}\\right)\\cos\\left(\\dfrac{3\\pi}{5}\\right) = \\dfrac{1}{2}\\left[\\cos\\left(\\dfrac{4\\pi}{5}\\right) + \\cos\\left(\\dfrac{2\\pi}{5}\\right)\\right] = -\\dfrac{1}{4}$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "El producto $\\cos\\left(\\dfrac{\\pi}{5}\\right)\\cos\\left(\\dfrac{3\\pi}{5}\\right)$.",
+            "The product $\\cos\\left(\\dfrac{\\pi}{5}\\right)\\cos\\left(\\dfrac{3\\pi}{5}\\right)$.",
+          ),
+          step(
+            "approach",
+            "Producto a suma para juntar $\\cos\\left(\\frac{4\\pi}{5}\\right) + \\cos\\left(\\frac{2\\pi}{5}\\right)$, y la suma de las raíces quintas de la unidad (el pentágono regular) para evaluarla.",
+            "Product-to-sum to gather $\\cos\\left(\\frac{4\\pi}{5}\\right) + \\cos\\left(\\frac{2\\pi}{5}\\right)$, and the sum of the fifth roots of unity (the regular pentagon) to evaluate it.",
+          ),
+          step(
+            "calculation",
+            `$2\\cos\\left(\\frac{\\pi}{5}\\right)\\cos\\left(\\frac{3\\pi}{5}\\right) = \\cos\\left(\\frac{4\\pi}{5}\\right) + \\cos\\left(\\frac{2\\pi}{5}\\right)$<br>Las cinco raíces de $z^{5} = 1$ suman $0$: $1 + 2\\cos\\left(\\frac{2\\pi}{5}\\right) + 2\\cos\\left(\\frac{4\\pi}{5}\\right) = 0 \\Rightarrow \\cos\\left(\\frac{4\\pi}{5}\\right) + \\cos\\left(\\frac{2\\pi}{5}\\right) = -\\frac{1}{2}$<br>$\\Rightarrow \\cos\\left(\\frac{\\pi}{5}\\right)\\cos\\left(\\frac{3\\pi}{5}\\right) = \\frac{1}{2}\\left(-\\frac{1}{2}\\right) = -\\frac{1}{4}$`,
+            `$2\\cos\\left(\\frac{\\pi}{5}\\right)\\cos\\left(\\frac{3\\pi}{5}\\right) = \\cos\\left(\\frac{4\\pi}{5}\\right) + \\cos\\left(\\frac{2\\pi}{5}\\right)$<br>The five roots of $z^{5} = 1$ add up to $0$: $1 + 2\\cos\\left(\\frac{2\\pi}{5}\\right) + 2\\cos\\left(\\frac{4\\pi}{5}\\right) = 0 \\Rightarrow \\cos\\left(\\frac{4\\pi}{5}\\right) + \\cos\\left(\\frac{2\\pi}{5}\\right) = -\\frac{1}{2}$<br>$\\Rightarrow \\cos\\left(\\frac{\\pi}{5}\\right)\\cos\\left(\\frac{3\\pi}{5}\\right) = \\frac{1}{2}\\left(-\\frac{1}{2}\\right) = -\\frac{1}{4}$`,
+          ),
+          step(
+            "result",
+            `El producto vale $-\\frac{1}{4}$. Comprobación con los valores exactos del pentágono: $\\cos\\left(\\frac{\\pi}{5}\\right) = \\frac{1+\\sqrt{5}}{4}$ y $\\cos\\left(\\frac{3\\pi}{5}\\right) = \\frac{1-\\sqrt{5}}{4}$, así que el producto es $\\frac{(1+\\sqrt{5})(1-\\sqrt{5})}{16} = \\frac{1-5}{16} = -\\frac{1}{4}$ ✓ (numéricamente, $0{,}8090 \\cdot (-0{,}3090) = -0{,}25$).`,
+            `The product equals $-\\frac{1}{4}$. Check with the pentagon's exact values: $\\cos\\left(\\frac{\\pi}{5}\\right) = \\frac{1+\\sqrt{5}}{4}$ and $\\cos\\left(\\frac{3\\pi}{5}\\right) = \\frac{1-\\sqrt{5}}{4}$, so the product is $\\frac{(1+\\sqrt{5})(1-\\sqrt{5})}{16} = \\frac{1-5}{16} = -\\frac{1}{4}$ ✓ (numerically, $0.8090 \\cdot (-0.3090) = -0.25$).`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 4 · 33f — producto de seis cosenos π/65 … 32π/65 = 1/64 (cadena
+     de ángulo doble; sen(64π/65) = sen(π/65)). El libro repite el
+     ejercicio como 5.5 · 49b (ya importado como trigf-espol-49b en
+     versión numérica); aquí llega como MC con las opciones impresas
+     del Cap. 4. */
+  template(
+    {
+      id: "trigfn-espol-ch4-33f",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "simplification",
+      difficulty: "challenge",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 420,
+      tags: ["simplification", "double-angle", "product"],
+      prerequisites: ["simplification"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 33f",
+        page: 472,
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\dfrac{1}{64}$`, `$\\dfrac{1}{64}$`), correct: true },
+        { id: "b", text: L(`$\\dfrac{1}{32}$`, `$\\dfrac{1}{32}$`), correct: false },
+        { id: "c", text: L(`$\\dfrac{1}{128}$`, `$\\dfrac{1}{128}$`), correct: false },
+        { id: "d", text: L(`$\\dfrac{1}{2}$`, `$\\dfrac{1}{2}$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Seis cosenos en cadena hacia una potencia de 2",
+          "Six chained cosines heading to a power of 2",
+        ),
+        statement: L(
+          `Simplificar y hallar el valor de: $$\\cos\\left(\\dfrac{\\pi}{65}\\right)\\cos\\left(\\dfrac{2\\pi}{65}\\right)\\cos\\left(\\dfrac{4\\pi}{65}\\right)\\cos\\left(\\dfrac{8\\pi}{65}\\right)\\cos\\left(\\dfrac{16\\pi}{65}\\right)\\cos\\left(\\dfrac{32\\pi}{65}\\right)$$`,
+          `Simplify and find the value of: $$\\cos\\left(\\dfrac{\\pi}{65}\\right)\\cos\\left(\\dfrac{2\\pi}{65}\\right)\\cos\\left(\\dfrac{4\\pi}{65}\\right)\\cos\\left(\\dfrac{8\\pi}{65}\\right)\\cos\\left(\\dfrac{16\\pi}{65}\\right)\\cos\\left(\\dfrac{32\\pi}{65}\\right)$$`,
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Los seis ángulos son $2^{k} \\cdot \\frac{\\pi}{65}$, $k = 0, \\dots, 5$: se duplican. Multiplica y divide por $2\\operatorname{sen}\\left(\\frac{\\pi}{65}\\right)$.",
+            "The six angles are $2^{k} \\cdot \\frac{\\pi}{65}$, $k = 0, \\dots, 5$: they double. Multiply and divide by $2\\sin\\left(\\frac{\\pi}{65}\\right)$.",
+          ),
+          L(
+            "La identidad general de la cadena: $\\prod_{k=0}^{n-1}\\cos(2^{k}x) = \\dfrac{\\operatorname{sen}(2^{n}x)}{2^{n}\\operatorname{sen}(x)}$.",
+            "The general chain identity: $\\prod_{k=0}^{n-1}\\cos(2^{k}x) = \\dfrac{\\sin(2^{n}x)}{2^{n}\\sin(x)}$.",
+          ),
+          L(
+            "Con $n = 6$ el numerador es $\\operatorname{sen}\\left(\\frac{64\\pi}{65}\\right)$; como $\\frac{64\\pi}{65}$ y $\\frac{\\pi}{65}$ son suplementarios, ese seno es igual al del denominador.",
+            "With $n = 6$ the numerator is $\\sin\\left(\\frac{64\\pi}{65}\\right)$; since $\\frac{64\\pi}{65}$ and $\\frac{\\pi}{65}$ are supplementary, that sine equals the one in the denominator.",
+          ),
+        ],
+        answerDisplay: L(
+          `$\\prod_{k=0}^{5}\\cos\\left(2^{k}\\dfrac{\\pi}{65}\\right) = \\dfrac{\\operatorname{sen}\\left(\\frac{64\\pi}{65}\\right)}{64\\,\\operatorname{sen}\\left(\\frac{\\pi}{65}\\right)} = \\dfrac{1}{64}$`,
+          `$\\prod_{k=0}^{5}\\cos\\left(2^{k}\\dfrac{\\pi}{65}\\right) = \\dfrac{\\sin\\left(\\frac{64\\pi}{65}\\right)}{64\\,\\sin\\left(\\frac{\\pi}{65}\\right)} = \\dfrac{1}{64}$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "El producto de los seis cosenos $\\cos\\left(2^{k}\\frac{\\pi}{65}\\right)$, $k = 0, \\dots, 5$.",
+            "The product of the six cosines $\\cos\\left(2^{k}\\frac{\\pi}{65}\\right)$, $k = 0, \\dots, 5$.",
+          ),
+          step(
+            "approach",
+            "Cadena de ángulo doble: multiplicar por $\\frac{2\\operatorname{sen}(\\pi/65)}{2\\operatorname{sen}(\\pi/65)}$ dispara la identidad $\\prod_{k=0}^{n-1}\\cos(2^{k}x) = \\frac{\\operatorname{sen}(2^{n}x)}{2^{n}\\operatorname{sen}(x)}$; el numerador cae justo junto a $\\pi$.",
+            "Double-angle chain: multiplying by $\\frac{2\\sin(\\pi/65)}{2\\sin(\\pi/65)}$ triggers the identity $\\prod_{k=0}^{n-1}\\cos(2^{k}x) = \\frac{\\sin(2^{n}x)}{2^{n}\\sin(x)}$; the numerator lands right next to $\\pi$.",
+          ),
+          step(
+            "calculation",
+            `$\\prod_{k=0}^{5}\\cos\\left(2^{k}\\frac{\\pi}{65}\\right) = \\dfrac{\\operatorname{sen}\\left(2^{6}\\frac{\\pi}{65}\\right)}{2^{6}\\operatorname{sen}\\left(\\frac{\\pi}{65}\\right)} = \\dfrac{\\operatorname{sen}\\left(\\frac{64\\pi}{65}\\right)}{64\\,\\operatorname{sen}\\left(\\frac{\\pi}{65}\\right)}$<br>$\\operatorname{sen}\\left(\\frac{64\\pi}{65}\\right) = \\operatorname{sen}\\left(\\pi - \\frac{\\pi}{65}\\right) = \\operatorname{sen}\\left(\\frac{\\pi}{65}\\right)$<br>$\\Rightarrow \\text{producto} = \\dfrac{\\operatorname{sen}\\left(\\frac{\\pi}{65}\\right)}{64\\,\\operatorname{sen}\\left(\\frac{\\pi}{65}\\right)} = \\dfrac{1}{64}$`,
+            `$\\prod_{k=0}^{5}\\cos\\left(2^{k}\\frac{\\pi}{65}\\right) = \\dfrac{\\sin\\left(2^{6}\\frac{\\pi}{65}\\right)}{2^{6}\\sin\\left(\\frac{\\pi}{65}\\right)} = \\dfrac{\\sin\\left(\\frac{64\\pi}{65}\\right)}{64\\,\\sin\\left(\\frac{\\pi}{65}\\right)}$<br>$\\sin\\left(\\frac{64\\pi}{65}\\right) = \\sin\\left(\\pi - \\frac{\\pi}{65}\\right) = \\sin\\left(\\frac{\\pi}{65}\\right)$<br>$\\Rightarrow \\text{product} = \\dfrac{\\sin\\left(\\frac{\\pi}{65}\\right)}{64\\,\\sin\\left(\\frac{\\pi}{65}\\right)} = \\dfrac{1}{64}$`,
+          ),
+          step(
+            "result",
+            `El producto exacto es $\\frac{1}{64} = 0{,}015625$: solo importa que $\\frac{64\\pi}{65}$ y $\\frac{\\pi}{65}$ sean suplementarios. Comprobación con calculadora: $\\cos(2{,}77^\\circ)\\cos(5{,}54^\\circ)\\cos(11{,}08^\\circ)\\cos(22{,}15^\\circ)\\cos(44{,}31^\\circ)\\cos(88{,}62^\\circ) \\approx 0{,}0156$ ✓ (los distractores $\\frac{1}{32}$, $\\frac{1}{128}$ y $\\frac{1}{2}$ corresponden a usar $2^{5}$, $2^{7}$ o $2^{1}$ en el denominador).`,
+            `The exact product is $\\frac{1}{64} = 0.015625$: all that matters is that $\\frac{64\\pi}{65}$ and $\\frac{\\pi}{65}$ are supplementary. Calculator check: $\\cos(2.77^\\circ)\\cos(5.54^\\circ)\\cos(11.08^\\circ)\\cos(22.15^\\circ)\\cos(44.31^\\circ)\\cos(88.62^\\circ) \\approx 0.0156$ ✓ (the distractors $\\frac{1}{32}$, $\\frac{1}{128}$ and $\\frac{1}{2}$ correspond to using $2^{5}$, $2^{7}$ or $2^{1}$ in the denominator).`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 4 · 36 — (1−sen²θ)(1+tan²θ) = cos²θ·sec²θ = 1, no −1: la única
+     NO identidad (las otras tres salen de las pitagóricas). */
+  template(
+    {
+      id: "trigfn-espol-ch4-36",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "identities",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["identities", "pythagorean", "reciprocals"],
+      prerequisites: ["identities"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 36",
+        page: 472,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\left(1-\\operatorname{sen}^{2}(\\theta)\\right)\\left(1+\\tan^{2}(\\theta)\\right) = -1$`, `$\\left(1-\\sin^{2}(\\theta)\\right)\\left(1+\\tan^{2}(\\theta)\\right) = -1$`), correct: true },
+        { id: "b", text: L(`$\\operatorname{sen}^{2}(\\theta)\\left(1+\\cot^{2}(\\theta)\\right) = 1$`, `$\\sin^{2}(\\theta)\\left(1+\\cot^{2}(\\theta)\\right) = 1$`), correct: false },
+        { id: "c", text: L(`$1-\\csc^{2}(\\theta) = -\\cot^{2}(\\theta)$`, `$1-\\csc^{2}(\\theta) = -\\cot^{2}(\\theta)$`), correct: false },
+        { id: "d", text: L(`$\\operatorname{sen}(\\theta)\\left(\\cot(\\theta)+\\tan(\\theta)\\right) = \\sec(\\theta)$`, `$\\sin(\\theta)\\left(\\cot(\\theta)+\\tan(\\theta)\\right) = \\sec(\\theta)$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Cazar la pseudo-identidad pitagórica",
+          "Hunting down the fake Pythagorean identity",
+        ),
+        statement: L(
+          `Una de las siguientes expresiones NO constituye una identidad trigonométrica; identifíquela:`,
+          `One of the following expressions does NOT constitute a trigonometric identity; identify it:`,
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Tres de las cuatro salen de las pitagóricas $\\operatorname{sen}^{2}(\\theta)+\\cos^{2}(\\theta) = 1$, $1+\\tan^{2}(\\theta) = \\sec^{2}(\\theta)$ y $1+\\cot^{2}(\\theta) = \\csc^{2}(\\theta)$.",
+            "Three of the four follow from the Pythagorean identities $\\sin^{2}(\\theta)+\\cos^{2}(\\theta) = 1$, $1+\\tan^{2}(\\theta) = \\sec^{2}(\\theta)$ and $1+\\cot^{2}(\\theta) = \\csc^{2}(\\theta)$.",
+          ),
+          L(
+            "En la primera candidata, $1-\\operatorname{sen}^{2}(\\theta) = \\cos^{2}(\\theta)$ y $1+\\tan^{2}(\\theta) = \\sec^{2}(\\theta)$: multiplica los dos resultados.",
+            "In the first candidate, $1-\\sin^{2}(\\theta) = \\cos^{2}(\\theta)$ and $1+\\tan^{2}(\\theta) = \\sec^{2}(\\theta)$: multiply the two results.",
+          ),
+          L(
+            "El producto $\\cos^{2}(\\theta)\\sec^{2}(\\theta)$ se reduce a una sola potencia; compara el signo del resultado con el lado derecho impreso.",
+            "The product $\\cos^{2}(\\theta)\\sec^{2}(\\theta)$ reduces to a single power; compare the sign of the result with the printed right-hand side.",
+          ),
+        ],
+        answerDisplay: L(
+          `No es identidad: $\\left(1-\\operatorname{sen}^{2}(\\theta)\\right)\\left(1+\\tan^{2}(\\theta)\\right) = 1 \\ne -1$`,
+          `Not an identity: $\\left(1-\\sin^{2}(\\theta)\\right)\\left(1+\\tan^{2}(\\theta)\\right) = 1 \\ne -1$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "Cuatro ecuaciones candidatas a identidad trigonométrica en $\\theta$; una NO lo es.",
+            "Four candidate trigonometric identities in $\\theta$; one of them is NOT one.",
+          ),
+          step(
+            "approach",
+            "Simplificar cada lado izquierdo con las pitagóricas y las definiciones recíprocas; la que no llegue a su lado derecho es la respuesta.",
+            "Simplify each left-hand side with the Pythagorean identities and the reciprocal definitions; the one that does not reach its right-hand side is the answer.",
+          ),
+          step(
+            "calculation",
+            `$\\left(1-\\operatorname{sen}^{2}(\\theta)\\right)\\left(1+\\tan^{2}(\\theta)\\right) = \\cos^{2}(\\theta)\\sec^{2}(\\theta) = 1 \\ne -1$: falla<br>$\\operatorname{sen}^{2}(\\theta)\\left(1+\\cot^{2}(\\theta)\\right) = \\operatorname{sen}^{2}(\\theta)\\csc^{2}(\\theta) = 1$ ✓<br>$1-\\csc^{2}(\\theta) = -\\cot^{2}(\\theta)$, de $1+\\cot^{2}(\\theta) = \\csc^{2}(\\theta)$ ✓<br>$\\operatorname{sen}(\\theta)\\left(\\cot(\\theta)+\\tan(\\theta)\\right) = \\cos(\\theta) + \\frac{\\operatorname{sen}^{2}(\\theta)}{\\cos(\\theta)} = \\frac{1}{\\cos(\\theta)} = \\sec(\\theta)$ ✓`,
+            `$\\left(1-\\sin^{2}(\\theta)\\right)\\left(1+\\tan^{2}(\\theta)\\right) = \\cos^{2}(\\theta)\\sec^{2}(\\theta) = 1 \\ne -1$: fails<br>$\\sin^{2}(\\theta)\\left(1+\\cot^{2}(\\theta)\\right) = \\sin^{2}(\\theta)\\csc^{2}(\\theta) = 1$ ✓<br>$1-\\csc^{2}(\\theta) = -\\cot^{2}(\\theta)$, from $1+\\cot^{2}(\\theta) = \\csc^{2}(\\theta)$ ✓<br>$\\sin(\\theta)\\left(\\cot(\\theta)+\\tan(\\theta)\\right) = \\cos(\\theta) + \\frac{\\sin^{2}(\\theta)}{\\cos(\\theta)} = \\frac{1}{\\cos(\\theta)} = \\sec(\\theta)$ ✓`,
+          ),
+          step(
+            "result",
+            `La que NO es identidad es $\\left(1-\\operatorname{sen}^{2}(\\theta)\\right)\\left(1+\\tan^{2}(\\theta)\\right) = -1$: el lado izquierdo vale $\\cos^{2}(\\theta)\\sec^{2}(\\theta) = 1$, con signo contrario al impreso. Comprobación con $\\theta = \\frac{\\pi}{3}$: $\\left(1-\\frac{3}{4}\\right)(1+3) = \\frac{1}{4} \\cdot 4 = 1 \\ne -1$ ✓, mientras que las otras tres se cumplen en ese punto: $\\frac{3}{4}\\left(1+\\frac{1}{3}\\right) = 1$, $1-\\frac{4}{3} = -\\frac{1}{3} = -\\cot^{2}\\left(\\frac{\\pi}{3}\\right)$ y $\\frac{\\sqrt{3}}{2}\\left(\\frac{1}{\\sqrt{3}}+\\sqrt{3}\\right) = 2 = \\sec\\left(\\frac{\\pi}{3}\\right)$.`,
+            `The one that is NOT an identity is $\\left(1-\\sin^{2}(\\theta)\\right)\\left(1+\\tan^{2}(\\theta)\\right) = -1$: the left-hand side equals $\\cos^{2}(\\theta)\\sec^{2}(\\theta) = 1$, opposite in sign to what is printed. Check at $\\theta = \\frac{\\pi}{3}$: $\\left(1-\\frac{3}{4}\\right)(1+3) = \\frac{1}{4} \\cdot 4 = 1 \\ne -1$ ✓, while the other three hold at that point: $\\frac{3}{4}\\left(1+\\frac{1}{3}\\right) = 1$, $1-\\frac{4}{3} = -\\frac{1}{3} = -\\cot^{2}\\left(\\frac{\\pi}{3}\\right)$ and $\\frac{\\sqrt{3}}{2}\\left(\\frac{1}{\\sqrt{3}}+\\sqrt{3}\\right) = 2 = \\sec\\left(\\frac{\\pi}{3}\\right)$.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 4 · 37 — QIII con sen(α) = −3/5: cos(α) = −4/5, tan(α) = 3/4,
+     tan(2α) = 2t/(1−t²) = 24/7. */
+  template(
+    {
+      id: "trigfn-espol-ch4-37",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "identities",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 270,
+      tags: ["identities", "double-angle", "quadrants"],
+      prerequisites: ["identities"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 37",
+        page: 473,
+      },
+      reasoning: "case-analysis",
+    },
+    () => ({
+      skill: L(
+        "Tangente doble desde un ángulo del tercer cuadrante",
+        "Double tangent from a third-quadrant angle",
+      ),
+      statement: L(
+        `Si $\\pi < \\alpha < \\dfrac{3\\pi}{2}$ y $\\operatorname{sen}(\\alpha) = -\\dfrac{3}{5}$, hallar el valor de $\\tan(2\\alpha)$.`,
+        `If $\\pi < \\alpha < \\dfrac{3\\pi}{2}$ and $\\sin(\\alpha) = -\\dfrac{3}{5}$, find the value of $\\tan(2\\alpha)$.`,
+      ),
+      answer: {
+        kind: "numeric",
+        value: 24 / 7,
+        tolerance: { mode: "relative", value: 0.01 },
+      },
+      hints: [
+        L(
+          "Con $\\alpha$ en el tercer cuadrante, seno y coseno son ambos negativos: $\\cos(\\alpha) = -\\sqrt{1-\\operatorname{sen}^{2}(\\alpha)}$ (triángulo $3$-$4$-$5$).",
+          "With $\\alpha$ in the third quadrant, sine and cosine are both negative: $\\cos(\\alpha) = -\\sqrt{1-\\sin^{2}(\\alpha)}$ ($3$-$4$-$5$ triangle).",
+        ),
+        L(
+          "Primero $\\tan(\\alpha) = \\frac{\\operatorname{sen}(\\alpha)}{\\cos(\\alpha)}$ — positiva en el cuadrante III — y después la tangente doble $\\tan(2\\alpha) = \\frac{2\\tan(\\alpha)}{1-\\tan^{2}(\\alpha)}$.",
+          "First $\\tan(\\alpha) = \\frac{\\sin(\\alpha)}{\\cos(\\alpha)}$ — positive in quadrant III — and then the double tangent $\\tan(2\\alpha) = \\frac{2\\tan(\\alpha)}{1-\\tan^{2}(\\alpha)}$.",
+        ),
+        L(
+          "Con $\\tan(\\alpha) = \\frac{3}{4}$, sustituye en $\\frac{2\\tan(\\alpha)}{1-\\tan^{2}(\\alpha)}$ y simplifica la fracción compuesta: queda un cociente de enteros.",
+          "With $\\tan(\\alpha) = \\frac{3}{4}$, substitute into $\\frac{2\\tan(\\alpha)}{1-\\tan^{2}(\\alpha)}$ and simplify the compound fraction: an integer quotient remains.",
+        ),
+      ],
+      answerDisplay: L(
+        `$\\tan(2\\alpha) = \\dfrac{2 \\cdot \\frac{3}{4}}{1-\\frac{9}{16}} = \\dfrac{24}{7} \\approx 3{,}43$`,
+        `$\\tan(2\\alpha) = \\dfrac{2 \\cdot \\frac{3}{4}}{1-\\frac{9}{16}} = \\dfrac{24}{7} \\approx 3.43$`,
+      ),
+      solution: [
+        step(
+          "given",
+          "$\\pi < \\alpha < \\dfrac{3\\pi}{2}$ y $\\operatorname{sen}(\\alpha) = -\\dfrac{3}{5}$; se pide $\\tan(2\\alpha)$.",
+          "$\\pi < \\alpha < \\dfrac{3\\pi}{2}$ and $\\sin(\\alpha) = -\\dfrac{3}{5}$; find $\\tan(2\\alpha)$.",
+        ),
+        step(
+          "approach",
+          "El cuadrante III fija el signo del coseno; con $\\tan(\\alpha)$ en mano, la fórmula de la tangente doble evita calcular $2\\alpha$.",
+          "Quadrant III fixes the sign of the cosine; with $\\tan(\\alpha)$ in hand, the double-tangent formula avoids computing $2\\alpha$.",
+        ),
+        step(
+          "calculation",
+          `$\\cos(\\alpha) = -\\sqrt{1-\\frac{9}{25}} = -\\frac{4}{5}$ (cuadrante III)<br>$\\tan(\\alpha) = \\frac{-\\frac{3}{5}}{-\\frac{4}{5}} = \\frac{3}{4}$<br>$\\tan(2\\alpha) = \\frac{2\\tan(\\alpha)}{1-\\tan^{2}(\\alpha)} = \\frac{2 \\cdot \\frac{3}{4}}{1-\\frac{9}{16}} = \\frac{\\frac{3}{2}}{\\frac{7}{16}} = \\frac{24}{7}$`,
+          `$\\cos(\\alpha) = -\\sqrt{1-\\frac{9}{25}} = -\\frac{4}{5}$ (third quadrant)<br>$\\tan(\\alpha) = \\frac{-\\frac{3}{5}}{-\\frac{4}{5}} = \\frac{3}{4}$<br>$\\tan(2\\alpha) = \\frac{2\\tan(\\alpha)}{1-\\tan^{2}(\\alpha)} = \\frac{2 \\cdot \\frac{3}{4}}{1-\\frac{9}{16}} = \\frac{\\frac{3}{2}}{\\frac{7}{16}} = \\frac{24}{7}$`,
+        ),
+        step(
+          "result",
+          `El valor es $\\frac{24}{7} \\approx 3{,}4286$. Comprobación: $\\alpha = \\pi + \\operatorname{arcsen}\\left(\\frac{3}{5}\\right) \\approx 3{,}7851$ rad, así que $\\tan(2\\alpha) = \\tan(7{,}5702) = \\tan(1{,}2870) \\approx 3{,}4286$ ✓ (el resultado es positivo: $\\tan(\\alpha) > 0$ en el cuadrante III y $1-\\tan^{2}(\\alpha) = \\frac{7}{16} > 0$).`,
+          `The value is $\\frac{24}{7} \\approx 3.4286$. Check: $\\alpha = \\pi + \\arcsin\\left(\\frac{3}{5}\\right) \\approx 3.7851$ rad, so $\\tan(2\\alpha) = \\tan(7.5702) = \\tan(1.2870) \\approx 3.4286$ ✓ (the result is positive: $\\tan(\\alpha) > 0$ in quadrant III and $1-\\tan^{2}(\\alpha) = \\frac{7}{16} > 0$).`,
+        ),
+      ],
+    }),
+  ),
+
+  /* 4 · 38 — tan(α) = 1/7 y sen(β) = 1/√10 en (0, π/2): sen(α+2β) =
+     (1·4 + 7·3)/(5√50) = 25/(5√50) = √2/2. */
+  template(
+    {
+      id: "trigfn-espol-ch4-38",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "identities",
+      difficulty: "challenge",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 360,
+      tags: ["identities", "angle-addition", "double-angle"],
+      prerequisites: ["identities"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 38",
+        page: 473,
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\dfrac{\\sqrt{2}}{2}$`, `$\\dfrac{\\sqrt{2}}{2}$`), correct: true },
+        { id: "b", text: L(`$-\\dfrac{\\sqrt{2}}{2}$`, `$-\\dfrac{\\sqrt{2}}{2}$`), correct: false },
+        { id: "c", text: L(`$\\sqrt{2}$`, `$\\sqrt{2}$`), correct: false },
+        { id: "d", text: L(`$\\dfrac{1}{2}$`, `$\\dfrac{1}{2}$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Seno de una suma con un ángulo doble intermedio",
+          "Sine of a sum with an intermediate double angle",
+        ),
+        statement: L(
+          `Si $\\tan(\\alpha) = \\dfrac{1}{7}$; $\\operatorname{sen}(\\beta) = \\dfrac{1}{\\sqrt{10}}$; $\\alpha \\in \\left(0, \\dfrac{\\pi}{2}\\right)$ y $\\beta \\in \\left(0, \\dfrac{\\pi}{2}\\right)$, determine $\\operatorname{sen}(\\alpha + 2\\beta)$.`,
+          `If $\\tan(\\alpha) = \\dfrac{1}{7}$; $\\sin(\\beta) = \\dfrac{1}{\\sqrt{10}}$; $\\alpha \\in \\left(0, \\dfrac{\\pi}{2}\\right)$ and $\\beta \\in \\left(0, \\dfrac{\\pi}{2}\\right)$, determine $\\sin(\\alpha + 2\\beta)$.`,
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Triángulo de referencia de $\\tan(\\alpha) = \\frac{1}{7}$: hipotenusa $\\sqrt{1^{2}+7^{2}} = \\sqrt{50}$, así que $\\operatorname{sen}(\\alpha) = \\frac{1}{\\sqrt{50}}$ y $\\cos(\\alpha) = \\frac{7}{\\sqrt{50}}$.",
+            "Reference triangle of $\\tan(\\alpha) = \\frac{1}{7}$: hypotenuse $\\sqrt{1^{2}+7^{2}} = \\sqrt{50}$, so $\\sin(\\alpha) = \\frac{1}{\\sqrt{50}}$ and $\\cos(\\alpha) = \\frac{7}{\\sqrt{50}}$.",
+          ),
+          L(
+            "Para $\\beta$, de $\\operatorname{sen}(\\beta) = \\frac{1}{\\sqrt{10}}$ sale $\\cos(\\beta) = \\frac{3}{\\sqrt{10}}$; duplica $\\beta$ con $\\operatorname{sen}(2\\beta) = 2\\operatorname{sen}(\\beta)\\cos(\\beta)$ y $\\cos(2\\beta) = 1-2\\operatorname{sen}^{2}(\\beta)$.",
+            "For $\\beta$, from $\\sin(\\beta) = \\frac{1}{\\sqrt{10}}$ comes $\\cos(\\beta) = \\frac{3}{\\sqrt{10}}$; double $\\beta$ with $\\sin(2\\beta) = 2\\sin(\\beta)\\cos(\\beta)$ and $\\cos(2\\beta) = 1-2\\sin^{2}(\\beta)$.",
+          ),
+          L(
+            "En $\\operatorname{sen}(\\alpha+2\\beta) = \\operatorname{sen}(\\alpha)\\cos(2\\beta) + \\cos(\\alpha)\\operatorname{sen}(2\\beta)$, el denominador común $\\sqrt{50}$ es exactamente $5\\sqrt{2}$.",
+            "In $\\sin(\\alpha+2\\beta) = \\sin(\\alpha)\\cos(2\\beta) + \\cos(\\alpha)\\sin(2\\beta)$, the common denominator $\\sqrt{50}$ is exactly $5\\sqrt{2}$.",
+          ),
+        ],
+        answerDisplay: L(
+          `$\\operatorname{sen}(\\alpha + 2\\beta) = \\dfrac{4+21}{5\\sqrt{50}} = \\dfrac{5}{\\sqrt{50}} = \\dfrac{\\sqrt{2}}{2}$`,
+          `$\\sin(\\alpha + 2\\beta) = \\dfrac{4+21}{5\\sqrt{50}} = \\dfrac{5}{\\sqrt{50}} = \\dfrac{\\sqrt{2}}{2}$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$\\tan(\\alpha) = \\dfrac{1}{7}$ y $\\operatorname{sen}(\\beta) = \\dfrac{1}{\\sqrt{10}}$, con $\\alpha, \\beta \\in \\left(0, \\dfrac{\\pi}{2}\\right)$; se pide $\\operatorname{sen}(\\alpha + 2\\beta)$.",
+            "$\\tan(\\alpha) = \\dfrac{1}{7}$ and $\\sin(\\beta) = \\dfrac{1}{\\sqrt{10}}$, with $\\alpha, \\beta \\in \\left(0, \\dfrac{\\pi}{2}\\right)$; find $\\sin(\\alpha + 2\\beta)$.",
+          ),
+          step(
+            "approach",
+            "Triángulos de referencia en el primer cuadrante para $\\alpha$ y $\\beta$; duplicar $\\beta$ y aplicar la fórmula del seno de una suma.",
+            "First-quadrant reference triangles for $\\alpha$ and $\\beta$; double $\\beta$ and apply the sine-of-a-sum formula.",
+          ),
+          step(
+            "calculation",
+            `$\\tan(\\alpha) = \\frac{1}{7} \\Rightarrow \\operatorname{sen}(\\alpha) = \\frac{1}{\\sqrt{50}}$, $\\cos(\\alpha) = \\frac{7}{\\sqrt{50}}$ (cuadrante I)<br>$\\operatorname{sen}(\\beta) = \\frac{1}{\\sqrt{10}} \\Rightarrow \\cos(\\beta) = \\frac{3}{\\sqrt{10}}$, así que $\\operatorname{sen}(2\\beta) = 2 \\cdot \\frac{1}{\\sqrt{10}} \\cdot \\frac{3}{\\sqrt{10}} = \\frac{3}{5}$ y $\\cos(2\\beta) = 1-2 \\cdot \\frac{1}{10} = \\frac{4}{5}$<br>$\\operatorname{sen}(\\alpha+2\\beta) = \\frac{1}{\\sqrt{50}} \\cdot \\frac{4}{5} + \\frac{7}{\\sqrt{50}} \\cdot \\frac{3}{5} = \\frac{4+21}{5\\sqrt{50}} = \\frac{25}{5\\sqrt{50}} = \\frac{5}{\\sqrt{50}} = \\frac{\\sqrt{2}}{2}$`,
+            `$\\tan(\\alpha) = \\frac{1}{7} \\Rightarrow \\sin(\\alpha) = \\frac{1}{\\sqrt{50}}$, $\\cos(\\alpha) = \\frac{7}{\\sqrt{50}}$ (first quadrant)<br>$\\sin(\\beta) = \\frac{1}{\\sqrt{10}} \\Rightarrow \\cos(\\beta) = \\frac{3}{\\sqrt{10}}$, so $\\sin(2\\beta) = 2 \\cdot \\frac{1}{\\sqrt{10}} \\cdot \\frac{3}{\\sqrt{10}} = \\frac{3}{5}$ and $\\cos(2\\beta) = 1-2 \\cdot \\frac{1}{10} = \\frac{4}{5}$<br>$\\sin(\\alpha+2\\beta) = \\frac{1}{\\sqrt{50}} \\cdot \\frac{4}{5} + \\frac{7}{\\sqrt{50}} \\cdot \\frac{3}{5} = \\frac{4+21}{5\\sqrt{50}} = \\frac{25}{5\\sqrt{50}} = \\frac{5}{\\sqrt{50}} = \\frac{\\sqrt{2}}{2}$`,
+          ),
+          step(
+            "result",
+            `El valor es $\\frac{\\sqrt{2}}{2} \\approx 0{,}7071$. Comprobación: $\\sqrt{50} = 5\\sqrt{2}$, así que $\\frac{5}{\\sqrt{50}} = \\frac{5}{5\\sqrt{2}} = \\frac{1}{\\sqrt{2}} = \\frac{\\sqrt{2}}{2}$ ✓; numéricamente, $\\frac{1}{\\sqrt{50}} \\cdot 0{,}8 + \\frac{7}{\\sqrt{50}} \\cdot 0{,}6 \\approx 0{,}1131 + 0{,}5940 = 0{,}7071$ ✓ (los distractores valen $-0{,}7071$, $\\sqrt{2} \\approx 1{,}4142$ y $0{,}5$).`,
+            `The value is $\\frac{\\sqrt{2}}{2} \\approx 0.7071$. Check: $\\sqrt{50} = 5\\sqrt{2}$, so $\\frac{5}{\\sqrt{50}} = \\frac{5}{5\\sqrt{2}} = \\frac{1}{\\sqrt{2}} = \\frac{\\sqrt{2}}{2}$ ✓; numerically, $\\frac{1}{\\sqrt{50}} \\cdot 0.8 + \\frac{7}{\\sqrt{50}} \\cdot 0.6 \\approx 0.1131 + 0.5940 = 0.7071$ ✓ (the distractors equal $-0.7071$, $\\sqrt{2} \\approx 1.4142$ and $0.5$).`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 4 · 40 — QIV con sen(x) = −12/13: cos(x) = 5/13 y
+     cos(x+π/3) = 5/26 + 12√3/26 = (5+12√3)/26. */
+  template(
+    {
+      id: "trigfn-espol-ch4-40",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "identities",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 270,
+      tags: ["identities", "angle-addition", "quadrants"],
+      prerequisites: ["identities"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 40",
+        page: 473,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\dfrac{5+12\\sqrt{3}}{26}$`, `$\\dfrac{5+12\\sqrt{3}}{26}$`), correct: true },
+        { id: "b", text: L(`$\\dfrac{5-12\\sqrt{3}}{26}$`, `$\\dfrac{5-12\\sqrt{3}}{26}$`), correct: false },
+        { id: "c", text: L(`$\\dfrac{12+5\\sqrt{3}}{26}$`, `$\\dfrac{12+5\\sqrt{3}}{26}$`), correct: false },
+        { id: "d", text: L(`$-\\dfrac{5+12\\sqrt{3}}{26}$`, `$-\\dfrac{5+12\\sqrt{3}}{26}$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Coseno de una suma con ángulo en el cuarto cuadrante",
+          "Cosine of a sum with a fourth-quadrant angle",
+        ),
+        statement: L(
+          `Si $\\operatorname{sen}(x) = -\\dfrac{12}{13}$; $\\dfrac{3\\pi}{2} \\le x \\le 2\\pi$, hallar el valor de $\\cos\\left(x + \\dfrac{\\pi}{3}\\right)$.`,
+          `If $\\sin(x) = -\\dfrac{12}{13}$; $\\dfrac{3\\pi}{2} \\le x \\le 2\\pi$, find the value of $\\cos\\left(x + \\dfrac{\\pi}{3}\\right)$.`,
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "En el cuarto cuadrante el coseno es positivo: $\\cos(x) = +\\sqrt{1-\\operatorname{sen}^{2}(x)} = \\frac{5}{13}$ (triángulo $5$-$12$-$13$).",
+            "In the fourth quadrant the cosine is positive: $\\cos(x) = +\\sqrt{1-\\sin^{2}(x)} = \\frac{5}{13}$ ($5$-$12$-$13$ triangle).",
+          ),
+          L(
+            "Desarrolla $\\cos\\left(x+\\frac{\\pi}{3}\\right) = \\cos(x)\\cos\\left(\\frac{\\pi}{3}\\right) - \\operatorname{sen}(x)\\operatorname{sen}\\left(\\frac{\\pi}{3}\\right)$.",
+            "Expand $\\cos\\left(x+\\frac{\\pi}{3}\\right) = \\cos(x)\\cos\\left(\\frac{\\pi}{3}\\right) - \\sin(x)\\sin\\left(\\frac{\\pi}{3}\\right)$.",
+          ),
+          L(
+            "Ojo con el doble signo del segundo término: sobre $\\operatorname{sen}(x) = -\\frac{12}{13}$, el menos de la fórmula lo convierte en una **suma**.",
+            "Watch the double sign in the second term: acting on $\\sin(x) = -\\frac{12}{13}$, the formula's minus turns it into an **addition**.",
+          ),
+        ],
+        answerDisplay: L(
+          `$\\cos\\left(x + \\dfrac{\\pi}{3}\\right) = \\dfrac{5}{26} + \\dfrac{12\\sqrt{3}}{26} = \\dfrac{5+12\\sqrt{3}}{26} \\approx 0{,}992$`,
+          `$\\cos\\left(x + \\dfrac{\\pi}{3}\\right) = \\dfrac{5}{26} + \\dfrac{12\\sqrt{3}}{26} = \\dfrac{5+12\\sqrt{3}}{26} \\approx 0.992$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$\\operatorname{sen}(x) = -\\dfrac{12}{13}$ con $\\dfrac{3\\pi}{2} \\le x \\le 2\\pi$ (cuadrante IV); se pide $\\cos\\left(x + \\dfrac{\\pi}{3}\\right)$.",
+            "$\\sin(x) = -\\dfrac{12}{13}$ with $\\dfrac{3\\pi}{2} \\le x \\le 2\\pi$ (fourth quadrant); find $\\cos\\left(x + \\dfrac{\\pi}{3}\\right)$.",
+          ),
+          step(
+            "approach",
+            "El cuadrante IV fija $\\cos(x) = +\\frac{5}{13}$; después, el coseno de la suma con los valores notales de $\\frac{\\pi}{3}$.",
+            "Quadrant IV fixes $\\cos(x) = +\\frac{5}{13}$; then the cosine of the sum with the notable values of $\\frac{\\pi}{3}$.",
+          ),
+          step(
+            "calculation",
+            `$\\cos(x) = \\sqrt{1-\\frac{144}{169}} = \\sqrt{\\frac{25}{169}} = \\frac{5}{13}$ (cuadrante IV)<br>$\\cos\\left(x+\\frac{\\pi}{3}\\right) = \\frac{5}{13} \\cdot \\frac{1}{2} - \\left(-\\frac{12}{13}\\right) \\cdot \\frac{\\sqrt{3}}{2} = \\frac{5}{26} + \\frac{12\\sqrt{3}}{26} = \\frac{5+12\\sqrt{3}}{26}$`,
+            `$\\cos(x) = \\sqrt{1-\\frac{144}{169}} = \\sqrt{\\frac{25}{169}} = \\frac{5}{13}$ (fourth quadrant)<br>$\\cos\\left(x+\\frac{\\pi}{3}\\right) = \\frac{5}{13} \\cdot \\frac{1}{2} - \\left(-\\frac{12}{13}\\right) \\cdot \\frac{\\sqrt{3}}{2} = \\frac{5}{26} + \\frac{12\\sqrt{3}}{26} = \\frac{5+12\\sqrt{3}}{26}$`,
+          ),
+          step(
+            "result",
+            `El valor es $\\frac{5+12\\sqrt{3}}{26} \\approx 0{,}9917$. Comprobación: $x = 2\\pi - \\operatorname{arcsen}\\left(\\frac{12}{13}\\right) \\approx 5{,}1072$ rad, así que $\\cos\\left(x+\\frac{\\pi}{3}\\right) = \\cos(6{,}1544) = \\cos(0{,}1288) \\approx 0{,}9917$ ✓ (el menos sobre $\\operatorname{sen}(x) = -\\frac{12}{13}$ es lo que **suma** $\\frac{12\\sqrt{3}}{26}$; los distractores valen $\\approx -0{,}607$, $0{,}795$ y $-0{,}992$).`,
+            `The value is $\\frac{5+12\\sqrt{3}}{26} \\approx 0.9917$. Check: $x = 2\\pi - \\arcsin\\left(\\frac{12}{13}\\right) \\approx 5.1072$ rad, so $\\cos\\left(x+\\frac{\\pi}{3}\\right) = \\cos(6.1544) = \\cos(0.1288) \\approx 0.9917$ ✓ (the minus acting on $\\sin(x) = -\\frac{12}{13}$ is what **adds** $\\frac{12\\sqrt{3}}{26}$; the distractors equal $\\approx -0.607$, $0.795$ and $-0.992$).`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 4 · 42 — QII tan(α) = −7/24 y QIII cot(β) = 3/4: cos(α+β) =
+     (−24/25)(−3/5) − (7/25)(−4/5) = 72/125 + 28/125 = 4/5. */
+  template(
+    {
+      id: "trigfn-espol-ch4-42",
+      subject: "math",
+      topicId: "trig-functions",
+      subtopicId: "identities",
+      difficulty: "challenge",
+      questionType: "numeric",
+      estimatedTimeSec: 360,
+      tags: ["identities", "angle-addition", "quadrants"],
+      prerequisites: ["identities"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 42",
+        page: 473,
+      },
+      reasoning: "case-analysis",
+    },
+    () => ({
+      skill: L(
+        "Coseno de una suma con dos cuadrantes difíciles",
+        "Cosine of a sum with two tricky quadrants",
+      ),
+      statement: L(
+        `Si $\\tan(\\alpha) = -\\dfrac{7}{24}$ y $\\cot(\\beta) = \\dfrac{3}{4}$, $\\dfrac{\\pi}{2} < \\alpha < \\pi$, $\\pi < \\beta < \\dfrac{3\\pi}{2}$, encuentre el valor de $\\cos(\\alpha + \\beta)$.`,
+        `If $\\tan(\\alpha) = -\\dfrac{7}{24}$ and $\\cot(\\beta) = \\dfrac{3}{4}$, with $\\dfrac{\\pi}{2} < \\alpha < \\pi$ and $\\pi < \\beta < \\dfrac{3\\pi}{2}$, find the value of $\\cos(\\alpha + \\beta)$.`,
+      ),
+      answer: {
+        kind: "numeric",
+        value: 0.8,
+        tolerance: { mode: "relative", value: 0.02 },
+      },
+      hints: [
+        L(
+          "Dos triángulos de referencia: $7$-$24$-$25$ para $\\alpha$ y $3$-$4$-$5$ para $\\beta$ (pues $\\cot(\\beta) = \\frac{3}{4}$ equivale a $\\tan(\\beta) = \\frac{4}{3}$).",
+          "Two reference triangles: $7$-$24$-$25$ for $\\alpha$ and $3$-$4$-$5$ for $\\beta$ (since $\\cot(\\beta) = \\frac{3}{4}$ is equivalent to $\\tan(\\beta) = \\frac{4}{3}$).",
+        ),
+        L(
+          "Los cuadrantes fijan los signos: en el II, $\\operatorname{sen}(\\alpha) > 0 > \\cos(\\alpha)$; en el III, $\\operatorname{sen}(\\beta) < 0$ y $\\cos(\\beta) < 0$.",
+          "The quadrants fix the signs: in II, $\\sin(\\alpha) > 0 > \\cos(\\alpha)$; in III, $\\sin(\\beta) < 0$ and $\\cos(\\beta) < 0$.",
+        ),
+        L(
+          "Aplica $\\cos(\\alpha+\\beta) = \\cos(\\alpha)\\cos(\\beta) - \\operatorname{sen}(\\alpha)\\operatorname{sen}(\\beta)$: los dos productos salen positivos y se suman sobre denominador $125$.",
+          "Apply $\\cos(\\alpha+\\beta) = \\cos(\\alpha)\\cos(\\beta) - \\sin(\\alpha)\\sin(\\beta)$: both products come out positive and add up over the denominator $125$.",
+        ),
+      ],
+      answerDisplay: L(
+        `$\\cos(\\alpha + \\beta) = \\dfrac{72}{125} + \\dfrac{28}{125} = \\dfrac{100}{125} = \\dfrac{4}{5} = 0{,}8$`,
+        `$\\cos(\\alpha + \\beta) = \\dfrac{72}{125} + \\dfrac{28}{125} = \\dfrac{100}{125} = \\dfrac{4}{5} = 0.8$`,
+      ),
+      solution: [
+        step(
+          "given",
+          "$\\tan(\\alpha) = -\\dfrac{7}{24}$ con $\\dfrac{\\pi}{2} < \\alpha < \\pi$, y $\\cot(\\beta) = \\dfrac{3}{4}$ con $\\pi < \\beta < \\dfrac{3\\pi}{2}$; se pide $\\cos(\\alpha + \\beta)$.",
+          "$\\tan(\\alpha) = -\\dfrac{7}{24}$ with $\\dfrac{\\pi}{2} < \\alpha < \\pi$, and $\\cot(\\beta) = \\dfrac{3}{4}$ with $\\pi < \\beta < \\dfrac{3\\pi}{2}$; find $\\cos(\\alpha + \\beta)$.",
+        ),
+        step(
+          "approach",
+          "Triángulos $7$-$24$-$25$ y $3$-$4$-$5$ con los signos de los cuadrantes II y III, y después la fórmula del coseno de una suma.",
+          "The $7$-$24$-$25$ and $3$-$4$-$5$ triangles with the signs of quadrants II and III, then the cosine-of-a-sum formula.",
+        ),
+        step(
+          "calculation",
+          `$\\alpha$ (cuadrante II): $\\operatorname{sen}(\\alpha) = \\frac{7}{25}$, $\\cos(\\alpha) = -\\frac{24}{25}$<br>$\\beta$ (cuadrante III): $\\tan(\\beta) = \\frac{4}{3} \\Rightarrow \\operatorname{sen}(\\beta) = -\\frac{4}{5}$, $\\cos(\\beta) = -\\frac{3}{5}$<br>$\\cos(\\alpha+\\beta) = \\left(-\\frac{24}{25}\\right)\\left(-\\frac{3}{5}\\right) - \\frac{7}{25}\\left(-\\frac{4}{5}\\right) = \\frac{72}{125} + \\frac{28}{125} = \\frac{100}{125} = \\frac{4}{5}$`,
+          `$\\alpha$ (quadrant II): $\\sin(\\alpha) = \\frac{7}{25}$, $\\cos(\\alpha) = -\\frac{24}{25}$<br>$\\beta$ (quadrant III): $\\tan(\\beta) = \\frac{4}{3} \\Rightarrow \\sin(\\beta) = -\\frac{4}{5}$, $\\cos(\\beta) = -\\frac{3}{5}$<br>$\\cos(\\alpha+\\beta) = \\left(-\\frac{24}{25}\\right)\\left(-\\frac{3}{5}\\right) - \\frac{7}{25}\\left(-\\frac{4}{5}\\right) = \\frac{72}{125} + \\frac{28}{125} = \\frac{100}{125} = \\frac{4}{5}$`,
+        ),
+        step(
+          "result",
+          `El valor es $\\frac{4}{5} = 0{,}8$. Comprobación: $\\alpha \\approx 2{,}8578$ rad y $\\beta \\approx 4{,}0689$ rad, así que $\\alpha + \\beta \\approx 6{,}9267 \\equiv 0{,}6435 \\pmod{2\\pi}$ y $\\cos(0{,}6435) \\approx 0{,}8000$ ✓ (los dos productos de la fórmula salen positivos por los pares de signos menos, y se suman: $\\frac{72}{125} + \\frac{28}{125} = \\frac{100}{125}$).`,
+          `The value is $\\frac{4}{5} = 0.8$. Check: $\\alpha \\approx 2.8578$ rad and $\\beta \\approx 4.0689$ rad, so $\\alpha + \\beta \\approx 6.9267 \\equiv 0.6435 \\pmod{2\\pi}$ and $\\cos(0.6435) \\approx 0.8000$ ✓ (both products in the formula come out positive because of the pairs of minus signs, and they add up: $\\frac{72}{125} + \\frac{28}{125} = \\frac{100}{125}$).`,
+        ),
+      ],
+    }),
+  ),
+
 ];

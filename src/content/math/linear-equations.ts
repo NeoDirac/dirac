@@ -3132,4 +3132,1913 @@ export const templates: ProblemTemplate[] = [
       ],
     }),
   ),
+
+  /* ---------------------------------------------------------------- */
+  /* Recopilación del autor · ronda 2 (2026-10-05) — valor absoluto    */
+  /* y desigualdades (ítems B, C y D de la hoja del tutor). Clave del  */
+  /* autor verificada con sympy: download/verify_author_round2.py.     */
+  /* ---------------------------------------------------------------- */
+
+  /* R2 · 6 — |x²−3x| = 2x−1 → {(5+√21)/2, (1+√5)/2}; the two "−" roots fail 2x−1 ≥ 0. */
+  template(
+    {
+      id: "lin-autor2-06",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-equations",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["absolute-value", "equations", "spurious-roots"],
+      prerequisites: ["abs-equations"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "R2 · 6",
+      },
+      reasoning: "spurious",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(
+            "$\\left\\{\\dfrac{5+\\sqrt{21}}{2},\\ \\dfrac{1+\\sqrt{5}}{2}\\right\\}$",
+            "$\\left\\{\\dfrac{5+\\sqrt{21}}{2},\\ \\dfrac{1+\\sqrt{5}}{2}\\right\\}$",
+          ),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L(
+            "$\\left\\{\\dfrac{5-\\sqrt{21}}{2},\\ \\dfrac{1-\\sqrt{5}}{2}\\right\\}$",
+            "$\\left\\{\\dfrac{5-\\sqrt{21}}{2},\\ \\dfrac{1-\\sqrt{5}}{2}\\right\\}$",
+          ),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L(
+            "$\\left\\{\\dfrac{5\\pm\\sqrt{21}}{2},\\ \\dfrac{1\\pm\\sqrt{5}}{2}\\right\\}$",
+            "$\\left\\{\\dfrac{5\\pm\\sqrt{21}}{2},\\ \\dfrac{1\\pm\\sqrt{5}}{2}\\right\\}$",
+          ),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L(
+            "$\\left\\{\\dfrac{5+\\sqrt{21}}{2}\\right\\}$",
+            "$\\left\\{\\dfrac{5+\\sqrt{21}}{2}\\right\\}$",
+          ),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L(
+          "Valor absoluto con lado derecho de signo dudoso",
+          "Absolute value with a right-hand side of doubtful sign",
+        ),
+        statement: L(
+          "Resuelve la ecuación $\\left|x^{2}-3x\\right| = 2x-1$, $x \\in \\mathbb{R}$, y escoge el conjunto solución.",
+          "Solve the equation $\\left|x^{2}-3x\\right| = 2x-1$, $x \\in \\mathbb{R}$, and choose the solution set.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Un valor absoluto nunca es negativo: si $2x-1<0$, la ecuación no tiene nada que decir. Empieza exigiendo $2x-1 \\ge 0$.",
+            "An absolute value is never negative: if $2x-1<0$ the equation has nothing to say. Start by requiring $2x-1 \\ge 0$.",
+          ),
+          L(
+            "Separa según el signo de $x^{2}-3x$: las ecuaciones son $x^{2}-3x = 2x-1$ y $x^{2}-3x = 1-2x$; resuelve las dos cuadráticas.",
+            "Split on the sign of $x^{2}-3x$: the equations are $x^{2}-3x = 2x-1$ and $x^{2}-3x = 1-2x$; solve both quadratics.",
+          ),
+          L(
+            "De las cuatro raíces candidatas, solo las que cumplen $x \\ge \\dfrac{1}{2}$ sobreviven: las otras dos hacen negativo el lado derecho.",
+            "Of the four candidate roots, only those with $x \\ge \\dfrac{1}{2}$ survive: the other two make the right-hand side negative.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\left\\{\\dfrac{5+\\sqrt{21}}{2},\\ \\dfrac{1+\\sqrt{5}}{2}\\right\\}$",
+          "$\\left\\{\\dfrac{5+\\sqrt{21}}{2},\\ \\dfrac{1+\\sqrt{5}}{2}\\right\\}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$\\left|x^{2}-3x\\right| = 2x-1$, $x \\in \\mathbb{R}$.",
+            "$\\left|x^{2}-3x\\right| = 2x-1$, $x \\in \\mathbb{R}$.",
+          ),
+          step(
+            "approach",
+            "Separar según el signo de $x^{2}-3x$ y filtrar después con la condición $2x-1 \\ge 0$ (un valor absoluto nunca puede igualar algo negativo).",
+            "Split on the sign of $x^{2}-3x$ and then filter with the condition $2x-1 \\ge 0$ (an absolute value can never equal something negative).",
+          ),
+          step(
+            "calculation",
+            "Como $\\left|x^{2}-3x\\right| \\ge 0$, hace falta $2x-1 \\ge 0$, es decir $x \\ge \\dfrac{1}{2}$.<br>Caso $x^{2}-3x \\ge 0$: $x^{2}-3x = 2x-1 \\Rightarrow x^{2}-5x+1 = 0 \\Rightarrow x = \\dfrac{5 \\pm \\sqrt{21}}{2}$.<br>Caso $x^{2}-3x < 0$: $x^{2}-3x = -(2x-1) \\Rightarrow x^{2}-x-1 = 0 \\Rightarrow x = \\dfrac{1 \\pm \\sqrt{5}}{2}$.<br>Filtro $x \\ge \\dfrac{1}{2}$: sobreviven $\\dfrac{5+\\sqrt{21}}{2}$ y $\\dfrac{1+\\sqrt{5}}{2}$; caen $\\dfrac{5-\\sqrt{21}}{2} < \\dfrac{1}{2}$ (pues $\\sqrt{21} > 4$) y $\\dfrac{1-\\sqrt{5}}{2} < \\dfrac{1}{2}$, que harían $2x-1 < 0$.",
+            "Since $\\left|x^{2}-3x\\right| \\ge 0$, we need $2x-1 \\ge 0$, i.e. $x \\ge \\dfrac{1}{2}$.<br>Case $x^{2}-3x \\ge 0$: $x^{2}-3x = 2x-1 \\Rightarrow x^{2}-5x+1 = 0 \\Rightarrow x = \\dfrac{5 \\pm \\sqrt{21}}{2}$.<br>Case $x^{2}-3x < 0$: $x^{2}-3x = -(2x-1) \\Rightarrow x^{2}-x-1 = 0 \\Rightarrow x = \\dfrac{1 \\pm \\sqrt{5}}{2}$.<br>Filter $x \\ge \\dfrac{1}{2}$: $\\dfrac{5+\\sqrt{21}}{2}$ and $\\dfrac{1+\\sqrt{5}}{2}$ survive; $\\dfrac{5-\\sqrt{21}}{2} < \\dfrac{1}{2}$ (since $\\sqrt{21} > 4$) and $\\dfrac{1-\\sqrt{5}}{2} < \\dfrac{1}{2}$ drop out, as they would make $2x-1 < 0$.",
+          ),
+          step(
+            "result",
+            "$S = \\left\\{\\dfrac{5+\\sqrt{21}}{2},\\ \\dfrac{1+\\sqrt{5}}{2}\\right\\}$. Verificación: con $x = \\dfrac{5+\\sqrt{21}}{2}$ se cumple $x^{2}-3x = 2x-1 > 0$, así que ambos lados coinciden ✓; con $x = \\dfrac{1+\\sqrt{5}}{2}$ se cumple $x^{2}-3x = -\\sqrt{5}$ y $2x-1 = \\sqrt{5}$, luego $\\left|x^{2}-3x\\right| = \\sqrt{5} = 2x-1$ ✓; en cambio, con $x = \\dfrac{1-\\sqrt{5}}{2}$ el lado derecho es $-\\sqrt{5} < 0$ ✗.",
+            "$S = \\left\\{\\dfrac{5+\\sqrt{21}}{2},\\ \\dfrac{1+\\sqrt{5}}{2}\\right\\}$. Check: at $x = \\dfrac{5+\\sqrt{21}}{2}$ we have $x^{2}-3x = 2x-1 > 0$, so both sides match ✓; at $x = \\dfrac{1+\\sqrt{5}}{2}$ we have $x^{2}-3x = -\\sqrt{5}$ and $2x-1 = \\sqrt{5}$, hence $\\left|x^{2}-3x\\right| = \\sqrt{5} = 2x-1$ ✓; by contrast, at $x = \\dfrac{1-\\sqrt{5}}{2}$ the right-hand side is $-\\sqrt{5} < 0$ ✗.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* R2 · 7 — |x−1|+|x−2| = |x−3| → {0, 2}. */
+  template(
+    {
+      id: "lin-autor2-07",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-equations",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 180,
+      tags: ["absolute-value", "equations", "case-analysis"],
+      prerequisites: ["abs-equations", "compound"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "R2 · 7",
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$\\left\\{0,\\ 2\\right\\}$", "$\\left\\{0,\\ 2\\right\\}$"), correct: true },
+        { id: "b", text: L("$\\left\\{0\\right\\}$", "$\\left\\{0\\right\\}$"), correct: false },
+        { id: "c", text: L("$\\left\\{2\\right\\}$", "$\\left\\{2\\right\\}$"), correct: false },
+        { id: "d", text: L("$\\left\\{0,\\ 1,\\ 2\\right\\}$", "$\\left\\{0,\\ 1,\\ 2\\right\\}$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Tres barras con cortes en 1, 2 y 3",
+          "Three bars with breaks at 1, 2 and 3",
+        ),
+        statement: L(
+          "Resuelve $\\left|x-1\\right|+\\left|x-2\\right| = \\left|x-3\\right|$, $x \\in \\mathbb{R}$, y escoge el conjunto solución.",
+          "Solve $\\left|x-1\\right|+\\left|x-2\\right| = \\left|x-3\\right|$, $x \\in \\mathbb{R}$, and choose the solution set.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Los cortes $x=1$, $x=2$ y $x=3$ dividen la recta en cuatro tramos; la ecuación cambia de cara en cada uno.",
+            "The breaks $x=1$, $x=2$ and $x=3$ split the line into four stretches; the equation changes face in each one.",
+          ),
+          L(
+            "Elige un punto de prueba en cada tramo para saber qué signo lleva cada barra antes de quitarla.",
+            "Pick a test point in each stretch to know which sign each bar carries before removing it.",
+          ),
+          L(
+            "Cada solución obtenida en un tramo solo vale si vive en ese tramo: revisa las cuatro y descarta las intrusas.",
+            "Each solution found in a stretch only counts if it lives in that stretch: check all four and discard the intruders.",
+          ),
+        ],
+        answerDisplay: L("$\\left\\{0,\\ 2\\right\\}$", "$\\left\\{0,\\ 2\\right\\}$"),
+        solution: [
+          step(
+            "given",
+            "$\\left|x-1\\right|+\\left|x-2\\right| = \\left|x-3\\right|$, $x \\in \\mathbb{R}$.",
+            "$\\left|x-1\\right|+\\left|x-2\\right| = \\left|x-3\\right|$, $x \\in \\mathbb{R}$.",
+          ),
+          step(
+            "approach",
+            "Cortes en $1$, $2$ y $3$: cuatro tramos; en cada uno se retiran las barras con el signo correcto y se exige que la solución viva en el tramo.",
+            "Breaks at $1$, $2$ and $3$: four stretches; in each one the bars are removed with the correct sign and the solution must live in the stretch.",
+          ),
+          step(
+            "calculation",
+            "$x<1$: $(1-x)+(2-x) = 3-x \\Rightarrow 3-2x = 3-x \\Rightarrow x = 0$ ✓ (vive en el tramo).<br>$1 \\le x<2$: $(x-1)+(2-x) = 3-x \\Rightarrow 1 = 3-x \\Rightarrow x = 2$, fuera del tramo ✗.<br>$2 \\le x<3$: $(x-1)+(x-2) = 3-x \\Rightarrow 2x-3 = 3-x \\Rightarrow x = 2$ ✓.<br>$x \\ge 3$: $(x-1)+(x-2) = x-3 \\Rightarrow 2x-3 = x-3 \\Rightarrow x = 0$, fuera del tramo ✗.",
+            "$x<1$: $(1-x)+(2-x) = 3-x \\Rightarrow 3-2x = 3-x \\Rightarrow x = 0$ ✓ (it lives in the stretch).<br>$1 \\le x<2$: $(x-1)+(2-x) = 3-x \\Rightarrow 1 = 3-x \\Rightarrow x = 2$, outside the stretch ✗.<br>$2 \\le x<3$: $(x-1)+(x-2) = 3-x \\Rightarrow 2x-3 = 3-x \\Rightarrow x = 2$ ✓.<br>$x \\ge 3$: $(x-1)+(x-2) = x-3 \\Rightarrow 2x-3 = x-3 \\Rightarrow x = 0$, outside the stretch ✗.",
+          ),
+          step(
+            "result",
+            "$S = \\left\\{0,\\ 2\\right\\}$. Verificación: $x=0$: $1+2 = 3 = \\left|-3\\right|$ ✓; $x=2$: $1+0 = 1 = \\left|-1\\right|$ ✓; el tentador $x=1$ falla: $0+1 = 1 \\neq 2$ ✗.",
+            "$S = \\left\\{0,\\ 2\\right\\}$. Check: $x=0$: $1+2 = 3 = \\left|-3\\right|$ ✓; $x=2$: $1+0 = 1 = \\left|-1\\right|$ ✓; the tempting $x=1$ fails: $0+1 = 1 \\neq 2$ ✗.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* R2 · 8 — |x²−4|+|x−1| = 3 → {−2, 1, (√33−1)/2}; 3 is spurious. */
+  template(
+    {
+      id: "lin-autor2-08",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-equations",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["absolute-value", "equations", "case-analysis"],
+      prerequisites: ["abs-equations", "compound"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "R2 · 8",
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(
+            "$\\left\\{-2,\\ 1,\\ \\dfrac{\\sqrt{33}-1}{2}\\right\\}$",
+            "$\\left\\{-2,\\ 1,\\ \\dfrac{\\sqrt{33}-1}{2}\\right\\}$",
+          ),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L(
+            "$\\left\\{1,\\ \\dfrac{\\sqrt{33}-1}{2}\\right\\}$",
+            "$\\left\\{1,\\ \\dfrac{\\sqrt{33}-1}{2}\\right\\}$",
+          ),
+          correct: false,
+        },
+        { id: "c", text: L("$\\left\\{-2,\\ 1\\right\\}$", "$\\left\\{-2,\\ 1\\right\\}$"), correct: false },
+        {
+          id: "d",
+          text: L(
+            "$\\left\\{-2,\\ 1,\\ \\dfrac{\\sqrt{33}-1}{2},\\ 3\\right\\}$",
+            "$\\left\\{-2,\\ 1,\\ \\dfrac{\\sqrt{33}-1}{2},\\ 3\\right\\}$",
+          ),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L(
+          "Barras cuadrática y lineal en la misma ecuación",
+          "Quadratic and linear bars in one equation",
+        ),
+        statement: L(
+          "Resuelve $\\left|x^{2}-4\\right|+\\left|x-1\\right| = 3$, $x \\in \\mathbb{R}$, y escoge el conjunto solución.",
+          "Solve $\\left|x^{2}-4\\right|+\\left|x-1\\right| = 3$, $x \\in \\mathbb{R}$, and choose the solution set.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Aquí hay dos barras: $x^{2}-4$ cambia de signo en $x=\\pm 2$ y $x-1$ en $x=1$ — en total cuatro tramos.",
+            "Two bars here: $x^{2}-4$ changes sign at $x=\\pm 2$ and $x-1$ at $x=1$ — four stretches in total.",
+          ),
+          L(
+            "En cada tramo, sustituye cada barra por su contenido con el signo correcto y resuelve la ecuación que queda.",
+            "In each stretch, replace each bar by its content with the correct sign and solve the resulting equation.",
+          ),
+          L(
+            "Aparecerán raíces espurias (por ejemplo un $3$): toda raíz debe pertenecer a su tramo de origen.",
+            "Spurious roots will appear (for example a $3$): every root must belong to its stretch of origin.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\left\\{-2,\\ 1,\\ \\dfrac{\\sqrt{33}-1}{2}\\right\\}$",
+          "$\\left\\{-2,\\ 1,\\ \\dfrac{\\sqrt{33}-1}{2}\\right\\}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$\\left|x^{2}-4\\right|+\\left|x-1\\right| = 3$, $x \\in \\mathbb{R}$.",
+            "$\\left|x^{2}-4\\right|+\\left|x-1\\right| = 3$, $x \\in \\mathbb{R}$.",
+          ),
+          step(
+            "approach",
+            "Cortes en $-2$, $1$ y $2$: cuatro tramos ($x^{2}-4$ es negativa solo entre $-2$ y $2$); tramo a tramo la ecuación se vuelve cuadrática.",
+            "Breaks at $-2$, $1$ and $2$: four stretches ($x^{2}-4$ is negative only between $-2$ and $2$); stretch by stretch the equation becomes quadratic.",
+          ),
+          step(
+            "calculation",
+            "$x<-2$: $(x^{2}-4)+(1-x) = 3 \\Rightarrow x^{2}-x-6 = 0 \\Rightarrow x \\in \\left\\{-2,\\ 3\\right\\}$: ninguno vive en el tramo ✗.<br>$-2 \\le x<1$: $-(x^{2}-4)+(1-x) = 3 \\Rightarrow x^{2}+x-2 = 0 \\Rightarrow x = -2$ ✓ ($x=1$ no vive aquí).<br>$1 \\le x<2$: $-(x^{2}-4)+(x-1) = 3 \\Rightarrow x^{2}-x = 0 \\Rightarrow x = 1$ ✓ ($x=0$ no vive aquí).<br>$x \\ge 2$: $(x^{2}-4)+(x-1) = 3 \\Rightarrow x^{2}+x-8 = 0 \\Rightarrow x = \\dfrac{\\sqrt{33}-1}{2} > \\dfrac{5-1}{2} = 2$ ✓ (la otra raíz es negativa).",
+            "$x<-2$: $(x^{2}-4)+(1-x) = 3 \\Rightarrow x^{2}-x-6 = 0 \\Rightarrow x \\in \\left\\{-2,\\ 3\\right\\}$: neither lives in the stretch ✗.<br>$-2 \\le x<1$: $-(x^{2}-4)+(1-x) = 3 \\Rightarrow x^{2}+x-2 = 0 \\Rightarrow x = -2$ ✓ ($x=1$ does not live here).<br>$1 \\le x<2$: $-(x^{2}-4)+(x-1) = 3 \\Rightarrow x^{2}-x = 0 \\Rightarrow x = 1$ ✓ ($x=0$ does not live here).<br>$x \\ge 2$: $(x^{2}-4)+(x-1) = 3 \\Rightarrow x^{2}+x-8 = 0 \\Rightarrow x = \\dfrac{\\sqrt{33}-1}{2} > \\dfrac{5-1}{2} = 2$ ✓ (the other root is negative).",
+          ),
+          step(
+            "result",
+            "$S = \\left\\{-2,\\ 1,\\ \\dfrac{\\sqrt{33}-1}{2}\\right\\}$. Verificación: $x=-2$: $0+3 = 3$ ✓; $x=1$: $3+0 = 3$ ✓; $x = \\dfrac{\\sqrt{33}-1}{2}$: como $x^{2}+x = 8$, se tiene $x^{2}-4 = 4-x > 0$ y la suma es $(4-x)+(x-1) = 3$ ✓; el espurio $x=3$ da $\\left|5\\right|+\\left|2\\right| = 7 \\neq 3$ ✗.",
+            "$S = \\left\\{-2,\\ 1,\\ \\dfrac{\\sqrt{33}-1}{2}\\right\\}$. Check: $x=-2$: $0+3 = 3$ ✓; $x=1$: $3+0 = 3$ ✓; $x = \\dfrac{\\sqrt{33}-1}{2}$: since $x^{2}+x = 8$, we get $x^{2}-4 = 4-x > 0$ and the sum is $(4-x)+(x-1) = 3$ ✓; the spurious $x=3$ gives $\\left|5\\right|+\\left|2\\right| = 7 \\neq 3$ ✗.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* R2 · 9 — |x+3|−|x−1| = 2 → {0}; the x ≥ 1 branch is the constant 4 ≠ 2. */
+  template(
+    {
+      id: "lin-autor2-09",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-equations",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["absolute-value", "equations", "distance"],
+      prerequisites: ["abs-equations"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "R2 · 9",
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$\\left\\{0\\right\\}$", "$\\left\\{0\\right\\}$"), correct: true },
+        { id: "b", text: L("$\\left\\{0,\\ 4\\right\\}$", "$\\left\\{0,\\ 4\\right\\}$"), correct: false },
+        { id: "c", text: L("$\\left\\{-4\\right\\}$", "$\\left\\{-4\\right\\}$"), correct: false },
+        { id: "d", text: L("$\\varnothing$", "$\\varnothing$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Resta de distancias que vale 2",
+          "A difference of distances equal to 2",
+        ),
+        statement: L(
+          "Resuelve $\\left|x+3\\right|-\\left|x-1\\right| = 2$, $x \\in \\mathbb{R}$, y escoge el conjunto solución.",
+          "Solve $\\left|x+3\\right|-\\left|x-1\\right| = 2$, $x \\in \\mathbb{R}$, and choose the solution set.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Cortes en $x=-3$ y $x=1$: la resta $\\left|x+3\\right|-\\left|x-1\\right|$ se comporta distinto en cada uno de los tres tramos.",
+            "Breaks at $x=-3$ and $x=1$: the difference $\\left|x+3\\right|-\\left|x-1\\right|$ behaves differently in each of the three stretches.",
+          ),
+          L(
+            "En los tramos exteriores la resta de distancias vale una constante: comprueba si esa constante puede ser $2$.",
+            "In the outer stretches the difference of distances is a constant: check whether that constant can be $2$.",
+          ),
+          L(
+            "Solo el tramo central deja una ecuación con $x$; su solución debe caer dentro del tramo.",
+            "Only the middle stretch leaves an equation with $x$ in it; its solution must fall inside the stretch.",
+          ),
+        ],
+        answerDisplay: L("$\\left\\{0\\right\\}$", "$\\left\\{0\\right\\}$"),
+        solution: [
+          step(
+            "given",
+            "$\\left|x+3\\right|-\\left|x-1\\right| = 2$, $x \\in \\mathbb{R}$.",
+            "$\\left|x+3\\right|-\\left|x-1\\right| = 2$, $x \\in \\mathbb{R}$.",
+          ),
+          step(
+            "approach",
+            "Tres tramos según los cortes $-3$ y $1$; en cada uno la ecuación se vuelve lineal (o directamente imposible).",
+            "Three stretches according to the breaks $-3$ and $1$; in each one the equation becomes linear (or outright impossible).",
+          ),
+          step(
+            "calculation",
+            "$x<-3$: $-(x+3)-(1-x) = -4 = 2$: imposible.<br>$-3 \\le x<1$: $(x+3)-(1-x) = 2x+2 = 2 \\Rightarrow x = 0$ ✓ (vive en el tramo).<br>$x \\ge 1$: $(x+3)-(x-1) = 4 \\neq 2$: imposible.",
+            "$x<-3$: $-(x+3)-(1-x) = -4 = 2$: impossible.<br>$-3 \\le x<1$: $(x+3)-(1-x) = 2x+2 = 2 \\Rightarrow x = 0$ ✓ (it lives in the stretch).<br>$x \\ge 1$: $(x+3)-(x-1) = 4 \\neq 2$: impossible.",
+          ),
+          step(
+            "result",
+            "$S = \\left\\{0\\right\\}$. Verificación: $x=0$: $\\left|3\\right|-\\left|-1\\right| = 3-1 = 2$ ✓; el falso candidato $x=4$ (recuerdo del tramo $x \\ge 1$, donde la resta vale siempre $4$) da $\\left|7\\right|-\\left|3\\right| = 4 \\neq 2$ ✗.",
+            "$S = \\left\\{0\\right\\}$. Check: $x=0$: $\\left|3\\right|-\\left|-1\\right| = 3-1 = 2$ ✓; the false candidate $x=4$ (a remnant of the stretch $x \\ge 1$, where the difference is always $4$) gives $\\left|7\\right|-\\left|3\\right| = 4 \\neq 2$ ✗.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* R2 · 10 — |x²−1| = |x−2| → {(−1±√13)/2}; x²−x+1 = 0 has no real roots. */
+  template(
+    {
+      id: "lin-autor2-10",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-equations",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["absolute-value", "equations", "quadratic"],
+      prerequisites: ["abs-equations"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "R2 · 10",
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(
+            "$\\left\\{\\dfrac{-1-\\sqrt{13}}{2},\\ \\dfrac{-1+\\sqrt{13}}{2}\\right\\}$",
+            "$\\left\\{\\dfrac{-1-\\sqrt{13}}{2},\\ \\dfrac{-1+\\sqrt{13}}{2}\\right\\}$",
+          ),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L("No tiene solución real ($\\varnothing$)", "No real solution ($\\varnothing$)"),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L(
+            "$\\left\\{\\dfrac{1-\\sqrt{13}}{2},\\ \\dfrac{1+\\sqrt{13}}{2}\\right\\}$",
+            "$\\left\\{\\dfrac{1-\\sqrt{13}}{2},\\ \\dfrac{1+\\sqrt{13}}{2}\\right\\}$",
+          ),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L(
+            "$\\left\\{\\dfrac{-1-\\sqrt{13}}{2}\\right\\}$",
+            "$\\left\\{\\dfrac{-1-\\sqrt{13}}{2}\\right\\}$",
+          ),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L(
+          "Igualdad entre dos valores absolutos",
+          "Equality between two absolute values",
+        ),
+        statement: L(
+          "Resuelve $\\left|x^{2}-1\\right| = \\left|x-2\\right|$, $x \\in \\mathbb{R}$, y escoge el conjunto solución.",
+          "Solve $\\left|x^{2}-1\\right| = \\left|x-2\\right|$, $x \\in \\mathbb{R}$, and choose the solution set.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "$\\left|A\\right| = \\left|B\\right|$ equivale a $A = B$ o $A = -B$: dos cuadráticas sin barras.",
+            "$\\left|A\\right| = \\left|B\\right|$ is equivalent to $A = B$ or $A = -B$: two quadratics with no bars.",
+          ),
+          L(
+            "Calcula el discriminante de cada cuadrática antes de resolver: una de ellas no tiene raíces reales.",
+            "Compute each quadratic's discriminant before solving: one of them has no real roots.",
+          ),
+          L(
+            "La cuadrática útil es $x^{2}+x-3 = 0$: aplica la fórmula general con $b=1$ y $c=-3$.",
+            "The useful quadratic is $x^{2}+x-3 = 0$: apply the quadratic formula with $b=1$ and $c=-3$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\left\\{\\dfrac{-1-\\sqrt{13}}{2},\\ \\dfrac{-1+\\sqrt{13}}{2}\\right\\}$",
+          "$\\left\\{\\dfrac{-1-\\sqrt{13}}{2},\\ \\dfrac{-1+\\sqrt{13}}{2}\\right\\}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$\\left|x^{2}-1\\right| = \\left|x-2\\right|$, $x \\in \\mathbb{R}$.",
+            "$\\left|x^{2}-1\\right| = \\left|x-2\\right|$, $x \\in \\mathbb{R}$.",
+          ),
+          step(
+            "approach",
+            "Usar $\\left|A\\right| = \\left|B\\right| \\iff A = \\pm B$ y resolver las dos cuadráticas; no hace falta filtrar nada, porque $A = -B$ ya garantiza $\\left|A\\right| = \\left|B\\right|$.",
+            "Use $\\left|A\\right| = \\left|B\\right| \\iff A = \\pm B$ and solve the two quadratics; no filtering is needed, because $A = -B$ already guarantees $\\left|A\\right| = \\left|B\\right|$.",
+          ),
+          step(
+            "calculation",
+            "$x^{2}-1 = x-2 \\Rightarrow x^{2}-x+1 = 0$, con $\\Delta = 1-4 = -3 < 0$: sin raíces reales.<br>$x^{2}-1 = -(x-2) \\Rightarrow x^{2}+x-3 = 0 \\Rightarrow x = \\dfrac{-1 \\pm \\sqrt{13}}{2}$: ambas raíces son reales y válidas.",
+            "$x^{2}-1 = x-2 \\Rightarrow x^{2}-x+1 = 0$, with $\\Delta = 1-4 = -3 < 0$: no real roots.<br>$x^{2}-1 = -(x-2) \\Rightarrow x^{2}+x-3 = 0 \\Rightarrow x = \\dfrac{-1 \\pm \\sqrt{13}}{2}$: both roots are real and valid.",
+          ),
+          step(
+            "result",
+            "$S = \\left\\{\\dfrac{-1-\\sqrt{13}}{2},\\ \\dfrac{-1+\\sqrt{13}}{2}\\right\\}$. Verificación: ambas raíces cumplen $x^{2}+x = 3$, luego $x^{2}-1 = 2-x$ y $\\left|x^{2}-1\\right| = \\left|2-x\\right| = \\left|x-2\\right|$ ✓; y la rama $x^{2}-x+1 = 0$ no producía ninguna raíz real.",
+            "$S = \\left\\{\\dfrac{-1-\\sqrt{13}}{2},\\ \\dfrac{-1+\\sqrt{13}}{2}\\right\\}$. Check: both roots satisfy $x^{2}+x = 3$, hence $x^{2}-1 = 2-x$ and $\\left|x^{2}-1\\right| = \\left|2-x\\right| = \\left|x-2\\right|$ ✓; and the branch $x^{2}-x+1 = 0$ produced no real root at all.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* R2 · 11 — |(x−1)/(x+2)| ≤ 1 → [−1/2, ∞); −2 is a pole. */
+  template(
+    {
+      id: "lin-autor2-11",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-inequalities",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["absolute-value", "inequality", "rational"],
+      prerequisites: ["abs-inequalities", "interval-notation"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "R2 · 11",
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(
+            "$\\left[-\\dfrac{1}{2},\\ +\\infty\\right)$",
+            "$\\left[-\\dfrac{1}{2},\\ +\\infty\\right)$",
+          ),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L(
+            "$(-\\infty,\\ -2) \\cup \\left[-\\dfrac{1}{2},\\ +\\infty\\right)$",
+            "$(-\\infty,\\ -2) \\cup \\left[-\\dfrac{1}{2},\\ +\\infty\\right)$",
+          ),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L(
+            "$\\left[-\\dfrac{1}{2},\\ 2\\right)$",
+            "$\\left[-\\dfrac{1}{2},\\ 2\\right)$",
+          ),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L(
+            "$\\mathbb{R} \\setminus \\left\\{-2\\right\\}$",
+            "$\\mathbb{R} \\setminus \\left\\{-2\\right\\}$",
+          ),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L(
+          "Valor absoluto de un cociente con polo",
+          "Absolute value of a quotient with a pole",
+        ),
+        statement: L(
+          "Resuelve $\\left|\\dfrac{x-1}{x+2}\\right| \\le 1$, $x \\in \\mathbb{R}$, y escoge el conjunto solución.",
+          "Solve $\\left|\\dfrac{x-1}{x+2}\\right| \\le 1$, $x \\in \\mathbb{R}$, and choose the solution set.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "El denominador solo puede anularse en $x = -2$: ese punto queda vetado desde el principio.",
+            "The denominator can only vanish at $x = -2$: that point is banned from the start.",
+          ),
+          L(
+            "Con $x \\neq -2$ puedes multiplicar por $\\left|x+2\\right| > 0$: la desigualdad se vuelve $\\left|x-1\\right| \\le \\left|x+2\\right|$.",
+            "With $x \\neq -2$ you may multiply by $\\left|x+2\\right| > 0$: the inequality becomes $\\left|x-1\\right| \\le \\left|x+2\\right|$.",
+          ),
+          L(
+            "Como ambos lados son no negativos, eleva al cuadrado: los $x^{2}$ se cancelan y queda una inecuación lineal.",
+            "Since both sides are non-negative, square them: the $x^{2}$ terms cancel and a linear inequality remains.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\left[-\\dfrac{1}{2},\\ +\\infty\\right)$",
+          "$\\left[-\\dfrac{1}{2},\\ +\\infty\\right)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$\\left|\\dfrac{x-1}{x+2}\\right| \\le 1$, con $x \\neq -2$ (el denominador se anula ahí).",
+            "$\\left|\\dfrac{x-1}{x+2}\\right| \\le 1$, with $x \\neq -2$ (the denominator vanishes there).",
+          ),
+          step(
+            "approach",
+            "Multiplicar por $\\left|x+2\\right| > 0$ y elevar al cuadrado (ambos lados no negativos) para obtener una inecuación lineal.",
+            "Multiply by $\\left|x+2\\right| > 0$ and square (both sides non-negative) to obtain a linear inequality.",
+          ),
+          step(
+            "calculation",
+            "$\\left|x-1\\right| \\le \\left|x+2\\right| \\Rightarrow (x-1)^{2} \\le (x+2)^{2} \\Rightarrow x^{2}-2x+1 \\le x^{2}+4x+4 \\Rightarrow -6x \\le 3 \\Rightarrow x \\ge -\\dfrac{1}{2}$ (dividir entre $-6$ invierte).<br>El extremo $-\\dfrac{1}{2}$ no es el polo, así que el dominio no recorta nada más.",
+            "$\\left|x-1\\right| \\le \\left|x+2\\right| \\Rightarrow (x-1)^{2} \\le (x+2)^{2} \\Rightarrow x^{2}-2x+1 \\le x^{2}+4x+4 \\Rightarrow -6x \\le 3 \\Rightarrow x \\ge -\\dfrac{1}{2}$ (dividing by $-6$ flips it).<br>The endpoint $-\\dfrac{1}{2}$ is not the pole, so the domain cuts out nothing else.",
+          ),
+          step(
+            "result",
+            "$S = \\left[-\\dfrac{1}{2},\\ +\\infty\\right)$. Verificación: $x = 0$ (dentro): $\\left|\\dfrac{-1}{2}\\right| = \\dfrac{1}{2} \\le 1$ ✓; $x = -\\dfrac{1}{2}$ (extremo): $\\dfrac{x-1}{x+2} = -1$ y $\\left|-1\\right| = 1 \\le 1$ ✓; $x = -1$ (fuera): $\\left|\\dfrac{-2}{1}\\right| = 2 \\not\\le 1$ ✗.",
+            "$S = \\left[-\\dfrac{1}{2},\\ +\\infty\\right)$. Check: $x = 0$ (inside): $\\left|\\dfrac{-1}{2}\\right| = \\dfrac{1}{2} \\le 1$ ✓; $x = -\\dfrac{1}{2}$ (endpoint): $\\dfrac{x-1}{x+2} = -1$ and $\\left|-1\\right| = 1 \\le 1$ ✓; $x = -1$ (outside): $\\left|\\dfrac{-2}{1}\\right| = 2 \\not\\le 1$ ✗.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* R2 · 12 — |x+1|−|2x−3| ≤ x → (−∞,1] ∪ [2,∞). */
+  template(
+    {
+      id: "lin-autor2-12",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-inequalities",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["absolute-value", "inequality", "case-analysis"],
+      prerequisites: ["abs-inequalities", "compound"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "R2 · 12",
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(
+            "$(-\\infty,\\ 1] \\cup [2,\\ +\\infty)$",
+            "$(-\\infty,\\ 1] \\cup [2,\\ +\\infty)$",
+          ),
+          correct: true,
+        },
+        { id: "b", text: L("$[2,\\ +\\infty)$", "$[2,\\ +\\infty)$"), correct: false },
+        { id: "c", text: L("$(-\\infty,\\ 1]$", "$(-\\infty,\\ 1]$"), correct: false },
+        { id: "d", text: L("$[1,\\ 2]$", "$[1,\\ 2]$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Tres tramos, una desigualdad en cada uno",
+          "Three stretches, one inequality in each",
+        ),
+        statement: L(
+          "Resuelve $\\left|x+1\\right|-\\left|2x-3\\right| \\le x$, $x \\in \\mathbb{R}$, y escoge el conjunto solución.",
+          "Solve $\\left|x+1\\right|-\\left|2x-3\\right| \\le x$, $x \\in \\mathbb{R}$, and choose the solution set.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Los cortes están en $x=-1$ y $x=\\dfrac{3}{2}$: tres tramos con una desigualdad lineal en cada uno.",
+            "The breaks are at $x=-1$ and $x=\\dfrac{3}{2}$: three stretches with a linear inequality in each.",
+          ),
+          L(
+            "En cada tramo, sustituye cada barra por su contenido con el signo correcto y resuelve la inecuación lineal que queda.",
+            "In each stretch, replace each bar by its content with the correct sign and solve the linear inequality that remains.",
+          ),
+          L(
+            "El tramo izquierdo se acepta entero, el central se recorta y el derecho pide $x$ grande: al final, dos pedazos se pegan.",
+            "The left stretch is accepted whole, the middle one gets trimmed and the right one demands large $x$: in the end, two pieces glue together.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(-\\infty,\\ 1] \\cup [2,\\ +\\infty)$",
+          "$(-\\infty,\\ 1] \\cup [2,\\ +\\infty)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$\\left|x+1\\right|-\\left|2x-3\\right| \\le x$, $x \\in \\mathbb{R}$.",
+            "$\\left|x+1\\right|-\\left|2x-3\\right| \\le x$, $x \\in \\mathbb{R}$.",
+          ),
+          step(
+            "approach",
+            "Cortes en $x=-1$ y $x=\\dfrac{3}{2}$: resolver la desigualdad tramo a tramo y unir los pedazos que sobrevivan.",
+            "Breaks at $x=-1$ and $x=\\dfrac{3}{2}$: solve the inequality stretch by stretch and join the surviving pieces.",
+          ),
+          step(
+            "calculation",
+            "$x<-1$: $-(x+1)-(3-2x) = x-4 \\le x$ se cumple siempre → entra todo el tramo.<br>$-1 \\le x<\\dfrac{3}{2}$: $(x+1)-(3-2x) = 3x-2 \\le x \\Rightarrow x \\le 1$ → aporta $[-1,\\ 1]$.<br>$x \\ge \\dfrac{3}{2}$: $(x+1)-(2x-3) = 4-x \\le x \\Rightarrow x \\ge 2$ → aporta $[2,\\ +\\infty)$.",
+            "$x<-1$: $-(x+1)-(3-2x) = x-4 \\le x$ always holds → the whole stretch enters.<br>$-1 \\le x<\\dfrac{3}{2}$: $(x+1)-(3-2x) = 3x-2 \\le x \\Rightarrow x \\le 1$ → contributes $[-1,\\ 1]$.<br>$x \\ge \\dfrac{3}{2}$: $(x+1)-(2x-3) = 4-x \\le x \\Rightarrow x \\ge 2$ → contributes $[2,\\ +\\infty)$.",
+          ),
+          step(
+            "result",
+            "$S = (-\\infty,\\ 1] \\cup [2,\\ +\\infty)$ (los dos primeros pedazos se pegan en $x=1$). Verificación: $x=0$ (dentro): $1-3 = -2 \\le 0$ ✓; $x=1$ (extremo): $2-1 = 1 \\le 1$ ✓; $x=\\dfrac{3}{2}$ (excluido): $\\dfrac{5}{2}-0 = \\dfrac{5}{2} \\not\\le \\dfrac{3}{2}$ ✗; $x=2$ (extremo): $3-1 = 2 \\le 2$ ✓.",
+            "$S = (-\\infty,\\ 1] \\cup [2,\\ +\\infty)$ (the first two pieces glue at $x=1$). Check: $x=0$ (inside): $1-3 = -2 \\le 0$ ✓; $x=1$ (endpoint): $2-1 = 1 \\le 1$ ✓; $x=\\dfrac{3}{2}$ (excluded): $\\dfrac{5}{2}-0 = \\dfrac{5}{2} \\not\\le \\dfrac{3}{2}$ ✗; $x=2$ (endpoint): $3-1 = 2 \\le 2$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* R2 · 13 — |x²−4| < 3 → (−√7,−1) ∪ (1,√7). */
+  template(
+    {
+      id: "lin-autor2-13",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-inequalities",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 180,
+      tags: ["absolute-value", "inequality", "quadratic"],
+      prerequisites: ["abs-inequalities", "interval-notation"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "R2 · 13",
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(
+            "$(-\\sqrt{7},\\ -1) \\cup (1,\\ \\sqrt{7})$",
+            "$(-\\sqrt{7},\\ -1) \\cup (1,\\ \\sqrt{7})$",
+          ),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L("$(-\\sqrt{7},\\ \\sqrt{7})$", "$(-\\sqrt{7},\\ \\sqrt{7})$"),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L(
+            "$\\left[-\\sqrt{7},\\ -1\\right] \\cup \\left[1,\\ \\sqrt{7}\\right]$",
+            "$\\left[-\\sqrt{7},\\ -1\\right] \\cup \\left[1,\\ \\sqrt{7}\\right]$",
+          ),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L(
+            "$(-\\infty,\\ -\\sqrt{7}) \\cup (\\sqrt{7},\\ +\\infty)$",
+            "$(-\\infty,\\ -\\sqrt{7}) \\cup (\\sqrt{7},\\ +\\infty)$",
+          ),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L(
+          "La definición doble de |A| < c con una cuadrática",
+          "The double definition of |A| < c with a quadratic",
+        ),
+        statement: L(
+          "Resuelve $\\left|x^{2}-4\\right| < 3$, $x \\in \\mathbb{R}$, y escoge el conjunto solución.",
+          "Solve $\\left|x^{2}-4\\right| < 3$, $x \\in \\mathbb{R}$, and choose the solution set.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Desempaca la definición: $\\left|A\\right| < c$ equivale a la doble desigualdad $-c < A < c$.",
+            "Unpack the definition: $\\left|A\\right| < c$ is equivalent to the double inequality $-c < A < c$.",
+          ),
+          L(
+            "Suma $4$ en los tres miembros: queda $1 < x^{2} < 7$, dos condiciones sobre $x^{2}$ a la vez.",
+            "Add $4$ across all three parts: you get $1 < x^{2} < 7$, two conditions on $x^{2}$ at once.",
+          ),
+          L(
+            "$x^{2} > 1$ abre un hueco central entre $-1$ y $1$; $x^{2} < 7$ pone los extremos $\\pm\\sqrt{7}$, ambos abiertos.",
+            "$x^{2} > 1$ opens a central gap between $-1$ and $1$; $x^{2} < 7$ sets the ends $\\pm\\sqrt{7}$, both open.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(-\\sqrt{7},\\ -1) \\cup (1,\\ \\sqrt{7})$",
+          "$(-\\sqrt{7},\\ -1) \\cup (1,\\ \\sqrt{7})$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$\\left|x^{2}-4\\right| < 3$, $x \\in \\mathbb{R}$.",
+            "$\\left|x^{2}-4\\right| < 3$, $x \\in \\mathbb{R}$.",
+          ),
+          step(
+            "approach",
+            "Desempacar la definición $\\left|A\\right| < c \\iff -c < A < c$ y traducir cada tramo a condiciones sobre $x^{2}$.",
+            "Unpack the definition $\\left|A\\right| < c \\iff -c < A < c$ and translate each part into conditions on $x^{2}$.",
+          ),
+          step(
+            "calculation",
+            "$-3 < x^{2}-4 < 3 \\Rightarrow 1 < x^{2} < 7$, es decir $x^{2} > 1$ y $x^{2} < 7$ a la vez.<br>$x^{2} > 1 \\iff x<-1$ o $x>1$; $x^{2} < 7 \\iff -\\sqrt{7} < x < \\sqrt{7}$.<br>Intersección de ambas: $(-\\sqrt{7},\\ -1) \\cup (1,\\ \\sqrt{7})$.",
+            "$-3 < x^{2}-4 < 3 \\Rightarrow 1 < x^{2} < 7$, i.e. $x^{2} > 1$ and $x^{2} < 7$ at once.<br>$x^{2} > 1 \\iff x<-1$ or $x>1$; $x^{2} < 7 \\iff -\\sqrt{7} < x < \\sqrt{7}$.<br>Intersection of both: $(-\\sqrt{7},\\ -1) \\cup (1,\\ \\sqrt{7})$.",
+          ),
+          step(
+            "result",
+            "$S = (-\\sqrt{7},\\ -1) \\cup (1,\\ \\sqrt{7})$. Verificación: $x=2$ (dentro): $\\left|4-4\\right| = 0 < 3$ ✓; $x=0$ (excluido): $\\left|0-4\\right| = 4 \\not< 3$ ✗; $x=\\sqrt{7}$ (extremo abierto): $\\left|7-4\\right| = 3 \\not< 3$ ✗.",
+            "$S = (-\\sqrt{7},\\ -1) \\cup (1,\\ \\sqrt{7})$. Check: $x=2$ (inside): $\\left|4-4\\right| = 0 < 3$ ✓; $x=0$ (excluded): $\\left|0-4\\right| = 4 \\not< 3$ ✗; $x=\\sqrt{7}$ (open endpoint): $\\left|7-4\\right| = 3 \\not< 3$ ✗.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* R2 · 14 — |x−1|+|x+2| ≤ 5 → [−3, 2]. */
+  template(
+    {
+      id: "lin-autor2-14",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-inequalities",
+      difficulty: "medium",
+      questionType: "text",
+      estimatedTimeSec: 150,
+      tags: ["absolute-value", "inequality", "interval"],
+      prerequisites: ["abs-inequalities", "interval-notation"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "R2 · 14",
+      },
+      reasoning: "case-analysis",
+    },
+    () => ({
+      skill: L("Suma de distancias acotada por 5", "A sum of distances bounded by 5"),
+      statement: L(
+        "Resuelve $\\left|x-1\\right|+\\left|x+2\\right| \\le 5$ (responde como intervalo; admite [-3, 2] o -3<=x<=2).",
+        "Solve $\\left|x-1\\right|+\\left|x+2\\right| \\le 5$ (answer as an interval; both [-3, 2] and -3<=x<=2 are accepted).",
+      ),
+      answer: {
+        kind: "text",
+        accepted: ["[-3, 2]", "[-3,2]", "-3<=x<=2", "-3 <= x <= 2", "-3≤x≤2", "-3 ≤ x ≤ 2"],
+      },
+      hints: [
+        L(
+          "Piensa en distancias: $\\left|x-1\\right|+\\left|x+2\\right|$ suma las distancias de $x$ a $1$ y a $-2$; entre ambos puntos vale exactamente $3$.",
+          "Think distances: $\\left|x-1\\right|+\\left|x+2\\right|$ adds the distances from $x$ to $1$ and to $-2$; between the two points it is exactly $3$.",
+        ),
+        L(
+          "Fuera del intervalo entre los cortes la suma crece linealmente: resuelve la inecuación en los dos tramos laterales.",
+          "Outside the interval between the breaks the sum grows linearly: solve the inequality in the two side stretches.",
+        ),
+        L(
+          "Los tramos laterales aportan un pedazo cada uno y el tramo central entra completo: no olvides unirlos todos.",
+          "The side stretches contribute one piece each and the middle stretch enters whole: do not forget to join them all.",
+        ),
+      ],
+      answerDisplay: L("$[-3,\\ 2]$", "$[-3,\\ 2]$"),
+      solution: [
+        step(
+          "given",
+          "$\\left|x-1\\right|+\\left|x+2\\right| \\le 5$, $x \\in \\mathbb{R}$.",
+          "$\\left|x-1\\right|+\\left|x+2\\right| \\le 5$, $x \\in \\mathbb{R}$.",
+        ),
+        step(
+          "approach",
+          "Cortes en $-2$ y $1$: en cada tramo las barras se retiran con el signo correcto y queda una inecuación lineal.",
+          "Breaks at $-2$ and $1$: in each stretch the bars are removed with the correct sign and a linear inequality remains.",
+        ),
+        step(
+          "calculation",
+          "$x<-2$: $(1-x)+(-x-2) = -2x-1 \\le 5 \\Rightarrow x \\ge -3$ → aporta $[-3,\\ -2)$.<br>$-2 \\le x \\le 1$: $(1-x)+(x+2) = 3 \\le 5$ siempre → entra todo el tramo.<br>$x>1$: $(x-1)+(x+2) = 2x+1 \\le 5 \\Rightarrow x \\le 2$ → aporta $(1,\\ 2]$.",
+          "$x<-2$: $(1-x)+(-x-2) = -2x-1 \\le 5 \\Rightarrow x \\ge -3$ → contributes $[-3,\\ -2)$.<br>$-2 \\le x \\le 1$: $(1-x)+(x+2) = 3 \\le 5$ always → the whole stretch enters.<br>$x>1$: $(x-1)+(x+2) = 2x+1 \\le 5 \\Rightarrow x \\le 2$ → contributes $(1,\\ 2]$.",
+        ),
+        step(
+          "result",
+          "$S = [-3,\\ 2]$. Verificación: $x=0$ (dentro): $1+2 = 3 \\le 5$ ✓; $x=-3$ y $x=2$ (extremos): $4+1 = 5 \\le 5$ y $1+4 = 5 \\le 5$ ✓; $x = \\dfrac{5}{2}$ (fuera): $\\dfrac{3}{2}+\\dfrac{9}{2} = 6 \\not\\le 5$ ✗.",
+          "$S = [-3,\\ 2]$. Check: $x=0$ (inside): $1+2 = 3 \\le 5$ ✓; $x=-3$ and $x=2$ (endpoints): $4+1 = 5 \\le 5$ and $1+4 = 5 \\le 5$ ✓; $x = \\dfrac{5}{2}$ (outside): $\\dfrac{3}{2}+\\dfrac{9}{2} = 6 \\not\\le 5$ ✗.",
+        ),
+      ],
+    }),
+  ),
+
+  /* R2 · 15 — |x−1|·|x+2| ≥ 2 → (−∞,(−1−√17)/2] ∪ [−1,0] ∪ [(−1+√17)/2,∞). */
+  template(
+    {
+      id: "lin-autor2-15",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-inequalities",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["absolute-value", "inequality", "quadratic", "factorization"],
+      prerequisites: ["abs-inequalities", "compound"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "R2 · 15",
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(
+            "$\\left(-\\infty,\\ \\dfrac{-1-\\sqrt{17}}{2}\\right] \\cup [-1,\\ 0] \\cup \\left[\\dfrac{-1+\\sqrt{17}}{2},\\ +\\infty\\right)$",
+            "$\\left(-\\infty,\\ \\dfrac{-1-\\sqrt{17}}{2}\\right] \\cup [-1,\\ 0] \\cup \\left[\\dfrac{-1+\\sqrt{17}}{2},\\ +\\infty\\right)$",
+          ),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L(
+            "$\\left(-\\infty,\\ \\dfrac{-1-\\sqrt{17}}{2}\\right] \\cup \\left[\\dfrac{-1+\\sqrt{17}}{2},\\ +\\infty\\right)$",
+            "$\\left(-\\infty,\\ \\dfrac{-1-\\sqrt{17}}{2}\\right] \\cup \\left[\\dfrac{-1+\\sqrt{17}}{2},\\ +\\infty\\right)$",
+          ),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L(
+            "$\\left[\\dfrac{-1-\\sqrt{17}}{2},\\ \\dfrac{-1+\\sqrt{17}}{2}\\right]$",
+            "$\\left[\\dfrac{-1-\\sqrt{17}}{2},\\ \\dfrac{-1+\\sqrt{17}}{2}\\right]$",
+          ),
+          correct: false,
+        },
+        { id: "d", text: L("$\\mathbb{R}$", "$\\mathbb{R}$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Producto de barras que es la barra de un producto",
+          "A product of bars is the bar of a product",
+        ),
+        statement: L(
+          "Resuelve $\\left|x-1\\right| \\cdot \\left|x+2\\right| \\ge 2$, $x \\in \\mathbb{R}$, y escoge el conjunto solución.",
+          "Solve $\\left|x-1\\right| \\cdot \\left|x+2\\right| \\ge 2$, $x \\in \\mathbb{R}$, and choose the solution set.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "El producto de barras es la barra del producto: $\\left|x-1\\right| \\cdot \\left|x+2\\right| = \\left|(x-1)(x+2)\\right|$.",
+            "A product of bars is the bar of the product: $\\left|x-1\\right| \\cdot \\left|x+2\\right| = \\left|(x-1)(x+2)\\right|$.",
+          ),
+          L(
+            "$\\left|A\\right| \\ge 2$ equivale a $A \\ge 2$ o $A \\le -2$: una cuadrática general y otra que se reduce a la vista.",
+            "$\\left|A\\right| \\ge 2$ is equivalent to $A \\ge 2$ or $A \\le -2$: one general quadratic and another one that simplifies on sight.",
+          ),
+          L(
+            "La rama $x^{2}+x-2 \\le -2$ se reduce a $x(x+1) \\le 0$ y aporta un pedazo **acotado**; la otra rama da los dos rayos con $\\sqrt{17}$.",
+            "The branch $x^{2}+x-2 \\le -2$ reduces to $x(x+1) \\le 0$ and contributes a **bounded** piece; the other branch gives the two rays with $\\sqrt{17}$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\left(-\\infty,\\ \\dfrac{-1-\\sqrt{17}}{2}\\right] \\cup [-1,\\ 0] \\cup \\left[\\dfrac{-1+\\sqrt{17}}{2},\\ +\\infty\\right)$",
+          "$\\left(-\\infty,\\ \\dfrac{-1-\\sqrt{17}}{2}\\right] \\cup [-1,\\ 0] \\cup \\left[\\dfrac{-1+\\sqrt{17}}{2},\\ +\\infty\\right)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$\\left|x-1\\right| \\cdot \\left|x+2\\right| \\ge 2$, $x \\in \\mathbb{R}$.",
+            "$\\left|x-1\\right| \\cdot \\left|x+2\\right| \\ge 2$, $x \\in \\mathbb{R}$.",
+          ),
+          step(
+            "approach",
+            "Convertir el producto en $\\left|x^{2}+x-2\\right|$ y separar $\\left|A\\right| \\ge 2 \\iff A \\ge 2 \\vee A \\le -2$.",
+            "Turn the product into $\\left|x^{2}+x-2\\right|$ and split $\\left|A\\right| \\ge 2 \\iff A \\ge 2 \\vee A \\le -2$.",
+          ),
+          step(
+            "calculation",
+            "Rama 1: $x^{2}+x-2 \\ge 2 \\Rightarrow x^{2}+x-4 \\ge 0 \\Rightarrow x \\le \\dfrac{-1-\\sqrt{17}}{2}$ o $x \\ge \\dfrac{-1+\\sqrt{17}}{2}$.<br>Rama 2: $x^{2}+x-2 \\le -2 \\Rightarrow x^{2}+x \\le 0 \\Rightarrow -1 \\le x \\le 0$.<br>Unión de las dos ramas: $\\left(-\\infty,\\ \\dfrac{-1-\\sqrt{17}}{2}\\right] \\cup [-1,\\ 0] \\cup \\left[\\dfrac{-1+\\sqrt{17}}{2},\\ +\\infty\\right)$.",
+            "Branch 1: $x^{2}+x-2 \\ge 2 \\Rightarrow x^{2}+x-4 \\ge 0 \\Rightarrow x \\le \\dfrac{-1-\\sqrt{17}}{2}$ or $x \\ge \\dfrac{-1+\\sqrt{17}}{2}$.<br>Branch 2: $x^{2}+x-2 \\le -2 \\Rightarrow x^{2}+x \\le 0 \\Rightarrow -1 \\le x \\le 0$.<br>Union of both branches: $\\left(-\\infty,\\ \\dfrac{-1-\\sqrt{17}}{2}\\right] \\cup [-1,\\ 0] \\cup \\left[\\dfrac{-1+\\sqrt{17}}{2},\\ +\\infty\\right)$.",
+          ),
+          step(
+            "result",
+            "$S = \\left(-\\infty,\\ \\dfrac{-1-\\sqrt{17}}{2}\\right] \\cup [-1,\\ 0] \\cup \\left[\\dfrac{-1+\\sqrt{17}}{2},\\ +\\infty\\right)$. Verificación: $x=0$ (extremo del pedazo central): $\\left|-1\\right| \\cdot \\left|2\\right| = 2 \\ge 2$ ✓; $x=1$ (hueco): $\\left|0\\right| \\cdot \\left|3\\right| = 0 \\not\\ge 2$ ✗; $x=-3$ (rayo izquierdo): $\\left|-4\\right| \\cdot \\left|-1\\right| = 4 \\ge 2$ ✓.",
+            "$S = \\left(-\\infty,\\ \\dfrac{-1-\\sqrt{17}}{2}\\right] \\cup [-1,\\ 0] \\cup \\left[\\dfrac{-1+\\sqrt{17}}{2},\\ +\\infty\\right)$. Check: $x=0$ (endpoint of the middle piece): $\\left|-1\\right| \\cdot \\left|2\\right| = 2 \\ge 2$ ✓; $x=1$ (gap): $\\left|0\\right| \\cdot \\left|3\\right| = 0 \\not\\ge 2$ ✗; $x=-3$ (left ray): $\\left|-4\\right| \\cdot \\left|-1\\right| = 4 \\ge 2$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* R2 · 16 — (|x|−1)/(x²−3x+2) < 0 → (−1,1) ∪ (1,2); x = 1 is a pole. */
+  template(
+    {
+      id: "lin-autor2-16",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-inequalities",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["absolute-value", "inequality", "sign-table"],
+      prerequisites: ["abs-inequalities", "compound"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "R2 · 16",
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L("$(-1,\\ 1) \\cup (1,\\ 2)$", "$(-1,\\ 1) \\cup (1,\\ 2)$"),
+          correct: true,
+        },
+        { id: "b", text: L("$(-1,\\ 2)$", "$(-1,\\ 2)$"), correct: false },
+        { id: "c", text: L("$(1,\\ 2)$", "$(1,\\ 2)$"), correct: false },
+        {
+          id: "d",
+          text: L("$(-\\infty,\\ -1) \\cup (1,\\ 2)$", "$(-\\infty,\\ -1) \\cup (1,\\ 2)$"),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L("Tabla de signos con |x| en el numerador", "A sign table with |x| in the numerator"),
+        statement: L(
+          "Resuelve $\\dfrac{|x|-1}{x^{2}-3x+2} < 0$, $x \\in \\mathbb{R}$, y escoge el conjunto solución.",
+          "Solve $\\dfrac{|x|-1}{x^{2}-3x+2} < 0$, $x \\in \\mathbb{R}$, and choose the solution set.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Factoriza el denominador: $x^{2}-3x+2 = (x-1)(x-2)$; sus ceros están vetados.",
+            "Factor the denominator: $x^{2}-3x+2 = (x-1)(x-2)$; its zeros are banned.",
+          ),
+          L(
+            "El numerador $|x|-1$ se anula en $x=\\pm 1$ y es positivo fuera de ahí: haz la tabla de signos con fronteras $-1$, $1$ y $2$.",
+            "The numerator $|x|-1$ vanishes at $x=\\pm 1$ and is positive outside: draw the sign table with boundaries $-1$, $1$ and $2$.",
+          ),
+          L(
+            "El cociente es negativo cuando los signos se oponen; ojo: $x=1$ anula el numerador, pero también el denominador — el polo manda.",
+            "The quotient is negative when the signs oppose; watch out: $x=1$ kills the numerator, but the denominator too — the pole wins.",
+          ),
+        ],
+        answerDisplay: L("$(-1,\\ 1) \\cup (1,\\ 2)$", "$(-1,\\ 1) \\cup (1,\\ 2)$"),
+        solution: [
+          step(
+            "given",
+            "$\\dfrac{|x|-1}{x^{2}-3x+2} < 0$, con $x \\neq 1$ y $x \\neq 2$ (ceros del denominador).",
+            "$\\dfrac{|x|-1}{x^{2}-3x+2} < 0$, with $x \\neq 1$ and $x \\neq 2$ (zeros of the denominator).",
+          ),
+          step(
+            "approach",
+            "Tabla de signos: numerador $|x|-1$ (cero en $\\pm 1$) contra denominador $(x-1)(x-2)$.",
+            "Sign table: numerator $|x|-1$ (zero at $\\pm 1$) against denominator $(x-1)(x-2)$.",
+          ),
+          step(
+            "calculation",
+            "Numerador: $|x|-1 > 0$ si $x<-1$ o $x>1$; $= 0$ en $x=\\pm 1$; $< 0$ en $(-1,\\ 1)$.<br>Denominador: $> 0$ en $(-\\infty,\\ 1) \\cup (2,\\ +\\infty)$; $< 0$ en $(1,\\ 2)$.<br>Cociente negativo con signos opuestos: $(-1,\\ 1)$ (numerador $-$, denominador $+$) y $(1,\\ 2)$ (numerador $+$, denominador $-$). El punto $x=-1$ anula el numerador y $x=1$, $x=2$ son polos.",
+            "Numerator: $|x|-1 > 0$ if $x<-1$ or $x>1$; $= 0$ at $x=\\pm 1$; $< 0$ on $(-1,\\ 1)$.<br>Denominator: $> 0$ on $(-\\infty,\\ 1) \\cup (2,\\ +\\infty)$; $< 0$ on $(1,\\ 2)$.<br>Negative quotient with opposite signs: $(-1,\\ 1)$ (numerator $-$, denominator $+$) and $(1,\\ 2)$ (numerator $+$, denominator $-$). The point $x=-1$ makes the numerator zero, and $x=1$, $x=2$ are poles.",
+          ),
+          step(
+            "result",
+            "$S = (-1,\\ 1) \\cup (1,\\ 2)$. Verificación: $x=0$ (dentro): $\\dfrac{0-1}{2} = -\\dfrac{1}{2} < 0$ ✓; $x=\\dfrac{3}{2}$ (dentro): numerador $\\dfrac{1}{2}$, denominador $-\\dfrac{1}{4}$, cociente $-2 < 0$ ✓; $x=3$ (fuera): $\\dfrac{2}{2} = 1 \\not< 0$ ✗; $x=-2$ (fuera): $\\dfrac{1}{12} > 0$ ✗.",
+            "$S = (-1,\\ 1) \\cup (1,\\ 2)$. Check: $x=0$ (inside): $\\dfrac{0-1}{2} = -\\dfrac{1}{2} < 0$ ✓; $x=\\dfrac{3}{2}$ (inside): numerator $\\dfrac{1}{2}$, denominator $-\\dfrac{1}{4}$, quotient $-2 < 0$ ✓; $x=3$ (outside): $\\dfrac{2}{2} = 1 \\not< 0$ ✗; $x=-2$ (outside): $\\dfrac{1}{12} > 0$ ✗.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* R2 · 17 — (|x+2|−3)/(x²−1) ≥ 0 → (−∞,−5] ∪ (−1,1) ∪ (1,∞); −5 in, ±1 poles. */
+  template(
+    {
+      id: "lin-autor2-17",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-inequalities",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["absolute-value", "inequality", "sign-table", "rational"],
+      prerequisites: ["abs-inequalities", "compound"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "R2 · 17",
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(
+            "$(-\\infty,\\ -5] \\cup (-1,\\ 1) \\cup (1,\\ +\\infty)$",
+            "$(-\\infty,\\ -5] \\cup (-1,\\ 1) \\cup (1,\\ +\\infty)$",
+          ),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L(
+            "$(-\\infty,\\ -5] \\cup [-1,\\ 1) \\cup (1,\\ +\\infty)$",
+            "$(-\\infty,\\ -5] \\cup [-1,\\ 1) \\cup (1,\\ +\\infty)$",
+          ),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L(
+            "$(-\\infty,\\ -5] \\cup (1,\\ +\\infty)$",
+            "$(-\\infty,\\ -5] \\cup (1,\\ +\\infty)$",
+          ),
+          correct: false,
+        },
+        { id: "d", text: L("$[-5,\\ +\\infty)$", "$[-5,\\ +\\infty)$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Cociente no negativo con numerador de valor absoluto",
+          "A non-negative quotient with an absolute-value numerator",
+        ),
+        statement: L(
+          "Resuelve $\\dfrac{|x+2|-3}{x^{2}-1} \\ge 0$, $x \\in \\mathbb{R}$, y escoge el conjunto solución.",
+          "Solve $\\dfrac{|x+2|-3}{x^{2}-1} \\ge 0$, $x \\in \\mathbb{R}$, and choose the solution set.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Numerador: $|x+2|-3 = 0$ equivale a $|x+2| = 3$; denominador: $x^{2}-1 = (x-1)(x+1)$.",
+            "Numerator: $|x+2|-3 = 0$ is equivalent to $|x+2| = 3$; denominator: $x^{2}-1 = (x-1)(x+1)$.",
+          ),
+          L(
+            "El cociente debe ser $\\ge 0$: signos iguales o numerador nulo (con el denominador vivo).",
+            "The quotient must be $\\ge 0$: equal signs or a zero numerator (with the denominator alive).",
+          ),
+          L(
+            "El punto que anula el numerador por la izquierda entra (cociente $0$), pero el que repite en el denominador no existe: es polo a la vez que cero.",
+            "The point that zeros the numerator on the left enters (quotient $0$), but the one repeated in the denominator does not exist: it is a pole and a zero at once.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(-\\infty,\\ -5] \\cup (-1,\\ 1) \\cup (1,\\ +\\infty)$",
+          "$(-\\infty,\\ -5] \\cup (-1,\\ 1) \\cup (1,\\ +\\infty)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$\\dfrac{|x+2|-3}{x^{2}-1} \\ge 0$, con $x \\neq \\pm 1$ (ceros del denominador).",
+            "$\\dfrac{|x+2|-3}{x^{2}-1} \\ge 0$, with $x \\neq \\pm 1$ (zeros of the denominator).",
+          ),
+          step(
+            "approach",
+            "Ceros y signos del numerador ($|x+2| = 3$) y del denominador; el cociente es $\\ge 0$ con signos iguales o numerador $0$.",
+            "Zeros and signs of the numerator ($|x+2| = 3$) and of the denominator; the quotient is $\\ge 0$ with equal signs or a $0$ numerator.",
+          ),
+          step(
+            "calculation",
+            "Numerador: $|x+2|-3 = 0 \\iff x = -5$ o $x = 1$; $> 0$ en $(-\\infty,\\ -5) \\cup (1,\\ +\\infty)$; $< 0$ en $(-5,\\ 1)$.<br>Denominador: $> 0$ en $(-\\infty,\\ -1) \\cup (1,\\ +\\infty)$; $< 0$ en $(-1,\\ 1)$.<br>Signos iguales: $(-\\infty,\\ -5)$, $(-1,\\ 1)$ y $(1,\\ +\\infty)$. En $x = -5$ el cociente vale $0$ ✓ entra; $x = 1$ anula numerador y denominador → polo ✗; $x = -1$ es polo ✗.",
+            "Numerator: $|x+2|-3 = 0 \\iff x = -5$ or $x = 1$; $> 0$ on $(-\\infty,\\ -5) \\cup (1,\\ +\\infty)$; $< 0$ on $(-5,\\ 1)$.<br>Denominator: $> 0$ on $(-\\infty,\\ -1) \\cup (1,\\ +\\infty)$; $< 0$ on $(-1,\\ 1)$.<br>Equal signs: $(-\\infty,\\ -5)$, $(-1,\\ 1)$ and $(1,\\ +\\infty)$. At $x = -5$ the quotient is $0$ ✓ it enters; $x = 1$ zeros numerator and denominator → pole ✗; $x = -1$ is a pole ✗.",
+          ),
+          step(
+            "result",
+            "$S = (-\\infty,\\ -5] \\cup (-1,\\ 1) \\cup (1,\\ +\\infty)$. Verificación: $x=-5$ (extremo): $\\dfrac{0}{24} = 0 \\ge 0$ ✓; $x=0$ (dentro): $\\dfrac{2-3}{-1} = 1 \\ge 0$ ✓; $x=-2$ (excluido): $\\dfrac{0-3}{3} = -1 \\not\\ge 0$ ✗; $x=2$ (rayo derecho): $\\dfrac{4-3}{3} = \\dfrac{1}{3} \\ge 0$ ✓.",
+            "$S = (-\\infty,\\ -5] \\cup (-1,\\ 1) \\cup (1,\\ +\\infty)$. Check: $x=-5$ (endpoint): $\\dfrac{0}{24} = 0 \\ge 0$ ✓; $x=0$ (inside): $\\dfrac{2-3}{-1} = 1 \\ge 0$ ✓; $x=-2$ (excluded): $\\dfrac{0-3}{3} = -1 \\not\\ge 0$ ✗; $x=2$ (right ray): $\\dfrac{4-3}{3} = \\dfrac{1}{3} \\ge 0$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* R2 · 18 — |2x−1| < |x+4| → (−1, 5). */
+  template(
+    {
+      id: "lin-autor2-18",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-inequalities",
+      difficulty: "medium",
+      questionType: "text",
+      estimatedTimeSec: 150,
+      tags: ["absolute-value", "inequality", "quadratic"],
+      prerequisites: ["abs-inequalities", "interval-notation"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "R2 · 18",
+      },
+      reasoning: "case-analysis",
+    },
+    () => ({
+      skill: L("Comparar dos barras elevando al cuadrado", "Comparing two bars by squaring"),
+      statement: L(
+        "Resuelve $\\left|2x-1\\right| < \\left|x+4\\right|$ (responde como intervalo; admite (-1, 5) o -1<x<5).",
+        "Solve $\\left|2x-1\\right| < \\left|x+4\\right|$ (answer as an interval; both (-1, 5) and -1<x<5 are accepted).",
+      ),
+      answer: {
+        kind: "text",
+        accepted: ["(-1, 5)", "(-1,5)", "-1<x<5", "-1 < x < 5"],
+      },
+      hints: [
+        L(
+          "Ambos lados son no negativos: elevar al cuadrado conserva la desigualdad.",
+          "Both sides are non-negative: squaring preserves the inequality.",
+        ),
+        L(
+          "Tras elevar y ordenar queda $3x^{2}-12x-15 < 0$: divide entre $3$ y factoriza.",
+          "After squaring and tidying up you get $3x^{2}-12x-15 < 0$: divide by $3$ and factor.",
+        ),
+        L(
+          "Los factores dan las fronteras; con la parábola hacia arriba y un $< 0$, la solución es el tramo **entre** ellas.",
+          "The factors give the boundaries; with the parabola opening upwards and a $< 0$, the solution is the stretch **between** them.",
+        ),
+      ],
+      answerDisplay: L("$(-1,\\ 5)$", "$(-1,\\ 5)$"),
+      solution: [
+        step(
+          "given",
+          "$\\left|2x-1\\right| < \\left|x+4\\right|$, $x \\in \\mathbb{R}$.",
+          "$\\left|2x-1\\right| < \\left|x+4\\right|$, $x \\in \\mathbb{R}$.",
+        ),
+        step(
+          "approach",
+          "Elevar al cuadrado (válido: ambos lados son no negativos) y resolver la cuadrática estricta que queda.",
+          "Square (valid: both sides are non-negative) and solve the strict quadratic that remains.",
+        ),
+        step(
+          "calculation",
+          "$(2x-1)^{2} < (x+4)^{2} \\Rightarrow 4x^{2}-4x+1 < x^{2}+8x+16 \\Rightarrow 3x^{2}-12x-15 < 0 \\Rightarrow x^{2}-4x-5 < 0$.<br>$x^{2}-4x-5 = (x-5)(x+1) < 0 \\iff -1 < x < 5$.",
+          "$(2x-1)^{2} < (x+4)^{2} \\Rightarrow 4x^{2}-4x+1 < x^{2}+8x+16 \\Rightarrow 3x^{2}-12x-15 < 0 \\Rightarrow x^{2}-4x-5 < 0$.<br>$x^{2}-4x-5 = (x-5)(x+1) < 0 \\iff -1 < x < 5$.",
+        ),
+        step(
+          "result",
+          "$S = (-1,\\ 5)$. Verificación: $x=0$ (dentro): $\\left|2\\cdot0-1\\right| = 1 < \\left|0+4\\right| = 4$ ✓; $x=5$ (extremo abierto): $\\left|9\\right| = 9 \\not< \\left|9\\right|$ ✗; $x=6$ (fuera): $\\left|11\\right| = 11 \\not< \\left|10\\right|$ ✗.",
+          "$S = (-1,\\ 5)$. Check: $x=0$ (inside): $\\left|2\\cdot0-1\\right| = 1 < \\left|0+4\\right| = 4$ ✓; $x=5$ (open endpoint): $\\left|9\\right| = 9 \\not< \\left|9\\right|$ ✗; $x=6$ (outside): $\\left|11\\right| = 11 \\not< \\left|10\\right|$ ✗.",
+        ),
+      ],
+    }),
+  ),
+
+  /* R2 · 19 — |x−1|+|x−2| > 3 → (−∞,0) ∪ (3,∞). */
+  template(
+    {
+      id: "lin-autor2-19",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-inequalities",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 180,
+      tags: ["absolute-value", "inequality", "distance"],
+      prerequisites: ["abs-inequalities", "interval-notation"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "R2 · 19",
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(
+            "$(-\\infty,\\ 0) \\cup (3,\\ +\\infty)$",
+            "$(-\\infty,\\ 0) \\cup (3,\\ +\\infty)$",
+          ),
+          correct: true,
+        },
+        { id: "b", text: L("$(0,\\ 3)$", "$(0,\\ 3)$"), correct: false },
+        {
+          id: "c",
+          text: L(
+            "$\\left(-\\infty,\\ 0\\right] \\cup \\left[3,\\ +\\infty\\right)$",
+            "$\\left(-\\infty,\\ 0\\right] \\cup \\left[3,\\ +\\infty\\right)$",
+          ),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L(
+            "$(-\\infty,\\ -3) \\cup (0,\\ +\\infty)$",
+            "$(-\\infty,\\ -3) \\cup (0,\\ +\\infty)$",
+          ),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L("Suma de distancias mayor que 3", "A sum of distances greater than 3"),
+        statement: L(
+          "Resuelve $\\left|x-1\\right|+\\left|x-2\\right| > 3$, $x \\in \\mathbb{R}$, y escoge el conjunto solución.",
+          "Solve $\\left|x-1\\right|+\\left|x-2\\right| > 3$, $x \\in \\mathbb{R}$, and choose the solution set.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Es la suma de las distancias a $1$ y a $2$: entre ambos puntos vale $1$ y crece hacia los extremos.",
+            "It is the sum of the distances to $1$ and $2$: between the two points it equals $1$ and it grows towards the ends.",
+          ),
+          L(
+            "El tramo central es imposible ($1 \\not> 3$); en los laterales queda una desigualdad lineal.",
+            "The middle stretch is impossible ($1 \\not> 3$); in the side ones a linear inequality remains.",
+          ),
+          L(
+            "Las fronteras caen donde la suma es exactamente $3$; como la desigualdad es estricta, quedan fuera.",
+            "The boundaries fall where the sum is exactly $3$; the inequality being strict, they stay out.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(-\\infty,\\ 0) \\cup (3,\\ +\\infty)$",
+          "$(-\\infty,\\ 0) \\cup (3,\\ +\\infty)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$\\left|x-1\\right|+\\left|x-2\\right| > 3$, $x \\in \\mathbb{R}$.",
+            "$\\left|x-1\\right|+\\left|x-2\\right| > 3$, $x \\in \\mathbb{R}$.",
+          ),
+          step(
+            "approach",
+            "Cortes en $1$ y $2$: el tramo central es imposible y en los laterales la suma es lineal.",
+            "Breaks at $1$ and $2$: the middle stretch is impossible and in the side ones the sum is linear.",
+          ),
+          step(
+            "calculation",
+            "$x<1$: $(1-x)+(2-x) = 3-2x > 3 \\Rightarrow -2x > 0 \\Rightarrow x < 0$ → aporta $(-\\infty,\\ 0)$.<br>$1 \\le x \\le 2$: $(x-1)+(2-x) = 1 \\not> 3$ → nada.<br>$x>2$: $(x-1)+(x-2) = 2x-3 > 3 \\Rightarrow x > 3$ → aporta $(3,\\ +\\infty)$.",
+            "$x<1$: $(1-x)+(2-x) = 3-2x > 3 \\Rightarrow -2x > 0 \\Rightarrow x < 0$ → contributes $(-\\infty,\\ 0)$.<br>$1 \\le x \\le 2$: $(x-1)+(2-x) = 1 \\not> 3$ → nothing.<br>$x>2$: $(x-1)+(x-2) = 2x-3 > 3 \\Rightarrow x > 3$ → contributes $(3,\\ +\\infty)$.",
+          ),
+          step(
+            "result",
+            "$S = (-\\infty,\\ 0) \\cup (3,\\ +\\infty)$. Verificación: $x=-1$ (dentro): $2+3 = 5 > 3$ ✓; $x=0$ (extremo abierto): $1+2 = 3 \\not> 3$ ✗; $x=\\dfrac{3}{2}$ (centro excluido): $\\dfrac{1}{2}+\\dfrac{1}{2} = 1 \\not> 3$ ✗; $x=4$ (rayo derecho): $3+2 = 5 > 3$ ✓.",
+            "$S = (-\\infty,\\ 0) \\cup (3,\\ +\\infty)$. Check: $x=-1$ (inside): $2+3 = 5 > 3$ ✓; $x=0$ (open endpoint): $1+2 = 3 \\not> 3$ ✗; $x=\\dfrac{3}{2}$ (excluded center): $\\dfrac{1}{2}+\\dfrac{1}{2} = 1 \\not> 3$ ✗; $x=4$ (right ray): $3+2 = 5 > 3$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* R2 · 20 — |x+1| ≤ |2x−3| → (−∞,2/3] ∪ [4,∞). */
+  template(
+    {
+      id: "lin-autor2-20",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-inequalities",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 180,
+      tags: ["absolute-value", "inequality", "quadratic"],
+      prerequisites: ["abs-inequalities", "interval-notation"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "R2 · 20",
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(
+            "$\\left(-\\infty,\\ \\dfrac{2}{3}\\right] \\cup [4,\\ +\\infty)$",
+            "$\\left(-\\infty,\\ \\dfrac{2}{3}\\right] \\cup [4,\\ +\\infty)$",
+          ),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L(
+            "$\\left[\\dfrac{2}{3},\\ 4\\right]$",
+            "$\\left[\\dfrac{2}{3},\\ 4\\right]$",
+          ),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L(
+            "$\\left(-\\infty,\\ -\\dfrac{2}{3}\\right] \\cup [4,\\ +\\infty)$",
+            "$\\left(-\\infty,\\ -\\dfrac{2}{3}\\right] \\cup [4,\\ +\\infty)$",
+          ),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L(
+            "$\\left[\\dfrac{4}{3},\\ +\\infty\\right)$",
+            "$\\left[\\dfrac{4}{3},\\ +\\infty\\right)$",
+          ),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L("Desigualdad entre dos valores absolutos", "Inequality between two absolute values"),
+        statement: L(
+          "Resuelve $\\left|x+1\\right| \\le \\left|2x-3\\right|$, $x \\in \\mathbb{R}$, y escoge el conjunto solución.",
+          "Solve $\\left|x+1\\right| \\le \\left|2x-3\\right|$, $x \\in \\mathbb{R}$, and choose the solution set.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Ambos lados son no negativos: eleva al cuadrado sin miedo a invertir la desigualdad.",
+            "Both sides are non-negative: square without fear of flipping the inequality.",
+          ),
+          L(
+            "Queda $3x^{2}-14x+8 \\ge 0$; sus raíces son $\\dfrac{2}{3}$ y $4$ (la fórmula general da $x = \\dfrac{14 \\pm 10}{6}$).",
+            "You get $3x^{2}-14x+8 \\ge 0$; its roots are $\\dfrac{2}{3}$ and $4$ (the quadratic formula gives $x = \\dfrac{14 \\pm 10}{6}$).",
+          ),
+          L(
+            "Parábola hacia arriba con $\\ge 0$: la solución son los **exteriores** del par de raíces; como la desigualdad original no es estricta, los extremos entran.",
+            "Upward parabola with $\\ge 0$: the solution is the **exterior** of the root pair; the original inequality being non-strict, the endpoints enter.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\left(-\\infty,\\ \\dfrac{2}{3}\\right] \\cup [4,\\ +\\infty)$",
+          "$\\left(-\\infty,\\ \\dfrac{2}{3}\\right] \\cup [4,\\ +\\infty)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$\\left|x+1\\right| \\le \\left|2x-3\\right|$, $x \\in \\mathbb{R}$.",
+            "$\\left|x+1\\right| \\le \\left|2x-3\\right|$, $x \\in \\mathbb{R}$.",
+          ),
+          step(
+            "approach",
+            "Elevar al cuadrado (ambos lados $\\ge 0$) y resolver la cuadrática $\\ge 0$: parábola hacia arriba, exteriores.",
+            "Square (both sides $\\ge 0$) and solve the quadratic $\\ge 0$: upward parabola, exterior.",
+          ),
+          step(
+            "calculation",
+            "$(x+1)^{2} \\le (2x-3)^{2} \\Rightarrow x^{2}+2x+1 \\le 4x^{2}-12x+9 \\Rightarrow 3x^{2}-14x+8 \\ge 0$.<br>$3x^{2}-14x+8 = 0 \\Rightarrow x = \\dfrac{14 \\pm \\sqrt{196-96}}{6} = \\dfrac{14 \\pm 10}{6}$, es decir $x = \\dfrac{2}{3}$ o $x = 4$.<br>Exteriores: $x \\le \\dfrac{2}{3}$ o $x \\ge 4$.",
+            "$(x+1)^{2} \\le (2x-3)^{2} \\Rightarrow x^{2}+2x+1 \\le 4x^{2}-12x+9 \\Rightarrow 3x^{2}-14x+8 \\ge 0$.<br>$3x^{2}-14x+8 = 0 \\Rightarrow x = \\dfrac{14 \\pm \\sqrt{196-96}}{6} = \\dfrac{14 \\pm 10}{6}$, i.e. $x = \\dfrac{2}{3}$ or $x = 4$.<br>Exterior: $x \\le \\dfrac{2}{3}$ or $x \\ge 4$.",
+          ),
+          step(
+            "result",
+            "$S = \\left(-\\infty,\\ \\dfrac{2}{3}\\right] \\cup [4,\\ +\\infty)$. Verificación: $x=0$ (dentro): $\\left|1\\right| = 1 \\le \\left|-3\\right| = 3$ ✓; $x=\\dfrac{2}{3}$ (extremo): $\\left|\\dfrac{5}{3}\\right| = \\dfrac{5}{3} \\le \\left|\\dfrac{4}{3}-3\\right| = \\dfrac{5}{3}$ ✓; $x=2$ (hueco): $\\left|3\\right| = 3 \\not\\le \\left|1\\right| = 1$ ✗.",
+            "$S = \\left(-\\infty,\\ \\dfrac{2}{3}\\right] \\cup [4,\\ +\\infty)$. Check: $x=0$ (inside): $\\left|1\\right| = 1 \\le \\left|-3\\right| = 3$ ✓; $x=\\dfrac{2}{3}$ (endpoint): $\\left|\\dfrac{5}{3}\\right| = \\dfrac{5}{3} \\le \\left|\\dfrac{4}{3}-3\\right| = \\dfrac{5}{3}$ ✓; $x=2$ (gap): $\\left|3\\right| = 3 \\not\\le \\left|1\\right| = 1$ ✗.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* R2 · 24 — |(x−1)/(x+3)| ≥ 2 → [−7,−3) ∪ (−3,−5/3]; the pole −3 splits the stretch. */
+  template(
+    {
+      id: "lin-autor2-24",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-inequalities",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["absolute-value", "inequality", "rational"],
+      prerequisites: ["abs-inequalities", "interval-notation"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "R2 · 24",
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(
+            "$[-7,\\ -3) \\cup \\left(-3,\\ -\\dfrac{5}{3}\\right]$",
+            "$[-7,\\ -3) \\cup \\left(-3,\\ -\\dfrac{5}{3}\\right]$",
+          ),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L(
+            "$\\left[-7,\\ -\\dfrac{5}{3}\\right]$",
+            "$\\left[-7,\\ -\\dfrac{5}{3}\\right]$",
+          ),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L(
+            "$\\left(-\\infty,\\ -7\\right] \\cup \\left[-\\dfrac{5}{3},\\ +\\infty\\right)$",
+            "$\\left(-\\infty,\\ -7\\right] \\cup \\left[-\\dfrac{5}{3},\\ +\\infty\\right)$",
+          ),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L(
+            "$[-7,\\ -3) \\cup (-3,\\ +\\infty)$",
+            "$[-7,\\ -3) \\cup (-3,\\ +\\infty)$",
+          ),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L(
+          "Cociente dentro de la barra con cota 2",
+          "A quotient inside the bar with bound 2",
+        ),
+        statement: L(
+          "Resuelve $\\left|\\dfrac{x-1}{x+3}\\right| \\ge 2$, $x \\in \\mathbb{R}$, y escoge el conjunto solución.",
+          "Solve $\\left|\\dfrac{x-1}{x+3}\\right| \\ge 2$, $x \\in \\mathbb{R}$, and choose the solution set.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "El denominador vive salvo en $x = -3$: ese punto queda vetado.",
+            "The denominator lives except at $x = -3$: that point is banned.",
+          ),
+          L(
+            "Multiplica por $\\left|x+3\\right| > 0$ y eleva al cuadrado: queda $3x^{2}+26x+35 \\le 0$, con raíces $-7$ y $-\\dfrac{5}{3}$.",
+            "Multiply by $\\left|x+3\\right| > 0$ and square: you get $3x^{2}+26x+35 \\le 0$, with roots $-7$ and $-\\dfrac{5}{3}$.",
+          ),
+          L(
+            "El tramo entre las raíces contiene al polo $x = -3$: la respuesta final debe quedar horadada.",
+            "The stretch between the roots contains the pole $x = -3$: the final answer must be punctured.",
+          ),
+        ],
+        answerDisplay: L(
+          "$[-7,\\ -3) \\cup \\left(-3,\\ -\\dfrac{5}{3}\\right]$",
+          "$[-7,\\ -3) \\cup \\left(-3,\\ -\\dfrac{5}{3}\\right]$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$\\left|\\dfrac{x-1}{x+3}\\right| \\ge 2$, con $x \\neq -3$ (el denominador se anula ahí).",
+            "$\\left|\\dfrac{x-1}{x+3}\\right| \\ge 2$, with $x \\neq -3$ (the denominator vanishes there).",
+          ),
+          step(
+            "approach",
+            "Multiplicar por $\\left|x+3\\right| > 0$, elevar al cuadrado y recortar después el polo $x = -3$ del tramo obtenido.",
+            "Multiply by $\\left|x+3\\right| > 0$, square, and afterwards trim the pole $x = -3$ out of the stretch obtained.",
+          ),
+          step(
+            "calculation",
+            "$\\left|x-1\\right| \\ge 2\\left|x+3\\right| \\Rightarrow (x-1)^{2} \\ge 4(x+3)^{2} \\Rightarrow x^{2}-2x+1 \\ge 4x^{2}+24x+36 \\Rightarrow 3x^{2}+26x+35 \\le 0$.<br>$3x^{2}+26x+35 = (3x+5)(x+7) \\le 0 \\iff -7 \\le x \\le -\\dfrac{5}{3}$.<br>El polo $x = -3$ vive dentro de ese tramo y hay que retirarlo.",
+            "$\\left|x-1\\right| \\ge 2\\left|x+3\\right| \\Rightarrow (x-1)^{2} \\ge 4(x+3)^{2} \\Rightarrow x^{2}-2x+1 \\ge 4x^{2}+24x+36 \\Rightarrow 3x^{2}+26x+35 \\le 0$.<br>$3x^{2}+26x+35 = (3x+5)(x+7) \\le 0 \\iff -7 \\le x \\le -\\dfrac{5}{3}$.<br>The pole $x = -3$ lives inside that stretch and must be removed.",
+          ),
+          step(
+            "result",
+            "$S = [-7,\\ -3) \\cup \\left(-3,\\ -\\dfrac{5}{3}\\right]$. Verificación: $x=-4$ (dentro): $\\left|\\dfrac{-5}{1}\\right| = 5 \\ge 2$ ✓; $x=-7$ (extremo): $\\left|\\dfrac{-8}{-4}\\right| = 2 \\ge 2$ ✓; $x=-\\dfrac{5}{3}$ (extremo): $\\dfrac{x-1}{x+3} = -2$ y $\\left|-2\\right| = 2 \\ge 2$ ✓; $x=0$ (fuera): $\\left|\\dfrac{-1}{3}\\right| = \\dfrac{1}{3} \\not\\ge 2$ ✗.",
+            "$S = [-7,\\ -3) \\cup \\left(-3,\\ -\\dfrac{5}{3}\\right]$. Check: $x=-4$ (inside): $\\left|\\dfrac{-5}{1}\\right| = 5 \\ge 2$ ✓; $x=-7$ (endpoint): $\\left|\\dfrac{-8}{-4}\\right| = 2 \\ge 2$ ✓; $x=-\\dfrac{5}{3}$ (endpoint): $\\dfrac{x-1}{x+3} = -2$ and $\\left|-2\\right| = 2 \\ge 2$ ✓; $x=0$ (outside): $\\left|\\dfrac{-1}{3}\\right| = \\dfrac{1}{3} \\not\\ge 2$ ✗.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* R2 · 25 — |x²−2x| > 3 → (−∞,−1) ∪ (3,∞); branch x²−2x+3 < 0 has Δ < 0. */
+  template(
+    {
+      id: "lin-autor2-25",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-inequalities",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 210,
+      tags: ["absolute-value", "inequality", "quadratic"],
+      prerequisites: ["abs-inequalities", "interval-notation"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "R2 · 25",
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(
+            "$(-\\infty,\\ -1) \\cup (3,\\ +\\infty)$",
+            "$(-\\infty,\\ -1) \\cup (3,\\ +\\infty)$",
+          ),
+          correct: true,
+        },
+        { id: "b", text: L("$(-1,\\ 3)$", "$(-1,\\ 3)$"), correct: false },
+        {
+          id: "c",
+          text: L(
+            "$(-\\infty,\\ -1) \\cup (1,\\ 3) \\cup (3,\\ +\\infty)$",
+            "$(-\\infty,\\ -1) \\cup (1,\\ 3) \\cup (3,\\ +\\infty)$",
+          ),
+          correct: false,
+        },
+        { id: "d", text: L("$\\left[-1,\\ 3\\right]$", "$\\left[-1,\\ 3\\right]$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Valor absoluto de una cuadrática, caso estricto",
+          "Absolute value of a quadratic, strict case",
+        ),
+        statement: L(
+          "Resuelve $\\left|x^{2}-2x\\right| > 3$, $x \\in \\mathbb{R}$, y escoge el conjunto solución.",
+          "Solve $\\left|x^{2}-2x\\right| > 3$, $x \\in \\mathbb{R}$, and choose the solution set.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Separa $\\left|x^{2}-2x\\right| > 3$ en las dos ramas: $x^{2}-2x > 3$ o $x^{2}-2x < -3$.",
+            "Split $\\left|x^{2}-2x\\right| > 3$ into the two branches: $x^{2}-2x > 3$ or $x^{2}-2x < -3$.",
+          ),
+          L(
+            "La primera rama se factoriza como $(x-3)(x+1) > 0$; de la segunda, calcula primero su discriminante.",
+            "The first branch factors as $(x-3)(x+1) > 0$; for the second one, compute its discriminant first.",
+          ),
+          L(
+            "Con $\\Delta < 0$ y parábola hacia arriba, la rama $x^{2}-2x+3 < 0$ no aporta nada.",
+            "With $\\Delta < 0$ and an upward parabola, the branch $x^{2}-2x+3 < 0$ contributes nothing.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(-\\infty,\\ -1) \\cup (3,\\ +\\infty)$",
+          "$(-\\infty,\\ -1) \\cup (3,\\ +\\infty)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$\\left|x^{2}-2x\\right| > 3$, $x \\in \\mathbb{R}$.",
+            "$\\left|x^{2}-2x\\right| > 3$, $x \\in \\mathbb{R}$.",
+          ),
+          step(
+            "approach",
+            "Separar $\\left|A\\right| > 3 \\iff A > 3 \\vee A < -3$ y estudiar las dos cuadráticas.",
+            "Split $\\left|A\\right| > 3 \\iff A > 3 \\vee A < -3$ and study the two quadratics.",
+          ),
+          step(
+            "calculation",
+            "Rama 1: $x^{2}-2x-3 > 0 \\Rightarrow (x-3)(x+1) > 0 \\Rightarrow x < -1$ o $x > 3$.<br>Rama 2: $x^{2}-2x+3 < 0$: $\\Delta = 4-12 = -8 < 0$ con parábola hacia arriba → nunca es negativa, no aporta.",
+            "Branch 1: $x^{2}-2x-3 > 0 \\Rightarrow (x-3)(x+1) > 0 \\Rightarrow x < -1$ or $x > 3$.<br>Branch 2: $x^{2}-2x+3 < 0$: $\\Delta = 4-12 = -8 < 0$ with an upward parabola → never negative, it contributes nothing.",
+          ),
+          step(
+            "result",
+            "$S = (-\\infty,\\ -1) \\cup (3,\\ +\\infty)$. Verificación: $x=-2$ (dentro): $\\left|4+4\\right| = 8 > 3$ ✓; $x=-1$ (extremo abierto): $\\left|1+2\\right| = 3 \\not> 3$ ✗; $x=1$ (centro excluido): $\\left|1-2\\right| = 1 \\not> 3$ ✗; $x=4$ (dentro): $\\left|16-8\\right| = 8 > 3$ ✓.",
+            "$S = (-\\infty,\\ -1) \\cup (3,\\ +\\infty)$. Check: $x=-2$ (inside): $\\left|4+4\\right| = 8 > 3$ ✓; $x=-1$ (open endpoint): $\\left|1+2\\right| = 3 \\not> 3$ ✗; $x=1$ (excluded center): $\\left|1-2\\right| = 1 \\not> 3$ ✗; $x=4$ (inside): $\\left|16-8\\right| = 8 > 3$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* R2 · 26 — 1/|x−2| ≤ 3 → (−∞,5/3] ∪ [7/3,∞). */
+  template(
+    {
+      id: "lin-autor2-26",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-inequalities",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 210,
+      tags: ["absolute-value", "inequality", "reciprocal"],
+      prerequisites: ["abs-inequalities", "interval-notation"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "R2 · 26",
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(
+            "$\\left(-\\infty,\\ \\dfrac{5}{3}\\right] \\cup \\left[\\dfrac{7}{3},\\ +\\infty\\right)$",
+            "$\\left(-\\infty,\\ \\dfrac{5}{3}\\right] \\cup \\left[\\dfrac{7}{3},\\ +\\infty\\right)$",
+          ),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L(
+            "$\\mathbb{R} \\setminus \\left\\{2\\right\\}$",
+            "$\\mathbb{R} \\setminus \\left\\{2\\right\\}$",
+          ),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L(
+            "$\\left[\\dfrac{5}{3},\\ \\dfrac{7}{3}\\right]$",
+            "$\\left[\\dfrac{5}{3},\\ \\dfrac{7}{3}\\right]$",
+          ),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L(
+            "$\\left(\\dfrac{5}{3},\\ \\dfrac{7}{3}\\right)$",
+            "$\\left(\\dfrac{5}{3},\\ \\dfrac{7}{3}\\right)$",
+          ),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L("El recíproco de una barra, acotado", "The reciprocal of a bar, bounded"),
+        statement: L(
+          "Resuelve $\\dfrac{1}{\\left|x-2\\right|} \\le 3$, $x \\in \\mathbb{R}$, y escoge el conjunto solución.",
+          "Solve $\\dfrac{1}{\\left|x-2\\right|} \\le 3$, $x \\in \\mathbb{R}$, and choose the solution set.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "El lado izquierdo siempre es positivo (donde está definido): piensa qué tan **grande** puede llegar a ser.",
+            "The left-hand side is always positive (where defined): think about how **large** it can get.",
+          ),
+          L(
+            "Multiplica por $\\left|x-2\\right| > 0$: la desigualdad se convierte en $\\left|x-2\\right| \\ge \\dfrac{1}{3}$.",
+            "Multiply by $\\left|x-2\\right| > 0$: the inequality turns into $\\left|x-2\\right| \\ge \\dfrac{1}{3}$.",
+          ),
+          L(
+            "Traduce a distancia: $x$ debe quedar a **al menos** $\\dfrac{1}{3}$ de $2$ — exteriores del intervalo correspondiente, con extremos incluidos.",
+            "Translate to distance: $x$ must lie **at least** $\\dfrac{1}{3}$ away from $2$ — the exterior of the corresponding interval, endpoints included.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\left(-\\infty,\\ \\dfrac{5}{3}\\right] \\cup \\left[\\dfrac{7}{3},\\ +\\infty\\right)$",
+          "$\\left(-\\infty,\\ \\dfrac{5}{3}\\right] \\cup \\left[\\dfrac{7}{3},\\ +\\infty\\right)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$\\dfrac{1}{\\left|x-2\\right|} \\le 3$, con $x \\neq 2$ (el denominador se anula ahí).",
+            "$\\dfrac{1}{\\left|x-2\\right|} \\le 3$, with $x \\neq 2$ (the denominator vanishes there).",
+          ),
+          step(
+            "approach",
+            "Multiplicar por $\\left|x-2\\right| > 0$ (no invierte la desigualdad) y traducir a una distancia desde $2$.",
+            "Multiply by $\\left|x-2\\right| > 0$ (it does not flip the inequality) and translate into a distance from $2$.",
+          ),
+          step(
+            "calculation",
+            "$\\dfrac{1}{\\left|x-2\\right|} \\le 3 \\iff 1 \\le 3\\left|x-2\\right| \\iff \\left|x-2\\right| \\ge \\dfrac{1}{3}$.<br>$\\left|x-2\\right| \\ge \\dfrac{1}{3} \\iff x \\le 2-\\dfrac{1}{3} = \\dfrac{5}{3}$ o $x \\ge 2+\\dfrac{1}{3} = \\dfrac{7}{3}$.",
+            "$\\dfrac{1}{\\left|x-2\\right|} \\le 3 \\iff 1 \\le 3\\left|x-2\\right| \\iff \\left|x-2\\right| \\ge \\dfrac{1}{3}$.<br>$\\left|x-2\\right| \\ge \\dfrac{1}{3} \\iff x \\le 2-\\dfrac{1}{3} = \\dfrac{5}{3}$ or $x \\ge 2+\\dfrac{1}{3} = \\dfrac{7}{3}$.",
+          ),
+          step(
+            "result",
+            "$S = \\left(-\\infty,\\ \\dfrac{5}{3}\\right] \\cup \\left[\\dfrac{7}{3},\\ +\\infty\\right)$. Verificación: $x=0$ (dentro): $\\dfrac{1}{2} \\le 3$ ✓; $x=\\dfrac{5}{3}$ (extremo): $\\left|x-2\\right| = \\dfrac{1}{3}$, así que el lado izquierdo vale $3 \\le 3$ ✓; $x=\\dfrac{11}{5}$ (hueco): $\\left|x-2\\right| = \\dfrac{1}{5}$ y el lado izquierdo vale $5 \\not\\le 3$ ✗.",
+            "$S = \\left(-\\infty,\\ \\dfrac{5}{3}\\right] \\cup \\left[\\dfrac{7}{3},\\ +\\infty\\right)$. Check: $x=0$ (inside): $\\dfrac{1}{2} \\le 3$ ✓; $x=\\dfrac{5}{3}$ (endpoint): $\\left|x-2\\right| = \\dfrac{1}{3}$, so the left-hand side equals $3 \\le 3$ ✓; $x=\\dfrac{11}{5}$ (gap): $\\left|x-2\\right| = \\dfrac{1}{5}$ and the left-hand side equals $5 \\not\\le 3$ ✗.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* R2 · 27 — |x−1|+|x+1| < x²−1 → (−∞,−1−√2) ∪ (1+√2,∞); center zone impossible. */
+  template(
+    {
+      id: "lin-autor2-27",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-inequalities",
+      difficulty: "challenge",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 360,
+      tags: ["absolute-value", "inequality", "quadratic", "challenge"],
+      prerequisites: ["abs-inequalities", "compound"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "R2 · 27",
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(
+            "$\\left(-\\infty,\\ -1-\\sqrt{2}\\right) \\cup \\left(1+\\sqrt{2},\\ +\\infty\\right)$",
+            "$\\left(-\\infty,\\ -1-\\sqrt{2}\\right) \\cup \\left(1+\\sqrt{2},\\ +\\infty\\right)$",
+          ),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L(
+            "$(-\\infty,\\ -1) \\cup (1,\\ +\\infty)$",
+            "$(-\\infty,\\ -1) \\cup (1,\\ +\\infty)$",
+          ),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L(
+            "$\\left(-\\infty,\\ -1-\\sqrt{2}\\right) \\cup (-1,\\ 1) \\cup \\left(1+\\sqrt{2},\\ +\\infty\\right)$",
+            "$\\left(-\\infty,\\ -1-\\sqrt{2}\\right) \\cup (-1,\\ 1) \\cup \\left(1+\\sqrt{2},\\ +\\infty\\right)$",
+          ),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L(
+            "$\\left(1+\\sqrt{2},\\ +\\infty\\right)$",
+            "$\\left(1+\\sqrt{2},\\ +\\infty\\right)$",
+          ),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L(
+          "Barras a la izquierda, cuadrática a la derecha",
+          "Bars on the left, quadratic on the right",
+        ),
+        statement: L(
+          "Resuelve $\\left|x-1\\right|+\\left|x+1\\right| < x^{2}-1$, $x \\in \\mathbb{R}$, y escoge el conjunto solución.",
+          "Solve $\\left|x-1\\right|+\\left|x+1\\right| < x^{2}-1$, $x \\in \\mathbb{R}$, and choose the solution set.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "La suma $\\left|x-1\\right|+\\left|x+1\\right|$ vale $2$ entre $-1$ y $1$, y $2\\left|x\\right|$ fuera de ahí: dos zonas de trabajo.",
+            "The sum $\\left|x-1\\right|+\\left|x+1\\right|$ equals $2$ between $-1$ and $1$, and $2\\left|x\\right|$ outside: two working zones.",
+          ),
+          L(
+            "Zona central: $2 < x^{2}-1$ pide $x^{2} > 3$, imposible con $\\left|x\\right| \\le 1$.",
+            "Central zone: $2 < x^{2}-1$ demands $x^{2} > 3$, impossible with $\\left|x\\right| \\le 1$.",
+          ),
+          L(
+            "Zona $x>1$: $2x < x^{2}-1 \\Rightarrow x^{2}-2x-1 > 0$; zona $x<-1$: $-2x < x^{2}-1$. Las raíces son $1 \\pm \\sqrt{2}$ y $-1 \\pm \\sqrt{2}$: quédate con las que viven en cada zona.",
+            "Zone $x>1$: $2x < x^{2}-1 \\Rightarrow x^{2}-2x-1 > 0$; zone $x<-1$: $-2x < x^{2}-1$. The roots are $1 \\pm \\sqrt{2}$ and $-1 \\pm \\sqrt{2}$: keep the ones living in each zone.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\left(-\\infty,\\ -1-\\sqrt{2}\\right) \\cup \\left(1+\\sqrt{2},\\ +\\infty\\right)$",
+          "$\\left(-\\infty,\\ -1-\\sqrt{2}\\right) \\cup \\left(1+\\sqrt{2},\\ +\\infty\\right)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$\\left|x-1\\right|+\\left|x+1\\right| < x^{2}-1$, $x \\in \\mathbb{R}$.",
+            "$\\left|x-1\\right|+\\left|x+1\\right| < x^{2}-1$, $x \\in \\mathbb{R}$.",
+          ),
+          step(
+            "approach",
+            "Escribir $\\left|x-1\\right|+\\left|x+1\\right|$ por zonas ($2$ en $[-1,1]$, $2x$ si $x>1$, $-2x$ si $x<-1$) y resolver en cada una.",
+            "Write $\\left|x-1\\right|+\\left|x+1\\right|$ by zones ($2$ on $[-1,1]$, $2x$ if $x>1$, $-2x$ if $x<-1$) and solve in each one.",
+          ),
+          step(
+            "calculation",
+            "$-1 \\le x \\le 1$: $2 < x^{2}-1$ pide $x^{2} > 3$, imposible con $\\left|x\\right| \\le 1$.<br>$x>1$: $2x < x^{2}-1 \\Rightarrow x^{2}-2x-1 > 0 \\Rightarrow x < 1-\\sqrt{2}$ o $x > 1+\\sqrt{2}$; en la zona queda $x > 1+\\sqrt{2}$.<br>$x<-1$: $-2x < x^{2}-1 \\Rightarrow x^{2}+2x-1 > 0 \\Rightarrow x < -1-\\sqrt{2}$ o $x > -1+\\sqrt{2}$; en la zona queda $x < -1-\\sqrt{2}$.",
+            "$-1 \\le x \\le 1$: $2 < x^{2}-1$ demands $x^{2} > 3$, impossible with $\\left|x\\right| \\le 1$.<br>$x>1$: $2x < x^{2}-1 \\Rightarrow x^{2}-2x-1 > 0 \\Rightarrow x < 1-\\sqrt{2}$ or $x > 1+\\sqrt{2}$; in the zone, $x > 1+\\sqrt{2}$.<br>$x<-1$: $-2x < x^{2}-1 \\Rightarrow x^{2}+2x-1 > 0 \\Rightarrow x < -1-\\sqrt{2}$ or $x > -1+\\sqrt{2}$; in the zone, $x < -1-\\sqrt{2}$.",
+          ),
+          step(
+            "result",
+            "$S = \\left(-\\infty,\\ -1-\\sqrt{2}\\right) \\cup \\left(1+\\sqrt{2},\\ +\\infty\\right)$. Verificación: $x=3$ (dentro): $2+4 = 6 < 9-1 = 8$ ✓; $x=-3$ (dentro): $4+2 = 6 < 8$ ✓; $x=0$ (excluido): $2 \\not< -1$ ✗; $x = 1+\\sqrt{2}$ (extremo): $2x = 2+2\\sqrt{2} = x^{2}-1$, empate ✗.",
+            "$S = \\left(-\\infty,\\ -1-\\sqrt{2}\\right) \\cup \\left(1+\\sqrt{2},\\ +\\infty\\right)$. Check: $x=3$ (inside): $2+4 = 6 < 9-1 = 8$ ✓; $x=-3$ (inside): $4+2 = 6 < 8$ ✓; $x=0$ (excluded): $2 \\not< -1$ ✗; $x = 1+\\sqrt{2}$ (endpoint): $2x = 2+2\\sqrt{2} = x^{2}-1$, a tie ✗.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* R2 · 23 — system {x²−5x+6 < 0, |x−2| > 1} → ∅ ((2,3) ∩ ((−∞,1)∪(3,∞)) = ∅). */
+  template(
+    {
+      id: "lin-autor2-23",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "compound",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["system", "absolute-value", "inequality", "empty-set"],
+      prerequisites: ["compound", "abs-inequalities"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "R2 · 23",
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(
+            "$\\varnothing$ (ningún $x$ real cumple ambas)",
+            "$\\varnothing$ (no real $x$ satisfies both)",
+          ),
+          correct: true,
+        },
+        { id: "b", text: L("$(2,\\ 3)$", "$(2,\\ 3)$"), correct: false },
+        {
+          id: "c",
+          text: L(
+            "$(-\\infty,\\ 1) \\cup (3,\\ +\\infty)$",
+            "$(-\\infty,\\ 1) \\cup (3,\\ +\\infty)$",
+          ),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L("$(1,\\ 2) \\cup (2,\\ 3)$", "$(1,\\ 2) \\cup (2,\\ 3)$"),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L(
+          "Intersección de una cuadrática y una barra",
+          "Intersecting a quadratic with a bar",
+        ),
+        statement: L(
+          "Resuelve el sistema $\\begin{cases}x^{2}-5x+6<0 \\\\ \\left|x-2\\right|>1\\end{cases}$, $x \\in \\mathbb{R}$, y escoge el conjunto solución.",
+          "Solve the system $\\begin{cases}x^{2}-5x+6<0 \\\\ \\left|x-2\\right|>1\\end{cases}$, $x \\in \\mathbb{R}$, and choose the solution set.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Resuelve cada desigualdad por separado; el sistema pide la **intersección** de los dos conjuntos.",
+            "Solve each inequality separately; the system demands the **intersection** of the two sets.",
+          ),
+          L(
+            "La cuadrática se factoriza como $(x-2)(x-3)$; la barra significa «más lejos que $1$ del punto $2$».",
+            "The quadratic factors as $(x-2)(x-3)$; the bar means «farther than $1$ from the point $2$».",
+          ),
+          L(
+            "Una de las dos soluciones es un intervalo acotado; la otra son dos rayos. Al intersectar, fíjate en si el intervalo cae dentro de los rayos o en el hueco entre ellos.",
+            "One of the two solutions is a bounded interval; the other is two rays. When intersecting, notice whether the interval falls inside the rays or in the gap between them.",
+          ),
+        ],
+        answerDisplay: L("$\\varnothing$", "$\\varnothing$"),
+        solution: [
+          step(
+            "given",
+            "El sistema $\\begin{cases}x^{2}-5x+6<0 \\\\ \\left|x-2\\right|>1\\end{cases}$, $x \\in \\mathbb{R}$.",
+            "The system $\\begin{cases}x^{2}-5x+6<0 \\\\ \\left|x-2\\right|>1\\end{cases}$, $x \\in \\mathbb{R}$.",
+          ),
+          step(
+            "approach",
+            "Resolver cada desigualdad por separado e intersectar los dos conjuntos solución.",
+            "Solve each inequality separately and intersect the two solution sets.",
+          ),
+          step(
+            "calculation",
+            "(1) $x^{2}-5x+6<0 \\Rightarrow (x-2)(x-3)<0 \\Rightarrow 2<x<3$, es decir $(2,\\ 3)$.<br>(2) $\\left|x-2\\right|>1 \\Rightarrow x-2>1$ o $x-2<-1 \\Rightarrow x>3$ o $x<1$, es decir $(-\\infty,\\ 1) \\cup (3,\\ +\\infty)$.<br>Intersección: $(2, 3) \\cap \\left[(-\\infty,\\ 1) \\cup (3,\\ +\\infty)\\right] = \\varnothing$: ningún punto de $(2, 3)$ escapa de $[1, 3]$.",
+            "(1) $x^{2}-5x+6<0 \\Rightarrow (x-2)(x-3)<0 \\Rightarrow 2<x<3$, i.e. $(2,\\ 3)$.<br>(2) $\\left|x-2\\right|>1 \\Rightarrow x-2>1$ or $x-2<-1 \\Rightarrow x>3$ or $x<1$, i.e. $(-\\infty,\\ 1) \\cup (3,\\ +\\infty)$.<br>Intersection: $(2, 3) \\cap \\left[(-\\infty,\\ 1) \\cup (3,\\ +\\infty)\\right] = \\varnothing$: no point of $(2, 3)$ escapes $[1, 3]$.",
+          ),
+          step(
+            "result",
+            "$S = \\varnothing$: la cuadrática obliga a vivir **dentro** de $(2, 3)$ y la barra obliga a estar **fuera** de $[1, 3]$ — exigencias incompatibles. Verificación: $x=\\dfrac{5}{2}$ (cumple (1)): $\\left|\\dfrac{1}{2}\\right| = \\dfrac{1}{2} \\not> 1$ ✗; $x=4$ (cumple (2)): $16-20+6 = 2 \\not< 0$ ✗; $x=3$ (frontera común): $0 \\not< 0$ y $\\left|1\\right| \\not> 1$ ✗.",
+            "$S = \\varnothing$: the quadratic forces $x$ to live **inside** $(2, 3)$ and the bar forces it **outside** $[1, 3]$ — incompatible demands. Check: $x=\\dfrac{5}{2}$ (satisfies (1)): $\\left|\\dfrac{1}{2}\\right| = \\dfrac{1}{2} \\not> 1$ ✗; $x=4$ (satisfies (2)): $16-20+6 = 2 \\not< 0$ ✗; $x=3$ (common boundary): $0 \\not< 0$ and $\\left|1\\right| \\not> 1$ ✗.",
+          ),
+        ],
+      };
+    },
+  ),
 ];

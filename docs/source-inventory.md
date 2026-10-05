@@ -18,7 +18,7 @@ Auditada el 2026-10-01. 9 archivos (7 PDF + 2 JPEG). Registro máquina:
 | 8 | `desigualdades.jpeg` (imagen de clase) | hoja de problemas del tutor | DE | INSTRUCTOR_CREATED | FP / Studienkolleg | **Importación directa** (misma hoja que #2): tres problemas de valor absoluto con análisis por intervalos y comparación gráfico-analítico. |
 | 9 | `preguntas.jpeg` (Kurzkontrolle 1) | control corto del tutor | DE | INSTRUCTOR_CREATED | Studienkolleg | **Importación directa**: conjunto de soluciones reales de (x+2)(x−5)(x²+9)(x²−25)=0 (descarte de raíces no reales); Venn de 3 conjuntos (encuesta); operaciones de intervalos. |
 | 10 | Hoja de la alumna (2 fotos, oct. 2025): Übungsblatt Mathematik + problema de Venn | hoja de ejercicios del curso alemán de la alumna | DE | TUTOR_LICENSED (el tutor la compartió y pidió publicarlo, 2026-10-02) | Secundaria superior DE / Studienkolleg | **Importación directa** (22 plantillas, transcripción del tutor como fuente de verdad): S1 ausklammern con exponentes con variable → polynomials/factoring (MC, distractores verificados no-equivalentes); S2 fracciones algebraicas → rational/simplifying; S3 Anwendung exponentes negativos → foundations/powers; Venn mermelada/miel/Nutella → foundations/venn-diagrams (subtema nuevo; partes b–e numéricas 19/28/81/73). |
-| 11 | Recopilación del autor — sistemas 3×3 por Gauss (18) + problemas de aplicación (9), con clave del tutor | recopilación propia del tutor (Sebastián Calderón) | ES | INSTRUCTOR_CREATED (instrucción del tutor: «si te doy yo los ejercicios esos son ejercicios reales que puedes poner como recopilación del autor», 2026-10-02) | Bachillerato / 1.er año univ. | **Importación directa con atribución «Recopilación del autor»** (27 plantillas, todas verificadas con sympy ANTES de importar, 28 checks): G1–G18 → subtema nuevo systems/gauss (11 solución única, 4 indeterminados con 1 parámetro, 2 incompatibles; distractores = errores clásicos de Gauss); A1–A9 → systems/applications (azafrán 3/7/15 g, hipermercado 25/50/60 €, barbecho 2 ha, casas 10/6/4, hotel 100/70/30, libro 21 €, estadio 26000, bar NO determinable — rango 2, buñuelos 40/120/60). **G17**: la clave del tutor decía «incompatible» pero el sistema tiene solución única (2, 2, 0) — verificado por tres vías (sympy, det = 2 ≠ 0, sustitución directa) e importado con la respuesta verificada; avisado al tutor. |
+| 11 | Recopilación del autor — sistemas 3×3 por Gauss (18) + problemas de aplicación (9), con clave del tutor | recopilación propia del tutor (Sebastián Calderón) | ES | INSTRUCTOR_CREATED (instrucción del tutor: «si te doy yo los ejercicios esos son ejercicios reales que puedes poner como recopilación del autor», 2026-10-02) | Bachillerato / 1.er año univ. | **Importación directa con atribución «Recopilación del autor»** (27 plantillas, todas verificadas con sympy ANTES de importar, 28 checks): G1–G18 → subtema nuevo systems/gauss (11 solución única, 4 indeterminados con 1 parámetro, 2 incompatibles; distractores = errores clásicos de Gauss); A1–A9 → systems/applications (azafrán 3/7/15 g, hipermercado 25/50/60 €, barbecho 2 ha, casas 10/6/4, hotel 100/70/30, libro 21 €, estadio 26000, bar NO determinable — rango 2, buñuelos 40/120/60). **G17**: la clave del tutor decía «incompatible» pero el sistema tiene solución única (2, 2, 0) — verificado por tres vías (sympy, det = 2 ≠ 0, sustitución directa) e importado con la respuesta verificada; avisado al tutor. **RONDA 2 (2026-10-05)**: hoja LaTeX propia de inecuaciones y valor absoluto (35 ítems únicos A–E, clave del tutor verificada con sympy 39/39, `download/verify_author_round2.py`): A1–A5 + D22 → rational/inequalities; B6–B10, C11–C20, D23–D27 → subtemas de valor absoluto de linear-equations; 21 + variaciones 21.1–21.8 → quadratics/discriminant. |
 | 12 | `FUNDAMENTOS_DE_MATEMATICAS_ESPOL_Para_Ba.pdf` (982 págs., 56 MB, edición anterior) | libro de texto FCNM-ESPOL — **edición DIGITAL con texto nativo** (no escaneado) | ES | TUTOR_LICENSED (misma autorización que #3, 2026-10-02) | Bachillerato ECU | **PRIMERA IMPORTACIÓN REALIZADA (2026-10-03)**: Capítulo 2 «Ejercicios propuestos» (impresas 225–250 = PDF 258–283), encargo del tutor: «extrae los que consideres más difíciles o los más integradores». 41 plantillas curadas (factorización, fracciones algebraicas, ecuaciones con valor absoluto/literales/radicales, cuadráticas, 10 problemas de aplicación, 8 de sucesiones) — todas con doble verificación (clave impresa pp. 938–939 + sympy; script `download/verify_espol_ch2.py`). Clave #82 incompleta (9/4 → corregida a {0, 9/4}); #77a y #151 sin clave impresa (solo sympy). Persistida en `/home/z/espol-book/espol-digital.pdf`. Numeración de páginas propia — citar siempre esta edición. |
 
 ## Metadatos por fuente (esquema interno)
@@ -196,3 +196,58 @@ impresa — verificación solo sympy, anotado dentro de sus soluciones.
 Pendiente del libro digital: §2.9 pruebas #95–#100, §2.10–2.11, resto del
 cap. 3 (ver registro `fcnm-fundamentos-digital` para la lista completa),
 cap. 4 (trigonometría) — a la espera de encargo del tutor.
+
+## Actualización — TERCERA TANDA edición digital ESPOL + recopilación del autor ronda 2 (2026-10-05)
+
+Encargo del tutor: «Dale el patch para añadir estos ejercicios» (hoja LaTeX
+propia de inecuaciones y valor absoluto, secciones A–E con clave) + «Y también
+más logaritmos y lo de trigonometría».
+
+### Recopilación del autor — ronda 2 (`autor-recopilacion-2025`, 35 plantillas)
+
+| Bloque | Ítems | Destino |
+|---|---|---|
+| A. Inecuaciones fraccionarias (con \|·\|) | A1–A5 | rational/inequalities |
+| B. Ecuaciones con valor absoluto | B6–B10 | linear-equations/abs-equations |
+| C. Inecuaciones con valor absoluto | C11–C20 | linear-equations/abs-inequalities |
+| D. Paramétricas, sistemas y combinadas | D22 (rational), D23 (compound), D24–D27 (abs) | rational + linear-equations |
+| E. Parábolas con parámetro «positiva para todo x» | 21 + 21.1–21.8 (3 vacías, 2 degeneradas en a=1/a=2) | quadratics/discriminant |
+
+Clave del tutor verificada con sympy ANTES de importar:
+**39/39 checks** (`download/verify_author_round2.py`, barrido exacto de
+pertenencia con puntos algebraicos de frontera). D27: la clave del tutor
+(−∞,−1−√2)∪(1+√2,∞) es correcta; una transcripción inicial errónea por
+nuestra parte ((−∞,−1)∪…) fue cazada por el propio gate.
+
+### Edición digital ESPOL — ronda 3 (59 plantillas)
+
+| Sección | Contenido | Estado |
+|---|---|---|
+| 3 §3.14 Logaritmos (resto) | #118b/c/g, #120b, #131a–d/f/i, #132, #135, #136 | **13 importados** (131i con bases variables {1, 4, √2/2}; 131f con sustitución t = 5^{1/(2x)}) |
+| 4 Ejercicios propuestos (fundamentos) | #10–12 (palabra), #13b–f y #14c–e (valores exactos), #25, #30 | **13 importados** → trig-foundations |
+| 4 Ejercicios propuestos (funciones) | #15, #17, #19a/b (modelización; mareas de Tahiti con diagrama SVG en vivo), #20–#22d (trig. inversa), #24, #26–#29, #32, #33a/b/c/d/f, #36–#38, #40, #42, #48a-b (forma armónica R·cos(x−α)) | **27 importados** → trig-functions |
+| 4 §4.6 Ecuaciones e inecuaciones | #45, #46, #47, #48d, #49, #50 | **6 importados** → trig-equations |
+
+Total de la tanda: **94 plantillas reales** (banco 710 → 804; con fuente real
+248 → 342). Verificación: **88/88 checks sympy** para el libro
+(`download/verify_espol_ch4.py`, clave impresa pp. 940–941 + derivación
+independiente). Los enunciados dañados por la capa de texto (familia #13,
+valores de la gráfica #19, #20, #22, opciones de #25/#26, el radical de #28,
+familia #33, el coeficiente √3 de #48) se re-leyeron con el modelo de visión
+(200 dpi) antes de transcribir; la fracción de #32 se fijó por la clave (una
+lectura VLM invertida fue descartada numéricamente).
+
+**Errata de clave encontrada**: #48d — la clave impresa dice 7π/12, fuera del
+dominio declarado [0, π/2]; se envía la respuesta verificada π/12 con la
+errata documentada en el ítem (precedentes: #82 tanda 1, G17 recopilación).
+**Nota 131b**: sobre el dominio natural completo x = 1−e también es solución
+(sympy); el enunciado se restringe a la rama x > 1 para mantener la clave
+impresa {1+e} — posible errata del libro, anotada.
+**Duplicados**: #24 y #33f coinciden con §5.5 · 49a/49b de la edición
+ESCANADA (trigf-espol-49a/49b); se mantienen ambas versiones (la digital
+lleva las opciones impresas del libro) — desduplicación a decisión del tutor.
+
+Pendiente del libro digital: §2.9 pruebas #95–#100, §2.10–2.11, resto del
+cap. 3, cap. 4 #16 (MC con imágenes — falta UI), #18 (graficar), #31
+(composición a trozos — falta UI), pruebas #34/#35/#43, y cap. 5+ (matrices,
+complejos…).

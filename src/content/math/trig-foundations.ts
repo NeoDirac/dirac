@@ -980,4 +980,978 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+
+  /* ---------------------------------------------------------------- */
+  /* Cap. 4 «Trigonometría» (ed. digital), Ejercicios propuestos       */
+  /* pp. 467-468 y 471 — ítems 10-14, 25 y 30. Tutor: «lo de           */
+  /* trigonometría». Clave impresa (p. 940) + sympy:                   */
+  /* download/verify_espol_ch4.py (checks ch4-10..14, 25, 30).         */
+  /* ---------------------------------------------------------------- */
+
+  /* 4·10 — suplemento = 4·complemento → x = 60°. */
+  template(
+    {
+      id: "trigf-espol-ch4-10",
+      subject: "math",
+      topicId: "trig-foundations",
+      subtopicId: "degrees-radians",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 180,
+      tags: ["supplementary-angles", "complementary-angles", "modeling"],
+      prerequisites: ["degrees-radians"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 10",
+        page: 467,
+      },
+      reasoning: "modeling",
+    },
+    () => ({
+      skill: L("Modelar suplemento y complemento", "Modeling supplement and complement"),
+      statement: L(
+        "Determine la medida del ángulo en el cual la medida de su suplemento es 4 veces la medida de su complemento.",
+        "Determine the measure of the angle for which the measure of its supplement is 4 times the measure of its complement.",
+      ),
+      answer: { kind: "numeric", value: 60, unitSuffix: "°" },
+      hints: [
+        L(
+          "Llama $x$ al ángulo buscado: su suplemento mide $180 - x$ y su complemento mide $90 - x$ (en grados).",
+          "Call the unknown angle $x$: its supplement measures $180 - x$ and its complement measures $90 - x$ (in degrees).",
+        ),
+        L(
+          "La frase «el suplemento es 4 veces el complemento» se traduce en una ecuación lineal en $x$.",
+          "The phrase “the supplement is 4 times the complement” translates into a linear equation in $x$.",
+        ),
+        L(
+          "Al expandir $4(90 - x)$ y agrupar, los términos en $x$ quedan en un solo miembro.",
+          "After expanding $4(90 - x)$ and grouping, the $x$ terms end up on one side.",
+        ),
+      ],
+      answerDisplay: L("$x = 60°$", "$x = 60°$"),
+      solution: [
+        step(
+          "given",
+          "Ángulo desconocido $x$ (en grados); suplemento $= 180 - x$, complemento $= 90 - x$.",
+          "Unknown angle $x$ (in degrees); supplement $= 180 - x$, complement $= 90 - x$.",
+        ),
+        step(
+          "approach",
+          "Traducimos la condición del enunciado a la ecuación $180 - x = 4(90 - x)$ y despejamos $x$.",
+          "Translate the condition into the equation $180 - x = 4(90 - x)$ and solve for $x$.",
+        ),
+        step(
+          "calculation",
+          "$180 - x = 4(90 - x) \\Rightarrow 180 - x = 360 - 4x \\Rightarrow 4x - x = 360 - 180 \\Rightarrow 3x = 180 \\Rightarrow x = 60$",
+          "$180 - x = 4(90 - x) \\Rightarrow 180 - x = 360 - 4x \\Rightarrow 4x - x = 360 - 180 \\Rightarrow 3x = 180 \\Rightarrow x = 60$",
+        ),
+        step(
+          "result",
+          "El ángulo mide $x = 60°$. Verificación: suplemento $= 120°$, complemento $= 30°$ y $120 = 4 \\cdot 30$ ✓.",
+          "The angle measures $x = 60°$. Check: supplement $= 120°$, complement $= 30°$, and $120 = 4 \\cdot 30$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* 4·11 — 8 ángulos congruentes suman 180° → cada uno π/8 rad. */
+  template(
+    {
+      id: "trigf-espol-ch4-11",
+      subject: "math",
+      topicId: "trig-foundations",
+      subtopicId: "degrees-radians",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["congruent-angles", "radians", "conversion"],
+      prerequisites: ["degrees-radians"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 11",
+        page: 467,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$\\dfrac{\\pi}{8}$", "$\\dfrac{\\pi}{8}$"), correct: true },
+        { id: "b", text: L("$\\dfrac{\\pi}{4}$", "$\\dfrac{\\pi}{4}$"), correct: false },
+        { id: "c", text: L("$\\dfrac{\\pi}{6}$", "$\\dfrac{\\pi}{6}$"), correct: false },
+        { id: "d", text: L("$\\dfrac{\\pi}{16}$", "$\\dfrac{\\pi}{16}$"), correct: false },
+      ];
+      return {
+        skill: L("Ángulos congruentes en radianes", "Congruent angles in radians"),
+        statement: L(
+          "Si la suma de las medidas de ocho ángulos congruentes es 180°, ¿cuánto mide cada ángulo en radianes?",
+          "If the sum of the measures of eight congruent angles is 180°, how much does each angle measure in radians?",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "«Congruentes» significa que los ocho ángulos tienen exactamente la misma medida.",
+            "“Congruent” means the eight angles have exactly the same measure.",
+          ),
+          L(
+            "Si cada ángulo mide $x$ grados, la suma es $8x = 180°$.",
+            "If each angle measures $x$ degrees, the sum is $8x = 180°$.",
+          ),
+          L(
+            "Cada ángulo es la mitad de $45°$, cuyo valor en radianes ya conoces.",
+            "Each angle is half of $45°$, whose radian value you already know.",
+          ),
+        ],
+        answerDisplay: L("$\\dfrac{\\pi}{8}$ rad", "$\\dfrac{\\pi}{8}$ rad"),
+        solution: [
+          step(
+            "given",
+            "Suma de las medidas de 8 ángulos congruentes $= 180°$.",
+            "Sum of the measures of 8 congruent angles $= 180°$.",
+          ),
+          step(
+            "approach",
+            "Dividimos la suma entre 8 para obtener cada ángulo en grados y luego convertimos a radianes.",
+            "Divide the sum by 8 to get each angle in degrees, then convert to radians.",
+          ),
+          step(
+            "calculation",
+            "$x = \\dfrac{180°}{8} = 22{,}5°$<br>$22{,}5° \\cdot \\dfrac{\\pi}{180°} = \\dfrac{22{,}5\\pi}{180} = \\dfrac{45\\pi}{360} = \\dfrac{\\pi}{8}$",
+            "$x = \\dfrac{180°}{8} = 22.5°$<br>$22.5° \\cdot \\dfrac{\\pi}{180°} = \\dfrac{22.5\\pi}{180} = \\dfrac{45\\pi}{360} = \\dfrac{\\pi}{8}$",
+          ),
+          step(
+            "result",
+            "Cada ángulo mide $\\dfrac{\\pi}{8}$ rad. Verificación: $8 \\cdot \\dfrac{\\pi}{8} = \\pi = 180°$ ✓.",
+            "Each angle measures $\\dfrac{\\pi}{8}$ rad. Check: $8 \\cdot \\dfrac{\\pi}{8} = \\pi = 180°$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 4·12 — suplementario de x = 123° → x = 57°, complementario 33°. */
+  template(
+    {
+      id: "trigf-espol-ch4-12",
+      subject: "math",
+      topicId: "trig-foundations",
+      subtopicId: "degrees-radians",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["supplementary-angles", "complementary-angles", "degrees"],
+      prerequisites: ["degrees-radians"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 12",
+        page: 467,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$57°$ y $33°$", "$57°$ and $33°$"), correct: true },
+        { id: "b", text: L("$67°$ y $23°$", "$67°$ and $23°$"), correct: false },
+        { id: "c", text: L("$57°$ y $23°$", "$57°$ and $23°$"), correct: false },
+        { id: "d", text: L("$67°$ y $33°$", "$67°$ and $33°$"), correct: false },
+      ];
+      return {
+        skill: L("Suplementario y complementario", "Supplementary and complementary"),
+        statement: L(
+          "La medida del ángulo suplementario de $x$ es igual a 123°. Hallar la medida del ángulo $x$ y la de su ángulo complementario.",
+          "The measure of the supplementary angle of $x$ equals 123°. Find the measure of angle $x$ and of its complementary angle.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Dos ángulos suplementarios suman $180°$; dos complementarios suman $90°$.",
+            "Two supplementary angles add up to $180°$; two complementary angles add up to $90°$.",
+          ),
+          L(
+            "Usa primero la condición del suplementario para hallar $x$.",
+            "Use the supplementary condition first to find $x$.",
+          ),
+          L(
+            "El complementario se resta desde $90°$, no desde $180°$.",
+            "The complement is taken from $90°$, not from $180°$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$x = 57°$, complementario $= 33°$",
+          "$x = 57°$, complement $= 33°$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El ángulo suplementario de $x$ mide $123°$.",
+            "The supplementary angle of $x$ measures $123°$.",
+          ),
+          step(
+            "approach",
+            "Planteamos $x + 123° = 180°$ para hallar $x$ y después restamos desde $90°$ para el complementario.",
+            "Set up $x + 123° = 180°$ to find $x$, then subtract from $90°$ for the complement.",
+          ),
+          step(
+            "calculation",
+            "$x = 180° - 123° = 57°$<br>complementario $= 90° - 57° = 33°$",
+            "$x = 180° - 123° = 57°$<br>complement $= 90° - 57° = 33°$",
+          ),
+          step(
+            "result",
+            "$x = 57°$ y su complementario mide $33°$. Verificación: $57° + 123° = 180°$ ✓ y $57° + 33° = 90°$ ✓.",
+            "$x = 57°$ and its complement measures $33°$. Check: $57° + 123° = 180°$ ✓ and $57° + 33° = 90°$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 4·13b — producto de 4 razones notables → −1/12. */
+  template(
+    {
+      id: "trigf-espol-ch4-13b",
+      subject: "math",
+      topicId: "trig-foundations",
+      subtopicId: "exact-values",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["exact-values", "special-angles", "signs"],
+      prerequisites: ["exact-values", "unit-circle"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 13b",
+        page: 468,
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$-\\dfrac{1}{12}$", "$-\\dfrac{1}{12}$"), correct: true },
+        { id: "b", text: L("$\\dfrac{1}{12}$", "$\\dfrac{1}{12}$"), correct: false },
+        { id: "c", text: L("$-\\dfrac{1}{6}$", "$-\\dfrac{1}{6}$"), correct: false },
+        { id: "d", text: L("$\\dfrac{1}{6}$", "$\\dfrac{1}{6}$"), correct: false },
+      ];
+      return {
+        skill: L("Producto de valores exactos", "Product of exact values"),
+        statement: L(
+          "Calcule: $\\operatorname{sen}\\dfrac{5\\pi}{6}\\cdot\\cos\\dfrac{4\\pi}{3}\\cdot\\left(-\\tan\\dfrac{\\pi}{6}\\right)\\cdot\\tan(330°)$",
+          "Compute: $\\sin\\dfrac{5\\pi}{6}\\cdot\\cos\\dfrac{4\\pi}{3}\\cdot\\left(-\\tan\\dfrac{\\pi}{6}\\right)\\cdot\\tan(330°)$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Cada factor es un ángulo notable: reduce cada uno a su ángulo de referencia.",
+            "Each factor involves a special angle: reduce each one to its reference angle.",
+          ),
+          L(
+            "$\\dfrac{4\\pi}{3} = 240°$ (tercer cuadrante) y $330°$ (cuarto cuadrante): decide el signo de cada factor por cuadrante.",
+            "$\\dfrac{4\\pi}{3} = 240°$ (third quadrant) and $330°$ (fourth quadrant): fix each factor's sign by quadrant.",
+          ),
+          L(
+            "Cuenta los signos antes de multiplicar: hay tres factores negativos, así que el producto es negativo.",
+            "Count the signs before multiplying: there are three negative factors, so the product is negative.",
+          ),
+        ],
+        answerDisplay: L("$-\\dfrac{1}{12}$", "$-\\dfrac{1}{12}$"),
+        solution: [
+          step(
+            "given",
+            "Producto de cuatro razones con ángulos notables: $\\dfrac{5\\pi}{6}$, $\\dfrac{4\\pi}{3}$, $\\dfrac{\\pi}{6}$ y $330°$.",
+            "Product of four ratios with special angles: $\\dfrac{5\\pi}{6}$, $\\dfrac{4\\pi}{3}$, $\\dfrac{\\pi}{6}$ and $330°$.",
+          ),
+          step(
+            "approach",
+            "Evaluamos cada factor (valor absoluto por ángulo de referencia, signo por cuadrante) y luego multiplicamos.",
+            "Evaluate each factor (absolute value from the reference angle, sign from the quadrant), then multiply.",
+          ),
+          step(
+            "calculation",
+            "$\\operatorname{sen}\\dfrac{5\\pi}{6} = \\dfrac{1}{2}$, $\\cos\\dfrac{4\\pi}{3} = -\\dfrac{1}{2}$, $-\\tan\\dfrac{\\pi}{6} = -\\dfrac{\\sqrt{3}}{3}$, $\\tan(330°) = -\\dfrac{\\sqrt{3}}{3}$<br>$\\dfrac{1}{2}\\cdot\\left(-\\dfrac{1}{2}\\right)\\cdot\\left(-\\dfrac{\\sqrt{3}}{3}\\right)\\cdot\\left(-\\dfrac{\\sqrt{3}}{3}\\right) = -\\dfrac{1}{4}\\cdot\\dfrac{3}{9} = -\\dfrac{1}{12}$",
+            "$\\sin\\dfrac{5\\pi}{6} = \\dfrac{1}{2}$, $\\cos\\dfrac{4\\pi}{3} = -\\dfrac{1}{2}$, $-\\tan\\dfrac{\\pi}{6} = -\\dfrac{\\sqrt{3}}{3}$, $\\tan(330°) = -\\dfrac{\\sqrt{3}}{3}$<br>$\\dfrac{1}{2}\\cdot\\left(-\\dfrac{1}{2}\\right)\\cdot\\left(-\\dfrac{\\sqrt{3}}{3}\\right)\\cdot\\left(-\\dfrac{\\sqrt{3}}{3}\\right) = -\\dfrac{1}{4}\\cdot\\dfrac{3}{9} = -\\dfrac{1}{12}$",
+          ),
+          step(
+            "result",
+            "El producto es $-\\dfrac{1}{12}$. Verificación numérica: $0{,}5\\cdot(-0{,}5)\\cdot(-0{,}577)\\cdot(-0{,}577) \\approx -0{,}0833 = -\\dfrac{1}{12}$ ✓.",
+            "The product is $-\\dfrac{1}{12}$. Numeric check: $0.5\\cdot(-0.5)\\cdot(-0.577)\\cdot(-0.577) \\approx -0.0833 = -\\dfrac{1}{12}$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 4·13c — 3cos(π/6)+sen(5π/6)−tan(π/3) → (√3+1)/2. */
+  template(
+    {
+      id: "trigf-espol-ch4-13c",
+      subject: "math",
+      topicId: "trig-foundations",
+      subtopicId: "exact-values",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 180,
+      tags: ["exact-values", "special-angles", "simplification"],
+      prerequisites: ["exact-values"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 13c",
+        page: 468,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$\\dfrac{\\sqrt{3}+1}{2}$", "$\\dfrac{\\sqrt{3}+1}{2}$"), correct: true },
+        { id: "b", text: L("$\\dfrac{\\sqrt{3}-1}{2}$", "$\\dfrac{\\sqrt{3}-1}{2}$"), correct: false },
+        { id: "c", text: L("$\\dfrac{1-\\sqrt{3}}{2}$", "$\\dfrac{1-\\sqrt{3}}{2}$"), correct: false },
+        { id: "d", text: L("$\\dfrac{\\sqrt{3}+2}{2}$", "$\\dfrac{\\sqrt{3}+2}{2}$"), correct: false },
+      ];
+      return {
+        skill: L("Suma de valores exactos", "Sum of exact values"),
+        statement: L(
+          "Calcule: $3\\cos\\dfrac{\\pi}{6}+\\operatorname{sen}\\dfrac{5\\pi}{6}-\\tan\\dfrac{\\pi}{3}$",
+          "Compute: $3\\cos\\dfrac{\\pi}{6}+\\sin\\dfrac{5\\pi}{6}-\\tan\\dfrac{\\pi}{3}$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Los tres ángulos $\\dfrac{\\pi}{6}$, $\\dfrac{5\\pi}{6}$ y $\\dfrac{\\pi}{3}$ son notables.",
+            "The three angles $\\dfrac{\\pi}{6}$, $\\dfrac{5\\pi}{6}$ and $\\dfrac{\\pi}{3}$ are special angles.",
+          ),
+          L(
+            "Por simetría en el segundo cuadrante, $\\operatorname{sen}\\dfrac{5\\pi}{6} = \\operatorname{sen}\\dfrac{\\pi}{6}$.",
+            "By second-quadrant symmetry, $\\sin\\dfrac{5\\pi}{6} = \\sin\\dfrac{\\pi}{6}$.",
+          ),
+          L(
+            "Reúne los términos con $\\sqrt{3}$ y el término racional antes de escribir todo sobre 2.",
+            "Gather the $\\sqrt{3}$ terms and the rational term before writing everything over 2.",
+          ),
+        ],
+        answerDisplay: L("$\\dfrac{\\sqrt{3}+1}{2}$", "$\\dfrac{\\sqrt{3}+1}{2}$"),
+        solution: [
+          step(
+            "given",
+            "Suma de tres términos con ángulos notables en radianes.",
+            "Sum of three terms with special angles in radians.",
+          ),
+          step(
+            "approach",
+            "Sustituimos los valores exactos de la tabla y agrupamos los términos semejantes.",
+            "Substitute the exact table values and gather like terms.",
+          ),
+          step(
+            "calculation",
+            "$3\\cdot\\dfrac{\\sqrt{3}}{2}+\\dfrac{1}{2}-\\sqrt{3} = \\dfrac{3\\sqrt{3}}{2}+\\dfrac{1}{2}-\\dfrac{2\\sqrt{3}}{2} = \\dfrac{\\sqrt{3}+1}{2}$",
+            "$3\\cdot\\dfrac{\\sqrt{3}}{2}+\\dfrac{1}{2}-\\sqrt{3} = \\dfrac{3\\sqrt{3}}{2}+\\dfrac{1}{2}-\\dfrac{2\\sqrt{3}}{2} = \\dfrac{\\sqrt{3}+1}{2}$",
+          ),
+          step(
+            "result",
+            "El valor es $\\dfrac{\\sqrt{3}+1}{2}$. Verificación numérica: $3\\cdot0{,}866+0{,}5-1{,}732 \\approx 1{,}366 = \\dfrac{\\sqrt{3}+1}{2}$ ✓.",
+            "The value is $\\dfrac{\\sqrt{3}+1}{2}$. Numeric check: $3\\cdot0.866+0.5-1.732 \\approx 1.366 = \\dfrac{\\sqrt{3}+1}{2}$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 4·13d — tan²(π/6)−cos²(2π/3)−tan(3π/4) → 13/12. */
+  template(
+    {
+      id: "trigf-espol-ch4-13d",
+      subject: "math",
+      topicId: "trig-foundations",
+      subtopicId: "exact-values",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 180,
+      tags: ["exact-values", "special-angles", "signs"],
+      prerequisites: ["exact-values", "unit-circle"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 13d",
+        page: 468,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$\\dfrac{13}{12}$", "$\\dfrac{13}{12}$"), correct: true },
+        { id: "b", text: L("$\\dfrac{1}{12}$", "$\\dfrac{1}{12}$"), correct: false },
+        { id: "c", text: L("$\\dfrac{7}{12}$", "$\\dfrac{7}{12}$"), correct: false },
+        { id: "d", text: L("$-\\dfrac{11}{12}$", "$-\\dfrac{11}{12}$"), correct: false },
+      ];
+      return {
+        skill: L("Potencias de razones exactas", "Powers of exact ratios"),
+        statement: L(
+          "Calcule: $\\tan^{2}\\dfrac{\\pi}{6}-\\cos^{2}\\dfrac{2\\pi}{3}-\\tan\\dfrac{3\\pi}{4}$",
+          "Compute: $\\tan^{2}\\dfrac{\\pi}{6}-\\cos^{2}\\dfrac{2\\pi}{3}-\\tan\\dfrac{3\\pi}{4}$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Elevar al cuadrado elimina el signo: $\\cos^{2}$ de un valor negativo da positivo.",
+            "Squaring removes the sign: $\\cos^{2}$ of a negative value is positive.",
+          ),
+          L(
+            "En el segundo cuadrante la tangente es negativa: $\\tan\\dfrac{3\\pi}{4} = -1$.",
+            "In the second quadrant the tangent is negative: $\\tan\\dfrac{3\\pi}{4} = -1$.",
+          ),
+          L(
+            "Cuidado con el signo doble: restar $\\tan\\dfrac{3\\pi}{4}$ es restar $-1$, es decir, sumar 1.",
+            "Watch the double sign: subtracting $\\tan\\dfrac{3\\pi}{4}$ means subtracting $-1$, i.e. adding 1.",
+          ),
+        ],
+        answerDisplay: L("$\\dfrac{13}{12}$", "$\\dfrac{13}{12}$"),
+        solution: [
+          step(
+            "given",
+            "Expresión con potencias cuadradas de razones notables.",
+            "Expression with squared special-angle ratios.",
+          ),
+          step(
+            "approach",
+            "Evaluamos cada potencia —el cuadrado borra los signos— y luego operamos.",
+            "Evaluate each power —squaring kills the signs— and then combine.",
+          ),
+          step(
+            "calculation",
+            "$\\tan^{2}\\dfrac{\\pi}{6} = \\left(\\dfrac{\\sqrt{3}}{3}\\right)^{2} = \\dfrac{1}{3}$, $\\cos^{2}\\dfrac{2\\pi}{3} = \\left(-\\dfrac{1}{2}\\right)^{2} = \\dfrac{1}{4}$, $\\tan\\dfrac{3\\pi}{4} = -1$<br>$\\dfrac{1}{3}-\\dfrac{1}{4}-(-1) = \\dfrac{4}{12}-\\dfrac{3}{12}+\\dfrac{12}{12} = \\dfrac{13}{12}$",
+            "$\\tan^{2}\\dfrac{\\pi}{6} = \\left(\\dfrac{\\sqrt{3}}{3}\\right)^{2} = \\dfrac{1}{3}$, $\\cos^{2}\\dfrac{2\\pi}{3} = \\left(-\\dfrac{1}{2}\\right)^{2} = \\dfrac{1}{4}$, $\\tan\\dfrac{3\\pi}{4} = -1$<br>$\\dfrac{1}{3}-\\dfrac{1}{4}-(-1) = \\dfrac{4}{12}-\\dfrac{3}{12}+\\dfrac{12}{12} = \\dfrac{13}{12}$",
+          ),
+          step(
+            "result",
+            "El valor es $\\dfrac{13}{12}$. Verificación: $0{,}333-0{,}25+1 = 1{,}083 = \\dfrac{13}{12}$ ✓.",
+            "The value is $\\dfrac{13}{12}$. Check: $0.333-0.25+1 = 1.083 = \\dfrac{13}{12}$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 4·13e — (sen120°+cos240°)/(tan60°+tan330°) → (3−√3)/4. */
+  template(
+    {
+      id: "trigf-espol-ch4-13e",
+      subject: "math",
+      topicId: "trig-foundations",
+      subtopicId: "exact-values",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["exact-values", "special-angles", "fractions"],
+      prerequisites: ["exact-values", "unit-circle"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 13e",
+        page: 468,
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$\\dfrac{3-\\sqrt{3}}{4}$", "$\\dfrac{3-\\sqrt{3}}{4}$"), correct: true },
+        { id: "b", text: L("$\\dfrac{3+\\sqrt{3}}{4}$", "$\\dfrac{3+\\sqrt{3}}{4}$"), correct: false },
+        { id: "c", text: L("$\\dfrac{\\sqrt{3}-3}{4}$", "$\\dfrac{\\sqrt{3}-3}{4}$"), correct: false },
+        { id: "d", text: L("$\\dfrac{1-\\sqrt{3}}{2}$", "$\\dfrac{1-\\sqrt{3}}{2}$"), correct: false },
+      ];
+      return {
+        skill: L("Cociente de valores exactos", "Quotient of exact values"),
+        statement: L(
+          "Calcule: $\\dfrac{\\operatorname{sen}(120°)+\\cos(240°)}{\\tan(60°)+\\tan(330°)}$",
+          "Compute: $\\dfrac{\\sin(120°)+\\cos(240°)}{\\tan(60°)+\\tan(330°)}$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Evalúa numerador y denominador por separado, con ángulo de referencia y signo por cuadrante.",
+            "Evaluate the numerator and the denominator separately, using reference angles and quadrant signs.",
+          ),
+          L(
+            "En el denominador conviene escribir $\\sqrt{3} = \\dfrac{3\\sqrt{3}}{3}$ antes de restar $\\dfrac{\\sqrt{3}}{3}$.",
+            "In the denominator it helps to write $\\sqrt{3} = \\dfrac{3\\sqrt{3}}{3}$ before subtracting $\\dfrac{\\sqrt{3}}{3}$.",
+          ),
+          L(
+            "Dividir entre $\\dfrac{2\\sqrt{3}}{3}$ es multiplicar por su recíproco; al simplificar usa $\\sqrt{3}\\cdot\\sqrt{3} = 3$.",
+            "Dividing by $\\dfrac{2\\sqrt{3}}{3}$ means multiplying by its reciprocal; when simplifying use $\\sqrt{3}\\cdot\\sqrt{3} = 3$.",
+          ),
+        ],
+        answerDisplay: L("$\\dfrac{3-\\sqrt{3}}{4}$", "$\\dfrac{3-\\sqrt{3}}{4}$"),
+        solution: [
+          step(
+            "given",
+            "Cociente de dos combinaciones con ángulos $120°$, $240°$, $60°$ y $330°$.",
+            "Quotient of two combinations with angles $120°$, $240°$, $60°$ and $330°$.",
+          ),
+          step(
+            "approach",
+            "Calculamos numerador y denominador por separado y dividimos multiplicando por el recíproco.",
+            "Compute the numerator and the denominator separately, then divide by multiplying by the reciprocal.",
+          ),
+          step(
+            "calculation",
+            "Numerador: $\\dfrac{\\sqrt{3}}{2}+\\left(-\\dfrac{1}{2}\\right) = \\dfrac{\\sqrt{3}-1}{2}$<br>Denominador: $\\sqrt{3}+\\left(-\\dfrac{\\sqrt{3}}{3}\\right) = \\dfrac{3\\sqrt{3}-\\sqrt{3}}{3} = \\dfrac{2\\sqrt{3}}{3}$<br>Cociente: $\\dfrac{\\sqrt{3}-1}{2}\\cdot\\dfrac{3}{2\\sqrt{3}} = \\dfrac{3(\\sqrt{3}-1)}{4\\sqrt{3}} = \\dfrac{\\sqrt{3}(\\sqrt{3}-1)}{4} = \\dfrac{3-\\sqrt{3}}{4}$",
+            "Numerator: $\\dfrac{\\sqrt{3}}{2}+\\left(-\\dfrac{1}{2}\\right) = \\dfrac{\\sqrt{3}-1}{2}$<br>Denominator: $\\sqrt{3}+\\left(-\\dfrac{\\sqrt{3}}{3}\\right) = \\dfrac{3\\sqrt{3}-\\sqrt{3}}{3} = \\dfrac{2\\sqrt{3}}{3}$<br>Quotient: $\\dfrac{\\sqrt{3}-1}{2}\\cdot\\dfrac{3}{2\\sqrt{3}} = \\dfrac{3(\\sqrt{3}-1)}{4\\sqrt{3}} = \\dfrac{\\sqrt{3}(\\sqrt{3}-1)}{4} = \\dfrac{3-\\sqrt{3}}{4}$",
+          ),
+          step(
+            "result",
+            "El valor es $\\dfrac{3-\\sqrt{3}}{4}$. Verificación numérica: $\\dfrac{0{,}866-0{,}5}{1{,}732-0{,}577} = \\dfrac{0{,}366}{1{,}155} \\approx 0{,}317 = \\dfrac{3-\\sqrt{3}}{4}$ ✓.",
+            "The value is $\\dfrac{3-\\sqrt{3}}{4}$. Numeric check: $\\dfrac{0.866-0.5}{1.732-0.577} = \\dfrac{0.366}{1.155} \\approx 0.317 = \\dfrac{3-\\sqrt{3}}{4}$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 4·13f — fracción de potencias cuadradas → 1/4. */
+  template(
+    {
+      id: "trigf-espol-ch4-13f",
+      subject: "math",
+      topicId: "trig-foundations",
+      subtopicId: "exact-values",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["exact-values", "special-angles", "powers"],
+      prerequisites: ["exact-values", "unit-circle"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 13f",
+        page: 468,
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$\\dfrac{1}{4}$", "$\\dfrac{1}{4}$"), correct: true },
+        { id: "b", text: L("$\\dfrac{1}{2}$", "$\\dfrac{1}{2}$"), correct: false },
+        { id: "c", text: L("$1$", "$1$"), correct: false },
+        { id: "d", text: L("$-\\dfrac{1}{4}$", "$-\\dfrac{1}{4}$"), correct: false },
+      ];
+      return {
+        skill: L("Fracción de potencias exactas", "Fraction of exact powers"),
+        statement: L(
+          "Calcule: $\\dfrac{2\\operatorname{sen}^{2}\\dfrac{\\pi}{6}\\cdot\\cos^{2}(\\pi)}{4\\tan\\dfrac{\\pi}{4}\\cdot\\operatorname{sen}^{2}\\dfrac{3\\pi}{4}}$",
+          "Compute: $\\dfrac{2\\sin^{2}\\dfrac{\\pi}{6}\\cdot\\cos^{2}(\\pi)}{4\\tan\\dfrac{\\pi}{4}\\cdot\\sin^{2}\\dfrac{3\\pi}{4}}$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "El cuadrado de un valor notable también es exacto: evalúa cada potencia por separado.",
+            "The square of a special value is exact too: evaluate each power separately.",
+          ),
+          L(
+            "$\\cos^{2}(\\pi) = (-1)^{2} = 1$: elevar al cuadrado borra el signo.",
+            "$\\cos^{2}(\\pi) = (-1)^{2} = 1$: squaring removes the sign.",
+          ),
+          L(
+            "Simplifica el 2 del numerador con el 4 del denominador solo después de evaluar las potencias.",
+            "Cancel the 2 in the numerator against the 4 in the denominator only after evaluating the powers.",
+          ),
+        ],
+        answerDisplay: L("$\\dfrac{1}{4}$", "$\\dfrac{1}{4}$"),
+        solution: [
+          step(
+            "given",
+            "Cociente de productos con potencias cuadradas de razones notables.",
+            "Quotient of products involving squared special-angle ratios.",
+          ),
+          step(
+            "approach",
+            "Evaluamos numerador y denominador por separado (el cuadrado elimina los signos) y luego dividimos.",
+            "Evaluate the numerator and the denominator separately (squaring removes the signs), then divide.",
+          ),
+          step(
+            "calculation",
+            "Numerador: $2\\left(\\dfrac{1}{2}\\right)^{2}\\cdot(-1)^{2} = 2\\cdot\\dfrac{1}{4}\\cdot1 = \\dfrac{1}{2}$<br>Denominador: $4\\cdot1\\cdot\\left(\\dfrac{\\sqrt{2}}{2}\\right)^{2} = 4\\cdot\\dfrac{2}{4} = 2$<br>Cociente: $\\dfrac{1}{2}\\div 2 = \\dfrac{1}{4}$",
+            "Numerator: $2\\left(\\dfrac{1}{2}\\right)^{2}\\cdot(-1)^{2} = 2\\cdot\\dfrac{1}{4}\\cdot1 = \\dfrac{1}{2}$<br>Denominator: $4\\cdot1\\cdot\\left(\\dfrac{\\sqrt{2}}{2}\\right)^{2} = 4\\cdot\\dfrac{2}{4} = 2$<br>Quotient: $\\dfrac{1}{2}\\div 2 = \\dfrac{1}{4}$",
+          ),
+          step(
+            "result",
+            "El valor es $\\dfrac{1}{4}$. Verificación: $\\dfrac{1}{2}\\div 2 = 0{,}25 = \\dfrac{1}{4}$ ✓.",
+            "The value is $\\dfrac{1}{4}$. Check: $\\dfrac{1}{2}\\div 2 = 0.25 = \\dfrac{1}{4}$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 4·14c — 3sen(45°)−4tan(π/6) → (9√2−8√3)/6. */
+  template(
+    {
+      id: "trigf-espol-ch4-14c",
+      subject: "math",
+      topicId: "trig-foundations",
+      subtopicId: "exact-values",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 210,
+      tags: ["exact-values", "special-angles", "common-denominator"],
+      prerequisites: ["exact-values", "degrees-radians"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 14c",
+        page: 468,
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$\\dfrac{9\\sqrt{2}-8\\sqrt{3}}{6}$", "$\\dfrac{9\\sqrt{2}-8\\sqrt{3}}{6}$"), correct: true },
+        { id: "b", text: L("$\\dfrac{9\\sqrt{2}+8\\sqrt{3}}{6}$", "$\\dfrac{9\\sqrt{2}+8\\sqrt{3}}{6}$"), correct: false },
+        { id: "c", text: L("$\\dfrac{8\\sqrt{3}-9\\sqrt{2}}{6}$", "$\\dfrac{8\\sqrt{3}-9\\sqrt{2}}{6}$"), correct: false },
+        { id: "d", text: L("$\\dfrac{3\\sqrt{2}-4\\sqrt{3}}{6}$", "$\\dfrac{3\\sqrt{2}-4\\sqrt{3}}{6}$"), correct: false },
+      ];
+      return {
+        skill: L("Valor exacto con unidades mixtas", "Exact value with mixed units"),
+        statement: L(
+          "Halle el valor de: $3\\operatorname{sen}(45°)-4\\tan\\dfrac{\\pi}{6}$",
+          "Find the value of: $3\\sin(45°)-4\\tan\\dfrac{\\pi}{6}$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Los ángulos son notables pero están en unidades distintas: evalúa $45°$ y $\\dfrac{\\pi}{6}$ por separado.",
+            "The angles are special but given in different units: evaluate $45°$ and $\\dfrac{\\pi}{6}$ separately.",
+          ),
+          L(
+            "$4\\tan\\dfrac{\\pi}{6} = \\dfrac{4\\sqrt{3}}{3}$: multiplica antes de juntar términos.",
+            "$4\\tan\\dfrac{\\pi}{6} = \\dfrac{4\\sqrt{3}}{3}$: multiply before combining terms.",
+          ),
+          L(
+            "El denominador común de 2 y 3 es 6: ajusta ambos numeradores antes de restar.",
+            "The common denominator of 2 and 3 is 6: adjust both numerators before subtracting.",
+          ),
+        ],
+        answerDisplay: L("$\\dfrac{9\\sqrt{2}-8\\sqrt{3}}{6}$", "$\\dfrac{9\\sqrt{2}-8\\sqrt{3}}{6}$"),
+        solution: [
+          step(
+            "given",
+            "Resta de dos términos con unidades mixtas: $45°$ y $\\dfrac{\\pi}{6} = 30°$.",
+            "Difference of two terms with mixed units: $45°$ and $\\dfrac{\\pi}{6} = 30°$.",
+          ),
+          step(
+            "approach",
+            "Sustituimos los valores exactos y restamos usando el denominador común 6.",
+            "Substitute the exact values and subtract using the common denominator 6.",
+          ),
+          step(
+            "calculation",
+            "$3\\cdot\\dfrac{\\sqrt{2}}{2}-4\\cdot\\dfrac{\\sqrt{3}}{3} = \\dfrac{3\\sqrt{2}}{2}-\\dfrac{4\\sqrt{3}}{3} = \\dfrac{9\\sqrt{2}}{6}-\\dfrac{8\\sqrt{3}}{6} = \\dfrac{9\\sqrt{2}-8\\sqrt{3}}{6}$",
+            "$3\\cdot\\dfrac{\\sqrt{2}}{2}-4\\cdot\\dfrac{\\sqrt{3}}{3} = \\dfrac{3\\sqrt{2}}{2}-\\dfrac{4\\sqrt{3}}{3} = \\dfrac{9\\sqrt{2}}{6}-\\dfrac{8\\sqrt{3}}{6} = \\dfrac{9\\sqrt{2}-8\\sqrt{3}}{6}$",
+          ),
+          step(
+            "result",
+            "El valor es $\\dfrac{9\\sqrt{2}-8\\sqrt{3}}{6}$. Verificación numérica: $3\\cdot0{,}707-4\\cdot0{,}577 \\approx -0{,}188$ y $\\dfrac{9\\cdot1{,}414-8\\cdot1{,}732}{6} \\approx -0{,}188$ ✓.",
+            "The value is $\\dfrac{9\\sqrt{2}-8\\sqrt{3}}{6}$. Numeric check: $3\\cdot0.707-4\\cdot0.577 \\approx -0.188$ and $\\dfrac{9\\cdot1.414-8\\cdot1.732}{6} \\approx -0.188$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 4·14d — sen(−40°)/cos(50°) → −1 (cofunción + imparidad). */
+  template(
+    {
+      id: "trigf-espol-ch4-14d",
+      subject: "math",
+      topicId: "trig-foundations",
+      subtopicId: "sin-cos-tan",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 150,
+      tags: ["cofunctions", "odd-functions", "exact-values"],
+      prerequisites: ["sin-cos-tan", "degrees-radians"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 14d",
+        page: 468,
+      },
+      reasoning: "definition-hunting",
+    },
+    () => ({
+      skill: L("Cofunciones y seno impar", "Cofunctions and odd sine"),
+      statement: L(
+        "Halle el valor de: $\\dfrac{\\operatorname{sen}(-40°)}{\\cos(50°)}$",
+        "Find the value of: $\\dfrac{\\sin(-40°)}{\\cos(50°)}$",
+      ),
+      answer: { kind: "numeric", value: -1 },
+      hints: [
+        L(
+          "El seno es impar: $\\operatorname{sen}(-x) = -\\operatorname{sen}(x)$.",
+          "Sine is odd: $\\sin(-x) = -\\sin(x)$.",
+        ),
+        L(
+          "$40°$ y $50°$ son complementarios: suman $90°$.",
+          "$40°$ and $50°$ are complementary: they add up to $90°$.",
+        ),
+        L(
+          "Cofunción: $\\cos(50°) = \\operatorname{sen}(40°)$.",
+          "Cofunction: $\\cos(50°) = \\sin(40°)$.",
+        ),
+      ],
+      answerDisplay: L("$-1$", "$-1$"),
+      solution: [
+        step(
+          "given",
+          "Cociente $\\dfrac{\\operatorname{sen}(-40°)}{\\cos(50°)}$ con $40° + 50° = 90°$.",
+          "Quotient $\\dfrac{\\sin(-40°)}{\\cos(50°)}$ with $40° + 50° = 90°$.",
+        ),
+        step(
+          "approach",
+          "Aplicamos la imparidad del seno y la identidad de cofunciones entre ángulos complementarios.",
+          "Apply the oddness of sine and the cofunction identity for complementary angles.",
+        ),
+        step(
+          "calculation",
+          "$\\operatorname{sen}(-40°) = -\\operatorname{sen}(40°)$<br>$\\cos(50°) = \\operatorname{sen}(90° - 50°) = \\operatorname{sen}(40°)$<br>$\\dfrac{\\operatorname{sen}(-40°)}{\\cos(50°)} = \\dfrac{-\\operatorname{sen}(40°)}{\\operatorname{sen}(40°)} = -1$",
+          "$\\sin(-40°) = -\\sin(40°)$<br>$\\cos(50°) = \\sin(90° - 50°) = \\sin(40°)$<br>$\\dfrac{\\sin(-40°)}{\\cos(50°)} = \\dfrac{-\\sin(40°)}{\\sin(40°)} = -1$",
+        ),
+        step(
+          "result",
+          "El valor es $-1$. Verificación numérica: $\\operatorname{sen}(-40°) \\approx -0{,}643$ y $\\cos(50°) \\approx 0{,}643$, así que el cociente es $-1$ ✓.",
+          "The value is $-1$. Numeric check: $\\sin(-40°) \\approx -0.643$ and $\\cos(50°) \\approx 0.643$, so the quotient is $-1$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* 4·14e — 6cos(3π/4)+2tan(−π/3) → −(3√2+2√3). */
+  template(
+    {
+      id: "trigf-espol-ch4-14e",
+      subject: "math",
+      topicId: "trig-foundations",
+      subtopicId: "exact-values",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 210,
+      tags: ["exact-values", "special-angles", "signs"],
+      prerequisites: ["exact-values", "unit-circle"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 14e",
+        page: 468,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$-\\left(3\\sqrt{2}+2\\sqrt{3}\\right)$", "$-\\left(3\\sqrt{2}+2\\sqrt{3}\\right)$"), correct: true },
+        { id: "b", text: L("$3\\sqrt{2}-2\\sqrt{3}$", "$3\\sqrt{2}-2\\sqrt{3}$"), correct: false },
+        { id: "c", text: L("$-\\left(3\\sqrt{2}-2\\sqrt{3}\\right)$", "$-\\left(3\\sqrt{2}-2\\sqrt{3}\\right)$"), correct: false },
+        { id: "d", text: L("$3\\sqrt{2}+2\\sqrt{3}$", "$3\\sqrt{2}+2\\sqrt{3}$"), correct: false },
+      ];
+      return {
+        skill: L("Signos por cuadrante en una suma", "Quadrant signs in a sum"),
+        statement: L(
+          "Halle el valor de: $6\\cos\\dfrac{3\\pi}{4}+2\\tan\\left(-\\dfrac{\\pi}{3}\\right)$",
+          "Find the value of: $6\\cos\\dfrac{3\\pi}{4}+2\\tan\\left(-\\dfrac{\\pi}{3}\\right)$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Reduce cada ángulo: $\\dfrac{3\\pi}{4}$ está en el segundo cuadrante; $-\\dfrac{\\pi}{3}$, en el cuarto.",
+            "Reduce each angle: $\\dfrac{3\\pi}{4}$ is in the second quadrant; $-\\dfrac{\\pi}{3}$, in the fourth.",
+          ),
+          L(
+            "La tangente es impar: $\\tan\\left(-\\dfrac{\\pi}{3}\\right) = -\\tan\\dfrac{\\pi}{3}$.",
+            "Tangent is odd: $\\tan\\left(-\\dfrac{\\pi}{3}\\right) = -\\tan\\dfrac{\\pi}{3}$.",
+          ),
+          L(
+            "Ambos términos resultan negativos: el total se factoriza con un signo menos delante del paréntesis.",
+            "Both terms come out negative: the total factors with a minus sign in front of the parenthesis.",
+          ),
+        ],
+        answerDisplay: L(
+          "$-\\left(3\\sqrt{2}+2\\sqrt{3}\\right)$",
+          "$-\\left(3\\sqrt{2}+2\\sqrt{3}\\right)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "Suma de dos términos: $6\\cos\\dfrac{3\\pi}{4}$ y $2\\tan\\left(-\\dfrac{\\pi}{3}\\right)$.",
+            "Sum of two terms: $6\\cos\\dfrac{3\\pi}{4}$ and $2\\tan\\left(-\\dfrac{\\pi}{3}\\right)$.",
+          ),
+          step(
+            "approach",
+            "Evaluamos cada término con su ángulo de referencia y signo por cuadrante (tangente impar).",
+            "Evaluate each term using its reference angle and quadrant sign (tangent is odd).",
+          ),
+          step(
+            "calculation",
+            "$\\cos\\dfrac{3\\pi}{4} = -\\dfrac{\\sqrt{2}}{2} \\Rightarrow 6\\cos\\dfrac{3\\pi}{4} = -3\\sqrt{2}$<br>$\\tan\\left(-\\dfrac{\\pi}{3}\\right) = -\\sqrt{3} \\Rightarrow 2\\tan\\left(-\\dfrac{\\pi}{3}\\right) = -2\\sqrt{3}$<br>$-3\\sqrt{2}-2\\sqrt{3} = -\\left(3\\sqrt{2}+2\\sqrt{3}\\right)$",
+            "$\\cos\\dfrac{3\\pi}{4} = -\\dfrac{\\sqrt{2}}{2} \\Rightarrow 6\\cos\\dfrac{3\\pi}{4} = -3\\sqrt{2}$<br>$\\tan\\left(-\\dfrac{\\pi}{3}\\right) = -\\sqrt{3} \\Rightarrow 2\\tan\\left(-\\dfrac{\\pi}{3}\\right) = -2\\sqrt{3}$<br>$-3\\sqrt{2}-2\\sqrt{3} = -\\left(3\\sqrt{2}+2\\sqrt{3}\\right)$",
+          ),
+          step(
+            "result",
+            "El valor es $-\\left(3\\sqrt{2}+2\\sqrt{3}\\right)$. Verificación numérica: $-4{,}243-3{,}464 = -7{,}707 = -\\left(3\\cdot1{,}414+2\\cdot1{,}732\\right)$ ✓.",
+            "The value is $-\\left(3\\sqrt{2}+2\\sqrt{3}\\right)$. Numeric check: $-4.243-3.464 = -7.707 = -\\left(3\\cdot1.414+2\\cdot1.732\\right)$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 4·25 — cos(π/12) → (√6+√2)/4. El libro imprime 5 opciones (a–e);  */
+  /* se descarta la impresa c) (√2+1)/4 para mantener exactamente 4    */
+  /* opciones (regla de casa). Distractores restantes: los impresos.   */
+  template(
+    {
+      id: "trigf-espol-ch4-25",
+      subject: "math",
+      topicId: "trig-foundations",
+      subtopicId: "exact-values",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["exact-values", "angle-addition", "half-angle"],
+      prerequisites: ["exact-values", "unit-circle"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 25",
+        page: 471,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$\\dfrac{\\sqrt{6}+\\sqrt{2}}{4}$", "$\\dfrac{\\sqrt{6}+\\sqrt{2}}{4}$"), correct: true },
+        { id: "b", text: L("$\\dfrac{\\sqrt{3}-1}{4}$", "$\\dfrac{\\sqrt{3}-1}{4}$"), correct: false },
+        { id: "c", text: L("$\\dfrac{\\sqrt{3}+\\sqrt{2}}{4}$", "$\\dfrac{\\sqrt{3}+\\sqrt{2}}{4}$"), correct: false },
+        { id: "d", text: L("$\\dfrac{\\sqrt{3}+1}{4}$", "$\\dfrac{\\sqrt{3}+1}{4}$"), correct: false },
+      ];
+      return {
+        skill: L("Valor exacto de un ángulo compuesto", "Exact value of a compound angle"),
+        statement: L(
+          "El valor de $\\cos\\dfrac{\\pi}{12}$ es:",
+          "The value of $\\cos\\dfrac{\\pi}{12}$ is:",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "$\\dfrac{\\pi}{12} = 15°$ no está en la tabla básica: hay que construirlo con ángulos conocidos.",
+            "$\\dfrac{\\pi}{12} = 15°$ is not in the basic table: it must be built from known angles.",
+          ),
+          L(
+            "Escribe $\\dfrac{\\pi}{12} = \\dfrac{\\pi}{4} - \\dfrac{\\pi}{3}$ (o usa el ángulo mitad de $\\dfrac{\\pi}{6}$).",
+            "Write $\\dfrac{\\pi}{12} = \\dfrac{\\pi}{4} - \\dfrac{\\pi}{3}$ (or use the half angle of $\\dfrac{\\pi}{6}$).",
+          ),
+          L(
+            "La fórmula produce dos términos, uno con $\\sqrt{2}$ y otro con $\\sqrt{6}$; agrúpalos sobre denominador 4.",
+            "The formula yields two terms, one with $\\sqrt{2}$ and one with $\\sqrt{6}$; gather them over denominator 4.",
+          ),
+        ],
+        answerDisplay: L("$\\dfrac{\\sqrt{6}+\\sqrt{2}}{4}$", "$\\dfrac{\\sqrt{6}+\\sqrt{2}}{4}$"),
+        solution: [
+          step(
+            "given",
+            "$\\cos\\dfrac{\\pi}{12}$, con $\\dfrac{\\pi}{12} = 15°$.",
+            "$\\cos\\dfrac{\\pi}{12}$, with $\\dfrac{\\pi}{12} = 15°$.",
+          ),
+          step(
+            "approach",
+            "Descomponemos $\\dfrac{\\pi}{12} = \\dfrac{\\pi}{4} - \\dfrac{\\pi}{3}$ y aplicamos el coseno de una diferencia.",
+            "Split $\\dfrac{\\pi}{12} = \\dfrac{\\pi}{4} - \\dfrac{\\pi}{3}$ and apply the cosine of a difference.",
+          ),
+          step(
+            "calculation",
+            "$\\cos\\left(\\dfrac{\\pi}{4}-\\dfrac{\\pi}{3}\\right) = \\cos\\dfrac{\\pi}{4}\\cos\\dfrac{\\pi}{3}+\\operatorname{sen}\\dfrac{\\pi}{4}\\operatorname{sen}\\dfrac{\\pi}{3} = \\dfrac{\\sqrt{2}}{2}\\cdot\\dfrac{1}{2}+\\dfrac{\\sqrt{2}}{2}\\cdot\\dfrac{\\sqrt{3}}{2} = \\dfrac{\\sqrt{2}}{4}+\\dfrac{\\sqrt{6}}{4} = \\dfrac{\\sqrt{6}+\\sqrt{2}}{4}$",
+            "$\\cos\\left(\\dfrac{\\pi}{4}-\\dfrac{\\pi}{3}\\right) = \\cos\\dfrac{\\pi}{4}\\cos\\dfrac{\\pi}{3}+\\sin\\dfrac{\\pi}{4}\\sin\\dfrac{\\pi}{3} = \\dfrac{\\sqrt{2}}{2}\\cdot\\dfrac{1}{2}+\\dfrac{\\sqrt{2}}{2}\\cdot\\dfrac{\\sqrt{3}}{2} = \\dfrac{\\sqrt{2}}{4}+\\dfrac{\\sqrt{6}}{4} = \\dfrac{\\sqrt{6}+\\sqrt{2}}{4}$",
+          ),
+          step(
+            "result",
+            "$\\cos\\dfrac{\\pi}{12} = \\dfrac{\\sqrt{6}+\\sqrt{2}}{4}$. Verificación numérica: $\\dfrac{2{,}449+1{,}414}{4} \\approx 0{,}966 = \\cos(15°)$ ✓.",
+            "$\\cos\\dfrac{\\pi}{12} = \\dfrac{\\sqrt{6}+\\sqrt{2}}{4}$. Numeric check: $\\dfrac{2.449+1.414}{4} \\approx 0.966 = \\cos(15°)$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 4·30 — tan(19π/12) → −(2+√3). */
+  template(
+    {
+      id: "trigf-espol-ch4-30",
+      subject: "math",
+      topicId: "trig-foundations",
+      subtopicId: "exact-values",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 270,
+      tags: ["exact-values", "angle-addition", "periodicity"],
+      prerequisites: ["exact-values", "unit-circle"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 30",
+        page: 471,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$-\\left(2+\\sqrt{3}\\right)$", "$-\\left(2+\\sqrt{3}\\right)$"), correct: true },
+        { id: "b", text: L("$-\\sqrt{3}$", "$-\\sqrt{3}$"), correct: false },
+        { id: "c", text: L("$2+\\sqrt{3}$", "$2+\\sqrt{3}$"), correct: false },
+        { id: "d", text: L("$\\sqrt{3}-2$", "$\\sqrt{3}-2$"), correct: false },
+      ];
+      return {
+        skill: L("Tangente por periodicidad y adición", "Tangent via periodicity and addition"),
+        statement: L(
+          "Hallar el valor de: $\\tan\\dfrac{19\\pi}{12}$",
+          "Find the value of: $\\tan\\dfrac{19\\pi}{12}$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "La tangente tiene periodo $\\pi$: resta $\\pi = \\dfrac{12\\pi}{12}$ para reducir el ángulo.",
+            "Tangent has period $\\pi$: subtract $\\pi = \\dfrac{12\\pi}{12}$ to reduce the angle.",
+          ),
+          L(
+            "El resto $\\dfrac{7\\pi}{12}$ se descompone como $\\dfrac{\\pi}{4} + \\dfrac{\\pi}{3}$ (equivale a $105°$).",
+            "The remainder $\\dfrac{7\\pi}{12}$ splits as $\\dfrac{\\pi}{4} + \\dfrac{\\pi}{3}$ (it equals $105°$).",
+          ),
+          L(
+            "Con la fórmula de adición el denominador queda $1 - \\sqrt{3}$, negativo: racionaliza con $1 + \\sqrt{3}$.",
+            "With the addition formula the denominator becomes $1 - \\sqrt{3}$, which is negative: rationalize with $1 + \\sqrt{3}$.",
+          ),
+        ],
+        answerDisplay: L("$-\\left(2+\\sqrt{3}\\right)$", "$-\\left(2+\\sqrt{3}\\right)$"),
+        solution: [
+          step(
+            "given",
+            "$\\tan\\dfrac{19\\pi}{12}$, con $\\dfrac{19\\pi}{12} = 285°$.",
+            "$\\tan\\dfrac{19\\pi}{12}$, with $\\dfrac{19\\pi}{12} = 285°$.",
+          ),
+          step(
+            "approach",
+            "Reducimos un periodo $\\pi$ y descomponemos el resto con la fórmula de adición de la tangente.",
+            "Remove one period $\\pi$ and split the remainder with the tangent addition formula.",
+          ),
+          step(
+            "calculation",
+            "$\\tan\\dfrac{19\\pi}{12} = \\tan\\left(\\dfrac{19\\pi}{12} - \\pi\\right) = \\tan\\dfrac{7\\pi}{12} = \\tan\\left(\\dfrac{\\pi}{4}+\\dfrac{\\pi}{3}\\right) = \\dfrac{1+\\sqrt{3}}{1-\\sqrt{3}} = \\dfrac{(1+\\sqrt{3})^{2}}{(1-\\sqrt{3})(1+\\sqrt{3})} = \\dfrac{4+2\\sqrt{3}}{-2} = -\\left(2+\\sqrt{3}\\right)$",
+            "$\\tan\\dfrac{19\\pi}{12} = \\tan\\left(\\dfrac{19\\pi}{12} - \\pi\\right) = \\tan\\dfrac{7\\pi}{12} = \\tan\\left(\\dfrac{\\pi}{4}+\\dfrac{\\pi}{3}\\right) = \\dfrac{1+\\sqrt{3}}{1-\\sqrt{3}} = \\dfrac{(1+\\sqrt{3})^{2}}{(1-\\sqrt{3})(1+\\sqrt{3})} = \\dfrac{4+2\\sqrt{3}}{-2} = -\\left(2+\\sqrt{3}\\right)$",
+          ),
+          step(
+            "result",
+            "$\\tan\\dfrac{19\\pi}{12} = -\\left(2+\\sqrt{3}\\right)$. Verificación numérica: $\\tan(285°) \\approx -3{,}732 = -\\left(2+1{,}732\\right)$ ✓.",
+            "$\\tan\\dfrac{19\\pi}{12} = -\\left(2+\\sqrt{3}\\right)$. Numeric check: $\\tan(285°) \\approx -3.732 = -\\left(2+1.732\\right)$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
 ];

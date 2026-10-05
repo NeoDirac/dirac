@@ -1396,4 +1396,1059 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+
+  /* ---------------------------------------------------------------- */
+  /* §3.14 (cont.) — ronda 3 (2026-10-05), petición del tutor:         */
+  /* «más logaritmos». Ítems 118b/c/g, 120b, 131a-d/f/i, 132, 135 y   */
+  /* 136. Clave impresa (p. 939) + sympy: download/verify_espol_ch4.py */
+  /* ---------------------------------------------------------------- */
+
+  /* 118b — 81^(1/log₅3) − 27^(log₉36) − 3^(4/log₇9) = 625 − 216 − 49 = 360.
+     Printed key: b) 360. */
+  template(
+    {
+      id: "log-espol-ch3-118b",
+      subject: "math",
+      topicId: "logarithmic",
+      subtopicId: "properties",
+      difficulty: "challenge",
+      questionType: "numeric",
+      estimatedTimeSec: 360,
+      tags: ["log-properties", "power-identities", "change-of-base"],
+      prerequisites: ["properties", "evaluating"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 118b",
+        page: 392,
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L(
+        "Exponentes logarítmicos recíprocos: $\\frac{1}{\\log_{b} a} = \\log_{a} b$ al servicio de $a^{\\log_{a} c} = c$",
+        "Reciprocal logarithmic exponents: $\\frac{1}{\\log_{b} a} = \\log_{a} b$ in the service of $a^{\\log_{a} c} = c$",
+      ),
+      statement: L(
+        "Simplifica y calcula: $81^{\\frac{1}{\\log_{5} 3}} - 27^{\\log_{9} 36} - 3^{\\frac{4}{\\log_{7} 9}}$.",
+        "Simplify and compute: $81^{\\frac{1}{\\log_{5} 3}} - 27^{\\log_{9} 36} - 3^{\\frac{4}{\\log_{7} 9}}$.",
+      ),
+      answer: { kind: "numeric", value: 360 },
+      hints: [
+        L(
+          "Los tres exponentes son logaritmos «al revés»: la identidad $\\frac{1}{\\log_{b} a} = \\log_{a} b$ te deja elegir la base del logaritmo del exponente.",
+          "The three exponents are «reversed» logarithms: the identity $\\frac{1}{\\log_{b} a} = \\log_{a} b$ lets you choose the base of the logarithm in the exponent.",
+        ),
+        L(
+          "Escribe las bases como potencias de $3$ (recuerda que $81 = 3^{4}$ y $27 = 3^{3}$) y usa $a^{\\log_{a} c} = c$ para eliminar el logaritmo del exponente.",
+          "Write the bases as powers of $3$ (recall $81 = 3^{4}$ and $27 = 3^{3}$) and use $a^{\\log_{a} c} = c$ to eliminate the logarithm from the exponent.",
+        ),
+        L(
+          "Para el término central, $\\log_{9} 36 = \\frac{\\log_{3} 36}{\\log_{3} 9} = \\frac{\\log_{3} 36}{2}$; algo análogo sirve para $\\frac{4}{\\log_{7} 9} = 4\\log_{9} 7$.",
+          "For the middle term, $\\log_{9} 36 = \\frac{\\log_{3} 36}{\\log_{3} 9} = \\frac{\\log_{3} 36}{2}$; something analogous works for $\\frac{4}{\\log_{7} 9} = 4\\log_{9} 7$.",
+        ),
+      ],
+      answerDisplay: L("$625 - 216 - 49 = 360$", "$625 - 216 - 49 = 360$"),
+      solution: [
+        step(
+          "given",
+          "La expresión $81^{\\frac{1}{\\log_{5} 3}} - 27^{\\log_{9} 36} - 3^{\\frac{4}{\\log_{7} 9}}$, cuyas tres bases ($81$, $27$, $3$) son potencias de $3$.",
+          "The expression $81^{\\frac{1}{\\log_{5} 3}} - 27^{\\log_{9} 36} - 3^{\\frac{4}{\\log_{7} 9}}$, whose three bases ($81$, $27$, $3$) are powers of $3$.",
+        ),
+        step(
+          "approach",
+          "Reescribir cada exponente como logaritmo en base $3$ (con $\\frac{1}{\\log_{b} a} = \\log_{a} b$ y cambio de base) y aplicar $3^{\\log_{3} c} = c$.",
+          "Rewrite each exponent as a base-$3$ logarithm (with $\\frac{1}{\\log_{b} a} = \\log_{a} b$ and change of base) and apply $3^{\\log_{3} c} = c$.",
+        ),
+        step(
+          "calculation",
+          "$\\frac{1}{\\log_{5} 3} = \\log_{3} 5$, así que $81^{\\frac{1}{\\log_{5} 3}} = \\left(3^{4}\\right)^{\\log_{3} 5} = 3^{4\\,\\log_{3} 5} = 5^{4} = 625$.<br>$\\log_{9} 36 = \\frac{\\log_{3} 36}{2}$, así que $27^{\\log_{9} 36} = \\left(3^{3}\\right)^{\\frac{1}{2}\\log_{3} 36} = \\left(3^{\\log_{3} 36}\\right)^{3/2} = 36^{3/2} = 216$.<br>$\\frac{4}{\\log_{7} 9} = 4\\log_{9} 7 = 4 \\cdot \\frac{\\log_{3} 7}{2} = 2\\,\\log_{3} 7$, así que $3^{\\frac{4}{\\log_{7} 9}} = 3^{2\\,\\log_{3} 7} = 7^{2} = 49$.<br>Total: $625 - 216 - 49 = 360$.",
+          "$\\frac{1}{\\log_{5} 3} = \\log_{3} 5$, so $81^{\\frac{1}{\\log_{5} 3}} = \\left(3^{4}\\right)^{\\log_{3} 5} = 3^{4\\,\\log_{3} 5} = 5^{4} = 625$.<br>$\\log_{9} 36 = \\frac{\\log_{3} 36}{2}$, so $27^{\\log_{9} 36} = \\left(3^{3}\\right)^{\\frac{1}{2}\\log_{3} 36} = \\left(3^{\\log_{3} 36}\\right)^{3/2} = 36^{3/2} = 216$.<br>$\\frac{4}{\\log_{7} 9} = 4\\log_{9} 7 = 4 \\cdot \\frac{\\log_{3} 7}{2} = 2\\,\\log_{3} 7$, so $3^{\\frac{4}{\\log_{7} 9}} = 3^{2\\,\\log_{3} 7} = 7^{2} = 49$.<br>Total: $625 - 216 - 49 = 360$.",
+        ),
+        step(
+          "result",
+          "El valor exacto es $360$. Verificación numérica: $\\log_{5} 3 \\approx 0{,}6826$ y $81^{1/0{,}6826} \\approx 625$; $\\log_{9} 36 \\approx 1{,}6309$ y $27^{1{,}6309} \\approx 216$; $\\log_{7} 9 \\approx 1{,}1292$ y $3^{4/1{,}1292} \\approx 49$; en total $625 - 216 - 49 = 360$ ✓.",
+          "The exact value is $360$. Numeric check: $\\log_{5} 3 \\approx 0.6826$ and $81^{1/0.6826} \\approx 625$; $\\log_{9} 36 \\approx 1.6309$ and $27^{1.6309} \\approx 216$; $\\log_{7} 9 \\approx 1.1292$ and $3^{4/1.1292} \\approx 49$; altogether $625 - 216 - 49 = 360$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* 118c — log₈(log₄(log₂16)) = 0. Printed key: c) 0. */
+  template(
+    {
+      id: "log-espol-ch3-118c",
+      subject: "math",
+      topicId: "logarithmic",
+      subtopicId: "properties",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 180,
+      tags: ["log-evaluation", "nested-logarithms"],
+      prerequisites: ["properties", "evaluating"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 118c",
+        page: 392,
+      },
+      reasoning: "definition-hunting",
+    },
+    () => ({
+      skill: L(
+        "Logaritmos anidados: evaluar de adentro hacia afuera con la definición",
+        "Nested logarithms: evaluating from the inside out with the definition",
+      ),
+      statement: L(
+        "Simplifica y calcula: $\\log_{8}\\left(\\log_{4}\\left(\\log_{2} 16\\right)\\right)$.",
+        "Simplify and compute: $\\log_{8}\\left(\\log_{4}\\left(\\log_{2} 16\\right)\\right)$.",
+      ),
+      answer: { kind: "numeric", value: 0 },
+      hints: [
+        L(
+          "Con logaritmos anidados se evalúa de adentro hacia afuera: empieza por $\\log_{2} 16$.",
+          "With nested logarithms you evaluate from the inside out: start with $\\log_{2} 16$.",
+        ),
+        L(
+          "Para $\\log_{2} 16$ pregúntate: ¿$2$ elevado a qué potencia da $16$? Ese número es el argumento del segundo logaritmo.",
+          "For $\\log_{2} 16$ ask yourself: $2$ raised to what power gives $16$? That number is the argument of the second logarithm.",
+        ),
+        L(
+          "Tras dos pasos, el argumento del logaritmo exterior es $1$; recuerda cuánto vale $\\log_{b} 1$ para cualquier base válida $b$.",
+          "After two steps, the outer logarithm's argument is $1$; recall the value of $\\log_{b} 1$ for any valid base $b$.",
+        ),
+      ],
+      answerDisplay: L(
+        "$\\log_{2} 16 = 4$, $\\log_{4} 4 = 1$, $\\log_{8} 1 = 0$",
+        "$\\log_{2} 16 = 4$, $\\log_{4} 4 = 1$, $\\log_{8} 1 = 0$",
+      ),
+      solution: [
+        step(
+          "given",
+          "El logaritmo triplemente anidado $\\log_{8}\\left(\\log_{4}\\left(\\log_{2} 16\\right)\\right)$.",
+          "The triply nested logarithm $\\log_{8}\\left(\\log_{4}\\left(\\log_{2} 16\\right)\\right)$.",
+        ),
+        step(
+          "approach",
+          "Evaluar cada logaritmo con la definición $b^{x} = y \\iff x = \\log_{b} y$, comenzando por el más interior.",
+          "Evaluate each logarithm with the definition $b^{x} = y \\iff x = \\log_{b} y$, starting with the innermost one.",
+        ),
+        step(
+          "calculation",
+          "$\\log_{2} 16 = 4$ porque $2^{4} = 16$;<br>luego $\\log_{4} 4 = 1$ porque $4^{1} = 4$;<br>luego $\\log_{8} 1 = 0$ porque $8^{0} = 1$.",
+          "$\\log_{2} 16 = 4$ because $2^{4} = 16$;<br>then $\\log_{4} 4 = 1$ because $4^{1} = 4$;<br>then $\\log_{8} 1 = 0$ because $8^{0} = 1$.",
+        ),
+        step(
+          "result",
+          "El valor exacto es $0$. Verificación: $2^{4} = 16$ ✓, $4^{1} = 4$ ✓ y $8^{0} = 1$ ✓ — el logaritmo de $1$ en cualquier base válida es $0$.",
+          "The exact value is $0$. Check: $2^{4} = 16$ ✓, $4^{1} = 4$ ✓ and $8^{0} = 1$ ✓ — the logarithm of $1$ in any valid base is $0$.",
+        ),
+      ],
+    }),
+  ),
+
+  /* 118g — (log₃7)(log₇5)(log₅4) + 1 = log₃12. Printed key: g) log₃12.
+     MC porque el parser interno de expresiones no admite logaritmos en
+     base 3 (ni "log_3(12)" ni "log3(12)" parsean; solo log/ln base 10/e). */
+  template(
+    {
+      id: "log-espol-ch3-118g",
+      subject: "math",
+      topicId: "logarithmic",
+      subtopicId: "properties",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["log-properties", "change-of-base", "condensing"],
+      prerequisites: ["properties"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 118g",
+        page: 392,
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$\\log_{3} 12$", "$\\log_{3} 12$"), correct: true },
+        { id: "b", text: L("$\\log_{3} 8$", "$\\log_{3} 8$"), correct: false },
+        { id: "c", text: L("$\\log_{5} 12$", "$\\log_{5} 12$"), correct: false },
+        { id: "d", text: L("$\\log_{3} 7$", "$\\log_{3} 7$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "La cadena $(\\log_{a} b)(\\log_{b} c) = \\log_{a} c$ y el $1$ disfrazado de logaritmo",
+          "The chain $(\\log_{a} b)(\\log_{b} c) = \\log_{a} c$ and the $1$ disguised as a logarithm",
+        ),
+        statement: L(
+          "Simplifica $(\\log_{3} 7)(\\log_{7} 5)(\\log_{5} 4) + 1$ y expresa el resultado como **un solo** logaritmo.",
+          "Simplify $(\\log_{3} 7)(\\log_{7} 5)(\\log_{5} 4) + 1$ and express the result as **a single** logarithm.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "El producto «en cadena» colapsa: $(\\log_{a} b)(\\log_{b} c) = \\log_{a} c$; aplícalo primero a $(\\log_{3} 7)(\\log_{7} 5)$.",
+            "The «chain» product collapses: $(\\log_{a} b)(\\log_{b} c) = \\log_{a} c$; apply it first to $(\\log_{3} 7)(\\log_{7} 5)$.",
+          ),
+          L(
+            "Aplicando la cadena dos veces, el producto de los tres logaritmos queda como un único logaritmo en base $3$ cuyo argumento es un número pequeño.",
+            "Applying the chain twice, the product of the three logarithms becomes a single base-$3$ logarithm whose argument is a small number.",
+          ),
+          L(
+            "El «$+1$» también es un logaritmo en base $3$: $1 = \\log_{3} 3$; condénsalo con el anterior usando la ley del producto.",
+            "The «$+1$» is also a base-$3$ logarithm: $1 = \\log_{3} 3$; condense it with the previous one using the product law.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\log_{3} 4 + 1 = \\log_{3} 4 + \\log_{3} 3 = \\log_{3} 12$",
+          "$\\log_{3} 4 + 1 = \\log_{3} 4 + \\log_{3} 3 = \\log_{3} 12$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La expresión $(\\log_{3} 7)(\\log_{7} 5)(\\log_{5} 4) + 1$.",
+            "The expression $(\\log_{3} 7)(\\log_{7} 5)(\\log_{5} 4) + 1$.",
+          ),
+          step(
+            "approach",
+            "Colapsar la cadena con $(\\log_{a} b)(\\log_{b} c) = \\log_{a} c$ (cambio de base) y después escribir el $1$ como $\\log_{3} 3$ para condensar todo en un único logaritmo.",
+            "Collapse the chain with $(\\log_{a} b)(\\log_{b} c) = \\log_{a} c$ (change of base) and then write the $1$ as $\\log_{3} 3$ to condense everything into a single logarithm.",
+          ),
+          step(
+            "calculation",
+            "$(\\log_{3} 7)(\\log_{7} 5) = \\log_{3} 5$; luego $(\\log_{3} 5)(\\log_{5} 4) = \\log_{3} 4$.<br>Como $1 = \\log_{3} 3$: $\\log_{3} 4 + 1 = \\log_{3} 4 + \\log_{3} 3 = \\log_{3}(4 \\cdot 3) = \\log_{3} 12$.",
+            "$(\\log_{3} 7)(\\log_{7} 5) = \\log_{3} 5$; then $(\\log_{3} 5)(\\log_{5} 4) = \\log_{3} 4$.<br>Since $1 = \\log_{3} 3$: $\\log_{3} 4 + 1 = \\log_{3} 4 + \\log_{3} 3 = \\log_{3}(4 \\cdot 3) = \\log_{3} 12$.",
+          ),
+          step(
+            "result",
+            "El resultado es $\\log_{3} 12$ (opción a). Verificación numérica: $\\log_{3} 4 \\approx 1{,}2619$ y $1{,}2619 + 1 = 2{,}2619$; directamente $\\log_{3} 12 = \\frac{\\ln 12}{\\ln 3} \\approx 2{,}2619$ ✓ (en cambio $\\log_{3} 8 \\approx 1{,}8928$, $\\log_{5} 12 \\approx 1{,}5440$ y $\\log_{3} 7 \\approx 1{,}7712$ no coinciden).",
+            "The result is $\\log_{3} 12$ (option a). Numeric check: $\\log_{3} 4 \\approx 1.2619$ and $1.2619 + 1 = 2.2619$; directly $\\log_{3} 12 = \\frac{\\ln 12}{\\ln 3} \\approx 2.2619$ ✓ (whereas $\\log_{3} 8 \\approx 1.8928$, $\\log_{5} 12 \\approx 1.5440$ and $\\log_{3} 7 \\approx 1.7712$ do not match).",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 120b — log₃5 = b/(1−a) a partir de log₆2 = a, log₆5 = b.
+     Printed key: b) b/(1−a). */
+  template(
+    {
+      id: "log-espol-ch3-120b",
+      subject: "math",
+      topicId: "logarithmic",
+      subtopicId: "properties",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 270,
+      tags: ["log-evaluation", "change-of-base", "algebra-in-logs"],
+      prerequisites: ["properties", "conversion"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 120b",
+        page: 392,
+      },
+      reasoning: "parameters",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$\\dfrac{b}{1-a}$", "$\\dfrac{b}{1-a}$"), correct: true },
+        { id: "b", text: L("$\\dfrac{b}{a}$", "$\\dfrac{b}{a}$"), correct: false },
+        { id: "c", text: L("$\\dfrac{1-a}{b}$", "$\\dfrac{1-a}{b}$"), correct: false },
+        { id: "d", text: L("$b - a$", "$b - a$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Datos indirectos en otra base: $\\log_{3} 5$ a partir de $\\log_{6} 2 = a$ y $\\log_{6} 5 = b$",
+          "Indirect data in another base: $\\log_{3} 5$ from $\\log_{6} 2 = a$ and $\\log_{6} 5 = b$",
+        ),
+        statement: L(
+          "Si $\\log_{6} 2 = a$ y $\\log_{6} 5 = b$, entonces $\\log_{3} 5$ es:",
+          "If $\\log_{6} 2 = a$ and $\\log_{6} 5 = b$, then $\\log_{3} 5$ is:",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Cambia $\\log_{3} 5$ a base $6$, la base de tus datos: $\\log_{3} 5 = \\frac{\\log_{6} 5}{\\log_{6} 3} = \\frac{b}{\\log_{6} 3}$.",
+            "Change $\\log_{3} 5$ to base $6$, the base of your data: $\\log_{3} 5 = \\frac{\\log_{6} 5}{\\log_{6} 3} = \\frac{b}{\\log_{6} 3}$.",
+          ),
+          L(
+            "El dato faltante sale de $3 = \\frac{6}{2}$: por la ley del cociente, $\\log_{6} 3 = \\log_{6} 6 - \\log_{6} 2 = 1 - a$.",
+            "The missing datum comes from $3 = \\frac{6}{2}$: by the quotient law, $\\log_{6} 3 = \\log_{6} 6 - \\log_{6} 2 = 1 - a$.",
+          ),
+          L(
+            "Sustituye y simplifica la fracción; no esperes cancelar nada, porque $a$ y $b$ son datos independientes.",
+            "Substitute and simplify the fraction; do not expect anything to cancel, because $a$ and $b$ are independent data.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\log_{3} 5 = \\dfrac{b}{1-a}$",
+          "$\\log_{3} 5 = \\dfrac{b}{1-a}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "Datos: $\\log_{6} 2 = a$ y $\\log_{6} 5 = b$; incógnita: $\\log_{3} 5$.",
+            "Data: $\\log_{6} 2 = a$ and $\\log_{6} 5 = b$; unknown: $\\log_{3} 5$.",
+          ),
+          step(
+            "approach",
+            "Expresar $\\log_{3} 5$ en base $6$ mediante el cambio de base y calcular el $\\log_{6} 3$ que aparece usando $3 = \\frac{6}{2}$ junto con $\\log_{6} 6 = 1$.",
+            "Express $\\log_{3} 5$ in base $6$ via the change of base and compute the resulting $\\log_{6} 3$ using $3 = \\frac{6}{2}$ together with $\\log_{6} 6 = 1$.",
+          ),
+          step(
+            "calculation",
+            "Cambio de base: $\\log_{3} 5 = \\frac{\\log_{6} 5}{\\log_{6} 3} = \\frac{b}{\\log_{6} 3}$.<br>Además, $\\log_{6} 3 = \\log_{6}\\frac{6}{2} = \\log_{6} 6 - \\log_{6} 2 = 1 - a$.<br>Por tanto, $\\log_{3} 5 = \\frac{b}{1-a}$.",
+            "Change of base: $\\log_{3} 5 = \\frac{\\log_{6} 5}{\\log_{6} 3} = \\frac{b}{\\log_{6} 3}$.<br>Moreover, $\\log_{6} 3 = \\log_{6}\\frac{6}{2} = \\log_{6} 6 - \\log_{6} 2 = 1 - a$.<br>Therefore, $\\log_{3} 5 = \\frac{b}{1-a}$.",
+          ),
+          step(
+            "result",
+            "$\\log_{3} 5 = \\dfrac{b}{1-a}$ (opción a). Verificación numérica: $a = \\log_{6} 2 \\approx 0{,}3869$ y $b = \\log_{6} 5 \\approx 0{,}8982$, así que $\\frac{b}{1-a} \\approx \\frac{0{,}8982}{0{,}6131} \\approx 1{,}4650$; y directamente $\\log_{3} 5 \\approx 1{,}4650$ ✓ (nótese que $\\frac{b}{a} \\approx 2{,}3219 = \\log_{2} 5$, otro valor).",
+            "$\\log_{3} 5 = \\dfrac{b}{1-a}$ (option a). Numeric check: $a = \\log_{6} 2 \\approx 0.3869$ and $b = \\log_{6} 5 \\approx 0.8982$, so $\\frac{b}{1-a} \\approx \\frac{0.8982}{0.6131} \\approx 1.4650$; and directly $\\log_{3} 5 \\approx 1.4650$ ✓ (note that $\\frac{b}{a} \\approx 2.3219 = \\log_{2} 5$, a different value).",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 131a — log(x+4)+log(2x+3)=log(1−2x) → {−1}; la raíz −11/2 de la
+     cuadrática cae fuera del dominio −3/2 < x < 1/2. Printed key: a){−1}. */
+  template(
+    {
+      id: "log-espol-ch3-131a",
+      subject: "math",
+      topicId: "logarithmic",
+      subtopicId: "equations",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["log-equation", "domain", "spurious"],
+      prerequisites: ["equations", "properties"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 131a",
+        page: 394,
+      },
+      reasoning: "spurious",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$\\{-1\\}$", "$\\{-1\\}$"), correct: true },
+        { id: "b", text: L("$\\left\\{-1, -\\tfrac{11}{2}\\right\\}$", "$\\left\\{-1, -\\tfrac{11}{2}\\right\\}$"), correct: false },
+        { id: "c", text: L("$\\varnothing$", "$\\varnothing$"), correct: false },
+        { id: "d", text: L("$\\left\\{-\\tfrac{11}{2}\\right\\}$", "$\\left\\{-\\tfrac{11}{2}\\right\\}$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Suma de logaritmos, producto de argumentos — y dominio que filtra",
+          "Sum of logarithms, product of arguments — and a domain that filters",
+        ),
+        statement: L(
+          "Determina el conjunto de verdad de $p(x):\\ \\log(x+4) + \\log(2x+3) = \\log(1-2x)$ (logaritmo decimal).",
+          "Determine the truth set of $p(x):\\ \\log(x+4) + \\log(2x+3) = \\log(1-2x)$ (base-10 logarithm).",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Antes de condensar, escribe el dominio: se necesita $x+4 > 0$, $2x+3 > 0$ y $1-2x > 0$.",
+            "Before condensing, write down the domain: you need $x+4 > 0$, $2x+3 > 0$ and $1-2x > 0$.",
+          ),
+          L(
+            "Con el dominio garantizado, la suma del lado izquierdo es el logaritmo del producto: $\\log\\bigl[(x+4)(2x+3)\\bigr] = \\log(1-2x)$; iguala los argumentos.",
+            "With the domain guaranteed, the left-side sum is the logarithm of the product: $\\log\\bigl[(x+4)(2x+3)\\bigr] = \\log(1-2x)$; equate the arguments.",
+          ),
+          L(
+            "La cuadrática que obtienes tiene **dos** raíces; comprueba cada una contra el dominio antes de responder.",
+            "The quadratic you obtain has **two** roots; test each one against the domain before answering.",
+          ),
+        ],
+        answerDisplay: L("$A_{p(x)} = \\{-1\\}$", "$A_{p(x)} = \\{-1\\}$"),
+        solution: [
+          step(
+            "given",
+            "$p(x):\\ \\log(x+4) + \\log(2x+3) = \\log(1-2x)$, con $\\log$ en base 10.",
+            "$p(x):\\ \\log(x+4) + \\log(2x+3) = \\log(1-2x)$, with $\\log$ in base 10.",
+          ),
+          step(
+            "approach",
+            "Fijar el dominio, condensar la suma en el logaritmo de un producto e igualar argumentos; al final, filtrar las raíces contra el dominio.",
+            "Fix the domain, condense the sum into the logarithm of a product and equate arguments; finally, filter the roots against the domain.",
+          ),
+          step(
+            "calculation",
+            "Dominio: $x > -\\frac{3}{2}$ y $x < \\frac{1}{2}$, es decir $-\\frac{3}{2} < x < \\frac{1}{2}$.<br>Igualando argumentos: $(x+4)(2x+3) = 1-2x \\Rightarrow 2x^{2} + 11x + 12 = 1 - 2x \\Rightarrow 2x^{2} + 13x + 11 = 0 \\Rightarrow (2x+11)(x+1) = 0$, luego $x = -1$ o $x = -\\frac{11}{2}$.",
+            "Domain: $x > -\\frac{3}{2}$ and $x < \\frac{1}{2}$, that is $-\\frac{3}{2} < x < \\frac{1}{2}$.<br>Equating arguments: $(x+4)(2x+3) = 1-2x \\Rightarrow 2x^{2} + 11x + 12 = 1 - 2x \\Rightarrow 2x^{2} + 13x + 11 = 0 \\Rightarrow (2x+11)(x+1) = 0$, hence $x = -1$ or $x = -\\frac{11}{2}$.",
+          ),
+          step(
+            "result",
+            "$A_{p(x)} = \\{-1\\}$ (opción a): la raíz $-\\frac{11}{2} = -5{,}5$ cae fuera del dominio ($x > -\\frac{3}{2}$). Verificación: $x = -1$: $\\log 3 + \\log 1 = \\log 3$ (pues $\\log 1 = 0$) y $\\log(1-2(-1)) = \\log 3$ ✓; $x = -\\frac{11}{2}$: exigiría $\\log\\left(-\\frac{3}{2}\\right)$, que no existe ✗.",
+            "$A_{p(x)} = \\{-1\\}$ (option a): the root $-\\frac{11}{2} = -5.5$ falls outside the domain ($x > -\\frac{3}{2}$). Check: $x = -1$: $\\log 3 + \\log 1 = \\log 3$ (since $\\log 1 = 0$) and $\\log(1-2(-1)) = \\log 3$ ✓; $x = -\\frac{11}{2}$: it would require $\\log\\left(-\\frac{3}{2}\\right)$, which does not exist ✗.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 131b — ln(x/(x−1)) + ln((x+1)/x) − ln(x²−1) + 2 = 0 → {1+e}.
+     Printed key: b){1+e}. NOTA DE FIDELIDAD: el encabezado del libro dice
+     x ∈ ℝ, pero sobre el dominio natural completo ((−∞,−1) ∪ (1,∞)) la
+     ecuación también tiene la solución x = 1−e (sympy solveset → {1−e, 1+e});
+     la clave impresa corresponde a la rama x > 1 (donde vale la condensación
+     −2·ln(x−1)). El enunciado fija el dominio x > 1 para mantener la clave
+     impresa exacta y el distractor {1−e} refutable (1−e ≈ −1,718 < 0). */
+  template(
+    {
+      id: "log-espol-ch3-131b",
+      subject: "math",
+      topicId: "logarithmic",
+      subtopicId: "equations",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["log-equation", "condensing", "natural-log"],
+      prerequisites: ["equations", "properties"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 131b",
+        page: 394,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$\\{1 + e\\}$", "$\\{1 + e\\}$"), correct: true },
+        { id: "b", text: L("$\\{1 + e^{2}\\}$", "$\\{1 + e^{2}\\}$"), correct: false },
+        { id: "c", text: L("$\\{e\\}$", "$\\{e\\}$"), correct: false },
+        { id: "d", text: L("$\\{1 - e\\}$", "$\\{1 - e\\}$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Condensar tres logaritmos en uno: la ecuación colapsa a $-2\\ln(x-1) + 2 = 0$",
+          "Condensing three logarithms into one: the equation collapses to $-2\\ln(x-1) + 2 = 0$",
+        ),
+        statement: L(
+          "Determina el conjunto de verdad de $p(x):\\ \\ln\\dfrac{x}{x-1} + \\ln\\dfrac{x+1}{x} - \\ln(x^{2}-1) + 2 = 0$ sobre el dominio $x > 1$ (donde $x - 1 > 0$).",
+          "Determine the truth set of $p(x):\\ \\ln\\dfrac{x}{x-1} + \\ln\\dfrac{x+1}{x} - \\ln(x^{2}-1) + 2 = 0$ over the domain $x > 1$ (where $x - 1 > 0$).",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "En el dominio $x > 1$ los tres argumentos son positivos: junta los tres logaritmos en uno solo con las leyes del producto y del cociente.",
+            "On the domain $x > 1$ all three arguments are positive: join the three logarithms into a single one with the product and quotient laws.",
+          ),
+          L(
+            "Dentro del logaritmo queda $\\dfrac{x}{x-1} \\cdot \\dfrac{x+1}{x} \\div (x^{2}-1)$; simplifica usando $x^{2} - 1 = (x-1)(x+1)$.",
+            "Inside the logarithm you are left with $\\dfrac{x}{x-1} \\cdot \\dfrac{x+1}{x} \\div (x^{2}-1)$; simplify using $x^{2} - 1 = (x-1)(x+1)$.",
+          ),
+          L(
+            "El argumento simplificado es $\\dfrac{1}{(x-1)^{2}}$, así que el logaritmo vale $-2\\ln(x-1)$; con el $+2$ que queda afuera, despeja $x - 1$.",
+            "The simplified argument is $\\dfrac{1}{(x-1)^{2}}$, so the logarithm equals $-2\\ln(x-1)$; with the outer $+2$, isolate $x - 1$.",
+          ),
+        ],
+        answerDisplay: L("$A_{p(x)} = \\{1 + e\\}$", "$A_{p(x)} = \\{1 + e\\}$"),
+        solution: [
+          step(
+            "given",
+            "$p(x):\\ \\ln\\dfrac{x}{x-1} + \\ln\\dfrac{x+1}{x} - \\ln(x^{2}-1) + 2 = 0$, sobre el dominio $x > 1$.",
+            "$p(x):\\ \\ln\\dfrac{x}{x-1} + \\ln\\dfrac{x+1}{x} - \\ln(x^{2}-1) + 2 = 0$, over the domain $x > 1$.",
+          ),
+          step(
+            "approach",
+            "Condensar los tres logaritmos en uno solo, simplificar el argumento con $x^{2} - 1 = (x-1)(x+1)$ y despejar; en el dominio $x > 1$ vale $\\ln\\dfrac{1}{(x-1)^{2}} = -2\\ln(x-1)$.",
+            "Condense the three logarithms into one, simplify the argument with $x^{2} - 1 = (x-1)(x+1)$ and isolate; on the domain $x > 1$ one has $\\ln\\dfrac{1}{(x-1)^{2}} = -2\\ln(x-1)$.",
+          ),
+          step(
+            "calculation",
+            "$\\ln\\dfrac{x}{x-1} + \\ln\\dfrac{x+1}{x} - \\ln(x^{2}-1) = \\ln\\left(\\dfrac{x}{x-1} \\cdot \\dfrac{x+1}{x} \\cdot \\dfrac{1}{x^{2}-1}\\right) = \\ln\\dfrac{x+1}{(x-1)(x-1)(x+1)} = \\ln\\dfrac{1}{(x-1)^{2}} = -2\\ln(x-1)$.<br>La ecuación queda $-2\\ln(x-1) + 2 = 0 \\Rightarrow \\ln(x-1) = 1 \\Rightarrow x - 1 = e \\Rightarrow x = 1 + e$.",
+            "$\\ln\\dfrac{x}{x-1} + \\ln\\dfrac{x+1}{x} - \\ln(x^{2}-1) = \\ln\\left(\\dfrac{x}{x-1} \\cdot \\dfrac{x+1}{x} \\cdot \\dfrac{1}{x^{2}-1}\\right) = \\ln\\dfrac{x+1}{(x-1)(x-1)(x+1)} = \\ln\\dfrac{1}{(x-1)^{2}} = -2\\ln(x-1)$.<br>The equation becomes $-2\\ln(x-1) + 2 = 0 \\Rightarrow \\ln(x-1) = 1 \\Rightarrow x - 1 = e \\Rightarrow x = 1 + e$.",
+          ),
+          step(
+            "result",
+            "$A_{p(x)} = \\{1+e\\}$ (opción a). Verificación: con $x = 1+e$ es $x-1 = e$, así que $\\ln\\dfrac{1}{(x-1)^{2}} = \\ln e^{-2} = -2$ y $-2 + 2 = 0$ ✓; numéricamente $1 + e \\approx 3{,}718 > 1$, dentro del dominio. (El distractor $\\{1+e^{2}\\}$ viene de olvidar el cuadrado: daría $\\ln e^{-4} = -4$ y $-4 + 2 \\neq 0$; y $1 - e \\approx -1{,}718$ está fuera del dominio $x > 1$.)",
+            "$A_{p(x)} = \\{1+e\\}$ (option a). Check: with $x = 1+e$ one has $x-1 = e$, so $\\ln\\dfrac{1}{(x-1)^{2}} = \\ln e^{-2} = -2$ and $-2 + 2 = 0$ ✓; numerically $1 + e \\approx 3.718 > 1$, inside the domain. (The distractor $\\{1+e^{2}\\}$ comes from forgetting the square: it would give $\\ln e^{-4} = -4$ and $-4 + 2 \\neq 0$; and $1 - e \\approx -1.718$ lies outside the domain $x > 1$.)",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 131c — (log₂x)² = log₂x² → {1,4} con t = log₂x (t² = 2t, no dividir
+     entre t). Printed key: c){1,4}. */
+  template(
+    {
+      id: "log-espol-ch3-131c",
+      subject: "math",
+      topicId: "logarithmic",
+      subtopicId: "equations",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 210,
+      tags: ["log-equation", "quadratic-substitution", "spurious"],
+      prerequisites: ["equations", "properties"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 131c",
+        page: 394,
+      },
+      reasoning: "spurious",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$\\{1, 4\\}$", "$\\{1, 4\\}$"), correct: true },
+        { id: "b", text: L("$\\{2\\}$", "$\\{2\\}$"), correct: false },
+        { id: "c", text: L("$\\{1\\}$", "$\\{1\\}$"), correct: false },
+        { id: "d", text: L("$\\{1, 2, 4\\}$", "$\\{1, 2, 4\\}$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "$(\\log_{2} x)^{2} = \\log_{2} x^{2}$: la sustitución $t = \\log_{2} x$ sin perder la raíz $t = 0$",
+          "$(\\log_{2} x)^{2} = \\log_{2} x^{2}$: the substitution $t = \\log_{2} x$ without losing the root $t = 0$",
+        ),
+        statement: L(
+          "Determina el conjunto de verdad de $r(x):\\ (\\log_{2} x)^{2} = \\log_{2} x^{2}$.",
+          "Determine the truth set of $r(x):\\ (\\log_{2} x)^{2} = \\log_{2} x^{2}$.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "El lado derecho no es el cuadrado del izquierdo: primero aplica $\\log_{2} x^{2} = 2\\log_{2} x$ (válido para $x > 0$).",
+            "The right side is not the square of the left: first apply $\\log_{2} x^{2} = 2\\log_{2} x$ (valid for $x > 0$).",
+          ),
+          L(
+            "Con $t = \\log_{2} x$ la ecuación es $t^{2} = 2t$; lleva todo a un lado y factoriza — no dividas entre $t$, perderías una solución.",
+            "With $t = \\log_{2} x$ the equation is $t^{2} = 2t$; move everything to one side and factor — do not divide by $t$, you would lose a solution.",
+          ),
+          L(
+            "Cada valor de $t$ (también el $t = 0$) se traduce a $x$ con $x = 2^{t}$; al final, comprueba que $x = 2$ **no** satisface la ecuación.",
+            "Each value of $t$ (including $t = 0$) translates to $x$ via $x = 2^{t}$; finally, check that $x = 2$ does **not** satisfy the equation.",
+          ),
+        ],
+        answerDisplay: L("$A_{r(x)} = \\{1, 4\\}$", "$A_{r(x)} = \\{1, 4\\}$"),
+        solution: [
+          step(
+            "given",
+            "$r(x):\\ (\\log_{2} x)^{2} = \\log_{2} x^{2}$, con $x > 0$.",
+            "$r(x):\\ (\\log_{2} x)^{2} = \\log_{2} x^{2}$, with $x > 0$.",
+          ),
+          step(
+            "approach",
+            "Usar $\\log_{2} x^{2} = 2\\log_{2} x$ y sustituir $t = \\log_{2} x$ para obtener una ecuación factorizable; recuperar cada $x$ con $x = 2^{t}$.",
+            "Use $\\log_{2} x^{2} = 2\\log_{2} x$ and substitute $t = \\log_{2} x$ to obtain a factorable equation; recover each $x$ via $x = 2^{t}$.",
+          ),
+          step(
+            "calculation",
+            "Con $t = \\log_{2} x$: $t^{2} = 2t \\Rightarrow t^{2} - 2t = 0 \\Rightarrow t(t-2) = 0 \\Rightarrow t = 0$ o $t = 2$.<br>$t = 0 \\Rightarrow x = 2^{0} = 1$; $t = 2 \\Rightarrow x = 2^{2} = 4$.",
+            "With $t = \\log_{2} x$: $t^{2} = 2t \\Rightarrow t^{2} - 2t = 0 \\Rightarrow t(t-2) = 0 \\Rightarrow t = 0$ or $t = 2$.<br>$t = 0 \\Rightarrow x = 2^{0} = 1$; $t = 2 \\Rightarrow x = 2^{2} = 4$.",
+          ),
+          step(
+            "result",
+            "$A_{r(x)} = \\{1, 4\\}$ (opción a). Verificación: $x = 1$: $(\\log_{2} 1)^{2} = 0$ y $\\log_{2} 1^{2} = 0$ ✓; $x = 4$: $(\\log_{2} 4)^{2} = 4$ y $\\log_{2} 16 = 4$ ✓; en cambio $x = 2$: $(\\log_{2} 2)^{2} = 1$ pero $\\log_{2} 4 = 2$ ✗ (quien divide entre $t$ pierde $x = 1$).",
+            "$A_{r(x)} = \\{1, 4\\}$ (option a). Check: $x = 1$: $(\\log_{2} 1)^{2} = 0$ and $\\log_{2} 1^{2} = 0$ ✓; $x = 4$: $(\\log_{2} 4)^{2} = 4$ and $\\log_{2} 16 = 4$ ✓; whereas $x = 2$: $(\\log_{2} 2)^{2} = 1$ but $\\log_{2} 4 = 2$ ✗ (whoever divides by $t$ loses $x = 1$).",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 131d — log₃(x²−3x−5) = log₃(7−2x) → {−3}; la raíz 4 viola 7−2x > 0.
+     Printed key: d){−3}. */
+  template(
+    {
+      id: "log-espol-ch3-131d",
+      subject: "math",
+      topicId: "logarithmic",
+      subtopicId: "equations",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["log-equation", "domain", "spurious"],
+      prerequisites: ["equations", "properties"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 131d",
+        page: 394,
+      },
+      reasoning: "spurious",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$\\{-3\\}$", "$\\{-3\\}$"), correct: true },
+        { id: "b", text: L("$\\{-3, 4\\}$", "$\\{-3, 4\\}$"), correct: false },
+        { id: "c", text: L("$\\{4\\}$", "$\\{4\\}$"), correct: false },
+        { id: "d", text: L("$\\varnothing$", "$\\varnothing$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Logaritmos con la misma base: igualar argumentos y filtrar con el dominio",
+          "Same-base logarithms: equate arguments and filter with the domain",
+        ),
+        statement: L(
+          "Determina el conjunto de verdad de $h(x):\\ \\log_{3}(x^{2} - 3x - 5) = \\log_{3}(7 - 2x)$.",
+          "Determine the truth set of $h(x):\\ \\log_{3}(x^{2} - 3x - 5) = \\log_{3}(7 - 2x)$.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Los dos logaritmos comparten la base $3$: si son iguales, sus argumentos son iguales — pero solo dentro del dominio.",
+            "The two logarithms share the base $3$: if they are equal, their arguments are equal — but only inside the domain.",
+          ),
+          L(
+            "Igualando argumentos obtienes $x^{2} - x - 12 = 0$, una cuadrática que se factoriza en dos enteros.",
+            "Equating arguments you get $x^{2} - x - 12 = 0$, a quadratic that factors into two integers.",
+          ),
+          L(
+            "Comprueba cada raíz contra las condiciones $7 - 2x > 0$ y $x^{2} - 3x - 5 > 0$; una de las dos raíces las viola.",
+            "Test each root against the conditions $7 - 2x > 0$ and $x^{2} - 3x - 5 > 0$; one of the two roots violates them.",
+          ),
+        ],
+        answerDisplay: L("$A_{h(x)} = \\{-3\\}$", "$A_{h(x)} = \\{-3\\}$"),
+        solution: [
+          step(
+            "given",
+            "$h(x):\\ \\log_{3}(x^{2} - 3x - 5) = \\log_{3}(7 - 2x)$.",
+            "$h(x):\\ \\log_{3}(x^{2} - 3x - 5) = \\log_{3}(7 - 2x)$.",
+          ),
+          step(
+            "approach",
+            "Igualar los argumentos (misma base), resolver la cuadrática y filtrar las raíces con las condiciones de existencia de ambos logaritmos.",
+            "Equate the arguments (same base), solve the quadratic and filter the roots with the existence conditions of both logarithms.",
+          ),
+          step(
+            "calculation",
+            "Existencia: $x^{2} - 3x - 5 > 0$ y $7 - 2x > 0$ (es decir, $x < \\frac{7}{2}$).<br>Igualando argumentos: $x^{2} - 3x - 5 = 7 - 2x \\Rightarrow x^{2} - x - 12 = 0 \\Rightarrow (x-4)(x+3) = 0 \\Rightarrow x = 4$ o $x = -3$.<br>Filtro: $x = 4$ da $7 - 8 = -1 \\leq 0$ (y también $x^{2} - 3x - 5 = -1$), se descarta; $x = -3$ cumple ambas condiciones.",
+            "Existence: $x^{2} - 3x - 5 > 0$ and $7 - 2x > 0$ (that is, $x < \\frac{7}{2}$).<br>Equating arguments: $x^{2} - 3x - 5 = 7 - 2x \\Rightarrow x^{2} - x - 12 = 0 \\Rightarrow (x-4)(x+3) = 0 \\Rightarrow x = 4$ or $x = -3$.<br>Filter: $x = 4$ gives $7 - 8 = -1 \\leq 0$ (and also $x^{2} - 3x - 5 = -1$), discarded; $x = -3$ satisfies both conditions.",
+          ),
+          step(
+            "result",
+            "$A_{h(x)} = \\{-3\\}$ (opción a). Verificación: $x = -3$: ambos argumentos valen $9 + 9 - 5 = 13$ y $7 + 6 = 13$, así que $\\log_{3} 13 = \\log_{3} 13$ ✓; $x = 4$: los argumentos serían $-1$ y $-1$, y $\\log_{3}(-1)$ no existe ✗.",
+            "$A_{h(x)} = \\{-3\\}$ (option a). Check: $x = -3$: both arguments equal $9 + 9 - 5 = 13$ and $7 + 6 = 13$, so $\\log_{3} 13 = \\log_{3} 13$ ✓; $x = 4$: the arguments would be $-1$ and $-1$, and $\\log_{3}(-1)$ does not exist ✗.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 131f — log₅(5^{1/x}+125) = log₅6 + 1 + 1/(2x) → {1/2, 1/4} con
+     t = 5^{1/(2x)} (t² + 125 = 30t → t = 5 o 25). Printed key: f){1/2, 1/4}. */
+  template(
+    {
+      id: "log-espol-ch3-131f",
+      subject: "math",
+      topicId: "logarithmic",
+      subtopicId: "equations",
+      difficulty: "challenge",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 360,
+      tags: ["log-equation", "exponential-substitution"],
+      prerequisites: ["equations", "properties"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 131f",
+        page: 394,
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$\\left\\{\\tfrac{1}{2}, \\tfrac{1}{4}\\right\\}$", "$\\left\\{\\tfrac{1}{2}, \\tfrac{1}{4}\\right\\}$"), correct: true },
+        { id: "b", text: L("$\\left\\{\\tfrac{1}{2}\\right\\}$", "$\\left\\{\\tfrac{1}{2}\\right\\}$"), correct: false },
+        { id: "c", text: L("$\\left\\{\\tfrac{1}{4}, \\tfrac{1}{8}\\right\\}$", "$\\left\\{\\tfrac{1}{4}, \\tfrac{1}{8}\\right\\}$"), correct: false },
+        { id: "d", text: L("$\\{2, 4\\}$", "$\\{2, 4\\}$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Todo a base $5$: la sustitución $t = 5^{1/(2x)}$ convierte la ecuación en una cuadrática",
+          "Everything to base $5$: the substitution $t = 5^{1/(2x)}$ turns the equation into a quadratic",
+        ),
+        statement: L(
+          "Determina el conjunto de verdad de $p(x):\\ \\log_{5}\\left(5^{1/x} + 125\\right) = \\log_{5} 6 + 1 + \\dfrac{1}{2x}$.",
+          "Determine the truth set of $p(x):\\ \\log_{5}\\left(5^{1/x} + 125\\right) = \\log_{5} 6 + 1 + \\dfrac{1}{2x}$.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Pasa los términos libres a logaritmos en base $5$: $1 = \\log_{5} 5$ y $\\dfrac{1}{2x} = \\log_{5} 5^{1/(2x)}$.",
+            "Turn the free terms into base-$5$ logarithms: $1 = \\log_{5} 5$ and $\\dfrac{1}{2x} = \\log_{5} 5^{1/(2x)}$.",
+          ),
+          L(
+            "Con $t = 5^{1/(2x)} > 0$ tienes $5^{1/x} = t^{2}$; iguala argumentos y obtendrás una cuadrática en $t$.",
+            "With $t = 5^{1/(2x)} > 0$ you have $5^{1/x} = t^{2}$; equate arguments and you will get a quadratic in $t$.",
+          ),
+          L(
+            "Las dos raíces de $t^{2} - 30t + 125 = 0$ son potencias de $5$; recupera cada $x$ de $t = 5^{1/(2x)}$ usando la definición de logaritmo.",
+            "The two roots of $t^{2} - 30t + 125 = 0$ are powers of $5$; recover each $x$ from $t = 5^{1/(2x)}$ using the definition of logarithm.",
+          ),
+        ],
+        answerDisplay: L(
+          "$A_{p(x)} = \\left\\{\\tfrac{1}{2}, \\tfrac{1}{4}\\right\\}$",
+          "$A_{p(x)} = \\left\\{\\tfrac{1}{2}, \\tfrac{1}{4}\\right\\}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$p(x):\\ \\log_{5}\\left(5^{1/x} + 125\\right) = \\log_{5} 6 + 1 + \\dfrac{1}{2x}$ (con $x \\neq 0$).",
+            "$p(x):\\ \\log_{5}\\left(5^{1/x} + 125\\right) = \\log_{5} 6 + 1 + \\dfrac{1}{2x}$ (with $x \\neq 0$).",
+          ),
+          step(
+            "approach",
+            "Reescribir $1$ y $\\frac{1}{2x}$ como logaritmos en base $5$, condensar el lado derecho en un solo logaritmo e igualar argumentos; la sustitución $t = 5^{1/(2x)}$ produce una cuadrática.",
+            "Rewrite $1$ and $\\frac{1}{2x}$ as base-$5$ logarithms, condense the right side into a single logarithm and equate arguments; the substitution $t = 5^{1/(2x)}$ yields a quadratic.",
+          ),
+          step(
+            "calculation",
+            "$\\log_{5}\\left(5^{1/x} + 125\\right) = \\log_{5} 6 + \\log_{5} 5 + \\log_{5} 5^{1/(2x)} = \\log_{5}\\left(30 \\cdot 5^{1/(2x)}\\right)$.<br>Con $t = 5^{1/(2x)}$ (así $5^{1/x} = t^{2}$): $t^{2} + 125 = 30t \\Rightarrow t^{2} - 30t + 125 = 0 \\Rightarrow (t-5)(t-25) = 0 \\Rightarrow t = 5$ o $t = 25$.<br>$5^{1/(2x)} = 5^{1} \\Rightarrow \\frac{1}{2x} = 1 \\Rightarrow x = \\frac{1}{2}$; $\\;5^{1/(2x)} = 5^{2} \\Rightarrow \\frac{1}{2x} = 2 \\Rightarrow x = \\frac{1}{4}$.",
+            "$\\log_{5}\\left(5^{1/x} + 125\\right) = \\log_{5} 6 + \\log_{5} 5 + \\log_{5} 5^{1/(2x)} = \\log_{5}\\left(30 \\cdot 5^{1/(2x)}\\right)$.<br>With $t = 5^{1/(2x)}$ (so $5^{1/x} = t^{2}$): $t^{2} + 125 = 30t \\Rightarrow t^{2} - 30t + 125 = 0 \\Rightarrow (t-5)(t-25) = 0 \\Rightarrow t = 5$ or $t = 25$.<br>$5^{1/(2x)} = 5^{1} \\Rightarrow \\frac{1}{2x} = 1 \\Rightarrow x = \\frac{1}{2}$; $\\;5^{1/(2x)} = 5^{2} \\Rightarrow \\frac{1}{2x} = 2 \\Rightarrow x = \\frac{1}{4}$.",
+          ),
+          step(
+            "result",
+            "$A_{p(x)} = \\left\\{\\tfrac{1}{2}, \\tfrac{1}{4}\\right\\}$ (opción a). Verificación: $x = \\frac{1}{2}$: $5^{2} + 125 = 150 = 6 \\cdot 25$ y el lado derecho es $\\log_{5} 6 + 2 = \\log_{5} 150$ ✓; $x = \\frac{1}{4}$: $5^{4} + 125 = 750 = 6 \\cdot 125$ y el lado derecho es $\\log_{5} 6 + 3 = \\log_{5} 750$ ✓.",
+            "$A_{p(x)} = \\left\\{\\tfrac{1}{2}, \\tfrac{1}{4}\\right\\}$ (option a). Check: $x = \\frac{1}{2}$: $5^{2} + 125 = 150 = 6 \\cdot 25$ and the right side is $\\log_{5} 6 + 2 = \\log_{5} 150$ ✓; $x = \\frac{1}{4}$: $5^{4} + 125 = 750 = 6 \\cdot 125$ and the right side is $\\log_{5} 6 + 3 = \\log_{5} 750$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 131i — log_{x/2}(x²) − 14·log_{16x}(x³) + 40·log_{4x}(√x) = 0 →
+     {1, 4, √2/2} con u = log₂x (2u/(u−1) − 42u/(u+4) + 20u/(u+2) = 0).
+     Printed key: i){1, 4, √2/2}. */
+  template(
+    {
+      id: "log-espol-ch3-131i",
+      subject: "math",
+      topicId: "logarithmic",
+      subtopicId: "equations",
+      difficulty: "challenge",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 420,
+      tags: ["log-equation", "variable-base", "change-of-base"],
+      prerequisites: ["equations", "properties"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 131i",
+        page: 394,
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$\\left\\{1,\\ 4,\\ \\tfrac{\\sqrt{2}}{2}\\right\\}$", "$\\left\\{1,\\ 4,\\ \\tfrac{\\sqrt{2}}{2}\\right\\}$"), correct: true },
+        { id: "b", text: L("$\\{1, 4\\}$", "$\\{1, 4\\}$"), correct: false },
+        { id: "c", text: L("$\\left\\{\\tfrac{\\sqrt{2}}{2}\\right\\}$", "$\\left\\{\\tfrac{\\sqrt{2}}{2}\\right\\}$"), correct: false },
+        { id: "d", text: L("$\\{1, 2, 4\\}$", "$\\{1, 2, 4\\}$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Bases variables: con $u = \\log_{2} x$ cada logaritmo se vuelve una función racional de $u$",
+          "Variable bases: with $u = \\log_{2} x$ each logarithm becomes a rational function of $u$",
+        ),
+        statement: L(
+          "Determina el conjunto de verdad de $m(x):\\ \\log_{\\frac{1}{2}x}\\left(x^{2}\\right) - 14\\log_{16x}\\left(x^{3}\\right) + 40\\log_{4x}\\left(\\sqrt{x}\\right) = 0$ (las bases de los logaritmos son $\\frac{x}{2}$, $16x$ y $4x$).",
+          "Determine the truth set of $m(x):\\ \\log_{\\frac{1}{2}x}\\left(x^{2}\\right) - 14\\log_{16x}\\left(x^{3}\\right) + 40\\log_{4x}\\left(\\sqrt{x}\\right) = 0$ (the logarithm bases are $\\frac{x}{2}$, $16x$ and $4x$).",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Con $u = \\log_{2} x$ y cambio de base: $\\log_{x/2}(x^{2}) = \\frac{2u}{u-1}$, $\\log_{16x}(x^{3}) = \\frac{3u}{u+4}$ y $\\log_{4x}(\\sqrt{x}) = \\frac{u}{2(u+2)}$.",
+            "With $u = \\log_{2} x$ and change of base: $\\log_{x/2}(x^{2}) = \\frac{2u}{u-1}$, $\\log_{16x}(x^{3}) = \\frac{3u}{u+4}$ and $\\log_{4x}(\\sqrt{x}) = \\frac{u}{2(u+2)}$.",
+          ),
+          L(
+            "La ecuación queda $\\frac{2u}{u-1} - \\frac{42u}{u+4} + \\frac{20u}{u+2} = 0$; saca el factor común $u$ y resuelve la cuadrática que queda dentro del corchete.",
+            "The equation becomes $\\frac{2u}{u-1} - \\frac{42u}{u+4} + \\frac{20u}{u+2} = 0$; factor out the common $u$ and solve the quadratic left inside the bracket.",
+          ),
+          L(
+            "Recupera cada $x$ con $x = 2^{u}$ (la $u$ negativa da un valor entre $0$ y $1$) y comprueba que las bases $\\frac{x}{2}$, $16x$ y $4x$ sean positivas y distintas de $1$.",
+            "Recover each $x$ via $x = 2^{u}$ (the negative $u$ gives a value between $0$ and $1$) and check that the bases $\\frac{x}{2}$, $16x$ and $4x$ are positive and different from $1$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$A_{m(x)} = \\left\\{1,\\ 4,\\ \\tfrac{\\sqrt{2}}{2}\\right\\}$",
+          "$A_{m(x)} = \\left\\{1,\\ 4,\\ \\tfrac{\\sqrt{2}}{2}\\right\\}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$m(x):\\ \\log_{\\frac{1}{2}x}\\left(x^{2}\\right) - 14\\log_{16x}\\left(x^{3}\\right) + 40\\log_{4x}\\left(\\sqrt{x}\\right) = 0$; las bases $\\frac{x}{2}$, $16x$ y $4x$ exigen $x > 0$ con $x \\neq 2$, $x \\neq \\frac{1}{16}$ y $x \\neq \\frac{1}{4}$.",
+            "$m(x):\\ \\log_{\\frac{1}{2}x}\\left(x^{2}\\right) - 14\\log_{16x}\\left(x^{3}\\right) + 40\\log_{4x}\\left(\\sqrt{x}\\right) = 0$; the bases $\\frac{x}{2}$, $16x$ and $4x$ demand $x > 0$ with $x \\neq 2$, $x \\neq \\frac{1}{16}$ and $x \\neq \\frac{1}{4}$.",
+          ),
+          step(
+            "approach",
+            "Cambiar cada logaritmo a base $2$ con $u = \\log_{2} x$, factorizar la ecuación racional resultante y volver a $x$ con $x = 2^{u}$, verificando las condiciones de existencia.",
+            "Change every logarithm to base $2$ with $u = \\log_{2} x$, factor the resulting rational equation and return to $x$ via $x = 2^{u}$, checking the existence conditions.",
+          ),
+          step(
+            "calculation",
+            "Con $u = \\log_{2} x$: $\\frac{2u}{u-1} - \\frac{42u}{u+4} + \\frac{20u}{u+2} = 0 \\Rightarrow u\\left[\\frac{2}{u-1} - \\frac{42}{u+4} + \\frac{20}{u+2}\\right] = 0$.<br>El corchete, con denominador común $(u-1)(u+4)(u+2)$, da el numerador $2(u+4)(u+2) - 42(u-1)(u+2) + 20(u-1)(u+4) = -10\\left(2u^{2} - 3u - 2\\right)$, así que $u = 0$ o $2u^{2} - 3u - 2 = 0 \\Rightarrow (2u+1)(u-2) = 0 \\Rightarrow u = 2$ o $u = -\\frac{1}{2}$.<br>$x = 2^{0} = 1$; $\\;x = 2^{2} = 4$; $\\;x = 2^{-1/2} = \\frac{1}{\\sqrt{2}} = \\frac{\\sqrt{2}}{2}$. Las tres cumplen las condiciones de existencia.",
+            "With $u = \\log_{2} x$: $\\frac{2u}{u-1} - \\frac{42u}{u+4} + \\frac{20u}{u+2} = 0 \\Rightarrow u\\left[\\frac{2}{u-1} - \\frac{42}{u+4} + \\frac{20}{u+2}\\right] = 0$.<br>The bracket, with common denominator $(u-1)(u+4)(u+2)$, gives the numerator $2(u+4)(u+2) - 42(u-1)(u+2) + 20(u-1)(u+4) = -10\\left(2u^{2} - 3u - 2\\right)$, so $u = 0$ or $2u^{2} - 3u - 2 = 0 \\Rightarrow (2u+1)(u-2) = 0 \\Rightarrow u = 2$ or $u = -\\frac{1}{2}$.<br>$x = 2^{0} = 1$; $\\;x = 2^{2} = 4$; $\\;x = 2^{-1/2} = \\frac{1}{\\sqrt{2}} = \\frac{\\sqrt{2}}{2}$. All three satisfy the existence conditions.",
+          ),
+          step(
+            "result",
+            "$A_{m(x)} = \\left\\{1,\\ 4,\\ \\tfrac{\\sqrt{2}}{2}\\right\\}$ (opción a). Verificación: $x = 1$: los tres logaritmos valen $0$, suma $0$ ✓; $x = 4$: $\\log_{2} 16 = 4$, $-14\\log_{64} 64 = -14$ y $40\\log_{16} 2 = 40 \\cdot \\frac{1}{4} = 10$, luego $4 - 14 + 10 = 0$ ✓; $x = \\frac{\\sqrt{2}}{2}$ ($u = -\\frac{1}{2}$): $\\frac{2}{3} + 6 - \\frac{20}{3} = 0$ ✓ (bases $\\frac{\\sqrt{2}}{4}$, $8\\sqrt{2}$ y $2\\sqrt{2}$, todas válidas).",
+            "$A_{m(x)} = \\left\\{1,\\ 4,\\ \\tfrac{\\sqrt{2}}{2}\\right\\}$ (option a). Check: $x = 1$: all three logarithms equal $0$, sum $0$ ✓; $x = 4$: $\\log_{2} 16 = 4$, $-14\\log_{64} 64 = -14$ and $40\\log_{16} 2 = 40 \\cdot \\frac{1}{4} = 10$, hence $4 - 14 + 10 = 0$ ✓; $x = \\frac{\\sqrt{2}}{2}$ ($u = -\\frac{1}{2}$): $\\frac{2}{3} + 6 - \\frac{20}{3} = 0$ ✓ (bases $\\frac{\\sqrt{2}}{4}$, $8\\sqrt{2}$ and $2\\sqrt{2}$, all valid).",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 132 — log_{1/4}x − log_x(1/4) − 3/2 = 0; la suma de los elementos de
+     A_{p(x)} es 33/16 (t = log_{1/4}x: t − 1/t = 3/2 → x = 1/16, 2).
+     Printed key: c) 33/16; la opción e) 2 del libro se descarta (regla de
+     casa: exactamente 4 opciones). */
+  template(
+    {
+      id: "log-espol-ch3-132",
+      subject: "math",
+      topicId: "logarithmic",
+      subtopicId: "equations",
+      difficulty: "challenge",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 360,
+      tags: ["log-equation", "variable-base", "reciprocal-logs"],
+      prerequisites: ["equations", "properties"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 132",
+        page: 394,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$\\tfrac{33}{16}$", "$\\tfrac{33}{16}$"), correct: true },
+        { id: "b", text: L("$\\tfrac{15}{8}$", "$\\tfrac{15}{8}$"), correct: false },
+        { id: "c", text: L("$\\tfrac{7}{16}$", "$\\tfrac{7}{16}$"), correct: false },
+        { id: "d", text: L("$\\tfrac{26}{32}$", "$\\tfrac{26}{32}$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Logaritmos recíprocos: con $t = \\log_{1/4} x$, el otro logaritmo es $\\frac{1}{t}$",
+          "Reciprocal logarithms: with $t = \\log_{1/4} x$, the other logarithm is $\\frac{1}{t}$",
+        ),
+        statement: L(
+          "Si $p(x):\\ \\log_{\\frac{1}{4}} x - \\log_{x} \\tfrac{1}{4} - \\tfrac{3}{2} = 0$, entonces la suma de los elementos de $A_{p(x)}$ es:",
+          "If $p(x):\\ \\log_{\\frac{1}{4}} x - \\log_{x} \\tfrac{1}{4} - \\tfrac{3}{2} = 0$, then the sum of the elements of $A_{p(x)}$ is:",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Necesitas $x > 0$ con $x \\neq 1$ (la base del segundo logaritmo es $x$); con $t = \\log_{1/4} x$, el cambio de base da $\\log_{x} \\tfrac{1}{4} = \\frac{1}{t}$.",
+            "You need $x > 0$ with $x \\neq 1$ (the second logarithm's base is $x$); with $t = \\log_{1/4} x$, the change of base gives $\\log_{x} \\tfrac{1}{4} = \\frac{1}{t}$.",
+          ),
+          L(
+            "La ecuación en $t$ es $t - \\frac{1}{t} = \\frac{3}{2}$; multiplica por $2t$ (con $t \\neq 0$) y factoriza la cuadrática.",
+            "The equation in $t$ is $t - \\frac{1}{t} = \\frac{3}{2}$; multiply by $2t$ (with $t \\neq 0$) and factor the quadratic.",
+          ),
+          L(
+            "Cada $t$ da un $x$ con $x = \\left(\\tfrac{1}{4}\\right)^{t}$; al final suma los dos elementos de $A_{p(x)}$ (uno es mayor que $1$ y el otro muy pequeño).",
+            "Each $t$ gives an $x$ via $x = \\left(\\tfrac{1}{4}\\right)^{t}$; finally add the two elements of $A_{p(x)}$ (one is greater than $1$ and the other is very small).",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\tfrac{1}{16} + 2 = \\tfrac{33}{16}$",
+          "$\\tfrac{1}{16} + 2 = \\tfrac{33}{16}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$p(x):\\ \\log_{\\frac{1}{4}} x - \\log_{x} \\tfrac{1}{4} - \\tfrac{3}{2} = 0$; la base $x$ exige $x > 0$, $x \\neq 1$.",
+            "$p(x):\\ \\log_{\\frac{1}{4}} x - \\log_{x} \\tfrac{1}{4} - \\tfrac{3}{2} = 0$; the base $x$ demands $x > 0$, $x \\neq 1$.",
+          ),
+          step(
+            "approach",
+            "Sustituir $t = \\log_{1/4} x$ (de modo que $\\log_{x} \\frac{1}{4} = \\frac{1}{t}$ por cambio de base), resolver la ecuación racional en $t$ y recuperar cada $x$; se pide la suma de los elementos.",
+            "Substitute $t = \\log_{1/4} x$ (so that $\\log_{x} \\frac{1}{4} = \\frac{1}{t}$ by change of base), solve the rational equation in $t$ and recover each $x$; the sum of the elements is requested.",
+          ),
+          step(
+            "calculation",
+            "Con $t = \\log_{1/4} x$: $t - \\frac{1}{t} - \\frac{3}{2} = 0 \\Rightarrow 2t^{2} - 3t - 2 = 0 \\Rightarrow (2t+1)(t-2) = 0 \\Rightarrow t = 2$ o $t = -\\frac{1}{2}$.<br>$t = 2 \\Rightarrow x = \\left(\\frac{1}{4}\\right)^{2} = \\frac{1}{16}$; $\\;t = -\\frac{1}{2} \\Rightarrow x = \\left(\\frac{1}{4}\\right)^{-1/2} = 4^{1/2} = 2$.<br>Ambos cumplen $x > 0$, $x \\neq 1$; suma: $\\frac{1}{16} + 2 = \\frac{33}{16}$.",
+            "With $t = \\log_{1/4} x$: $t - \\frac{1}{t} - \\frac{3}{2} = 0 \\Rightarrow 2t^{2} - 3t - 2 = 0 \\Rightarrow (2t+1)(t-2) = 0 \\Rightarrow t = 2$ or $t = -\\frac{1}{2}$.<br>$t = 2 \\Rightarrow x = \\left(\\frac{1}{4}\\right)^{2} = \\frac{1}{16}$; $\\;t = -\\frac{1}{2} \\Rightarrow x = \\left(\\frac{1}{4}\\right)^{-1/2} = 4^{1/2} = 2$.<br>Both satisfy $x > 0$, $x \\neq 1$; sum: $\\frac{1}{16} + 2 = \\frac{33}{16}$.",
+          ),
+          step(
+            "result",
+            "La suma pedida es $\\tfrac{33}{16} = 2{,}0625$ (opción a). Verificación: $x = \\frac{1}{16}$: $\\log_{1/4} \\frac{1}{16} = 2$ y $\\log_{1/16} \\frac{1}{4} = \\frac{1}{2}$, luego $2 - \\frac{1}{2} = \\frac{3}{2}$ ✓; $x = 2$: $\\log_{1/4} 2 = -\\frac{1}{2}$ y $\\log_{2} \\frac{1}{4} = -2$, luego $-\\frac{1}{2} - (-2) = \\frac{3}{2}$ ✓.",
+            "The requested sum is $\\tfrac{33}{16} = 2.0625$ (option a). Check: $x = \\frac{1}{16}$: $\\log_{1/4} \\frac{1}{16} = 2$ and $\\log_{1/16} \\frac{1}{4} = \\frac{1}{2}$, hence $2 - \\frac{1}{2} = \\frac{3}{2}$ ✓; $x = 2$: $\\log_{1/4} 2 = -\\frac{1}{2}$ and $\\log_{2} \\frac{1}{4} = -2$, hence $-\\frac{1}{2} - (-2) = \\frac{3}{2}$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 135 — sgn(ln||x|−1|) = −1 → (−2,−1)∪(−1,0)∪(0,1)∪(1,2), pues
+     sgn(u) = −1 ⟺ u < 0 ⟺ 0 < ||x|−1| < 1. Printed key: e); la opción
+     d) (0, 2) del libro se descarta (regla de casa: 4 opciones). */
+  template(
+    {
+      id: "log-espol-ch3-135",
+      subject: "math",
+      topicId: "logarithmic",
+      subtopicId: "properties",
+      difficulty: "challenge",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 360,
+      tags: ["sign-function", "log-domain", "absolute-value"],
+      prerequisites: ["properties", "equations"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 135",
+        page: 396,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$(-2, -1) \\cup (-1, 0) \\cup (0, 1) \\cup (1, 2)$", "$(-2, -1) \\cup (-1, 0) \\cup (0, 1) \\cup (1, 2)$"), correct: true },
+        { id: "b", text: L("$(-2, 2)$", "$(-2, 2)$"), correct: false },
+        { id: "c", text: L("$(0, +\\infty)$", "$(0, +\\infty)$"), correct: false },
+        { id: "d", text: L("$\\mathbb{R} \\setminus \\{0\\}$", "$\\mathbb{R} \\setminus \\{0\\}$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "La función signo aplicada a un logaritmo: $\\operatorname{sgn}(u) = -1$ exige $u < 0$",
+          "The sign function applied to a logarithm: $\\operatorname{sgn}(u) = -1$ demands $u < 0$",
+        ),
+        statement: L(
+          "Dado $p(x):\\ \\operatorname{sgn}\\left(\\ln\\bigl||x| - 1\\bigr|\\right) = -1$, con $x \\in \\mathbb{R}$ (donde $\\operatorname{sgn}(u) = -1$ si $u < 0$, $0$ si $u = 0$ y $1$ si $u > 0$), entonces $A_{p(x)}$ es:",
+          "Given $p(x):\\ \\operatorname{sgn}\\left(\\ln\\bigl||x| - 1\\bigr|\\right) = -1$, with $x \\in \\mathbb{R}$ (where $\\operatorname{sgn}(u) = -1$ if $u < 0$, $0$ if $u = 0$ and $1$ if $u > 0$), then $A_{p(x)}$ is:",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "$\\operatorname{sgn}(u) = -1$ exactamente cuando $u < 0$: la condición es $\\ln\\bigl||x| - 1\\bigr| < 0$.",
+            "$\\operatorname{sgn}(u) = -1$ exactly when $u < 0$: the condition is $\\ln\\bigl||x| - 1\\bigr| < 0$.",
+          ),
+          L(
+            "Un logaritmo natural es negativo cuando su argumento está en $(0, 1)$: necesitas $0 < \\bigl||x| - 1\\bigr| < 1$.",
+            "A natural logarithm is negative when its argument lies in $(0, 1)$: you need $0 < \\bigl||x| - 1\\bigr| < 1$.",
+          ),
+          L(
+            "Resuelve por partes: $\\bigl||x| - 1\\bigr| < 1$ equivale a $0 < |x| < 2$ (ya excluye $x = 0$); falta excluir $|x| = 1$, donde el argumento del logaritmo se anula.",
+            "Solve in parts: $\\bigl||x| - 1\\bigr| < 1$ is equivalent to $0 < |x| < 2$ (it already excludes $x = 0$); you still must exclude $|x| = 1$, where the logarithm's argument vanishes.",
+          ),
+        ],
+        answerDisplay: L(
+          "$A_{p(x)} = (-2, -1) \\cup (-1, 0) \\cup (0, 1) \\cup (1, 2)$",
+          "$A_{p(x)} = (-2, -1) \\cup (-1, 0) \\cup (0, 1) \\cup (1, 2)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$p(x):\\ \\operatorname{sgn}\\left(\\ln\\bigl||x| - 1\\bigr|\\right) = -1$, $x \\in \\mathbb{R}$.",
+            "$p(x):\\ \\operatorname{sgn}\\left(\\ln\\bigl||x| - 1\\bigr|\\right) = -1$, $x \\in \\mathbb{R}$.",
+          ),
+          step(
+            "approach",
+            "Traducir $\\operatorname{sgn}(u) = -1$ a $u < 0$, luego $\\ln v < 0$ a $0 < v < 1$, y resolver la doble desigualdad $0 < \\bigl||x| - 1\\bigr| < 1$ por partes.",
+            "Translate $\\operatorname{sgn}(u) = -1$ into $u < 0$, then $\\ln v < 0$ into $0 < v < 1$, and solve the double inequality $0 < \\bigl||x| - 1\\bigr| < 1$ in parts.",
+          ),
+          step(
+            "calculation",
+            "$\\ln\\bigl||x| - 1\\bigr| < 0 \\iff 0 < \\bigl||x| - 1\\bigr| < 1$.<br>$\\bigl||x| - 1\\bigr| < 1 \\iff -1 < |x| - 1 < 1 \\iff 0 < |x| < 2$ (excluye $x = 0$ y $|x| = 2$).<br>$\\bigl||x| - 1\\bigr| > 0 \\iff |x| \\neq 1$ (excluye $x = \\pm 1$, donde $\\ln 0$ no existe; y en $x = 0$ el argumento es $\\ln 1 = 0$ con $\\operatorname{sgn}(0) = 0 \\neq -1$, también excluido).<br>Uniendo: $x \\in (-2, -1) \\cup (-1, 0) \\cup (0, 1) \\cup (1, 2)$.",
+            "$\\ln\\bigl||x| - 1\\bigr| < 0 \\iff 0 < \\bigl||x| - 1\\bigr| < 1$.<br>$\\bigl||x| - 1\\bigr| < 1 \\iff -1 < |x| - 1 < 1 \\iff 0 < |x| < 2$ (excludes $x = 0$ and $|x| = 2$).<br>$\\bigl||x| - 1\\bigr| > 0 \\iff |x| \\neq 1$ (excludes $x = \\pm 1$, where $\\ln 0$ does not exist; and at $x = 0$ the argument is $\\ln 1 = 0$ with $\\operatorname{sgn}(0) = 0 \\neq -1$, also excluded).<br>Joining: $x \\in (-2, -1) \\cup (-1, 0) \\cup (0, 1) \\cup (1, 2)$.",
+          ),
+          step(
+            "result",
+            "$A_{p(x)} = (-2, -1) \\cup (-1, 0) \\cup (0, 1) \\cup (1, 2)$ (opción a). Verificación: $x = \\tfrac{1}{2}$: $\\bigl||x| - 1\\bigr| = 0{,}5$ y $\\ln 0{,}5 < 0$ ✓; $x = 1{,}5$: $\\bigl|1{,}5 - 1\\bigr| = 0{,}5$ ✓; $x = 1$: $\\ln 0$ no existe ✗; $x = 0$: $\\ln 1 = 0$ y $\\operatorname{sgn}(0) = 0 \\neq -1$ ✗; $x = 3$: $\\ln 2 > 0$ da $\\operatorname{sgn} = 1$ ✗.",
+            "$A_{p(x)} = (-2, -1) \\cup (-1, 0) \\cup (0, 1) \\cup (1, 2)$ (option a). Check: $x = \\tfrac{1}{2}$: $\\bigl||x| - 1\\bigr| = 0.5$ and $\\ln 0.5 < 0$ ✓; $x = 1.5$: $\\bigl|1.5 - 1\\bigr| = 0.5$ ✓; $x = 1$: $\\ln 0$ does not exist ✗; $x = 0$: $\\ln 1 = 0$ and $\\operatorname{sgn}(0) = 0 \\neq -1$ ✗; $x = 3$: $\\ln 2 > 0$ gives $\\operatorname{sgn} = 1$ ✗.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 136 — f a trozos (e^x+1 / 2x / ln(x+1)): (f(−2)−f(2))/f⁻¹(−1) =
+     ln 9 − 2e^{−2} − 2 (f⁻¹(−1) = −1/2 por el tramo lineal). Printed key:
+     ln 9 − 2e^{−2} − 2. La forma "ln(9)-2/e-2" del brief NO es equivalente
+     (2/e ≠ 2/e²) y se sustituye por "ln(9) - 2/e^2 - 2"; las 5 formas
+     aceptadas se verificaron con el validador de expresiones (parsean y son
+     equivalentes; el parser reconoce e como constante y exp()). */
+  template(
+    {
+      id: "log-espol-ch3-136",
+      subject: "math",
+      topicId: "logarithmic",
+      subtopicId: "evaluating",
+      difficulty: "challenge",
+      questionType: "expression",
+      estimatedTimeSec: 420,
+      tags: ["piecewise-functions", "inverse-function", "log-evaluation"],
+      prerequisites: ["evaluating", "properties"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "3 · 136",
+        page: 396,
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L(
+        "Función a trozos y su inversa: evaluar $f$ en puntos y localizar la rama de $f^{-1}$",
+        "Piecewise function and its inverse: evaluating $f$ at points and locating the branch of $f^{-1}$",
+      ),
+      statement: L(
+        "Sea $f: \\mathbb{R} \\to (-3, +\\infty)$ con regla de correspondencia $f(x) = \\begin{cases} e^{x} + 1 & x \\le -1\\\\ 2x & -1 < x < 0\\\\ \\ln(x+1) & x \\ge 0\\end{cases}$. Determina el valor de $\\dfrac{f(-2) - f(2)}{f^{-1}(-1)}$.",
+        "Let $f: \\mathbb{R} \\to (-3, +\\infty)$ with correspondence rule $f(x) = \\begin{cases} e^{x} + 1 & x \\le -1\\\\ 2x & -1 < x < 0\\\\ \\ln(x+1) & x \\ge 0\\end{cases}$. Determine the value of $\\dfrac{f(-2) - f(2)}{f^{-1}(-1)}$.",
+      ),
+      answer: {
+        kind: "expression",
+        accepted: [
+          "ln(9) - 2e^(-2) - 2",
+          "ln(9) - 2e^-2 - 2",
+          "ln(9) - 2/e^2 - 2",
+          "ln(9) - 2/exp(2) - 2",
+          "2ln(3) - 2e^(-2) - 2",
+        ],
+      },
+      hints: [
+        L(
+          "Evalúa cada punto en su tramo: $-2 \\le -1$ cae en el primer tramo y $2 \\ge 0$ en el tercero.",
+          "Evaluate each point on its branch: $-2 \\le -1$ falls on the first branch and $2 \\ge 0$ on the third.",
+        ),
+        L(
+          "Para $f^{-1}(-1)$ busca qué rama de $f$ produce la imagen $-1$: el tramo lineal $2x$ con $-1 < x < 0$ toma valores en $(-2, 0)$, que contiene a $-1$; resuelve $2x = -1$.",
+          "For $f^{-1}(-1)$ find which branch of $f$ produces the image $-1$: the linear branch $2x$ with $-1 < x < 0$ takes values in $(-2, 0)$, which contains $-1$; solve $2x = -1$.",
+        ),
+        L(
+          "El denominador vale $-\\frac{1}{2}$, así que el cociente es $-2\\left(e^{-2} + 1 - \\ln 3\\right)$; usa $\\ln 9 = 2\\ln 3$ para condensar el resultado.",
+          "The denominator equals $-\\frac{1}{2}$, so the quotient is $-2\\left(e^{-2} + 1 - \\ln 3\\right)$; use $\\ln 9 = 2\\ln 3$ to condense the result.",
+        ),
+      ],
+      answerDisplay: L(
+        "$\\dfrac{f(-2) - f(2)}{f^{-1}(-1)} = \\ln 9 - 2e^{-2} - 2 \\approx -0{,}0735$",
+        "$\\dfrac{f(-2) - f(2)}{f^{-1}(-1)} = \\ln 9 - 2e^{-2} - 2 \\approx -0.0735$",
+      ),
+      solution: [
+        step(
+          "given",
+          "$f(x) = \\begin{cases} e^{x} + 1 & x \\le -1\\\\ 2x & -1 < x < 0\\\\ \\ln(x+1) & x \\ge 0\\end{cases}$ y se pide $\\dfrac{f(-2) - f(2)}{f^{-1}(-1)}$.",
+          "$f(x) = \\begin{cases} e^{x} + 1 & x \\le -1\\\\ 2x & -1 < x < 0\\\\ \\ln(x+1) & x \\ge 0\\end{cases}$ and the requested value is $\\dfrac{f(-2) - f(2)}{f^{-1}(-1)}$.",
+        ),
+        step(
+          "approach",
+          "Evaluar $f(-2)$ y $f(2)$ en sus tramos, localizar la rama cuya imagen contiene a $-1$ para calcular $f^{-1}(-1)$, y simplificar el cociente con $\\ln 9 = 2\\ln 3$.",
+          "Evaluate $f(-2)$ and $f(2)$ on their branches, locate the branch whose image contains $-1$ to compute $f^{-1}(-1)$, and simplify the quotient with $\\ln 9 = 2\\ln 3$.",
+        ),
+        step(
+          "calculation",
+          "$f(-2) = e^{-2} + 1$ (tramo $x \\le -1$); $f(2) = \\ln 3$ (tramo $x \\ge 0$).<br>El tramo $2x$ con $-1 < x < 0$ tiene imagen $(-2, 0) \\ni -1$, así que $f^{-1}(-1)$ resuelve $2x = -1 \\Rightarrow x = -\\frac{1}{2}$.<br>$\\dfrac{f(-2) - f(2)}{f^{-1}(-1)} = \\dfrac{e^{-2} + 1 - \\ln 3}{-\\frac{1}{2}} = -2\\left(e^{-2} + 1 - \\ln 3\\right) = \\ln 9 - 2e^{-2} - 2$.",
+          "$f(-2) = e^{-2} + 1$ (branch $x \\le -1$); $f(2) = \\ln 3$ (branch $x \\ge 0$).<br>The branch $2x$ with $-1 < x < 0$ has image $(-2, 0) \\ni -1$, so $f^{-1}(-1)$ solves $2x = -1 \\Rightarrow x = -\\frac{1}{2}$.<br>$\\dfrac{f(-2) - f(2)}{f^{-1}(-1)} = \\dfrac{e^{-2} + 1 - \\ln 3}{-\\frac{1}{2}} = -2\\left(e^{-2} + 1 - \\ln 3\\right) = \\ln 9 - 2e^{-2} - 2$.",
+        ),
+        step(
+          "result",
+          "El valor exacto es $\\ln 9 - 2e^{-2} - 2$. Verificación numérica: $f(-2) \\approx 1{,}1353$, $f(2) = \\ln 3 \\approx 1{,}0986$, numerador $\\approx 0{,}0367$; dividido entre $-\\frac{1}{2}$ da $\\approx -0{,}0735$, y $\\ln 9 - 2e^{-2} - 2 \\approx 2{,}1972 - 0{,}2707 - 2 = -0{,}0735$ ✓.",
+          "The exact value is $\\ln 9 - 2e^{-2} - 2$. Numeric check: $f(-2) \\approx 1.1353$, $f(2) = \\ln 3 \\approx 1.0986$, numerator $\\approx 0.0367$; divided by $-\\frac{1}{2}$ it gives $\\approx -0.0735$, and $\\ln 9 - 2e^{-2} - 2 \\approx 2.1972 - 0.2707 - 2 = -0.0735$ ✓.",
+        ),
+      ],
+    }),
+  ),
 ];

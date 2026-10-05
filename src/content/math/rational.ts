@@ -3011,4 +3011,491 @@ export const templates: ProblemTemplate[] = [
       ],
     }),
   ),
+
+  /* ---------------------------------------------------------------- */
+  /* Recopilación del autor · ronda 2 (2026-10-05) — inecuaciones     */
+  /* fraccionarias con valor absoluto (ítems A y D22 de la hoja del   */
+  /* tutor). Clave del autor verificada con sympy:                    */
+  /* download/verify_author_round2.py.                                 */
+  /* ---------------------------------------------------------------- */
+
+  /* R2 · 1 — (x²−4x+3)/(|x−2|−1) ≥ 0 → ℝ∖{1,3}: numerador y denominador se anulan en 1 y 3. */
+  template(
+    {
+      id: "rat-autor2-01",
+      subject: "math",
+      topicId: "rational",
+      subtopicId: "inequalities",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["rational-inequality", "absolute-value", "domain"],
+      prerequisites: ["inequalities", "domain"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "R2 · 1",
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$\\mathbb{R} \\setminus \\{1, 3\\}$", "$\\mathbb{R} \\setminus \\{1, 3\\}$"), correct: true },
+        { id: "b", text: L("$\\mathbb{R}$", "$\\mathbb{R}$"), correct: false },
+        { id: "c", text: L("$(1, 3)$", "$(1, 3)$"), correct: false },
+        { id: "d", text: L("$(-\\infty, 1) \\cup (3, +\\infty)$", "$(-\\infty, 1) \\cup (3, +\\infty)$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Inecuación fraccionaria con valor absoluto en el denominador",
+          "Fractional inequality with an absolute value in the denominator",
+        ),
+        statement: L(
+          "Determina el conjunto de verdad de $p(x): \\dfrac{x^{2} - 4x + 3}{\\left|x - 2\\right| - 1} \\geq 0$, $x \\in \\mathbb{R}$. Es:",
+          "Determine the truth set of $p(x): \\dfrac{x^{2} - 4x + 3}{\\left|x - 2\\right| - 1} \\geq 0$, $x \\in \\mathbb{R}$. It is:",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Antes de nada, el denominador: resuelve $\\left|x - 2\\right| - 1 = 0$ — en esos puntos la fracción no existe.",
+            "Before anything else, the denominator: solve $\\left|x - 2\\right| - 1 = 0$ — at those points the fraction does not exist.",
+          ),
+          L(
+            "Factoriza el numerador: $x^{2} - 4x + 3 = (x - 1)(x - 3)$. Compara esas raíces con las del denominador.",
+            "Factor the numerator: $x^{2} - 4x + 3 = (x - 1)(x - 3)$. Compare those roots with the denominator's roots.",
+          ),
+          L(
+            "Para $x \\geq 2$ (con $x \\neq 3$) la fracción se reduce a $x - 1$; para $x < 2$ (con $x \\neq 1$) se reduce a $3 - x$. ¿Qué signo tiene cada trozo?",
+            "For $x \\geq 2$ (with $x \\neq 3$) the fraction reduces to $x - 1$; for $x < 2$ (with $x \\neq 1$) it reduces to $3 - x$. What sign does each piece have?",
+          ),
+        ],
+        answerDisplay: L(
+          "$A_{p(x)} = \\mathbb{R} \\setminus \\{1, 3\\}$",
+          "$A_{p(x)} = \\mathbb{R} \\setminus \\{1, 3\\}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$p(x): \\dfrac{x^{2} - 4x + 3}{\\left|x - 2\\right| - 1} \\geq 0$; el denominador exige $\\left|x - 2\\right| \\neq 1$, es decir, $x \\neq 1, 3$.",
+            "$p(x): \\dfrac{x^{2} - 4x + 3}{\\left|x - 2\\right| - 1} \\geq 0$; the denominator requires $\\left|x - 2\\right| \\neq 1$, that is, $x \\neq 1, 3$.",
+          ),
+          step(
+            "approach",
+            "Quitar el valor absoluto por trozos ($x \\geq 2$ y $x < 2$), factorizar el numerador y simplificar cada rama antes de estudiar el signo.",
+            "Remove the absolute value piecewise ($x \\geq 2$ and $x < 2$), factor the numerator and simplify each branch before studying the sign.",
+          ),
+          step(
+            "calculation",
+            "$x^{2} - 4x + 3 = (x - 1)(x - 3)$.<br>Para $x \\geq 2$, $x \\neq 3$: $\\left|x - 2\\right| - 1 = x - 3$, así que $\\dfrac{(x-1)(x-3)}{x-3} = x - 1 \\geq 1 > 0$ ✓.<br>Para $x < 2$, $x \\neq 1$: $\\left|x - 2\\right| - 1 = 1 - x$, así que $\\dfrac{(x-1)(x-3)}{1-x} = 3 - x > 1 > 0$ ✓.<br>En $x = 1$ y $x = 3$ el denominador se anula: quedan fuera del dominio.",
+            "$x^{2} - 4x + 3 = (x - 1)(x - 3)$.<br>For $x \\geq 2$, $x \\neq 3$: $\\left|x - 2\\right| - 1 = x - 3$, so $\\dfrac{(x-1)(x-3)}{x-3} = x - 1 \\geq 1 > 0$ ✓.<br>For $x < 2$, $x \\neq 1$: $\\left|x - 2\\right| - 1 = 1 - x$, so $\\dfrac{(x-1)(x-3)}{1-x} = 3 - x > 1 > 0$ ✓.<br>At $x = 1$ and $x = 3$ the denominator vanishes: they lie outside the domain.",
+          ),
+          step(
+            "result",
+            "$A_{p(x)} = \\mathbb{R} \\setminus \\{1, 3\\}$: en las dos ramas la fracción queda positiva, así que satisface la desigualdad en TODO punto donde está definida; solo 1 y 3 quedan excluidos (anulan numerador y denominador a la vez). Verificación: $x = 0$: $\\dfrac{3}{1} = 3 \\geq 0$ ✓; $x = 2$: $\\dfrac{-1}{-1} = 1 \\geq 0$ ✓; $x = 5$: $\\dfrac{8}{2} = 4 \\geq 0$ ✓; $x = 1$: $\\dfrac{0}{0}$, indefinida ✗.",
+            "$A_{p(x)} = \\mathbb{R} \\setminus \\{1, 3\\}$: on both branches the fraction is positive, so it satisfies the inequality at EVERY point where it is defined; only 1 and 3 stay excluded (they zero numerator and denominator at once). Check: $x = 0$: $\\dfrac{3}{1} = 3 \\geq 0$ ✓; $x = 2$: $\\dfrac{-1}{-1} = 1 \\geq 0$ ✓; $x = 5$: $\\dfrac{8}{2} = 4 \\geq 0$ ✓; $x = 1$: $\\dfrac{0}{0}$, undefined ✗.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* R2 · 2 — (x²−5x+6)/(x²−4) ≤ 0 → (−2,2)∪(2,3]: agujero en x = 2. */
+  template(
+    {
+      id: "rat-autor2-02",
+      subject: "math",
+      topicId: "rational",
+      subtopicId: "inequalities",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 270,
+      tags: ["rational-inequality", "cancellation-trap", "hole"],
+      prerequisites: ["simplifying", "domain"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "R2 · 2",
+      },
+      reasoning: "spurious",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$(-2, 2) \\cup (2, 3]$", "$(-2, 2) \\cup (2, 3]$"), correct: true },
+        { id: "b", text: L("$(-2, 3]$", "$(-2, 3]$"), correct: false },
+        { id: "c", text: L("$[-2, 2) \\cup (2, 3]$", "$[-2, 2) \\cup (2, 3]$"), correct: false },
+        { id: "d", text: L("$(-2, 3)$", "$(-2, 3)$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Cancelar en una inecuación racional: el agujero en $x = 2$",
+          "Cancelling in a rational inequality: the hole at $x = 2$",
+        ),
+        statement: L(
+          "Determina el conjunto de verdad de $p(x): \\dfrac{x^{2} - 5x + 6}{x^{2} - 4} \\leq 0$, $x \\in \\mathbb{R}$. Es:",
+          "Determine the truth set of $p(x): \\dfrac{x^{2} - 5x + 6}{x^{2} - 4} \\leq 0$, $x \\in \\mathbb{R}$. It is:",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Factoriza numerador y denominador: $x^{2} - 5x + 6 = (x - 2)(x - 3)$ y $x^{2} - 4 = (x - 2)(x + 2)$. El dominio excluye dos puntos.",
+            "Factor numerator and denominator: $x^{2} - 5x + 6 = (x - 2)(x - 3)$ and $x^{2} - 4 = (x - 2)(x + 2)$. The domain excludes two points.",
+          ),
+          L(
+            "El factor $(x - 2)$ está arriba y abajo: puedes cancelarlo para el análisis, pero $x = 2$ sigue FUERA del dominio de la expresión original.",
+            "The factor $(x - 2)$ sits on top and bottom: you may cancel it for the analysis, but $x = 2$ stays OUTSIDE the domain of the original expression.",
+          ),
+          L(
+            "Con la fracción reducida $\\dfrac{x - 3}{x + 2}$: corte en $x = 3$ (la fracción vale 0) y polo en $x = -2$; al final retira el punto que cancelaste.",
+            "With the reduced fraction $\\dfrac{x - 3}{x + 2}$: cut at $x = 3$ (the fraction equals 0) and pole at $x = -2$; at the end remove the point you cancelled.",
+          ),
+        ],
+        answerDisplay: L(
+          "$A_{p(x)} = (-2, 2) \\cup (2, 3]$",
+          "$A_{p(x)} = (-2, 2) \\cup (2, 3]$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$p(x): \\dfrac{x^{2} - 5x + 6}{x^{2} - 4} \\leq 0$; dominio: $x \\neq -2, 2$.",
+            "$p(x): \\dfrac{x^{2} - 5x + 6}{x^{2} - 4} \\leq 0$; domain: $x \\neq -2, 2$.",
+          ),
+          step(
+            "approach",
+            "Factorizar, cancelar el factor común para la tabla de signos y recordar que el punto cancelado sigue fuera del dominio (agujero).",
+            "Factor, cancel the common factor for the sign table, and remember that the cancelled point stays outside the domain (hole).",
+          ),
+          step(
+            "calculation",
+            "$x^{2} - 5x + 6 = (x - 2)(x - 3)$, $\\quad x^{2} - 4 = (x - 2)(x + 2)$.<br>Para $x \\neq \\pm 2$: $\\dfrac{(x-2)(x-3)}{(x-2)(x+2)} = \\dfrac{x - 3}{x + 2} \\leq 0$ — cero en $x = 3$, polo en $x = -2$.<br>$x < -2$: $(−)/(−) = +$ ✗; $-2 < x < 3$: $(−)/(+) = −$ ✓; $x = 3$: fracción $= 0$ ✓; $x > 3$: $(+)/(+) = +$ ✗ → $(-2, 3]$, menos el agujero $x = 2$.",
+            "$x^{2} - 5x + 6 = (x - 2)(x - 3)$, $\\quad x^{2} - 4 = (x - 2)(x + 2)$.<br>For $x \\neq \\pm 2$: $\\dfrac{(x-2)(x-3)}{(x-2)(x+2)} = \\dfrac{x - 3}{x + 2} \\leq 0$ — zero at $x = 3$, pole at $x = -2$.<br>$x < -2$: $(−)/(−) = +$ ✗; $-2 < x < 3$: $(−)/(+) = −$ ✓; $x = 3$: fraction $= 0$ ✓; $x > 3$: $(+)/(+) = +$ ✗ → $(-2, 3]$, minus the hole $x = 2$.",
+          ),
+          step(
+            "result",
+            "$A_{p(x)} = (-2, 2) \\cup (2, 3]$: el $-2$ no entra (polo), el 3 sí (la fracción vale 0) y el 2 es un agujero — cancelar $(x - 2)$ no lo devuelve al dominio. Verificación: $x = 0$: $\\dfrac{6}{-4} = -1{,}5 \\leq 0$ ✓; $x = 3$: $\\dfrac{0}{5} = 0 \\leq 0$ ✓; $x = 2$: denominador $0$, indefinida ✗; $x = -3$: $\\dfrac{30}{5} = 6 \\not\\leq 0$ ✗.",
+            "$A_{p(x)} = (-2, 2) \\cup (2, 3]$: $-2$ does not enter (pole), 3 does (the fraction equals 0) and 2 is a hole — cancelling $(x - 2)$ does not put it back into the domain. Check: $x = 0$: $\\dfrac{6}{-4} = -1.5 \\leq 0$ ✓; $x = 3$: $\\dfrac{0}{5} = 0 \\leq 0$ ✓; $x = 2$: denominator $0$, undefined ✗; $x = -3$: $\\dfrac{30}{5} = 6 \\not\\leq 0$ ✗.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* R2 · 3 — (|x−1|−2)/(x²−5x+6) ≤ 0 → [−1,2): el polo 2 y el 0/0 en 3 quedan fuera. */
+  template(
+    {
+      id: "rat-autor2-03",
+      subject: "math",
+      topicId: "rational",
+      subtopicId: "inequalities",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["rational-inequality", "absolute-value", "sign-table"],
+      prerequisites: ["inequalities", "domain"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "R2 · 3",
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$[-1, 2)$", "$[-1, 2)$"), correct: true },
+        { id: "b", text: L("$[-1, 2]$", "$[-1, 2]$"), correct: false },
+        { id: "c", text: L("$(-1, 2)$", "$(-1, 2)$"), correct: false },
+        { id: "d", text: L("$[-1, 3)$", "$[-1, 3)$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Inecuación racional con valor absoluto en el numerador",
+          "Rational inequality with an absolute value in the numerator",
+        ),
+        statement: L(
+          "Determina el conjunto de verdad de $p(x): \\dfrac{\\left|x - 1\\right| - 2}{x^{2} - 5x + 6} \\leq 0$, $x \\in \\mathbb{R}$. Es:",
+          "Determine the truth set of $p(x): \\dfrac{\\left|x - 1\\right| - 2}{x^{2} - 5x + 6} \\leq 0$, $x \\in \\mathbb{R}$. It is:",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "El numerador $\\left|x - 1\\right| - 2$ se anula cuando $\\left|x - 1\\right| = 2$; resuelve esa ecuación y decide dónde el numerador es positivo y dónde negativo.",
+            "The numerator $\\left|x - 1\\right| - 2$ vanishes when $\\left|x - 1\\right| = 2$; solve that equation and decide where the numerator is positive and where it is negative.",
+          ),
+          L(
+            "Factoriza el denominador: $x^{2} - 5x + 6 = (x - 2)(x - 3)$. Ojo: en $x = 3$ se anulan numerador y denominador a la vez.",
+            "Factor the denominator: $x^{2} - 5x + 6 = (x - 2)(x - 3)$. Watch out: at $x = 3$ numerator and denominator vanish together.",
+          ),
+          L(
+            "Con cortes en $-1$, $2$ y $3$, la fracción es $\\leq 0$ donde numerador y denominador tienen signos opuestos (o donde el numerador vale 0 dentro del dominio).",
+            "With cuts at $-1$, $2$ and $3$, the fraction is $\\leq 0$ where numerator and denominator have opposite signs (or where the numerator equals 0 inside the domain).",
+          ),
+        ],
+        answerDisplay: L(
+          "$A_{p(x)} = [-1, 2)$",
+          "$A_{p(x)} = [-1, 2)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$p(x): \\dfrac{\\left|x - 1\\right| - 2}{x^{2} - 5x + 6} \\leq 0$; dominio: $x \\neq 2, 3$.",
+            "$p(x): \\dfrac{\\left|x - 1\\right| - 2}{x^{2} - 5x + 6} \\leq 0$; domain: $x \\neq 2, 3$.",
+          ),
+          step(
+            "approach",
+            "Determinar los signos del numerador a partir del valor absoluto ($\\left|x - 1\\right| \\geq 2$), factorizar el denominador y construir la tabla de signos con cortes $-1$, $2$, $3$.",
+            "Determine the numerator's signs from the absolute value ($\\left|x - 1\\right| \\geq 2$), factor the denominator and build the sign table with cuts at $-1$, $2$, $3$.",
+          ),
+          step(
+            "calculation",
+            "Numerador: $\\left|x - 1\\right| - 2 \\geq 0 \\iff x \\leq -1$ o $x \\geq 3$ (vale 0 en $-1$ y $3$); es negativo en $(-1, 3)$.<br>Denominador: $(x - 2)(x - 3)$ — positivo en $(-\\infty, 2)$, negativo en $(2, 3)$, positivo en $(3, +\\infty)$.<br>$x < -1$: $(+)/(+) = +$ ✗; $x = -1$: $\\dfrac{0}{12} = 0$ ✓; $-1 < x < 2$: $(−)/(+) = −$ ✓; $x = 2$: polo ✗; $2 < x < 3$: $(−)/(−) = +$ ✗; $x = 3$: $\\dfrac{0}{0}$, indefinida ✗; $x > 3$: $(+)/(+) = +$ ✗.",
+            "Numerator: $\\left|x - 1\\right| - 2 \\geq 0 \\iff x \\leq -1$ or $x \\geq 3$ (it equals 0 at $-1$ and $3$); it is negative on $(-1, 3)$.<br>Denominator: $(x - 2)(x - 3)$ — positive on $(-\\infty, 2)$, negative on $(2, 3)$, positive on $(3, +\\infty)$.<br>$x < -1$: $(+)/(+) = +$ ✗; $x = -1$: $\\dfrac{0}{12} = 0$ ✓; $-1 < x < 2$: $(−)/(+) = −$ ✓; $x = 2$: pole ✗; $2 < x < 3$: $(−)/(−) = +$ ✗; $x = 3$: $\\dfrac{0}{0}$, undefined ✗; $x > 3$: $(+)/(+) = +$ ✗.",
+          ),
+          step(
+            "result",
+            "$A_{p(x)} = [-1, 2)$: el $-1$ entra (numerador 0 con denominador $12 \\neq 0$), el 2 queda fuera (polo) y entre 2 y 3 la fracción vuelve a ser positiva. Verificación: $x = 0$: $\\dfrac{-1}{6} \\leq 0$ ✓; $x = -1$: $\\dfrac{0}{12} = 0 \\leq 0$ ✓; $x = 2{,}5$: $\\dfrac{-0{,}5}{-0{,}25} = 2 > 0$ ✗; $x = 2$: denominador $0$ ✗.",
+            "$A_{p(x)} = [-1, 2)$: $-1$ enters (numerator 0 with denominator $12 \\neq 0$), 2 stays out (pole) and between 2 and 3 the fraction is positive again. Check: $x = 0$: $\\dfrac{-1}{6} \\leq 0$ ✓; $x = -1$: $\\dfrac{0}{12} = 0 \\leq 0$ ✓; $x = 2.5$: $\\dfrac{-0.5}{-0.25} = 2 > 0$ ✗; $x = 2$: denominator $0$ ✗.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* R2 · 4 — (x²−9)/(x²−4x+3) ≥ 0 → (−∞,−3]∪(1,3)∪(3,+∞): agujero en x = 3. */
+  template(
+    {
+      id: "rat-autor2-04",
+      subject: "math",
+      topicId: "rational",
+      subtopicId: "inequalities",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 270,
+      tags: ["rational-inequality", "cancellation-trap", "hole"],
+      prerequisites: ["simplifying", "domain"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "R2 · 4",
+      },
+      reasoning: "spurious",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$\\left(-\\infty, -3\\right] \\cup (1, 3) \\cup (3, +\\infty)$", "$\\left(-\\infty, -3\\right] \\cup (1, 3) \\cup (3, +\\infty)$"), correct: true },
+        { id: "b", text: L("$\\left(-\\infty, -3\\right] \\cup (1, +\\infty)$", "$\\left(-\\infty, -3\\right] \\cup (1, +\\infty)$"), correct: false },
+        { id: "c", text: L("$[-3, 1) \\cup (3, +\\infty)$", "$[-3, 1) \\cup (3, +\\infty)$"), correct: false },
+        { id: "d", text: L("$\\left(-\\infty, -3\\right] \\cup [1, 3) \\cup (3, +\\infty)$", "$\\left(-\\infty, -3\\right] \\cup [1, 3) \\cup (3, +\\infty)$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Cancelar en una inecuación racional: el agujero en $x = 3$",
+          "Cancelling in a rational inequality: the hole at $x = 3$",
+        ),
+        statement: L(
+          "Determina el conjunto de verdad de $p(x): \\dfrac{x^{2} - 9}{x^{2} - 4x + 3} \\geq 0$, $x \\in \\mathbb{R}$. Es:",
+          "Determine the truth set of $p(x): \\dfrac{x^{2} - 9}{x^{2} - 4x + 3} \\geq 0$, $x \\in \\mathbb{R}$. It is:",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Factoriza todo: $x^{2} - 9 = (x - 3)(x + 3)$ y $x^{2} - 4x + 3 = (x - 1)(x - 3)$. Hay un factor repetido.",
+            "Factor everything: $x^{2} - 9 = (x - 3)(x + 3)$ and $x^{2} - 4x + 3 = (x - 1)(x - 3)$. One factor repeats.",
+          ),
+          L(
+            "Puedes cancelar $(x - 3)$ para estudiar el signo, pero $x = 3$ no pertenece al dominio de la expresión original: es un agujero.",
+            "You may cancel $(x - 3)$ to study the sign, but $x = 3$ does not belong to the domain of the original expression: it is a hole.",
+          ),
+          L(
+            "La fracción reducida es $\\dfrac{x + 3}{x - 1}$: cero en $-3$, polo en $1$; resuelve y al final retira el agujero del resultado.",
+            "The reduced fraction is $\\dfrac{x + 3}{x - 1}$: zero at $-3$, pole at $1$; solve it and at the end remove the hole from the result.",
+          ),
+        ],
+        answerDisplay: L(
+          "$A_{p(x)} = \\left(-\\infty, -3\\right] \\cup (1, 3) \\cup (3, +\\infty)$",
+          "$A_{p(x)} = \\left(-\\infty, -3\\right] \\cup (1, 3) \\cup (3, +\\infty)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$p(x): \\dfrac{x^{2} - 9}{x^{2} - 4x + 3} \\geq 0$; dominio: $x \\neq 1, 3$.",
+            "$p(x): \\dfrac{x^{2} - 9}{x^{2} - 4x + 3} \\geq 0$; domain: $x \\neq 1, 3$.",
+          ),
+          step(
+            "approach",
+            "Factorizar, cancelar $(x - 3)$ (agujero en 3), resolver con tabla de signos la fracción reducida y retirar el agujero del resultado.",
+            "Factor, cancel $(x - 3)$ (hole at 3), solve the reduced fraction with a sign table and remove the hole from the result.",
+          ),
+          step(
+            "calculation",
+            "$x^{2} - 9 = (x - 3)(x + 3)$, $\\quad x^{2} - 4x + 3 = (x - 1)(x - 3)$.<br>Para $x \\neq 1, 3$: $\\dfrac{(x-3)(x+3)}{(x-1)(x-3)} = \\dfrac{x + 3}{x - 1} \\geq 0$ — cero en $x = -3$, polo en $x = 1$.<br>$x < -3$: $(−)/(−) = +$ ✓; $x = -3$: fracción $= 0$ ✓; $-3 < x < 1$: $(+)/(−) = −$ ✗; $x > 1$: $(+)/(+) = +$ ✓ → $(-\\infty, -3] \\cup (1, +\\infty)$, menos el agujero $x = 3$.",
+            "$x^{2} - 9 = (x - 3)(x + 3)$, $\\quad x^{2} - 4x + 3 = (x - 1)(x - 3)$.<br>For $x \\neq 1, 3$: $\\dfrac{(x-3)(x+3)}{(x-1)(x-3)} = \\dfrac{x + 3}{x - 1} \\geq 0$ — zero at $x = -3$, pole at $x = 1$.<br>$x < -3$: $(−)/(−) = +$ ✓; $x = -3$: fraction $= 0$ ✓; $-3 < x < 1$: $(+)/(−) = −$ ✗; $x > 1$: $(+)/(+) = +$ ✓ → $(-\\infty, -3] \\cup (1, +\\infty)$, minus the hole $x = 3$.",
+          ),
+          step(
+            "result",
+            "$A_{p(x)} = \\left(-\\infty, -3\\right] \\cup (1, 3) \\cup (3, +\\infty)$: el $-3$ entra (fracción 0), el 1 queda fuera (polo) y el 3 es un agujero del dominio. Verificación: $x = -3$: $\\dfrac{0}{24} = 0 \\geq 0$ ✓; $x = 2$: $\\dfrac{-5}{-1} = 5 \\geq 0$ ✓; $x = 3$: $\\dfrac{0}{0}$, indefinida ✗; $x = 0$: $\\dfrac{-9}{3} = -3 \\not\\geq 0$ ✗.",
+            "$A_{p(x)} = \\left(-\\infty, -3\\right] \\cup (1, 3) \\cup (3, +\\infty)$: $-3$ enters (fraction 0), 1 stays out (pole) and 3 is a hole of the domain. Check: $x = -3$: $\\dfrac{0}{24} = 0 \\geq 0$ ✓; $x = 2$: $\\dfrac{-5}{-1} = 5 \\geq 0$ ✓; $x = 3$: $\\dfrac{0}{0}$, undefined ✗; $x = 0$: $\\dfrac{-9}{3} = -3 \\not\\geq 0$ ✗.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* R2 · 5 — (x²−1)/(x²−5x+4) ≤ 0 → [−1,1)∪(1,4): agujero en x = 1, polo en 4. */
+  template(
+    {
+      id: "rat-autor2-05",
+      subject: "math",
+      topicId: "rational",
+      subtopicId: "inequalities",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 270,
+      tags: ["rational-inequality", "cancellation-trap", "hole"],
+      prerequisites: ["simplifying", "domain"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "R2 · 5",
+      },
+      reasoning: "spurious",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$[-1, 1) \\cup (1, 4)$", "$[-1, 1) \\cup (1, 4)$"), correct: true },
+        { id: "b", text: L("$[-1, 4)$", "$[-1, 4)$"), correct: false },
+        { id: "c", text: L("$[-1, 1) \\cup (1, 4]$", "$[-1, 1) \\cup (1, 4]$"), correct: false },
+        { id: "d", text: L("$(-1, 1) \\cup (1, 4)$", "$(-1, 1) \\cup (1, 4)$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Cancelar en una inecuación racional: el agujero en $x = 1$",
+          "Cancelling in a rational inequality: the hole at $x = 1$",
+        ),
+        statement: L(
+          "Determina el conjunto de verdad de $p(x): \\dfrac{x^{2} - 1}{x^{2} - 5x + 4} \\leq 0$, $x \\in \\mathbb{R}$. Es:",
+          "Determine the truth set of $p(x): \\dfrac{x^{2} - 1}{x^{2} - 5x + 4} \\leq 0$, $x \\in \\mathbb{R}$. It is:",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Factoriza: $x^{2} - 1 = (x - 1)(x + 1)$ y $x^{2} - 5x + 4 = (x - 1)(x - 4)$; el dominio excluye $x = 1$ y $x = 4$.",
+            "Factor: $x^{2} - 1 = (x - 1)(x + 1)$ and $x^{2} - 5x + 4 = (x - 1)(x - 4)$; the domain excludes $x = 1$ and $x = 4$.",
+          ),
+          L(
+            "El factor $(x - 1)$ se cancela para $x \\neq 1$: la tabla de signos se simplifica, pero el 1 NO vuelve al dominio.",
+            "The factor $(x - 1)$ cancels for $x \\neq 1$: the sign table gets simpler, but 1 does NOT come back into the domain.",
+          ),
+          L(
+            "Reducida queda $\\dfrac{x + 1}{x - 4}$: el cero del numerador entra (la fracción vale 0) y el polo no; quita además el punto cancelado.",
+            "Reduced you get $\\dfrac{x + 1}{x - 4}$: the numerator's zero enters (the fraction equals 0) and the pole does not; also remove the cancelled point.",
+          ),
+        ],
+        answerDisplay: L(
+          "$A_{p(x)} = [-1, 1) \\cup (1, 4)$",
+          "$A_{p(x)} = [-1, 1) \\cup (1, 4)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$p(x): \\dfrac{x^{2} - 1}{x^{2} - 5x + 4} \\leq 0$; dominio: $x \\neq 1, 4$.",
+            "$p(x): \\dfrac{x^{2} - 1}{x^{2} - 5x + 4} \\leq 0$; domain: $x \\neq 1, 4$.",
+          ),
+          step(
+            "approach",
+            "Factorizar, cancelar $(x - 1)$ (agujero en 1), resolver la inecuación reducida con tabla de signos y retirar el agujero.",
+            "Factor, cancel $(x - 1)$ (hole at 1), solve the reduced inequality with a sign table and remove the hole.",
+          ),
+          step(
+            "calculation",
+            "$x^{2} - 1 = (x - 1)(x + 1)$, $\\quad x^{2} - 5x + 4 = (x - 1)(x - 4)$.<br>Para $x \\neq 1, 4$: $\\dfrac{(x-1)(x+1)}{(x-1)(x-4)} = \\dfrac{x + 1}{x - 4} \\leq 0$ — cero en $x = -1$, polo en $x = 4$.<br>$x < -1$: $(−)/(−) = +$ ✗; $-1 \\leq x < 4$: $(+)/(−) = −$ ✓ (fracción $0$ en $x = -1$); $x > 4$: $(+)/(+) = +$ ✗ → $[-1, 4)$, menos el agujero $x = 1$.",
+            "$x^{2} - 1 = (x - 1)(x + 1)$, $\\quad x^{2} - 5x + 4 = (x - 1)(x - 4)$.<br>For $x \\neq 1, 4$: $\\dfrac{(x-1)(x+1)}{(x-1)(x-4)} = \\dfrac{x + 1}{x - 4} \\leq 0$ — zero at $x = -1$, pole at $x = 4$.<br>$x < -1$: $(−)/(−) = +$ ✗; $-1 \\leq x < 4$: $(+)/(−) = −$ ✓ (fraction $0$ at $x = -1$); $x > 4$: $(+)/(+) = +$ ✗ → $[-1, 4)$, minus the hole $x = 1$.",
+          ),
+          step(
+            "result",
+            "$A_{p(x)} = [-1, 1) \\cup (1, 4)$: el $-1$ entra (fracción 0), el 4 queda fuera (polo) y el 1 es un agujero. Verificación: $x = 0$: $\\dfrac{-1}{4} \\leq 0$ ✓; $x = -1$: $\\dfrac{0}{10} = 0 \\leq 0$ ✓; $x = 1$: $\\dfrac{0}{0}$, indefinida ✗; $x = 5$: $\\dfrac{24}{4} = 6 \\not\\leq 0$ ✗.",
+            "$A_{p(x)} = [-1, 1) \\cup (1, 4)$: $-1$ enters (fraction 0), 4 stays out (pole) and 1 is a hole. Check: $x = 0$: $\\dfrac{-1}{4} \\leq 0$ ✓; $x = -1$: $\\dfrac{0}{10} = 0 \\leq 0$ ✓; $x = 1$: $\\dfrac{0}{0}$, undefined ✗; $x = 5$: $\\dfrac{24}{4} = 6 \\not\\leq 0$ ✗.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* R2 · 22 — (x−a)/(x−2) ≤ 0 según el parámetro a: [a,2) / ∅ / (2,a]. */
+  template(
+    {
+      id: "rat-autor2-22",
+      subject: "math",
+      topicId: "rational",
+      subtopicId: "inequalities",
+      difficulty: "challenge",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 360,
+      tags: ["rational-inequality", "parametric", "case-analysis"],
+      prerequisites: ["inequalities", "domain"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "R2 · 22",
+      },
+      reasoning: "parameters",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$a < 2:\\ [a, 2)$; $\\quad a = 2:\\ \\varnothing$; $\\quad a > 2:\\ (2, a]$", "$a < 2:\\ [a, 2)$; $\\quad a = 2:\\ \\varnothing$; $\\quad a > 2:\\ (2, a]$"), correct: true },
+        { id: "b", text: L("$a < 2:\\ (a, 2]$; $\\quad a = 2:\\ \\varnothing$; $\\quad a > 2:\\ [2, a)$", "$a < 2:\\ (a, 2]$; $\\quad a = 2:\\ \\varnothing$; $\\quad a > 2:\\ [2, a)$"), correct: false },
+        { id: "c", text: L("$a < 2:\\ (a, 2)$; $\\quad a > 2:\\ (2, a)$", "$a < 2:\\ (a, 2)$; $\\quad a > 2:\\ (2, a)$"), correct: false },
+        { id: "d", text: L("$a < 2:\\ [a, 2]$; $\\quad a = 2:\\ \\varnothing$; $\\quad a > 2:\\ [2, a]$", "$a < 2:\\ [a, 2]$; $\\quad a = 2:\\ \\varnothing$; $\\quad a > 2:\\ [2, a]$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Inecuación racional con parámetro: análisis por casos",
+          "Rational inequality with a parameter: case analysis",
+        ),
+        statement: L(
+          "Resuelve, según el parámetro $a$, la inecuación $\\dfrac{x - a}{x - 2} \\leq 0$ (elige el análisis correcto por casos):",
+          "Solve, according to the parameter $a$, the inequality $\\dfrac{x - a}{x - 2} \\leq 0$ (choose the correct case analysis):",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Los puntos frontera son $x = a$ (donde el numerador se anula) y $x = 2$ (polo); cuál va primero en la recta depende de $a$.",
+            "The boundary points are $x = a$ (where the numerator vanishes) and $x = 2$ (pole); which one comes first on the line depends on $a$.",
+          ),
+          L(
+            "Distingue tres situaciones — $a < 2$, $a = 2$ y $a > 2$ — y en cada una haz la tabla de signos de $\\dfrac{x - a}{x - 2}$.",
+            "Distinguish three situations — $a < 2$, $a = 2$ and $a > 2$ — and in each one build the sign table of $\\dfrac{x - a}{x - 2}$.",
+          ),
+          L(
+            "Con $a = 2$ la fracción vale $1$ para todo $x \\neq 2$: ¿cumple $1 \\leq 0$? Y recuerda: el cero del numerador sí puede entrar en la solución, el polo jamás.",
+            "With $a = 2$ the fraction equals $1$ for every $x \\neq 2$: does $1 \\leq 0$ hold? And remember: the numerator's zero may enter the solution, the pole never.",
+          ),
+        ],
+        answerDisplay: L(
+          "$a < 2:\\ [a, 2)$; $\\quad a = 2:\\ \\varnothing$; $\\quad a > 2:\\ (2, a]$",
+          "$a < 2:\\ [a, 2)$; $\\quad a = 2:\\ \\varnothing$; $\\quad a > 2:\\ (2, a]$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$\\dfrac{x - a}{x - 2} \\leq 0$ con parámetro $a \\in \\mathbb{R}$; el polo $x = 2$ es fijo y el cero del numerador $x = a$ se mueve con $a$.",
+            "$\\dfrac{x - a}{x - 2} \\leq 0$ with parameter $a \\in \\mathbb{R}$; the pole $x = 2$ is fixed and the numerator's zero $x = a$ moves with $a$.",
+          ),
+          step(
+            "approach",
+            "Comparar los puntos frontera $a$ y $2$ en sus tres órdenes posibles ($a < 2$, $a = 2$, $a > 2$) y hacer la tabla de signos de cada caso.",
+            "Compare the boundary points $a$ and $2$ in their three possible orders ($a < 2$, $a = 2$, $a > 2$) and build the sign table of each case.",
+          ),
+          step(
+            "calculation",
+            "Caso $a < 2$: $x < a$: $(−)/(−) = +$; $a \\leq x < 2$: $(+)/(−) = −$ ✓; $x > 2$: $(+)/(+) = +$ → $[a, 2)$.<br>Caso $a = 2$: $\\dfrac{x - 2}{x - 2} = 1$ para todo $x \\neq 2$, y $1 \\not\\leq 0$ → $\\varnothing$.<br>Caso $a > 2$: $x < 2$: $(−)/(−) = +$; $2 < x \\leq a$: $(−)/(+) = −$ ✓; $x > a$: $(+)/(+) = +$ → $(2, a]$.",
+            "Case $a < 2$: $x < a$: $(−)/(−) = +$; $a \\leq x < 2$: $(+)/(−) = −$ ✓; $x > 2$: $(+)/(+) = +$ → $[a, 2)$.<br>Case $a = 2$: $\\dfrac{x - 2}{x - 2} = 1$ for every $x \\neq 2$, and $1 \\not\\leq 0$ → $\\varnothing$.<br>Case $a > 2$: $x < 2$: $(−)/(−) = +$; $2 < x \\leq a$: $(−)/(+) = −$ ✓; $x > a$: $(+)/(+) = +$ → $(2, a]$.",
+          ),
+          step(
+            "result",
+            "Análisis por casos: $a < 2$: $[a, 2)$; $\\quad a = 2$: $\\varnothing$; $\\quad a > 2$: $(2, a]$ — el cero $x = a$ entra (la fracción vale 0) y el polo $x = 2$ nunca. Verificación con $a = 0$ (→ $[0, 2)$): $x = 0$: $\\dfrac{0}{-2} = 0 \\leq 0$ ✓; $x = 1$: $\\dfrac{1}{-1} = -1 \\leq 0$ ✓; $x = 2$: indefinida ✗. Con $a = 5$ (→ $(2, 5]$): $x = 4$: $\\dfrac{-1}{2} \\leq 0$ ✓; $x = 5$: $\\dfrac{0}{3} = 0 \\leq 0$ ✓.",
+            "Case analysis: $a < 2$: $[a, 2)$; $\\quad a = 2$: $\\varnothing$; $\\quad a > 2$: $(2, a]$ — the zero $x = a$ enters (the fraction equals 0) and the pole $x = 2$ never does. Check with $a = 0$ (→ $[0, 2)$): $x = 0$: $\\dfrac{0}{-2} = 0 \\leq 0$ ✓; $x = 1$: $\\dfrac{1}{-1} = -1 \\leq 0$ ✓; $x = 2$: undefined ✗. With $a = 5$ (→ $(2, 5]$): $x = 4$: $\\dfrac{-1}{2} \\leq 0$ ✓; $x = 5$: $\\dfrac{0}{3} = 0 \\leq 0$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
 ];

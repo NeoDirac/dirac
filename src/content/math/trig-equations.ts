@@ -2666,4 +2666,515 @@ export const templates: ProblemTemplate[] = [
       ],
     }),
   ),
+
+  /* ---------------------------------------------------------------- */
+  /* Cap. 4 §4.6 «Ecuaciones e inecuaciones trigonométricas» (ed.      */
+  /* digital), p. 474 — ítems 45-50. Clave impresa (p. 941) + sympy:   */
+  /* download/verify_espol_ch4.py. NOTA 48d: la clave impresa dice     */
+  /* 7π/12, fuera del dominio [0, π/2]; se envía la respuesta          */
+  /* verificada π/12 (errata documentada).                              */
+  /* ---------------------------------------------------------------- */
+
+  /* 4 · 45 — 2sen²x − 7senx + 3 = 0 en [0, π]: A = {π/6, 5π/6}, suma = π
+     ((2s−1)(s−3) = 0; s = 3 imposible). Clave impresa (p. 941): π.
+     Distractores impresos: π/3, 7π/6, 2π; el libro también imprimió 5π/3
+     (opción c) — descartada para mantener exactamente 4 opciones. */
+  template(
+    {
+      id: "trigeq-espol-ch4-45",
+      subject: "math",
+      topicId: "trig-equations",
+      subtopicId: "with-identities",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["quadratic-substitution", "unit-circle", "sum-of-solutions"],
+      prerequisites: ["basic", "with-identities"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 45",
+        page: 474,
+      },
+      reasoning: "spurious",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\pi$`, `$\\pi$`), correct: true },
+        { id: "b", text: L(`$\\dfrac{\\pi}{3}$`, `$\\dfrac{\\pi}{3}$`), correct: false },
+        { id: "c", text: L(`$\\dfrac{7\\pi}{6}$`, `$\\dfrac{7\\pi}{6}$`), correct: false },
+        { id: "d", text: L(`$2\\pi$`, `$2\\pi$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Cuadrática en sen(x) con una raíz imposible en $[-1, 1]$",
+          "Quadratic in sin(x) with an impossible root in $[-1, 1]$",
+        ),
+        statement: L(
+          `Sea $p(x):\\ 2\\sin^{2}(x) - 7\\sin(x) + 3 = 0$ y $x \\in [0, \\pi]$. La suma de los elementos de $A_{p(x)}$ es:`,
+          `Let $p(x):\\ 2\\sin^{2}(x) - 7\\sin(x) + 3 = 0$ and $x \\in [0, \\pi]$. The sum of the elements of $A_{p(x)}$ is:`,
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "La incógnita solo aparece a través de $\\sin x$: con la sustitución $t = \\sin x$ la ecuación se vuelve una cuadrática factorizable.",
+            "The unknown appears only through $\\sin x$: with the substitution $t = \\sin x$ the equation becomes a factorable quadratic.",
+          ),
+          L(
+            "Al factorizar salen dos raíces; antes de traducirlas a ángulos, pregunta cuáles viven dentro del rango $[-1, 1]$ del seno.",
+            "Factoring yields two roots; before translating them into angles, ask which ones live inside the sine's range $[-1, 1]$.",
+          ),
+          L(
+            "En $[0, \\pi]$ el seno es no negativo y cada valor de $(0, 1)$ se alcanza en exactamente dos ángulos, simétricos respecto a $\\dfrac{\\pi}{2}$; suma esos dos.",
+            "On $[0, \\pi]$ the sine is non-negative and each value in $(0, 1)$ is attained at exactly two angles, symmetric about $\\dfrac{\\pi}{2}$; add those two.",
+          ),
+        ],
+        answerDisplay: L(
+          `$A_{p(x)} = \\left\\{\\dfrac{\\pi}{6}, \\dfrac{5\\pi}{6}\\right\\}$, suma $= \\pi$`,
+          `$A_{p(x)} = \\left\\{\\dfrac{\\pi}{6}, \\dfrac{5\\pi}{6}\\right\\}$, sum $= \\pi$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$p(x):\\ 2\\sin^{2}(x) - 7\\sin(x) + 3 = 0$, con $x \\in [0, \\pi]$.",
+            "$p(x):\\ 2\\sin^{2}(x) - 7\\sin(x) + 3 = 0$, with $x \\in [0, \\pi]$.",
+          ),
+          step(
+            "approach",
+            "Sustituir $t = \\sin x$, factorizar la cuadrática y filtrar la raíz que caiga fuera del rango $[-1, 1]$; las raíces válidas se traducen a ángulos de $[0, \\pi]$ con la circunferencia unitaria.",
+            "Substitute $t = \\sin x$, factor the quadratic and filter out any root falling outside the range $[-1, 1]$; the valid roots translate into angles of $[0, \\pi]$ on the unit circle.",
+          ),
+          step(
+            "calculation",
+            `$t = \\sin x:\\ 2t^{2} - 7t + 3 = 0 \\Rightarrow (2t - 1)(t - 3) = 0 \\Rightarrow t = \\dfrac{1}{2}$ o $t = 3$<br>$t = 3 \\notin [-1, 1]$: raíz espuria, no existe ningún ángulo con $\\sin x = 3$<br>$\\sin x = \\dfrac{1}{2}$ con $x \\in [0, \\pi] \\Rightarrow x = \\dfrac{\\pi}{6}$ o $x = \\dfrac{5\\pi}{6}$`,
+            `$t = \\sin x:\\ 2t^{2} - 7t + 3 = 0 \\Rightarrow (2t - 1)(t - 3) = 0 \\Rightarrow t = \\dfrac{1}{2}$ or $t = 3$<br>$t = 3 \\notin [-1, 1]$: spurious root, no angle satisfies $\\sin x = 3$<br>$\\sin x = \\dfrac{1}{2}$ with $x \\in [0, \\pi] \\Rightarrow x = \\dfrac{\\pi}{6}$ or $x = \\dfrac{5\\pi}{6}$`,
+          ),
+          step(
+            "result",
+            `La suma de los elementos de $A_{p(x)}$ es $\\dfrac{\\pi}{6} + \\dfrac{5\\pi}{6} = \\pi$. Verificación: $\\sin\\dfrac{\\pi}{6} = \\dfrac{1}{2}$ y $2\\cdot\\dfrac{1}{4} - 7\\cdot\\dfrac{1}{2} + 3 = \\dfrac{1}{2} - \\dfrac{7}{2} + 3 = 0$ ✓; lo mismo en $x = \\dfrac{5\\pi}{6}$. En cambio, quien responde $2\\pi$ estaría incluyendo $x = \\pi$, donde $p(\\pi) = 2\\cdot 0 - 0 + 3 = 3 \\ne 0$ ✗.`,
+            `The sum of the elements of $A_{p(x)}$ is $\\dfrac{\\pi}{6} + \\dfrac{5\\pi}{6} = \\pi$. Check: $\\sin\\dfrac{\\pi}{6} = \\dfrac{1}{2}$ and $2\\cdot\\dfrac{1}{4} - 7\\cdot\\dfrac{1}{2} + 3 = \\dfrac{1}{2} - \\dfrac{7}{2} + 3 = 0$ ✓; likewise at $x = \\dfrac{5\\pi}{6}$. By contrast, answering $2\\pi$ would include $x = \\pi$, where $p(\\pi) = 2\\cdot 0 - 0 + 3 = 3 \\ne 0$ ✗.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 4 · 46 — sen x > 1/2 en (0, 2π) → A = (π/6, 5π/6). Clave impresa: a. */
+  template(
+    {
+      id: "trigeq-espol-ch4-46",
+      subject: "math",
+      topicId: "trig-equations",
+      subtopicId: "intervals",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["inequality", "unit-circle", "intervals"],
+      prerequisites: ["basic", "intervals"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 46",
+        page: 474,
+      },
+      reasoning: "graphical",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\left(\\dfrac{\\pi}{6}, \\dfrac{5\\pi}{6}\\right)$`, `$\\left(\\dfrac{\\pi}{6}, \\dfrac{5\\pi}{6}\\right)$`), correct: true },
+        { id: "b", text: L(`$\\left(0, \\dfrac{\\pi}{6}\\right) \\cup \\left(\\dfrac{5\\pi}{6}, 2\\pi\\right)$`, `$\\left(0, \\dfrac{\\pi}{6}\\right) \\cup \\left(\\dfrac{5\\pi}{6}, 2\\pi\\right)$`), correct: false },
+        { id: "c", text: L(`$\\left[\\dfrac{\\pi}{6}, \\dfrac{5\\pi}{6}\\right]$`, `$\\left[\\dfrac{\\pi}{6}, \\dfrac{5\\pi}{6}\\right]$`), correct: false },
+        { id: "d", text: L(`$\\left(\\dfrac{\\pi}{6}, \\dfrac{\\pi}{2}\\right)$`, `$\\left(\\dfrac{\\pi}{6}, \\dfrac{\\pi}{2}\\right)$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Región de la circunferencia donde el seno supera $\\dfrac{1}{2}$",
+          "Region of the unit circle where the sine exceeds $\\dfrac{1}{2}$",
+        ),
+        statement: L(
+          `Sea $p(x):\\ \\sin(x) > \\dfrac{1}{2}$, $x \\in (0, 2\\pi)$. Halle $A_{p(x)}$.`,
+          `Let $p(x):\\ \\sin(x) > \\dfrac{1}{2}$, $x \\in (0, 2\\pi)$. Find $A_{p(x)}$.`,
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Piensa en la altura del punto sobre la circunferencia unitaria (o en la gráfica de $y = \\sin x$ en una vuelta): ¿en qué tramo está por encima de $\\dfrac{1}{2}$?",
+            "Think of the point's height on the unit circle (or of the graph of $y = \\sin x$ over one turn): on which stretch is it above $\\dfrac{1}{2}$?",
+          ),
+          L(
+            "Marca la frontera: dentro de $(0, 2\\pi)$ el seno vale exactamente $\\dfrac{1}{2}$ en $x = \\dfrac{\\pi}{6}$ y en $x = \\dfrac{5\\pi}{6}$.",
+            "Mark the boundary: inside $(0, 2\\pi)$ the sine equals exactly $\\dfrac{1}{2}$ at $x = \\dfrac{\\pi}{6}$ and at $x = \\dfrac{5\\pi}{6}$.",
+          ),
+          L(
+            "Decide con un punto de prueba por región (por ejemplo $x = \\dfrac{\\pi}{2}$ y $x = \\dfrac{7\\pi}{6}$) y recuerda que la desigualdad estricta decide qué pasa en los extremos.",
+            "Decide with one test point per region (for instance $x = \\dfrac{\\pi}{2}$ and $x = \\dfrac{7\\pi}{6}$) and remember that the strict inequality decides what happens at the endpoints.",
+          ),
+        ],
+        answerDisplay: L(
+          `$A_{p(x)} = \\left(\\dfrac{\\pi}{6}, \\dfrac{5\\pi}{6}\\right)$`,
+          `$A_{p(x)} = \\left(\\dfrac{\\pi}{6}, \\dfrac{5\\pi}{6}\\right)$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$p(x):\\ \\sin x > \\dfrac{1}{2}$, con $x \\in (0, 2\\pi)$.",
+            "$p(x):\\ \\sin x > \\dfrac{1}{2}$, with $x \\in (0, 2\\pi)$.",
+          ),
+          step(
+            "approach",
+            "Ubicar en la circunferencia unitaria los ángulos frontera con $\\sin x = \\dfrac{1}{2}$ y decidir con puntos de prueba qué región queda por encima; la desigualdad estricta excluye a los extremos.",
+            "Locate on the unit circle the boundary angles with $\\sin x = \\dfrac{1}{2}$ and decide with test points which region lies above; the strict inequality excludes the endpoints.",
+          ),
+          step(
+            "calculation",
+            `$\\sin x = \\dfrac{1}{2} \\Rightarrow x = \\dfrac{\\pi}{6}$ o $x = \\dfrac{5\\pi}{6}$ en $(0, 2\\pi)$<br>Prueba $x = \\dfrac{\\pi}{2}$: $\\sin\\dfrac{\\pi}{2} = 1 > \\dfrac{1}{2}$ ✓ → entra la región central<br>Prueba $x = \\dfrac{7\\pi}{6}$: $\\sin\\dfrac{7\\pi}{6} = -\\dfrac{1}{2} < \\dfrac{1}{2}$ ✗ → los dos laterales quedan fuera<br>Extremos: $\\sin\\dfrac{\\pi}{6} = \\dfrac{1}{2}$, no es $>$ estricto → excluidos`,
+            `$\\sin x = \\dfrac{1}{2} \\Rightarrow x = \\dfrac{\\pi}{6}$ or $x = \\dfrac{5\\pi}{6}$ on $(0, 2\\pi)$<br>Test $x = \\dfrac{\\pi}{2}$: $\\sin\\dfrac{\\pi}{2} = 1 > \\dfrac{1}{2}$ ✓ → the central region enters<br>Test $x = \\dfrac{7\\pi}{6}$: $\\sin\\dfrac{7\\pi}{6} = -\\dfrac{1}{2} < \\dfrac{1}{2}$ ✗ → the two side regions stay out<br>Endpoints: $\\sin\\dfrac{\\pi}{6} = \\dfrac{1}{2}$, not a strict $>$ → excluded`,
+          ),
+          step(
+            "result",
+            `$A_{p(x)} = \\left(\\dfrac{\\pi}{6}, \\dfrac{5\\pi}{6}\\right)$, abierto porque la desigualdad es estricta. Verificación: $x = \\dfrac{\\pi}{3}$: $\\sin\\dfrac{\\pi}{3} = \\dfrac{\\sqrt{3}}{2} \\approx 0{,}87 > 0{,}5$ ✓; la versión cerrada incluye $x = \\dfrac{\\pi}{6}$, donde $\\sin x = \\dfrac{1}{2}$ no cumple el $>$ estricto ✗; y el complemento incluye $x = \\dfrac{3\\pi}{2}$, donde $\\sin x = -1$ ✗.`,
+            `$A_{p(x)} = \\left(\\dfrac{\\pi}{6}, \\dfrac{5\\pi}{6}\\right)$, open because the inequality is strict. Check: $x = \\dfrac{\\pi}{3}$: $\\sin\\dfrac{\\pi}{3} = \\dfrac{\\sqrt{3}}{2} \\approx 0.87 > 0.5$ ✓; the closed variant includes $x = \\dfrac{\\pi}{6}$, where $\\sin x = \\dfrac{1}{2}$ fails the strict $>$ ✗; and the complement includes $x = \\dfrac{3\\pi}{2}$, where $\\sin x = -1$ ✗.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 4 · 47 — cos x < 1/3 en (0, 2π) → A = (arccos(1/3), 2π − arccos(1/3)).
+     Clave impresa: a. */
+  template(
+    {
+      id: "trigeq-espol-ch4-47",
+      subject: "math",
+      topicId: "trig-equations",
+      subtopicId: "intervals",
+      difficulty: "challenge",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["inequality", "arccos", "intervals"],
+      prerequisites: ["basic", "intervals"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 47",
+        page: 474,
+      },
+      reasoning: "graphical",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\left(\\arccos\\dfrac{1}{3},\\ 2\\pi - \\arccos\\dfrac{1}{3}\\right)$`, `$\\left(\\arccos\\dfrac{1}{3},\\ 2\\pi - \\arccos\\dfrac{1}{3}\\right)$`), correct: true },
+        { id: "b", text: L(`$\\left(0, \\arccos\\dfrac{1}{3}\\right) \\cup \\left(2\\pi - \\arccos\\dfrac{1}{3}, 2\\pi\\right)$`, `$\\left(0, \\arccos\\dfrac{1}{3}\\right) \\cup \\left(2\\pi - \\arccos\\dfrac{1}{3}, 2\\pi\\right)$`), correct: false },
+        { id: "c", text: L(`$\\left[\\arccos\\dfrac{1}{3},\\ 2\\pi - \\arccos\\dfrac{1}{3}\\right]$`, `$\\left[\\arccos\\dfrac{1}{3},\\ 2\\pi - \\arccos\\dfrac{1}{3}\\right]$`), correct: false },
+        { id: "d", text: L(`$\\left(\\dfrac{\\pi}{3}, \\dfrac{5\\pi}{3}\\right)$`, `$\\left(\\dfrac{\\pi}{3}, \\dfrac{5\\pi}{3}\\right)$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Inecuación del coseno con una frontera no especial",
+          "Cosine inequality with a non-special boundary",
+        ),
+        statement: L(
+          `Sea $q(x):\\ \\cos(x) < \\dfrac{1}{3}$, $x \\in (0, 2\\pi)$. Halle $A_{q(x)}$.`,
+          `Let $q(x):\\ \\cos(x) < \\dfrac{1}{3}$, $x \\in (0, 2\\pi)$. Find $A_{q(x)}$.`,
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "El valor $\\dfrac{1}{3}$ no corresponde a ningún ángulo «famoso»: la frontera de esta inecuación se escribe con $\\arccos\\dfrac{1}{3}$.",
+            "The value $\\dfrac{1}{3}$ does not correspond to any famous angle: this inequality's boundary is written with $\\arccos\\dfrac{1}{3}$.",
+          ),
+          L(
+            "Dentro de $(0, 2\\pi)$ el coseno vale $\\dfrac{1}{3}$ en dos ángulos simétricos respecto al eje $x$: $\\arccos\\dfrac{1}{3}$ (cuadrante I) y $2\\pi - \\arccos\\dfrac{1}{3}$ (cuadrante IV).",
+            "Inside $(0, 2\\pi)$ the cosine equals $\\dfrac{1}{3}$ at two angles symmetric about the $x$-axis: $\\arccos\\dfrac{1}{3}$ (quadrant I) and $2\\pi - \\arccos\\dfrac{1}{3}$ (quadrant IV).",
+          ),
+          L(
+            "Prueba un punto entre las dos fronteras, por ejemplo $x = \\pi$ (¿cuánto vale $\\cos\\pi$?), para decidir si entra la región central o los dos laterales; los extremos los decide la desigualdad estricta.",
+            "Test a point between the two boundaries, e.g. $x = \\pi$ (what is $\\cos\\pi$?), to decide whether the central region or the two side ones enter; the strict inequality settles the endpoints.",
+          ),
+        ],
+        answerDisplay: L(
+          `$A_{q(x)} = \\left(\\arccos\\dfrac{1}{3},\\ 2\\pi - \\arccos\\dfrac{1}{3}\\right)$`,
+          `$A_{q(x)} = \\left(\\arccos\\dfrac{1}{3},\\ 2\\pi - \\arccos\\dfrac{1}{3}\\right)$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$q(x):\\ \\cos x < \\dfrac{1}{3}$, con $x \\in (0, 2\\pi)$.",
+            "$q(x):\\ \\cos x < \\dfrac{1}{3}$, with $x \\in (0, 2\\pi)$.",
+          ),
+          step(
+            "approach",
+            "Hallar los dos ángulos frontera con $\\cos x = \\dfrac{1}{3}$ y decidir con un punto de prueba qué región cumple; conviene saber que $\\arccos\\dfrac{1}{3} \\approx 1{,}23$ rad no es un ángulo especial.",
+            "Find the two boundary angles with $\\cos x = \\dfrac{1}{3}$ and decide with a test point which region works; it helps to know that $\\arccos\\dfrac{1}{3} \\approx 1.23$ rad is not a special angle.",
+          ),
+          step(
+            "calculation",
+            `$\\cos x = \\dfrac{1}{3} \\Rightarrow x = \\arccos\\dfrac{1}{3} \\approx 1{,}231$ o $x = 2\\pi - \\arccos\\dfrac{1}{3} \\approx 5{,}052$<br>Prueba $x = \\pi$: $\\cos\\pi = -1 < \\dfrac{1}{3}$ ✓ → entra la región central<br>Cerca de $x = 0^{+}$: $\\cos x \\approx 1 > \\dfrac{1}{3}$ ✗ → los dos laterales quedan fuera<br>En los extremos $\\cos x = \\dfrac{1}{3}$, no estricto → excluidos`,
+            `$\\cos x = \\dfrac{1}{3} \\Rightarrow x = \\arccos\\dfrac{1}{3} \\approx 1.231$ or $x = 2\\pi - \\arccos\\dfrac{1}{3} \\approx 5.052$<br>Test $x = \\pi$: $\\cos\\pi = -1 < \\dfrac{1}{3}$ ✓ → the central region enters<br>Near $x = 0^{+}$: $\\cos x \\approx 1 > \\dfrac{1}{3}$ ✗ → the two side regions stay out<br>At the endpoints $\\cos x = \\dfrac{1}{3}$, not strict → excluded`,
+          ),
+          step(
+            "result",
+            `$A_{q(x)} = \\left(\\arccos\\dfrac{1}{3},\\ 2\\pi - \\arccos\\dfrac{1}{3}\\right)$. Verificación: $x = \\dfrac{\\pi}{2}$: $\\cos\\dfrac{\\pi}{2} = 0 < \\dfrac{1}{3}$ ✓ (punto interior); en $x = \\pi$: $\\cos\\pi = -1 < \\dfrac{1}{3}$ ✓, así que el complemento lo excluye sin razón ✗; la versión cerrada incluye $x = \\arccos\\dfrac{1}{3}$, donde $\\cos x = \\dfrac{1}{3}$ no cumple el $<$ estricto ✗; y quien confunde $\\arccos\\dfrac{1}{3}$ con $\\dfrac{\\pi}{3}$ se equivoca: $\\cos\\dfrac{\\pi}{3} = \\dfrac{1}{2} \\ne \\dfrac{1}{3}$, y su intervalo incluye $x = 1{,}1$, donde $\\cos(1{,}1) \\approx 0{,}45 > \\dfrac{1}{3}$ ✗.`,
+            `$A_{q(x)} = \\left(\\arccos\\dfrac{1}{3},\\ 2\\pi - \\arccos\\dfrac{1}{3}\\right)$. Check: $x = \\dfrac{\\pi}{2}$: $\\cos\\dfrac{\\pi}{2} = 0 < \\dfrac{1}{3}$ ✓ (interior point); at $x = \\pi$: $\\cos\\pi = -1 < \\dfrac{1}{3}$ ✓, so the complement excludes it for no reason ✗; the closed variant includes $x = \\arccos\\dfrac{1}{3}$, where $\\cos x = \\dfrac{1}{3}$ fails the strict $<$ ✗; and confusing $\\arccos\\dfrac{1}{3}$ with $\\dfrac{\\pi}{3}$ is wrong: $\\cos\\dfrac{\\pi}{3} = \\dfrac{1}{2} \\ne \\dfrac{1}{3}$, and that interval includes $x = 1.1$, where $\\cos(1.1) \\approx 0.45 > \\dfrac{1}{3}$ ✗.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 4 · 48d — f(x) = cos x + √3·sen x = 2cos(x − π/3) = √2, dominio
+     [0, π/2] → x = π/12, ÚNICA solución en el dominio. LA CLAVE IMPRESA
+     (p. 941) DICE 7π/12, pero 7π/12 ≈ 1,83 > π/2 ≈ 1,57 está FUERA del
+     dominio declarado de f; se envía la respuesta verificada π/12 (sympy +
+     sustitución numérica), errata documentada aquí y en el paso result
+     (precedentes de casa: ítems #82 y G17, ronda 1, enviados con la
+     respuesta verificada y la errata de la clave señalada). */
+  template(
+    {
+      id: "trigeq-espol-ch4-48d",
+      subject: "math",
+      topicId: "trig-equations",
+      subtopicId: "with-identities",
+      difficulty: "challenge",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 360,
+      tags: ["equation", "amplitude-phase", "domain-restriction"],
+      prerequisites: ["basic", "with-identities"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 48d",
+        page: 474,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\left\\{\\dfrac{\\pi}{12}\\right\\}$`, `$\\left\\{\\dfrac{\\pi}{12}\\right\\}$`), correct: true },
+        { id: "b", text: L(`$\\left\\{\\dfrac{7\\pi}{12}\\right\\}$`, `$\\left\\{\\dfrac{7\\pi}{12}\\right\\}$`), correct: false },
+        { id: "c", text: L(`$\\left\\{\\dfrac{\\pi}{12}, \\dfrac{7\\pi}{12}\\right\\}$`, `$\\left\\{\\dfrac{\\pi}{12}, \\dfrac{7\\pi}{12}\\right\\}$`), correct: false },
+        { id: "d", text: L(`$\\left\\{\\dfrac{\\pi}{6}\\right\\}$`, `$\\left\\{\\dfrac{\\pi}{6}\\right\\}$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Resolver con la forma auxiliar $f(x) = 2\\cos\\left(x - \\dfrac{\\pi}{3}\\right)$ y filtrar por el dominio",
+          "Solving with the auxiliary form $f(x) = 2\\cos\\left(x - \\dfrac{\\pi}{3}\\right)$ and filtering by the domain",
+        ),
+        statement: L(
+          `La función $f$ de dominio $\\left[0, \\dfrac{\\pi}{2}\\right]$ se define como $f(x) = \\cos(x) + \\sqrt{3}\\,\\sin(x)$, es decir $f(x) = 2\\cos\\left(x - \\dfrac{\\pi}{3}\\right)$. Halle el valor de $x$ que satisface la ecuación $f(x) = \\sqrt{2}$.`,
+          `The function $f$ with domain $\\left[0, \\dfrac{\\pi}{2}\\right]$ is defined by $f(x) = \\cos(x) + \\sqrt{3}\\,\\sin(x)$, that is, $f(x) = 2\\cos\\left(x - \\dfrac{\\pi}{3}\\right)$. Find the value of $x$ that satisfies the equation $f(x) = \\sqrt{2}$.`,
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Con la forma auxiliar, $f(x) = \\sqrt{2}$ equivale a $\\cos\\left(x - \\dfrac{\\pi}{3}\\right) = \\dfrac{\\sqrt{2}}{2}$.",
+            "With the auxiliary form, $f(x) = \\sqrt{2}$ is equivalent to $\\cos\\left(x - \\dfrac{\\pi}{3}\\right) = \\dfrac{\\sqrt{2}}{2}$.",
+          ),
+          L(
+            "Los ángulos con coseno igual a $\\dfrac{\\sqrt{2}}{2}$ son $\\pm\\dfrac{\\pi}{4}$ (módulo $2\\pi$); conviene trasladar también el dominio: $x \\in \\left[0, \\dfrac{\\pi}{2}\\right]$ obliga a $x - \\dfrac{\\pi}{3} \\in \\left[-\\dfrac{\\pi}{3}, \\dfrac{\\pi}{6}\\right]$.",
+            "The angles with cosine equal to $\\dfrac{\\sqrt{2}}{2}$ are $\\pm\\dfrac{\\pi}{4}$ (mod $2\\pi$); it helps to translate the domain too: $x \\in \\left[0, \\dfrac{\\pi}{2}\\right]$ forces $x - \\dfrac{\\pi}{3} \\in \\left[-\\dfrac{\\pi}{3}, \\dfrac{\\pi}{6}\\right]$.",
+          ),
+          L(
+            "Los candidatos son $\\dfrac{\\pi}{3} \\pm \\dfrac{\\pi}{4}$; solo uno de los dos cae dentro de $\\left[0, \\dfrac{\\pi}{2}\\right] \\approx [0,\\ 1{,}57]$: comprueba el otro con su valor decimal antes de decidir.",
+            "The candidates are $\\dfrac{\\pi}{3} \\pm \\dfrac{\\pi}{4}$; only one of the two falls inside $\\left[0, \\dfrac{\\pi}{2}\\right] \\approx [0,\\ 1.57]$: check the other one against its decimal value before deciding.",
+          ),
+        ],
+        answerDisplay: L(
+          `$x = \\dfrac{\\pi}{12}$, única solución dentro del dominio $\\left[0, \\dfrac{\\pi}{2}\\right]$`,
+          `$x = \\dfrac{\\pi}{12}$, the only solution inside the domain $\\left[0, \\dfrac{\\pi}{2}\\right]$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$f(x) = \\cos x + \\sqrt{3}\\,\\sin x = 2\\cos\\left(x - \\dfrac{\\pi}{3}\\right)$ con dominio $\\left[0, \\dfrac{\\pi}{2}\\right]$; hay que resolver $f(x) = \\sqrt{2}$.",
+            "$f(x) = \\cos x + \\sqrt{3}\\,\\sin x = 2\\cos\\left(x - \\dfrac{\\pi}{3}\\right)$ with domain $\\left[0, \\dfrac{\\pi}{2}\\right]$; solve $f(x) = \\sqrt{2}$.",
+          ),
+          step(
+            "approach",
+            "Resolver $\\cos\\left(x - \\dfrac{\\pi}{3}\\right) = \\dfrac{\\sqrt{2}}{2}$ con la familia $x - \\dfrac{\\pi}{3} = \\pm\\dfrac{\\pi}{4} + 2k\\pi$ y después FILTRAR cada candidato contra el dominio declarado de $f$ — ese paso decide la respuesta.",
+            "Solve $\\cos\\left(x - \\dfrac{\\pi}{3}\\right) = \\dfrac{\\sqrt{2}}{2}$ with the family $x - \\dfrac{\\pi}{3} = \\pm\\dfrac{\\pi}{4} + 2k\\pi$ and then FILTER every candidate against the declared domain of $f$ — that step decides the answer.",
+          ),
+          step(
+            "calculation",
+            `$\\cos\\left(x - \\dfrac{\\pi}{3}\\right) = \\dfrac{\\sqrt{2}}{2} \\Rightarrow x - \\dfrac{\\pi}{3} = \\pm\\dfrac{\\pi}{4} + 2k\\pi$ (los demás giros $2k\\pi$ sacan a $x$ del intervalo $[0, 2\\pi]$)<br>$x = \\dfrac{\\pi}{3} + \\dfrac{\\pi}{4} = \\dfrac{7\\pi}{12} \\approx 1{,}83$ o $x = \\dfrac{\\pi}{3} - \\dfrac{\\pi}{4} = \\dfrac{\\pi}{12} \\approx 0{,}26$<br>Dominio $\\left[0, \\dfrac{\\pi}{2}\\right]$, con $\\dfrac{\\pi}{2} \\approx 1{,}57$: solo $\\dfrac{\\pi}{12} \\approx 0{,}26$ pertenece`,
+            `$\\cos\\left(x - \\dfrac{\\pi}{3}\\right) = \\dfrac{\\sqrt{2}}{2} \\Rightarrow x - \\dfrac{\\pi}{3} = \\pm\\dfrac{\\pi}{4} + 2k\\pi$ (the remaining $2k\\pi$ turns push $x$ outside $[0, 2\\pi]$)<br>$x = \\dfrac{\\pi}{3} + \\dfrac{\\pi}{4} = \\dfrac{7\\pi}{12} \\approx 1.83$ or $x = \\dfrac{\\pi}{3} - \\dfrac{\\pi}{4} = \\dfrac{\\pi}{12} \\approx 0.26$<br>Domain $\\left[0, \\dfrac{\\pi}{2}\\right]$, with $\\dfrac{\\pi}{2} \\approx 1.57$: only $\\dfrac{\\pi}{12} \\approx 0.26$ belongs`,
+          ),
+          step(
+            "result",
+            `$x = \\dfrac{\\pi}{12}$. Verificación: $f\\left(\\dfrac{\\pi}{12}\\right) = \\cos 15^{\\circ} + \\sqrt{3}\\,\\sin 15^{\\circ} \\approx 0{,}966 + 0{,}448 = 1{,}414 = \\sqrt{2}$ ✓. El otro candidato, $\\dfrac{7\\pi}{12} \\approx 1{,}83 > \\dfrac{\\pi}{2} \\approx 1{,}57$, está fuera del dominio declarado de $f$ ✗ (satisfaría la ecuación, pero ese $x$ no es admisible). NOTA: la clave impresa del libro indica $\\dfrac{7\\pi}{12}$, que está fuera del dominio declarado; errata reportada — la respuesta verificada (sustitución numérica + sympy) es $\\dfrac{\\pi}{12}$, la única solución en $\\left[0, \\dfrac{\\pi}{2}\\right]$.`,
+            `$x = \\dfrac{\\pi}{12}$. Check: $f\\left(\\dfrac{\\pi}{12}\\right) = \\cos 15^{\\circ} + \\sqrt{3}\\,\\sin 15^{\\circ} \\approx 0.966 + 0.448 = 1.414 = \\sqrt{2}$ ✓. The other candidate, $\\dfrac{7\\pi}{12} \\approx 1.83 > \\dfrac{\\pi}{2} \\approx 1.57$, lies outside the declared domain of $f$ ✗ (it would satisfy the equation, but that $x$ is not admissible). NOTE: the book's printed key gives $\\dfrac{7\\pi}{12}$, which lies outside the declared domain; errata reported — the verified answer (numeric substitution + sympy) is $\\dfrac{\\pi}{12}$, the only solution in $\\left[0, \\dfrac{\\pi}{2}\\right]$.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 4 · 49 — 2sen²x = 1 − cos x en [0, 2π]: A = {0, 2π/3, 4π/3, 2π}, suma
+     = 4π (2cos²x − cosx − 1 = 0 → cos x = 1 o −1/2). Clave impresa: 4π.
+     Distractores impresos: 8π/3, 3π, 7π/3; el libro también imprimió 4π/3
+     — descartado para mantener exactamente 4 opciones. Nota: el libro
+     repite esta ecuación en 5.6 · 53l (ya importada como numérica
+     trigeq-espol-1l); aquí llega como MC con los distractores impresos de
+     la clave del Cap. 4. */
+  template(
+    {
+      id: "trigeq-espol-ch4-49",
+      subject: "math",
+      topicId: "trig-equations",
+      subtopicId: "with-identities",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["pythagorean-identity", "quadratic-substitution", "sum-of-solutions"],
+      prerequisites: ["basic", "with-identities"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 49",
+        page: 474,
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$4\\pi$`, `$4\\pi$`), correct: true },
+        { id: "b", text: L(`$\\dfrac{8\\pi}{3}$`, `$\\dfrac{8\\pi}{3}$`), correct: false },
+        { id: "c", text: L(`$3\\pi$`, `$3\\pi$`), correct: false },
+        { id: "d", text: L(`$\\dfrac{7\\pi}{3}$`, `$\\dfrac{7\\pi}{3}$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Pitágoras + cuadrática en cos(x) en un intervalo cerrado",
+          "Pythagoras + a quadratic in cos(x) on a closed interval",
+        ),
+        statement: L(
+          `Considere el predicado $p(x):\\ 2\\sin^{2}(x) = 1 - \\cos(x)$, $x \\in [0, 2\\pi]$. La suma de los elementos de $A_{p(x)}$ es:`,
+          `Consider the predicate $p(x):\\ 2\\sin^{2}(x) = 1 - \\cos(x)$, $x \\in [0, 2\\pi]$. The sum of the elements of $A_{p(x)}$ is:`,
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "La ecuación mezcla $\\sin^{2}x$ con $\\cos x$: la identidad pitagórica $\\sin^{2}x = 1 - \\cos^{2}x$ la deja escrita solo con $\\cos x$.",
+            "The equation mixes $\\sin^{2}x$ with $\\cos x$: the Pythagorean identity $\\sin^{2}x = 1 - \\cos^{2}x$ rewrites it in terms of $\\cos x$ alone.",
+          ),
+          L(
+            "Quedará una cuadrática factorizable en $\\cos x$; cada raíz válida aporta sus propios ángulos dentro de $[0, 2\\pi]$.",
+            "You will get a factorable quadratic in $\\cos x$; each valid root contributes its own angles inside $[0, 2\\pi]$.",
+          ),
+          L(
+            "Ojo con los extremos: el intervalo es cerrado, así que conviene comprobar si $x = 0$ y $x = 2\\pi$ (ambos con $\\cos x = 1$) satisfacen la ecuación antes de sumar.",
+            "Watch the endpoints: the interval is closed, so check whether $x = 0$ and $x = 2\\pi$ (both with $\\cos x = 1$) satisfy the equation before adding.",
+          ),
+        ],
+        answerDisplay: L(
+          `$A_{p(x)} = \\left\\{0, \\dfrac{2\\pi}{3}, \\dfrac{4\\pi}{3}, 2\\pi\\right\\}$, suma $= 4\\pi$`,
+          `$A_{p(x)} = \\left\\{0, \\dfrac{2\\pi}{3}, \\dfrac{4\\pi}{3}, 2\\pi\\right\\}$, sum $= 4\\pi$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$p(x):\\ 2\\sin^{2}x = 1 - \\cos x$, con $x \\in [0, 2\\pi]$ (intervalo cerrado: los extremos cuentan).",
+            "$p(x):\\ 2\\sin^{2}x = 1 - \\cos x$, with $x \\in [0, 2\\pi]$ (closed interval: the endpoints count).",
+          ),
+          step(
+            "approach",
+            "Sustituir $\\sin^{2}x = 1 - \\cos^{2}x$ para obtener una cuadrática en $\\cos x$, factorizar y traducir cada raíz a los ángulos del intervalo cerrado $[0, 2\\pi]$.",
+            "Replace $\\sin^{2}x = 1 - \\cos^{2}x$ to get a quadratic in $\\cos x$, factor it and translate each root into angles of the closed interval $[0, 2\\pi]$.",
+          ),
+          step(
+            "calculation",
+            `$2\\left(1 - \\cos^{2}x\\right) = 1 - \\cos x \\Rightarrow 2\\cos^{2}x - \\cos x - 1 = 0 \\Rightarrow (2\\cos x + 1)(\\cos x - 1) = 0$<br>$\\cos x = 1 \\Rightarrow x = 0$ o $x = 2\\pi$ (los dos extremos del intervalo cerrado)<br>$\\cos x = -\\dfrac{1}{2} \\Rightarrow x = \\dfrac{2\\pi}{3}$ o $x = \\dfrac{4\\pi}{3}$`,
+            `$2\\left(1 - \\cos^{2}x\\right) = 1 - \\cos x \\Rightarrow 2\\cos^{2}x - \\cos x - 1 = 0 \\Rightarrow (2\\cos x + 1)(\\cos x - 1) = 0$<br>$\\cos x = 1 \\Rightarrow x = 0$ or $x = 2\\pi$ (the two endpoints of the closed interval)<br>$\\cos x = -\\dfrac{1}{2} \\Rightarrow x = \\dfrac{2\\pi}{3}$ or $x = \\dfrac{4\\pi}{3}$`,
+          ),
+          step(
+            "result",
+            `La suma de los elementos de $A_{p(x)}$ es $0 + \\dfrac{2\\pi}{3} + \\dfrac{4\\pi}{3} + 2\\pi = 4\\pi$. Verificación: $x = 0$: $2\\cdot 0 = 1 - 1$ ✓; $x = \\dfrac{2\\pi}{3}$: $2\\sin^{2}\\dfrac{2\\pi}{3} = 2\\cdot\\dfrac{3}{4} = \\dfrac{3}{2}$ y $1 - \\cos\\dfrac{2\\pi}{3} = 1 + \\dfrac{1}{2} = \\dfrac{3}{2}$ ✓; quien responde $\\dfrac{8\\pi}{3}$ olvida un ángulo con $\\cos x = -\\dfrac{1}{2}$ (por ejemplo el $\\dfrac{4\\pi}{3}$, que sí cumple: $\\cos\\dfrac{4\\pi}{3} = -\\dfrac{1}{2}$) ✗.`,
+            `The sum of the elements of $A_{p(x)}$ is $0 + \\dfrac{2\\pi}{3} + \\dfrac{4\\pi}{3} + 2\\pi = 4\\pi$. Check: $x = 0$: $2\\cdot 0 = 1 - 1$ ✓; $x = \\dfrac{2\\pi}{3}$: $2\\sin^{2}\\dfrac{2\\pi}{3} = 2\\cdot\\dfrac{3}{4} = \\dfrac{3}{2}$ and $1 - \\cos\\dfrac{2\\pi}{3} = 1 + \\dfrac{1}{2} = \\dfrac{3}{2}$ ✓; answering $\\dfrac{8\\pi}{3}$ forgets one angle with $\\cos x = -\\dfrac{1}{2}$ (for instance $\\dfrac{4\\pi}{3}$, which does satisfy it: $\\cos\\dfrac{4\\pi}{3} = -\\dfrac{1}{2}$) ✗.`,
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 4 · 50 — 2cos²x = sen(2x) en [0, π] → x = π/4, π/2 (cos x = 0 o
+     tan x = 1; dividir entre cos x pierde π/2). Clave impresa: a. */
+  template(
+    {
+      id: "trigeq-espol-ch4-50",
+      subject: "math",
+      topicId: "trig-equations",
+      subtopicId: "with-identities",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["double-angle", "factoring", "lost-root"],
+      prerequisites: ["basic", "with-identities"],
+      source: {
+        sourceId: "fcnm-fundamentos-digital",
+        license: "TUTOR_LICENSED",
+        exerciseNumber: "4 · 50",
+        page: 474,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\left\\{\\dfrac{\\pi}{4}, \\dfrac{\\pi}{2}\\right\\}$`, `$\\left\\{\\dfrac{\\pi}{4}, \\dfrac{\\pi}{2}\\right\\}$`), correct: true },
+        { id: "b", text: L(`$\\left\\{\\dfrac{\\pi}{4}\\right\\}$`, `$\\left\\{\\dfrac{\\pi}{4}\\right\\}$`), correct: false },
+        { id: "c", text: L(`$\\left\\{\\dfrac{\\pi}{2}\\right\\}$`, `$\\left\\{\\dfrac{\\pi}{2}\\right\\}$`), correct: false },
+        { id: "d", text: L(`$\\left\\{\\dfrac{\\pi}{4}, \\dfrac{\\pi}{2}, \\dfrac{3\\pi}{4}\\right\\}$`, `$\\left\\{\\dfrac{\\pi}{4}, \\dfrac{\\pi}{2}, \\dfrac{3\\pi}{4}\\right\\}$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Factorizar sin dividir entre $\\cos x$",
+          "Factoring without dividing by $\\cos x$",
+        ),
+        statement: L(
+          `Resuelva la ecuación $2\\cos^{2}(x) = \\sin(2x)$, siendo $0 \\le x \\le \\pi$.`,
+          `Solve the equation $2\\cos^{2}(x) = \\sin(2x)$, where $0 \\le x \\le \\pi$.`,
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Expande el doble ángulo: $\\sin(2x) = 2\\sin x\\cos x$, y lleva todo a un lado para factorizar.",
+            "Expand the double angle: $\\sin(2x) = 2\\sin x\\cos x$, and move everything to one side to factor.",
+          ),
+          L(
+            "La ecuación queda $2\\cos x\\,(\\cos x - \\sin x) = 0$: atiende por separado cada factor igualado a cero — no dividas entre $\\cos x$, perderías una familia de soluciones.",
+            "The equation becomes $2\\cos x\\,(\\cos x - \\sin x) = 0$: handle each zero factor separately — do not divide by $\\cos x$, you would lose a family of solutions.",
+          ),
+          L(
+            "En $[0, \\pi]$, la condición $\\cos x = \\sin x$ solo ocurre en un ángulo del primer cuadrante, y $\\cos x = 0$ aporta otro más; sustituye cada candidato en la ecuación original antes de responder.",
+            "On $[0, \\pi]$, the condition $\\cos x = \\sin x$ holds at only one first-quadrant angle, and $\\cos x = 0$ contributes one more; substitute each candidate into the original equation before answering.",
+          ),
+        ],
+        answerDisplay: L(
+          `$x \\in \\left\\{\\dfrac{\\pi}{4}, \\dfrac{\\pi}{2}\\right\\}$`,
+          `$x \\in \\left\\{\\dfrac{\\pi}{4}, \\dfrac{\\pi}{2}\\right\\}$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "$2\\cos^{2}x = \\sin(2x)$, con $0 \\le x \\le \\pi$.",
+            "$2\\cos^{2}x = \\sin(2x)$, with $0 \\le x \\le \\pi$.",
+          ),
+          step(
+            "approach",
+            "Reescribir $\\sin(2x) = 2\\sin x\\cos x$, factorizar sin dividir entre $\\cos x$ (la división pierde la familia $\\cos x = 0$) y filtrar cada candidato contra la ecuación original.",
+            "Rewrite $\\sin(2x) = 2\\sin x\\cos x$, factor without dividing by $\\cos x$ (dividing loses the family $\\cos x = 0$) and check each candidate against the original equation.",
+          ),
+          step(
+            "calculation",
+            `$2\\cos^{2}x - 2\\sin x\\cos x = 0 \\Rightarrow 2\\cos x\\,(\\cos x - \\sin x) = 0$<br>$\\cos x = 0 \\Rightarrow x = \\dfrac{\\pi}{2}$ en $[0, \\pi]$<br>$\\cos x = \\sin x \\Rightarrow \\tan x = 1 \\Rightarrow x = \\dfrac{\\pi}{4}$ en $[0, \\pi]$ (en $\\dfrac{3\\pi}{4}$ la tangente vale $-1$, no sirve)`,
+            `$2\\cos^{2}x - 2\\sin x\\cos x = 0 \\Rightarrow 2\\cos x\\,(\\cos x - \\sin x) = 0$<br>$\\cos x = 0 \\Rightarrow x = \\dfrac{\\pi}{2}$ on $[0, \\pi]$<br>$\\cos x = \\sin x \\Rightarrow \\tan x = 1 \\Rightarrow x = \\dfrac{\\pi}{4}$ on $[0, \\pi]$ (at $\\dfrac{3\\pi}{4}$ the tangent equals $-1$, useless)`,
+          ),
+          step(
+            "result",
+            `Las soluciones son $x = \\dfrac{\\pi}{4}$ y $x = \\dfrac{\\pi}{2}$. Verificación: $x = \\dfrac{\\pi}{4}$: $2\\cos^{2}\\dfrac{\\pi}{4} = 2\\cdot\\dfrac{1}{2} = 1$ y $\\sin\\dfrac{\\pi}{2} = 1$ ✓; $x = \\dfrac{\\pi}{2}$: $2\\cos^{2}\\dfrac{\\pi}{2} = 0$ y $\\sin\\pi = 0$ ✓. El candidato extra $\\dfrac{3\\pi}{4}$ falla: $2\\cos^{2}\\dfrac{3\\pi}{4} = 1$ pero $\\sin\\dfrac{3\\pi}{2} = -1$ ✗ (viene de «reflejar» la solución de la tangente al segundo cuadrante, donde seno y coseno ya no coinciden); y dividir entre $\\cos x$ haría perder $x = \\dfrac{\\pi}{2}$.`,
+            `The solutions are $x = \\dfrac{\\pi}{4}$ and $x = \\dfrac{\\pi}{2}$. Check: $x = \\dfrac{\\pi}{4}$: $2\\cos^{2}\\dfrac{\\pi}{4} = 2\\cdot\\dfrac{1}{2} = 1$ and $\\sin\\dfrac{\\pi}{2} = 1$ ✓; $x = \\dfrac{\\pi}{2}$: $2\\cos^{2}\\dfrac{\\pi}{2} = 0$ and $\\sin\\pi = 0$ ✓. The extra candidate $\\dfrac{3\\pi}{4}$ fails: $2\\cos^{2}\\dfrac{3\\pi}{4} = 1$ but $\\sin\\dfrac{3\\pi}{2} = -1$ ✗ (it comes from mirroring the tangent solution into the second quadrant, where sine and cosine no longer coincide); and dividing by $\\cos x$ would lose $x = \\dfrac{\\pi}{2}$.`,
+          ),
+        ],
+      };
+    },
+  ),
 ];

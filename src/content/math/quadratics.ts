@@ -3088,4 +3088,728 @@ export const templates: ProblemTemplate[] = [
       ],
     }),
   ),
+
+  /* ---------------------------------------------------------------------- */
+  /* Recopilación del autor · ronda 2 (2026-10-05) — parábolas con          */
+  /* parámetro: «positiva para todo x» (ítem 21 y variaciones               */
+  /* 21.1–21.8 de la hoja del tutor). Clave del autor verificada con        */
+  /* sympy: download/verify_author_round2.py.                               */
+  /* ---------------------------------------------------------------------- */
+
+  /* 21 — x²+2ax+1>0 para todo x ⇔ 4a²−4<0 → a∈(−1,1): la familia en su caso puro. */
+  template(
+    {
+      id: "quad-autor2-21",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "discriminant",
+      difficulty: "hard",
+      questionType: "text",
+      estimatedTimeSec: 240,
+      tags: ["parameter", "discriminant", "constant-sign"],
+      prerequisites: ["discriminant", "quadratic-formula"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "R2 · 21",
+      },
+      reasoning: "parameters",
+    },
+    () => ({
+      skill: L(
+        "Parábolas con parámetro: positiva para todo $x$",
+        "Parameter parabolas: positive for all $x$",
+      ),
+      statement: L(
+        "Halla todos los $a \\in \\mathbb{R}$ tales que $x^{2} + 2ax + 1 > 0$ para todo $x \\in \\mathbb{R}$ (responde el intervalo de $a$; admite (-1, 1) o -1<a<1).",
+        "Find all $a \\in \\mathbb{R}$ such that $x^{2} + 2ax + 1 > 0$ for every $x \\in \\mathbb{R}$ (answer with the interval of $a$; both (-1, 1) and -1<a<1 are accepted).",
+      ),
+      answer: {
+        kind: "text",
+        accepted: ["(-1, 1)", "(-1,1)", "-1<a<1", "-1 < a < 1"],
+      },
+      hints: [
+        L(
+          "Para que una parábola conserve el signo no debe cortar al eje $x$: esta abre hacia arriba, así que hay que pedirle que se quede estrictamente por encima del eje.",
+          "For a parabola to keep its sign it must not cross the $x$-axis: this one opens upward, so it must stay strictly above the axis.",
+        ),
+        L(
+          "Discriminante y signo del coeficiente principal: el principal es $1$ (fijo), así que solo queda imponer $\\Delta = (2a)^{2} - 4 < 0$.",
+          "Discriminant and sign of the leading coefficient: the leading one is $1$ (fixed), so all that remains is to impose $\\Delta = (2a)^{2} - 4 < 0$.",
+        ),
+        L(
+          "La condición se reduce a $a^{2} < 1$. Comprueba los extremos sustituyendo $a = 1$ y $a = -1$ en la expresión original antes de decidir si el intervalo es abierto o cerrado.",
+          "The condition reduces to $a^{2} < 1$. Test the endpoints by substituting $a = 1$ and $a = -1$ into the original expression before deciding whether the interval is open or closed.",
+        ),
+      ],
+      answerDisplay: L("$a \\in (-1, 1)$", "$a \\in (-1, 1)$"),
+      solution: [
+        step(
+          "given",
+          "La inecuación $x^{2} + 2ax + 1 > 0$ debe cumplirse para todo $x \\in \\mathbb{R}$; $a$ es un parámetro real por determinar.",
+          "The inequality $x^{2} + 2ax + 1 > 0$ must hold for every $x \\in \\mathbb{R}$; $a$ is a real parameter to be determined.",
+        ),
+        step(
+          "approach",
+          "Una parábola que abre hacia arriba es positiva en todo $\\mathbb{R}$ exactamente cuando no tiene raíces reales, es decir, cuando su discriminante es negativo (equivale a pedirle mínimo $> 0$).",
+          "An upward-opening parabola is positive on all of $\\mathbb{R}$ exactly when it has no real roots, i.e. when its discriminant is negative (equivalent to asking for minimum $> 0$).",
+        ),
+        step(
+          "calculation",
+          "$\\Delta = (2a)^{2} - 4 \\cdot 1 \\cdot 1 = 4a^{2} - 4$.<br>Imponer $\\Delta < 0$: $4a^{2} - 4 < 0 \\Rightarrow a^{2} < 1 \\Rightarrow -1 < a < 1$.<br>Control por el vértice: el mínimo está en $x = -a$ y vale $1 - a^{2}$; pedir $1 - a^{2} > 0$ da la misma condición.",
+          "$\\Delta = (2a)^{2} - 4 \\cdot 1 \\cdot 1 = 4a^{2} - 4$.<br>Impose $\\Delta < 0$: $4a^{2} - 4 < 0 \\Rightarrow a^{2} < 1 \\Rightarrow -1 < a < 1$.<br>Vertex cross-check: the minimum is at $x = -a$ and equals $1 - a^{2}$; asking $1 - a^{2} > 0$ gives the same condition.",
+        ),
+        step(
+          "result",
+          "$a \\in (-1, 1)$ (clave del autor ✓). Verificación: $a = 0$: $x^{2} + 1 > 0$ para todo $x$ ✓; $a = \\frac{1}{2}$: mínimo $1 - \\frac{1}{4} = \\frac{3}{4} > 0$ ✓; $a = 1$: $(x + 1)^{2} \\ge 0$ se anula en $x = -1$, no es $> 0$ ✗.",
+          "$a \\in (-1, 1)$ (the author's key ✓). Check: $a = 0$: $x^{2} + 1 > 0$ for all $x$ ✓; $a = \\frac{1}{2}$: minimum $1 - \\frac{1}{4} = \\frac{3}{4} > 0$ ✓; $a = 1$: $(x + 1)^{2} \\ge 0$ vanishes at $x = -1$, not $> 0$ ✗.",
+        ),
+      ],
+    }),
+  ),
+
+  /* 21.1 — x²−2ax+a+2>0 ⇔ 4(a−2)(a+1)<0 → a∈(−1,2). */
+  template(
+    {
+      id: "quad-autor2-21-1",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "discriminant",
+      difficulty: "hard",
+      questionType: "text",
+      estimatedTimeSec: 240,
+      tags: ["parameter", "discriminant", "constant-sign"],
+      prerequisites: ["discriminant", "quadratic-formula"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "R2 · 21.1",
+      },
+      reasoning: "parameters",
+    },
+    () => ({
+      skill: L(
+        "Parábolas con parámetro: mínimo siempre positivo",
+        "Parameter parabolas: an always-positive minimum",
+      ),
+      statement: L(
+        "Halla todos los $a \\in \\mathbb{R}$ tales que $x^{2} - 2ax + a + 2 > 0$ para todo $x \\in \\mathbb{R}$ (responde el intervalo de $a$; admite (-1, 2) o -1<a<2).",
+        "Find all $a \\in \\mathbb{R}$ such that $x^{2} - 2ax + a + 2 > 0$ for every $x \\in \\mathbb{R}$ (answer with the interval of $a$; both (-1, 2) and -1<a<2 are accepted).",
+      ),
+      answer: {
+        kind: "text",
+        accepted: ["(-1, 2)", "(-1,2)", "-1<a<2", "-1 < a < 2"],
+      },
+      hints: [
+        L(
+          "Para que una parábola conserve el signo debe quedar entera de un lado del eje $x$: como esta abre hacia arriba, su mínimo tiene que ser positivo.",
+          "For a parabola to keep its sign it must lie entirely on one side of the $x$-axis: since this one opens upward, its minimum has to be positive.",
+        ),
+        L(
+          "El coeficiente principal es $1$, pero el término independiente depende de $a$: plantea $\\Delta = (-2a)^{2} - 4(a + 2) < 0$ y factoriza el resultado.",
+          "The leading coefficient is $1$, but the constant term depends on $a$: set up $\\Delta = (-2a)^{2} - 4(a + 2) < 0$ and factor the result.",
+        ),
+        L(
+          "El trinomio en $a$ tiene dos raíces enteras. En cada extremo la expresión original se vuelve un cuadrado perfecto: sustituye y decide si esos valores entran.",
+          "The trinomial in $a$ has two integer roots. At each endpoint the original expression becomes a perfect square: substitute and decide whether those values belong.",
+        ),
+      ],
+      answerDisplay: L("$a \\in (-1, 2)$", "$a \\in (-1, 2)$"),
+      solution: [
+        step(
+          "given",
+          "La inecuación $x^{2} - 2ax + a + 2 > 0$ debe cumplirse para todo $x \\in \\mathbb{R}$; $a$ es un parámetro real.",
+          "The inequality $x^{2} - 2ax + a + 2 > 0$ must hold for every $x \\in \\mathbb{R}$; $a$ is a real parameter.",
+        ),
+        step(
+          "approach",
+          "Parábola con coeficiente principal $1 > 0$: es positiva en todo $\\mathbb{R}$ si y solo si $\\Delta < 0$. El discriminante queda en función de $a$ y la condición se convierte en una inecuación cuadrática en $a$.",
+          "A parabola with leading coefficient $1 > 0$: it is positive on all of $\\mathbb{R}$ if and only if $\\Delta < 0$. The discriminant becomes a function of $a$ and the condition turns into a quadratic inequality in $a$.",
+        ),
+        step(
+          "calculation",
+          "$\\Delta = (-2a)^{2} - 4 \\cdot 1 \\cdot (a + 2) = 4a^{2} - 4a - 8 = 4(a - 2)(a + 1)$.<br>Imponer $\\Delta < 0$: $(a - 2)(a + 1) < 0 \\iff -1 < a < 2$.<br>Control: el mínimo está en $x = a$ y vale $a + 2 - a^{2} = -(a - 2)(a + 1)$; pedirle $> 0$ da la misma condición.",
+          "$\\Delta = (-2a)^{2} - 4 \\cdot 1 \\cdot (a + 2) = 4a^{2} - 4a - 8 = 4(a - 2)(a + 1)$.<br>Impose $\\Delta < 0$: $(a - 2)(a + 1) < 0 \\iff -1 < a < 2$.<br>Cross-check: the minimum is at $x = a$ and equals $a + 2 - a^{2} = -(a - 2)(a + 1)$; asking it to be $> 0$ gives the same condition.",
+        ),
+        step(
+          "result",
+          "$a \\in (-1, 2)$ (clave del autor ✓). Verificación: $a = 0$: $x^{2} + 2 > 0$ ✓; $a = 1$: $x^{2} - 2x + 3 = (x - 1)^{2} + 2 > 0$ ✓; $a = 2$: $(x - 2)^{2} \\ge 0$ se anula en $x = 2$, no es $> 0$ ✗ (y con $a = -1$: $(x + 1)^{2}$, igual ✗).",
+          "$a \\in (-1, 2)$ (the author's key ✓). Check: $a = 0$: $x^{2} + 2 > 0$ ✓; $a = 1$: $x^{2} - 2x + 3 = (x - 1)^{2} + 2 > 0$ ✓; $a = 2$: $(x - 2)^{2} \\ge 0$ vanishes at $x = 2$, not $> 0$ ✗ (and with $a = -1$: $(x + 1)^{2}$, likewise ✗).",
+        ),
+      ],
+    }),
+  ),
+
+  /* 21.2 — (a−1)x²+2(a−1)x+(a+2)>0: a=1 degenera en la constante 3>0 → a∈[1,∞). */
+  template(
+    {
+      id: "quad-autor2-21-2",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "discriminant",
+      difficulty: "challenge",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 360,
+      tags: ["parameter", "discriminant", "degenerate-case"],
+      prerequisites: ["discriminant", "quadratic-formula"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "R2 · 21.2",
+      },
+      reasoning: "parameters",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$a \\in [1, \\infty)$`, `$a \\in [1, \\infty)$`), correct: true },
+        { id: "b", text: L(`$a \\in (1, \\infty)$`, `$a \\in (1, \\infty)$`), correct: false },
+        { id: "c", text: L(`$a \\in (-\\infty, 1]$`, `$a \\in (-\\infty, 1]$`), correct: false },
+        { id: "d", text: L(`$\\varnothing$`, `$\\varnothing$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Parábolas con parámetro: cuadrática que degenera en constante",
+          "Parameter parabolas: a quadratic that degenerates to a constant",
+        ),
+        statement: L(
+          "Halla todos los $a \\in \\mathbb{R}$ tales que $(a - 1)x^{2} + 2(a - 1)x + (a + 2) > 0$ para todo $x \\in \\mathbb{R}$.",
+          "Find all $a \\in \\mathbb{R}$ such that $(a - 1)x^{2} + 2(a - 1)x + (a + 2) > 0$ for every $x \\in \\mathbb{R}$.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Para que una parábola conserve el signo, su coeficiente principal decide hacia dónde abre — pero aquí ese coeficiente es $(a - 1)$ y puede anularse: separa primero ese caso.",
+            "For a parabola to keep its sign, its leading coefficient decides which way it opens — but here that coefficient is $(a - 1)$ and it can vanish: split off that case first.",
+          ),
+          L(
+            "Si $a \\neq 1$, pide a la vez abrir hacia arriba ($a - 1 > 0$) y no cortar al eje ($\\Delta < 0$). Calcula $\\Delta = 4(a - 1)^{2} - 4(a - 1)(a + 2)$ y factoriza.",
+            "If $a \\neq 1$, require at once opening upward ($a - 1 > 0$) and not crossing the axis ($\\Delta < 0$). Compute $\\Delta = 4(a - 1)^{2} - 4(a - 1)(a + 2)$ and factor.",
+          ),
+          L(
+            "No olvides el caso $a = 1$, donde la ecuación deja de ser cuadrática: sustituye y mira qué número queda y con qué signo.",
+            "Do not forget the case $a = 1$, where the equation stops being quadratic: substitute and see what number remains and with which sign.",
+          ),
+        ],
+        answerDisplay: L(
+          "$a \\in [1, \\infty)$ (el extremo $a = 1$ es el caso degenerado: queda la constante $3 > 0$)",
+          "$a \\in [1, \\infty)$ (the endpoint $a = 1$ is the degenerate case: the constant $3 > 0$ remains)",
+        ),
+        solution: [
+          step(
+            "given",
+            "La inecuación $(a - 1)x^{2} + 2(a - 1)x + (a + 2) > 0$ debe cumplirse para todo $x \\in \\mathbb{R}$; el coeficiente principal $(a - 1)$ depende del parámetro.",
+            "The inequality $(a - 1)x^{2} + 2(a - 1)x + (a + 2) > 0$ must hold for every $x \\in \\mathbb{R}$; the leading coefficient $(a - 1)$ depends on the parameter.",
+          ),
+          step(
+            "approach",
+            "Caso degenerado $a = 1$ aparte; para $a \\neq 1$ la expresión es cuadrática y «positiva en todo $\\mathbb{R}$» exige abrir hacia arriba ($a - 1 > 0$) y $\\Delta < 0$.",
+            "Handle the degenerate case $a = 1$ separately; for $a \\neq 1$ the expression is quadratic and “positive on all of $\\mathbb{R}$” requires opening upward ($a - 1 > 0$) and $\\Delta < 0$.",
+          ),
+          step(
+            "calculation",
+            "$a = 1$: $0 \\cdot x^{2} + 0 \\cdot x + 3 = 3 > 0$ ✓ para todo $x$ (degenera en constante).<br>$a \\neq 1$: $\\Delta = 4(a - 1)^{2} - 4(a - 1)(a + 2) = 4(a - 1)\\left[(a - 1) - (a + 2)\\right] = -12(a - 1)$; pedir $\\Delta < 0$ da $a > 1$, lo mismo que abrir hacia arriba.<br>Unión: $a > 1$ junto con el caso $a = 1$.",
+            "$a = 1$: $0 \\cdot x^{2} + 0 \\cdot x + 3 = 3 > 0$ ✓ for all $x$ (it degenerates to a constant).<br>$a \\neq 1$: $\\Delta = 4(a - 1)^{2} - 4(a - 1)(a + 2) = 4(a - 1)\\left[(a - 1) - (a + 2)\\right] = -12(a - 1)$; requiring $\\Delta < 0$ gives $a > 1$, the same as opening upward.<br>Union: $a > 1$ together with the case $a = 1$.",
+          ),
+          step(
+            "result",
+            "$a \\in [1, \\infty)$ (clave del autor ✓; el extremo $a = 1$ es exactamente el caso degenerado). Verificación: $a = 1$: la constante $3 > 0$ ✓; $a = 2$: $x^{2} + 2x + 4$ con mínimo $1 - 2 + 4 = 3 > 0$ ✓ ($\\Delta = 4 - 16 = -12 < 0$); $a = 0$: $-x^{2} - 2x + 2$ abre hacia abajo y en $x = 10$ da $-118 < 0$ ✗.",
+            "$a \\in [1, \\infty)$ (the author's key ✓; the endpoint $a = 1$ is precisely the degenerate case). Check: $a = 1$: the constant $3 > 0$ ✓; $a = 2$: $x^{2} + 2x + 4$ with minimum $1 - 2 + 4 = 3 > 0$ ✓ ($\\Delta = 4 - 16 = -12 < 0$); $a = 0$: $-x^{2} - 2x + 2$ opens downward and at $x = 10$ gives $-118 < 0$ ✗.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 21.3 — x²+2ax+a+1≥0 ⇔ a²−a−1≤0 → a∈[(1−√5)/2,(1+√5)/2]. */
+  template(
+    {
+      id: "quad-autor2-21-3",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "discriminant",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["parameter", "discriminant", "quadratic-inequality"],
+      prerequisites: ["discriminant", "quadratic-formula"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "R2 · 21.3",
+      },
+      reasoning: "parameters",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$a \\in \\mathbb{R}$`, `$a \\in \\mathbb{R}$`), correct: false },
+        {
+          id: "b",
+          text: L(
+            `$a \\in \\left(\\dfrac{1 - \\sqrt{5}}{2}, \\dfrac{1 + \\sqrt{5}}{2}\\right)$`,
+            `$a \\in \\left(\\dfrac{1 - \\sqrt{5}}{2}, \\dfrac{1 + \\sqrt{5}}{2}\\right)$`,
+          ),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L(
+            `$a \\in \\left[\\dfrac{1 - \\sqrt{5}}{2}, \\dfrac{1 + \\sqrt{5}}{2}\\right]$`,
+            `$a \\in \\left[\\dfrac{1 - \\sqrt{5}}{2}, \\dfrac{1 + \\sqrt{5}}{2}\\right]$`,
+          ),
+          correct: true,
+        },
+        {
+          id: "d",
+          text: L(
+            `$a \\in \\left[-\\dfrac{1 + \\sqrt{5}}{2}, \\dfrac{\\sqrt{5} - 1}{2}\\right]$`,
+            `$a \\in \\left[-\\dfrac{1 + \\sqrt{5}}{2}, \\dfrac{\\sqrt{5} - 1}{2}\\right]$`,
+          ),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L(
+          "Parábolas con parámetro: no negativa ($\\Delta \\le 0$)",
+          "Parameter parabolas: non-negative ($\\Delta \\le 0$)",
+        ),
+        statement: L(
+          "Halla todos los $a \\in \\mathbb{R}$ tales que $x^{2} + 2ax + a + 1 \\ge 0$ para todo $x \\in \\mathbb{R}$.",
+          "Find all $a \\in \\mathbb{R}$ such that $x^{2} + 2ax + a + 1 \\ge 0$ for every $x \\in \\mathbb{R}$.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Para que una parábola conserve el signo no debe cruzar el eje $x$ — y con una desigualdad no estricta ($\\ge 0$) sí se permite rozarlo en un punto.",
+            "For a parabola to keep its sign it must not cross the $x$-axis — and with a non-strict inequality ($\\ge 0$) grazing it at one point is allowed.",
+          ),
+          L(
+            "El coeficiente principal es $1 > 0$, así que «$\\ge 0$ en todo $\\mathbb{R}$» equivale a $\\Delta \\le 0$: plantea $\\Delta = (2a)^{2} - 4(a + 1)$.",
+            "The leading coefficient is $1 > 0$, so “$\\ge 0$ on all of $\\mathbb{R}$” is equivalent to $\\Delta \\le 0$: set up $\\Delta = (2a)^{2} - 4(a + 1)$.",
+          ),
+          L(
+            "Te queda $a^{2} - a - 1 \\le 0$: resuelve la cuadrática en $a$ con la fórmula y fíjate si los extremos entran o no.",
+            "You are left with $a^{2} - a - 1 \\le 0$: solve the quadratic in $a$ with the formula and note whether the endpoints are included.",
+          ),
+        ],
+        answerDisplay: L(
+          "$a \\in \\left[\\dfrac{1 - \\sqrt{5}}{2}, \\dfrac{1 + \\sqrt{5}}{2}\\right]$",
+          "$a \\in \\left[\\dfrac{1 - \\sqrt{5}}{2}, \\dfrac{1 + \\sqrt{5}}{2}\\right]$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La inecuación $x^{2} + 2ax + a + 1 \\ge 0$ debe cumplirse para todo $x \\in \\mathbb{R}$; la desigualdad no es estricta, así que la parábola puede rozar el eje.",
+            "The inequality $x^{2} + 2ax + a + 1 \\ge 0$ must hold for every $x \\in \\mathbb{R}$; the inequality is not strict, so the parabola may graze the axis.",
+          ),
+          step(
+            "approach",
+            "Con coeficiente principal $1 > 0$, «$\\ge 0$ en todo $\\mathbb{R}$» equivale a $\\Delta \\le 0$: sin raíces, o a lo sumo una raíz doble. La condición queda como una inecuación cuadrática en $a$.",
+            "With leading coefficient $1 > 0$, “$\\ge 0$ on all of $\\mathbb{R}$” is equivalent to $\\Delta \\le 0$: no roots, or at most a double root. The condition becomes a quadratic inequality in $a$.",
+          ),
+          step(
+            "calculation",
+            "$\\Delta = (2a)^{2} - 4 \\cdot 1 \\cdot (a + 1) = 4a^{2} - 4a - 4$.<br>Imponer $\\Delta \\le 0$: $a^{2} - a - 1 \\le 0$.<br>Raíces de $a^{2} - a - 1 = 0$: $a = \\dfrac{1 \\pm \\sqrt{5}}{2}$; el trinomio es $\\le 0$ entre sus raíces.",
+            "$\\Delta = (2a)^{2} - 4 \\cdot 1 \\cdot (a + 1) = 4a^{2} - 4a - 4$.<br>Impose $\\Delta \\le 0$: $a^{2} - a - 1 \\le 0$.<br>Roots of $a^{2} - a - 1 = 0$: $a = \\dfrac{1 \\pm \\sqrt{5}}{2}$; the trinomial is $\\le 0$ between its roots.",
+          ),
+          step(
+            "result",
+            "$a \\in \\left[\\dfrac{1 - \\sqrt{5}}{2}, \\dfrac{1 + \\sqrt{5}}{2}\\right]$ (clave del autor ✓). Verificación: $a = 0$: $x^{2} + 1 \\ge 0$ ✓; $a = 1$: $x^{2} + 2x + 2 = (x + 1)^{2} + 1 \\ge 0$ ✓; en el extremo $a = \\dfrac{1 + \\sqrt{5}}{2}$: $\\Delta = 0$, la parábola toca el eje sin cruzarlo ✓; $a = 2$: $x^{2} + 4x + 3 = (x + 1)(x + 3)$ es negativa entre $-3$ y $-1$ (p. ej. $x = -2$: $-1 < 0$) ✗.",
+            "$a \\in \\left[\\dfrac{1 - \\sqrt{5}}{2}, \\dfrac{1 + \\sqrt{5}}{2}\\right]$ (the author's key ✓). Check: $a = 0$: $x^{2} + 1 \\ge 0$ ✓; $a = 1$: $x^{2} + 2x + 2 = (x + 1)^{2} + 1 \\ge 0$ ✓; at the endpoint $a = \\dfrac{1 + \\sqrt{5}}{2}$: $\\Delta = 0$, the parabola touches the axis without crossing it ✓; $a = 2$: $x^{2} + 4x + 3 = (x + 1)(x + 3)$ is negative between $-3$ and $-1$ (e.g. $x = -2$: $-1 < 0$) ✗.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 21.4 — (a−2)x²+2(a−2)x+a>0: a=2 degenera en la constante 2>0 → a∈[2,∞). */
+  template(
+    {
+      id: "quad-autor2-21-4",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "discriminant",
+      difficulty: "challenge",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 360,
+      tags: ["parameter", "discriminant", "degenerate-case"],
+      prerequisites: ["discriminant", "quadratic-formula"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "R2 · 21.4",
+      },
+      reasoning: "parameters",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$a \\in [2, \\infty)$`, `$a \\in [2, \\infty)$`), correct: true },
+        { id: "b", text: L(`$a \\in (2, \\infty)$`, `$a \\in (2, \\infty)$`), correct: false },
+        { id: "c", text: L(`$a \\in (-\\infty, 2]$`, `$a \\in (-\\infty, 2]$`), correct: false },
+        { id: "d", text: L(`$a \\in [1, \\infty)$`, `$a \\in [1, \\infty)$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Parábolas con parámetro: degeneración en $a = 2$",
+          "Parameter parabolas: degeneration at $a = 2$",
+        ),
+        statement: L(
+          "Halla todos los $a \\in \\mathbb{R}$ tales que $(a - 2)x^{2} + 2(a - 2)x + a > 0$ para todo $x \\in \\mathbb{R}$.",
+          "Find all $a \\in \\mathbb{R}$ such that $(a - 2)x^{2} + 2(a - 2)x + a > 0$ for every $x \\in \\mathbb{R}$.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Para que una parábola conserve el signo, el coeficiente principal manda — y aquí es $(a - 2)$, que puede anularse o cambiar de signo: ordena el análisis por casos.",
+            "For a parabola to keep its sign, the leading coefficient rules — and here it is $(a - 2)$, which can vanish or change sign: organize the analysis by cases.",
+          ),
+          L(
+            "Para $a \\neq 2$ la expresión es cuadrática: exige a la vez abrir hacia arriba ($a - 2 > 0$) y $\\Delta < 0$, con $\\Delta = 4(a - 2)^{2} - 4(a - 2)a$.",
+            "For $a \\neq 2$ the expression is quadratic: require at once opening upward ($a - 2 > 0$) and $\\Delta < 0$, with $\\Delta = 4(a - 2)^{2} - 4(a - 2)a$.",
+          ),
+          L(
+            "No olvides el caso $a = 2$, donde la ecuación deja de ser cuadrática: sustituye y observa la constante que queda, con su signo.",
+            "Do not forget the case $a = 2$, where the equation stops being quadratic: substitute and observe the constant that remains, with its sign.",
+          ),
+        ],
+        answerDisplay: L(
+          "$a \\in [2, \\infty)$ (el extremo $a = 2$ es el caso degenerado: queda la constante $2 > 0$)",
+          "$a \\in [2, \\infty)$ (the endpoint $a = 2$ is the degenerate case: the constant $2 > 0$ remains)",
+        ),
+        solution: [
+          step(
+            "given",
+            "La inecuación $(a - 2)x^{2} + 2(a - 2)x + a > 0$ debe cumplirse para todo $x \\in \\mathbb{R}$; el coeficiente principal $(a - 2)$ depende del parámetro.",
+            "The inequality $(a - 2)x^{2} + 2(a - 2)x + a > 0$ must hold for every $x \\in \\mathbb{R}$; the leading coefficient $(a - 2)$ depends on the parameter.",
+          ),
+          step(
+            "approach",
+            "Caso degenerado $a = 2$ aparte; para $a \\neq 2$ es cuadrática y «positiva en todo $\\mathbb{R}$» exige abrir hacia arriba ($a - 2 > 0$) y $\\Delta < 0$.",
+            "Handle the degenerate case $a = 2$ separately; for $a \\neq 2$ it is quadratic and “positive on all of $\\mathbb{R}$” requires opening upward ($a - 2 > 0$) and $\\Delta < 0$.",
+          ),
+          step(
+            "calculation",
+            "$a = 2$: $0 \\cdot x^{2} + 0 \\cdot x + 2 = 2 > 0$ ✓ para todo $x$ (degenera en constante).<br>$a \\neq 2$: $\\Delta = 4(a - 2)^{2} - 4(a - 2)a = 4(a - 2)\\left[(a - 2) - a\\right] = -8(a - 2)$; pedir $\\Delta < 0$ da $a > 2$, justo lo mismo que abrir hacia arriba.<br>Unión: $a > 2$ junto con el caso $a = 2$.",
+            "$a = 2$: $0 \\cdot x^{2} + 0 \\cdot x + 2 = 2 > 0$ ✓ for all $x$ (it degenerates to a constant).<br>$a \\neq 2$: $\\Delta = 4(a - 2)^{2} - 4(a - 2)a = 4(a - 2)\\left[(a - 2) - a\\right] = -8(a - 2)$; requiring $\\Delta < 0$ gives $a > 2$, exactly the same as opening upward.<br>Union: $a > 2$ together with the case $a = 2$.",
+          ),
+          step(
+            "result",
+            "$a \\in [2, \\infty)$ (clave del autor ✓; el extremo $a = 2$ es el caso degenerado). Verificación: $a = 2$: la constante $2 > 0$ ✓; $a = 3$: $x^{2} + 2x + 3 = (x + 1)^{2} + 2 > 0$ ✓ ($\\Delta = -8 < 0$); $a = 1$: $-x^{2} - 2x + 1$ abre hacia abajo y en $x = -10$ da $-79 < 0$ ✗.",
+            "$a \\in [2, \\infty)$ (the author's key ✓; the endpoint $a = 2$ is the degenerate case). Check: $a = 2$: the constant $2 > 0$ ✓; $a = 3$: $x^{2} + 2x + 3 = (x + 1)^{2} + 2 > 0$ ✓ ($\\Delta = -8 < 0$); $a = 1$: $-x^{2} - 2x + 1$ opens downward and at $x = -10$ gives $-79 < 0$ ✗.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 21.5 — (a−1)x²+2ax+(a+1)<0: Δ=4>0 siempre, imposible → ∅. */
+  template(
+    {
+      id: "quad-autor2-21-5",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "discriminant",
+      difficulty: "challenge",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["parameter", "discriminant", "empty-set"],
+      prerequisites: ["discriminant", "quadratic-formula"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "R2 · 21.5",
+      },
+      reasoning: "parameters",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\varnothing$`, `$\\varnothing$`), correct: true },
+        { id: "b", text: L(`$a \\in (-\\infty, 1)$`, `$a \\in (-\\infty, 1)$`), correct: false },
+        { id: "c", text: L(`$a < 1$`, `$a < 1$`), correct: false },
+        { id: "d", text: L(`$\\{1\\}$`, `$\\{1\\}$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Parábolas con parámetro: discriminante siempre positivo",
+          "Parameter parabolas: an always-positive discriminant",
+        ),
+        statement: L(
+          "Halla todos los $a \\in \\mathbb{R}$ tales que $(a - 1)x^{2} + 2ax + (a + 1) < 0$ para todo $x \\in \\mathbb{R}$.",
+          "Find all $a \\in \\mathbb{R}$ such that $(a - 1)x^{2} + 2ax + (a + 1) < 0$ for every $x \\in \\mathbb{R}$.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Para que una parábola sea negativa en todo $\\mathbb{R}$ debería abrir hacia abajo y no cortar al eje $x$; revisa si algún valor de $a$ consigue esa combinación.",
+            "For a parabola to be negative on all of $\\mathbb{R}$ it should open downward and never cross the $x$-axis; check whether any value of $a$ achieves that combination.",
+          ),
+          L(
+            "Calcula el discriminante en función de $a$: $\\Delta = (2a)^{2} - 4(a - 1)(a + 1)$. Simplifica con la diferencia de cuadrados y mira si de verdad depende de $a$.",
+            "Compute the discriminant as a function of $a$: $\\Delta = (2a)^{2} - 4(a - 1)(a + 1)$. Simplify with the difference of squares and see whether it truly depends on $a$.",
+          ),
+          L(
+            "Con $\\Delta > 0$ hay dos raíces reales y la parábola cambia de signo; revisa aparte el caso $a = 1$, donde la ecuación deja de ser cuadrática.",
+            "With $\\Delta > 0$ there are two real roots and the parabola changes sign; check separately the case $a = 1$, where the equation stops being quadratic.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\varnothing$ (no existe tal $a$)",
+          "$\\varnothing$ (no such $a$ exists)",
+        ),
+        solution: [
+          step(
+            "given",
+            "La inecuación $(a - 1)x^{2} + 2ax + (a + 1) < 0$ debe cumplirse para todo $x \\in \\mathbb{R}$; el coeficiente principal $(a - 1)$ depende del parámetro.",
+            "The inequality $(a - 1)x^{2} + 2ax + (a + 1) < 0$ must hold for every $x \\in \\mathbb{R}$; the leading coefficient $(a - 1)$ depends on the parameter.",
+          ),
+          step(
+            "approach",
+            "Para ser $< 0$ en todo $\\mathbb{R}$, una cuadrática debería abrir hacia abajo con $\\Delta \\le 0$ (y el caso $a = 1$, donde queda lineal, va aparte). Calculamos $\\Delta$ y vigilamos si puede dejar de ser positivo.",
+            "To be $< 0$ on all of $\\mathbb{R}$, a quadratic should open downward with $\\Delta \\le 0$ (and the case $a = 1$, where it becomes linear, goes separately). We compute $\\Delta$ and watch whether it can stop being positive.",
+          ),
+          step(
+            "calculation",
+            "$\\Delta = (2a)^{2} - 4(a - 1)(a + 1) = 4a^{2} - 4(a^{2} - 1) = 4 > 0$ para todo $a$.<br>Con $\\Delta > 0$ la parábola tiene dos raíces reales distintas y cambia de signo: imposible mantener $< 0$ en todo $\\mathbb{R}$.<br>Caso $a = 1$: queda $2x + 2 < 0 \\iff x < -1$, que no vale para todo $x$.",
+            "$\\Delta = (2a)^{2} - 4(a - 1)(a + 1) = 4a^{2} - 4(a^{2} - 1) = 4 > 0$ for every $a$.<br>With $\\Delta > 0$ the parabola has two distinct real roots and changes sign: keeping $< 0$ on all of $\\mathbb{R}$ is impossible.<br>Case $a = 1$: it becomes $2x + 2 < 0 \\iff x < -1$, which does not hold for every $x$.",
+          ),
+          step(
+            "result",
+            "$\\varnothing$: no existe ningún $a$ (clave del autor ✓). Verificación: $a = 0$: $-x^{2} + 1$ da $1 < 0$ en $x = 0$, falso ✗; $a = 2$: $x^{2} + 4x + 3$ da $3 < 0$ en $x = 0$, falso ✗; $a = 1$: $2x + 2$ da $2 < 0$ en $x = 0$, falso ✗ — y como $\\Delta = 4 > 0$ siempre, ningún otro $a$ puede funcionar.",
+            "$\\varnothing$: no such $a$ exists (the author's key ✓). Check: $a = 0$: $-x^{2} + 1$ gives $1 < 0$ at $x = 0$, false ✗; $a = 2$: $x^{2} + 4x + 3$ gives $3 < 0$ at $x = 0$, false ✗; $a = 1$: $2x + 2$ gives $2 < 0$ at $x = 0$, false ✗ — and since $\\Delta = 4 > 0$ always, no other $a$ can work.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 21.6 — x²+(a−1)x+1≥0 ⇔ (a−1)²≤4 → a∈[−1,3]. */
+  template(
+    {
+      id: "quad-autor2-21-6",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "discriminant",
+      difficulty: "hard",
+      questionType: "text",
+      estimatedTimeSec: 240,
+      tags: ["parameter", "discriminant", "constant-sign"],
+      prerequisites: ["discriminant", "quadratic-formula"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "R2 · 21.6",
+      },
+      reasoning: "parameters",
+    },
+    () => ({
+      skill: L(
+        "Parábolas con parámetro: no negativa en todo $\\mathbb{R}$",
+        "Parameter parabolas: non-negative on all $\\mathbb{R}$",
+      ),
+      statement: L(
+        "Halla todos los $a \\in \\mathbb{R}$ tales que $x^{2} + (a - 1)x + 1 \\ge 0$ para todo $x \\in \\mathbb{R}$ (responde el intervalo de $a$; admite [-1, 3] o -1<=a<=3).",
+        "Find all $a \\in \\mathbb{R}$ such that $x^{2} + (a - 1)x + 1 \\ge 0$ for every $x \\in \\mathbb{R}$ (answer with the interval of $a$; both [-1, 3] and -1<=a<=3 are accepted).",
+      ),
+      answer: {
+        kind: "text",
+        accepted: ["[-1, 3]", "[-1,3]", "-1<=a<=3", "-1 <= a <= 3", "-1≤a≤3", "-1 ≤ a ≤ 3"],
+      },
+      hints: [
+        L(
+          "Para que una parábola conserve el signo no debe cruzar el eje $x$; con «$\\ge 0$» tocarlo en un solo punto sí está permitido.",
+          "For a parabola to keep its sign it must not cross the $x$-axis; with “$\\ge 0$” touching it at a single point is allowed.",
+        ),
+        L(
+          "Discriminante y signo del coeficiente principal: el principal es $1$, siempre hacia arriba; queda imponer $\\Delta = (a - 1)^{2} - 4 \\le 0$.",
+          "Discriminant and sign of the leading coefficient: the leading one is $1$, always upward; it remains to impose $\\Delta = (a - 1)^{2} - 4 \\le 0$.",
+        ),
+        L(
+          "Es la condición $|a - 1| \\le 2$, un intervalo centrado en $1$. Comprueba los extremos sustituyendo: deben quedar cuadrados perfectos.",
+          "It is the condition $|a - 1| \\le 2$, an interval centered at $1$. Check the endpoints by substituting: they must become perfect squares.",
+        ),
+      ],
+      answerDisplay: L("$a \\in [-1, 3]$", "$a \\in [-1, 3]$"),
+      solution: [
+        step(
+          "given",
+          "La inecuación $x^{2} + (a - 1)x + 1 \\ge 0$ debe cumplirse para todo $x \\in \\mathbb{R}$; $a$ es un parámetro real.",
+          "The inequality $x^{2} + (a - 1)x + 1 \\ge 0$ must hold for every $x \\in \\mathbb{R}$; $a$ is a real parameter.",
+        ),
+        step(
+          "approach",
+          "El coeficiente principal es $1 > 0$: la parábola abre hacia arriba y «$\\ge 0$ en todo $\\mathbb{R}$» equivale a $\\Delta \\le 0$ (se permite rozar el eje).",
+          "The leading coefficient is $1 > 0$: the parabola opens upward and “$\\ge 0$ on all of $\\mathbb{R}$” is equivalent to $\\Delta \\le 0$ (grazing the axis is allowed).",
+        ),
+        step(
+          "calculation",
+          "$\\Delta = (a - 1)^{2} - 4 \\cdot 1 \\cdot 1 = (a - 1)^{2} - 4$.<br>Imponer $\\Delta \\le 0$: $(a - 1)^{2} \\le 4 \\iff |a - 1| \\le 2 \\iff -2 \\le a - 1 \\le 2 \\iff -1 \\le a \\le 3$.",
+          "$\\Delta = (a - 1)^{2} - 4 \\cdot 1 \\cdot 1 = (a - 1)^{2} - 4$.<br>Impose $\\Delta \\le 0$: $(a - 1)^{2} \\le 4 \\iff |a - 1| \\le 2 \\iff -2 \\le a - 1 \\le 2 \\iff -1 \\le a \\le 3$.",
+        ),
+        step(
+          "result",
+          "$a \\in [-1, 3]$ (clave del autor ✓). Verificación: $a = 1$: $x^{2} + 1 \\ge 0$ ✓; $a = 3$: $(x + 1)^{2} \\ge 0$, toca el eje en $x = -1$ y no baja ✓ (igual con $a = -1$: $(x - 1)^{2}$); $a = 4$: $x^{2} + 3x + 1$ con $\\Delta = 5 > 0$ es negativa entre sus raíces (p. ej. $x = -1$: $-1 < 0$) ✗.",
+          "$a \\in [-1, 3]$ (the author's key ✓). Check: $a = 1$: $x^{2} + 1 \\ge 0$ ✓; $a = 3$: $(x + 1)^{2} \\ge 0$, it touches the axis at $x = -1$ and does not dip ✓ (likewise $a = -1$: $(x - 1)^{2}$); $a = 4$: $x^{2} + 3x + 1$ with $\\Delta = 5 > 0$ is negative between its roots (e.g. $x = -1$: $-1 < 0$) ✗.",
+        ),
+      ],
+    }),
+  ),
+
+  /* 21.7 — (a+1)x²+2(a+1)x+a−1≥0: en x=−1 vale −2 para todo a → ∅. */
+  template(
+    {
+      id: "quad-autor2-21-7",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "discriminant",
+      difficulty: "challenge",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["parameter", "discriminant", "degenerate-case", "empty-set"],
+      prerequisites: ["discriminant", "quadratic-formula"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "R2 · 21.7",
+      },
+      reasoning: "parameters",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\varnothing$`, `$\\varnothing$`), correct: true },
+        { id: "b", text: L(`$a \\in [-1, \\infty)$`, `$a \\in [-1, \\infty)$`), correct: false },
+        { id: "c", text: L(`$a \\in (-\\infty, -1]$`, `$a \\in (-\\infty, -1]$`), correct: false },
+        { id: "d", text: L(`$\\{-1\\}$`, `$\\{-1\\}$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Parábolas con parámetro: conjunto de verdad vacío",
+          "Parameter parabolas: an empty truth set",
+        ),
+        statement: L(
+          "Halla todos los $a \\in \\mathbb{R}$ tales que $(a + 1)x^{2} + 2(a + 1)x + a - 1 \\ge 0$ para todo $x \\in \\mathbb{R}$.",
+          "Find all $a \\in \\mathbb{R}$ such that $(a + 1)x^{2} + 2(a + 1)x + a - 1 \\ge 0$ for every $x \\in \\mathbb{R}$.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Para que una parábola conserve el signo «$\\ge 0$» debería abrir hacia arriba y no bajar del eje — pero el coeficiente principal es $(a + 1)$: puede anularse o ser negativo.",
+            "For a parabola to keep the sign “$\\ge 0$” it should open upward and never dip below the axis — but the leading coefficient is $(a + 1)$: it can vanish or be negative.",
+          ),
+          L(
+            "Ordena tres casos: $a = -1$, $a > -1$ y $a < -1$. En el caso cuadrático calcula $\\Delta = 4(a + 1)^{2} - 4(a + 1)(a - 1)$ y vigila el signo de la apertura.",
+            "Organize three cases: $a = -1$, $a > -1$ and $a < -1$. In the quadratic case compute $\\Delta = 4(a + 1)^{2} - 4(a + 1)(a - 1)$ and mind the sign of the opening.",
+          ),
+          L(
+            "No olvides el caso $a = -1$, donde la ecuación deja de ser cuadrática: sustituye y mira el número (y su signo) que queda.",
+            "Do not forget the case $a = -1$, where the equation stops being quadratic: substitute and look at the number (and its sign) that remains.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\varnothing$ (no existe tal $a$)",
+          "$\\varnothing$ (no such $a$ exists)",
+        ),
+        solution: [
+          step(
+            "given",
+            "La inecuación $(a + 1)x^{2} + 2(a + 1)x + a - 1 \\ge 0$ debe cumplirse para todo $x \\in \\mathbb{R}$; el coeficiente principal $(a + 1)$ depende del parámetro.",
+            "The inequality $(a + 1)x^{2} + 2(a + 1)x + a - 1 \\ge 0$ must hold for every $x \\in \\mathbb{R}$; the leading coefficient $(a + 1)$ depends on the parameter.",
+          ),
+          step(
+            "approach",
+            "Tres casos según el signo de $(a + 1)$: el degenerado $a = -1$, la apertura hacia arriba ($a > -1$) y la apertura hacia abajo ($a < -1$). En el caso cuadrático, $\\Delta$ decide si la parábola baja del eje.",
+            "Three cases according to the sign of $(a + 1)$: the degenerate $a = -1$, upward opening ($a > -1$) and downward opening ($a < -1$). In the quadratic case, $\\Delta$ decides whether the parabola dips below the axis.",
+          ),
+          step(
+            "calculation",
+            "$a = -1$: queda $0 \\cdot x^{2} + 0 \\cdot x - 2 = -2 \\ge 0$, falso.<br>$a > -1$: abre hacia arriba y $\\Delta = 4(a + 1)^{2} - 4(a + 1)(a - 1) = 4(a + 1)\\left[(a + 1) - (a - 1)\\right] = 8(a + 1) > 0$: dos raíces reales y, entre ellas, la parábola es negativa.<br>$a < -1$: abre hacia abajo y se hunde hacia $-\\infty$.<br>Observación global: en $x = -1$ la expresión vale $(a + 1) - 2(a + 1) + a - 1 = -2 < 0$ para cualquier $a$.",
+            "$a = -1$: it becomes $0 \\cdot x^{2} + 0 \\cdot x - 2 = -2 \\ge 0$, false.<br>$a > -1$: it opens upward and $\\Delta = 4(a + 1)^{2} - 4(a + 1)(a - 1) = 4(a + 1)\\left[(a + 1) - (a - 1)\\right] = 8(a + 1) > 0$: two real roots and, between them, the parabola is negative.<br>$a < -1$: it opens downward and sinks toward $-\\infty$.<br>Global observation: at $x = -1$ the expression equals $(a + 1) - 2(a + 1) + a - 1 = -2 < 0$ for every $a$.",
+          ),
+          step(
+            "result",
+            "$\\varnothing$: no existe ningún $a$ (clave del autor ✓). Verificación: $a = -1$: la constante $-2$, y $-2 \\ge 0$ es falso ✗; $a = 0$: $x^{2} + 2x - 1$ vale $-1 < 0$ en $x = 0$ ✗; $a = -2$: $-x^{2} - 2x - 3$ abre hacia abajo y vale $-3$ en $x = 0$ ✗; de hecho, en $x = -1$ la expresión vale $-2$ para todo $a$ ✓.",
+            "$\\varnothing$: no such $a$ exists (the author's key ✓). Check: $a = -1$: the constant $-2$, and $-2 \\ge 0$ is false ✗; $a = 0$: $x^{2} + 2x - 1$ equals $-1 < 0$ at $x = 0$ ✗; $a = -2$: $-x^{2} - 2x - 3$ opens downward and equals $-3$ at $x = 0$ ✗; in fact, at $x = -1$ the expression equals $-2$ for every $a$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* 21.8 — (a−1)x²−2(a−1)x+a+2≤0: en x=1 vale 3 para todo a → ∅. */
+  template(
+    {
+      id: "quad-autor2-21-8",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "discriminant",
+      difficulty: "challenge",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["parameter", "discriminant", "degenerate-case", "empty-set"],
+      prerequisites: ["discriminant", "quadratic-formula"],
+      source: {
+        sourceId: "autor-recopilacion-2025",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "R2 · 21.8",
+      },
+      reasoning: "parameters",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\varnothing$`, `$\\varnothing$`), correct: true },
+        { id: "b", text: L(`$a \\in [1, \\infty)$`, `$a \\in [1, \\infty)$`), correct: false },
+        { id: "c", text: L(`$a \\in (-\\infty, 1]$`, `$a \\in (-\\infty, 1]$`), correct: false },
+        { id: "d", text: L(`$a \\in (-\\infty, 1)$`, `$a \\in (-\\infty, 1)$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Parábolas con parámetro: la condición imposible",
+          "Parameter parabolas: the impossible condition",
+        ),
+        statement: L(
+          "Halla todos los $a \\in \\mathbb{R}$ tales que $(a - 1)x^{2} - 2(a - 1)x + a + 2 \\le 0$ para todo $x \\in \\mathbb{R}$.",
+          "Find all $a \\in \\mathbb{R}$ such that $(a - 1)x^{2} - 2(a - 1)x + a + 2 \\le 0$ for every $x \\in \\mathbb{R}$.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Para que una parábola sea $\\le 0$ en todo $\\mathbb{R}$ tendría que abrir hacia abajo y no salirse por encima del eje — estudia si el coeficiente principal $(a - 1)$ lo permite.",
+            "For a parabola to be $\\le 0$ on all of $\\mathbb{R}$ it would have to open downward and never rise above the axis — study whether the leading coefficient $(a - 1)$ allows it.",
+          ),
+          L(
+            "Separa $a = 1$, $a > 1$ y $a < 1$. Para $a \\neq 1$ calcula $\\Delta = 4(a - 1)^{2} - 4(a - 1)(a + 2)$, factoriza y cruza cada resultado con la dirección de apertura.",
+            "Split into $a = 1$, $a > 1$ and $a < 1$. For $a \\neq 1$ compute $\\Delta = 4(a - 1)^{2} - 4(a - 1)(a + 2)$, factor and cross each outcome with the opening direction.",
+          ),
+          L(
+            "No olvides el caso $a = 1$, donde la ecuación deja de ser cuadrática: sustituye y mira el número que queda frente al $\\le 0$.",
+            "Do not forget the case $a = 1$, where the equation stops being quadratic: substitute and look at the number that remains next to the $\\le 0$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\varnothing$ (no existe tal $a$)",
+          "$\\varnothing$ (no such $a$ exists)",
+        ),
+        solution: [
+          step(
+            "given",
+            "La inecuación $(a - 1)x^{2} - 2(a - 1)x + a + 2 \\le 0$ debe cumplirse para todo $x \\in \\mathbb{R}$; el coeficiente principal $(a - 1)$ depende del parámetro.",
+            "The inequality $(a - 1)x^{2} - 2(a - 1)x + a + 2 \\le 0$ must hold for every $x \\in \\mathbb{R}$; the leading coefficient $(a - 1)$ depends on the parameter.",
+          ),
+          step(
+            "approach",
+            "Para que una cuadrática sea $\\le 0$ en todo $\\mathbb{R}$ debería abrir hacia abajo con $\\Delta \\le 0$; separamos el caso degenerado $a = 1$ y cruzamos cada rama con el discriminante.",
+            "For a quadratic to be $\\le 0$ on all of $\\mathbb{R}$ it should open downward with $\\Delta \\le 0$; we split off the degenerate case $a = 1$ and cross each branch with the discriminant.",
+          ),
+          step(
+            "calculation",
+            "$a = 1$: queda $3 \\le 0$, falso.<br>$a \\neq 1$: $\\Delta = 4(a - 1)^{2} - 4(a - 1)(a + 2) = 4(a - 1)\\left[(a - 1) - (a + 2)\\right] = -12(a - 1)$.<br>Si $a > 1$: abre hacia arriba y $\\Delta < 0$, siempre positiva, nunca $\\le 0$. Si $a < 1$: $\\Delta > 0$, dos raíces reales y cambia de signo.<br>Observación global: en $x = 1$ la expresión vale $(a - 1) - 2(a - 1) + a + 2 = 3 > 0$ para cualquier $a$.",
+            "$a = 1$: it becomes $3 \\le 0$, false.<br>$a \\neq 1$: $\\Delta = 4(a - 1)^{2} - 4(a - 1)(a + 2) = 4(a - 1)\\left[(a - 1) - (a + 2)\\right] = -12(a - 1)$.<br>If $a > 1$: it opens upward with $\\Delta < 0$, always positive, never $\\le 0$. If $a < 1$: $\\Delta > 0$, two real roots and it changes sign.<br>Global observation: at $x = 1$ the expression equals $(a - 1) - 2(a - 1) + a + 2 = 3 > 0$ for every $a$.",
+          ),
+          step(
+            "result",
+            "$\\varnothing$: no existe ningún $a$ (clave del autor ✓). Verificación: $a = 1$: la constante $3$, y $3 \\le 0$ es falso ✗; $a = 2$: $x^{2} - 2x + 4 = (x - 1)^{2} + 3 > 0$ siempre, nunca $\\le 0$ ✗ ($\\Delta = -12 < 0$); $a = 0$: $-x^{2} + 2x + 2$ vale $3 > 0$ en $x = 1$ ✗; de hecho, en $x = 1$ la expresión vale $3$ para todo $a$ ✓.",
+            "$\\varnothing$: no such $a$ exists (the author's key ✓). Check: $a = 1$: the constant $3$, and $3 \\le 0$ is false ✗; $a = 2$: $x^{2} - 2x + 4 = (x - 1)^{2} + 3 > 0$ always, never $\\le 0$ ✗ ($\\Delta = -12 < 0$); $a = 0$: $-x^{2} + 2x + 2$ equals $3 > 0$ at $x = 1$ ✗; in fact, at $x = 1$ the expression equals $3$ for every $a$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
 ];
