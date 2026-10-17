@@ -1293,4 +1293,1088 @@ export const templates: ProblemTemplate[] = [
       ],
     }),
   ),
+
+  /* ================================================================== */
+  /* Tarea UEES · «EJERCICIOS DE REPASO 1ER PARCIAL MATEMATICAS I»       */
+  /* (INSTRUCTOR_CREATED; sin clave impresa — cada respuesta verificada  */
+  /* con sympy en download/verify_repaso1.py, 417 checks, 0 FAIL).       */
+  /* Bloque 8-e · Sección 10 «Expresar en forma de funciones» 31-32     */
+  /* (pág. 12, subtopic modeling) y Sección 16 «Funciones lineales»     */
+  /* 1-6 (pág. 18, graphs: pendiente e intercepto) y 15-19 (pág. 18,    */
+  /* modeling: demanda/oferta/costo). #16 = demanda del CD con puntos   */
+  /* (10000, 18) y (26000, 12) → p = −(3/8000)q + 87/4 (el script       */
+  /* verifica AMBOS puntos). Convención de dinero:                      */
+  /* \text{\textdollar} dentro de modo matemático. Enunciados           */
+  /* transcritos del VLM (vlm-p-12.json y vlm-p-18.json).               */
+  /* ================================================================== */
+
+  /* S10 · 31 — función de costo C = 850+3q; parte (b): 850+3q = 1600 → 250. */
+  template(
+    {
+      id: "ef-uees-31",
+      subject: "math",
+      topicId: "poly-functions",
+      subtopicId: "modeling",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 150,
+      tags: ["cost-function", "linear-model", "money", "word-problem"],
+      prerequisites: ["modeling"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "10 · 31",
+        page: 12,
+      },
+      reasoning: "modeling",
+    },
+    () => ({
+      skill: L(
+        "Función de costo lineal y su lectura inversa: unidades para un costo dado",
+        "A linear cost function and its inverse reading: units for a given cost",
+      ),
+      statement: L(
+        "Función de costo. En la fabricación de un componente para máquina, el costo inicial de un dado es de $\\text{\\textdollar}850$ y todos los otros costos adicionales son de $\\text{\\textdollar}3$ por unidad producida. (a) Exprese el costo total $C$ como una función lineal del número $q$ de unidades producidas. (b) ¿Cuántas unidades se producen si el costo total es de $\\text{\\textdollar}1600$?\n\n(responda la parte (b): el número de unidades, como decimal)",
+        "Cost function. In manufacturing a machine component, the initial cost of a die is $\\text{\\textdollar}850$ and all other additional costs are $\\text{\\textdollar}3$ per unit produced. (a) Express the total cost $C$ as a linear function of the number $q$ of units produced. (b) How many units are produced if the total cost is $\\text{\\textdollar}1600$?\n\n(answer part (b): the number of units, as a decimal)",
+      ),
+      answer: { kind: "numeric", value: 250, tolerance: { mode: "relative", value: 0.02 } },
+      hints: [
+        L(
+          "Parte (a): costo fijo $\\text{\\textdollar}850$ más $\\text{\\textdollar}3$ por cada unidad producida.",
+          "Part (a): fixed cost $\\text{\\textdollar}850$ plus $\\text{\\textdollar}3$ for each unit produced.",
+        ),
+        L(
+          "Parte (b): iguala el modelo de la parte (a) al costo dado, $C(q) = 1600$.",
+          "Part (b): set the model from part (a) equal to the given cost, $C(q) = 1600$.",
+        ),
+        L(
+          "$3q = 1600 - 850 = 750$: falta una sola división.",
+          "$3q = 1600 - 850 = 750$: a single division remains.",
+        ),
+      ],
+      answerDisplay: L(
+        "(a) $C = 850 + 3q$; (b) $q = 250$ unidades",
+        "(a) $C = 850 + 3q$; (b) $q = 250$ units",
+      ),
+      solution: [
+        step(
+          "given",
+          "Costo inicial del dado: $\\text{\\textdollar}850$ (fijo); costos adicionales: $\\text{\\textdollar}3$ por unidad; costo total pedido: $\\text{\\textdollar}1600$.",
+          "Initial die cost: $\\text{\\textdollar}850$ (fixed); additional costs: $\\text{\\textdollar}3$ per unit; required total cost: $\\text{\\textdollar}1600$.",
+        ),
+        step(
+          "approach",
+          "Construir la función lineal $C(q) = \\text{fijo} + (\\text{variable por unidad})\\cdot q$ y luego despejar $q$ de $C(q) = 1600$.",
+          "Build the linear function $C(q) = \\text{fixed} + (\\text{per-unit variable})\\cdot q$ and then solve $C(q) = 1600$ for $q$.",
+        ),
+        step(
+          "calculation",
+          "(a) $C(q) = 850 + 3q$ (ordenada en el origen $850$, pendiente $3$).<br>(b) $850 + 3q = 1600 \\Rightarrow 3q = 750 \\Rightarrow q = 250$.",
+          "(a) $C(q) = 850 + 3q$ (intercept $850$, slope $3$).<br>(b) $850 + 3q = 1600 \\Rightarrow 3q = 750 \\Rightarrow q = 250$.",
+        ),
+        step(
+          "result",
+          "Se producen $250$ unidades. Verificación: $C(250) = 850 + 3\\cdot 250 = 850 + 750 = 1600$ ✓.",
+          "$250$ units are produced. Check: $C(250) = 850 + 3\\cdot 250 = 850 + 750 = 1600$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* S10 · 32 — interés simple: A = P(1+rt), lineal en t (pendiente Pr). */
+  template(
+    {
+      id: "ef-uees-32",
+      subject: "math",
+      topicId: "poly-functions",
+      subtopicId: "modeling",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["simple-interest", "linear-model", "investment"],
+      prerequisites: ["modeling"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "10 · 32",
+        page: 12,
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(
+            "Sí: $A = P(1+rt)$, lineal en $t$ (pendiente $Pr$)",
+            "Yes: $A = P(1+rt)$, linear in $t$ (slope $Pr$)",
+          ),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L("Sí: $A = P + rt$, lineal en $t$", "Yes: $A = P + rt$, linear in $t$"),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L(
+            "No: es cuadrática en $t$ (como $t^{2}$)",
+            "No: it is quadratic in $t$ (like $t^{2}$)",
+          ),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L(
+            "No: es exponencial en $t$ (como $(1+r)^{t}$)",
+            "No: it is exponential in $t$ (like $(1+r)^{t}$)",
+          ),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L(
+          "Interés simple: el monto acumulado como función lineal del tiempo",
+          "Simple interest: the accumulated amount as a linear function of time",
+        ),
+        statement: L(
+          "Inversión. Si un capital $P$ se invierte a una tasa de interés simple anual $r$ durante $t$ años, exprese la cantidad total acumulada del capital y del interés como una función de $t$. ¿Su resultado es una función lineal de $t$?",
+          "Investment. If a capital $P$ is invested at a simple annual interest rate $r$ for $t$ years, express the total amount accumulated of capital and interest as a function of $t$. Is your result a linear function of $t$?",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Interés simple: los intereses de cada año son $Pr$ (constantes); no se capitalizan sobre los del año anterior.",
+            "Simple interest: each year's interest is $Pr$ (constant); it is not capitalized on top of previous years'.",
+          ),
+          L(
+            "En $t$ años el interés acumulado es $I = Prt$; el monto total es capital más interés.",
+            "Over $t$ years the accumulated interest is $I = Prt$; the total amount is capital plus interest.",
+          ),
+          L(
+            "$A(t) = P + Prt = P(1+rt)$: ¿con qué potencia de $t$ queda?",
+            "$A(t) = P + Prt = P(1+rt)$: with which power of $t$ does it remain?",
+          ),
+        ],
+        answerDisplay: L(
+          "Sí: $A = P(1+rt) = P + Prt$, lineal en $t$ (pendiente $Pr$, ordenada $P$)",
+          "Yes: $A = P(1+rt) = P + Prt$, linear in $t$ (slope $Pr$, intercept $P$)",
+        ),
+        solution: [
+          step(
+            "given",
+            "Capital $P$ a tasa simple anual $r$ durante $t$ años: cada año genera el mismo interés $Pr$.",
+            "Capital $P$ at simple annual rate $r$ for $t$ years: each year generates the same interest $Pr$.",
+          ),
+          step(
+            "approach",
+            "Acumular el interés $I = Prt$ (proporcional a $t$, sin capitalización) y sumarlo al capital; luego leer la forma de $A(t)$.",
+            "Accumulate the interest $I = Prt$ (proportional to $t$, no capitalization) and add it to the capital; then read off the shape of $A(t)$.",
+          ),
+          step(
+            "calculation",
+            "$A(t) = P + I = P + Prt = P(1+rt)$.<br>Es de la forma $A = (Pr)\\,t + P$: pendiente $Pr$ y ordenada en el origen $P$, lineal en $t$.<br>La opción $A = P + rt$ olvida que el interés $rt$ se aplica sobre el capital $P$: el término correcto es $Prt$, no $rt$.",
+            "$A(t) = P + I = P + Prt = P(1+rt)$.<br>It has the form $A = (Pr)\\,t + P$: slope $Pr$ and intercept $P$, linear in $t$.<br>The choice $A = P + rt$ forgets that the interest $rt$ applies on the capital $P$: the correct term is $Prt$, not $rt$.",
+          ),
+          step(
+            "result",
+            "Sí: $A = P(1+rt)$ es lineal en $t$, con pendiente $Pr$ y ordenada $P$. Verificación con $P = 100$ y $r = 10\\%$: $A(0) = 100$, $A(1) = 110$, $A(2) = 120$ — sube $10 = Pr$ por año ✓. (El interés compuesto $P(1+r)^{t}$ sí sería exponencial; el simple no.)",
+            "Yes: $A = P(1+rt)$ is linear in $t$, with slope $Pr$ and intercept $P$. Check with $P = 100$ and $r = 10\\%$: $A(0) = 100$, $A(1) = 110$, $A(2) = 120$ — it rises by $10 = Pr$ per year ✓. (Compound interest $P(1+r)^{t}$ would indeed be exponential; simple interest is not.)",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S16 · 1 — y = f(x) = −4x: m = −4, b = 0 (pasa por el origen). */
+  template(
+    {
+      id: "linfun-uees-1",
+      subject: "math",
+      topicId: "poly-functions",
+      subtopicId: "graphs",
+      difficulty: "easy",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 60,
+      tags: ["slope", "y-intercept", "linear-function"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "16 · 1",
+        page: 18,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$(-4,\\ 0)$`, `$(-4,\\ 0)$`), correct: true },
+        { id: "b", text: L(`$(4,\\ 0)$`, `$(4,\\ 0)$`), correct: false },
+        { id: "c", text: L(`$(-4,\\ -4)$`, `$(-4,\\ -4)$`), correct: false },
+        { id: "d", text: L(`$(0,\\ -4)$`, `$(0,\\ -4)$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Leer pendiente e intercepto de $y = -4x$",
+          "Reading slope and intercept of $y = -4x$",
+        ),
+        statement: L(
+          "Determine la pendiente y la intersección con el eje vertical de la función lineal (la hoja pide además bosquejar la gráfica; aquí se califica el par $(m, b)$):\n\n$$y = f(x) = -4x$$",
+          "Determine the slope and the vertical-axis intercept of the linear function (the sheet also asks you to sketch the graph; here the pair $(m, b)$ is graded):\n\n$$y = f(x) = -4x$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Compara con la forma pendiente-ordenada $y = mx + b$.",
+            "Compare with the slope-intercept form $y = mx + b$.",
+          ),
+          L(
+            "Aquí el coeficiente de $x$ es $-4$ y no aparece término independiente.",
+            "Here the coefficient of $x$ is $-4$ and no constant term appears.",
+          ),
+          L(
+            "Sin término independiente, $b = 0$: la recta pasa por el origen.",
+            "With no constant term, $b = 0$: the line passes through the origin.",
+          ),
+        ],
+        answerDisplay: L(`$m = -4,\\ b = 0$`, `$m = -4,\\ b = 0$`),
+        solution: [
+          step(
+            "given",
+            "La función lineal $y = f(x) = -4x$.",
+            "The linear function $y = f(x) = -4x$.",
+          ),
+          step(
+            "approach",
+            "Llevarla a la forma $y = mx + b$ y leer $m$ (coeficiente de $x$) y $b$ (término independiente); el intercepto con el eje vertical es $f(0)$.",
+            "Bring it to the form $y = mx + b$ and read off $m$ (coefficient of $x$) and $b$ (constant term); the vertical-axis intercept is $f(0)$.",
+          ),
+          step(
+            "calculation",
+            "$y = -4x = (-4)\\,x + 0$, así que $m = -4$ y $b = 0$.<br>Corte con el eje vertical: $f(0) = -4\\cdot 0 = 0$.",
+            "$y = -4x = (-4)\\,x + 0$, so $m = -4$ and $b = 0$.<br>Vertical-axis intercept: $f(0) = -4\\cdot 0 = 0$.",
+          ),
+          step(
+            "result",
+            "El par es $(m, b) = (-4, 0)$: una recta que pasa por el origen y baja $4$ por cada paso a la derecha. Verificación: $f(0) = 0$ ✓ y $f(1) = -4$ ✓.",
+            "The pair is $(m, b) = (-4, 0)$: a line through the origin dropping $4$ for each step to the right. Check: $f(0) = 0$ ✓ and $f(1) = -4$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S16 · 2 — y = f(x) = x+1: m = 1 (coeficiente implícito), b = 1. */
+  template(
+    {
+      id: "linfun-uees-2",
+      subject: "math",
+      topicId: "poly-functions",
+      subtopicId: "graphs",
+      difficulty: "easy",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 60,
+      tags: ["slope", "y-intercept", "linear-function"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "16 · 2",
+        page: 18,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$(1,\\ 1)$`, `$(1,\\ 1)$`), correct: true },
+        { id: "b", text: L(`$(1,\\ 0)$`, `$(1,\\ 0)$`), correct: false },
+        { id: "c", text: L(`$(0,\\ 1)$`, `$(0,\\ 1)$`), correct: false },
+        { id: "d", text: L(`$(-1,\\ 1)$`, `$(-1,\\ 1)$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Leer pendiente e intercepto de $y = x + 1$",
+          "Reading slope and intercept of $y = x + 1$",
+        ),
+        statement: L(
+          "Determine la pendiente y la intersección con el eje vertical de la función lineal (la hoja pide además bosquejar la gráfica; aquí se califica el par $(m, b)$):\n\n$$y = f(x) = x + 1$$",
+          "Determine the slope and the vertical-axis intercept of the linear function (the sheet also asks you to sketch the graph; here the pair $(m, b)$ is graded):\n\n$$y = f(x) = x + 1$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Compara con la forma pendiente-ordenada $y = mx + b$.",
+            "Compare with the slope-intercept form $y = mx + b$.",
+          ),
+          L(
+            "El coeficiente de $x$ está implícito: $x = 1\\cdot x$.",
+            "The coefficient of $x$ is implicit: $x = 1\\cdot x$.",
+          ),
+          L(
+            "El término independiente es $1$: ese es el intercepto $b$.",
+            "The constant term is $1$: that is the intercept $b$.",
+          ),
+        ],
+        answerDisplay: L(`$m = 1,\\ b = 1$`, `$m = 1,\\ b = 1$`),
+        solution: [
+          step(
+            "given",
+            "La función lineal $y = f(x) = x + 1$.",
+            "The linear function $y = f(x) = x + 1$.",
+          ),
+          step(
+            "approach",
+            "Llevarla a la forma $y = mx + b$ recordando que el coeficiente implícito de $x$ es $1$.",
+            "Bring it to the form $y = mx + b$, remembering that the implicit coefficient of $x$ is $1$.",
+          ),
+          step(
+            "calculation",
+            "$y = x + 1 = 1\\cdot x + 1$, así que $m = 1$ y $b = 1$.<br>Corte con el eje vertical: $f(0) = 0 + 1 = 1$.",
+            "$y = x + 1 = 1\\cdot x + 1$, so $m = 1$ and $b = 1$.<br>Vertical-axis intercept: $f(0) = 0 + 1 = 1$.",
+          ),
+          step(
+            "result",
+            "El par es $(m, b) = (1, 1)$: la recta sube $1$ por cada paso a la derecha y corta al eje vertical en $1$. Verificación: $f(0) = 1$ ✓ y $f(1) = 2$ ✓.",
+            "The pair is $(m, b) = (1, 1)$: the line rises $1$ per step to the right and cuts the vertical axis at $1$. Check: $f(0) = 1$ ✓ and $f(1) = 2$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S16 · 3 — h(t) = 5t−7: m = 5, b = −7 (variable t, signo del intercepto). */
+  template(
+    {
+      id: "linfun-uees-3",
+      subject: "math",
+      topicId: "poly-functions",
+      subtopicId: "graphs",
+      difficulty: "easy",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 60,
+      tags: ["slope", "y-intercept", "linear-function"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "16 · 3",
+        page: 18,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$(5,\\ -7)$`, `$(5,\\ -7)$`), correct: true },
+        { id: "b", text: L(`$(5,\\ 7)$`, `$(5,\\ 7)$`), correct: false },
+        { id: "c", text: L(`$(-5,\\ -7)$`, `$(-5,\\ -7)$`), correct: false },
+        { id: "d", text: L(`$(5,\\ 0)$`, `$(5,\\ 0)$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Leer pendiente e intercepto de $h(t) = 5t - 7$ (variable $t$)",
+          "Reading slope and intercept of $h(t) = 5t - 7$ (variable $t$)",
+        ),
+        statement: L(
+          "Determine la pendiente y la intersección con el eje vertical de la función lineal (la hoja pide además bosquejar la gráfica; aquí se califica el par $(m, b)$):\n\n$$h(t) = 5t - 7$$",
+          "Determine the slope and the vertical-axis intercept of the linear function (the sheet also asks you to sketch the graph; here the pair $(m, b)$ is graded):\n\n$$h(t) = 5t - 7$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Aunque la variable se llame $t$, la forma es la misma: $h = mt + b$.",
+            "Even though the variable is called $t$, the form is the same: $h = mt + b$.",
+          ),
+          L(
+            "La pendiente es el coeficiente de la variable: $m = 5$.",
+            "The slope is the coefficient of the variable: $m = 5$.",
+          ),
+          L(
+            "Ojo con el signo del término independiente: $b = -7$.",
+            "Watch the sign of the constant term: $b = -7$.",
+          ),
+        ],
+        answerDisplay: L(`$m = 5,\\ b = -7$`, `$m = 5,\\ b = -7$`),
+        solution: [
+          step(
+            "given",
+            "La función lineal $h(t) = 5t - 7$ (con $t$ como variable independiente).",
+            "The linear function $h(t) = 5t - 7$ (with $t$ as the independent variable).",
+          ),
+          step(
+            "approach",
+            "Aplicar la forma pendiente-ordenada $h = mt + b$ sin dejarse confundir por el nombre de la variable.",
+            "Apply the slope-intercept form $h = mt + b$ without being confused by the variable's name.",
+          ),
+          step(
+            "calculation",
+            "$h(t) = 5t - 7 = 5\\,t + (-7)$, así que $m = 5$ y $b = -7$.<br>Corte con el eje vertical: $h(0) = 5\\cdot 0 - 7 = -7$.",
+            "$h(t) = 5t - 7 = 5\\,t + (-7)$, so $m = 5$ and $b = -7$.<br>Vertical-axis intercept: $h(0) = 5\\cdot 0 - 7 = -7$.",
+          ),
+          step(
+            "result",
+            "El par es $(m, b) = (5, -7)$. Verificación: $h(0) = -7$ ✓ y $h(1) = -2$ (sube $5$ por unidad de $t$) ✓.",
+            "The pair is $(m, b) = (5, -7)$. Check: $h(0) = -7$ ✓ and $h(1) = -2$ (it rises $5$ per unit of $t$) ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S16 · 4 — f(s) = 3(5−s) = 15−3s: hay que expandir → (−3, 15). */
+  template(
+    {
+      id: "linfun-uees-4",
+      subject: "math",
+      topicId: "poly-functions",
+      subtopicId: "graphs",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 90,
+      tags: ["slope", "y-intercept", "distributive-property", "linear-function"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "16 · 4",
+        page: 18,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$(-3,\\ 15)$`, `$(-3,\\ 15)$`), correct: true },
+        { id: "b", text: L(`$(3,\\ 15)$`, `$(3,\\ 15)$`), correct: false },
+        { id: "c", text: L(`$(-3,\\ 5)$`, `$(-3,\\ 5)$`), correct: false },
+        { id: "d", text: L(`$(15,\\ -3)$`, `$(15,\\ -3)$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Expandir antes de leer: $f(s) = 3(5-s) = 15 - 3s$",
+          "Expand before reading: $f(s) = 3(5-s) = 15 - 3s$",
+        ),
+        statement: L(
+          "Determine la pendiente y la intersección con el eje vertical de la función lineal (la hoja pide además bosquejar la gráfica; aquí se califica el par $(m, b)$):\n\n$$f(s) = 3(5 - s)$$",
+          "Determine the slope and the vertical-axis intercept of the linear function (the sheet also asks you to sketch the graph; here the pair $(m, b)$ is graded):\n\n$$f(s) = 3(5 - s)$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Primero distribuye el $3$: $3(5 - s) = 15 - 3s$.",
+            "First distribute the $3$: $3(5 - s) = 15 - 3s$.",
+          ),
+          L(
+            "Reordena a la forma $f = ms + b$: $f = -3s + 15$.",
+            "Rearrange to the form $f = ms + b$: $f = -3s + 15$.",
+          ),
+          L(
+            "La pendiente queda $m = -3$ (negativa) y el intercepto $b = 15$.",
+            "The slope comes out as $m = -3$ (negative) and the intercept as $b = 15$.",
+          ),
+        ],
+        answerDisplay: L(`$f(s) = 15 - 3s \\Rightarrow m = -3,\\ b = 15$`, `$f(s) = 15 - 3s \\Rightarrow m = -3,\\ b = 15$`),
+        solution: [
+          step(
+            "given",
+            "La función lineal $f(s) = 3(5 - s)$, escrita como producto en vez de forma pendiente-ordenada.",
+            "The linear function $f(s) = 3(5 - s)$, written as a product instead of slope-intercept form.",
+          ),
+          step(
+            "approach",
+            "Distribuir el $3$ para llevarla a la forma $f = ms + b$ y recién entonces leer $m$ y $b$ (el $3$ de afuera NO es la pendiente).",
+            "Distribute the $3$ to bring it to the form $f = ms + b$ and only then read $m$ and $b$ (the outer $3$ is NOT the slope).",
+          ),
+          step(
+            "calculation",
+            "$f(s) = 3(5 - s) = 15 - 3s = -3s + 15$, así que $m = -3$ y $b = 15$.<br>Corte con el eje vertical: $f(0) = 3(5 - 0) = 15$.",
+            "$f(s) = 3(5 - s) = 15 - 3s = -3s + 15$, so $m = -3$ and $b = 15$.<br>Vertical-axis intercept: $f(0) = 3(5 - 0) = 15$.",
+          ),
+          step(
+            "result",
+            "El par es $(m, b) = (-3, 15)$. Verificación: $f(0) = 15$ ✓ y $f(1) = 12$ (baja $3$ por unidad) ✓. Trampa clásica: leer $(3, 15)$ sin expandir — el $3$ multiplica a todo $(5 - s)$, no es la pendiente.",
+            "The pair is $(m, b) = (-3, 15)$. Check: $f(0) = 15$ ✓ and $f(1) = 12$ (it drops $3$ per unit) ✓. Classic trap: reading $(3, 15)$ without expanding — the $3$ multiplies all of $(5 - s)$; it is not the slope.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S16 · 5 — p(q) = (5−q)/3 = −(1/3)q + 5/3: separar la fracción. */
+  template(
+    {
+      id: "linfun-uees-5",
+      subject: "math",
+      topicId: "poly-functions",
+      subtopicId: "graphs",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 120,
+      tags: ["slope", "y-intercept", "fractions", "linear-function"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "16 · 5",
+        page: 18,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(
+            `$\\left(-\\frac{1}{3},\\ \\frac{5}{3}\\right)$`,
+            `$\\left(-\\frac{1}{3},\\ \\frac{5}{3}\\right)$`,
+          ),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L(`$\\left(\\frac{1}{3},\\ \\frac{5}{3}\\right)$`, `$\\left(\\frac{1}{3},\\ \\frac{5}{3}\\right)$`),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L(`$\\left(-\\frac{1}{3},\\ 5\\right)$`, `$\\left(-\\frac{1}{3},\\ 5\\right)$`),
+          correct: false,
+        },
+        { id: "d", text: L(`$(-3,\\ 5)$`, `$(-3,\\ 5)$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Separar la fracción: $p(q) = \\frac{5-q}{3} = -\\frac{1}{3}q + \\frac{5}{3}$",
+          "Splitting the fraction: $p(q) = \\frac{5-q}{3} = -\\frac{1}{3}q + \\frac{5}{3}$",
+        ),
+        statement: L(
+          "Determine la pendiente y la intersección con el eje vertical de la función lineal (la hoja pide además bosquejar la gráfica; aquí se califica el par $(m, b)$):\n\n$$p(q) = \\frac{5 - q}{3}$$",
+          "Determine the slope and the vertical-axis intercept of the linear function (the sheet also asks you to sketch the graph; here the pair $(m, b)$ is graded):\n\n$$p(q) = \\frac{5 - q}{3}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Reparte el $3$ del denominador entre los dos términos del numerador: $\\frac{5 - q}{3} = \\frac{5}{3} - \\frac{q}{3}$.",
+            "Spread the $3$ in the denominator over the two terms of the numerator: $\\frac{5 - q}{3} = \\frac{5}{3} - \\frac{q}{3}$.",
+          ),
+          L(
+            "Reordena a la forma $p = mq + b$: $p = -\\frac{1}{3}q + \\frac{5}{3}$.",
+            "Rearrange to the form $p = mq + b$: $p = -\\frac{1}{3}q + \\frac{5}{3}$.",
+          ),
+          L(
+            "La pendiente es negativa, $m = -\\frac{1}{3}$, y el intercepto es la fracción $b = \\frac{5}{3}$.",
+            "The slope is negative, $m = -\\frac{1}{3}$, and the intercept is the fraction $b = \\frac{5}{3}$.",
+          ),
+        ],
+        answerDisplay: L(
+          `$p(q) = -\\frac{1}{3}q + \\frac{5}{3} \\Rightarrow m = -\\frac{1}{3},\\ b = \\frac{5}{3}$`,
+          `$p(q) = -\\frac{1}{3}q + \\frac{5}{3} \\Rightarrow m = -\\frac{1}{3},\\ b = \\frac{5}{3}$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "La función lineal $p(q) = \\frac{5 - q}{3}$, con el $3$ dividiendo a todo el numerador.",
+            "The linear function $p(q) = \\frac{5 - q}{3}$, with the $3$ dividing the whole numerator.",
+          ),
+          step(
+            "approach",
+            "Separar la fracción término a término para llegar a la forma $p = mq + b$ y leer $m$ y $b$.",
+            "Split the fraction term by term to reach the form $p = mq + b$ and read $m$ and $b$.",
+          ),
+          step(
+            "calculation",
+            "$p(q) = \\frac{5}{3} - \\frac{q}{3} = -\\frac{1}{3}q + \\frac{5}{3}$, así que $m = -\\frac{1}{3}$ y $b = \\frac{5}{3}$.<br>Corte con el eje vertical: $p(0) = \\frac{5 - 0}{3} = \\frac{5}{3}$.",
+            "$p(q) = \\frac{5}{3} - \\frac{q}{3} = -\\frac{1}{3}q + \\frac{5}{3}$, so $m = -\\frac{1}{3}$ and $b = \\frac{5}{3}$.<br>Vertical-axis intercept: $p(0) = \\frac{5 - 0}{3} = \\frac{5}{3}$.",
+          ),
+          step(
+            "result",
+            "El par es $\\left(m, b\\right) = \\left(-\\frac{1}{3},\\ \\frac{5}{3}\\right)$. Verificación: $p(0) = \\frac{5}{3}$ ✓ y $p(5) = 0$ (corte con el eje $q$) ✓.",
+            "The pair is $\\left(m, b\\right) = \\left(-\\frac{1}{3},\\ \\frac{5}{3}\\right)$. Check: $p(0) = \\frac{5}{3}$ ✓ and $p(5) = 0$ (intercept with the $q$-axis) ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S16 · 6 — h(q) = 0.5q+0.25: decimales; no intercambiar m y b. */
+  template(
+    {
+      id: "linfun-uees-6",
+      subject: "math",
+      topicId: "poly-functions",
+      subtopicId: "graphs",
+      difficulty: "easy",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 75,
+      tags: ["slope", "y-intercept", "decimals", "linear-function"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "16 · 6",
+        page: 18,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$(0{,}5;\\ 0{,}25)$`, `$(0.5,\\ 0.25)$`), correct: true },
+        { id: "b", text: L(`$(0{,}25;\\ 0{,}5)$`, `$(0.25,\\ 0.5)$`), correct: false },
+        { id: "c", text: L(`$(0{,}5;\\ -0{,}25)$`, `$(0.5,\\ -0.25)$`), correct: false },
+        { id: "d", text: L(`$(2;\\ 0{,}25)$`, `$(2,\\ 0.25)$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Pendiente e intercepto con decimales: $h(q) = 0{,}5q + 0{,}25$",
+          "Slope and intercept with decimals: $h(q) = 0.5q + 0.25$",
+        ),
+        statement: L(
+          "Determine la pendiente y la intersección con el eje vertical de la función lineal (la hoja pide además bosquejar la gráfica; aquí se califica el par $(m, b)$):\n\n$$h(q) = 0{,}5q + 0{,}25$$",
+          "Determine the slope and the vertical-axis intercept of the linear function (the sheet also asks you to sketch the graph; here the pair $(m, b)$ is graded):\n\n$$h(q) = 0.5q + 0.25$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "La función ya está en la forma pendiente-ordenada $h = mq + b$.",
+            "The function is already in slope-intercept form $h = mq + b$.",
+          ),
+          L(
+            "El coeficiente de $q$ es la pendiente: $m = 0{,}5$ (un medio).",
+            "The coefficient of $q$ is the slope: $m = 0.5$ (one half).",
+          ),
+          L(
+            "El término independiente es el intercepto: $b = 0{,}25$ (un cuarto).",
+            "The constant term is the intercept: $b = 0.25$ (one quarter).",
+          ),
+        ],
+        answerDisplay: L(`$m = 0{,}5,\\ b = 0{,}25$`, `$m = 0.5,\\ b = 0.25$`),
+        solution: [
+          step(
+            "given",
+            "La función lineal $h(q) = 0{,}5q + 0{,}25$, ya en forma pendiente-ordenada.",
+            "The linear function $h(q) = 0.5q + 0.25$, already in slope-intercept form.",
+          ),
+          step(
+            "approach",
+            "Leer directamente $m$ (coeficiente de $q$) y $b$ (término independiente), sin intercambiarlos.",
+            "Read off $m$ (coefficient of $q$) and $b$ (constant term) directly, without swapping them.",
+          ),
+          step(
+            "calculation",
+            "$h(q) = 0{,}5q + 0{,}25$, así que $m = 0{,}5$ y $b = 0{,}25$.<br>Corte con el eje vertical: $h(0) = 0{,}25$.",
+            "$h(q) = 0.5q + 0.25$, so $m = 0.5$ and $b = 0.25$.<br>Vertical-axis intercept: $h(0) = 0.25$.",
+          ),
+          step(
+            "result",
+            "El par es $(m, b) = (0{,}5;\\ 0{,}25)$. Verificación: $h(0) = 0{,}25$ ✓ y $h(2) = 1{,}25$ (sube $0{,}5$ por unidad) ✓. Las trampas son intercambiar el par $(0{,}25;\\ 0{,}5)$, cambiar el signo del intercepto o «invertir» el $0{,}5$ leyendo $2$.",
+            "The pair is $(m, b) = (0.5,\\ 0.25)$. Check: $h(0) = 0.25$ ✓ and $h(2) = 1.25$ (it rises $0.5$ per unit) ✓. The traps are swapping the pair $(0.25,\\ 0.5)$, flipping the intercept's sign, or “inverting” the $0.5$ into $2$.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S16 · 15 — demanda (60, 15.30) y (35, 19.30): p = −0.16q+24.9; p(40) = 18.5. */
+  template(
+    {
+      id: "dem-uees-15",
+      subject: "math",
+      topicId: "poly-functions",
+      subtopicId: "modeling",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 240,
+      tags: ["demand-equation", "linear-model", "money", "word-problem"],
+      prerequisites: ["modeling"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "16 · 15",
+        page: 18,
+      },
+      reasoning: "modeling",
+    },
+    () => ({
+      skill: L(
+        "Ecuación de demanda lineal: dos puntos (q, p) y una evaluación",
+        "A linear demand equation: two (q, p) points and one evaluation",
+      ),
+      statement: L(
+        "Ecuación de demanda. Suponga que los clientes demandarán 60 unidades de un producto cuando el precio es de $\\text{\\textdollar}15{,}30$ por unidad y 35 unidades cuando el precio es de $\\text{\\textdollar}19{,}30$ cada una. Encuentre la ecuación de la demanda suponiendo que es lineal. Determine el precio por unidad cuando se demandan 40 unidades.\n\n(responda el precio por unidad cuando se demandan 40 unidades, como decimal)",
+        "Demand equation. Suppose customers will demand 60 units of a product when the price is $\\text{\\textdollar}15.30$ per unit and 35 units when the price is $\\text{\\textdollar}19.30$ each. Find the demand equation assuming it is linear. Determine the price per unit when 40 units are demanded.\n\n(answer the price per unit when 40 units are demanded, as a decimal)",
+      ),
+      answer: { kind: "numeric", value: 18.5, tolerance: { mode: "relative", value: 0.02 } },
+      hints: [
+        L(
+          "Dos puntos de la demanda: $(q, p) = (60,\\ 15{,}30)$ y $(35,\\ 19{,}30)$. La pendiente es $m = \\frac{\\Delta p}{\\Delta q}$.",
+          "Two demand points: $(q, p) = (60,\\ 15.30)$ and $(35,\\ 19.30)$. The slope is $m = \\frac{\\Delta p}{\\Delta q}$.",
+        ),
+        L(
+          "$m = \\frac{15{,}30 - 19{,}30}{60 - 35} = \\frac{-4}{25} = -0{,}16$, así que $p = -0{,}16q + b$ (pendiente negativa: a mayor precio, menos demanda).",
+          "$m = \\frac{15.30 - 19.30}{60 - 35} = \\frac{-4}{25} = -0.16$, so $p = -0.16q + b$ (negative slope: the higher the price, the lower the demand).",
+        ),
+        L(
+          "Con $(60,\\ 15{,}30)$: $b = 15{,}30 + 0{,}16\\cdot 60 = 24{,}90$. Ahora evalúa en $q = 40$.",
+          "With $(60,\\ 15.30)$: $b = 15.30 + 0.16\\cdot 60 = 24.90$. Now evaluate at $q = 40$.",
+        ),
+      ],
+      answerDisplay: L(
+        "$p = -0{,}16q + 24{,}9$; $p(40) = 18{,}50$",
+        "$p = -0.16q + 24.9$; $p(40) = 18.50$",
+      ),
+      solution: [
+        step(
+          "given",
+          "Demanda lineal por los puntos $(60,\\ 15{,}30)$ y $(35,\\ 19{,}30)$ (precios en dólares por unidad); se pide $p$ cuando $q = 40$.",
+          "Linear demand through the points $(60,\\ 15.30)$ and $(35,\\ 19.30)$ (prices in dollars per unit); find $p$ when $q = 40$.",
+        ),
+        step(
+          "approach",
+          "Construir la recta $p = mq + b$ con la pendiente entre los dos puntos y un punto para el intercepto; luego evaluar en $q = 40$.",
+          "Build the line $p = mq + b$ with the slope between the two points and one point for the intercept; then evaluate at $q = 40$.",
+        ),
+        step(
+          "calculation",
+          "$m = \\frac{15{,}30 - 19{,}30}{60 - 35} = \\frac{-4}{25} = -0{,}16$.<br>$b$: con $(60,\\ 15{,}30)$, $15{,}30 = -0{,}16\\cdot 60 + b \\Rightarrow b = 15{,}30 + 9{,}60 = 24{,}90$.<br>Demanda: $p = -0{,}16q + 24{,}90$.<br>$p(40) = -0{,}16\\cdot 40 + 24{,}90 = -6{,}40 + 24{,}90 = 18{,}50$.",
+          "$m = \\frac{15.30 - 19.30}{60 - 35} = \\frac{-4}{25} = -0.16$.<br>$b$: with $(60,\\ 15.30)$, $15.30 = -0.16\\cdot 60 + b \\Rightarrow b = 15.30 + 9.60 = 24.90$.<br>Demand: $p = -0.16q + 24.90$.<br>$p(40) = -0.16\\cdot 40 + 24.90 = -6.40 + 24.90 = 18.50$.",
+        ),
+        step(
+          "result",
+          "Cuando se demandan 40 unidades, el precio por unidad es $\\text{\\textdollar}18{,}50$. Verificación de la recta con los DOS datos: $p(60) = -9{,}60 + 24{,}90 = 15{,}30$ ✓ y $p(35) = -5{,}60 + 24{,}90 = 19{,}30$ ✓.",
+          "When 40 units are demanded, the price per unit is $\\text{\\textdollar}18.50$. Check of the line against BOTH data points: $p(60) = -9.60 + 24.90 = 15.30$ ✓ and $p(35) = -5.60 + 24.90 = 19.30$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* S16 · 16 — demanda del CD: p = −(3/8000)q + 87/4 (verifica ambos puntos). */
+  template(
+    {
+      id: "dem-uees-16",
+      subject: "math",
+      topicId: "poly-functions",
+      subtopicId: "modeling",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["demand-equation", "linear-model", "fractions", "word-problem"],
+      prerequisites: ["modeling"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "16 · 16",
+        page: 18,
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(
+            `$p = -\\frac{3}{8000}q + \\frac{87}{4}$`,
+            `$p = -\\frac{3}{8000}q + \\frac{87}{4}$`,
+          ),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L(`$p = -\\frac{3}{8000}q + 18$`, `$p = -\\frac{3}{8000}q + 18$`),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L(`$p = \\frac{3}{8000}q + 12$`, `$p = \\frac{3}{8000}q + 12$`),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L(`$p = -\\frac{3}{16000}q + \\frac{87}{4}$`, `$p = -\\frac{3}{16000}q + \\frac{87}{4}$`),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L(
+          "Demanda semanal de un CD: la recta por (10000, 18) y (26000, 12)",
+          "Weekly CD demand: the line through (10000, 18) and (26000, 12)",
+        ),
+        statement: L(
+          "Ecuación de demanda. La demanda semanal para un disco compacto es de 26 000 copias cuando el precio es de $\\text{\\textdollar}12$ cada uno y de 10 000 copias cuando el precio es de $\\text{\\textdollar}18$ cada uno. Encuentre una ecuación de demanda para el disco suponiendo que ésta es lineal.",
+          "Demand equation. The weekly demand for a compact disc is 26 000 copies when the price is $\\text{\\textdollar}12$ each and 10 000 copies when the price is $\\text{\\textdollar}18$ each. Find a demand equation for the disc assuming it is linear.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Puntos (cantidad, precio): $(26\\,000,\\ 12)$ y $(10\\,000,\\ 18)$; la pendiente es $m = \\frac{\\Delta p}{\\Delta q}$.",
+            "Points (quantity, price): $(26,\\!000,\\ 12)$ and $(10,\\!000,\\ 18)$; the slope is $m = \\frac{\\Delta p}{\\Delta q}$.",
+          ),
+          L(
+            "$m = \\frac{12 - 18}{26\\,000 - 10\\,000} = \\frac{-6}{16\\,000} = -\\frac{3}{8000}$.",
+            "$m = \\frac{12 - 18}{26,\\!000 - 10,\\!000} = \\frac{-6}{16,\\!000} = -\\frac{3}{8000}$.",
+          ),
+          L(
+            "Con $(10\\,000,\\ 18)$: $18 = -\\frac{3}{8000}\\cdot 10\\,000 + b = -\\frac{30}{8} + b$, así que $b = 18 + 3{,}75$.",
+            "With $(10,\\!000,\\ 18)$: $18 = -\\frac{3}{8000}\\cdot 10,\\!000 + b = -\\frac{30}{8} + b$, so $b = 18 + 3.75$.",
+          ),
+        ],
+        answerDisplay: L(
+          `$p = -\\frac{3}{8000}q + \\frac{87}{4}$`,
+          `$p = -\\frac{3}{8000}q + \\frac{87}{4}$`,
+        ),
+        solution: [
+          step(
+            "given",
+            "Demanda semanal del disco: $q = 26\\,000$ copias a $p = \\text{\\textdollar}12$, y $q = 10\\,000$ copias a $p = \\text{\\textdollar}18$.",
+            "Weekly disc demand: $q = 26,\\!000$ copies at $p = \\text{\\textdollar}12$, and $q = 10,\\!000$ copies at $p = \\text{\\textdollar}18$.",
+          ),
+          step(
+            "approach",
+            "Escribir los dos puntos $(q, p)$, calcular la pendiente $m = \\frac{\\Delta p}{\\Delta q}$ y despejar $b$ con uno de ellos; al final verificar con los DOS puntos.",
+            "Write the two points $(q, p)$, compute the slope $m = \\frac{\\Delta p}{\\Delta q}$ and solve for $b$ with one of them; finally verify with BOTH points.",
+          ),
+          step(
+            "calculation",
+            "$m = \\frac{12 - 18}{26\\,000 - 10\\,000} = -\\frac{6}{16\\,000} = -\\frac{3}{8000}$.<br>$b$: $18 = -\\frac{3}{8000}\\cdot 10\\,000 + b = -\\frac{3}{8}\\cdot 10 + b = -3{,}75 + b \\Rightarrow b = 21{,}75 = \\frac{87}{4}$.<br>Demanda: $p = -\\frac{3}{8000}q + \\frac{87}{4}$.",
+            "$m = \\frac{12 - 18}{26,\\!000 - 10,\\!000} = -\\frac{6}{16,\\!000} = -\\frac{3}{8000}$.<br>$b$: $18 = -\\frac{3}{8000}\\cdot 10,\\!000 + b = -\\frac{3}{8}\\cdot 10 + b = -3.75 + b \\Rightarrow b = 21.75 = \\frac{87}{4}$.<br>Demand: $p = -\\frac{3}{8000}q + \\frac{87}{4}$.",
+          ),
+          step(
+            "result",
+            "La ecuación de demanda es $p = -\\frac{3}{8000}q + \\frac{87}{4}$. Verificación con los DOS puntos: $q = 10\\,000 \\Rightarrow p = -3{,}75 + 21{,}75 = 18$ ✓ y $q = 26\\,000 \\Rightarrow p = -9{,}75 + 21{,}75 = 12$ ✓. (Las opciones con $b = 18$, pendiente positiva o pendiente $\\frac{3}{16000}$ fallan al menos uno de los dos puntos.)",
+            "The demand equation is $p = -\\frac{3}{8000}q + \\frac{87}{4}$. Check with BOTH points: $q = 10,\\!000 \\Rightarrow p = -3.75 + 21.75 = 18$ ✓ and $q = 26,\\!000 \\Rightarrow p = -9.75 + 21.75 = 12$ ✓. (The choices with $b = 18$, a positive slope, or slope $\\frac{3}{16000}$ fail at least one of the two points.)",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S16 · 17 — oferta de refrigeradores: q = 4p − 760 ((940,3000), (740,2200)). */
+  template(
+    {
+      id: "dem-uees-17",
+      subject: "math",
+      topicId: "poly-functions",
+      subtopicId: "modeling",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["supply-equation", "linear-model", "word-problem"],
+      prerequisites: ["modeling"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "16 · 17",
+        page: 18,
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$q = 4p - 760$`, `$q = 4p - 760$`), correct: true },
+        { id: "b", text: L(`$q = 4p + 760$`, `$q = 4p + 760$`), correct: false },
+        { id: "c", text: L(`$p = 4q - 760$`, `$p = 4q - 760$`), correct: false },
+        { id: "d", text: L(`$q = 760 - 4p$`, `$q = 760 - 4p$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Ecuación de oferta con q como función del precio",
+          "Supply equation with q as a function of price",
+        ),
+        statement: L(
+          "Ecuación de oferta. Un fabricante de refrigeradores producirá 3000 unidades cuando el precio sea de $\\text{\\textdollar}940$ y 2200 unidades cuando el precio sea de $\\text{\\textdollar}740$. Suponga que el precio, $p$, y la cantidad producida, $q$, están relacionados de manera lineal. Encuentre la ecuación de oferta.",
+          "Supply equation. A refrigerator manufacturer will produce 3000 units when the price is $\\text{\\textdollar}940$ and 2200 units when the price is $\\text{\\textdollar}740$. Assume the price, $p$, and the quantity produced, $q$, are linearly related. Find the supply equation.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "En la oferta conviene expresar la cantidad como función del precio: puntos $(p, q) = (940,\\ 3000)$ y $(740,\\ 2200)$.",
+            "For supply it is convenient to express quantity as a function of price: points $(p, q) = (940,\\ 3000)$ and $(740,\\ 2200)$.",
+          ),
+          L(
+            "Pendiente: $m = \\frac{\\Delta q}{\\Delta p} = \\frac{3000 - 2200}{940 - 740} = \\frac{800}{200}$.",
+            "Slope: $m = \\frac{\\Delta q}{\\Delta p} = \\frac{3000 - 2200}{940 - 740} = \\frac{800}{200}$.",
+          ),
+          L(
+            "$3000 = 4\\cdot 940 + b = 3760 + b$, así que $b = 3000 - 3760$.",
+            "$3000 = 4\\cdot 940 + b = 3760 + b$, so $b = 3000 - 3760$.",
+          ),
+        ],
+        answerDisplay: L(`$q = 4p - 760$`, `$q = 4p - 760$`),
+        solution: [
+          step(
+            "given",
+            "Oferta del fabricante: $q = 3000$ unidades a $p = \\text{\\textdollar}940$, y $q = 2200$ unidades a $p = \\text{\\textdollar}740$.",
+            "Manufacturer's supply: $q = 3000$ units at $p = \\text{\\textdollar}940$, and $q = 2200$ units at $p = \\text{\\textdollar}740$.",
+          ),
+          step(
+            "approach",
+            "Tomar el precio como variable independiente (la producción responde al precio): pendiente $m = \\frac{\\Delta q}{\\Delta p}$ y luego el intercepto con un punto.",
+            "Take price as the independent variable (production responds to price): slope $m = \\frac{\\Delta q}{\\Delta p}$ and then the intercept with one point.",
+          ),
+          step(
+            "calculation",
+            "$m = \\frac{3000 - 2200}{940 - 740} = \\frac{800}{200} = 4$.<br>$3000 = 4\\cdot 940 + b \\Rightarrow b = 3000 - 3760 = -760$.<br>Oferta: $q = 4p - 760$.",
+            "$m = \\frac{3000 - 2200}{940 - 740} = \\frac{800}{200} = 4$.<br>$3000 = 4\\cdot 940 + b \\Rightarrow b = 3000 - 3760 = -760$.<br>Supply: $q = 4p - 760$.",
+          ),
+          step(
+            "result",
+            "La ecuación de oferta es $q = 4p - 760$. Verificación con los DOS puntos: $p = 940 \\Rightarrow q = 3760 - 760 = 3000$ ✓ y $p = 740 \\Rightarrow q = 2960 - 760 = 2200$ ✓. (Con $q = 4p + 760$ saldrían $4520$ y $3720$; la invertida $p = 4q - 760$ da $p = 11\\,240$ con $q = 3000$, no $940$.)",
+            "The supply equation is $q = 4p - 760$. Check with BOTH points: $p = 940 \\Rightarrow q = 3760 - 760 = 3000$ ✓ and $p = 740 \\Rightarrow q = 2960 - 760 = 2200$ ✓. (With $q = 4p + 760$ one would get $4520$ and $3720$; the inverted $p = 4q - 760$ gives $p = 11,\\!240$ at $q = 3000$, not $940$.)",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S16 · 18 — oferta de zapatos (q en miles): q = 3p − 55 ((35,50), (30,35)). */
+  template(
+    {
+      id: "dem-uees-18",
+      subject: "math",
+      topicId: "poly-functions",
+      subtopicId: "modeling",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["supply-equation", "linear-model", "units", "word-problem"],
+      prerequisites: ["modeling"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "16 · 18",
+        page: 18,
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$q = 3p - 55$`, `$q = 3p - 55$`), correct: true },
+        { id: "b", text: L(`$q = 3p + 55$`, `$q = 3p + 55$`), correct: false },
+        { id: "c", text: L(`$p = 3q - 55$`, `$p = 3q - 55$`), correct: false },
+        { id: "d", text: L(`$q = 55 - 3p$`, `$q = 55 - 3p$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Ecuación de oferta con la cantidad en miles de pares",
+          "Supply equation with quantity in thousands of pairs",
+        ),
+        statement: L(
+          "Ecuación de oferta. Suponga que un fabricante de zapatos colocará en el mercado 50 mil pares cuando el precio es de $\\text{\\textdollar}35$ y 35 mil pares cuando el precio es de $\\text{\\textdollar}30$. Encuentre la ecuación de oferta suponiendo que el precio $p$ y la cantidad $q$ se relacionan linealmente. (Mida $q$ en miles de pares.)",
+          "Supply equation. Suppose a shoe manufacturer will place 50 thousand pairs on the market when the price is $\\text{\\textdollar}35$ and 35 thousand pairs when the price is $\\text{\\textdollar}30$. Find the supply equation assuming that price $p$ and quantity $q$ are linearly related. (Measure $q$ in thousands of pairs.)",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Con $q$ medida en miles de pares, los puntos son $(p, q) = (35,\\ 50)$ y $(30,\\ 35)$.",
+            "With $q$ measured in thousands of pairs, the points are $(p, q) = (35,\\ 50)$ and $(30,\\ 35)$.",
+          ),
+          L(
+            "Pendiente: $m = \\frac{\\Delta q}{\\Delta p} = \\frac{50 - 35}{35 - 30} = \\frac{15}{5}$.",
+            "Slope: $m = \\frac{\\Delta q}{\\Delta p} = \\frac{50 - 35}{35 - 30} = \\frac{15}{5}$.",
+          ),
+          L(
+            "$50 = 3\\cdot 35 + b = 105 + b$, así que $b = 50 - 105$.",
+            "$50 = 3\\cdot 35 + b = 105 + b$, so $b = 50 - 105$.",
+          ),
+        ],
+        answerDisplay: L(
+          `$q = 3p - 55$ ($q$ en miles de pares)`,
+          `$q = 3p - 55$ ($q$ in thousands of pairs)`,
+        ),
+        solution: [
+          step(
+            "given",
+            "Oferta del fabricante de zapatos: $q = 50$ mil pares a $p = \\text{\\textdollar}35$, y $q = 35$ mil pares a $p = \\text{\\textdollar}30$.",
+            "Shoe manufacturer's supply: $q = 50$ thousand pairs at $p = \\text{\\textdollar}35$, and $q = 35$ thousand pairs at $p = \\text{\\textdollar}30$.",
+          ),
+          step(
+            "approach",
+            "Expresar $q$ (en miles) como función de $p$: pendiente $\\frac{\\Delta q}{\\Delta p}$ e intercepto con un punto.",
+            "Express $q$ (in thousands) as a function of $p$: slope $\\frac{\\Delta q}{\\Delta p}$ and intercept with one point.",
+          ),
+          step(
+            "calculation",
+            "$m = \\frac{50 - 35}{35 - 30} = \\frac{15}{5} = 3$.<br>$50 = 3\\cdot 35 + b \\Rightarrow b = 50 - 105 = -55$.<br>Oferta: $q = 3p - 55$ ($q$ en miles de pares).",
+            "$m = \\frac{50 - 35}{35 - 30} = \\frac{15}{5} = 3$.<br>$50 = 3\\cdot 35 + b \\Rightarrow b = 50 - 105 = -55$.<br>Supply: $q = 3p - 55$ ($q$ in thousands of pairs).",
+          ),
+          step(
+            "result",
+            "La ecuación de oferta es $q = 3p - 55$ (con $q$ en miles de pares). Verificación con los DOS puntos: $p = 35 \\Rightarrow q = 105 - 55 = 50$ ✓ y $p = 30 \\Rightarrow q = 90 - 55 = 35$ ✓. (Con el signo $+$ saldrían $160$ y $145$ mil pares; la invertida $p = 3q - 55$ da $p = 95$ con $q = 50$, no $35$.)",
+            "The supply equation is $q = 3p - 55$ (with $q$ in thousands of pairs). Check with BOTH points: $p = 35 \\Rightarrow q = 105 - 55 = 50$ ✓ and $p = 30 \\Rightarrow q = 90 - 55 = 35$ ✓. (With the $+$ sign one would get $160$ and $145$ thousand pairs; the inverted $p = 3q - 55$ gives $p = 95$ at $q = 50$, not $35$.)",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S16 · 19 — costo c = 3q+10 ((10,40), (20,70)): c(35) = 115. */
+  template(
+    {
+      id: "dem-uees-19",
+      subject: "math",
+      topicId: "poly-functions",
+      subtopicId: "modeling",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 180,
+      tags: ["cost-equation", "linear-model", "money", "word-problem"],
+      prerequisites: ["modeling"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "16 · 19",
+        page: 18,
+      },
+      reasoning: "modeling",
+    },
+    () => ({
+      skill: L(
+        "Ecuación de costo lineal y una evaluación: c(35)",
+        "A linear cost equation and one evaluation: c(35)",
+      ),
+      statement: L(
+        "Ecuación de costo. Suponga que el costo por producir 10 unidades de un producto es de $\\text{\\textdollar}40$ y el costo para 20 unidades es de $\\text{\\textdollar}70$. Si el costo, $c$, se relaciona linealmente con la producción, $q$, encuentre el costo de producir 35 unidades.\n\n(escriba el resultado como decimal)",
+        "Cost equation. Suppose the cost of producing 10 units of a product is $\\text{\\textdollar}40$ and the cost for 20 units is $\\text{\\textdollar}70$. If the cost, $c$, is linearly related to output, $q$, find the cost of producing 35 units.\n\n(give your answer as a decimal)",
+      ),
+      answer: { kind: "numeric", value: 115, tolerance: { mode: "relative", value: 0.02 } },
+      hints: [
+        L(
+          "Puntos (producción, costo): $(10,\\ 40)$ y $(20,\\ 70)$. La pendiente es el costo variable por unidad.",
+          "Points (output, cost): $(10,\\ 40)$ and $(20,\\ 70)$. The slope is the variable cost per unit.",
+        ),
+        L(
+          "$m = \\frac{70 - 40}{20 - 10} = 3$ dólares por unidad; falta el intercepto $b$ con uno de los puntos.",
+          "$m = \\frac{70 - 40}{20 - 10} = 3$ dollars per unit; the intercept $b$ from one of the points remains.",
+        ),
+        L(
+          "Con $(10,\\ 40)$: $b = 40 - 3\\cdot 10$; luego evalúa la ecuación en $q = 35$.",
+          "With $(10,\\ 40)$: $b = 40 - 3\\cdot 10$; then evaluate the equation at $q = 35$.",
+        ),
+      ],
+      answerDisplay: L(
+        "$c = 3q + 10$; $c(35) = 115$",
+        "$c = 3q + 10$; $c(35) = 115$",
+      ),
+      solution: [
+        step(
+          "given",
+          "Costo de producción lineal: $\\text{\\textdollar}40$ para $q = 10$ unidades y $\\text{\\textdollar}70$ para $q = 20$; se pide $c(35)$.",
+          "Linear production cost: $\\text{\\textdollar}40$ for $q = 10$ units and $\\text{\\textdollar}70$ for $q = 20$; find $c(35)$.",
+        ),
+        step(
+          "approach",
+          "Construir la recta $c = mq + b$ (la pendiente es el costo variable por unidad, el intercepto el costo fijo) y evaluar en $q = 35$.",
+          "Build the line $c = mq + b$ (the slope is the variable cost per unit, the intercept the fixed cost) and evaluate at $q = 35$.",
+        ),
+        step(
+          "calculation",
+          "$m = \\frac{70 - 40}{20 - 10} = \\frac{30}{10} = 3$.<br>$40 = 3\\cdot 10 + b \\Rightarrow b = 10$.<br>Costo: $c = 3q + 10$.<br>$c(35) = 3\\cdot 35 + 10 = 105 + 10 = 115$.",
+          "$m = \\frac{70 - 40}{20 - 10} = \\frac{30}{10} = 3$.<br>$40 = 3\\cdot 10 + b \\Rightarrow b = 10$.<br>Cost: $c = 3q + 10$.<br>$c(35) = 3\\cdot 35 + 10 = 105 + 10 = 115$.",
+        ),
+        step(
+          "result",
+          "Producir 35 unidades cuesta $\\text{\\textdollar}115$. Verificación con los DOS datos: $c(10) = 30 + 10 = 40$ ✓ y $c(20) = 60 + 10 = 70$ ✓.",
+          "Producing 35 units costs $\\text{\\textdollar}115$. Check against BOTH data points: $c(10) = 30 + 10 = 40$ ✓ and $c(20) = 60 + 10 = 70$ ✓.",
+        ),
+      ],
+    }),
+  ),
 ];

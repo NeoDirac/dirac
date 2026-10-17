@@ -30,6 +30,7 @@ export type Route =
   | { name: "subject"; subject: Subject }
   | { name: "topic"; subject: Subject; topicId: string }
   | { name: "practice" }
+  | { name: "exam" }
   | { name: "session"; config: SessionConfig }
   | { name: "worksheet"; config: SessionConfig }
   | { name: "progress" }
@@ -50,6 +51,7 @@ export function parseHash(rawHash: string): Route {
   }
 
   if (segments[0] === "practice") return { name: "practice" };
+  if (segments[0] === "exams" || segments[0] === "exam") return { name: "exam" };
   if (segments[0] === "progress") return { name: "progress" };
   if (segments[0] === "about") return { name: "about" };
 
@@ -66,7 +68,7 @@ export function parseHash(rawHash: string): Route {
 function parseSessionConfig(q: URLSearchParams): SessionConfig {
   const mRaw = q.get("m");
   const mode: SessionMode =
-    mRaw === "mixed" || mRaw === "challenge" || mRaw === "single" || mRaw === "interleaved"
+    mRaw === "mixed" || mRaw === "challenge" || mRaw === "single" || mRaw === "interleaved" || mRaw === "exam"
       ? mRaw
       : "topic";
   const subjectsRaw = q.get("s") ?? "math";
@@ -86,6 +88,18 @@ function parseSessionConfig(q: URLSearchParams): SessionConfig {
   const singleTemplateId = q.get("tpl") ?? undefined;
   const curatedOnly = q.get("c") === "1";
   const excludeEasy = q.get("ne") === "1";
+  const examRaw = q.get("ex");
+  const exam =
+    mode === "exam" && examRaw
+      ? {
+          profileId: examRaw,
+          version: Math.max(0, parseInt(q.get("v") ?? "0", 10) || 0),
+          temaIds: (q.get("tp") ?? "")
+            .split(",")
+            .map((s) => s.trim())
+            .filter(Boolean),
+        }
+      : undefined;
   return {
     mode,
     subjects: subjects.length ? subjects : ["math"],
@@ -96,6 +110,7 @@ function parseSessionConfig(q: URLSearchParams): SessionConfig {
     seed,
     easyWeighted,
     singleTemplateId,
+    exam,
     curatedOnly,
     excludeEasy,
   };
@@ -112,6 +127,11 @@ export function sessionHref(config: SessionConfig): string {
   q.set("k", String(config.seed));
   if (config.easyWeighted) q.set("w", "easy");
   if (config.singleTemplateId) q.set("tpl", config.singleTemplateId);
+  if (config.exam) {
+    q.set("ex", config.exam.profileId);
+    q.set("v", String(config.exam.version));
+    if (config.exam.temaIds.length > 0) q.set("tp", config.exam.temaIds.join(","));
+  }
   if (config.curatedOnly) q.set("c", "1");
   if (config.excludeEasy) q.set("ne", "1");
   return `#/session?${q.toString()}`;
@@ -128,6 +148,7 @@ export function href(
     | { name: "subject"; subject: Subject }
     | { name: "topic"; subject: Subject; topicId: string }
     | { name: "practice" }
+    | { name: "exam" }
     | { name: "progress" }
     | { name: "about" },
 ): string {

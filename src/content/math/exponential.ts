@@ -1181,4 +1181,162 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+
+  /* ================================================================== */
+  /* Tarea UEES · «EJERCICIOS DE REPASO 1ER PARCIAL MATEMATICAS I»       */
+  /* (INSTRUCTOR_CREATED; sin clave impresa — cada respuesta verificada  */
+  /* con sympy en download/verify_repaso1.py, 417 checks, 0 FAIL).       */
+  /* Bloque 8-e · Sección 4 · interés compuesto 14-15 (pág. 4): la      */
+  /* tasa anual compuesta que hace crecer un capital hasta una meta,    */
+  /* con las cotas «sandwich» impresas en la solución. Convención de    */
+  /* dinero: \text{\textdollar} dentro de modo matemático (el «\$»     */
+  /* crudo rompe el particionador $...$ de MathText). Enunciados        */
+  /* transcritos del VLM (download/repaso1-pages/vlm-p-04.json).        */
+  /* ================================================================== */
+
+  /* S4 · 14 — bonos: (1+r)³ = 1.1258 → r ≈ 4.03 % (sandwich 4 %–4.1 %). */
+  template(
+    {
+      id: "exp-uees-14",
+      subject: "math",
+      topicId: "exponential",
+      subtopicId: "equations",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 240,
+      tags: ["compound-interest", "exponential-equation", "money", "word-problem"],
+      prerequisites: ["equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "4 · 14",
+        page: 4,
+      },
+      reasoning: "modeling",
+    },
+    () => ({
+      skill: L(
+        "Tasa compuesta que hace crecer un capital hasta una meta (3 años)",
+        "Compound rate that grows a capital to a target (3 years)",
+      ),
+      statement: L(
+        "Retiro de bonos. En tres años, una compañía requerirá de $\\text{\\textdollar}1\\,125\\,800$ con el fin de retirar algunos bonos. Si ahora invierte $\\text{\\textdollar}1\\,000\\,000$ para este propósito, ¿cuál debe ser la tasa de interés, compuesta anualmente, que debe recibir sobre este capital para poder retirar los bonos?\n\n(escriba el porcentaje como número decimal, sin el signo %; por ejemplo, 4,25 para 4,25 %)",
+        "Bond retirement. In three years, a company will require $\\text{\\textdollar}1,\\!125,\\!800$ in order to retire some bonds. If it invests $\\text{\\textdollar}1,\\!000,\\!000$ now for this purpose, what rate of interest, compounded annually, must it receive on this capital to be able to retire the bonds?\n\n(give the percentage as a decimal number, without the % sign; e.g. 4.25 for 4.25%)",
+      ),
+      answer: { kind: "numeric", value: 4.03, tolerance: { mode: "absolute", value: 0.3 } },
+      hints: [
+        L(
+          "Modelo de interés compuesto: $1\\,000\\,000\\,(1+r)^{3} = 1\\,125\\,800$, así que $(1+r)^{3} = 1{,}1258$.",
+          "Compound-interest model: $1,\\!000,\\!000\\,(1+r)^{3} = 1,\\!125,\\!800$, so $(1+r)^{3} = 1.1258$.",
+        ),
+        L(
+          "Prueba tasas «redondas»: $(1{,}04)^{3} = 1{,}124\\,864$, que se queda apenas corto frente a $1{,}1258$.",
+          "Test “round” rates: $(1.04)^{3} = 1.124\\,864$, which falls just short of $1.1258$.",
+        ),
+        L(
+          "$(1{,}041)^{3} \\approx 1{,}128\\,14$ ya se pasa: la tasa vive entre $4\\%$ y $4{,}1\\%$.",
+          "$(1.041)^{3} \\approx 1.128\\,14$ already overshoots: the rate lives between $4\\%$ and $4.1\\%$.",
+        ),
+      ],
+      answerDisplay: L(
+        "$(1+r)^{3} = 1{,}1258 \\Rightarrow r \\approx 0{,}0403 = 4{,}03\\%$",
+        "$(1+r)^{3} = 1.1258 \\Rightarrow r \\approx 0.0403 = 4.03\\%$",
+      ),
+      solution: [
+        step(
+          "given",
+          "Capital $\\text{\\textdollar}1\\,000\\,000$ hoy; meta $\\text{\\textdollar}1\\,125\\,800$ en 3 años, con interés compuesto anual $r$.",
+          "Capital $\\text{\\textdollar}1,\\!000,\\!000$ today; target $\\text{\\textdollar}1,\\!125,\\!800$ in 3 years, at compound annual rate $r$.",
+        ),
+        step(
+          "approach",
+          "Plantear el modelo $1\\,000\\,000\\,(1+r)^{3} = 1\\,125\\,800$, aislar $(1+r)^{3} = 1{,}1258$ y acotar $r$ con un «sandwich» de tasas de un décimo de punto; la raíz cúbica da el valor fino.",
+          "Set up the model $1,\\!000,\\!000\\,(1+r)^{3} = 1,\\!125,\\!800$, isolate $(1+r)^{3} = 1.1258$ and bound $r$ with a “sandwich” of tenth-of-a-point rates; the cube root gives the fine value.",
+        ),
+        step(
+          "calculation",
+          "$(1+r)^{3} = \\dfrac{1\\,125\\,800}{1\\,000\\,000} = 1{,}1258$.<br>Sandwich: $(1{,}04)^{3} = 1{,}124\\,864 < 1{,}1258 < (1{,}041)^{3} \\approx 1{,}128\\,14$, así que $4\\% < r < 4{,}1\\%$.<br>Raíz cúbica: $r = 1{,}1258^{1/3} - 1 \\approx 0{,}0403$.",
+          "$(1+r)^{3} = \\dfrac{1,\\!125,\\!800}{1,\\!000,\\!000} = 1.1258$.<br>Sandwich: $(1.04)^{3} = 1.124\\,864 < 1.1258 < (1.041)^{3} \\approx 1.128\\,14$, so $4\\% < r < 4.1\\%$.<br>Cube root: $r = 1.1258^{1/3} - 1 \\approx 0.0403$.",
+        ),
+        step(
+          "result",
+          "La tasa debe ser $r \\approx 4{,}03\\%$ (entre $4\\%$ y $4{,}1\\%$). Verificación: $(1{,}0403)^{3} \\approx 1{,}125\\,84 \\approx 1{,}1258$ ✓: un capital de $\\text{\\textdollar}1\\,000\\,000$ crece hasta unos $\\text{\\textdollar}1\\,125\\,800$ en 3 años.",
+          "The rate must be $r \\approx 4.03\\%$ (between $4\\%$ and $4.1\\%$). Check: $(1.0403)^{3} \\approx 1.125\\,84 \\approx 1.1258$ ✓: a capital of $\\text{\\textdollar}1,\\!000,\\!000$ grows to about $\\text{\\textdollar}1,\\!125,\\!800$ in 3 years.",
+        ),
+      ],
+    }),
+  ),
+
+  /* S4 · 15 — expansión: (1+r)² = 3245/3000 → r ≈ 4.0 % (pegado al 4 %). */
+  template(
+    {
+      id: "exp-uees-15",
+      subject: "math",
+      topicId: "exponential",
+      subtopicId: "equations",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 240,
+      tags: ["compound-interest", "exponential-equation", "money", "word-problem"],
+      prerequisites: ["equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "4 · 15",
+        page: 4,
+      },
+      reasoning: "modeling",
+    },
+    () => ({
+      skill: L(
+        "Tasa compuesta bienal que une un capital con su meta (2 años)",
+        "Two-year compound rate linking a capital to its target (2 years)",
+      ),
+      statement: L(
+        "Programa de expansión. En dos años, una compañía iniciará un programa de expansión. Ha decidido invertir $\\text{\\textdollar}3\\,000\\,000$ ahora de modo que en dos años el valor total de la inversión sea de $\\text{\\textdollar}3\\,245\\,000$, la cantidad requerida para la expansión. ¿Cuál es la tasa de interés anual, compuesta anualmente, que la compañía debe recibir para alcanzar su objetivo?\n\n(escriba el porcentaje como número decimal, sin el signo %; por ejemplo, 4,25 para 4,25 %)",
+        "Expansion program. In two years, a company will begin an expansion program. It has decided to invest $\\text{\\textdollar}3,\\!000,\\!000$ now so that in two years the total value of the investment will be $\\text{\\textdollar}3,\\!245,\\!000$, the amount required for the expansion. What annual rate of interest, compounded annually, must the company receive to reach its goal?\n\n(give the percentage as a decimal number, without the % sign; e.g. 4.25 for 4.25%)",
+      ),
+      answer: { kind: "numeric", value: 4.0, tolerance: { mode: "absolute", value: 0.3 } },
+      hints: [
+        L(
+          "Modelo: $3\\,000\\,000\\,(1+r)^{2} = 3\\,245\\,000$, o sea $(1+r)^{2} = \\frac{3245}{3000} = 1{,}081\\,67$.",
+          "Model: $3,\\!000,\\!000\\,(1+r)^{2} = 3,\\!245,\\!000$, i.e. $(1+r)^{2} = \\frac{3245}{3000} = 1.081\\,67$.",
+        ),
+        L(
+          "Prueba $r = 4\\%$: $(1{,}04)^{2} = 1{,}0816$, apenas por debajo de $1{,}081\\,67$.",
+          "Test $r = 4\\%$: $(1.04)^{2} = 1.0816$, just below $1.081\\,67$.",
+        ),
+        L(
+          "$(1{,}041)^{2} = 1{,}083\\,681$ se pasa: la tasa queda entre $4\\%$ y $4{,}1\\%$, pegada al $4\\%$.",
+          "$(1.041)^{2} = 1.083\\,681$ overshoots: the rate stays between $4\\%$ and $4.1\\%$, glued to $4\\%$.",
+        ),
+      ],
+      answerDisplay: L(
+        "$(1+r)^{2} = \\frac{3245}{3000} \\Rightarrow r \\approx 0{,}0400 = 4{,}0\\%$",
+        "$(1+r)^{2} = \\frac{3245}{3000} \\Rightarrow r \\approx 0.0400 = 4.0\\%$",
+      ),
+      solution: [
+        step(
+          "given",
+          "Capital $\\text{\\textdollar}3\\,000\\,000$ hoy; meta $\\text{\\textdollar}3\\,245\\,000$ en 2 años, con interés compuesto anual $r$.",
+          "Capital $\\text{\\textdollar}3,\\!000,\\!000$ today; target $\\text{\\textdollar}3,\\!245,\\!000$ in 2 years, at compound annual rate $r$.",
+        ),
+        step(
+          "approach",
+          "Plantear $3\\,000\\,000\\,(1+r)^{2} = 3\\,245\\,000$, aislar $(1+r)^{2} = \\frac{3245}{3000}$ y acotar $r$ probando $4\\%$ y $4{,}1\\%$; la raíz cuadrada da el valor fino.",
+          "Set up $3,\\!000,\\!000\\,(1+r)^{2} = 3,\\!245,\\!000$, isolate $(1+r)^{2} = \\frac{3245}{3000}$ and bound $r$ by testing $4\\%$ and $4.1\\%$; the square root gives the fine value.",
+        ),
+        step(
+          "calculation",
+          "$(1+r)^{2} = \\dfrac{3\\,245\\,000}{3\\,000\\,000} = \\dfrac{3245}{3000} = 1{,}081\\,67$.<br>Sandwich: $(1{,}04)^{2} = 1{,}0816 \\approx 1{,}08167 < (1{,}041)^{2} = 1{,}083\\,681$, así que $r$ queda apenas por encima de $4\\%$.<br>Raíz cuadrada: $r = \\sqrt{1{,}08167} - 1 \\approx 0{,}0400$.",
+          "$(1+r)^{2} = \\dfrac{3,\\!245,\\!000}{3,\\!000,\\!000} = \\dfrac{3245}{3000} = 1.081\\,67$.<br>Sandwich: $(1.04)^{2} = 1.0816 \\approx 1.08167 < (1.041)^{2} = 1.083\\,681$, so $r$ stays just above $4\\%$.<br>Square root: $r = \\sqrt{1.08167} - 1 \\approx 0.0400$.",
+        ),
+        step(
+          "result",
+          "La tasa debe ser $r \\approx 4{,}0\\%$ (un poco más: $4{,}003\\%$). Verificación: $(1{,}04)^{2}\\cdot 3\\,000\\,000 = 3\\,244\\,800$, a solo $\\text{\\textdollar}200$ de la meta, y $(1{,}04003)^{2}\\cdot 3\\,000\\,000 \\approx 3\\,245\\,000$ ✓.",
+          "The rate must be $r \\approx 4.0\\%$ (a bit more: $4.003\\%$). Check: $(1.04)^{2}\\cdot 3,\\!000,\\!000 = 3,\\!244,\\!800$, only $\\text{\\textdollar}200$ short of the target, and $(1.04003)^{2}\\cdot 3,\\!000,\\!000 \\approx 3,\\!245,\\!000$ ✓.",
+        ),
+      ],
+    }),
+  ),
 ];

@@ -193,12 +193,13 @@ function sessionLabel(s: SessionRecord, lang: "es" | "en"): string {
       : lang === "es"
         ? "Mixto"
         : "Mixed";
+  const examStr = s.mode === "exam" ? (lang === "es" ? " · Examen" : " · Exam") : "";
   if (s.topicId && s.subjects.length === 1) {
     const cur = s.subjects[0] === "math" ? mathCurriculum : physicsCurriculum;
     const topic = cur.find((tp) => tp.id === s.topicId);
-    if (topic) return `${subjectStr} · ${topic.name[lang]}`;
+    if (topic) return `${subjectStr} · ${topic.name[lang]}${examStr}`;
   }
-  return subjectStr;
+  return `${subjectStr}${examStr}`;
 }
 
 export function ProgressView() {

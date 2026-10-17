@@ -3812,4 +3812,3095 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+
+  /* ================================================================== */
+  /* Tarea UEES · «EJERCICIOS DE REPASO 1ER PARCIAL MATEMATICAS I»       */
+  /* (tutor's own compiled assignment, uploaded 2026-10-17). Bloque 8-c: */
+  /* Sección 4 · Ecuaciones cuadráticas 45-63 (pág. 3) — todas MC cuyas */
+  /* opciones son conjuntos completos de soluciones reales — y Sección   */
+  /* 17 · Funciones cuadráticas 9-22 (vértice) + 29-33 (aplicaciones),  */
+  /* pág. 19. La hoja NO trae clave impresa: cada respuesta fue         */
+  /* derivada y verificada con sympy (download/verify_repaso1.py, 417   */
+  /* checks, 0 FAIL); enunciados transcritos de las capturas VLM del    */
+  /* DOCX (download/repaso1-pages/vlm-p-03.json y vlm-p-19.json).       */
+  /* #46: sobre ℝ sólo se conserva ±√5 (la rama X² = −2 se rechaza).    */
+  /* #30 (challenge): vértice continuo q = 8500/9 ≈ 944,44 NO entero —  */
+  /* entre producciones diarias enteras gana q = 944 por 5·10⁻⁵ sobre   */
+  /* 945; ambos redondean a R ≈ 401,39 (exacto 7225/18).                */
+  /* ================================================================== */
+
+  /* S4 · 45 — bicuadrática x⁴−5x²+6 = 0: u = x² → ±√2, ±√3. */
+  template(
+    {
+      id: "quad-uees-45",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "standard-form",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["biquadratic", "substitution", "solution-set"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "4 · 45",
+        page: 3,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$x = \\pm\\sqrt{2},\\ \\pm\\sqrt{3}$`, `$x = \\pm\\sqrt{2},\\ \\pm\\sqrt{3}$`), correct: true },
+        { id: "b", text: L(`$x = \\sqrt{2},\\ \\sqrt{3}$`, `$x = \\sqrt{2},\\ \\sqrt{3}$`), correct: false },
+        { id: "c", text: L(`$x = \\pm 2,\\ \\pm 3$`, `$x = \\pm 2,\\ \\pm 3$`), correct: false },
+        { id: "d", text: L(`$x = \\pm\\sqrt{2}$`, `$x = \\pm\\sqrt{2}$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Ecuación bicuadrática: la sustitución u = x²",
+          "Biquadratic equation: the substitution u = x²",
+        ),
+        statement: L(
+          "Resuelva la ecuación (si usa sustitución, indique el conjunto de soluciones reales):\n\n$$x^4 - 5x^2 + 6 = 0$$",
+          "Solve the equation (if you use a substitution, give the set of real solutions):\n\n$$x^4 - 5x^2 + 6 = 0$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "La ecuación NO es cuadrática en $x$, pero sí en otra «letra»: como $x^4 = (x^2)^2$, ¿cuál es la sustitución natural?",
+            "The equation is NOT quadratic in $x$, but it is in another “letter”: since $x^4 = (x^2)^2$, what is the natural substitution?",
+          ),
+          L(
+            "Con $u = x^2$ queda $u^2 - 5u + 6 = 0$: factoriza buscando dos números que multipliquen $6$ y sumen $-5$.",
+            "With $u = x^2$ you get $u^2 - 5u + 6 = 0$: factor it by looking for two numbers whose product is $6$ and whose sum is $-5$.",
+          ),
+          L(
+            "La cuadrática en $u$ da $u = 2$ y $u = 3$. Falta deshacer el cambio: cada $x^2 = u > 0$ produce DOS soluciones.",
+            "The quadratic in $u$ gives $u = 2$ and $u = 3$. Now undo the substitution: each $x^2 = u > 0$ produces TWO solutions.",
+          ),
+        ],
+        answerDisplay: L(
+          "$x = \\pm\\sqrt{2},\\ \\pm\\sqrt{3}$",
+          "$x = \\pm\\sqrt{2},\\ \\pm\\sqrt{3}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La ecuación bicuadrática $x^4 - 5x^2 + 6 = 0$ (tarea UEES, sección 4).",
+            "The biquadratic equation $x^4 - 5x^2 + 6 = 0$ (UEES assignment, section 4).",
+          ),
+          step(
+            "approach",
+            "Sustituir $u = x^2$ (con $u \\ge 0$) para volverla cuadrática en $u$, resolver y deshacer el cambio recordando que $x^2 = u$ con $u > 0$ da $x = \\pm\\sqrt{u}$.",
+            "Substitute $u = x^2$ (with $u \\ge 0$) to make it quadratic in $u$, solve, and undo the substitution remembering that $x^2 = u$ with $u > 0$ gives $x = \\pm\\sqrt{u}$.",
+          ),
+          step(
+            "calculation",
+            "$u^2 - 5u + 6 = (u - 2)(u - 3) = 0$, así que $u = 2$ ó $u = 3$.<br>$u = 2$: $x^2 = 2 \\Rightarrow x = \\pm\\sqrt{2}$.<br>$u = 3$: $x^2 = 3 \\Rightarrow x = \\pm\\sqrt{3}$.",
+            "$u^2 - 5u + 6 = (u - 2)(u - 3) = 0$, so $u = 2$ or $u = 3$.<br>$u = 2$: $x^2 = 2 \\Rightarrow x = \\pm\\sqrt{2}$.<br>$u = 3$: $x^2 = 3 \\Rightarrow x = \\pm\\sqrt{3}$.",
+          ),
+          step(
+            "result",
+            "Conjunto de soluciones reales: $x = \\pm\\sqrt{2},\\ \\pm\\sqrt{3}$. Verificación: $(\\sqrt{2})^4 - 5(\\sqrt{2})^2 + 6 = 4 - 10 + 6 = 0$ ✓ y $(\\sqrt{3})^4 - 5(\\sqrt{3})^2 + 6 = 9 - 15 + 6 = 0$ ✓ (las potencias pares no distinguen los signos).",
+            "Set of real solutions: $x = \\pm\\sqrt{2},\\ \\pm\\sqrt{3}$. Check: $(\\sqrt{2})^4 - 5(\\sqrt{2})^2 + 6 = 4 - 10 + 6 = 0$ ✓ and $(\\sqrt{3})^4 - 5(\\sqrt{3})^2 + 6 = 9 - 15 + 6 = 0$ ✓ (even powers do not distinguish the signs).",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S4 · 46 — X⁴−3X²−10 = 0: sobre ℝ se rechaza X² = −2 → ±√5. */
+  template(
+    {
+      id: "quad-uees-46",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "standard-form",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["biquadratic", "substitution", "real-solutions"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "4 · 46",
+        page: 3,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$X = \\pm\\sqrt{5}$`, `$X = \\pm\\sqrt{5}$`), correct: true },
+        { id: "b", text: L(`$X = \\pm\\sqrt{5},\\ \\pm i\\sqrt{2}$`, `$X = \\pm\\sqrt{5},\\ \\pm i\\sqrt{2}$`), correct: false },
+        { id: "c", text: L(`$X = \\pm\\sqrt{10}$`, `$X = \\pm\\sqrt{10}$`), correct: false },
+        { id: "d", text: L(`$\\varnothing$`, `$\\varnothing$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Bicuadrática con rama negativa: se rechaza sobre los reales",
+          "Biquadratic with a negative branch: rejected over the reals",
+        ),
+        statement: L(
+          "Resuelva la ecuación (si usa sustitución, indique el conjunto de soluciones reales):\n\n$$X^4 - 3X^2 - 10 = 0$$",
+          "Solve the equation (if you use a substitution, give the set of real solutions):\n\n$$X^4 - 3X^2 - 10 = 0$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Con $u = X^2$ la ecuación se vuelve cuadrática; resuélvela y mira con cuidado los DOS valores de $u$.",
+            "With $u = X^2$ the equation becomes quadratic; solve it and look carefully at the TWO values of $u$.",
+          ),
+          L(
+            "$u^2 - 3u - 10 = (u - 5)(u + 2) = 0$ da $u = 5$ y $u = -2$. Como $u = X^2$, un valor negativo de $u$ no produce ninguna $X$ real.",
+            "$u^2 - 3u - 10 = (u - 5)(u + 2) = 0$ gives $u = 5$ and $u = -2$. Since $u = X^2$, a negative value of $u$ produces no real $X$.",
+          ),
+          L(
+            "Sobre los reales sólo queda la rama $X^2 = 5$; la rama $X^2 = -2$ se rechaza (daría $X = \\pm i\\sqrt{2}$, imaginarios).",
+            "Over the reals only the branch $X^2 = 5$ survives; the branch $X^2 = -2$ is rejected (it would give $X = \\pm i\\sqrt{2}$, imaginary).",
+          ),
+        ],
+        answerDisplay: L(
+          "$X = \\pm\\sqrt{5}$",
+          "$X = \\pm\\sqrt{5}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La ecuación bicuadrática $X^4 - 3X^2 - 10 = 0$; se pide el conjunto de soluciones REALES.",
+            "The biquadratic equation $X^4 - 3X^2 - 10 = 0$; the set of REAL solutions is requested.",
+          ),
+          step(
+            "approach",
+            "Sustitución $u = X^2$ y, al deshacer, respetar la restricción $u = X^2 \\ge 0$: una rama negativa de $u$ se descarta sobre $\\mathbb{R}$.",
+            "Substitute $u = X^2$ and, when undoing, respect the restriction $u = X^2 \\ge 0$: a negative branch of $u$ is discarded over $\\mathbb{R}$.",
+          ),
+          step(
+            "calculation",
+            "$u^2 - 3u - 10 = (u - 5)(u + 2) = 0 \\Rightarrow u = 5$ ó $u = -2$.<br>$u = 5$: $X^2 = 5 \\Rightarrow X = \\pm\\sqrt{5}$.<br>$u = -2$: $X^2 = -2$ no tiene solución real (se rechaza).",
+            "$u^2 - 3u - 10 = (u - 5)(u + 2) = 0 \\Rightarrow u = 5$ or $u = -2$.<br>$u = 5$: $X^2 = 5 \\Rightarrow X = \\pm\\sqrt{5}$.<br>$u = -2$: $X^2 = -2$ has no real solution (rejected).",
+          ),
+          step(
+            "result",
+            "Conjunto de soluciones reales: $X = \\pm\\sqrt{5}$. La rama $X^2 = -2$ daría $X = \\pm i\\sqrt{2}$, que NO son reales: se descarta ✓. Verificación: $(\\sqrt{5})^4 - 3(\\sqrt{5})^2 - 10 = 25 - 15 - 10 = 0$ ✓.",
+            "Set of real solutions: $X = \\pm\\sqrt{5}$. The branch $X^2 = -2$ would give $X = \\pm i\\sqrt{2}$, which are NOT real: discarded ✓. Check: $(\\sqrt{5})^4 - 3(\\sqrt{5})^2 - 10 = 25 - 15 - 10 = 0$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S4 · 47 — 3/x² − 7/x + 2 = 0: u = 1/x → x = 1/2, 3. */
+  template(
+    {
+      id: "quad-uees-47",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "standard-form",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["substitution", "reciprocal", "rational-equation"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "4 · 47",
+        page: 3,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$x = \\frac{1}{2},\\ 3$`, `$x = \\frac{1}{2},\\ 3$`), correct: true },
+        { id: "b", text: L(`$x = 2,\\ \\frac{1}{3}$`, `$x = 2,\\ \\frac{1}{3}$`), correct: false },
+        { id: "c", text: L(`$x = -\\frac{1}{2},\\ -3$`, `$x = -\\frac{1}{2},\\ -3$`), correct: false },
+        { id: "d", text: L(`$x = \\frac{7}{6}$`, `$x = \\frac{7}{6}$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Cuadrática en 1/x: sustitución y deshacer el cambio",
+          "Quadratic in 1/x: substitute and undo the change",
+        ),
+        statement: L(
+          "Resuelva la ecuación (si usa sustitución, indique el conjunto de soluciones reales):\n\n$$\\frac{3}{x^2} - \\frac{7}{x} + 2 = 0$$",
+          "Solve the equation (if you use a substitution, give the set of real solutions):\n\n$$\\frac{3}{x^2} - \\frac{7}{x} + 2 = 0$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "No es cuadrática en $x$, pero sí en $\\frac{1}{x}$: $\\frac{1}{x^2} = \\left(\\frac{1}{x}\\right)^2$. ¿Cuál es la letra natural para el cambio de variable?",
+            "It is not quadratic in $x$, but it is in $\\frac{1}{x}$: $\\frac{1}{x^2} = \\left(\\frac{1}{x}\\right)^2$. What is the natural letter for the change of variable?",
+          ),
+          L(
+            "Con $u = \\frac{1}{x}$ (y $x \\ne 0$) queda $3u^2 - 7u + 2 = 0$, factorizable con coeficientes $3$ y $1$.",
+            "With $u = \\frac{1}{x}$ (and $x \\ne 0$) you get $3u^2 - 7u + 2 = 0$, factorable with coefficients $3$ and $1$.",
+          ),
+          L(
+            "$3u^2 - 7u + 2 = (3u - 1)(u - 2) = 0$ da $u = \\frac{1}{3}$ y $u = 2$; todavía falta deshacer $x = \\frac{1}{u}$.",
+            "$3u^2 - 7u + 2 = (3u - 1)(u - 2) = 0$ gives $u = \\frac{1}{3}$ and $u = 2$; you still have to undo $x = \\frac{1}{u}$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$x = \\frac{1}{2},\\ 3$",
+          "$x = \\frac{1}{2},\\ 3$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La ecuación $\\frac{3}{x^2} - \\frac{7}{x} + 2 = 0$ (tarea UEES, sección 4), con $x \\ne 0$.",
+            "The equation $\\frac{3}{x^2} - \\frac{7}{x} + 2 = 0$ (UEES assignment, section 4), with $x \\ne 0$.",
+          ),
+          step(
+            "approach",
+            "Cambiar de letra: $u = \\frac{1}{x}$ vuelve la ecuación cuadrática en $u$; tras resolver, se deshace con $x = \\frac{1}{u}$ y se comprueba que ninguna raíz coincida con el polo $x = 0$.",
+            "Change the letter: $u = \\frac{1}{x}$ makes the equation quadratic in $u$; after solving, undo with $x = \\frac{1}{u}$ and check that no root coincides with the pole $x = 0$.",
+          ),
+          step(
+            "calculation",
+            "$u = \\frac{1}{x}$: $3u^2 - 7u + 2 = (3u - 1)(u - 2) = 0 \\Rightarrow u = \\frac{1}{3}$ ó $u = 2$.<br>Deshaciendo: $x = \\frac{1}{u}$ da $x = 3$ y $x = \\frac{1}{2}$.",
+            "$u = \\frac{1}{x}$: $3u^2 - 7u + 2 = (3u - 1)(u - 2) = 0 \\Rightarrow u = \\frac{1}{3}$ or $u = 2$.<br>Undoing: $x = \\frac{1}{u}$ gives $x = 3$ and $x = \\frac{1}{2}$.",
+          ),
+          step(
+            "result",
+            "$x = \\frac{1}{2},\\ 3$; ninguna es el polo $x = 0$ ✓. Verificación: $x = \\frac{1}{2}$: $\\frac{3}{1/4} - \\frac{7}{1/2} + 2 = 12 - 14 + 2 = 0$ ✓; $x = 3$: $\\frac{3}{9} - \\frac{7}{3} + 2 = \\frac{1}{3} - \\frac{7}{3} + 2 = 0$ ✓.",
+            "$x = \\frac{1}{2},\\ 3$; neither is the pole $x = 0$ ✓. Check: $x = \\frac{1}{2}$: $\\frac{3}{1/4} - \\frac{7}{1/2} + 2 = 12 - 14 + 2 = 0$ ✓; $x = 3$: $\\frac{3}{9} - \\frac{7}{3} + 2 = \\frac{1}{3} - \\frac{7}{3} + 2 = 0$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S4 · 48 — x⁻²−x⁻¹−6 = 0: u = 1/x → x = 1/3, −1/2. */
+  template(
+    {
+      id: "quad-uees-48",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "standard-form",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["negative-exponents", "substitution", "rational-equation"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "4 · 48",
+        page: 3,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$x = \\frac{1}{3},\\ -\\frac{1}{2}$`, `$x = \\frac{1}{3},\\ -\\frac{1}{2}$`), correct: true },
+        { id: "b", text: L(`$x = 3,\\ -2$`, `$x = 3,\\ -2$`), correct: false },
+        { id: "c", text: L(`$x = \\frac{1}{3}$`, `$x = \\frac{1}{3}$`), correct: false },
+        { id: "d", text: L(`$x = -\\frac{1}{3},\\ \\frac{1}{2}$`, `$x = -\\frac{1}{3},\\ \\frac{1}{2}$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Exponentes negativos: la cuadrática escondida en x⁻¹",
+          "Negative exponents: the quadratic hidden in x⁻¹",
+        ),
+        statement: L(
+          "Resuelva la ecuación (si usa sustitución, indique el conjunto de soluciones reales):\n\n$$x^{-2} - x^{-1} - 6 = 0$$",
+          "Solve the equation (if you use a substitution, give the set of real solutions):\n\n$$x^{-2} - x^{-1} - 6 = 0$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Los exponentes negativos esconden potencias de $\\frac{1}{x}$: $x^{-2} = (x^{-1})^2$. Define $u$ con esa expresión.",
+            "The negative exponents hide powers of $\\frac{1}{x}$: $x^{-2} = (x^{-1})^2$. Define $u$ with that expression.",
+          ),
+          L(
+            "$u = x^{-1} = \\frac{1}{x}$ (con $x \\ne 0$) da $u^2 - u - 6 = 0$: dos enteros que multipliquen $-6$ y sumen $-1$.",
+            "$u = x^{-1} = \\frac{1}{x}$ (with $x \\ne 0$) gives $u^2 - u - 6 = 0$: two integers whose product is $-6$ and whose sum is $-1$.",
+          ),
+          L(
+            "$u^2 - u - 6 = (u - 3)(u + 2) = 0$ da $u = 3$ y $u = -2$; deshaz con $x = \\frac{1}{u}$ (¡no confundas $u$ con $x$!).",
+            "$u^2 - u - 6 = (u - 3)(u + 2) = 0$ gives $u = 3$ and $u = -2$; undo with $x = \\frac{1}{u}$ (do not confuse $u$ with $x$!).",
+          ),
+        ],
+        answerDisplay: L(
+          "$x = \\frac{1}{3},\\ -\\frac{1}{2}$",
+          "$x = \\frac{1}{3},\\ -\\frac{1}{2}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La ecuación $x^{-2} - x^{-1} - 6 = 0$, es decir $\\frac{1}{x^2} - \\frac{1}{x} - 6 = 0$ con $x \\ne 0$.",
+            "The equation $x^{-2} - x^{-1} - 6 = 0$, that is $\\frac{1}{x^2} - \\frac{1}{x} - 6 = 0$ with $x \\ne 0$.",
+          ),
+          step(
+            "approach",
+            "Sustitución $u = x^{-1}$: la ecuación se vuelve $u^2 - u - 6 = 0$; al deshacer, $x = \\frac{1}{u}$ (el distractor clásico es quedarse en los valores de $u$).",
+            "Substitution $u = x^{-1}$: the equation becomes $u^2 - u - 6 = 0$; when undoing, $x = \\frac{1}{u}$ (the classic trap is to stay with the values of $u$).",
+          ),
+          step(
+            "calculation",
+            "$u^2 - u - 6 = (u - 3)(u + 2) = 0 \\Rightarrow u = 3$ ó $u = -2$.<br>Deshaciendo: $x = \\frac{1}{3}$ y $x = -\\frac{1}{2}$.",
+            "$u^2 - u - 6 = (u - 3)(u + 2) = 0 \\Rightarrow u = 3$ or $u = -2$.<br>Undoing: $x = \\frac{1}{3}$ and $x = -\\frac{1}{2}$.",
+          ),
+          step(
+            "result",
+            "$x = \\frac{1}{3},\\ -\\frac{1}{2}$; ninguna es el polo $x = 0$ ✓. Verificación: $x = \\frac{1}{3}$: $9 - 3 - 6 = 0$ ✓; $x = -\\frac{1}{2}$: $4 + 2 - 6 = 0$ ✓.",
+            "$x = \\frac{1}{3},\\ -\\frac{1}{2}$; neither is the pole $x = 0$ ✓. Check: $x = \\frac{1}{3}$: $9 - 3 - 6 = 0$ ✓; $x = -\\frac{1}{2}$: $4 + 2 - 6 = 0$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S4 · 49 — x⁻⁴−9x⁻²+20 = 0: u = x⁻² → ±1/2, ±1/√5. */
+  template(
+    {
+      id: "quad-uees-49",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "standard-form",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["negative-exponents", "substitution", "solution-set"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "4 · 49",
+        page: 3,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$x = \\pm\\frac{1}{2},\\ \\pm\\frac{1}{\\sqrt{5}}$`, `$x = \\pm\\frac{1}{2},\\ \\pm\\frac{1}{\\sqrt{5}}$`), correct: true },
+        { id: "b", text: L(`$x = \\pm 4,\\ \\pm 5$`, `$x = \\pm 4,\\ \\pm 5$`), correct: false },
+        { id: "c", text: L(`$x = \\pm\\frac{1}{2}$`, `$x = \\pm\\frac{1}{2}$`), correct: false },
+        { id: "d", text: L(`$x = \\pm\\frac{1}{\\sqrt{20}}$`, `$x = \\pm\\frac{1}{\\sqrt{20}}$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Bicuadrática en x⁻²: cuatro soluciones reales",
+          "Biquadratic in x⁻²: four real solutions",
+        ),
+        statement: L(
+          "Resuelva la ecuación (si usa sustitución, indique el conjunto de soluciones reales):\n\n$$x^{-4} - 9x^{-2} + 20 = 0$$",
+          "Solve the equation (if you use a substitution, give the set of real solutions):\n\n$$x^{-4} - 9x^{-2} + 20 = 0$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "$x^{-4} = (x^{-2})^2$: la ecuación es cuadrática en $x^{-2} = \\frac{1}{x^2}$.",
+            "$x^{-4} = (x^{-2})^2$: the equation is quadratic in $x^{-2} = \\frac{1}{x^2}$.",
+          ),
+          L(
+            "$u = x^{-2}$ da $u^2 - 9u + 20 = (u - 4)(u - 5) = 0$.",
+            "$u = x^{-2}$ gives $u^2 - 9u + 20 = (u - 4)(u - 5) = 0$.",
+          ),
+          L(
+            "$u = 4$ y $u = 5$; deshaz con $x^2 = \\frac{1}{u}$: cada rama aporta un par $\\pm$ (en total, cuatro soluciones).",
+            "$u = 4$ and $u = 5$; undo with $x^2 = \\frac{1}{u}$: each branch contributes a $\\pm$ pair (four solutions in total).",
+          ),
+        ],
+        answerDisplay: L(
+          "$x = \\pm\\frac{1}{2},\\ \\pm\\frac{1}{\\sqrt{5}}$",
+          "$x = \\pm\\frac{1}{2},\\ \\pm\\frac{1}{\\sqrt{5}}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La ecuación $x^{-4} - 9x^{-2} + 20 = 0$, con $x \\ne 0$.",
+            "The equation $x^{-4} - 9x^{-2} + 20 = 0$, with $x \\ne 0$.",
+          ),
+          step(
+            "approach",
+            "Sustitución $u = x^{-2}$; cada $u > 0$ se deshace con $x^2 = \\frac{1}{u}$, que produce dos soluciones $\\pm$.",
+            "Substitution $u = x^{-2}$; each $u > 0$ is undone with $x^2 = \\frac{1}{u}$, which produces two $\\pm$ solutions.",
+          ),
+          step(
+            "calculation",
+            "$u^2 - 9u + 20 = (u - 4)(u - 5) = 0 \\Rightarrow u = 4$ ó $u = 5$.<br>$u = 4$: $x^2 = \\frac{1}{4} \\Rightarrow x = \\pm\\frac{1}{2}$.<br>$u = 5$: $x^2 = \\frac{1}{5} \\Rightarrow x = \\pm\\frac{1}{\\sqrt{5}} = \\pm\\frac{\\sqrt{5}}{5}$.",
+            "$u^2 - 9u + 20 = (u - 4)(u - 5) = 0 \\Rightarrow u = 4$ or $u = 5$.<br>$u = 4$: $x^2 = \\frac{1}{4} \\Rightarrow x = \\pm\\frac{1}{2}$.<br>$u = 5$: $x^2 = \\frac{1}{5} \\Rightarrow x = \\pm\\frac{1}{\\sqrt{5}} = \\pm\\frac{\\sqrt{5}}{5}$.",
+          ),
+          step(
+            "result",
+            "$x = \\pm\\frac{1}{2},\\ \\pm\\frac{1}{\\sqrt{5}}$ (cuatro soluciones reales; ninguna es el polo $x = 0$ ✓). Verificación: $x = \\frac{1}{2}$: $16 - 36 + 20 = 0$ ✓; $x = \\frac{1}{\\sqrt{5}}$: $x^{-2} = 5$ y $x^{-4} = 25$: $25 - 45 + 20 = 0$ ✓.",
+            "$x = \\pm\\frac{1}{2},\\ \\pm\\frac{1}{\\sqrt{5}}$ (four real solutions; none is the pole $x = 0$ ✓). Check: $x = \\frac{1}{2}$: $16 - 36 + 20 = 0$ ✓; $x = \\frac{1}{\\sqrt{5}}$: $x^{-2} = 5$ and $x^{-4} = 25$: $25 - 45 + 20 = 0$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S4 · 50 — 1/x⁴−9/x²+8 = 0: u = 1/x² → ±1, ±√2/4. */
+  template(
+    {
+      id: "quad-uees-50",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "standard-form",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["substitution", "reciprocal", "solution-set"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "4 · 50",
+        page: 3,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$x = \\pm 1,\\ \\pm\\frac{\\sqrt{2}}{4}$`, `$x = \\pm 1,\\ \\pm\\frac{\\sqrt{2}}{4}$`), correct: true },
+        { id: "b", text: L(`$x = \\pm 1$`, `$x = \\pm 1$`), correct: false },
+        { id: "c", text: L(`$x = \\pm 8,\\ \\pm 1$`, `$x = \\pm 8,\\ \\pm 1$`), correct: false },
+        { id: "d", text: L(`$x = \\pm 1,\\ \\pm\\frac{1}{8}$`, `$x = \\pm 1,\\ \\pm\\frac{1}{8}$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Fracciones con x⁴ y x²: sustitución u = 1/x²",
+          "Fractions with x⁴ and x²: the substitution u = 1/x²",
+        ),
+        statement: L(
+          "Resuelva la ecuación (si usa sustitución, indique el conjunto de soluciones reales):\n\n$$\\frac{1}{x^4} - \\frac{9}{x^2} + 8 = 0$$",
+          "Solve the equation (if you use a substitution, give the set of real solutions):\n\n$$\\frac{1}{x^4} - \\frac{9}{x^2} + 8 = 0$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Escribe las fracciones como potencias: $\\frac{1}{x^4} = x^{-4} = (x^{-2})^2$. La sustitución natural es $u = \\frac{1}{x^2}$.",
+            "Write the fractions as powers: $\\frac{1}{x^4} = x^{-4} = (x^{-2})^2$. The natural substitution is $u = \\frac{1}{x^2}$.",
+          ),
+          L(
+            "$u = \\frac{1}{x^2}$ (con $x \\ne 0$) da $u^2 - 9u + 8 = 0$, factorizable con producto $8$ y suma $-9$.",
+            "$u = \\frac{1}{x^2}$ (with $x \\ne 0$) gives $u^2 - 9u + 8 = 0$, factorable with product $8$ and sum $-9$.",
+          ),
+          L(
+            "$u = 1$ y $u = 8$; deshaz con $x^2 = \\frac{1}{u}$: la segunda rama da $x = \\pm\\frac{1}{\\sqrt{8}}$, que simplifica a $\\pm\\frac{\\sqrt{2}}{4}$.",
+            "$u = 1$ and $u = 8$; undo with $x^2 = \\frac{1}{u}$: the second branch gives $x = \\pm\\frac{1}{\\sqrt{8}}$, which simplifies to $\\pm\\frac{\\sqrt{2}}{4}$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$x = \\pm 1,\\ \\pm\\frac{\\sqrt{2}}{4}$",
+          "$x = \\pm 1,\\ \\pm\\frac{\\sqrt{2}}{4}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La ecuación $\\frac{1}{x^4} - \\frac{9}{x^2} + 8 = 0$, con $x \\ne 0$.",
+            "The equation $\\frac{1}{x^4} - \\frac{9}{x^2} + 8 = 0$, with $x \\ne 0$.",
+          ),
+          step(
+            "approach",
+            "Sustitución $u = \\frac{1}{x^2}$; se resuelve la cuadrática en $u$ y se deshace con $x^2 = \\frac{1}{u}$ cuidando el signo y el $\\pm$.",
+            "Substitution $u = \\frac{1}{x^2}$; solve the quadratic in $u$ and undo with $x^2 = \\frac{1}{u}$, taking care of the sign and the $\\pm$.",
+          ),
+          step(
+            "calculation",
+            "$u^2 - 9u + 8 = (u - 1)(u - 8) = 0 \\Rightarrow u = 1$ ó $u = 8$.<br>$u = 1$: $x^2 = 1 \\Rightarrow x = \\pm 1$.<br>$u = 8$: $x^2 = \\frac{1}{8} \\Rightarrow x = \\pm\\frac{1}{\\sqrt{8}} = \\pm\\frac{\\sqrt{2}}{4}$.",
+            "$u^2 - 9u + 8 = (u - 1)(u - 8) = 0 \\Rightarrow u = 1$ or $u = 8$.<br>$u = 1$: $x^2 = 1 \\Rightarrow x = \\pm 1$.<br>$u = 8$: $x^2 = \\frac{1}{8} \\Rightarrow x = \\pm\\frac{1}{\\sqrt{8}} = \\pm\\frac{\\sqrt{2}}{4}$.",
+          ),
+          step(
+            "result",
+            "$x = \\pm 1,\\ \\pm\\frac{\\sqrt{2}}{4}$ (equivale a $\\pm\\frac{1}{\\sqrt{8}}$; ninguna es el polo $x = 0$ ✓). Verificación: $x = 1$: $1 - 9 + 8 = 0$ ✓; $x = \\frac{1}{\\sqrt{8}}$: $x^{-2} = 8$ y $x^{-4} = 64$: $64 - 72 + 8 = 0$ ✓.",
+            "$x = \\pm 1,\\ \\pm\\frac{\\sqrt{2}}{4}$ (equivalent to $\\pm\\frac{1}{\\sqrt{8}}$; none is the pole $x = 0$ ✓). Check: $x = 1$: $1 - 9 + 8 = 0$ ✓; $x = \\frac{1}{\\sqrt{8}}$: $x^{-2} = 8$ and $x^{-4} = 64$: $64 - 72 + 8 = 0$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S4 · 51 — (X−5)²+7(X−5)+10 = 0: u = X−5 → X = 3, 0. */
+  template(
+    {
+      id: "quad-uees-51",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "factoring",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 210,
+      tags: ["substitution", "factoring", "quadratic-form"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "4 · 51",
+        page: 3,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$X = 3,\\ 0$`, `$X = 3,\\ 0$`), correct: true },
+        { id: "b", text: L(`$X = -2,\\ -5$`, `$X = -2,\\ -5$`), correct: false },
+        { id: "c", text: L(`$X = 3$`, `$X = 3$`), correct: false },
+        { id: "d", text: L(`$X = 0,\\ 10$`, `$X = 0,\\ 10$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "La cuadrática vive en el bloque (X − 5)",
+          "The quadratic lives inside the block (X − 5)",
+        ),
+        statement: L(
+          "Resuelva la ecuación (si usa sustitución, indique el conjunto de soluciones reales):\n\n$$(X - 5)^2 + 7(X - 5) + 10 = 0$$",
+          "Solve the equation (if you use a substitution, give the set of real solutions):\n\n$$(X - 5)^2 + 7(X - 5) + 10 = 0$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "El bloque que se repite es $(X - 5)$: la ecuación es cuadrática en ese bloque. ¿Qué letra conviene introducir?",
+            "The repeating block is $(X - 5)$: the equation is quadratic in that block. Which letter is convenient to introduce?",
+          ),
+          L(
+            "$u = X - 5$ da $u^2 + 7u + 10 = 0$: dos números que multipliquen $10$ y sumen $7$.",
+            "$u = X - 5$ gives $u^2 + 7u + 10 = 0$: two numbers whose product is $10$ and whose sum is $7$.",
+          ),
+          L(
+            "$u^2 + 7u + 10 = (u + 2)(u + 5) = 0$ da $u = -2$ y $u = -5$; deshaz con $X = u + 5$.",
+            "$u^2 + 7u + 10 = (u + 2)(u + 5) = 0$ gives $u = -2$ and $u = -5$; undo with $X = u + 5$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$X = 3,\\ 0$",
+          "$X = 3,\\ 0$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La ecuación $(X - 5)^2 + 7(X - 5) + 10 = 0$ (tarea UEES, sección 4).",
+            "The equation $(X - 5)^2 + 7(X - 5) + 10 = 0$ (UEES assignment, section 4).",
+          ),
+          step(
+            "approach",
+            "Sustitución $u = X - 5$ (forma cuadrática $u^2 + 7u + 10 = 0$); tras factorizar, se deshace con $X = u + 5$. Confundir los valores de $u$ con los de $X$ es el error clásico.",
+            "Substitution $u = X - 5$ (quadratic form $u^2 + 7u + 10 = 0$); after factoring, undo with $X = u + 5$. Confusing the values of $u$ with those of $X$ is the classic mistake.",
+          ),
+          step(
+            "calculation",
+            "$u^2 + 7u + 10 = (u + 2)(u + 5) = 0 \\Rightarrow u = -2$ ó $u = -5$.<br>$u = -2$: $X = -2 + 5 = 3$.<br>$u = -5$: $X = -5 + 5 = 0$.",
+            "$u^2 + 7u + 10 = (u + 2)(u + 5) = 0 \\Rightarrow u = -2$ or $u = -5$.<br>$u = -2$: $X = -2 + 5 = 3$.<br>$u = -5$: $X = -5 + 5 = 0$.",
+          ),
+          step(
+            "result",
+            "$X = 3,\\ 0$. Verificación: $X = 3$: $(-2)^2 + 7(-2) + 10 = 4 - 14 + 10 = 0$ ✓; $X = 0$: $(-5)^2 + 7(-5) + 10 = 25 - 35 + 10 = 0$ ✓.",
+            "$X = 3,\\ 0$. Check: $X = 3$: $(-2)^2 + 7(-2) + 10 = 4 - 14 + 10 = 0$ ✓; $X = 0$: $(-5)^2 + 7(-5) + 10 = 25 - 35 + 10 = 0$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S4 · 52 — (3x+2)²−5(3x+2) = 0: u = 3x+2 → x = −2/3, 1. */
+  template(
+    {
+      id: "quad-uees-52",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "factoring",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 210,
+      tags: ["substitution", "factoring", "common-factor"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "4 · 52",
+        page: 3,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$x = -\\frac{2}{3},\\ 1$`, `$x = -\\frac{2}{3},\\ 1$`), correct: true },
+        { id: "b", text: L(`$x = 0,\\ 5$`, `$x = 0,\\ 5$`), correct: false },
+        { id: "c", text: L(`$x = -\\frac{2}{3}$`, `$x = -\\frac{2}{3}$`), correct: false },
+        { id: "d", text: L(`$x = \\frac{2}{3},\\ 1$`, `$x = \\frac{2}{3},\\ 1$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Factor común en la nueva letra: u(u − 5) = 0",
+          "Common factor in the new letter: u(u − 5) = 0",
+        ),
+        statement: L(
+          "Resuelva la ecuación (si usa sustitución, indique el conjunto de soluciones reales):\n\n$$(3x + 2)^2 - 5(3x + 2) = 0$$",
+          "Solve the equation (if you use a substitution, give the set of real solutions):\n\n$$(3x + 2)^2 - 5(3x + 2) = 0$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "El bloque $(3x + 2)$ aparece al cuadrado y lineal: es la «letra» de la sustitución.",
+            "The block $(3x + 2)$ appears squared and linear: it is the “letter” of the substitution.",
+          ),
+          L(
+            "$u = 3x + 2$ da $u^2 - 5u = 0$: aquí hay FACTOR COMÚN $u$, no un trinomio.",
+            "$u = 3x + 2$ gives $u^2 - 5u = 0$: here there is a COMMON FACTOR $u$, not a trinomial.",
+          ),
+          L(
+            "$u(u - 5) = 0$ da $u = 0$ ó $u = 5$; deshaz con $3x + 2 = u$ (divide entre $3$ al final).",
+            "$u(u - 5) = 0$ gives $u = 0$ or $u = 5$; undo with $3x + 2 = u$ (divide by $3$ at the end).",
+          ),
+        ],
+        answerDisplay: L(
+          "$x = -\\frac{2}{3},\\ 1$",
+          "$x = -\\frac{2}{3},\\ 1$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La ecuación $(3x + 2)^2 - 5(3x + 2) = 0$.",
+            "The equation $(3x + 2)^2 - 5(3x + 2) = 0$.",
+          ),
+          step(
+            "approach",
+            "Sustitución $u = 3x + 2$ y factor común: $u^2 - 5u = u(u - 5)$. La rama $u = 0$ NO se pierde: da $3x + 2 = 0$.",
+            "Substitution $u = 3x + 2$ and common factor: $u^2 - 5u = u(u - 5)$. The branch $u = 0$ is NOT lost: it gives $3x + 2 = 0$.",
+          ),
+          step(
+            "calculation",
+            "$u(u - 5) = 0 \\Rightarrow u = 0$ ó $u = 5$.<br>$u = 0$: $3x + 2 = 0 \\Rightarrow x = -\\frac{2}{3}$.<br>$u = 5$: $3x + 2 = 5 \\Rightarrow 3x = 3 \\Rightarrow x = 1$.",
+            "$u(u - 5) = 0 \\Rightarrow u = 0$ or $u = 5$.<br>$u = 0$: $3x + 2 = 0 \\Rightarrow x = -\\frac{2}{3}$.<br>$u = 5$: $3x + 2 = 5 \\Rightarrow 3x = 3 \\Rightarrow x = 1$.",
+          ),
+          step(
+            "result",
+            "$x = -\\frac{2}{3},\\ 1$. Verificación: $x = -\\frac{2}{3}$: $(0)^2 - 5(0) = 0$ ✓; $x = 1$: $5^2 - 5 \\cdot 5 = 25 - 25 = 0$ ✓.",
+            "$x = -\\frac{2}{3},\\ 1$. Check: $x = -\\frac{2}{3}$: $(0)^2 - 5(0) = 0$ ✓; $x = 1$: $5^2 - 5 \\cdot 5 = 25 - 25 = 0$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S4 · 53 — 1/(x−4)²−7/(x−4)+12 = 0: u = 1/(x−4) → x = 13/3, 17/4. */
+  template(
+    {
+      id: "quad-uees-53",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "factoring",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 210,
+      tags: ["substitution", "reciprocal", "rational-equation"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "4 · 53",
+        page: 3,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$x = \\frac{13}{3},\\ \\frac{17}{4}$`, `$x = \\frac{13}{3},\\ \\frac{17}{4}$`), correct: true },
+        { id: "b", text: L(`$x = 3,\\ 4$`, `$x = 3,\\ 4$`), correct: false },
+        { id: "c", text: L(`$x = \\frac{13}{3}$`, `$x = \\frac{13}{3}$`), correct: false },
+        { id: "d", text: L(`$x = \\frac{1}{3},\\ \\frac{1}{4}$`, `$x = \\frac{1}{3},\\ \\frac{1}{4}$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Cuadrática en 1/(x − 4) y el arte de deshacer el cambio",
+          "Quadratic in 1/(x − 4) and the art of undoing the change",
+        ),
+        statement: L(
+          "Resuelva la ecuación (si usa sustitución, indique el conjunto de soluciones reales):\n\n$$\\frac{1}{(x - 4)^2} - \\frac{7}{x - 4} + 12 = 0$$",
+          "Solve the equation (if you use a substitution, give the set of real solutions):\n\n$$\\frac{1}{(x - 4)^2} - \\frac{7}{x - 4} + 12 = 0$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "La $x$ sólo aparece dentro del bloque $(x - 4)$, como $\\frac{1}{x-4}$ y su cuadrado: cambia de letra el bloque completo.",
+            "The $x$ only appears inside the block $(x - 4)$, as $\\frac{1}{x-4}$ and its square: change the whole block to a new letter.",
+          ),
+          L(
+            "$u = \\frac{1}{x - 4}$ (con $x \\ne 4$) da $u^2 - 7u + 12 = 0$.",
+            "$u = \\frac{1}{x - 4}$ (with $x \\ne 4$) gives $u^2 - 7u + 12 = 0$.",
+          ),
+          L(
+            "$(u - 3)(u - 4) = 0$ da $u = 3$ y $u = 4$; deshaz con $x - 4 = \\frac{1}{u}$ (¡no con $x = u$!).",
+            "$(u - 3)(u - 4) = 0$ gives $u = 3$ and $u = 4$; undo with $x - 4 = \\frac{1}{u}$ (not with $x = u$!).",
+          ),
+        ],
+        answerDisplay: L(
+          "$x = \\frac{13}{3},\\ \\frac{17}{4}$",
+          "$x = \\frac{13}{3},\\ \\frac{17}{4}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La ecuación $\\frac{1}{(x - 4)^2} - \\frac{7}{x - 4} + 12 = 0$, con $x \\ne 4$.",
+            "The equation $\\frac{1}{(x - 4)^2} - \\frac{7}{x - 4} + 12 = 0$, with $x \\ne 4$.",
+          ),
+          step(
+            "approach",
+            "Sustitución $u = \\frac{1}{x - 4}$; la cuadrática $u^2 - 7u + 12 = 0$ se factoriza y se deshace con $x - 4 = \\frac{1}{u}$; al final se comprueba que ninguna raíz sea el polo $x = 4$.",
+            "Substitution $u = \\frac{1}{x - 4}$; the quadratic $u^2 - 7u + 12 = 0$ is factored and undone with $x - 4 = \\frac{1}{u}$; at the end, check that no root is the pole $x = 4$.",
+          ),
+          step(
+            "calculation",
+            "$u^2 - 7u + 12 = (u - 3)(u - 4) = 0 \\Rightarrow u = 3$ ó $u = 4$.<br>$u = 3$: $x - 4 = \\frac{1}{3} \\Rightarrow x = 4 + \\frac{1}{3} = \\frac{13}{3}$.<br>$u = 4$: $x - 4 = \\frac{1}{4} \\Rightarrow x = 4 + \\frac{1}{4} = \\frac{17}{4}$.",
+            "$u^2 - 7u + 12 = (u - 3)(u - 4) = 0 \\Rightarrow u = 3$ or $u = 4$.<br>$u = 3$: $x - 4 = \\frac{1}{3} \\Rightarrow x = 4 + \\frac{1}{3} = \\frac{13}{3}$.<br>$u = 4$: $x - 4 = \\frac{1}{4} \\Rightarrow x = 4 + \\frac{1}{4} = \\frac{17}{4}$.",
+          ),
+          step(
+            "result",
+            "$x = \\frac{13}{3},\\ \\frac{17}{4}$; ninguna coincide con el polo $x = 4$ ✓. Verificación: $x = \\frac{13}{3}$: $x - 4 = \\frac{1}{3}$ y $9 - 21 + 12 = 0$ ✓; $x = \\frac{17}{4}$: $x - 4 = \\frac{1}{4}$ y $16 - 28 + 12 = 0$ ✓.",
+            "$x = \\frac{13}{3},\\ \\frac{17}{4}$; neither coincides with the pole $x = 4$ ✓. Check: $x = \\frac{13}{3}$: $x - 4 = \\frac{1}{3}$ and $9 - 21 + 12 = 0$ ✓; $x = \\frac{17}{4}$: $x - 4 = \\frac{1}{4}$ and $16 - 28 + 12 = 0$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S4 · 54 — 2/(x+4)²+7/(x+4)+3 = 0: u = 1/(x+4) → x = −6, −13/3. */
+  template(
+    {
+      id: "quad-uees-54",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "factoring",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 210,
+      tags: ["substitution", "reciprocal", "rational-equation"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "4 · 54",
+        page: 3,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$x = -6,\\ -\\frac{13}{3}$`, `$x = -6,\\ -\\frac{13}{3}$`), correct: true },
+        { id: "b", text: L(`$x = -\\frac{1}{2},\\ -3$`, `$x = -\\frac{1}{2},\\ -3$`), correct: false },
+        { id: "c", text: L(`$x = -6$`, `$x = -6$`), correct: false },
+        { id: "d", text: L(`$x = 6,\\ \\frac{13}{3}$`, `$x = 6,\\ \\frac{13}{3}$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Cuadrática en 1/(x + 4) con coeficiente 2",
+          "Quadratic in 1/(x + 4) with leading coefficient 2",
+        ),
+        statement: L(
+          "Resuelva la ecuación (si usa sustitución, indique el conjunto de soluciones reales):\n\n$$\\frac{2}{(x + 4)^2} + \\frac{7}{x + 4} + 3 = 0$$",
+          "Solve the equation (if you use a substitution, give the set of real solutions):\n\n$$\\frac{2}{(x + 4)^2} + \\frac{7}{x + 4} + 3 = 0$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Todo vive dentro del bloque $(x + 4)$: introduce una letra para $\\frac{1}{x+4}$.",
+            "Everything lives inside the block $(x + 4)$: introduce a letter for $\\frac{1}{x+4}$.",
+          ),
+          L(
+            "$u = \\frac{1}{x + 4}$ (con $x \\ne -4$) da $2u^2 + 7u + 3 = 0$: factoriza con coeficientes $2$ y $1$.",
+            "$u = \\frac{1}{x + 4}$ (with $x \\ne -4$) gives $2u^2 + 7u + 3 = 0$: factor with coefficients $2$ and $1$.",
+          ),
+          L(
+            "$2u^2 + 7u + 3 = (2u + 1)(u + 3) = 0$ da $u = -\\frac{1}{2}$ y $u = -3$; deshaz con $x + 4 = \\frac{1}{u}$ (ambos $u$ son negativos: los $x$ quedan menores que $-4$).",
+            "$2u^2 + 7u + 3 = (2u + 1)(u + 3) = 0$ gives $u = -\\frac{1}{2}$ and $u = -3$; undo with $x + 4 = \\frac{1}{u}$ (both $u$ are negative: the $x$ values end up below $-4$).",
+          ),
+        ],
+        answerDisplay: L(
+          "$x = -6,\\ -\\frac{13}{3}$",
+          "$x = -6,\\ -\\frac{13}{3}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La ecuación $\\frac{2}{(x + 4)^2} + \\frac{7}{x + 4} + 3 = 0$, con $x \\ne -4$.",
+            "The equation $\\frac{2}{(x + 4)^2} + \\frac{7}{x + 4} + 3 = 0$, with $x \\ne -4$.",
+          ),
+          step(
+            "approach",
+            "Sustitución $u = \\frac{1}{x + 4}$; se factoriza $2u^2 + 7u + 3$ y se deshace con $x + 4 = \\frac{1}{u}$; comprobar al final contra el polo $x = -4$.",
+            "Substitution $u = \\frac{1}{x + 4}$; factor $2u^2 + 7u + 3$ and undo with $x + 4 = \\frac{1}{u}$; check at the end against the pole $x = -4$.",
+          ),
+          step(
+            "calculation",
+            "$2u^2 + 7u + 3 = (2u + 1)(u + 3) = 0 \\Rightarrow u = -\\frac{1}{2}$ ó $u = -3$.<br>$u = -\\frac{1}{2}$: $x + 4 = -2 \\Rightarrow x = -6$.<br>$u = -3$: $x + 4 = -\\frac{1}{3} \\Rightarrow x = -4 - \\frac{1}{3} = -\\frac{13}{3}$.",
+            "$2u^2 + 7u + 3 = (2u + 1)(u + 3) = 0 \\Rightarrow u = -\\frac{1}{2}$ or $u = -3$.<br>$u = -\\frac{1}{2}$: $x + 4 = -2 \\Rightarrow x = -6$.<br>$u = -3$: $x + 4 = -\\frac{1}{3} \\Rightarrow x = -4 - \\frac{1}{3} = -\\frac{13}{3}$.",
+          ),
+          step(
+            "result",
+            "$x = -6,\\ -\\frac{13}{3}$; ninguna coincide con el polo $x = -4$ ✓. Verificación: $x = -6$: $x + 4 = -2$ y $\\frac{2}{4} + \\frac{7}{-2} + 3 = \\frac{1}{2} - \\frac{7}{2} + 3 = 0$ ✓; $x = -\\frac{13}{3}$: $x + 4 = -\\frac{1}{3}$ y $18 - 21 + 3 = 0$ ✓.",
+            "$x = -6,\\ -\\frac{13}{3}$; neither coincides with the pole $x = -4$ ✓. Check: $x = -6$: $x + 4 = -2$ and $\\frac{2}{4} + \\frac{7}{-2} + 3 = \\frac{1}{2} - \\frac{7}{2} + 3 = 0$ ✓; $x = -\\frac{13}{3}$: $x + 4 = -\\frac{1}{3}$ and $18 - 21 + 3 = 0$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+  /* S4 · 55 — x² = (x+3)/2 → 2x²−x−3 = 0 → x = 3/2, −1. */
+  template(
+    {
+      id: "quad-uees-55",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "quadratic-formula",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["standard-form", "quadratic-formula", "solution-set"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "4 · 55",
+        page: 3,
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$x = \\frac{3}{2},\\ -1$`, `$x = \\frac{3}{2},\\ -1$`), correct: true },
+        { id: "b", text: L(`$x = \\frac{3}{2}$`, `$x = \\frac{3}{2}$`), correct: false },
+        { id: "c", text: L(`$x = -1$`, `$x = -1$`), correct: false },
+        { id: "d", text: L(`$x = \\frac{1}{2},\\ 3$`, `$x = \\frac{1}{2},\\ 3$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "De la ecuación «mixta» a la forma general y de ahí a las raíces",
+          "From the “mixed” equation to standard form and then to the roots",
+        ),
+        statement: L(
+          "Resuelva la ecuación por cualquier método:\n\n$$x^2 = \\frac{x + 3}{2}$$",
+          "Solve the equation by any method:\n\n$$x^2 = \\frac{x + 3}{2}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Primero elimina el denominador y pasa TODO a un lado: una ecuación cuadrática sólo se resuelve bien en forma general $ax^2 + bx + c = 0$.",
+            "First clear the denominator and move EVERYTHING to one side: a quadratic equation is only solved cleanly in standard form $ax^2 + bx + c = 0$.",
+          ),
+          L(
+            "Multiplicando por $2$: $2x^2 = x + 3$, o sea $2x^2 - x - 3 = 0$ con $a = 2$, $b = -1$, $c = -3$.",
+            "Multiplying by $2$: $2x^2 = x + 3$, that is $2x^2 - x - 3 = 0$ with $a = 2$, $b = -1$, $c = -3$.",
+          ),
+          L(
+            "$\\Delta = (-1)^2 - 4(2)(-3) = 25$, así que $x = \\frac{1 \\pm 5}{4}$: salen las DOS raíces.",
+            "$\\Delta = (-1)^2 - 4(2)(-3) = 25$, so $x = \\frac{1 \\pm 5}{4}$: BOTH roots come out.",
+          ),
+        ],
+        answerDisplay: L(
+          "$x = \\frac{3}{2},\\ -1$",
+          "$x = \\frac{3}{2},\\ -1$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La ecuación $x^2 = \\frac{x + 3}{2}$ (tarea UEES, sección 4; «resuelva por cualquier método»).",
+            "The equation $x^2 = \\frac{x + 3}{2}$ (UEES assignment, section 4; “solve by any method”).",
+          ),
+          step(
+            "approach",
+            "Llevar a forma general multiplicando por $2$ y pasando todo a la izquierda; luego factorizar o aplicar la fórmula cuadrática. El error típico es «resolver» $x^2 = x/2 + 3/2$ tomando raíz sólo del lado izquierdo.",
+            "Bring to standard form by multiplying by $2$ and moving everything to the left; then factor or apply the quadratic formula. The typical error is to “solve” $x^2 = x/2 + 3/2$ by taking a square root only on the left side.",
+          ),
+          step(
+            "calculation",
+            "$2x^2 = x + 3 \\Rightarrow 2x^2 - x - 3 = 0$.<br>Factorización: $2x^2 - x - 3 = (2x - 3)(x + 1) = 0$.<br>$2x - 3 = 0 \\Rightarrow x = \\frac{3}{2}$; $x + 1 = 0 \\Rightarrow x = -1$.",
+            "$2x^2 = x + 3 \\Rightarrow 2x^2 - x - 3 = 0$.<br>Factoring: $2x^2 - x - 3 = (2x - 3)(x + 1) = 0$.<br>$2x - 3 = 0 \\Rightarrow x = \\frac{3}{2}$; $x + 1 = 0 \\Rightarrow x = -1$.",
+          ),
+          step(
+            "result",
+            "$x = \\frac{3}{2},\\ -1$. Verificación: $x = \\frac{3}{2}$: $\\frac{9}{4} = \\frac{3/2 + 3}{2} = \\frac{9/2}{2} = \\frac{9}{4}$ ✓; $x = -1$: $1 = \\frac{-1 + 3}{2} = 1$ ✓.",
+            "$x = \\frac{3}{2},\\ -1$. Check: $x = \\frac{3}{2}$: $\\frac{9}{4} = \\frac{3/2 + 3}{2} = \\frac{9/2}{2} = \\frac{9}{4}$ ✓; $x = -1$: $1 = \\frac{-1 + 3}{2} = 1$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S4 · 56 — x/2 = 7/x − 5/2 → x²+5x−14 = 0 → x = 2, −7. */
+  template(
+    {
+      id: "quad-uees-56",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "quadratic-formula",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["rational-equation", "quadratic-formula", "pole-check"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "4 · 56",
+        page: 3,
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$x = 2,\\ -7$`, `$x = 2,\\ -7$`), correct: true },
+        { id: "b", text: L(`$x = 2$`, `$x = 2$`), correct: false },
+        { id: "c", text: L(`$x = -2,\\ 7$`, `$x = -2,\\ 7$`), correct: false },
+        { id: "d", text: L(`$x = 14$`, `$x = 14$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Ecuación con x en ambos denominadores: multiplicar y comprobar el polo",
+          "Equation with x in both denominators: multiply and check the pole",
+        ),
+        statement: L(
+          "Resuelva la ecuación por cualquier método:\n\n$$\\frac{x}{2} = \\frac{7}{x} - \\frac{5}{2}$$",
+          "Solve the equation by any method:\n\n$$\\frac{x}{2} = \\frac{7}{x} - \\frac{5}{2}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Multiplica ambos lados por el denominador común $2x$ (con $x \\ne 0$) para eliminar TODAS las fracciones de una vez.",
+            "Multiply both sides by the common denominator $2x$ (with $x \\ne 0$) to clear ALL fractions at once.",
+          ),
+          L(
+            "Queda $x^2 = 14 - 5x$; pasa todo a un lado: $x^2 + 5x - 14 = 0$.",
+            "You get $x^2 = 14 - 5x$; move everything to one side: $x^2 + 5x - 14 = 0$.",
+          ),
+          L(
+            "Factoriza buscando producto $-14$ y suma $5$; al final confirma que ninguna raíz sea el valor prohibido $x = 0$.",
+            "Factor looking for product $-14$ and sum $5$; at the end confirm that neither root is the forbidden value $x = 0$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$x = 2,\\ -7$",
+          "$x = 2,\\ -7$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La ecuación $\\frac{x}{2} = \\frac{7}{x} - \\frac{5}{2}$, con $x \\ne 0$.",
+            "The equation $\\frac{x}{2} = \\frac{7}{x} - \\frac{5}{2}$, with $x \\ne 0$.",
+          ),
+          step(
+            "approach",
+            "Multiplicar por $2x$ para eliminar denominadores, resolver la cuadrática resultante y comprobar las raíces contra el polo $x = 0$.",
+            "Multiply by $2x$ to clear denominators, solve the resulting quadratic, and check the roots against the pole $x = 0$.",
+          ),
+          step(
+            "calculation",
+            "$2x \\cdot \\frac{x}{2} = 2x \\cdot \\frac{7}{x} - 2x \\cdot \\frac{5}{2} \\Rightarrow x^2 = 14 - 5x$.<br>$x^2 + 5x - 14 = (x + 7)(x - 2) = 0 \\Rightarrow x = 2$ ó $x = -7$.",
+            "$2x \\cdot \\frac{x}{2} = 2x \\cdot \\frac{7}{x} - 2x \\cdot \\frac{5}{2} \\Rightarrow x^2 = 14 - 5x$.<br>$x^2 + 5x - 14 = (x + 7)(x - 2) = 0 \\Rightarrow x = 2$ or $x = -7$.",
+          ),
+          step(
+            "result",
+            "$x = 2,\\ -7$; ninguna es el polo $x = 0$ ✓. Verificación: $x = 2$: $1 = \\frac{7}{2} - \\frac{5}{2} = 1$ ✓; $x = -7$: $-\\frac{7}{2} = \\frac{7}{-7} - \\frac{5}{2} = -1 - \\frac{5}{2} = -\\frac{7}{2}$ ✓.",
+            "$x = 2,\\ -7$; neither is the pole $x = 0$ ✓. Check: $x = 2$: $1 = \\frac{7}{2} - \\frac{5}{2} = 1$ ✓; $x = -7$: $-\\frac{7}{2} = \\frac{7}{-7} - \\frac{5}{2} = -1 - \\frac{5}{2} = -\\frac{7}{2}$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S4 · 57 — 3/(x−4) + (x−3)/x = 2 → x²−4x−12 = 0 → x = 6, −2. */
+  template(
+    {
+      id: "quad-uees-57",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "quadratic-formula",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["rational-equation", "clearing-fractions", "pole-check"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "4 · 57",
+        page: 3,
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$x = 6,\\ -2$`, `$x = 6,\\ -2$`), correct: true },
+        { id: "b", text: L(`$x = 6$`, `$x = 6$`), correct: false },
+        { id: "c", text: L(`$x = -6,\\ 2$`, `$x = -6,\\ 2$`), correct: false },
+        { id: "d", text: L(`$x = 12,\\ -4$`, `$x = 12,\\ -4$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Dos denominadores, dos polos: reducir a cuadrática y filtrar",
+          "Two denominators, two poles: reduce to a quadratic and filter",
+        ),
+        statement: L(
+          "Resuelva la ecuación por cualquier método:\n\n$$\\frac{3}{x - 4} + \\frac{x - 3}{x} = 2$$",
+          "Solve the equation by any method:\n\n$$\\frac{3}{x - 4} + \\frac{x - 3}{x} = 2$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "El denominador común es $x(x - 4)$; multiplica ambos lados y vigila los polos $x = 0$ y $x = 4$.",
+            "The common denominator is $x(x - 4)$; multiply both sides and watch the poles $x = 0$ and $x = 4$.",
+          ),
+          L(
+            "Tras multiplicar: $3x + (x - 3)(x - 4) = 2x(x - 4)$; expande ambos lados y agrupa todo a la izquierda.",
+            "After multiplying: $3x + (x - 3)(x - 4) = 2x(x - 4)$; expand both sides and gather everything on the left.",
+          ),
+          L(
+            "Todo se reduce a $x^2 - 4x - 12 = 0$: dos enteros con producto $-12$ y suma $-4$; comprueba las raíces contra los polos.",
+            "Everything reduces to $x^2 - 4x - 12 = 0$: two integers with product $-12$ and sum $-4$; check the roots against the poles.",
+          ),
+        ],
+        answerDisplay: L(
+          "$x = 6,\\ -2$",
+          "$x = 6,\\ -2$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La ecuación $\\frac{3}{x - 4} + \\frac{x - 3}{x} = 2$, con $x \\ne 0$ y $x \\ne 4$.",
+            "The equation $\\frac{3}{x - 4} + \\frac{x - 3}{x} = 2$, with $x \\ne 0$ and $x \\ne 4$.",
+          ),
+          step(
+            "approach",
+            "Multiplicar por $x(x - 4)$, expande y reducir a una cuadrática; las raíces candidatas se aceptan sólo si no coinciden con los polos $0$ y $4$.",
+            "Multiply by $x(x - 4)$, expand, and reduce to a quadratic; candidate roots are accepted only if they do not coincide with the poles $0$ and $4$.",
+          ),
+          step(
+            "calculation",
+            "$3x + (x - 3)(x - 4) = 2x(x - 4)$<br>$3x + x^2 - 7x + 12 = 2x^2 - 8x$<br>$0 = 2x^2 - 8x - x^2 + 4x - 12 = x^2 - 4x - 12 = (x - 6)(x + 2)$<br>$\\Rightarrow x = 6$ ó $x = -2$.",
+            "$3x + (x - 3)(x - 4) = 2x(x - 4)$<br>$3x + x^2 - 7x + 12 = 2x^2 - 8x$<br>$0 = 2x^2 - 8x - x^2 + 4x - 12 = x^2 - 4x - 12 = (x - 6)(x + 2)$<br>$\\Rightarrow x = 6$ or $x = -2$.",
+          ),
+          step(
+            "result",
+            "$x = 6,\\ -2$; ambas distintas de los polos $0$ y $4$ ✓. Verificación: $x = 6$: $\\frac{3}{2} + \\frac{3}{6} = \\frac{3}{2} + \\frac{1}{2} = 2$ ✓; $x = -2$: $\\frac{3}{-6} + \\frac{-5}{-2} = -\\frac{1}{2} + \\frac{5}{2} = 2$ ✓.",
+            "$x = 6,\\ -2$; both different from the poles $0$ and $4$ ✓. Check: $x = 6$: $\\frac{3}{2} + \\frac{3}{6} = \\frac{3}{2} + \\frac{1}{2} = 2$ ✓; $x = -2$: $\\frac{3}{-6} + \\frac{-5}{-2} = -\\frac{1}{2} + \\frac{5}{2} = 2$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S4 · 58 — 1/(3x+1) + 2/(x+1) = 3 → x(9x+5) = 0 → x = 0, −5/9. */
+  template(
+    {
+      id: "quad-uees-58",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "quadratic-formula",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["rational-equation", "clearing-fractions", "pole-check"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "4 · 58",
+        page: 3,
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$x = 0,\\ -\\frac{5}{9}$`, `$x = 0,\\ -\\frac{5}{9}$`), correct: true },
+        { id: "b", text: L(`$x = 0$`, `$x = 0$`), correct: false },
+        { id: "c", text: L(`$x = \\frac{5}{9}$`, `$x = \\frac{5}{9}$`), correct: false },
+        { id: "d", text: L(`$x = -\\frac{1}{3},\\ -1$`, `$x = -\\frac{1}{3},\\ -1$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Denominadores lineales distintos: producto cruzado ordenado",
+          "Different linear denominators: an orderly cross-product",
+        ),
+        statement: L(
+          "Resuelva la ecuación por cualquier método:\n\n$$\\frac{1}{3x + 1} + \\frac{2}{x + 1} = 3$$",
+          "Solve the equation by any method:\n\n$$\\frac{1}{3x + 1} + \\frac{2}{x + 1} = 3$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Multiplica por $(3x + 1)(x + 1)$; los valores prohibidos son $x = -\\frac{1}{3}$ y $x = -1$.",
+            "Multiply by $(3x + 1)(x + 1)$; the forbidden values are $x = -\\frac{1}{3}$ and $x = -1$.",
+          ),
+          L(
+            "Queda $(x + 1) + 2(3x + 1) = 3(3x + 1)(x + 1)$; expande los dos lados con cuidado.",
+            "You get $(x + 1) + 2(3x + 1) = 3(3x + 1)(x + 1)$; expand both sides carefully.",
+          ),
+          L(
+            "La ecuación se reduce a $x(9x + 5) = 0$: una raíz es $x = 0$ y la otra es negativa (fracción con $9$ abajo).",
+            "The equation reduces to $x(9x + 5) = 0$: one root is $x = 0$ and the other is negative (a fraction with $9$ below).",
+          ),
+        ],
+        answerDisplay: L(
+          "$x = 0,\\ -\\frac{5}{9}$",
+          "$x = 0,\\ -\\frac{5}{9}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La ecuación $\\frac{1}{3x + 1} + \\frac{2}{x + 1} = 3$, con $x \\ne -\\frac{1}{3}$ y $x \\ne -1$.",
+            "The equation $\\frac{1}{3x + 1} + \\frac{2}{x + 1} = 3$, with $x \\ne -\\frac{1}{3}$ and $x \\ne -1$.",
+          ),
+          step(
+            "approach",
+            "Multiplicar por el denominador común $(3x + 1)(x + 1)$, reducir a cuadrática y filtrar las raíces contra los polos. Los polos NUNCA son solución: anulan un denominador.",
+            "Multiply by the common denominator $(3x + 1)(x + 1)$, reduce to a quadratic, and filter the roots against the poles. Poles are NEVER solutions: they zero out a denominator.",
+          ),
+          step(
+            "calculation",
+            "$(x + 1) + 2(3x + 1) = 3(3x + 1)(x + 1)$<br>$7x + 3 = 3(3x^2 + 4x + 1) = 9x^2 + 12x + 3$<br>$0 = 9x^2 + 5x = x(9x + 5) \\Rightarrow x = 0$ ó $x = -\\frac{5}{9}$.",
+            "$(x + 1) + 2(3x + 1) = 3(3x + 1)(x + 1)$<br>$7x + 3 = 3(3x^2 + 4x + 1) = 9x^2 + 12x + 3$<br>$0 = 9x^2 + 5x = x(9x + 5) \\Rightarrow x = 0$ or $x = -\\frac{5}{9}$.",
+          ),
+          step(
+            "result",
+            "$x = 0,\\ -\\frac{5}{9}$; ambas distintas de los polos $-\\frac{1}{3}$ y $-1$ ✓. Verificación: $x = 0$: $1 + 2 = 3$ ✓; $x = -\\frac{5}{9}$: $\\frac{1}{-2/3} + \\frac{2}{4/9} = -\\frac{3}{2} + \\frac{9}{2} = 3$ ✓.",
+            "$x = 0,\\ -\\frac{5}{9}$; both different from the poles $-\\frac{1}{3}$ and $-1$ ✓. Check: $x = 0$: $1 + 2 = 3$ ✓; $x = -\\frac{5}{9}$: $\\frac{1}{-2/3} + \\frac{2}{4/9} = -\\frac{3}{2} + \\frac{9}{2} = 3$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S4 · 59 — (3x+2)/(x+1) − (2x+1)/(2x) = 1 → 2x²−x−1 = 0 → x = 1, −1/2. */
+  template(
+    {
+      id: "quad-uees-59",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "quadratic-formula",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["rational-equation", "clearing-fractions", "pole-check"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "4 · 59",
+        page: 3,
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$x = 1,\\ -\\frac{1}{2}$`, `$x = 1,\\ -\\frac{1}{2}$`), correct: true },
+        { id: "b", text: L(`$x = 1$`, `$x = 1$`), correct: false },
+        { id: "c", text: L(`$x = -1,\\ 0$`, `$x = -1,\\ 0$`), correct: false },
+        { id: "d", text: L(`$x = -\\frac{1}{2}$`, `$x = -\\frac{1}{2}$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Fracciones de binomios: denominador común 2x(x + 1)",
+          "Binomial fractions: common denominator 2x(x + 1)",
+        ),
+        statement: L(
+          "Resuelva la ecuación por cualquier método:\n\n$$\\frac{3x + 2}{x + 1} - \\frac{2x + 1}{2x} = 1$$",
+          "Solve the equation by any method:\n\n$$\\frac{3x + 2}{x + 1} - \\frac{2x + 1}{2x} = 1$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "El denominador común es $2x(x + 1)$; los polos son $x = 0$ y $x = -1$.",
+            "The common denominator is $2x(x + 1)$; the poles are $x = 0$ and $x = -1$.",
+          ),
+          L(
+            "Tras multiplicar: $2x(3x + 2) - (x + 1)(2x + 1) = 2x(x + 1)$; expande con cuidado el signo menos.",
+            "After multiplying: $2x(3x + 2) - (x + 1)(2x + 1) = 2x(x + 1)$; expand the minus sign carefully.",
+          ),
+          L(
+            "Se reduce a $2x^2 - x - 1 = 0$: factoriza con coeficientes $2$ y $1$ (producto $-1$, suma $-1$).",
+            "It reduces to $2x^2 - x - 1 = 0$: factor with coefficients $2$ and $1$ (product $-1$, sum $-1$).",
+          ),
+        ],
+        answerDisplay: L(
+          "$x = 1,\\ -\\frac{1}{2}$",
+          "$x = 1,\\ -\\frac{1}{2}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La ecuación $\\frac{3x + 2}{x + 1} - \\frac{2x + 1}{2x} = 1$, con $x \\ne 0$ y $x \\ne -1$.",
+            "The equation $\\frac{3x + 2}{x + 1} - \\frac{2x + 1}{2x} = 1$, with $x \\ne 0$ and $x \\ne -1$.",
+          ),
+          step(
+            "approach",
+            "Multiplicar por $2x(x + 1)$ respetando el signo menos del segundo término; reducir a cuadrática y comprobar contra los polos $0$ y $-1$ (que aparecen como distractor en las opciones).",
+            "Multiply by $2x(x + 1)$ respecting the minus sign of the second term; reduce to a quadratic and check against the poles $0$ and $-1$ (which appear as a distractor among the options).",
+          ),
+          step(
+            "calculation",
+            "$2x(3x + 2) - (x + 1)(2x + 1) = 2x(x + 1)$<br>$(6x^2 + 4x) - (2x^2 + 3x + 1) = 2x^2 + 2x$<br>$4x^2 + x - 1 = 2x^2 + 2x \\Rightarrow 2x^2 - x - 1 = 0$<br>$(2x + 1)(x - 1) = 0 \\Rightarrow x = 1$ ó $x = -\\frac{1}{2}$.",
+            "$2x(3x + 2) - (x + 1)(2x + 1) = 2x(x + 1)$<br>$(6x^2 + 4x) - (2x^2 + 3x + 1) = 2x^2 + 2x$<br>$4x^2 + x - 1 = 2x^2 + 2x \\Rightarrow 2x^2 - x - 1 = 0$<br>$(2x + 1)(x - 1) = 0 \\Rightarrow x = 1$ or $x = -\\frac{1}{2}$.",
+          ),
+          step(
+            "result",
+            "$x = 1,\\ -\\frac{1}{2}$; ambas distintas de los polos $0$ y $-1$ ✓. Verificación: $x = 1$: $\\frac{5}{2} - \\frac{3}{2} = 1$ ✓; $x = -\\frac{1}{2}$: $\\frac{1/2}{1/2} - \\frac{0}{-1} = 1 - 0 = 1$ ✓.",
+            "$x = 1,\\ -\\frac{1}{2}$; both different from the poles $0$ and $-1$ ✓. Check: $x = 1$: $\\frac{5}{2} - \\frac{3}{2} = 1$ ✓; $x = -\\frac{1}{2}$: $\\frac{1/2}{1/2} - \\frac{0}{-1} = 1 - 0 = 1$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S4 · 60 — 6(w+1)/(2−w) + w/(w−1) = 3 → w(8w−7) = 0 → w = 0, 7/8. */
+  template(
+    {
+      id: "quad-uees-60",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "quadratic-formula",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["rational-equation", "clearing-fractions", "pole-check"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "4 · 60",
+        page: 3,
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$w = 0,\\ \\frac{7}{8}$`, `$w = 0,\\ \\frac{7}{8}$`), correct: true },
+        { id: "b", text: L(`$w = 0$`, `$w = 0$`), correct: false },
+        { id: "c", text: L(`$w = \\frac{7}{8}$`, `$w = \\frac{7}{8}$`), correct: false },
+        { id: "d", text: L(`$w = 2,\\ 1$`, `$w = 2,\\ 1$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Denominador (2 − w): el signo importa al expandir",
+          "A (2 − w) denominator: the sign matters when expanding",
+        ),
+        statement: L(
+          "Resuelva la ecuación por cualquier método:\n\n$$\\frac{6(w + 1)}{2 - w} + \\frac{w}{w - 1} = 3$$",
+          "Solve the equation by any method:\n\n$$\\frac{6(w + 1)}{2 - w} + \\frac{w}{w - 1} = 3$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Multiplica por $(2 - w)(w - 1)$; los polos son $w = 2$ y $w = 1$.",
+            "Multiply by $(2 - w)(w - 1)$; the poles are $w = 2$ and $w = 1$.",
+          ),
+          L(
+            "Queda $6(w + 1)(w - 1) + w(2 - w) = 3(2 - w)(w - 1)$; expande los tres productos con cuidado en los signos.",
+            "You get $6(w + 1)(w - 1) + w(2 - w) = 3(2 - w)(w - 1)$; expand the three products carefully with the signs.",
+          ),
+          L(
+            "Todo se reduce a $w(8w - 7) = 0$: una raíz es $w = 0$ y la otra es una fracción propia (menor que $1$).",
+            "Everything reduces to $w(8w - 7) = 0$: one root is $w = 0$ and the other is a proper fraction (less than $1$).",
+          ),
+        ],
+        answerDisplay: L(
+          "$w = 0,\\ \\frac{7}{8}$",
+          "$w = 0,\\ \\frac{7}{8}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La ecuación $\\frac{6(w + 1)}{2 - w} + \\frac{w}{w - 1} = 3$, con $w \\ne 2$ y $w \\ne 1$.",
+            "The equation $\\frac{6(w + 1)}{2 - w} + \\frac{w}{w - 1} = 3$, with $w \\ne 2$ and $w \\ne 1$.",
+          ),
+          step(
+            "approach",
+            "Multiplicar por $(2 - w)(w - 1)$; usar la diferencia de cuadrados $(w + 1)(w - 1) = w^2 - 1$ y expandir con cuidado; filtrar raíces contra los polos.",
+            "Multiply by $(2 - w)(w - 1)$; use the difference of squares $(w + 1)(w - 1) = w^2 - 1$ and expand carefully; filter roots against the poles.",
+          ),
+          step(
+            "calculation",
+            "$6(w^2 - 1) + 2w - w^2 = 3(-w^2 + 3w - 2)$<br>$5w^2 + 2w - 6 = -3w^2 + 9w - 6 \\Rightarrow 8w^2 - 7w = 0$<br>$w(8w - 7) = 0 \\Rightarrow w = 0$ ó $w = \\frac{7}{8}$.",
+            "$6(w^2 - 1) + 2w - w^2 = 3(-w^2 + 3w - 2)$<br>$5w^2 + 2w - 6 = -3w^2 + 9w - 6 \\Rightarrow 8w^2 - 7w = 0$<br>$w(8w - 7) = 0 \\Rightarrow w = 0$ or $w = \\frac{7}{8}$.",
+          ),
+          step(
+            "result",
+            "$w = 0,\\ \\frac{7}{8}$; ambas distintas de los polos $1$ y $2$ ✓. Verificación: $w = 0$: $\\frac{6}{2} + 0 = 3$ ✓; $w = \\frac{7}{8}$: $\\frac{6 \\cdot 15/8}{9/8} + \\frac{7/8}{-1/8} = 10 - 7 = 3$ ✓.",
+            "$w = 0,\\ \\frac{7}{8}$; both different from the poles $1$ and $2$ ✓. Check: $w = 0$: $\\frac{6}{2} + 0 = 3$ ✓; $w = \\frac{7}{8}$: $\\frac{6 \\cdot 15/8}{9/8} + \\frac{7/8}{-1/8} = 10 - 7 = 3$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S4 · 61 — 2/(r−2) − (r+1)/(r+4) = 0 → r²−3r−10 = 0 → r = 5, −2. */
+  template(
+    {
+      id: "quad-uees-61",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "quadratic-formula",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["rational-equation", "clearing-fractions", "pole-check"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "4 · 61",
+        page: 3,
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$r = 5,\\ -2$`, `$r = 5,\\ -2$`), correct: true },
+        { id: "b", text: L(`$r = 5$`, `$r = 5$`), correct: false },
+        { id: "c", text: L(`$r = -5,\\ 2$`, `$r = -5,\\ 2$`), correct: false },
+        { id: "d", text: L(`$r = 2,\\ -4$`, `$r = 2,\\ -4$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Igualada a cero: numerador combinado sobre denominador común",
+          "Set equal to zero: combined numerator over a common denominator",
+        ),
+        statement: L(
+          "Resuelva la ecuación por cualquier método:\n\n$$\\frac{2}{r - 2} - \\frac{r + 1}{r + 4} = 0$$",
+          "Solve the equation by any method:\n\n$$\\frac{2}{r - 2} - \\frac{r + 1}{r + 4} = 0$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Multiplica por $(r - 2)(r + 4)$; los polos son $r = 2$ y $r = -4$.",
+            "Multiply by $(r - 2)(r + 4)$; the poles are $r = 2$ and $r = -4$.",
+          ),
+          L(
+            "Queda $2(r + 4) - (r + 1)(r - 2) = 0$; expande y ordena como cuadrática.",
+            "You get $2(r + 4) - (r + 1)(r - 2) = 0$; expand and arrange as a quadratic.",
+          ),
+          L(
+            "Se reduce a $r^2 - 3r - 10 = 0$: dos enteros con producto $-10$ y suma $-3$.",
+            "It reduces to $r^2 - 3r - 10 = 0$: two integers with product $-10$ and sum $-3$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$r = 5,\\ -2$",
+          "$r = 5,\\ -2$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La ecuación $\\frac{2}{r - 2} - \\frac{r + 1}{r + 4} = 0$, con $r \\ne 2$ y $r \\ne -4$.",
+            "The equation $\\frac{2}{r - 2} - \\frac{r + 1}{r + 4} = 0$, with $r \\ne 2$ and $r \\ne -4$.",
+          ),
+          step(
+            "approach",
+            "Al estar igualada a cero, basta combinar los numeradores sobre el denominador común $(r - 2)(r + 4)$ y resolver la cuadrática; los polos $2$ y $-4$ nunca cuentan como solución.",
+            "Since it is set equal to zero, it is enough to combine the numerators over the common denominator $(r - 2)(r + 4)$ and solve the quadratic; the poles $2$ and $-4$ never count as solutions.",
+          ),
+          step(
+            "calculation",
+            "$2(r + 4) - (r + 1)(r - 2) = 0$<br>$2r + 8 - (r^2 - r - 2) = 0 \\Rightarrow -r^2 + 3r + 10 = 0$<br>$r^2 - 3r - 10 = (r - 5)(r + 2) = 0 \\Rightarrow r = 5$ ó $r = -2$.",
+            "$2(r + 4) - (r + 1)(r - 2) = 0$<br>$2r + 8 - (r^2 - r - 2) = 0 \\Rightarrow -r^2 + 3r + 10 = 0$<br>$r^2 - 3r - 10 = (r - 5)(r + 2) = 0 \\Rightarrow r = 5$ or $r = -2$.",
+          ),
+          step(
+            "result",
+            "$r = 5,\\ -2$; ambas distintas de los polos $2$ y $-4$ ✓. Verificación: $r = 5$: $\\frac{2}{3} - \\frac{6}{9} = \\frac{2}{3} - \\frac{2}{3} = 0$ ✓; $r = -2$: $\\frac{2}{-4} - \\frac{-1}{2} = -\\frac{1}{2} + \\frac{1}{2} = 0$ ✓.",
+            "$r = 5,\\ -2$; both different from the poles $2$ and $-4$ ✓. Check: $r = 5$: $\\frac{2}{3} - \\frac{6}{9} = \\frac{2}{3} - \\frac{2}{3} = 0$ ✓; $r = -2$: $\\frac{2}{-4} - \\frac{-1}{2} = -\\frac{1}{2} + \\frac{1}{2} = 0$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S4 · 62 — (2x−3)/(2x+5) + 2x/(3x+1) = 1 → 2x²−7x−4 = 0 → x = 4, −1/2. */
+  template(
+    {
+      id: "quad-uees-62",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "quadratic-formula",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["rational-equation", "clearing-fractions", "pole-check"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "4 · 62",
+        page: 3,
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$x = 4,\\ -\\frac{1}{2}$`, `$x = 4,\\ -\\frac{1}{2}$`), correct: true },
+        { id: "b", text: L(`$x = 4$`, `$x = 4$`), correct: false },
+        { id: "c", text: L(`$x = -\\frac{1}{2}$`, `$x = -\\frac{1}{2}$`), correct: false },
+        { id: "d", text: L(`$x = -\\frac{5}{2},\\ -\\frac{1}{3}$`, `$x = -\\frac{5}{2},\\ -\\frac{1}{3}$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Iguale a 1, limpie fracciones y no olvide la segunda raíz",
+          "Set equal to 1, clear fractions, and do not forget the second root",
+        ),
+        statement: L(
+          "Resuelva la ecuación por cualquier método:\n\n$$\\frac{2x - 3}{2x + 5} + \\frac{2x}{3x + 1} = 1$$",
+          "Solve the equation by any method:\n\n$$\\frac{2x - 3}{2x + 5} + \\frac{2x}{3x + 1} = 1$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Multiplica por $(2x + 5)(3x + 1)$; los polos son $x = -\\frac{5}{2}$ y $x = -\\frac{1}{3}$.",
+            "Multiply by $(2x + 5)(3x + 1)$; the poles are $x = -\\frac{5}{2}$ and $x = -\\frac{1}{3}$.",
+          ),
+          L(
+            "Queda $(2x - 3)(3x + 1) + 2x(2x + 5) = (2x + 5)(3x + 1)$; expande los TRES productos.",
+            "You get $(2x - 3)(3x + 1) + 2x(2x + 5) = (2x + 5)(3x + 1)$; expand all THREE products.",
+          ),
+          L(
+            "Se reduce a $2x^2 - 7x - 4 = 0$ con $\\Delta = 49 + 32 = 81$ (un cuadrado perfecto: raíces racionales).",
+            "It reduces to $2x^2 - 7x - 4 = 0$ with $\\Delta = 49 + 32 = 81$ (a perfect square: rational roots).",
+          ),
+        ],
+        answerDisplay: L(
+          "$x = 4,\\ -\\frac{1}{2}$",
+          "$x = 4,\\ -\\frac{1}{2}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La ecuación $\\frac{2x - 3}{2x + 5} + \\frac{2x}{3x + 1} = 1$, con $x \\ne -\\frac{5}{2}$ y $x \\ne -\\frac{1}{3}$.",
+            "The equation $\\frac{2x - 3}{2x + 5} + \\frac{2x}{3x + 1} = 1$, with $x \\ne -\\frac{5}{2}$ and $x \\ne -\\frac{1}{3}$.",
+          ),
+          step(
+            "approach",
+            "Multiplicar por el denominador común y pasar todo a la izquierda; la cuadrática resultante se factoriza; comprobar las dos raíces contra los polos.",
+            "Multiply by the common denominator and move everything to the left; the resulting quadratic factors; check both roots against the poles.",
+          ),
+          step(
+            "calculation",
+            "$(2x - 3)(3x + 1) + 2x(2x + 5) = (2x + 5)(3x + 1)$<br>$(6x^2 - 7x - 3) + (4x^2 + 10x) = 6x^2 + 17x + 5$<br>$4x^2 - 14x - 8 = 0 \\Rightarrow 2x^2 - 7x - 4 = 0$<br>$(2x + 1)(x - 4) = 0 \\Rightarrow x = 4$ ó $x = -\\frac{1}{2}$.",
+            "$(2x - 3)(3x + 1) + 2x(2x + 5) = (2x + 5)(3x + 1)$<br>$(6x^2 - 7x - 3) + (4x^2 + 10x) = 6x^2 + 17x + 5$<br>$4x^2 - 14x - 8 = 0 \\Rightarrow 2x^2 - 7x - 4 = 0$<br>$(2x + 1)(x - 4) = 0 \\Rightarrow x = 4$ or $x = -\\frac{1}{2}$.",
+          ),
+          step(
+            "result",
+            "$x = 4,\\ -\\frac{1}{2}$; ambas distintas de los polos $-\\frac{5}{2}$ y $-\\frac{1}{3}$ ✓. Verificación: $x = 4$: $\\frac{5}{13} + \\frac{8}{13} = 1$ ✓; $x = -\\frac{1}{2}$: $\\frac{-4}{4} + \\frac{-1}{-1/2} = -1 + 2 = 1$ ✓.",
+            "$x = 4,\\ -\\frac{1}{2}$; both different from the poles $-\\frac{5}{2}$ and $-\\frac{1}{3}$ ✓. Check: $x = 4$: $\\frac{5}{13} + \\frac{8}{13} = 1$ ✓; $x = -\\frac{1}{2}$: $\\frac{-4}{4} + \\frac{-1}{-1/2} = -1 + 2 = 1$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S4 · 63 — (t−1)/(t−2) + (t−3)/(t−4) = (t−5)/(t²−6t+8) → 2t²−11t+15 = 0 → t = 3, 5/2. */
+  template(
+    {
+      id: "quad-uees-63",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "quadratic-formula",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["rational-equation", "factored-denominator", "pole-check"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "4 · 63",
+        page: 3,
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$t = 3,\\ \\frac{5}{2}$`, `$t = 3,\\ \\frac{5}{2}$`), correct: true },
+        { id: "b", text: L(`$t = 3$`, `$t = 3$`), correct: false },
+        { id: "c", text: L(`$t = \\frac{5}{2}$`, `$t = \\frac{5}{2}$`), correct: false },
+        { id: "d", text: L(`$t = 2,\\ 4$`, `$t = 2,\\ 4$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "El denominador grande se factoriza: t² − 6t + 8 = (t−2)(t−4)",
+          "The big denominator factors: t² − 6t + 8 = (t−2)(t−4)",
+        ),
+        statement: L(
+          "Resuelva la ecuación por cualquier método:\n\n$$\\frac{t - 1}{t - 2} + \\frac{t - 3}{t - 4} = \\frac{t - 5}{t^2 - 6t + 8}$$",
+          "Solve the equation by any method:\n\n$$\\frac{t - 1}{t - 2} + \\frac{t - 3}{t - 4} = \\frac{t - 5}{t^2 - 6t + 8}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Factoriza primero el denominador de la derecha: $t^2 - 6t + 8 = (t - 2)(t - 4)$. Los polos son $t = 2$ y $t = 4$.",
+            "Factor the right-hand denominator first: $t^2 - 6t + 8 = (t - 2)(t - 4)$. The poles are $t = 2$ and $t = 4$.",
+          ),
+          L(
+            "Multiplica todo por $(t - 2)(t - 4)$: $(t - 1)(t - 4) + (t - 3)(t - 2) = t - 5$.",
+            "Multiply everything by $(t - 2)(t - 4)$: $(t - 1)(t - 4) + (t - 3)(t - 2) = t - 5$.",
+          ),
+          L(
+            "Se reduce a $2t^2 - 11t + 15 = 0$ con $\\Delta = 121 - 120 = 1$: las dos raíces están entre $2$ y $4$.",
+            "It reduces to $2t^2 - 11t + 15 = 0$ with $\\Delta = 121 - 120 = 1$: both roots lie between $2$ and $4$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$t = 3,\\ \\frac{5}{2}$",
+          "$t = 3,\\ \\frac{5}{2}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La ecuación $\\frac{t - 1}{t - 2} + \\frac{t - 3}{t - 4} = \\frac{t - 5}{t^2 - 6t + 8}$, con $t \\ne 2$ y $t \\ne 4$.",
+            "The equation $\\frac{t - 1}{t - 2} + \\frac{t - 3}{t - 4} = \\frac{t - 5}{t^2 - 6t + 8}$, with $t \\ne 2$ and $t \\ne 4$.",
+          ),
+          step(
+            "approach",
+            "Factorizar $t^2 - 6t + 8 = (t - 2)(t - 4)$ para descubrir el denominador común, multiplicar por él y reducir a cuadrática; filtrar raíces contra los polos $2$ y $4$.",
+            "Factor $t^2 - 6t + 8 = (t - 2)(t - 4)$ to expose the common denominator, multiply by it, and reduce to a quadratic; filter roots against the poles $2$ and $4$.",
+          ),
+          step(
+            "calculation",
+            "$(t - 1)(t - 4) + (t - 3)(t - 2) = t - 5$<br>$(t^2 - 5t + 4) + (t^2 - 5t + 6) = t - 5$<br>$2t^2 - 10t + 10 = t - 5 \\Rightarrow 2t^2 - 11t + 15 = 0$<br>$(2t - 5)(t - 3) = 0 \\Rightarrow t = 3$ ó $t = \\frac{5}{2}$.",
+            "$(t - 1)(t - 4) + (t - 3)(t - 2) = t - 5$<br>$(t^2 - 5t + 4) + (t^2 - 5t + 6) = t - 5$<br>$2t^2 - 10t + 10 = t - 5 \\Rightarrow 2t^2 - 11t + 15 = 0$<br>$(2t - 5)(t - 3) = 0 \\Rightarrow t = 3$ or $t = \\frac{5}{2}$.",
+          ),
+          step(
+            "result",
+            "$t = 3,\\ \\frac{5}{2}$; ambas distintas de los polos $2$ y $4$ ✓. Verificación: $t = 3$: $\\frac{2}{1} + \\frac{0}{-1} = 2$ y $\\frac{-2}{9 - 18 + 8} = \\frac{-2}{-1} = 2$ ✓; $t = \\frac{5}{2}$: $\\frac{3/2}{1/2} + \\frac{-1/2}{-3/2} = 3 + \\frac{1}{3} = \\frac{10}{3}$ y $\\frac{-5/2}{25/4 - 15 + 8} = \\frac{-5/2}{-3/4} = \\frac{10}{3}$ ✓.",
+            "$t = 3,\\ \\frac{5}{2}$; both different from the poles $2$ and $4$ ✓. Check: $t = 3$: $\\frac{2}{1} + \\frac{0}{-1} = 2$ and $\\frac{-2}{9 - 18 + 8} = \\frac{-2}{-1} = 2$ ✓; $t = \\frac{5}{2}$: $\\frac{3/2}{1/2} + \\frac{-1/2}{-3/2} = 3 + \\frac{1}{3} = \\frac{10}{3}$ and $\\frac{-5/2}{25/4 - 15 + 8} = \\frac{-5/2}{-3/4} = \\frac{10}{3}$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+  /* S17 · 9 — y = 3x²+5x+1: vértice (−5/6, −13/12), punto más bajo. */
+  template(
+    {
+      id: "qvf-uees-9",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "vertex",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["vertex", "parabola", "minimum"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "17 · 9",
+        page: 19,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\left(-\\frac{5}{6},\\ -\\frac{13}{12}\\right)$ — punto más bajo`, `$\\left(-\\frac{5}{6},\\ -\\frac{13}{12}\\right)$ — lowest point`), correct: true },
+        { id: "b", text: L(`$\\left(\\frac{5}{6},\\ -\\frac{13}{12}\\right)$ — punto más bajo`, `$\\left(\\frac{5}{6},\\ -\\frac{13}{12}\\right)$ — lowest point`), correct: false },
+        { id: "c", text: L(`$\\left(-\\frac{5}{6},\\ \\frac{13}{12}\\right)$ — punto más alto`, `$\\left(-\\frac{5}{6},\\ \\frac{13}{12}\\right)$ — highest point`), correct: false },
+        { id: "d", text: L(`$(0,\\ 1)$ — punto más bajo`, `$(0,\\ 1)$ — lowest point`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Vértice de una parábola y su carácter (¿mínimo o máximo?)",
+          "A parabola's vertex and its character (minimum or maximum?)",
+        ),
+        statement: L(
+          "(a) Para la parábola $$y = f(x) = 3x^2 + 5x + 1,$$ halle el vértice. (b) ¿El vértice corresponde al punto más bajo o al más alto de la gráfica?",
+          "(a) For the parabola $$y = f(x) = 3x^2 + 5x + 1,$$ find the vertex. (b) Does the vertex correspond to the lowest or the highest point of the graph?",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "El vértice está en $x_v = -\\frac{b}{2a}$ con $a = 3$ y $b = 5$; cuida el signo menos de la fórmula.",
+            "The vertex sits at $x_v = -\\frac{b}{2a}$ with $a = 3$ and $b = 5$; mind the minus sign in the formula.",
+          ),
+          L(
+            "Para la parte (b) manda el signo de $a$: si $a > 0$ la parábola abre hacia arriba y el vértice es el punto más bajo; si $a < 0$, abre hacia abajo.",
+            "For part (b) the sign of $a$ rules: if $a > 0$ the parabola opens upward and the vertex is the lowest point; if $a < 0$, it opens downward.",
+          ),
+          L(
+            "$x_v = -\\frac{5}{6}$; falta evaluar $f\\left(-\\frac{5}{6}\\right)$ para la coordenada $y$ del vértice.",
+            "$x_v = -\\frac{5}{6}$; you still have to evaluate $f\\left(-\\frac{5}{6}\\right)$ for the $y$-coordinate of the vertex.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\left(-\\frac{5}{6},\\ -\\frac{13}{12}\\right)$ — punto más bajo",
+          "$\\left(-\\frac{5}{6},\\ -\\frac{13}{12}\\right)$ — lowest point",
+        ),
+        solution: [
+          step(
+            "given",
+            "La parábola $y = f(x) = 3x^2 + 5x + 1$ (tarea UEES, sección 17); se pide el vértice y su carácter.",
+            "The parabola $y = f(x) = 3x^2 + 5x + 1$ (UEES assignment, section 17); the vertex and its character are requested.",
+          ),
+          step(
+            "approach",
+            "Fórmula del vértice $x_v = -\\frac{b}{2a}$ y luego $y_v = f(x_v)$; el signo de $a$ decide si el vértice es un mínimo o un máximo.",
+            "Vertex formula $x_v = -\\frac{b}{2a}$ and then $y_v = f(x_v)$; the sign of $a$ decides whether the vertex is a minimum or a maximum.",
+          ),
+          step(
+            "calculation",
+            "$x_v = -\\frac{5}{2 \\cdot 3} = -\\frac{5}{6}$.<br>$y_v = 3\\left(-\\frac{5}{6}\\right)^2 + 5\\left(-\\frac{5}{6}\\right) + 1 = \\frac{25}{12} - \\frac{50}{12} + \\frac{12}{12} = -\\frac{13}{12}$.<br>Como $a = 3 > 0$, la parábola abre hacia arriba: el vértice es el punto más bajo.",
+            "$x_v = -\\frac{5}{2 \\cdot 3} = -\\frac{5}{6}$.<br>$y_v = 3\\left(-\\frac{5}{6}\\right)^2 + 5\\left(-\\frac{5}{6}\\right) + 1 = \\frac{25}{12} - \\frac{50}{12} + \\frac{12}{12} = -\\frac{13}{12}$.<br>Since $a = 3 > 0$, the parabola opens upward: the vertex is the lowest point.",
+          ),
+          step(
+            "result",
+            "Vértice $\\left(-\\frac{5}{6},\\ -\\frac{13}{12}\\right)$, punto más bajo de la gráfica ($a = 3 > 0$). Verificación: $f\\left(-\\frac{5}{6}\\right) = -\\frac{13}{12}$ ✓ y, por ejemplo, $f(0) = 1 > -\\frac{13}{12}$ ✓ (el corte con el eje $y$ queda por encima del vértice).",
+            "Vertex $\\left(-\\frac{5}{6},\\ -\\frac{13}{12}\\right)$, the lowest point of the graph ($a = 3 > 0$). Check: $f\\left(-\\frac{5}{6}\\right) = -\\frac{13}{12}$ ✓ and, for instance, $f(0) = 1 > -\\frac{13}{12}$ ✓ (the $y$-intercept lies above the vertex).",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S17 · 10 — y = 8x²+4x−1: vértice (−1/4, −3/2), punto más bajo. */
+  template(
+    {
+      id: "qvf-uees-10",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "vertex",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["vertex", "parabola", "minimum"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "17 · 10",
+        page: 19,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\left(-\\frac{1}{4},\\ -\\frac{3}{2}\\right)$ — punto más bajo`, `$\\left(-\\frac{1}{4},\\ -\\frac{3}{2}\\right)$ — lowest point`), correct: true },
+        { id: "b", text: L(`$\\left(\\frac{1}{4},\\ -\\frac{3}{2}\\right)$ — punto más bajo`, `$\\left(\\frac{1}{4},\\ -\\frac{3}{2}\\right)$ — lowest point`), correct: false },
+        { id: "c", text: L(`$\\left(-\\frac{1}{4},\\ \\frac{3}{2}\\right)$ — punto más alto`, `$\\left(-\\frac{1}{4},\\ \\frac{3}{2}\\right)$ — highest point`), correct: false },
+        { id: "d", text: L(`$(0,\\ -1)$ — punto más bajo`, `$(0,\\ -1)$ — lowest point`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Repetir el vértice con otros coeficientes (y no confundirlo con el corte y)",
+          "Repeat the vertex with new coefficients (and do not confuse it with the y-intercept)",
+        ),
+        statement: L(
+          "Repita el problema 9 para $$y = f(x) = 8x^2 + 4x - 1:$$ halle el vértice y diga si corresponde al punto más bajo o al más alto de la gráfica.",
+          "Repeat problem 9 for $$y = f(x) = 8x^2 + 4x - 1:$$ find the vertex and say whether it corresponds to the lowest or the highest point of the graph.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Aquí $a = 8$ y $b = 4$: aplica $x_v = -\\frac{b}{2a}$ (el resultado es negativo porque $b > 0$).",
+            "Here $a = 8$ and $b = 4$: apply $x_v = -\\frac{b}{2a}$ (the result is negative because $b > 0$).",
+          ),
+          L(
+            "El carácter lo da el signo de $a = 8 > 0$: la parábola abre hacia arriba.",
+            "The character is given by the sign of $a = 8 > 0$: the parabola opens upward.",
+          ),
+          L(
+            "$x_v = -\\frac{1}{4}$; evalúa $f\\left(-\\frac{1}{4}\\right)$ para completar el par (no es lo mismo que $f(0)$).",
+            "$x_v = -\\frac{1}{4}$; evaluate $f\\left(-\\frac{1}{4}\\right)$ to complete the pair (it is not the same as $f(0)$).",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\left(-\\frac{1}{4},\\ -\\frac{3}{2}\\right)$ — punto más bajo",
+          "$\\left(-\\frac{1}{4},\\ -\\frac{3}{2}\\right)$ — lowest point",
+        ),
+        solution: [
+          step(
+            "given",
+            "La parábola $y = f(x) = 8x^2 + 4x - 1$; se pide el vértice y su carácter (mismo formato que el problema 9).",
+            "The parabola $y = f(x) = 8x^2 + 4x - 1$; the vertex and its character are requested (same format as problem 9).",
+          ),
+          step(
+            "approach",
+            "Fórmula del vértice y evaluación $y_v = f(x_v)$; el signo de $a$ clasifica el punto. El corte con el eje $y$ es $f(0) = -1$, que NO es el vértice.",
+            "Vertex formula and evaluation $y_v = f(x_v)$; the sign of $a$ classifies the point. The $y$-intercept is $f(0) = -1$, which is NOT the vertex.",
+          ),
+          step(
+            "calculation",
+            "$x_v = -\\frac{4}{2 \\cdot 8} = -\\frac{1}{4}$.<br>$y_v = 8\\left(-\\frac{1}{4}\\right)^2 + 4\\left(-\\frac{1}{4}\\right) - 1 = \\frac{1}{2} - 1 - 1 = -\\frac{3}{2}$.<br>$a = 8 > 0$: abre hacia arriba, punto más bajo.",
+            "$x_v = -\\frac{4}{2 \\cdot 8} = -\\frac{1}{4}$.<br>$y_v = 8\\left(-\\frac{1}{4}\\right)^2 + 4\\left(-\\frac{1}{4}\\right) - 1 = \\frac{1}{2} - 1 - 1 = -\\frac{3}{2}$.<br>$a = 8 > 0$: it opens upward, lowest point.",
+          ),
+          step(
+            "result",
+            "Vértice $\\left(-\\frac{1}{4},\\ -\\frac{3}{2}\\right)$, punto más bajo ($a = 8 > 0$). Verificación: $f\\left(-\\frac{1}{4}\\right) = \\frac{8}{16} - 1 - 1 = -\\frac{3}{2}$ ✓ y $f(0) = -1 > -\\frac{3}{2}$ ✓ (el corte $y$ queda por encima del vértice).",
+            "Vertex $\\left(-\\frac{1}{4},\\ -\\frac{3}{2}\\right)$, the lowest point ($a = 8 > 0$). Check: $f\\left(-\\frac{1}{4}\\right) = \\frac{8}{16} - 1 - 1 = -\\frac{3}{2}$ ✓ and $f(0) = -1 > -\\frac{3}{2}$ ✓ (the $y$-intercept lies above the vertex).",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S17 · 11 — y = x²+x−6: vértice (−1/2, −25/4); intersecciones en la solución. */
+  template(
+    {
+      id: "qvf-uees-11",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "vertex",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["vertex", "intercepts", "parabola"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "17 · 11",
+        page: 19,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\left(-\\frac{1}{2},\\ -\\frac{25}{4}\\right)$`, `$\\left(-\\frac{1}{2},\\ -\\frac{25}{4}\\right)$`), correct: true },
+        { id: "b", text: L(`$(-1,\\ -6)$`, `$(-1,\\ -6)$`), correct: false },
+        { id: "c", text: L(`$\\left(\\frac{1}{2},\\ -\\frac{25}{4}\\right)$`, `$\\left(\\frac{1}{2},\\ -\\frac{25}{4}\\right)$`), correct: false },
+        { id: "d", text: L(`$\\left(-\\frac{1}{2},\\ \\frac{25}{4}\\right)$`, `$\\left(-\\frac{1}{2},\\ \\frac{25}{4}\\right)$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Vértice a medio camino entre las intersecciones x",
+          "The vertex halfway between the x-intercepts",
+        ),
+        statement: L(
+          "Para la parábola $$y = f(x) = x^2 + x - 6,$$ halle el vértice. (La hoja pide también las intersecciones con los ejes; se calculan en la solución.)",
+          "For the parabola $$y = f(x) = x^2 + x - 6,$$ find the vertex. (The worksheet also asks for the axis intercepts; they are worked out in the solution.)",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Con $a = 1$, $b = 1$, $c = -6$: el vértice está en $x_v = -\\frac{b}{2a}$.",
+            "With $a = 1$, $b = 1$, $c = -6$: the vertex lies at $x_v = -\\frac{b}{2a}$.",
+          ),
+          L(
+            "Otra vía útil: $x^2 + x - 6 = (x + 3)(x - 2)$, con cortes $x = -3$ y $x = 2$; el vértice está en el punto medio de los cortes.",
+            "Another useful route: $x^2 + x - 6 = (x + 3)(x - 2)$, with intercepts $x = -3$ and $x = 2$; the vertex lies halfway between them.",
+          ),
+          L(
+            "$x_v = -\\frac{1}{2}$; falta $y_v = f\\left(-\\frac{1}{2}\\right)$ (un fracción con $4$ abajo).",
+            "$x_v = -\\frac{1}{2}$; you still need $y_v = f\\left(-\\frac{1}{2}\\right)$ (a fraction with $4$ below).",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\left(-\\frac{1}{2},\\ -\\frac{25}{4}\\right)$",
+          "$\\left(-\\frac{1}{2},\\ -\\frac{25}{4}\\right)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La parábola $y = f(x) = x^2 + x - 6$; el ejercicio original pide (a) la intersección $y$, (b) las intersecciones $x$ y (c) el vértice; aquí se responde el vértice y las intersecciones se desarrollan abajo.",
+            "The parabola $y = f(x) = x^2 + x - 6$; the original exercise asks for (a) the $y$-intercept, (b) the $x$-intercepts and (c) the vertex; here the vertex is answered and the intercepts are worked out below.",
+          ),
+          step(
+            "approach",
+            "Vértice con $x_v = -\\frac{b}{2a}$ y $y_v = f(x_v)$; como la parábola factoriza, los cortes $x$ confirman el resultado (el vértice está en su punto medio).",
+            "Vertex via $x_v = -\\frac{b}{2a}$ and $y_v = f(x_v)$; since the parabola factors, the $x$-intercepts confirm the result (the vertex lies at their midpoint).",
+          ),
+          step(
+            "calculation",
+            "$x_v = -\\frac{1}{2 \\cdot 1} = -\\frac{1}{2}$;<br>$y_v = \\frac{1}{4} - \\frac{1}{2} - 6 = -\\frac{25}{4}$.<br>Intersecciones (parte de la hoja): $f(0) = -6$ (corte $y$); $x^2 + x - 6 = (x + 3)(x - 2) = 0$ da los cortes $x = -3$ y $x = 2$.",
+            "$x_v = -\\frac{1}{2 \\cdot 1} = -\\frac{1}{2}$;<br>$y_v = \\frac{1}{4} - \\frac{1}{2} - 6 = -\\frac{25}{4}$.<br>Intercepts (part of the worksheet): $f(0) = -6$ ($y$-intercept); $x^2 + x - 6 = (x + 3)(x - 2) = 0$ gives the $x$-intercepts $x = -3$ and $x = 2$.",
+          ),
+          step(
+            "result",
+            "Vértice $\\left(-\\frac{1}{2},\\ -\\frac{25}{4}\\right)$. Verificación: $f\\left(-\\frac{1}{2}\\right) = -\\frac{25}{4}$ ✓ y el punto medio de los cortes $x$ es $\\frac{-3 + 2}{2} = -\\frac{1}{2}$ ✓ (simetría de la parábola).",
+            "Vertex $\\left(-\\frac{1}{2},\\ -\\frac{25}{4}\\right)$. Check: $f\\left(-\\frac{1}{2}\\right) = -\\frac{25}{4}$ ✓ and the midpoint of the $x$-intercepts is $\\frac{-3 + 2}{2} = -\\frac{1}{2}$ ✓ (parabola symmetry).",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S17 · 12 — y = 5−x−3x²: vértice (−1/6, 61/12), máximo. */
+  template(
+    {
+      id: "qvf-uees-12",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "vertex",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 180,
+      tags: ["vertex", "intercepts", "parabola"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "17 · 12",
+        page: 19,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\left(-\\frac{1}{6},\\ \\frac{61}{12}\\right)$`, `$\\left(-\\frac{1}{6},\\ \\frac{61}{12}\\right)$`), correct: true },
+        { id: "b", text: L(`$\\left(\\frac{1}{6},\\ \\frac{61}{12}\\right)$`, `$\\left(\\frac{1}{6},\\ \\frac{61}{12}\\right)$`), correct: false },
+        { id: "c", text: L(`$\\left(-\\frac{1}{6},\\ -\\frac{61}{12}\\right)$`, `$\\left(-\\frac{1}{6},\\ -\\frac{61}{12}\\right)$`), correct: false },
+        { id: "d", text: L(`$(0,\\ 5)$`, `$(0,\\ 5)$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Coeficientes «al revés»: primero reordena y = −3x² − x + 5",
+          "“Reversed” coefficients: first rearrange y = −3x² − x + 5",
+        ),
+        statement: L(
+          "Repita el problema 11 para $$y = f(x) = 5 - x - 3x^2:$$ halle el vértice. (Las intersecciones con los ejes se calculan en la solución.)",
+          "Repeat problem 11 for $$y = f(x) = 5 - x - 3x^2:$$ find the vertex. (The axis intercepts are worked out in the solution.)",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Reordena primero como $y = -3x^2 - x + 5$ para leer $a = -3$, $b = -1$, $c = 5$ sin errores de signo.",
+            "First rearrange as $y = -3x^2 - x + 5$ to read $a = -3$, $b = -1$, $c = 5$ without sign errors.",
+          ),
+          L(
+            "$a = -3 < 0$: la parábola abre hacia abajo y el vértice es un MÁXIMO (el punto más alto).",
+            "$a = -3 < 0$: the parabola opens downward and the vertex is a MAXIMUM (the highest point).",
+          ),
+          L(
+            "$x_v = -\\frac{-1}{2(-3)} = -\\frac{1}{6}$; falta $y_v = f\\left(-\\frac{1}{6}\\right)$.",
+            "$x_v = -\\frac{-1}{2(-3)} = -\\frac{1}{6}$; you still need $y_v = f\\left(-\\frac{1}{6}\\right)$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\left(-\\frac{1}{6},\\ \\frac{61}{12}\\right)$",
+          "$\\left(-\\frac{1}{6},\\ \\frac{61}{12}\\right)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La parábola $y = f(x) = 5 - x - 3x^2$; se pide el vértice (y la hoja pide también las intersecciones).",
+            "The parabola $y = f(x) = 5 - x - 3x^2$; the vertex is requested (and the worksheet also asks for the intercepts).",
+          ),
+          step(
+            "approach",
+            "Reordenar a la forma general $y = -3x^2 - x + 5$, aplicar $x_v = -\\frac{b}{2a}$ y evaluar; el signo $a < 0$ anticipa un máximo.",
+            "Rearrange to standard form $y = -3x^2 - x + 5$, apply $x_v = -\\frac{b}{2a}$ and evaluate; the sign $a < 0$ anticipates a maximum.",
+          ),
+          step(
+            "calculation",
+            "$x_v = -\\frac{-1}{2(-3)} = -\\frac{1}{6}$.<br>$y_v = -3\\left(-\\frac{1}{6}\\right)^2 - \\left(-\\frac{1}{6}\\right) + 5 = -\\frac{1}{12} + \\frac{2}{12} + \\frac{60}{12} = \\frac{61}{12}$.<br>Intersecciones: $f(0) = 5$ (corte $y$); $-3x^2 - x + 5 = 0 \\Rightarrow 3x^2 + x - 5 = 0$ con $\\Delta = 61$: cortes $x = \\frac{-1 \\pm \\sqrt{61}}{6}$.",
+            "$x_v = -\\frac{-1}{2(-3)} = -\\frac{1}{6}$.<br>$y_v = -3\\left(-\\frac{1}{6}\\right)^2 - \\left(-\\frac{1}{6}\\right) + 5 = -\\frac{1}{12} + \\frac{2}{12} + \\frac{60}{12} = \\frac{61}{12}$.<br>Intercepts: $f(0) = 5$ ($y$-intercept); $-3x^2 - x + 5 = 0 \\Rightarrow 3x^2 + x - 5 = 0$ with $\\Delta = 61$: $x$-intercepts $x = \\frac{-1 \\pm \\sqrt{61}}{6}$.",
+          ),
+          step(
+            "result",
+            "Vértice $\\left(-\\frac{1}{6},\\ \\frac{61}{12}\\right)$, punto más alto ($a = -3 < 0$). Verificación: $f\\left(-\\frac{1}{6}\\right) = \\frac{61}{12}$ ✓ y $f(0) = 5 < \\frac{61}{12} = 5{,}08\\overline{3}$ ✓ (el corte $y$ queda por debajo del vértice).",
+            "Vertex $\\left(-\\frac{1}{6},\\ \\frac{61}{12}\\right)$, the highest point ($a = -3 < 0$). Check: $f\\left(-\\frac{1}{6}\\right) = \\frac{61}{12}$ ✓ and $f(0) = 5 < \\frac{61}{12} = 5.08\\overline{3}$ ✓ (the $y$-intercept lies below the vertex).",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S17 · 13 — y = x²−6x+5: vértice (3, −4). */
+  template(
+    {
+      id: "qvf-uees-13",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "vertex",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["vertex", "intercepts", "range"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "17 · 13",
+        page: 19,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$(3,\\ -4)$`, `$(3,\\ -4)$`), correct: true },
+        { id: "b", text: L(`$(-3,\\ -4)$`, `$(-3,\\ -4)$`), correct: false },
+        { id: "c", text: L(`$(3,\\ 4)$`, `$(3,\\ 4)$`), correct: false },
+        { id: "d", text: L(`$(1,\\ 0)$`, `$(1,\\ 0)$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Vértice, intersecciones y rango de una parábola factorizable",
+          "Vertex, intercepts and range of a factorable parabola",
+        ),
+        statement: L(
+          "Para la parábola $$y = f(x) = x^2 - 6x + 5,$$ halle el vértice. (La hoja pide además las intersecciones y el rango; se calculan en la solución.)",
+          "For the parabola $$y = f(x) = x^2 - 6x + 5,$$ find the vertex. (The worksheet also asks for the intercepts and the range; they are worked out in the solution.)",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "OJO: $b = -6$, así que $x_v = -\\frac{-6}{2 \\cdot 1} = +3$ — el doble signo menos se cancela.",
+            "WATCH OUT: $b = -6$, so $x_v = -\\frac{-6}{2 \\cdot 1} = +3$ — the double minus sign cancels.",
+          ),
+          L(
+            "Este trinomio factoriza: $x^2 - 6x + 5 = (x - 1)(x - 5)$; el vértice está en el punto medio de los cortes $x$.",
+            "This trinomial factors: $x^2 - 6x + 5 = (x - 1)(x - 5)$; the vertex lies at the midpoint of the $x$-intercepts.",
+          ),
+          L(
+            "$x_v = 3$; falta evaluar $f(3) = 9 - 18 + 5$.",
+            "$x_v = 3$; you still have to evaluate $f(3) = 9 - 18 + 5$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(3,\\ -4)$",
+          "$(3,\\ -4)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La parábola $y = f(x) = x^2 - 6x + 5$; el ejercicio original pide graficar, obtener el vértice y las intersecciones y determinar el rango.",
+            "The parabola $y = f(x) = x^2 - 6x + 5$; the original exercise asks to graph, get the vertex and the intercepts, and determine the range.",
+          ),
+          step(
+            "approach",
+            "Vértice con $x_v = -\\frac{b}{2a}$ (o en el punto medio de los cortes $x$); intersecciones factorizando; el rango lo fija $y_v$ junto con el signo de $a$.",
+            "Vertex via $x_v = -\\frac{b}{2a}$ (or at the midpoint of the $x$-intercepts); intercepts by factoring; the range is fixed by $y_v$ together with the sign of $a$.",
+          ),
+          step(
+            "calculation",
+            "$x_v = -\\frac{-6}{2} = 3$; $y_v = f(3) = 9 - 18 + 5 = -4$.<br>Intersecciones: $x^2 - 6x + 5 = (x - 1)(x - 5) = 0$ da cortes $x = 1$ y $x = 5$; $f(0) = 5$ (corte $y$).<br>Rango: como $a = 1 > 0$, $y \\ge y_v$, o sea $[-4, \\infty)$.",
+            "$x_v = -\\frac{-6}{2} = 3$; $y_v = f(3) = 9 - 18 + 5 = -4$.<br>Intercepts: $x^2 - 6x + 5 = (x - 1)(x - 5) = 0$ gives $x$-intercepts $x = 1$ and $x = 5$; $f(0) = 5$ ($y$-intercept).<br>Range: since $a = 1 > 0$, $y \\ge y_v$, i.e. $[-4, \\infty)$.",
+          ),
+          step(
+            "result",
+            "Vértice $(3, -4)$, mínimo. Verificación: $f(3) = -4$ ✓ y el punto medio de los cortes $x = 1$ y $x = 5$ es $\\frac{1 + 5}{2} = 3$ ✓ (simetría).",
+            "Vertex $(3, -4)$, a minimum. Check: $f(3) = -4$ ✓ and the midpoint of the $x$-intercepts $x = 1$ and $x = 5$ is $\\frac{1 + 5}{2} = 3$ ✓ (symmetry).",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S17 · 14 — y = 9x²: vértice (0, 0). */
+  template(
+    {
+      id: "qvf-uees-14",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "vertex",
+      difficulty: "easy",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 90,
+      tags: ["vertex", "monomial-parabola", "range"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "17 · 14",
+        page: 19,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$(0,\\ 0)$`, `$(0,\\ 0)$`), correct: true },
+        { id: "b", text: L(`$(9,\\ 0)$`, `$(9,\\ 0)$`), correct: false },
+        { id: "c", text: L(`$(0,\\ 9)$`, `$(0,\\ 9)$`), correct: false },
+        { id: "d", text: L(`$\\left(\\frac{9}{2},\\ 0\\right)$`, `$\\left(\\frac{9}{2},\\ 0\\right)$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Parábola monomio: el vértice en el origen",
+          "Monomial parabola: the vertex at the origin",
+        ),
+        statement: L(
+          "Para la parábola $$y = f(x) = 9x^2,$$ halle el vértice. (La hoja pide además las intersecciones y el rango; se calculan en la solución.)",
+          "For the parabola $$y = f(x) = 9x^2,$$ find the vertex. (The worksheet also asks for the intercepts and the range; they are worked out in the solution.)",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Con $b = 0$ y $c = 0$ la fórmula $x_v = -\\frac{b}{2a}$ se simplifica muchísimo.",
+            "With $b = 0$ and $c = 0$ the formula $x_v = -\\frac{b}{2a}$ simplifies enormously.",
+          ),
+          L(
+            "$9x^2$ sólo se anula en $x = 0$: la parábola toca el eje $x$ exactamente en su vértice.",
+            "$9x^2$ vanishes only at $x = 0$: the parabola touches the $x$-axis exactly at its vertex.",
+          ),
+          L(
+            "$x_v = 0$; el vértice es $(0, f(0))$.",
+            "$x_v = 0$; the vertex is $(0, f(0))$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(0,\\ 0)$",
+          "$(0,\\ 0)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La parábola $y = f(x) = 9x^2$ (monomio cuadrático puro).",
+            "The parabola $y = f(x) = 9x^2$ (a pure quadratic monomial).",
+          ),
+          step(
+            "approach",
+            "Sin término lineal ni constante, el eje de simetría es el eje $y$; el vértice es el único punto donde $y$ alcanza su mínimo.",
+            "With no linear or constant term, the axis of symmetry is the $y$-axis; the vertex is the single point where $y$ reaches its minimum.",
+          ),
+          step(
+            "calculation",
+            "$x_v = -\\frac{0}{2 \\cdot 9} = 0$; $y_v = f(0) = 0$.<br>Intersecciones: único corte $x$ (doble) en $(0, 0)$ y corte $y$ en $(0, 0)$.<br>Rango: $9x^2 \\ge 0$, así que $[0, \\infty)$.",
+            "$x_v = -\\frac{0}{2 \\cdot 9} = 0$; $y_v = f(0) = 0$.<br>Intercepts: single (double) $x$-intercept at $(0, 0)$ and $y$-intercept at $(0, 0)$.<br>Range: $9x^2 \\ge 0$, so $[0, \\infty)$.",
+          ),
+          step(
+            "result",
+            "Vértice $(0, 0)$: el origen. Verificación: $f(0) = 0$ ✓ y $9x^2 \\ge 0$ para todo $x$, con igualdad sólo en $x = 0$ ✓ (el mínimo es único).",
+            "Vertex $(0, 0)$: the origin. Check: $f(0) = 0$ ✓ and $9x^2 \\ge 0$ for every $x$, with equality only at $x = 0$ ✓ (the minimum is unique).",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S17 · 15 — y = −2x²−6x: vértice (−3/2, 9/2). */
+  template(
+    {
+      id: "qvf-uees-15",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "vertex",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["vertex", "intercepts", "range"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "17 · 15",
+        page: 19,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\left(-\\frac{3}{2},\\ \\frac{9}{2}\\right)$`, `$\\left(-\\frac{3}{2},\\ \\frac{9}{2}\\right)$`), correct: true },
+        { id: "b", text: L(`$\\left(\\frac{3}{2},\\ \\frac{9}{2}\\right)$`, `$\\left(\\frac{3}{2},\\ \\frac{9}{2}\\right)$`), correct: false },
+        { id: "c", text: L(`$\\left(-\\frac{3}{2},\\ -\\frac{9}{2}\\right)$`, `$\\left(-\\frac{3}{2},\\ -\\frac{9}{2}\\right)$`), correct: false },
+        { id: "d", text: L(`$(0,\\ 0)$`, `$(0,\\ 0)$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Parábola sin término independiente: vértice desde los cortes",
+          "Parabola with no constant term: vertex from the intercepts",
+        ),
+        statement: L(
+          "Para la parábola $$y = g(x) = -2x^2 - 6x,$$ halle el vértice. (La hoja pide además las intersecciones y el rango; se calculan en la solución.)",
+          "For the parabola $$y = g(x) = -2x^2 - 6x,$$ find the vertex. (The worksheet also asks for the intercepts and the range; they are worked out in the solution.)",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Saca factor común $-2x$: $-2x^2 - 6x = -2x(x + 3)$; los cortes $x$ son $0$ y $-3$.",
+            "Pull out the common factor $-2x$: $-2x^2 - 6x = -2x(x + 3)$; the $x$-intercepts are $0$ and $-3$.",
+          ),
+          L(
+            "El vértice está en el punto medio de los cortes $x$ (equivalente a $x_v = -\\frac{b}{2a}$ con $a = -2$, $b = -6$).",
+            "The vertex lies at the midpoint of the $x$-intercepts (equivalent to $x_v = -\\frac{b}{2a}$ with $a = -2$, $b = -6$).",
+          ),
+          L(
+            "$x_v = -\\frac{3}{2}$; falta $g\\left(-\\frac{3}{2}\\right)$ (saldrá positivo: la parábola abre hacia abajo).",
+            "$x_v = -\\frac{3}{2}$; you still need $g\\left(-\\frac{3}{2}\\right)$ (it comes out positive: the parabola opens downward).",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\left(-\\frac{3}{2},\\ \\frac{9}{2}\\right)$",
+          "$\\left(-\\frac{3}{2},\\ \\frac{9}{2}\\right)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La parábola $y = g(x) = -2x^2 - 6x$; el ejercicio original pide gráfica, vértice, intersecciones y rango.",
+            "The parabola $y = g(x) = -2x^2 - 6x$; the original exercise asks for the graph, vertex, intercepts and range.",
+          ),
+          step(
+            "approach",
+            "Factorizar para obtener los cortes $x$; el vértice está en su punto medio; el rango lo da el signo de $a = -2 < 0$ junto con $y_v$.",
+            "Factor to get the $x$-intercepts; the vertex lies at their midpoint; the range comes from the sign of $a = -2 < 0$ together with $y_v$.",
+          ),
+          step(
+            "calculation",
+            "$g(x) = -2x(x + 3) = 0 \\Rightarrow x = 0$ ó $x = -3$ (cortes $x$); corte $y$: $g(0) = 0$.<br>$x_v = \\frac{0 + (-3)}{2} = -\\frac{3}{2}$; $y_v = g\\left(-\\frac{3}{2}\\right) = -2 \\cdot \\frac{9}{4} + 9 = \\frac{9}{2}$.<br>Rango: $a = -2 < 0$, así que $\\left(-\\infty,\\ \\frac{9}{2}\\right]$.",
+            "$g(x) = -2x(x + 3) = 0 \\Rightarrow x = 0$ or $x = -3$ ($x$-intercepts); $y$-intercept: $g(0) = 0$.<br>$x_v = \\frac{0 + (-3)}{2} = -\\frac{3}{2}$; $y_v = g\\left(-\\frac{3}{2}\\right) = -2 \\cdot \\frac{9}{4} + 9 = \\frac{9}{2}$.<br>Range: $a = -2 < 0$, so $\\left(-\\infty,\\ \\frac{9}{2}\\right]$.",
+          ),
+          step(
+            "result",
+            "Vértice $\\left(-\\frac{3}{2},\\ \\frac{9}{2}\\right)$, punto más alto ($a = -2 < 0$). Verificación: $g\\left(-\\frac{3}{2}\\right) = -\\frac{9}{2} + 9 = \\frac{9}{2}$ ✓ y el punto medio de los cortes $0$ y $-3$ es $-\\frac{3}{2}$ ✓.",
+            "Vertex $\\left(-\\frac{3}{2},\\ \\frac{9}{2}\\right)$, the highest point ($a = -2 < 0$). Check: $g\\left(-\\frac{3}{2}\\right) = -\\frac{9}{2} + 9 = \\frac{9}{2}$ ✓ and the midpoint of the intercepts $0$ and $-3$ is $-\\frac{3}{2}$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S17 · 16 — y = x²−4: vértice (0, −4). */
+  template(
+    {
+      id: "qvf-uees-16",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "vertex",
+      difficulty: "easy",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 90,
+      tags: ["vertex", "intercepts", "range"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "17 · 16",
+        page: 19,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$(0,\\ -4)$`, `$(0,\\ -4)$`), correct: true },
+        { id: "b", text: L(`$(2,\\ 0)$`, `$(2,\\ 0)$`), correct: false },
+        { id: "c", text: L(`$(0,\\ 4)$`, `$(0,\\ 4)$`), correct: false },
+        { id: "d", text: L(`$(-4,\\ 0)$`, `$(-4,\\ 0)$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Diferencia de cuadrados: vértice entre los cortes ±2",
+          "Difference of squares: vertex between the ±2 intercepts",
+        ),
+        statement: L(
+          "Para la parábola $$y = f(x) = x^2 - 4,$$ halle el vértice. (La hoja pide además las intersecciones y el rango; se calculan en la solución.)",
+          "For the parabola $$y = f(x) = x^2 - 4,$$ find the vertex. (The worksheet also asks for the intercepts and the range; they are worked out in the solution.)",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Con $b = 0$: $x_v = 0$ sin ningún cálculo.",
+            "With $b = 0$: $x_v = 0$ with no computation at all.",
+          ),
+          L(
+            "$x^2 - 4 = (x - 2)(x + 2)$ te da los cortes $x$; el vértice está justo enmedio.",
+            "$x^2 - 4 = (x - 2)(x + 2)$ gives you the $x$-intercepts; the vertex lies right in between.",
+          ),
+          L(
+            "$x_v = 0$; el vértice es $(0, f(0))$ — un número negativo pequeño.",
+            "$x_v = 0$; the vertex is $(0, f(0))$ — a small negative number.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(0,\\ -4)$",
+          "$(0,\\ -4)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La parábola $y = f(x) = x^2 - 4$; el ejercicio original pide gráfica, vértice, intersecciones y rango.",
+            "The parabola $y = f(x) = x^2 - 4$; the original exercise asks for the graph, vertex, intercepts and range.",
+          ),
+          step(
+            "approach",
+            "Con $b = 0$ el eje de simetría es el eje $y$; los cortes salen de la diferencia de cuadrados y el rango del mínimo $y_v$.",
+            "With $b = 0$ the axis of symmetry is the $y$-axis; the intercepts come from the difference of squares and the range from the minimum $y_v$.",
+          ),
+          step(
+            "calculation",
+            "$x_v = 0$; $y_v = f(0) = -4$.<br>Intersecciones: $x^2 - 4 = (x - 2)(x + 2) = 0$ da cortes $x = \\pm 2$; corte $y$ en $(0, -4)$.<br>Rango: $a = 1 > 0$ y $y_v = -4$, así que $[-4, \\infty)$.",
+            "$x_v = 0$; $y_v = f(0) = -4$.<br>Intercepts: $x^2 - 4 = (x - 2)(x + 2) = 0$ gives $x$-intercepts $x = \\pm 2$; $y$-intercept at $(0, -4)$.<br>Range: $a = 1 > 0$ and $y_v = -4$, so $[-4, \\infty)$.",
+          ),
+          step(
+            "result",
+            "Vértice $(0, -4)$, mínimo. Verificación: $f(0) = -4$ ✓ y $f(\\pm 2) = 0 > -4$ ✓ (ambos cortes $x$ quedan por encima del vértice).",
+            "Vertex $(0, -4)$, a minimum. Check: $f(0) = -4$ ✓ and $f(\\pm 2) = 0 > -4$ ✓ (both $x$-intercepts lie above the vertex).",
+          ),
+        ],
+      };
+    },
+  ),
+  /* S17 · 17 — s = t²+6t+9: vértice (−3, 0), cuadrado perfecto. */
+  template(
+    {
+      id: "qvf-uees-17",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "vertex",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 120,
+      tags: ["vertex", "perfect-square", "range"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "17 · 17",
+        page: 19,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$(-3,\\ 0)$`, `$(-3,\\ 0)$`), correct: true },
+        { id: "b", text: L(`$(3,\\ 0)$`, `$(3,\\ 0)$`), correct: false },
+        { id: "c", text: L(`$(-3,\\ 9)$`, `$(-3,\\ 9)$`), correct: false },
+        { id: "d", text: L(`$(0,\\ 9)$`, `$(0,\\ 9)$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Trinomio cuadrado perfecto: el vértice toca el eje",
+          "Perfect-square trinomial: the vertex touches the axis",
+        ),
+        statement: L(
+          "Para la parábola $$s = h(t) = t^2 + 6t + 9,$$ halle el vértice. (La hoja pide además las intersecciones y el rango; se calculan en la solución.)",
+          "For the parabola $$s = h(t) = t^2 + 6t + 9,$$ find the vertex. (The worksheet also asks for the intercepts and the range; they are worked out in the solution.)",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Es un trinomio cuadrado perfecto: $t^2 + 6t + 9 = (t + 3)^2$.",
+            "It is a perfect-square trinomial: $t^2 + 6t + 9 = (t + 3)^2$.",
+          ),
+          L(
+            "Un cuadrado nunca es negativo: el mínimo vale $0$ y se alcanza justo cuando el paréntesis se anula.",
+            "A square is never negative: the minimum equals $0$ and is reached exactly when the parenthesis vanishes.",
+          ),
+          L(
+            "El paréntesis se anula en $t = -3$; el vértice es $(-3, h(-3))$.",
+            "The parenthesis vanishes at $t = -3$; the vertex is $(-3, h(-3))$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(-3,\\ 0)$",
+          "$(-3,\\ 0)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La parábola $s = h(t) = t^2 + 6t + 9$ (posición $s$ como función del tiempo $t$); se pide vértice, intersecciones y rango (parte de la hoja).",
+            "The parabola $s = h(t) = t^2 + 6t + 9$ (position $s$ as a function of time $t$); vertex, intercepts and range are requested (part of the worksheet).",
+          ),
+          step(
+            "approach",
+            "Reconocer el cuadrado perfecto $(t + 3)^2$: el mínimo de un cuadrado es $0$, así que el vértice vive sobre el eje $t$.",
+            "Recognize the perfect square $(t + 3)^2$: the minimum of a square is $0$, so the vertex lives on the $t$-axis.",
+          ),
+          step(
+            "calculation",
+            "$h(t) = (t + 3)^2$: mínimo $0$ en $t = -3$, o sea vértice $(-3, 0)$.<br>Intersecciones: único corte $t$ (doble) en $t = -3$; corte $s$: $h(0) = 9$, o sea $(0, 9)$.<br>Rango: $[0, \\infty)$.",
+            "$h(t) = (t + 3)^2$: minimum $0$ at $t = -3$, i.e. vertex $(-3, 0)$.<br>Intercepts: single (double) $t$-intercept at $t = -3$; $s$-intercept: $h(0) = 9$, i.e. $(0, 9)$.<br>Range: $[0, \\infty)$.",
+          ),
+          step(
+            "result",
+            "Vértice $(-3, 0)$, mínimo. Verificación: $h(-3) = 9 - 18 + 9 = 0$ ✓ y $(t + 3)^2 \\ge 0$ para todo $t$ ✓ (nunca baja de $0$).",
+            "Vertex $(-3, 0)$, a minimum. Check: $h(-3) = 9 - 18 + 9 = 0$ ✓ and $(t + 3)^2 \\ge 0$ for every $t$ ✓ (it never goes below $0$).",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S17 · 18 — s = 2t²+3t−2: vértice (−3/4, −25/8). */
+  template(
+    {
+      id: "qvf-uees-18",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "vertex",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 180,
+      tags: ["vertex", "intercepts", "range"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "17 · 18",
+        page: 19,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\left(-\\frac{3}{4},\\ -\\frac{25}{8}\\right)$`, `$\\left(-\\frac{3}{4},\\ -\\frac{25}{8}\\right)$`), correct: true },
+        { id: "b", text: L(`$\\left(\\frac{3}{4},\\ -\\frac{25}{8}\\right)$`, `$\\left(\\frac{3}{4},\\ -\\frac{25}{8}\\right)$`), correct: false },
+        { id: "c", text: L(`$\\left(-\\frac{3}{4},\\ \\frac{25}{8}\\right)$`, `$\\left(-\\frac{3}{4},\\ \\frac{25}{8}\\right)$`), correct: false },
+        { id: "d", text: L(`$\\left(\\frac{1}{2},\\ 0\\right)$`, `$\\left(\\frac{1}{2},\\ 0\\right)$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Vértice con fracciones: 2t² + 3t − 2",
+          "Vertex with fractions: 2t² + 3t − 2",
+        ),
+        statement: L(
+          "Para la parábola $$s = h(t) = 2t^2 + 3t - 2,$$ halle el vértice. (La hoja pide además las intersecciones y el rango; se calculan en la solución.)",
+          "For the parabola $$s = h(t) = 2t^2 + 3t - 2,$$ find the vertex. (The worksheet also asks for the intercepts and the range; they are worked out in the solution.)",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Factoriza primero: $2t^2 + 3t - 2 = (2t - 1)(t + 2)$; los cortes $t$ son $\\frac{1}{2}$ y $-2$.",
+            "Factor first: $2t^2 + 3t - 2 = (2t - 1)(t + 2)$; the $t$-intercepts are $\\frac{1}{2}$ and $-2$.",
+          ),
+          L(
+            "El vértice está en el punto medio de los cortes: $t_v = \\frac{\\frac{1}{2} + (-2)}{2}$ (equivalente a $-\\frac{b}{2a}$).",
+            "The vertex lies at the midpoint of the intercepts: $t_v = \\frac{\\frac{1}{2} + (-2)}{2}$ (equivalent to $-\\frac{b}{2a}$).",
+          ),
+          L(
+            "$t_v = -\\frac{3}{4}$; falta $h\\left(-\\frac{3}{4}\\right)$ (fracción con $8$ abajo).",
+            "$t_v = -\\frac{3}{4}$; you still need $h\\left(-\\frac{3}{4}\\right)$ (a fraction with $8$ below).",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\left(-\\frac{3}{4},\\ -\\frac{25}{8}\\right)$",
+          "$\\left(-\\frac{3}{4},\\ -\\frac{25}{8}\\right)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La parábola $s = h(t) = 2t^2 + 3t - 2$; el ejercicio original pide gráfica, vértice, intersecciones y rango.",
+            "The parabola $s = h(t) = 2t^2 + 3t - 2$; the original exercise asks for the graph, vertex, intercepts and range.",
+          ),
+          step(
+            "approach",
+            "Obtener los cortes $t$ factorizando y ubicar el vértice en su punto medio; evaluar $h(t_v)$ y cerrar el rango con el signo de $a = 2 > 0$.",
+            "Get the $t$-intercepts by factoring and place the vertex at their midpoint; evaluate $h(t_v)$ and close the range with the sign of $a = 2 > 0$.",
+          ),
+          step(
+            "calculation",
+            "$2t^2 + 3t - 2 = (2t - 1)(t + 2) = 0 \\Rightarrow t = \\frac{1}{2}$ ó $t = -2$ (cortes); corte $s$: $h(0) = -2$.<br>$t_v = \\frac{\\frac{1}{2} - 2}{2} = -\\frac{3}{4}$; $y_v$... es decir $s_v = h\\left(-\\frac{3}{4}\\right) = 2 \\cdot \\frac{9}{16} - \\frac{9}{4} - 2 = \\frac{9}{8} - \\frac{18}{8} - \\frac{16}{8} = -\\frac{25}{8}$.<br>Rango: $\\left[-\\frac{25}{8},\\ \\infty\\right)$.",
+            "$2t^2 + 3t - 2 = (2t - 1)(t + 2) = 0 \\Rightarrow t = \\frac{1}{2}$ or $t = -2$ (intercepts); $s$-intercept: $h(0) = -2$.<br>$t_v = \\frac{\\frac{1}{2} - 2}{2} = -\\frac{3}{4}$; that is, $s_v = h\\left(-\\frac{3}{4}\\right) = 2 \\cdot \\frac{9}{16} - \\frac{9}{4} - 2 = \\frac{9}{8} - \\frac{18}{8} - \\frac{16}{8} = -\\frac{25}{8}$.<br>Range: $\\left[-\\frac{25}{8},\\ \\infty\\right)$.",
+          ),
+          step(
+            "result",
+            "Vértice $\\left(-\\frac{3}{4},\\ -\\frac{25}{8}\\right)$, mínimo. Verificación: $h\\left(-\\frac{3}{4}\\right) = -\\frac{25}{8}$ ✓ y el punto medio de los cortes $\\frac{1}{2}$ y $-2$ es $-\\frac{3}{4}$ ✓.",
+            "Vertex $\\left(-\\frac{3}{4},\\ -\\frac{25}{8}\\right)$, a minimum. Check: $h\\left(-\\frac{3}{4}\\right) = -\\frac{25}{8}$ ✓ and the midpoint of the intercepts $\\frac{1}{2}$ and $-2$ is $-\\frac{3}{4}$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S17 · 19 — y = −5+3x−3x²: vértice (1/2, −17/4), sin cortes x. */
+  template(
+    {
+      id: "qvf-uees-19",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "vertex",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["vertex", "no-x-intercepts", "range"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "17 · 19",
+        page: 19,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\left(\\frac{1}{2},\\ -\\frac{17}{4}\\right)$`, `$\\left(\\frac{1}{2},\\ -\\frac{17}{4}\\right)$`), correct: true },
+        { id: "b", text: L(`$\\left(-\\frac{1}{2},\\ -\\frac{17}{4}\\right)$`, `$\\left(-\\frac{1}{2},\\ -\\frac{17}{4}\\right)$`), correct: false },
+        { id: "c", text: L(`$\\left(\\frac{1}{2},\\ \\frac{17}{4}\\right)$`, `$\\left(\\frac{1}{2},\\ \\frac{17}{4}\\right)$`), correct: false },
+        { id: "d", text: L(`$(0,\\ -5)$`, `$(0,\\ -5)$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Parábola que NO cruza el eje x: el vértice manda",
+          "A parabola that never crosses the x-axis: the vertex rules",
+        ),
+        statement: L(
+          "Para la parábola $$y = f(x) = -5 + 3x - 3x^2,$$ halle el vértice. (La hoja pide además las intersecciones y el rango; se calculan en la solución.)",
+          "For the parabola $$y = f(x) = -5 + 3x - 3x^2,$$ find the vertex. (The worksheet also asks for the intercepts and the range; they are worked out in the solution.)",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Reordena: $y = -3x^2 + 3x - 5$, o sea $a = -3$, $b = 3$, $c = -5$.",
+            "Rearrange: $y = -3x^2 + 3x - 5$, i.e. $a = -3$, $b = 3$, $c = -5$.",
+          ),
+          L(
+            "$x_v = -\\frac{b}{2a} = -\\frac{3}{2(-3)} = \\frac{1}{2}$ (cuidado con el signo).",
+            "$x_v = -\\frac{b}{2a} = -\\frac{3}{2(-3)} = \\frac{1}{2}$ (mind the sign).",
+          ),
+          L(
+            "$x_v = \\frac{1}{2}$; evalúa $f\\left(\\frac{1}{2}\\right)$ (saldrá una fracción negativa con $4$ abajo).",
+            "$x_v = \\frac{1}{2}$; evaluate $f\\left(\\frac{1}{2}\\right)$ (it comes out as a negative fraction with $4$ below).",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\left(\\frac{1}{2},\\ -\\frac{17}{4}\\right)$",
+          "$\\left(\\frac{1}{2},\\ -\\frac{17}{4}\\right)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La parábola $y = f(x) = -5 + 3x - 3x^2$; el ejercicio original pide gráfica, vértice, intersecciones y rango.",
+            "The parabola $y = f(x) = -5 + 3x - 3x^2$; the original exercise asks for the graph, vertex, intercepts and range.",
+          ),
+          step(
+            "approach",
+            "Reordenar a $-3x^2 + 3x - 5$, hallar el vértice con $-\\frac{b}{2a}$ y evaluar; el discriminante dirá si la parábola corta el eje $x$.",
+            "Rearrange to $-3x^2 + 3x - 5$, find the vertex with $-\\frac{b}{2a}$ and evaluate; the discriminant will say whether the parabola crosses the $x$-axis.",
+          ),
+          step(
+            "calculation",
+            "$x_v = -\\frac{3}{2(-3)} = \\frac{1}{2}$;<br>$y_v = -3\\left(\\frac{1}{2}\\right)^2 + 3\\left(\\frac{1}{2}\\right) - 5 = -\\frac{3}{4} + \\frac{6}{4} - \\frac{20}{4} = -\\frac{17}{4}$.<br>Intersecciones: $\\Delta = 3^2 - 4(-3)(-5) = 9 - 60 < 0$: NO corta el eje $x$; corte $y$: $f(0) = -5$.<br>Rango: $a = -3 < 0$ con $y_v = -\\frac{17}{4}$: $\\left(-\\infty,\\ -\\frac{17}{4}\\right]$.",
+            "$x_v = -\\frac{3}{2(-3)} = \\frac{1}{2}$;<br>$y_v = -3\\left(\\frac{1}{2}\\right)^2 + 3\\left(\\frac{1}{2}\\right) - 5 = -\\frac{3}{4} + \\frac{6}{4} - \\frac{20}{4} = -\\frac{17}{4}$.<br>Intercepts: $\\Delta = 3^2 - 4(-3)(-5) = 9 - 60 < 0$: it does NOT cross the $x$-axis; $y$-intercept: $f(0) = -5$.<br>Range: $a = -3 < 0$ with $y_v = -\\frac{17}{4}$: $\\left(-\\infty,\\ -\\frac{17}{4}\\right]$.",
+          ),
+          step(
+            "result",
+            "Vértice $\\left(\\frac{1}{2},\\ -\\frac{17}{4}\\right)$, punto más alto ($a = -3 < 0$). Verificación: $f\\left(\\frac{1}{2}\\right) = -\\frac{17}{4} = -4{,}25$ ✓ y $f(0) = -5 < -\\frac{17}{4}$ ✓ (el corte $y$ queda por debajo del máximo).",
+            "Vertex $\\left(\\frac{1}{2},\\ -\\frac{17}{4}\\right)$, the highest point ($a = -3 < 0$). Check: $f\\left(\\frac{1}{2}\\right) = -\\frac{17}{4} = -4.25$ ✓ and $f(0) = -5 < -\\frac{17}{4}$ ✓ (the $y$-intercept lies below the maximum).",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S17 · 20 — y = 1−x−x²: vértice (−1/2, 5/4). */
+  template(
+    {
+      id: "qvf-uees-20",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "vertex",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["vertex", "intercepts", "range"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "17 · 20",
+        page: 19,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$\\left(-\\frac{1}{2},\\ \\frac{5}{4}\\right)$`, `$\\left(-\\frac{1}{2},\\ \\frac{5}{4}\\right)$`), correct: true },
+        { id: "b", text: L(`$\\left(\\frac{1}{2},\\ \\frac{5}{4}\\right)$`, `$\\left(\\frac{1}{2},\\ \\frac{5}{4}\\right)$`), correct: false },
+        { id: "c", text: L(`$\\left(-\\frac{1}{2},\\ -\\frac{5}{4}\\right)$`, `$\\left(-\\frac{1}{2},\\ -\\frac{5}{4}\\right)$`), correct: false },
+        { id: "d", text: L(`$(0,\\ 1)$`, `$(0,\\ 1)$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Vértice de y = 1 − x − x² y sus cortes irracionales",
+          "Vertex of y = 1 − x − x² and its irrational intercepts",
+        ),
+        statement: L(
+          "Para la parábola $$y = H(x) = 1 - x - x^2,$$ halle el vértice. (La hoja pide además las intersecciones y el rango; se calculan en la solución.)",
+          "For the parabola $$y = H(x) = 1 - x - x^2,$$ find the vertex. (The worksheet also asks for the intercepts and the range; they are worked out in the solution.)",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Reordena: $H(x) = -x^2 - x + 1$ con $a = -1$, $b = -1$, $c = 1$.",
+            "Rearrange: $H(x) = -x^2 - x + 1$ with $a = -1$, $b = -1$, $c = 1$.",
+          ),
+          L(
+            "$x_v = -\\frac{-1}{2(-1)} = -\\frac{1}{2}$ (los dos signos menos se cancelan, pero el denominador vuelve a negativizar).",
+            "$x_v = -\\frac{-1}{2(-1)} = -\\frac{1}{2}$ (the two minus signs cancel, but the denominator makes it negative again).",
+          ),
+          L(
+            "$x_v = -\\frac{1}{2}$; falta $H\\left(-\\frac{1}{2}\\right)$ (una fracción propia positiva).",
+            "$x_v = -\\frac{1}{2}$; you still need $H\\left(-\\frac{1}{2}\\right)$ (a positive proper fraction).",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\left(-\\frac{1}{2},\\ \\frac{5}{4}\\right)$",
+          "$\\left(-\\frac{1}{2},\\ \\frac{5}{4}\\right)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La parábola $y = H(x) = 1 - x - x^2$; el ejercicio original pide gráfica, vértice, intersecciones y rango.",
+            "The parabola $y = H(x) = 1 - x - x^2$; the original exercise asks for the graph, vertex, intercepts and range.",
+          ),
+          step(
+            "approach",
+            "Reordenar a $-x^2 - x + 1$, vértice con $-\\frac{b}{2a}$; los cortes $x$ salen de la fórmula cuadrática (aquí son irracionales) y el rango del máximo $y_v$.",
+            "Rearrange to $-x^2 - x + 1$, vertex via $-\\frac{b}{2a}$; the $x$-intercepts come from the quadratic formula (here they are irrational) and the range from the maximum $y_v$.",
+          ),
+          step(
+            "calculation",
+            "$x_v = -\\frac{-1}{2(-1)} = -\\frac{1}{2}$;<br>$y_v = H\\left(-\\frac{1}{2}\\right) = 1 + \\frac{1}{2} - \\frac{1}{4} = \\frac{5}{4}$.<br>Intersecciones: $-x^2 - x + 1 = 0 \\Rightarrow x^2 + x - 1 = 0$, $\\Delta = 5$: cortes $x = \\frac{-1 \\pm \\sqrt{5}}{2}$; corte $y$: $H(0) = 1$.<br>Rango: $\\left(-\\infty,\\ \\frac{5}{4}\\right]$.",
+            "$x_v = -\\frac{-1}{2(-1)} = -\\frac{1}{2}$;<br>$y_v = H\\left(-\\frac{1}{2}\\right) = 1 + \\frac{1}{2} - \\frac{1}{4} = \\frac{5}{4}$.<br>Intercepts: $-x^2 - x + 1 = 0 \\Rightarrow x^2 + x - 1 = 0$, $\\Delta = 5$: $x$-intercepts $x = \\frac{-1 \\pm \\sqrt{5}}{2}$; $y$-intercept: $H(0) = 1$.<br>Range: $\\left(-\\infty,\\ \\frac{5}{4}\\right]$.",
+          ),
+          step(
+            "result",
+            "Vértice $\\left(-\\frac{1}{2},\\ \\frac{5}{4}\\right)$, punto más alto ($a = -1 < 0$). Verificación: $H\\left(-\\frac{1}{2}\\right) = \\frac{5}{4}$ ✓ y $H(0) = 1 < \\frac{5}{4}$ ✓ (el corte $y$ queda por debajo del máximo).",
+            "Vertex $\\left(-\\frac{1}{2},\\ \\frac{5}{4}\\right)$, the highest point ($a = -1 < 0$). Check: $H\\left(-\\frac{1}{2}\\right) = \\frac{5}{4}$ ✓ and $H(0) = 1 < \\frac{5}{4}$ ✓ (the $y$-intercept lies below the maximum).",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S17 · 21 — t = s²−8s+14: vértice (4, −2). */
+  template(
+    {
+      id: "qvf-uees-21",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "vertex",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["vertex", "intercepts", "range"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "17 · 21",
+        page: 19,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$(4,\\ -2)$`, `$(4,\\ -2)$`), correct: true },
+        { id: "b", text: L(`$(-4,\\ -2)$`, `$(-4,\\ -2)$`), correct: false },
+        { id: "c", text: L(`$(4,\\ 2)$`, `$(4,\\ 2)$`), correct: false },
+        { id: "d", text: L(`$(0,\\ 14)$`, `$(0,\\ 14)$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "La variable se llama s: vértice de t = f(s)",
+          "The variable is called s: vertex of t = f(s)",
+        ),
+        statement: L(
+          "Para la parábola $$t = f(s) = s^2 - 8s + 14,$$ halle el vértice. (La hoja pide además las intersecciones y el rango; se calculan en la solución.)",
+          "For the parabola $$t = f(s) = s^2 - 8s + 14,$$ find the vertex. (The worksheet also asks for the intercepts and the range; they are worked out in the solution.)",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "$a = 1$, $b = -8$, $c = 14$; la fórmula del vértice da $s_v = -\\frac{b}{2a} = -\\frac{-8}{2}$.",
+            "$a = 1$, $b = -8$, $c = 14$; the vertex formula gives $s_v = -\\frac{b}{2a} = -\\frac{-8}{2}$.",
+          ),
+          L(
+            "También puedes completar el cuadrado: $s^2 - 8s + 14 = (s - 4)^2 - 2$.",
+            "You may also complete the square: $s^2 - 8s + 14 = (s - 4)^2 - 2$.",
+          ),
+          L(
+            "$s_v = 4$; falta $f(4) = 16 - 32 + 14$.",
+            "$s_v = 4$; you still need $f(4) = 16 - 32 + 14$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(4,\\ -2)$",
+          "$(4,\\ -2)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La parábola $t = f(s) = s^2 - 8s + 14$ (la entrada es $s$ y la salida $t$); el ejercicio original pide gráfica, vértice, intersecciones y rango.",
+            "The parabola $t = f(s) = s^2 - 8s + 14$ (the input is $s$ and the output $t$); the original exercise asks for the graph, vertex, intercepts and range.",
+          ),
+          step(
+            "approach",
+            "Aplicar $s_v = -\\frac{b}{2a}$ (o completar el cuadrado) y evaluar $f(s_v)$; los cortes $s$ salen de la fórmula cuadrática.",
+            "Apply $s_v = -\\frac{b}{2a}$ (or complete the square) and evaluate $f(s_v)$; the $s$-intercepts come from the quadratic formula.",
+          ),
+          step(
+            "calculation",
+            "$s_v = -\\frac{-8}{2} = 4$; $t_v = f(4) = 16 - 32 + 14 = -2$.<br>Intersecciones: $s^2 - 8s + 14 = 0$ con $\\Delta = 64 - 56 = 8$: cortes $s = 4 \\pm \\sqrt{2}$; corte $t$: $f(0) = 14$, o sea $(0, 14)$.<br>Rango: $a = 1 > 0$ con $t_v = -2$: $[-2, \\infty)$.",
+            "$s_v = -\\frac{-8}{2} = 4$; $t_v = f(4) = 16 - 32 + 14 = -2$.<br>Intercepts: $s^2 - 8s + 14 = 0$ with $\\Delta = 64 - 56 = 8$: $s$-intercepts $s = 4 \\pm \\sqrt{2}$; $t$-intercept: $f(0) = 14$, i.e. $(0, 14)$.<br>Range: $a = 1 > 0$ with $t_v = -2$: $[-2, \\infty)$.",
+          ),
+          step(
+            "result",
+            "Vértice $(4, -2)$, mínimo. Verificación: $f(4) = -2$ ✓ y $f(0) = 14 > -2$ ✓ (el corte $t$ queda muy por encima del vértice).",
+            "Vertex $(4, -2)$, a minimum. Check: $f(4) = -2$ ✓ and $f(0) = 14 > -2$ ✓ (the $t$-intercept lies far above the vertex).",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S17 · 22 — t = s²+6s+11: vértice (−3, 2), sin cortes s. */
+  template(
+    {
+      id: "qvf-uees-22",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "vertex",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["vertex", "no-x-intercepts", "range"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "17 · 22",
+        page: 19,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$(-3,\\ 2)$`, `$(-3,\\ 2)$`), correct: true },
+        { id: "b", text: L(`$(3,\\ 2)$`, `$(3,\\ 2)$`), correct: false },
+        { id: "c", text: L(`$(-3,\\ -2)$`, `$(-3,\\ -2)$`), correct: false },
+        { id: "d", text: L(`$(0,\\ 11)$`, `$(0,\\ 11)$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Completar el cuadrado: s² + 6s + 11 = (s+3)² + 2",
+          "Completing the square: s² + 6s + 11 = (s+3)² + 2",
+        ),
+        statement: L(
+          "Para la parábola $$t = f(s) = s^2 + 6s + 11,$$ halle el vértice. (La hoja pide además las intersecciones y el rango; se calculan en la solución.)",
+          "For the parabola $$t = f(s) = s^2 + 6s + 11,$$ find the vertex. (The worksheet also asks for the intercepts and the range; they are worked out in the solution.)",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "$a = 1$, $b = 6$, $c = 11$: $s_v = -\\frac{6}{2} = -3$.",
+            "$a = 1$, $b = 6$, $c = 11$: $s_v = -\\frac{6}{2} = -3$.",
+          ),
+          L(
+            "Completa el cuadrado: $s^2 + 6s + 11 = (s + 3)^2 + 2$ — el vértice se lee directo de esta forma.",
+            "Complete the square: $s^2 + 6s + 11 = (s + 3)^2 + 2$ — the vertex can be read straight off this form.",
+          ),
+          L(
+            "$s_v = -3$; el vértice es $(-3, f(-3))$ (un número pequeño y positivo).",
+            "$s_v = -3$; the vertex is $(-3, f(-3))$ (a small positive number).",
+          ),
+        ],
+        answerDisplay: L(
+          "$(-3,\\ 2)$",
+          "$(-3,\\ 2)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La parábola $t = f(s) = s^2 + 6s + 11$; el ejercicio original pide gráfica, vértice, intersecciones y rango.",
+            "The parabola $t = f(s) = s^2 + 6s + 11$; the original exercise asks for the graph, vertex, intercepts and range.",
+          ),
+          step(
+            "approach",
+            "Completar el cuadrado (o $s_v = -\\frac{b}{2a}$); el discriminante anticipa si hay cortes $s$ reales.",
+            "Complete the square (or use $s_v = -\\frac{b}{2a}$); the discriminant anticipates whether there are real $s$-intercepts.",
+          ),
+          step(
+            "calculation",
+            "$s^2 + 6s + 11 = (s + 3)^2 + 2$: mínimo $2$ en $s = -3$, vértice $(-3, 2)$.<br>Intersecciones: $\\Delta = 36 - 44 = -8 < 0$: NO corta el eje $s$; corte $t$: $f(0) = 11$, o sea $(0, 11)$.<br>Rango: $[2, \\infty)$.",
+            "$s^2 + 6s + 11 = (s + 3)^2 + 2$: minimum $2$ at $s = -3$, vertex $(-3, 2)$.<br>Intercepts: $\\Delta = 36 - 44 = -8 < 0$: it does NOT cross the $s$-axis; $t$-intercept: $f(0) = 11$, i.e. $(0, 11)$.<br>Range: $[2, \\infty)$.",
+          ),
+          step(
+            "result",
+            "Vértice $(-3, 2)$, mínimo. Verificación: $f(-3) = 9 - 18 + 11 = 2$ ✓ y $(s + 3)^2 \\ge 0$ para todo $s$, así que $f(s) \\ge 2$ siempre ✓ (la parábola queda por encima del eje $s$).",
+            "Vertex $(-3, 2)$, a minimum. Check: $f(-3) = 9 - 18 + 11 = 2$ ✓ and $(s + 3)^2 \\ge 0$ for every $s$, so $f(s) \\ge 2$ always ✓ (the parabola stays above the $s$-axis).",
+          ),
+        ],
+      };
+    },
+  ),
+  /* S17 · 29 — ingreso máximo: p = 100−10q → (q, R) = (5, 250). */
+  template(
+    {
+      id: "qvf-uees-29",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "applications",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["revenue", "demand", "maximum", "modeling"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "17 · 29",
+        page: 19,
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$(5,\\ 250)$`, `$(5,\\ 250)$`), correct: true },
+        { id: "b", text: L(`$(10,\\ 0)$`, `$(10,\\ 0)$`), correct: false },
+        { id: "c", text: L(`$(5,\\ 500)$`, `$(5,\\ 500)$`), correct: false },
+        { id: "d", text: L(`$(100,\\ 0)$`, `$(100,\\ 0)$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Modelar el ingreso R = p·q y maximizar la parábola",
+          "Model the revenue R = p·q and maximize the parabola",
+        ),
+        statement: L(
+          "**Ingreso.** La función de demanda para el fabricante de un producto es $p = f(q) = 100 - 10q$, donde $p$ es el precio por unidad cuando se demandan $q$ unidades (por día). Halle el nivel de producción que maximiza el ingreso total del fabricante y determine este ingreso. (Opciones: pares $(q, R)$ con $R$ el ingreso total.)",
+          "**Revenue.** The demand function for a manufacturer of a product is $p = f(q) = 100 - 10q$, where $p$ is the price per unit when $q$ units are demanded (per day). Find the level of production that maximizes the manufacturer's total revenue and determine this revenue. (Options: pairs $(q, R)$ with $R$ the total revenue.)",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Primero el modelo: el ingreso es precio por cantidad, $R(q) = p \\cdot q = (100 - 10q)q$.",
+            "First the model: revenue is price times quantity, $R(q) = p \\cdot q = (100 - 10q)q$.",
+          ),
+          L(
+            "$R(q) = 100q - 10q^2$ es una parábola que abre hacia abajo ($a = -10$): su máximo está en el vértice $q = -\\frac{b}{2a}$.",
+            "$R(q) = 100q - 10q^2$ is a downward-opening parabola ($a = -10$): its maximum sits at the vertex $q = -\\frac{b}{2a}$.",
+          ),
+          L(
+            "$q^* = -\\frac{100}{2(-10)} = 5$ unidades; falta evaluar $R(5)$ (no es el precio $p(5)$).",
+            "$q^* = -\\frac{100}{2(-10)} = 5$ units; you still have to evaluate $R(5)$ (not the price $p(5)$).",
+          ),
+        ],
+        answerDisplay: L(
+          "$(q, R) = (5,\\ 250)$",
+          "$(q, R) = (5,\\ 250)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La demanda $p = f(q) = 100 - 10q$ (precio por unidad cuando se demandan $q$ unidades diarias); se pide el nivel de producción que maximiza el ingreso total y ese ingreso.",
+            "The demand $p = f(q) = 100 - 10q$ (price per unit when $q$ daily units are demanded); the production level that maximizes total revenue and that revenue are requested.",
+          ),
+          step(
+            "approach",
+            "Construir el modelo de ingreso $R(q) = p(q) \\cdot q$, una parábola hacia abajo, y maximizarla en su vértice; distinguir ingreso $R$ de precio $p$.",
+            "Build the revenue model $R(q) = p(q) \\cdot q$, a downward parabola, and maximize it at its vertex; keep the revenue $R$ apart from the price $p$.",
+          ),
+          step(
+            "calculation",
+            "$R(q) = (100 - 10q)q = 100q - 10q^2$.<br>Vértice: $q^* = -\\frac{100}{2(-10)} = 5$.<br>$p(5) = 100 - 50 = 50$ y $R(5) = 50 \\cdot 5 = 250$.",
+            "$R(q) = (100 - 10q)q = 100q - 10q^2$.<br>Vertex: $q^* = -\\frac{100}{2(-10)} = 5$.<br>$p(5) = 100 - 50 = 50$ and $R(5) = 50 \\cdot 5 = 250$.",
+          ),
+          step(
+            "result",
+            "Nivel óptimo: $q = 5$ unidades diarias, con ingreso máximo $R = 250$. Verificación: $R(5) = 100 \\cdot 5 - 10 \\cdot 25 = 500 - 250 = 250$ ✓; vecinos: $R(4) = 400 - 160 = 240 < 250$ y $R(6) = 600 - 360 = 240 < 250$ ✓.",
+            "Optimal level: $q = 5$ daily units, with maximum revenue $R = 250$. Check: $R(5) = 100 \\cdot 5 - 10 \\cdot 25 = 500 - 250 = 250$ ✓; neighbours: $R(4) = 400 - 160 = 240 < 250$ and $R(6) = 600 - 360 = 240 < 250$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S17 · 30 — CHALLENGE: p = 0,85−0,00045q; vértice 8500/9 ≈ 944,44 NO entero;
+     entre enteros gana q = 944 (R = 401,3888 > 401,38875); R ≈ 401,39 (7225/18). */
+  template(
+    {
+      id: "qvf-uees-30",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "applications",
+      difficulty: "challenge",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["revenue", "demand", "integer-constraint", "challenge"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "17 · 30",
+        page: 19,
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$(944,\\ 401{,}39)$`, `$(944,\\ 401.39)$`), correct: true },
+        { id: "b", text: L(`$(945,\\ 401{,}86)$`, `$(945,\\ 401.86)$`), correct: false },
+        { id: "c", text: L(`$(944,\\ 200{,}70)$`, `$(944,\\ 200.70)$`), correct: false },
+        { id: "d", text: L(`$(0,\\ 0)$`, `$(0,\\ 0)$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Ingreso máximo con vértice NO entero: comparar los vecinos",
+          "Maximum revenue with a NON-integer vertex: comparing neighbours",
+        ),
+        statement: L(
+          "**Ingreso.** La función de demanda para una línea de reglas de plástico de una compañía de artículos de oficina es $p = 0{,}85 - 0{,}00045q$, donde $p$ es el precio por unidad cuando los consumidores demandan $q$ unidades (diarias). Determine el nivel de producción que maximizará el ingreso total del fabricante y calcule este ingreso. (Producción diaria en unidades ENTERAS; opciones: pares $(q, R)$ con $R$ el ingreso total en dólares.)",
+          "**Revenue.** The demand function for a line of plastic rulers at an office-supply company is $p = 0.85 - 0.00045q$, where $p$ is the price per unit when consumers demand $q$ (daily) units. Determine the level of production that will maximize the manufacturer's total revenue and compute this revenue. (Daily production in WHOLE units; options: pairs $(q, R)$ with $R$ the total revenue in dollars.)",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Modela primero el ingreso: $R(q) = p \\cdot q = 0{,}85q - 0{,}00045q^2$, una parábola que abre hacia abajo.",
+            "Model the revenue first: $R(q) = p \\cdot q = 0.85q - 0.00045q^2$, a downward-opening parabola.",
+          ),
+          L(
+            "El vértice continuo está en $q = \\frac{0{,}85}{2 \\cdot 0{,}00045}$; calcula con cuidado los decimales: NO cae en un número entero.",
+            "The continuous vertex sits at $q = \\frac{0.85}{2 \\cdot 0.00045}$; compute the decimals carefully: it does NOT land on a whole number.",
+          ),
+          L(
+            "$q^* = \\frac{8500}{9} \\approx 944{,}44$: como la producción diaria es ENTERA, compara $R(944)$ con $R(945)$ antes de responder.",
+            "$q^* = \\frac{8500}{9} \\approx 944.44$: since daily production must be a WHOLE number, compare $R(944)$ with $R(945)$ before answering.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(q, R) = (944,\\ 401{,}39)$",
+          "$(q, R) = (944,\\ 401.39)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La demanda $p = 0{,}85 - 0{,}00045q$ (reglas de plástico, unidades diarias); se pide el nivel de producción que maximiza el ingreso total y ese ingreso.",
+            "The demand $p = 0.85 - 0.00045q$ (plastic rulers, daily units); the production level that maximizes total revenue and that revenue are requested.",
+          ),
+          step(
+            "approach",
+            "Construir $R(q) = p \\cdot q$ y hallar el vértice continuo; como la producción diaria es entera y el vértice NO lo es, el máximo entero se decide comparando los dos vecinos del vértice.",
+            "Build $R(q) = p \\cdot q$ and find the continuous vertex; since daily production is whole and the vertex is NOT, the integer maximum is decided by comparing the vertex's two neighbours.",
+          ),
+          step(
+            "calculation",
+            "$R(q) = 0{,}85q - 0{,}00045q^2$; el vértice continuo: $0{,}85 - 0{,}0009q = 0 \\Rightarrow q^* = \\frac{0{,}85}{0{,}0009} = \\frac{8500}{9} \\approx 944{,}44$ (no entero).<br>Vecinos enteros: $R(944) = 802{,}4 - 401{,}0112 = 401{,}3888$ y $R(945) = 803{,}25 - 401{,}86125 = 401{,}38875$.<br>Máximo continuo exacto: $R\\left(\\frac{8500}{9}\\right) = \\frac{7225}{18} \\approx 401{,}39$.",
+            "$R(q) = 0.85q - 0.00045q^2$; the continuous vertex: $0.85 - 0.0009q = 0 \\Rightarrow q^* = \\frac{0.85}{0.0009} = \\frac{8500}{9} \\approx 944.44$ (not an integer).<br>Integer neighbours: $R(944) = 802.4 - 401.0112 = 401.3888$ and $R(945) = 803.25 - 401.86125 = 401.38875$.<br>Exact continuous maximum: $R\\left(\\frac{8500}{9}\\right) = \\frac{7225}{18} \\approx 401.39$.",
+          ),
+          step(
+            "result",
+            "Entre producciones enteras, el máximo está en $q = 944$ unidades diarias con $R(944) = 401{,}3888 \\approx 401{,}39$ dólares. Verificación: $p(944) = 0{,}85 - 0{,}00045 \\cdot 944 = 0{,}4252$ y $0{,}4252 \\cdot 944 = 401{,}3888$ ✓; $p(945) = 0{,}42475$ y $0{,}42475 \\cdot 945 = 401{,}38875$ ✓. La sutileza del ejercicio: el vértice exacto $\\frac{8500}{9} \\approx 944{,}44$ NO es entero, así que hay que comparar los dos vecinos — ambos redondean a $401{,}39$, pero $R(944)$ supera a $R(945)$ por $0{,}00005$ (944 está más cerca del vértice real).",
+            "Among whole production levels, the maximum sits at $q = 944$ daily units with $R(944) = 401.3888 \\approx 401.39$ dollars. Check: $p(944) = 0.85 - 0.00045 \\cdot 944 = 0.4252$ and $0.4252 \\cdot 944 = 401.3888$ ✓; $p(945) = 0.42475$ and $0.42475 \\cdot 945 = 401.38875$ ✓. The exercise's subtlety: the exact vertex $\\frac{8500}{9} \\approx 944.44$ is NOT an integer, so the two neighbours must be compared — both round to $401.39$, but $R(944)$ beats $R(945)$ by $0.00005$ (944 lies closer to the true vertex).",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S17 · 31 — ingreso máximo: p = 2400−6q → (q, R) = (200, 240000). */
+  template(
+    {
+      id: "qvf-uees-31",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "applications",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["revenue", "demand", "maximum", "modeling"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "17 · 31",
+        page: 19,
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$(200,\\ 240000)$`, `$(200,\\ 240000)$`), correct: true },
+        { id: "b", text: L(`$(400,\\ 0)$`, `$(400,\\ 0)$`), correct: false },
+        { id: "c", text: L(`$(200,\\ 2400)$`, `$(200,\\ 2400)$`), correct: false },
+        { id: "d", text: L(`$(200,\\ 480000)$`, `$(200,\\ 480000)$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Ingreso máximo en portátiles: no confundir R con p ni con 2R",
+          "Maximum laptop revenue: do not confuse R with p or with 2R",
+        ),
+        statement: L(
+          "**Ingreso.** La función de demanda para la línea de computadoras portátiles de una compañía de electrónica es $p = 2400 - 6q$, donde $p$ es el precio por unidad cuando los consumidores demandan $q$ unidades (semanales). Encuentre el nivel de producción que maximizará el ingreso total del fabricante y determine este ingreso. (Opciones: pares $(q, R)$ con $R$ el ingreso total.)",
+          "**Revenue.** The demand function for an electronics company's line of laptop computers is $p = 2400 - 6q$, where $p$ is the price per unit when consumers demand $q$ (weekly) units. Find the level of production that will maximize the manufacturer's total revenue and determine this revenue. (Options: pairs $(q, R)$ with $R$ the total revenue.)",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "El modelo: $R(q) = p \\cdot q = (2400 - 6q)q$ — precio por cantidad.",
+            "The model: $R(q) = p \\cdot q = (2400 - 6q)q$ — price times quantity.",
+          ),
+          L(
+            "$R(q) = 2400q - 6q^2$ es una parábola hacia abajo: máximo en el vértice $q = -\\frac{b}{2a}$.",
+            "$R(q) = 2400q - 6q^2$ is a downward parabola: maximum at the vertex $q = -\\frac{b}{2a}$.",
+          ),
+          L(
+            "$q^* = \\frac{2400}{12} = 200$ unidades semanales; falta $R(200)$ (ni el precio $p(200)$, ni el producto $2400 \\cdot 200$).",
+            "$q^* = \\frac{2400}{12} = 200$ weekly units; you still need $R(200)$ (neither the price $p(200)$, nor the product $2400 \\cdot 200$).",
+          ),
+        ],
+        answerDisplay: L(
+          "$(q, R) = (200,\\ 240000)$",
+          "$(q, R) = (200,\\ 240000)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La demanda $p = 2400 - 6q$ (portátiles, unidades semanales); se pide el nivel de producción que maximiza el ingreso total y ese ingreso.",
+            "The demand $p = 2400 - 6q$ (laptops, weekly units); the production level that maximizes total revenue and that revenue are requested.",
+          ),
+          step(
+            "approach",
+            "Modelar $R(q) = (2400 - 6q)q$ y maximizar en el vértice; el precio $p(200)$ y el «ingreso a precio inicial» $2400 \\cdot 200$ son los distractores naturales.",
+            "Model $R(q) = (2400 - 6q)q$ and maximize at the vertex; the price $p(200)$ and the “initial-price revenue” $2400 \\cdot 200$ are the natural distractors.",
+          ),
+          step(
+            "calculation",
+            "$R(q) = 2400q - 6q^2$.<br>$q^* = -\\frac{2400}{2(-6)} = \\frac{2400}{12} = 200$.<br>$p(200) = 2400 - 1200 = 1200$; $R(200) = 1200 \\cdot 200 = 240000$.",
+            "$R(q) = 2400q - 6q^2$.<br>$q^* = -\\frac{2400}{2(-6)} = \\frac{2400}{12} = 200$.<br>$p(200) = 2400 - 1200 = 1200$; $R(200) = 1200 \\cdot 200 = 240000$.",
+          ),
+          step(
+            "result",
+            "Nivel óptimo: $q = 200$ unidades semanales con ingreso máximo $R = 240000$. Verificación: $R(200) = 2400 \\cdot 200 - 6 \\cdot 200^2 = 480000 - 240000 = 240000$ ✓; vecinos: $R(199) = 477600 - 237606 = 239994 < 240000$ y $R(201) = 482400 - 242406 = 239994 < 240000$ ✓.",
+            "Optimal level: $q = 200$ weekly units with maximum revenue $R = 240000$. Check: $R(200) = 2400 \\cdot 200 - 6 \\cdot 200^2 = 480000 - 240000 = 240000$ ✓; neighbours: $R(199) = 477600 - 237606 = 239994 < 240000$ and $R(201) = 482400 - 242406 = 239994 < 240000$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S17 · 32 — marketing: f(n) = (10/9)n(12−n) → máximo (n, familias) = (6, 40 mil). */
+  template(
+    {
+      id: "qvf-uees-32",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "applications",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["modeling", "maximum", "families"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "17 · 32",
+        page: 19,
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$(6,\\ 40)$`, `$(6,\\ 40)$`), correct: true },
+        { id: "b", text: L(`$(12,\\ 0)$`, `$(12,\\ 0)$`), correct: false },
+        { id: "c", text: L(`$(0,\\ 0)$`, `$(0,\\ 0)$`), correct: false },
+        { id: "d", text: L(`$(6,\\ 60)$`, `$(6,\\ 60)$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Modelo de marketing: máximo de f(n) = (10/9)n(12−n)",
+          "Marketing model: maximum of f(n) = (10/9)n(12−n)",
+        ),
+        statement: L(
+          "**Marketing.** Una compañía de marketing estima que $n$ meses después de la introducción de un nuevo producto de uno de sus clientes, $f(n)$ miles de familias lo usarán, donde $$f(n) = \\frac{10}{9}n(12 - n), \\quad 0 \\le n \\le 12.$$ Estime el número máximo de familias que usarán el producto. (Opciones: pares $(n, f(n))$ con $f(n)$ en miles de familias.)",
+          "**Marketing.** A marketing company estimates that $n$ months after the introduction of a new product of one of its clients, $f(n)$ thousand families will be using it, where $$f(n) = \\frac{10}{9}n(12 - n), \\quad 0 \\le n \\le 12.$$ Estimate the maximum number of families that will use the product. (Options: pairs $(n, f(n))$ with $f(n)$ in thousands of families.)",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Desarrolla el modelo: $f(n) = \\frac{10}{9}(12n - n^2)$ es una parábola que abre hacia abajo en $n$.",
+            "Expand the model: $f(n) = \\frac{10}{9}(12n - n^2)$ is a downward-opening parabola in $n$.",
+          ),
+          L(
+            "El máximo de $12n - n^2$ está en $n = \\frac{12}{2} = 6$, o completando el cuadrado: $12n - n^2 = 36 - (n - 6)^2$.",
+            "The maximum of $12n - n^2$ sits at $n = \\frac{12}{2} = 6$, or by completing the square: $12n - n^2 = 36 - (n - 6)^2$.",
+          ),
+          L(
+            "$n = 6$ meses (dentro de $[0, 12]$ ✓); falta evaluar $f(6) = \\frac{10}{9} \\cdot 6 \\cdot 6$.",
+            "$n = 6$ months (inside $[0, 12]$ ✓); you still have to evaluate $f(6) = \\frac{10}{9} \\cdot 6 \\cdot 6$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(n, f(n)) = (6,\\ 40)$ — 40 mil familias",
+          "$(n, f(n)) = (6,\\ 40)$ — 40 thousand families",
+        ),
+        solution: [
+          step(
+            "given",
+            "El modelo $f(n) = \\frac{10}{9}n(12 - n)$ con $0 \\le n \\le 12$ ($n$ en meses, $f(n)$ en miles de familias); se pide el número máximo de familias.",
+            "The model $f(n) = \\frac{10}{9}n(12 - n)$ with $0 \\le n \\le 12$ ($n$ in months, $f(n)$ in thousands of families); the maximum number of families is requested.",
+          ),
+          step(
+            "approach",
+            "Reescribir como $f(n) = \\frac{10}{9}\\left(36 - (n - 6)^2\\right)$ (forma de vértice): el máximo salta a la vista y cae dentro del intervalo permitido.",
+            "Rewrite as $f(n) = \\frac{10}{9}\\left(36 - (n - 6)^2\\right)$ (vertex form): the maximum jumps out and falls inside the allowed interval.",
+          ),
+          step(
+            "calculation",
+            "$f(n) = \\frac{10}{9}(12n - n^2) = \\frac{10}{9}\\left(36 - (n - 6)^2\\right) = 40 - \\frac{10}{9}(n - 6)^2$.<br>Máximo en $n = 6$: $f(6) = 40 - 0 = 40$ (miles de familias); en los extremos $f(0) = f(12) = 0$.",
+            "$f(n) = \\frac{10}{9}(12n - n^2) = \\frac{10}{9}\\left(36 - (n - 6)^2\\right) = 40 - \\frac{10}{9}(n - 6)^2$.<br>Maximum at $n = 6$: $f(6) = 40 - 0 = 40$ (thousand families); at the endpoints $f(0) = f(12) = 0$.",
+          ),
+          step(
+            "result",
+            "El máximo se alcanza a los $n = 6$ meses con $f(6) = 40$ miles de familias (40000 familias). Verificación: $f(6) = \\frac{10}{9} \\cdot 6 \\cdot (12 - 6) = \\frac{10}{9} \\cdot 36 = 40$ ✓ y la forma de vértice $40 - \\frac{10}{9}(n - 6)^2 \\le 40$ confirma el máximo ✓.",
+            "The maximum is reached at $n = 6$ months with $f(6) = 40$ thousand families (40000 families). Check: $f(6) = \\frac{10}{9} \\cdot 6 \\cdot (12 - 6) = \\frac{10}{9} \\cdot 36 = 40$ ✓ and the vertex form $40 - \\frac{10}{9}(n - 6)^2 \\le 40$ confirms the maximum ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S17 · 33 — utilidad P(x) = −x²+18x+144: vértice (9, 225); intersecciones en la solución. */
+  template(
+    {
+      id: "qvf-uees-33",
+      subject: "math",
+      topicId: "quadratics",
+      subtopicId: "applications",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["profit", "vertex", "intercepts", "modeling"],
+      prerequisites: ["polynomials"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "17 · 33",
+        page: 19,
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L(`$(9,\\ 225)$`, `$(9,\\ 225)$`), correct: true },
+        { id: "b", text: L(`$(-9,\\ 225)$`, `$(-9,\\ 225)$`), correct: false },
+        { id: "c", text: L(`$(9,\\ 324)$`, `$(9,\\ 324)$`), correct: false },
+        { id: "d", text: L(`$(18,\\ 0)$`, `$(18,\\ 0)$`), correct: false },
+      ];
+      return {
+        skill: L(
+          "Utilidad diaria como parábola: vértice e intersecciones",
+          "Daily profit as a parabola: vertex and intercepts",
+        ),
+        statement: L(
+          "**Utilidad.** La utilidad diaria por la venta de árboles en el departamento de jardinería de un almacén está dada por $P(x) = -x^2 + 18x + 144$, donde $x$ es el número de árboles vendidos. Determine el vértice de la función de utilidad. (La hoja pide también las intersecciones y la gráfica; se desarrollan en la solución. Opciones: el vértice como par $(x, P)$.)",
+          "**Profit.** The daily profit from selling trees at a store's gardening department is given by $P(x) = -x^2 + 18x + 144$, where $x$ is the number of trees sold. Determine the vertex of the profit function. (The worksheet also asks for the intercepts and the graph; they are worked out in the solution. Options: the vertex as a pair $(x, P)$.)",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "$P(x) = -x^2 + 18x + 144$ abre hacia abajo ($a = -1$): el vértice es la utilidad diaria MÁXIMA.",
+            "$P(x) = -x^2 + 18x + 144$ opens downward ($a = -1$): the vertex is the MAXIMUM daily profit.",
+          ),
+          L(
+            "$x_v = -\\frac{b}{2a} = -\\frac{18}{2(-1)} = 9$.",
+            "$x_v = -\\frac{b}{2a} = -\\frac{18}{2(-1)} = 9$.",
+          ),
+          L(
+            "$x_v = 9$ árboles; evalúa $P(9) = -81 + 162 + 144$.",
+            "$x_v = 9$ trees; evaluate $P(9) = -81 + 162 + 144$.",
+          ),
+        ],
+        answerDisplay: L(
+          "Vértice $(9,\\ 225)$",
+          "Vertex $(9,\\ 225)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La utilidad diaria $P(x) = -x^2 + 18x + 144$ con $x$ = árboles vendidos; el ejercicio original pide vértice, intersecciones y gráfica.",
+            "The daily profit $P(x) = -x^2 + 18x + 144$ with $x$ = trees sold; the original exercise asks for the vertex, intercepts and graph.",
+          ),
+          step(
+            "approach",
+            "Vértice con $-\\frac{b}{2a}$ y evaluación; las intersecciones $x$ salen de $P(x) = 0$ (fórmula cuadrática) y el corte $y$ de $P(0)$.",
+            "Vertex via $-\\frac{b}{2a}$ and evaluation; the $x$-intercepts come from $P(x) = 0$ (quadratic formula) and the $y$-intercept from $P(0)$.",
+          ),
+          step(
+            "calculation",
+            "$x_v = -\\frac{18}{2(-1)} = 9$; $P(9) = -81 + 162 + 144 = 225$.<br>Intersecciones: $-x^2 + 18x + 144 = 0 \\Rightarrow x^2 - 18x - 144 = 0$, $\\Delta = 324 + 576 = 900$, $\\sqrt{\\Delta} = 30$: cortes $x = \\frac{18 \\pm 30}{2}$, o sea $x = 24$ y $x = -6$ (con $x \\ge 0$, el relevante es $24$); corte $y$: $P(0) = 144$.",
+            "$x_v = -\\frac{18}{2(-1)} = 9$; $P(9) = -81 + 162 + 144 = 225$.<br>Intercepts: $-x^2 + 18x + 144 = 0 \\Rightarrow x^2 - 18x - 144 = 0$, $\\Delta = 324 + 576 = 900$, $\\sqrt{\\Delta} = 30$: $x$-intercepts $x = \\frac{18 \\pm 30}{2}$, i.e. $x = 24$ and $x = -6$ (with $x \\ge 0$, the relevant one is $24$); $y$-intercept: $P(0) = 144$.",
+          ),
+          step(
+            "result",
+            "Vértice $(9, 225)$: con 9 árboles vendidos la utilidad diaria máxima es 225. Verificación: $P(9) = 225$ ✓; vecinos: $P(8) = -64 + 144 + 144 = 224 < 225$ y $P(10) = -100 + 180 + 144 = 224 < 225$ ✓.",
+            "Vertex $(9, 225)$: with 9 trees sold the maximum daily profit is 225. Check: $P(9) = 225$ ✓; neighbours: $P(8) = -64 + 144 + 144 = 224 < 225$ and $P(10) = -100 + 180 + 144 = 224 < 225$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
 ];

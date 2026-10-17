@@ -15,6 +15,7 @@ const mathModules: Record<string, () => Promise<{ templates: ProblemTemplate[] }
   foundations: () => import("./math/foundations"),
   "linear-equations": () => import("./math/linear-equations"),
   systems: () => import("./math/systems"),
+  matrices: () => import("./math/matrices"),
   polynomials: () => import("./math/polynomials"),
   quadratics: () => import("./math/quadratics"),
   rational: () => import("./math/rational"),

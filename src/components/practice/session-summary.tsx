@@ -5,7 +5,7 @@
  */
 
 import { useEffect, useState } from "react";
-import { ArrowLeft, ArrowRight, BarChart3, CalendarClock, Check, CheckCircle2, CircleOff, ClipboardCopy, Eye, Lightbulb, RefreshCw, SkipForward, Target, Timer, Trophy, XCircle } from "lucide-react";
+import { ArrowLeft, ArrowRight, BarChart3, CalendarClock, Check, CheckCircle2, ChevronDown, CircleOff, ClipboardCopy, Eye, GraduationCap, Lightbulb, RefreshCw, SkipForward, Target, Timer, Trophy, XCircle } from "lucide-react";
 import type { ReactNode } from "react";
 import { format, formatDistanceToNowStrict } from "date-fns";
 import { es as dateEs, enUS as dateEn } from "date-fns/locale";
@@ -17,6 +17,9 @@ import { mathCurriculum } from "@/content/curriculum/math";
 import { physicsCurriculum } from "@/content/curriculum/physics";
 import type { Problem, SessionConfig } from "@/lib/types";
 import { findReviewEntry } from "@/lib/review";
+import { examProfileById } from "@/content/exams/profiles";
+import { examRankLabel } from "@/lib/exams";
+import { SolutionPanel } from "./solution-panel";
 import { countToday, loadDailyGoal } from "@/lib/goal";
 import { loadProgress } from "@/lib/progress";
 import type { ProblemState } from "./state";
@@ -122,6 +125,32 @@ export function SessionSummary({
   const revealed = states.filter((s) => s.status === "revealed").length;
   const skipped = states.filter((s) => s.status === "skipped").length;
   const missed = deck.filter((_, i) => !states[i]?.attempts.some((a) => a.correct)).length;
+
+  /* exam mode: per-tema rows (one question per tema) + version label */
+  const examProfile = config.mode === "exam" && config.exam ? examProfileById(config.exam.profileId) : undefined;
+  const examVersion =
+    examProfile && config.exam
+      ? examProfile.versions[Math.min(config.exam.version, examProfile.versions.length - 1)]
+      : undefined;
+  interface ExamRow {
+    tema: NonNullable<ReturnType<typeof examProfileById>>["temas"][number];
+    problem: Problem;
+    state: ProblemState;
+    index: number;
+  }
+  const examRows: ExamRow[] =
+    examProfile && config.exam
+      ? deck
+          .map((problem, i): ExamRow | null => {
+            const tema = examProfile.temas.find((tm) =>
+              tm.prefixes.some((p) => problem.templateId.startsWith(p)),
+            );
+            if (!tema) return null;
+            return { tema, problem, state: states[i], index: i };
+          })
+          .filter((r): r is ExamRow => r !== null)
+      : [];
+  const [openSolutions, setOpenSolutions] = useState<Record<number, boolean>>({});
   // time stats — shown only when the timer actually ran (old sessions lack them)
   const showTime = (elapsedSec ?? 0) >= 5;
   const knownTimes = (times ?? []).filter((x): x is number => typeof x === "number");
@@ -291,10 +320,14 @@ export function SessionSummary({
         {attempted === states.length && skipped === 0 ? t("summary.title") : t("summary.unfinished")}
       </h1>
       <p className="mt-3 text-muted-foreground">
-        {config.subjects.length === 1
-          ? config.subjects[0] === "math"
-            ? t("nav.math")
-            : t("nav.physics")
+        {examProfile
+          ? `${examProfile.student} · ${examProfile.title[lang]}${
+              examVersion ? ` · ${t("exam.version")} ${examVersion.label}` : ""
+            }`
+          : config.subjects.length === 1
+            ? config.subjects[0] === "math"
+              ? t("nav.math")
+              : t("nav.physics")
             : t("mixed.subject.both")}
         {config.mode === "interleaved" ? ` · ${t("interleaved.badge")}` : ""}
         {config.mode === "topic" && config.topicId
@@ -349,6 +382,78 @@ export function SessionSummary({
           </div>
         ))}
       </div>
+
+      {/* exam report — one row per tema, worked solution behind a toggle */}
+      {examProfile && examRows.length > 0 ? (
+        <section className="mt-8" aria-label={t("exam.report.title")}>
+          <h2 className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+            <GraduationCap className="h-4 w-4 text-primary" aria-hidden="true" />
+            {t("exam.report.title")}
+            <span className="ml-auto font-serif text-lg normal-case tracking-normal text-foreground">
+              {solved}/{examRows.length}
+            </span>
+          </h2>
+          <ul className="mt-3 space-y-2">
+            {examRows.map(({ tema, problem, state, index }) => {
+              const info = statusInfo(state);
+              const rank = config.exam ? config.exam.version : 0;
+              return (
+                <li key={`${problem.templateId}:${problem.seed}`} className="rounded-xl border bg-card">
+                  <div className="flex items-center gap-3 px-4 py-3">
+                    <span
+                      className={cn(
+                        "inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full",
+                        info.className,
+                      )}
+                      aria-hidden="true"
+                    >
+                      {info.icon}
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-sm font-medium leading-snug">{tema.name[lang]}</p>
+                      <p className="mt-0.5 text-xs text-muted-foreground">
+                        {t(`difficulty.${problem.difficulty}`)} · {examRankLabel(rank)[lang]}
+                        {typeof times?.[index] === "number"
+                          ? ` · ${formatDuration(times[index]!, { compact: true })}`
+                          : ""}
+                      </p>
+                    </div>
+                    <span className="shrink-0 text-xs text-muted-foreground">{info.label}</span>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setOpenSolutions((prev) => ({ ...prev, [index]: !prev[index] }))
+                      }
+                      className="inline-flex h-8 shrink-0 items-center gap-1 rounded-lg px-2.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-secondary/70 hover:text-foreground"
+                      aria-expanded={openSolutions[index] === true}
+                    >
+                      {t("exam.report.solution")}
+                      <ChevronDown
+                        className={cn(
+                          "h-3.5 w-3.5 transition-transform",
+                          openSolutions[index] === true && "rotate-180",
+                        )}
+                        aria-hidden="true"
+                      />
+                    </button>
+                  </div>
+                  {openSolutions[index] === true ? (
+                    <div className="border-t px-4 pb-4 pt-3">
+                      <SolutionPanel
+                        problem={problem}
+                        open
+                        onToggle={() =>
+                          setOpenSolutions((prev) => ({ ...prev, [index]: !prev[index] }))
+                        }
+                      />
+                    </div>
+                  ) : null}
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      ) : null}
 
       {deck.length > 0 ? (
         <section className="mt-8" aria-label={t("summary.listTitle")}>

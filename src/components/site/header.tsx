@@ -16,7 +16,9 @@ function isActive(route: Route, key: string): boolean {
     case "physics":
       return route.name === "subject" && route.subject === "physics" || route.name === "topic" && route.subject === "physics";
     case "practice":
-      return route.name === "practice" || route.name === "session";
+      return route.name === "practice" || (route.name === "session" && route.config.mode !== "exam");
+    case "exams":
+      return route.name === "exam" || (route.name === "session" && route.config.mode === "exam");
     case "progress":
       return route.name === "progress";
     case "about":
@@ -105,6 +107,7 @@ export function Header() {
     { key: "math", label: t("nav.math"), href: href({ name: "subject", subject: "math" }) },
     { key: "physics", label: t("nav.physics"), href: href({ name: "subject", subject: "physics" }) },
     { key: "practice", label: t("nav.practice"), href: href({ name: "practice" }) },
+    { key: "exams", label: t("nav.exams"), href: href({ name: "exam" }) },
     { key: "progress", label: t("nav.progress"), href: href({ name: "progress" }) },
     { key: "about", label: t("nav.about"), href: href({ name: "about" }) },
   ];

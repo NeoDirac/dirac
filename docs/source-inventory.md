@@ -251,3 +251,79 @@ Pendiente del libro digital: §2.9 pruebas #95–#100, §2.10–2.11, resto del
 cap. 3, cap. 4 #16 (MC con imágenes — falta UI), #18 (graficar), #31
 (composición a trozos — falta UI), pruebas #34/#35/#43, y cap. 5+ (matrices,
 complejos…).
+
+## Actualización — CUARTA TANDA edición digital ESPOL: cap. 5 «Matrices y Sistemas» (2026-10-05, tarde)
+
+Encargo del tutor: «si, prosigue con matrices y sistemas».
+
+### Hallazgo crítico de extracción
+
+La capa de texto del PDF extrae los elementos de las matrices **en orden de
+columnas** (pinneado: el A de #13 impreso «3 4 2 3» es en realidad
+[[3,2],[4,3]], demostrado por la clave AD = [[52,65,5],[73,90,10]]). Cada
+matriz se releyó visualmente (VLM, 200 dpi) y/o se fijó por coincidencia
+exacta con la clave impresa (pp. 941-942 = PDF 974-975, donde la clave del
+cap. 5 se entrelaza con las de los caps. 4 y 6).
+
+### Importación (66 plantillas: 60 curadas + 6 easy generadas)
+
+| Sección | Contenido | Destino |
+|---|---|---|
+| 5.1 Operaciones | #1, 3a/3bc/3d, 4, 5a, 8a, 13a/c/d, 10, 12, 15, 17, 18, 48a-b, 53 | **matrices** (topic NUEVO) |
+| 5.2 Determinantes | #19, 22b/22d, 25, 27, 30, 31, 32, 33, 34, 36, 39, 41a/41c, 42, 46 | matrices/determinants |
+| Nivel easy generado | suma, escalar, igualdad, det 2×2, singular 2×2, transpuesta | matrices (política: easy = generado) |
+| 5.3 Lineales | #47a-c, 50, 54, 57, 58, 61a/61b, 62 | systems/parameters + gauss |
+| 5.4 No lineales | #66a/b/d/f/g/h/i, #67a/b | systems/nonlinear (subtema NUEVO) |
+| Aplicaciones | #68 (equilibrio), #69 (obra), #70 (resistencias) | systems/applications |
+| 5.5-5.6 Inecuaciones | #72a, 73, 76, 80, 81 | systems/inequalities (subtema NUEVO) |
+
+Verificación: **81/81 checks** (`download/verify_espol_ch5.py`, clave impresa
++ sympy). Erratas de clave documentadas en los ítems: **#15** (la clave lista
+solo ±I; son CUATRO las matrices diagonales de orden 2 que coinciden con su
+inversa), **#62** (clave ±7/2 errónea: con a = 7/2 el determinante es
+−35/2 ≠ 0 y hay solución única; se envía la verificada ±√14/2), **#66f**
+(la clave lista solo (4,2); el conjunto completo es {(2,4),(4,2)}).
+Descartados por irrecuperables (documentados en el script): #21, #26, #44,
+#45, #49, #52, #60, #63, #67c (clave incompleta: 4 soluciones en (0,2π)).
+
+Nota: el «log» del libro es base 10 (fijado por las claves de #66g/#66i).
+
+Total de la tanda: **66 plantillas** (banco 804 → 870; con fuente real
+342 → 402; fcnm-fundamentos-digital 166 → 226). El topic nuevo «matrices»
+nace con 40 plantillas (34 curadas + 6 easy) y systems suma 26.
+
+Pendiente del libro digital: §5.1 #2/6/7/9/11/14/16, §5.2 resto, §5.3 resto,
+§5.4 #66c/e #67d-f #71, §5.5 #74/75 (UI de gráficas), y cap. 6 «Números
+Complejos» (PDF 588+) a la espera de encargo del tutor.
+
+## Tarea UEES — Repaso 1er Parcial, Matemáticas I (2026-10-17)
+
+**Fuente:** «EJERCICIOS DE REPASO 1ER PARCIAL MATEMATICAS I» (DOCX del tutor; 17 secciones numeradas, ejercicios incrustados como capturas de libros de texto tipo Haeussler/Demidovich; SIN clave de respuestas impresa). Registro: `uees-tarea-parcial1` (INSTRUCTOR_CREATED). Verificación: `download/verify_repaso1.py` (417 comprobaciones sympy, 0 FAIL) — la clave se derivó desde cero porque la hoja no trae soluciones.
+
+| Sección (pág. repaso1.pdf) | Ítems importados | Destino (topic/subtopic) | Prefijo ids |
+|---|---|---|---|
+| 1 · Productos notables (pág. 1) — 19-48 | 30 | polynomials/special-products | `pn-uees-*` |
+| 2 · Factorización (pág. 2) — 21-52 | 32 | polynomials/factoring | `fc-uees-*` |
+| 3 · Ecuaciones lineales (pág. 2) — 43-60 | 18 | linear-equations (multi-step 43-46, fractions 47-60) | `lin-uees-*` |
+| 3 · problemas 96/99 (pág. 3) | 2 | linear-equations/applications (subtema NUEVO) | `lin-uees-app-*` |
+| 4 · Cuadráticas (pág. 3) — 45-63 | 19 | quadratics (standard-form/factoring/quadratic-formula) | `quad-uees-*` |
+| 4 · problemas word (págs. 4-5) — 10, 13, 16-19, 21, 22 (#20 excluido: enunciado con doble solución 125/150) | 10 | linear-equations/applications | `qap-uees-*` |
+| 4 · interés compuesto 14/15 (pág. 4) | 2 | exponential/equations | `exp-uees-*` |
+| 5 · Desigualdades lineales (pág. 6) — 21-30 | 10 | linear-equations/inequalities | `des-uees-*` |
+| 5 · problemas 1-4 (pág. 7) | 4 | linear-equations/inequalities | `des-uees-app-*` |
+| 6 · Valor absoluto (pág. 8) — 21, 24, 26, 29, 32, 35 | 6 | linear-equations (abs-equations/abs-inequalities) | `abseq-uees-*`, `absdes-uees-*` |
+| 7 · Sumatorias (pág. 10) — 17-26 | 10 | sequences/finite-sums | `sum-uees-*` |
+| 8 · Dominio (pág. 11) — 5-16 + 9-12bis | 16 | functions/domain-range | `dom-uees-*` |
+| 9 · Evaluación (págs. 11-12) — 17-22 + 17-20bis | 10 | functions/evaluation | `ev-uees-*` |
+| 10 · Expresar funciones (pág. 12) — 31-33 | 3 | poly-functions/modeling (31/32) + functions/piecewise (33) | `ef-uees-*` |
+| 11 · Composición (pág. 13) — 4-10, 17 | 8 | functions/composition | `comp-uees-*` |
+| 12 · Inversa (pág. 14) — 1-6 | 6 | functions/inverse | `inv-uees-*` |
+| 13 · Gráfica (págs. 14-15) — puntos 1-2 + piezas 35-38 | 6 | analytic-geometry/coordinate-geometry + functions/piecewise | `pt-uees-*`, `pw-uees-*` |
+| 14 · Varias variables (pág. 16) — 1-12 | 12 | functions/multivariable (subtema NUEVO) | `mv-uees-*` |
+| 15 · Recta (pág. 17) — 1-8 pendiente, 9-20 ecuaciones | 20 | analytic-geometry (slope/line-equations) | `slope-uees-*`, `lineq-uees-*` |
+| 16 · Funciones lineales (pág. 18) — 1-6, 7-14, 15-19 | 19 | poly-functions (graphs 1-6, modeling 15-19) + analytic-geometry/line-equations (7-14) | `linfun-uees-*`, `lf-uees-*`, `dem-uees-*` |
+| 17 · Cuadráticas (pág. 19) — 9-22, 29-33 | 19 | quadratics (vertex/applications) | `qvf-uees-*` |
+
+**Total: 260 plantillas** (banco 870 → 1130). Exclusiones documentadas: S3 #20 (doble solución válida 125/150 — enunciado defectuoso); S13 #3-#6, #39, #40 (necesitan UI de opciones con gráfica, misma deuda que ESPOL Ch.4 #16). Erratas/catches de la derivación: S1 #39 (los términos en y se cancelan), S3 #18 (utilidad ≥ 15% de los costos fijos ENCIMA de todos los costos → 11500), S7 #21 = #22 (misma suma disfrazada, 295425), S11 #10 (f∘f = x⁴+4x³+4x²−2, cazado por sympy), S16 #16 (puntos (10000,18)/(26000,12) → p = −(3/8000)q + 87/4), S17 #30 (vértice no entero 8500/9, R = 7225/18).
+
+**Además (fuera de inventario de fuentes):** MODO EXAMEN — perfiles en `src/content/exams/profiles.ts` (pedro-parcial1: 17 temas × 2 versiones A/B), motor en `src/lib/exams.ts` (una pregunta por tema, siempre la más difícil; versión B = la 2ª más difícil), UI en `#/exam` (perfil → temas → versión → vista previa → examen), informe por temas con soluciones al final. Cada tema del examen = el prefijo de ids de SU sección de la hoja (los `qap-*` y `exp-*` alimentan el tema 4 aunque su topic de currículo sea linear-equations/exponential).

@@ -12,7 +12,7 @@
  */
 
 import { useEffect, useRef, useState } from "react";
-import { CheckCircle2, Eye, EyeOff, Lightbulb, Link2, RotateCcw, XCircle } from "lucide-react";
+import { CheckCircle2, Eye, EyeOff, Lightbulb, Link2, Lock, RotateCcw, XCircle } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -142,6 +142,7 @@ export function ProblemView({
   onRevealAnswer,
   onToggleSolution,
   onNewVariant,
+  examMode = false,
 }: {
   problem: Problem;
   state: ProblemState;
@@ -154,6 +155,8 @@ export function ProblemView({
   onRevealAnswer: () => void;
   onToggleSolution: () => void;
   onNewVariant: () => void;
+  /** exam mode: no hints, no reveals, no variants — solutions wait for the end */
+  examMode?: boolean;
 }) {
   const { t, lang } = useI18n();
   const { toast } = useToast();
@@ -295,9 +298,12 @@ export function ProblemView({
       <Separator className="my-6" />
 
       <div className="space-y-4">
-        <HintsSection problem={problem} state={state} onRevealHint={onRevealHint} />
+        {examMode ? null : (
+          <HintsSection problem={problem} state={state} onRevealHint={onRevealHint} />
+        )}
 
         {/* reveal answer + solution */}
+        {examMode ? null : (
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
           {answerRevealed ? (
             <Button type="button" variant="ghost" disabled className="gap-2 text-muted-foreground">
@@ -330,7 +336,7 @@ export function ProblemView({
             </AlertDialog>
           )}
 
-          {resolved ? (
+          {resolved && !examMode ? (
             <Button
               type="button"
               variant="ghost"
@@ -342,17 +348,25 @@ export function ProblemView({
             </Button>
           ) : null}
         </div>
+        )}
 
-        {!canRevealAnswer && !resolved ? (
+        {!canRevealAnswer && !resolved && !examMode ? (
           <p className="text-xs text-muted-foreground">{t("answer.revealLocked")}</p>
         ) : null}
 
-        {resolved ? (
+        {resolved && !examMode ? (
           <SolutionPanel
             problem={problem}
             open={state.solutionRevealed}
             onToggle={onToggleSolution}
           />
+        ) : null}
+
+        {examMode ? (
+          <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
+            <Lock className="h-3.5 w-3.5" aria-hidden="true" />
+            {t("exam.rulesNotice")}
+          </p>
         ) : null}
       </div>
     </article>

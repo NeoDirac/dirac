@@ -12,6 +12,7 @@ import {
   CalendarClock,
   CheckCircle2,
   ChevronDown,
+  GraduationCap,
   History,
   Layers,
   Lightbulb,
@@ -495,6 +496,46 @@ export function HomeView() {
             </dl>
           </div>
           <HeroCurve />
+        </div>
+      </section>
+
+      {/* exam mode — tutor-defined exams (one question per tema, always the hardest) */}
+      <section className="mx-auto max-w-6xl px-4 pt-14 sm:px-6" aria-labelledby="exam-mode-heading">
+        <div className="relative overflow-hidden rounded-2xl border border-primary/25 bg-primary/[0.05] p-6 shadow-sm sm:p-8">
+          <span
+            className="pointer-events-none absolute -right-6 -top-10 font-serif text-[150px] italic leading-none text-primary/[0.07]"
+            aria-hidden="true"
+          >
+            E
+          </span>
+          <div className="relative flex flex-col gap-5 sm:flex-row sm:items-center">
+            <span
+              className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-primary/30 bg-primary/10 text-primary"
+              aria-hidden="true"
+            >
+              <GraduationCap className="h-6 w-6" />
+            </span>
+            <div className="min-w-0 flex-1">
+              <p className="flex items-center gap-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-primary">
+                {t("home.exam.overline")}
+              </p>
+              <h2 id="exam-mode-heading" className="mt-2 font-serif text-2xl font-semibold tracking-tight sm:text-3xl">
+                {t("home.exam.title")}
+              </h2>
+              <p className="mt-2 max-w-2xl leading-relaxed text-muted-foreground">
+                {t("home.exam.desc")}
+              </p>
+            </div>
+            <div className="flex shrink-0 flex-col gap-2 sm:items-end">
+              <Button asChild size="lg" className="gap-2 px-7 text-[15px] font-semibold">
+                <a href={href({ name: "exam" })}>
+                  {t("home.exam.cta")}
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </a>
+              </Button>
+              <span className="text-xs text-muted-foreground">{t("home.exam.hint")}</span>
+            </div>
+          </div>
         </div>
       </section>
 

@@ -7,7 +7,7 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, Check, Flag, Inbox, Keyboard, Layers, MessageCircle, RotateCcw, SkipForward, Timer, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Flag, GraduationCap, Inbox, Keyboard, Layers, MessageCircle, RotateCcw, SkipForward, Timer, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -35,6 +35,8 @@ import { initialProblemState, type ProblemState } from "./state";
 import { useI18n } from "@/lib/i18n/context";
 import { useAllTemplates } from "@/lib/use-templates";
 import { buildDeck, findTemplate, instantiateProblem } from "@/lib/session";
+import { buildExamDeck } from "@/lib/exams";
+import { examProfileById } from "@/content/exams/profiles";
 import { loadSession, saveSession, clearSession } from "@/lib/session-persist";
 import { navigate, href, sessionHref } from "@/lib/router";
 import { appendRecord, appendSessionRecord, computeStats, loadProgress } from "@/lib/progress";
@@ -93,6 +95,15 @@ export function SessionView({ config }: { config: SessionConfig }) {
 
   const unlimited = !Number.isFinite(config.count);
 
+  /* exam mode: profile + version resolved once per config */
+  const examCfg = config.mode === "exam" ? config.exam : undefined;
+  const examProfile = examCfg ? examProfileById(examCfg.profileId) : undefined;
+  const examMode = Boolean(examCfg && examProfile);
+  const examVersion =
+    examProfile && examCfg
+      ? examProfile.versions[Math.min(examCfg.version, examProfile.versions.length - 1)]
+      : undefined;
+
   const { toast } = useToast();
   const sessionKeyRef = useRef<string | null>(null);
 
@@ -144,6 +155,25 @@ export function SessionView({ config }: { config: SessionConfig }) {
         return;
       }
       clearSession();
+      if (cfg.mode === "exam") {
+        // exam decks are built from the profile: one problem per selected tema,
+        // version v takes the (v+1)-th hardest of each tema pool (deterministic)
+        const ex = cfg.exam;
+        const profile = ex ? examProfileById(ex.profileId) : undefined;
+        const result =
+          ex && profile ? buildExamDeck(profile, ex.temaIds, ex.version, templates) : null;
+        setDeck(result ? result.problems : []);
+        setStates((result ? result.problems : []).map(() => ({ ...initialProblemState })));
+        setRelaxed(false);
+        setReviewing(false);
+        setIndex(0);
+        setElapsedSec(0);
+        setTimes([]);
+        setEnded(false);
+        setSessionRecorded(false);
+        setBuiltKey(configKey);
+        return;
+      }
       const result = buildDeck(
         cfg,
         templates,
@@ -248,6 +278,14 @@ export function SessionView({ config }: { config: SessionConfig }) {
     return cur.find((tp) => tp.id === current.topicId)?.name[lang] ?? "";
   }, [config.mode, current, lang]);
 
+  // exam mode: name the tema of the current problem (one question per tema)
+  const currentExamTema = useMemo(() => {
+    if (!examMode || !examProfile || !current) return null;
+    return examProfile.temas.find((tm) =>
+      tm.prefixes.some((p) => current.templateId.startsWith(p)),
+    );
+  }, [examMode, examProfile, current]);
+
   const subjectLabel =
     config.subjects.length === 1
       ? config.subjects[0] === "math"
@@ -272,8 +310,9 @@ export function SessionView({ config }: { config: SessionConfig }) {
     return `${base}?text=${encodeURIComponent(msg)}`;
   }, [current, lang, t, topicName, currentTopicName, subjectLabel]);
 
-  const backHref =
-    (config.mode === "topic" || config.mode === "single") && config.topicId && config.subjects.length === 1
+  const backHref = examMode
+    ? href({ name: "exam" })
+    : (config.mode === "topic" || config.mode === "single") && config.topicId && config.subjects.length === 1
       ? href({ name: "topic", subject: config.subjects[0], topicId: config.topicId })
       : config.subjects.length === 1
         ? href({ name: "subject", subject: config.subjects[0] })
@@ -347,11 +386,22 @@ export function SessionView({ config }: { config: SessionConfig }) {
         updateState(() => next);
         // move keyboard focus to "next problem"
         setTimeout(() => nextRef.current?.focus(), 80);
+      } else if (examMode) {
+        // one shot per question: a wrong first answer locks the question,
+        // shows the correct answer and moves on — exam rules
+        const next = resolveAndRecord(current, currentState, {
+          attempts,
+          status: "revealed",
+          answerRevealed: true,
+          lastOutcome: outcome,
+        });
+        updateState(() => next);
+        setTimeout(() => nextRef.current?.focus(), 80);
       } else {
         updateState((s) => ({ ...s, attempts, lastOutcome: outcome }));
       }
     },
-    [current, currentState, resolveAndRecord, updateState],
+    [current, currentState, resolveAndRecord, updateState, examMode],
   );
 
   const handleRevealAnswer = useCallback(() => {
@@ -515,7 +565,7 @@ export function SessionView({ config }: { config: SessionConfig }) {
       }
       const key = e.key.toLowerCase();
       if (key === "h") {
-        if (currentState && currentState.status === "attempting") {
+        if (currentState && currentState.status === "attempting" && !examMode) {
           e.preventDefault();
           handleRevealHint();
         }
@@ -528,7 +578,7 @@ export function SessionView({ config }: { config: SessionConfig }) {
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [currentState, handleRevealHint, handleNext]);
+  }, [currentState, handleRevealHint, handleNext, examMode]);
 
   /* ---------------------------------------------------------------- */
   /* render                                                            */
@@ -590,15 +640,26 @@ export function SessionView({ config }: { config: SessionConfig }) {
             className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
             <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-            {config.mode === "topic" || config.mode === "single"
-              ? t("practice.backToTopic")
-              : t("common.back")}
+            {examMode
+              ? t("exam.backToExams")
+              : config.mode === "topic" || config.mode === "single"
+                ? t("practice.backToTopic")
+                : t("common.back")}
           </a>
           <span className="text-sm font-semibold">
-            {subjectLabel}
-            {topicName ? <span className="text-muted-foreground"> · {topicName}</span> : null}
-            {subtopicName ? <span className="text-muted-foreground"> · {subtopicName}</span> : null}
+            {examMode && examProfile
+              ? `${examProfile.student} · ${examProfile.title[lang]}`
+              : subjectLabel}
+            {topicName && !examMode ? <span className="text-muted-foreground"> · {topicName}</span> : null}
+            {subtopicName && !examMode ? <span className="text-muted-foreground"> · {subtopicName}</span> : null}
           </span>
+          {examMode ? (
+            <span className="inline-flex items-center gap-1 rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary">
+              <GraduationCap className="h-3 w-3" aria-hidden="true" />
+              {t("exam.badge")}
+              {examVersion ? ` · ${t("exam.version")} ${examVersion.label}` : ""}
+            </span>
+          ) : null}
           {config.mode === "interleaved" ? (
             <span className="inline-flex items-center gap-1 rounded-full border border-subject-physics/30 bg-subject-physics/10 px-2.5 py-0.5 text-xs font-semibold text-subject-physics">
               <Layers className="h-3 w-3" aria-hidden="true" />
@@ -704,6 +765,17 @@ export function SessionView({ config }: { config: SessionConfig }) {
         </p>
       ) : null}
 
+      {/* exam overline — names the tema (one question per tema) */}
+      {examMode && currentExamTema ? (
+        <p className="mb-2.5 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+          <GraduationCap className="h-3.5 w-3.5 shrink-0 text-primary/70" aria-hidden="true" />
+          <span>
+            {t("exam.temaLabel")}{" "}
+            <span className="text-foreground">· {currentExamTema.name[lang]}</span>
+          </span>
+        </p>
+      ) : null}
+
       <ProblemView
         problem={current}
         state={currentState}
@@ -715,6 +787,7 @@ export function SessionView({ config }: { config: SessionConfig }) {
         onRevealAnswer={handleRevealAnswer}
         onToggleSolution={handleToggleSolution}
         onNewVariant={handleNewVariant}
+        examMode={examMode}
       />
 
       {/* bottom actions */}

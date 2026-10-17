@@ -346,7 +346,13 @@ export interface RngLike {
 /* Sessions & progress                                                 */
 /* ------------------------------------------------------------------ */
 
-export type SessionMode = "topic" | "mixed" | "challenge" | "single" | "interleaved";
+export type SessionMode =
+  | "topic"
+  | "mixed"
+  | "challenge"
+  | "single"
+  | "interleaved"
+  | "exam";
 
 export interface SessionConfig {
   mode: SessionMode;
@@ -363,6 +369,14 @@ export interface SessionConfig {
   seed: number;
   /** single-problem mode: pin the deck to exactly this template */
   singleTemplateId?: string;
+  /** exam mode: which tutor-defined exam profile + version + selected temas */
+  exam?: {
+    profileId: string;
+    /** index into the profile's versions list (0 = usually "A") */
+    version: number;
+    /** ids of the profile temas to include (omitted/undefined = all) */
+    temaIds: string[];
+  };
   /** practice only problems transcribed from real sources (c=1) */
   curatedOnly?: boolean;
   /** drop difficulty "easy" from the pool — Foundation-level exercises are

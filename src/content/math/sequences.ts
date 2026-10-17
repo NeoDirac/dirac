@@ -1357,4 +1357,760 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+
+  /* ================================================================== */
+  /* Tarea UEES · «EJERCICIOS DE REPASO 1ER PARCIAL MATEMATICAS I»       */
+  /* (INSTRUCTOR_CREATED; sin clave impresa — cada respuesta verificada  */
+  /* con sympy en download/verify_repaso1.py, 417 checks, 0 FAIL).       */
+  /* Bloque 8-e · Sección 7 · SUMATORIAS 17-26 (pág. 10). La hoja       */
+  /* imprime su propia caja de fórmulas (Σk = n(n+1)/2, Σk² =           */
+  /* n(n+1)(2n+1)/6, Σk³ = n²(n+1)²/4) justo encima de los ejercicios;  */
+  /* las pistas la citan tal cual. #21 y #22 son LA MISMA suma          */
+  /* disfrazada (ambas 295425: k+50 con k = 1..50 recorre 51..100);     */
+  /* #23-#25 tienen sabor de suma de Riemann (por eso reasoning         */
+  /* "modeling"). Enunciados transcritos del VLM                        */
+  /* (download/repaso1-pages/vlm-p-10.json).                            */
+  /* ================================================================== */
+
+  /* S7 · 17 — Σ10k (k = 51..100) = 10·3775 = 37750: Gauss en el tramo. */
+  template(
+    {
+      id: "sum-uees-17",
+      subject: "math",
+      topicId: "sequences",
+      subtopicId: "finite-sums",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 150,
+      tags: ["summation", "gauss", "partial-sums"],
+      prerequisites: ["arithmetic"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "7 · 17",
+        page: 10,
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L(
+        "Constante por una suma de tramo que no empieza en 1",
+        "A constant times a sum over a stretch that does not start at 1",
+      ),
+      statement: L(
+        "Calcule la suma:\n\n$$\\sum_{k=51}^{100} 10k$$\n\n(escriba el resultado como decimal)",
+        "Evaluate the sum:\n\n$$\\sum_{k=51}^{100} 10k$$\n\n(give your answer as a decimal)",
+      ),
+      answer: { kind: "numeric", value: 37750, tolerance: { mode: "relative", value: 0.02 } },
+      hints: [
+        L(
+          "El factor $10$ no depende de $k$: sale de la sumatoria, $10\\sum_{k=51}^{100} k$.",
+          "The factor $10$ does not depend on $k$: it comes out of the sum, $10\\sum_{k=51}^{100} k$.",
+        ),
+        L(
+          "Fórmula de la hoja: $\\sum_{k=1}^{n} k = \\frac{n(n+1)}{2}$. Para el tramo 51 a 100, resta las sumas parciales: $\\sum_{k=1}^{100} k - \\sum_{k=1}^{50} k$.",
+          "Sheet formula: $\\sum_{k=1}^{n} k = \\frac{n(n+1)}{2}$. For the stretch 51 to 100, subtract the partial sums: $\\sum_{k=1}^{100} k - \\sum_{k=1}^{50} k$.",
+        ),
+        L(
+          "Gauss directo en el tramo: $\\frac{(51 + 100)\\cdot 50}{2} = 3775$; falta multiplicar por $10$.",
+          "Gauss directly on the stretch: $\\frac{(51 + 100)\\cdot 50}{2} = 3775$; multiplying by $10$ remains.",
+        ),
+      ],
+      answerDisplay: L(
+        "$\\sum_{k=51}^{100} 10k = 10\\cdot 3775 = 37\\,750$",
+        "$\\sum_{k=51}^{100} 10k = 10\\cdot 3775 = 37,\\!750$",
+      ),
+      solution: [
+        step(
+          "given",
+          "La suma $\\sum_{k=51}^{100} 10k$ (tarea UEES, sección 7: sumatorias, pág. 10).",
+          "The sum $\\sum_{k=51}^{100} 10k$ (UEES assignment, section 7: summations, p. 10).",
+        ),
+        step(
+          "approach",
+          "Sacar la constante $10$ y sumar los enteros del 51 al 100, ya sea restando las sumas parciales $1..100$ y $1..50$, o con la fórmula de Gauss aplicada al tramo.",
+          "Pull out the constant $10$ and add the integers from 51 to 100, either by subtracting the partial sums $1..100$ and $1..50$, or with Gauss's formula applied to the stretch.",
+        ),
+        step(
+          "calculation",
+          "$\\sum_{k=51}^{100} 10k = 10\\left(\\sum_{k=1}^{100} k - \\sum_{k=1}^{50} k\\right) = 10\\,(5050 - 1275) = 10\\cdot 3775$.<br>Control con Gauss en el tramo: $\\frac{(51+100)\\cdot 50}{2} = \\frac{151\\cdot 50}{2} = 3775$ ✓.",
+          "$\\sum_{k=51}^{100} 10k = 10\\left(\\sum_{k=1}^{100} k - \\sum_{k=1}^{50} k\\right) = 10\\,(5050 - 1275) = 10\\cdot 3775$.<br>Check with Gauss on the stretch: $\\frac{(51+100)\\cdot 50}{2} = \\frac{151\\cdot 50}{2} = 3775$ ✓.",
+        ),
+        step(
+          "result",
+          "$\\sum_{k=51}^{100} 10k = 37\\,750$. Verificación: $10\\cdot 3775 = 37\\,750$ ✓.",
+          "$\\sum_{k=51}^{100} 10k = 37,\\!750$. Check: $10\\cdot 3775 = 37,\\!750$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* S7 · 18 — Σ [n/(n+1)]·k³: la constante sale y Σk³ = n²(n+1)²/4. */
+  template(
+    {
+      id: "sum-uees-18",
+      subject: "math",
+      topicId: "sequences",
+      subtopicId: "finite-sums",
+      difficulty: "hard",
+      questionType: "expression",
+      estimatedTimeSec: 240,
+      tags: ["summation", "sum-of-cubes", "closed-form"],
+      prerequisites: ["arithmetic"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "7 · 18",
+        page: 10,
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L(
+        "Constante literal frente a Σk³ (forma cerrada en n)",
+        "A literal constant in front of Σk³ (closed form in n)",
+      ),
+      statement: L(
+        "Calcule la suma (forma cerrada en $n$):\n\n$$\\sum_{k=1}^{n}\\frac{n}{n+1}\\,k^{3}$$\n\n(escriba una expresión en $n$; por ejemplo, para $\\sum_{k=1}^{n} k$ escribiría n*(n+1)/2)",
+        "Evaluate the sum (closed form in $n$):\n\n$$\\sum_{k=1}^{n}\\frac{n}{n+1}\\,k^{3}$$\n\n(write an expression in $n$; e.g. for $\\sum_{k=1}^{n} k$ you would write n*(n+1)/2)",
+      ),
+      answer: {
+        kind: "expression",
+        accepted: ["n^3*(n+1)/4", "n^3(n+1)/4"],
+        variables: ["n"],
+      },
+      hints: [
+        L(
+          "El coeficiente $\\frac{n}{n+1}$ no depende de $k$: para la sumatoria es una constante y sale afuera.",
+          "The coefficient $\\frac{n}{n+1}$ does not depend on $k$: for the sum it is a constant and comes out front.",
+        ),
+        L(
+          "Fórmula de la hoja: $\\sum_{k=1}^{n} k^{3} = \\frac{n^{2}(n+1)^{2}}{4}$.",
+          "Sheet formula: $\\sum_{k=1}^{n} k^{3} = \\frac{n^{2}(n+1)^{2}}{4}$.",
+        ),
+        L(
+          "Queda $\\frac{n}{n+1}\\cdot\\frac{n^{2}(n+1)^{2}}{4}$: simplifica un factor $(n+1)$.",
+          "You are left with $\\frac{n}{n+1}\\cdot\\frac{n^{2}(n+1)^{2}}{4}$: cancel one factor of $(n+1)$.",
+        ),
+      ],
+      answerDisplay: L(
+        "$\\frac{n}{n+1}\\cdot\\frac{n^{2}(n+1)^{2}}{4} = \\frac{n^{3}(n+1)}{4}$",
+        "$\\frac{n}{n+1}\\cdot\\frac{n^{2}(n+1)^{2}}{4} = \\frac{n^{3}(n+1)}{4}$",
+      ),
+      solution: [
+        step(
+          "given",
+          "La suma $\\sum_{k=1}^{n}\\frac{n}{n+1}k^{3}$: el factor $\\frac{n}{n+1}$ es constante respecto de $k$.",
+          "The sum $\\sum_{k=1}^{n}\\frac{n}{n+1}k^{3}$: the factor $\\frac{n}{n+1}$ is constant with respect to $k$.",
+        ),
+        step(
+          "approach",
+          "Sacar la constante $\\frac{n}{n+1}$, aplicar la fórmula de la hoja para $\\sum k^{3}$ y simplificar los factores $(n+1)$.",
+          "Pull out the constant $\\frac{n}{n+1}$, apply the sheet formula for $\\sum k^{3}$ and simplify the $(n+1)$ factors.",
+        ),
+        step(
+          "calculation",
+          "$\\sum_{k=1}^{n}\\frac{n}{n+1}k^{3} = \\frac{n}{n+1}\\sum_{k=1}^{n}k^{3} = \\frac{n}{n+1}\\cdot\\frac{n^{2}(n+1)^{2}}{4} = \\frac{n^{3}(n+1)}{4}$.<br>Control con $n = 2$: $\\frac{2}{3}(1^{3}+2^{3}) = \\frac{2}{3}\\cdot 9 = 6$ y $\\frac{2^{3}\\cdot 3}{4} = 6$ ✓.",
+          "$\\sum_{k=1}^{n}\\frac{n}{n+1}k^{3} = \\frac{n}{n+1}\\sum_{k=1}^{n}k^{3} = \\frac{n}{n+1}\\cdot\\frac{n^{2}(n+1)^{2}}{4} = \\frac{n^{3}(n+1)}{4}$.<br>Check at $n = 2$: $\\frac{2}{3}(1^{3}+2^{3}) = \\frac{2}{3}\\cdot 9 = 6$ and $\\frac{2^{3}\\cdot 3}{4} = 6$ ✓.",
+        ),
+        step(
+          "result",
+          "La forma cerrada es $\\frac{n^{3}(n+1)}{4}$. Verificación con $n = 2$: $\\frac{2}{3}(1^{3}+2^{3}) = 6$ y $\\frac{2^{3}\\cdot 3}{4} = 6$ ✓ — la constante $\\frac{n}{n+1}$ se come un factor $(n+1)$ de la fórmula de cubos.",
+          "The closed form is $\\frac{n^{3}(n+1)}{4}$. Check at $n = 2$: $\\frac{2}{3}(1^{3}+2^{3}) = 6$ and $\\frac{2^{3}\\cdot 3}{4} = 6$ ✓ — the constant $\\frac{n}{n+1}$ eats one $(n+1)$ factor of the cubes formula.",
+        ),
+      ],
+    }),
+  ),
+
+  /* S7 · 19 — Σ(5k²+3k) (k = 1..20) = 5·2870 + 3·210 = 14980. */
+  template(
+    {
+      id: "sum-uees-19",
+      subject: "math",
+      topicId: "sequences",
+      subtopicId: "finite-sums",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 180,
+      tags: ["summation", "sum-of-squares", "linearity"],
+      prerequisites: ["arithmetic"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "7 · 19",
+        page: 10,
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L(
+        "Linealidad de la sumatoria: 5Σk² + 3Σk",
+        "Linearity of the sum: 5Σk² + 3Σk",
+      ),
+      statement: L(
+        "Calcule la suma:\n\n$$\\sum_{k=1}^{20}\\left(5k^{2}+3k\\right)$$\n\n(escriba el resultado como decimal)",
+        "Evaluate the sum:\n\n$$\\sum_{k=1}^{20}\\left(5k^{2}+3k\\right)$$\n\n(give your answer as a decimal)",
+      ),
+      answer: { kind: "numeric", value: 14980, tolerance: { mode: "relative", value: 0.02 } },
+      hints: [
+        L(
+          "La sumatoria respeta sumas y restas: $\\sum (5k^{2}+3k) = 5\\sum k^{2} + 3\\sum k$.",
+          "The sum respects additions and subtractions: $\\sum (5k^{2}+3k) = 5\\sum k^{2} + 3\\sum k$.",
+        ),
+        L(
+          "Fórmulas de la hoja con $n = 20$: $\\sum k^{2} = \\frac{20\\cdot 21\\cdot 41}{6}$ y $\\sum k = \\frac{20\\cdot 21}{2}$.",
+          "Sheet formulas with $n = 20$: $\\sum k^{2} = \\frac{20\\cdot 21\\cdot 41}{6}$ and $\\sum k = \\frac{20\\cdot 21}{2}$.",
+        ),
+        L(
+          "$\\frac{20\\cdot 21\\cdot 41}{6} = 2870$ y $\\frac{20\\cdot 21}{2} = 210$: queda $5\\cdot 2870 + 3\\cdot 210$.",
+          "$\\frac{20\\cdot 21\\cdot 41}{6} = 2870$ and $\\frac{20\\cdot 21}{2} = 210$: what remains is $5\\cdot 2870 + 3\\cdot 210$.",
+        ),
+      ],
+      answerDisplay: L(
+        "$5\\cdot 2870 + 3\\cdot 210 = 14\\,980$",
+        "$5\\cdot 2870 + 3\\cdot 210 = 14,\\!980$",
+      ),
+      solution: [
+        step(
+          "given",
+          "La suma $\\sum_{k=1}^{20}\\left(5k^{2}+3k\\right)$, un sumando con dos potencias de $k$.",
+          "The sum $\\sum_{k=1}^{20}\\left(5k^{2}+3k\\right)$, a summand with two powers of $k$.",
+        ),
+        step(
+          "approach",
+          "Repartir la suma en sus dos bloques y aplicar las fórmulas de la hoja $\\sum k^{2}$ y $\\sum k$ con $n = 20$.",
+          "Split the sum into its two blocks and apply the sheet formulas $\\sum k^{2}$ and $\\sum k$ with $n = 20$.",
+        ),
+        step(
+          "calculation",
+          "$5\\sum_{k=1}^{20}k^{2} + 3\\sum_{k=1}^{20}k = 5\\cdot 2870 + 3\\cdot 210 = 14\\,350 + 630 = 14\\,980$.<br>Control: $\\frac{20\\cdot 21\\cdot 41}{6} = \\frac{17\\,220}{6} = 2870$ ✓ y $\\frac{20\\cdot 21}{2} = 210$ ✓.",
+          "$5\\sum_{k=1}^{20}k^{2} + 3\\sum_{k=1}^{20}k = 5\\cdot 2870 + 3\\cdot 210 = 14,\\!350 + 630 = 14,\\!980$.<br>Check: $\\frac{20\\cdot 21\\cdot 41}{6} = \\frac{17,\\!220}{6} = 2870$ ✓ and $\\frac{20\\cdot 21}{2} = 210$ ✓.",
+        ),
+        step(
+          "result",
+          "$\\sum_{k=1}^{20}\\left(5k^{2}+3k\\right) = 14\\,980$. Verificación: $14\\,350 + 630 = 14\\,980$ ✓.",
+          "$\\sum_{k=1}^{20}\\left(5k^{2}+3k\\right) = 14,\\!980$. Check: $14,\\!350 + 630 = 14,\\!980$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* S7 · 20 — Σ(3k²−200k)/101 (k = 1..100) = 5050/101 = 50: cancelación. */
+  template(
+    {
+      id: "sum-uees-20",
+      subject: "math",
+      topicId: "sequences",
+      subtopicId: "finite-sums",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 240,
+      tags: ["summation", "cancellation", "sum-of-squares"],
+      prerequisites: ["arithmetic"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "7 · 20",
+        page: 10,
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L(
+        "Constante 1/101 y la cancelación elegante de 3Σk² − 200Σk",
+        "The constant 1/101 and the elegant cancellation of 3Σk² − 200Σk",
+      ),
+      statement: L(
+        "Calcule la suma:\n\n$$\\sum_{k=1}^{100}\\frac{3k^{2}-200k}{101}$$\n\n(escriba el resultado como decimal)",
+        "Evaluate the sum:\n\n$$\\sum_{k=1}^{100}\\frac{3k^{2}-200k}{101}$$\n\n(give your answer as a decimal)",
+      ),
+      answer: { kind: "numeric", value: 50, tolerance: { mode: "relative", value: 0.02 } },
+      hints: [
+        L(
+          "El $101$ no depende de $k$: toda la suma es $\\frac{3\\sum k^{2} - 200\\sum k}{101}$.",
+          "The $101$ does not depend on $k$: the whole sum is $\\frac{3\\sum k^{2} - 200\\sum k}{101}$.",
+        ),
+        L(
+          "Con $n = 100$ las fórmulas de la hoja dan $\\sum k^{2} = 338\\,350$ y $\\sum k = 5050$.",
+          "With $n = 100$ the sheet formulas give $\\sum k^{2} = 338,\\!350$ and $\\sum k = 5050$.",
+        ),
+        L(
+          "Calcula primero el numerador $3\\sum k^{2} - 200\\sum k = 1\\,015\\,050 - 1\\,010\\,000$: casi todo se cancela.",
+          "Compute the numerator first, $3\\sum k^{2} - 200\\sum k = 1,\\!015,\\!050 - 1,\\!010,\\!000$: almost everything cancels.",
+        ),
+      ],
+      answerDisplay: L(
+        "$\\frac{1\\,015\\,050 - 1\\,010\\,000}{101} = \\frac{5050}{101} = 50$",
+        "$\\frac{1,\\!015,\\!050 - 1,\\!010,\\!000}{101} = \\frac{5050}{101} = 50$",
+      ),
+      solution: [
+        step(
+          "given",
+          "La suma $\\sum_{k=1}^{100}\\frac{3k^{2}-200k}{101}$: el denominador $101$ es constante.",
+          "The sum $\\sum_{k=1}^{100}\\frac{3k^{2}-200k}{101}$: the denominator $101$ is constant.",
+        ),
+        step(
+          "approach",
+          "Sacar el $\\frac{1}{101}$, calcular por separado $3\\sum k^{2} - 200\\sum k$ con las fórmulas de la hoja y dividir al final.",
+          "Pull out the $\\frac{1}{101}$, compute $3\\sum k^{2} - 200\\sum k$ separately with the sheet formulas, and divide at the end.",
+        ),
+        step(
+          "calculation",
+          "$\\sum_{k=1}^{100}\\frac{3k^{2}-200k}{101} = \\frac{3\\cdot 338\\,350 - 200\\cdot 5050}{101} = \\frac{1\\,015\\,050 - 1\\,010\\,000}{101} = \\frac{5050}{101} = 50$.<br>La división es exacta porque $5050 = 101\\cdot 50$.",
+          "$\\sum_{k=1}^{100}\\frac{3k^{2}-200k}{101} = \\frac{3\\cdot 338,\\!350 - 200\\cdot 5050}{101} = \\frac{1,\\!015,\\!050 - 1,\\!010,\\!000}{101} = \\frac{5050}{101} = 50$.<br>The division is exact because $5050 = 101\\cdot 50$.",
+        ),
+        step(
+          "result",
+          "La suma es $50$: el numerador queda en $5050$ y $5050 = 101\\cdot 50$ ✓. La cancelación casi total de $3\\sum k^{2}$ contra $200\\sum k$ es el punto del ejercicio.",
+          "The sum is $50$: the numerator reduces to $5050$ and $5050 = 101\\cdot 50$ ✓. The near-total cancellation of $3\\sum k^{2}$ against $200\\sum k$ is the point of the exercise.",
+        ),
+      ],
+    }),
+  ),
+
+  /* S7 · 21 — Σk² (k = 51..100) = 338350 − 42925 = 295425. */
+  template(
+    {
+      id: "sum-uees-21",
+      subject: "math",
+      topicId: "sequences",
+      subtopicId: "finite-sums",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 240,
+      tags: ["summation", "sum-of-squares", "partial-sums"],
+      prerequisites: ["arithmetic"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "7 · 21",
+        page: 10,
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L(
+        "Σk² en un tramo que no empieza en 1: restar sumas parciales",
+        "Σk² over a stretch that does not start at 1: subtracting partial sums",
+      ),
+      statement: L(
+        "Calcule la suma:\n\n$$\\sum_{k=51}^{100} k^{2}$$\n\n(escriba el resultado como decimal)",
+        "Evaluate the sum:\n\n$$\\sum_{k=51}^{100} k^{2}$$\n\n(give your answer as a decimal)",
+      ),
+      answer: { kind: "numeric", value: 295425, tolerance: { mode: "relative", value: 0.02 } },
+      hints: [
+        L(
+          "El tramo no empieza en 1: resta las sumas parciales $\\sum_{k=1}^{100} k^{2} - \\sum_{k=1}^{50} k^{2}$.",
+          "The stretch does not start at 1: subtract the partial sums $\\sum_{k=1}^{100} k^{2} - \\sum_{k=1}^{50} k^{2}$.",
+        ),
+        L(
+          "Fórmula de la hoja: $\\sum_{k=1}^{n} k^{2} = \\frac{n(n+1)(2n+1)}{6}$; con $n = 100$ da $338\\,350$ y con $n = 50$ da $42\\,925$.",
+          "Sheet formula: $\\sum_{k=1}^{n} k^{2} = \\frac{n(n+1)(2n+1)}{6}$; with $n = 100$ it gives $338,\\!350$ and with $n = 50$ it gives $42,\\!925$.",
+        ),
+        L(
+          "Resta $338\\,350 - 42\\,925$ (y guarda el resultado: el ejercicio 22 lo necesita).",
+          "Subtract $338,\\!350 - 42,\\!925$ (and keep the result: exercise 22 needs it).",
+        ),
+      ],
+      answerDisplay: L(
+        "$338\\,350 - 42\\,925 = 295\\,425$",
+        "$338,\\!350 - 42,\\!925 = 295,\\!425$",
+      ),
+      solution: [
+        step(
+          "given",
+          "La suma $\\sum_{k=51}^{100} k^{2}$, cuadrados del 51 al 100.",
+          "The sum $\\sum_{k=51}^{100} k^{2}$, squares from 51 to 100.",
+        ),
+        step(
+          "approach",
+          "Restar las sumas parciales $\\sum_{1}^{100} k^{2} - \\sum_{1}^{50} k^{2}$, cada una con la fórmula $\\frac{n(n+1)(2n+1)}{6}$ de la hoja.",
+          "Subtract the partial sums $\\sum_{1}^{100} k^{2} - \\sum_{1}^{50} k^{2}$, each with the sheet formula $\\frac{n(n+1)(2n+1)}{6}$.",
+        ),
+        step(
+          "calculation",
+          "$\\sum_{k=51}^{100}k^{2} = \\frac{100\\cdot 101\\cdot 201}{6} - \\frac{50\\cdot 51\\cdot 101}{6} = 338\\,350 - 42\\,925 = 295\\,425$.<br>Control: $\\frac{100\\cdot 101\\cdot 201}{6} = \\frac{2\\,030\\,100}{6} = 338\\,350$ ✓ y $\\frac{50\\cdot 51\\cdot 101}{6} = \\frac{257\\,550}{6} = 42\\,925$ ✓.",
+          "$\\sum_{k=51}^{100}k^{2} = \\frac{100\\cdot 101\\cdot 201}{6} - \\frac{50\\cdot 51\\cdot 101}{6} = 338,\\!350 - 42,\\!925 = 295,\\!425$.<br>Check: $\\frac{100\\cdot 101\\cdot 201}{6} = \\frac{2,\\!030,\\!100}{6} = 338,\\!350$ ✓ and $\\frac{50\\cdot 51\\cdot 101}{6} = \\frac{257,\\!550}{6} = 42,\\!925$ ✓.",
+        ),
+        step(
+          "result",
+          "$\\sum_{k=51}^{100} k^{2} = 295\\,425$. Verificación: $338\\,350 - 42\\,925 = 295\\,425$ ✓. (Guárdalo: el ejercicio 22 es esta misma suma disfrazada.)",
+          "$\\sum_{k=51}^{100} k^{2} = 295,\\!425$. Check: $338,\\!350 - 42,\\!925 = 295,\\!425$ ✓. (Keep it: exercise 22 is this very sum in disguise.)",
+        ),
+      ],
+    }),
+  ),
+
+  /* S7 · 22 — Σ(k+50)² (k = 1..50): ES la suma del 21 disfrazada (295425). */
+  template(
+    {
+      id: "sum-uees-22",
+      subject: "math",
+      topicId: "sequences",
+      subtopicId: "finite-sums",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 240,
+      tags: ["summation", "reindexing", "sum-of-squares"],
+      prerequisites: ["arithmetic"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "7 · 22",
+        page: 10,
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L(
+        "Reindexar Σ(k+50)²: es la suma del ejercicio 21 disfrazada",
+        "Reindexing Σ(k+50)²: it is exercise 21's sum in disguise",
+      ),
+      statement: L(
+        "Calcule la suma:\n\n$$\\sum_{k=1}^{50}(k+50)^{2}$$\n\n(escriba el resultado como decimal)",
+        "Evaluate the sum:\n\n$$\\sum_{k=1}^{50}(k+50)^{2}$$\n\n(give your answer as a decimal)",
+      ),
+      answer: { kind: "numeric", value: 295425, tolerance: { mode: "relative", value: 0.02 } },
+      hints: [
+        L(
+          "Cuando $k$ recorre $1..50$, el número $k+50$ recorre $51..100$: ¿te suena ese tramo del ejercicio 21?",
+          "As $k$ runs over $1..50$, the number $k+50$ runs over $51..100$: does that stretch from exercise 21 ring a bell?",
+        ),
+        L(
+          "Con el cambio de índice $j = k+50$ la suma es exactamente $\\sum_{j=51}^{100} j^{2}$.",
+          "With the change of index $j = k+50$ the sum is exactly $\\sum_{j=51}^{100} j^{2}$.",
+        ),
+        L(
+          "Para expandir: $(k+50)^{2} = k^{2} + 100k + 2500$, así que $\\sum k^{2} + 100\\sum k + 50\\cdot 2500 = 42\\,925 + 127\\,500 + 125\\,000$.",
+          "To expand: $(k+50)^{2} = k^{2} + 100k + 2500$, so $\\sum k^{2} + 100\\sum k + 50\\cdot 2500 = 42,\\!925 + 127,\\!500 + 125,\\!000$.",
+        ),
+      ],
+      answerDisplay: L(
+        "$42\\,925 + 127\\,500 + 125\\,000 = 295\\,425$",
+        "$42,\\!925 + 127,\\!500 + 125,\\!000 = 295,\\!425$",
+      ),
+      solution: [
+        step(
+          "given",
+          "La suma $\\sum_{k=1}^{50}(k+50)^{2}$: los sumandos son los cuadrados de $51, 52, \\ldots, 100$.",
+          "The sum $\\sum_{k=1}^{50}(k+50)^{2}$: the summands are the squares of $51, 52, \\ldots, 100$.",
+        ),
+        step(
+          "approach",
+          "Reindexar con $j = k+50$ para reconocer el tramo $51..100$ del ejercicio 21; como control, expandir el binomio y sumar con las fórmulas de la hoja.",
+          "Reindex with $j = k+50$ to recognize the $51..100$ stretch from exercise 21; as a control, expand the binomial and sum with the sheet formulas.",
+        ),
+        step(
+          "calculation",
+          "Cambio de índice $j = k+50$: con $k = 1..50$ resulta $j = 51..100$, así que la suma ES $\\sum_{j=51}^{100} j^{2} = 295\\,425$ (ejercicio 21).<br>Expandiendo se llega a lo mismo: $\\sum_{k=1}^{50}\\left(k^{2}+100k+2500\\right) = 42\\,925 + 100\\cdot 1275 + 50\\cdot 2500 = 42\\,925 + 127\\,500 + 125\\,000 = 295\\,425$ ✓.",
+          "Change of index $j = k+50$: with $k = 1..50$ one gets $j = 51..100$, so the sum IS $\\sum_{j=51}^{100} j^{2} = 295,\\!425$ (exercise 21).<br>Expanding leads to the same value: $\\sum_{k=1}^{50}\\left(k^{2}+100k+2500\\right) = 42,\\!925 + 100\\cdot 1275 + 50\\cdot 2500 = 42,\\!925 + 127,\\!500 + 125,\\!000 = 295,\\!425$ ✓.",
+        ),
+        step(
+          "result",
+          "$\\sum_{k=1}^{50}(k+50)^{2} = 295\\,425$, el MISMO valor del ejercicio 21: la hoja los imprime como ejercicios separados (21 y 22), pero son la misma suma con el índice desplazado ✓.",
+          "$\\sum_{k=1}^{50}(k+50)^{2} = 295,\\!425$, the SAME value as exercise 21: the sheet prints them as separate items (21 and 22), but they are the same sum with the index shifted ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* S7 · 23 — suma de Riemann (9 rectángulos, ancho 1/10): 483/200 = 2.415. */
+  template(
+    {
+      id: "sum-uees-23",
+      subject: "math",
+      topicId: "sequences",
+      subtopicId: "finite-sums",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 300,
+      tags: ["summation", "riemann-sum", "sum-of-squares"],
+      prerequisites: ["arithmetic"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "7 · 23",
+        page: 10,
+      },
+      reasoning: "modeling",
+    },
+    () => ({
+      skill: L(
+        "Suma con sabor de Riemann: alturas 3−(k/10)² y ancho 1/10",
+        "A Riemann-flavored sum: heights 3−(k/10)² and width 1/10",
+      ),
+      statement: L(
+        "Calcule la suma:\n\n$$\\sum_{k=1}^{9}\\left\\{\\left[3-\\left(\\frac{k}{10}\\right)^{2}\\right]\\frac{1}{10}\\right\\}$$\n\n(escriba el resultado como decimal)",
+        "Evaluate the sum:\n\n$$\\sum_{k=1}^{9}\\left\\{\\left[3-\\left(\\frac{k}{10}\\right)^{2}\\right]\\frac{1}{10}\\right\\}$$\n\n(give your answer as a decimal)",
+      ),
+      answer: { kind: "numeric", value: 2.415, tolerance: { mode: "relative", value: 0.02 } },
+      hints: [
+        L(
+          "Tiene forma de suma de Riemann: «altura» $3-\\left(\\frac{k}{10}\\right)^{2}$ por «ancho» $\\frac{1}{10}$, con $k = 1..9$.",
+          "It has the shape of a Riemann sum: “height” $3-\\left(\\frac{k}{10}\\right)^{2}$ times “width” $\\frac{1}{10}$, with $k = 1..9$.",
+        ),
+        L(
+          "El ancho $\\frac{1}{10}$ no depende de $k$: sácalo; y $\\left(\\frac{k}{10}\\right)^{2} = \\frac{k^{2}}{100}$ deja también el $\\frac{1}{100}$ afuera.",
+          "The width $\\frac{1}{10}$ does not depend on $k$: pull it out; and $\\left(\\frac{k}{10}\\right)^{2} = \\frac{k^{2}}{100}$ leaves the $\\frac{1}{100}$ outside too.",
+        ),
+        L(
+          "Queda $\\frac{1}{10}\\left[3\\cdot 9 - \\frac{1}{100}\\cdot 285\\right]$ con $\\sum_{k=1}^{9} k^{2} = 285$: calcula $\\frac{1}{10}\\left(27 - 2{,}85\\right)$.",
+          "You are left with $\\frac{1}{10}\\left[3\\cdot 9 - \\frac{1}{100}\\cdot 285\\right]$ with $\\sum_{k=1}^{9} k^{2} = 285$: compute $\\frac{1}{10}\\left(27 - 2.85\\right)$.",
+        ),
+      ],
+      answerDisplay: L(
+        "$\\frac{1}{10}\\left(27 - 2{,}85\\right) = 2{,}415$",
+        "$\\frac{1}{10}\\left(27 - 2.85\\right) = 2.415$",
+      ),
+      solution: [
+        step(
+          "given",
+          "La suma $\\sum_{k=1}^{9}\\left\\{\\left[3-\\left(\\frac{k}{10}\\right)^{2}\\right]\\frac{1}{10}\\right\\}$: ni el ancho $\\frac{1}{10}$ ni el $\\frac{1}{100}$ del cuadrado dependen de $k$.",
+          "The sum $\\sum_{k=1}^{9}\\left\\{\\left[3-\\left(\\frac{k}{10}\\right)^{2}\\right]\\frac{1}{10}\\right\\}$: neither the width $\\frac{1}{10}$ nor the $\\frac{1}{100}$ inside the square depends on $k$.",
+        ),
+        step(
+          "approach",
+          "Sacar las constantes y aplicar la fórmula de la hoja $\\sum_{k=1}^{9} k^{2} = \\frac{9\\cdot 10\\cdot 19}{6} = 285$.",
+          "Pull out the constants and apply the sheet formula $\\sum_{k=1}^{9} k^{2} = \\frac{9\\cdot 10\\cdot 19}{6} = 285$.",
+        ),
+        step(
+          "calculation",
+          "$\\sum_{k=1}^{9}\\left[3-\\frac{k^{2}}{100}\\right]\\frac{1}{10} = \\frac{1}{10}\\left(3\\cdot 9 - \\frac{1}{100}\\cdot 285\\right) = \\frac{1}{10}\\left(27 - 2{,}85\\right) = \\frac{24{,}15}{10} = 2{,}415$.<br>Control: $\\sum_{k=1}^{9}k^{2} = \\frac{9\\cdot 10\\cdot 19}{6} = \\frac{1710}{6} = 285$ ✓.",
+          "$\\sum_{k=1}^{9}\\left[3-\\frac{k^{2}}{100}\\right]\\frac{1}{10} = \\frac{1}{10}\\left(3\\cdot 9 - \\frac{1}{100}\\cdot 285\\right) = \\frac{1}{10}\\left(27 - 2.85\\right) = \\frac{24.15}{10} = 2.415$.<br>Check: $\\sum_{k=1}^{9}k^{2} = \\frac{9\\cdot 10\\cdot 19}{6} = \\frac{1710}{6} = 285$ ✓.",
+        ),
+        step(
+          "result",
+          "La suma es $2{,}415$ (exacto $\\frac{483}{200}$). Las «alturas» son las de la parábola $y = 3 - x^{2}$ en $x = \\frac{k}{10}$: por eso el sabor de suma de Riemann ✓.",
+          "The sum is $2.415$ (exactly $\\frac{483}{200}$). The “heights” are those of the parabola $y = 3 - x^{2}$ at $x = \\frac{k}{10}$: hence the Riemann-sum flavor ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* S7 · 24 — CHALLENGE: Riemann con 100 rectángulos: 13233/2500 = 5.2932. */
+  template(
+    {
+      id: "sum-uees-24",
+      subject: "math",
+      topicId: "sequences",
+      subtopicId: "finite-sums",
+      difficulty: "challenge",
+      questionType: "numeric",
+      estimatedTimeSec: 360,
+      tags: ["summation", "riemann-sum", "sum-of-squares", "challenge"],
+      prerequisites: ["arithmetic"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "7 · 24",
+        page: 10,
+      },
+      reasoning: "modeling",
+    },
+    () => ({
+      skill: L(
+        "Suma de Riemann con 100 rectángulos bajo y = 4 − x²",
+        "A Riemann sum with 100 rectangles under y = 4 − x²",
+      ),
+      statement: L(
+        "Calcule la suma:\n\n$$\\sum_{k=1}^{100}\\left\\{\\left[4-\\left(\\frac{2k}{100}\\right)^{2}\\right]\\frac{2}{100}\\right\\}$$\n\n(escriba el resultado como decimal)",
+        "Evaluate the sum:\n\n$$\\sum_{k=1}^{100}\\left\\{\\left[4-\\left(\\frac{2k}{100}\\right)^{2}\\right]\\frac{2}{100}\\right\\}$$\n\n(give your answer as a decimal)",
+      ),
+      answer: { kind: "numeric", value: 5.2932, tolerance: { mode: "absolute", value: 0.01 } },
+      hints: [
+        L(
+          "Otra suma de Riemann, ahora con 100 rectángulos: altura $4-\\left(\\frac{2k}{100}\\right)^{2}$ por ancho $\\frac{2}{100}$.",
+          "Another Riemann sum, now with 100 rectangles: height $4-\\left(\\frac{2k}{100}\\right)^{2}$ times width $\\frac{2}{100}$.",
+        ),
+        L(
+          "Saca el ancho y abre el cuadrado: $\\left(\\frac{2k}{100}\\right)^{2} = \\frac{4k^{2}}{10^{4}}$, así que la suma es $\\frac{2}{100}\\left[4\\cdot 100 - \\frac{4}{10^{4}}\\sum_{k=1}^{100} k^{2}\\right]$.",
+          "Pull out the width and open the square: $\\left(\\frac{2k}{100}\\right)^{2} = \\frac{4k^{2}}{10^{4}}$, so the sum is $\\frac{2}{100}\\left[4\\cdot 100 - \\frac{4}{10^{4}}\\sum_{k=1}^{100} k^{2}\\right]$.",
+        ),
+        L(
+          "Con $\\sum_{k=1}^{100} k^{2} = 338\\,350$: $\\frac{2}{100}\\left[400 - \\frac{4}{10^{4}}\\cdot 338\\,350\\right] = 0{,}02\\cdot 264{,}66$.",
+          "With $\\sum_{k=1}^{100} k^{2} = 338,\\!350$: $\\frac{2}{100}\\left[400 - \\frac{4}{10^{4}}\\cdot 338,\\!350\\right] = 0.02\\cdot 264.66$.",
+        ),
+      ],
+      answerDisplay: L(
+        "$\\frac{2}{100}\\left[400 - 135{,}34\\right] = 0{,}02\\cdot 264{,}66 = 5{,}2932$",
+        "$\\frac{2}{100}\\left[400 - 135.34\\right] = 0.02\\cdot 264.66 = 5.2932$",
+      ),
+      solution: [
+        step(
+          "given",
+          "La suma $\\sum_{k=1}^{100}\\left\\{\\left[4-\\left(\\frac{2k}{100}\\right)^{2}\\right]\\frac{2}{100}\\right\\}$: 100 rectángulos de ancho $\\frac{2}{100}$.",
+          "The sum $\\sum_{k=1}^{100}\\left\\{\\left[4-\\left(\\frac{2k}{100}\\right)^{2}\\right]\\frac{2}{100}\\right\\}$: 100 rectangles of width $\\frac{2}{100}$.",
+        ),
+        step(
+          "approach",
+          "Sacar el ancho $\\frac{2}{100}$, escribir $\\left(\\frac{2k}{100}\\right)^{2} = \\frac{4k^{2}}{10^{4}}$ y aplicar la fórmula de la hoja $\\sum_{k=1}^{100} k^{2} = 338\\,350$.",
+          "Pull out the width $\\frac{2}{100}$, write $\\left(\\frac{2k}{100}\\right)^{2} = \\frac{4k^{2}}{10^{4}}$ and apply the sheet formula $\\sum_{k=1}^{100} k^{2} = 338,\\!350$.",
+        ),
+        step(
+          "calculation",
+          "$\\sum_{k=1}^{100}\\left[4-\\frac{4k^{2}}{10^{4}}\\right]\\frac{2}{100} = \\frac{2}{100}\\left[4\\cdot 100 - \\frac{4}{10^{4}}\\cdot 338\\,350\\right] = \\frac{2}{100}\\left[400 - 135{,}34\\right] = 0{,}02\\cdot 264{,}66 = 5{,}2932$.<br>($\\frac{4}{10^{4}}\\cdot 338\\,350 = 135{,}34$ ✓; valor exacto: $\\frac{13\\,233}{2500}$.)",
+          "$\\sum_{k=1}^{100}\\left[4-\\frac{4k^{2}}{10^{4}}\\right]\\frac{2}{100} = \\frac{2}{100}\\left[4\\cdot 100 - \\frac{4}{10^{4}}\\cdot 338,\\!350\\right] = \\frac{2}{100}\\left[400 - 135.34\\right] = 0.02\\cdot 264.66 = 5.2932$.<br>($\\frac{4}{10^{4}}\\cdot 338,\\!350 = 135.34$ ✓; exact value: $\\frac{13,\\!233}{2500}$.)",
+        ),
+        step(
+          "result",
+          "La suma es $5{,}2932$ (exacto $\\frac{13\\,233}{2500}$): es la suma de Riemann de puntos derechos para $y = 4 - x^{2}$ en $[0, 2]$ con 100 rectángulos. El área exacta es $\\int_{0}^{2}(4-x^{2})\\,dx = \\frac{16}{3} \\approx 5{,}333$ y la suma queda justo por debajo, como corresponde a una función decreciente ✓.",
+          "The sum is $5.2932$ (exactly $\\frac{13,\\!233}{2500}$): it is the right-endpoint Riemann sum for $y = 4 - x^{2}$ on $[0, 2]$ with 100 rectangles. The exact area is $\\int_{0}^{2}(4-x^{2})\\,dx = \\frac{16}{3} \\approx 5.333$ and the sum lands just below it, as befits a decreasing function ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* S7 · 25 — CHALLENGE: Riemann general en n → 15 − (9/2)(n+1)(2n+1)/n². */
+  template(
+    {
+      id: "sum-uees-25",
+      subject: "math",
+      topicId: "sequences",
+      subtopicId: "finite-sums",
+      difficulty: "challenge",
+      questionType: "expression",
+      estimatedTimeSec: 360,
+      tags: ["summation", "riemann-sum", "closed-form", "challenge"],
+      prerequisites: ["arithmetic"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "7 · 25",
+        page: 10,
+      },
+      reasoning: "modeling",
+    },
+    () => ({
+      skill: L(
+        "Suma de Riemann general en n: forma cerrada con Σk²",
+        "A general-n Riemann sum: closed form via Σk²",
+      ),
+      statement: L(
+        "Calcule la suma (forma cerrada en $n$):\n\n$$\\sum_{k=1}^{n}\\left\\{\\left[5-\\left(\\frac{3k}{n}\\right)^{2}\\right]\\frac{3}{n}\\right\\}$$\n\n(escriba una expresión en $n$; por ejemplo, n*(n+1)/2)",
+        "Evaluate the sum (closed form in $n$):\n\n$$\\sum_{k=1}^{n}\\left\\{\\left[5-\\left(\\frac{3k}{n}\\right)^{2}\\right]\\frac{3}{n}\\right\\}$$\n\n(write an expression in $n$; e.g. n*(n+1)/2)",
+      ),
+      answer: {
+        kind: "expression",
+        accepted: ["15-(9/2)*(n+1)*(2*n+1)/n^2", "15-9*(n+1)*(2*n+1)/(2*n^2)"],
+        variables: ["n"],
+      },
+      hints: [
+        L(
+          "La versión general de los ejercicios 23 y 24: altura $5-\\left(\\frac{3k}{n}\\right)^{2}$ por ancho $\\frac{3}{n}$; el ancho y el cuadrado salen de la suma.",
+          "The general version of exercises 23 and 24: height $5-\\left(\\frac{3k}{n}\\right)^{2}$ times width $\\frac{3}{n}$; both the width and the square come out of the sum.",
+        ),
+        L(
+          "$\\left(\\frac{3k}{n}\\right)^{2} = \\frac{9k^{2}}{n^{2}}$: queda $\\frac{3}{n}\\left[5n - \\frac{9}{n^{2}}\\sum_{k=1}^{n} k^{2}\\right]$.",
+          "$\\left(\\frac{3k}{n}\\right)^{2} = \\frac{9k^{2}}{n^{2}}$: you are left with $\\frac{3}{n}\\left[5n - \\frac{9}{n^{2}}\\sum_{k=1}^{n} k^{2}\\right]$.",
+        ),
+        L(
+          "Con $\\sum k^{2} = \\frac{n(n+1)(2n+1)}{6}$: el primer bloque da $15$ y el segundo queda $\\frac{27}{n^{3}}\\cdot\\frac{n(n+1)(2n+1)}{6}$.",
+          "With $\\sum k^{2} = \\frac{n(n+1)(2n+1)}{6}$: the first block gives $15$ and the second is left as $\\frac{27}{n^{3}}\\cdot\\frac{n(n+1)(2n+1)}{6}$.",
+        ),
+      ],
+      answerDisplay: L(
+        "$15 - \\frac{9}{2}\\cdot\\frac{(n+1)(2n+1)}{n^{2}}$",
+        "$15 - \\frac{9}{2}\\cdot\\frac{(n+1)(2n+1)}{n^{2}}$",
+      ),
+      solution: [
+        step(
+          "given",
+          "La suma $\\sum_{k=1}^{n}\\left\\{\\left[5-\\left(\\frac{3k}{n}\\right)^{2}\\right]\\frac{3}{n}\\right\\}$ con $n$ fijo: ancho $\\frac{3}{n}$ y $\\frac{9}{n^{2}}$ son constantes respecto de $k$.",
+          "The sum $\\sum_{k=1}^{n}\\left\\{\\left[5-\\left(\\frac{3k}{n}\\right)^{2}\\right]\\frac{3}{n}\\right\\}$ with $n$ fixed: the width $\\frac{3}{n}$ and the $\\frac{9}{n^{2}}$ are constant with respect to $k$.",
+        ),
+        step(
+          "approach",
+          "Sacar las constantes, aplicar la fórmula de la hoja $\\sum_{k=1}^{n} k^{2} = \\frac{n(n+1)(2n+1)}{6}$ y simplificar.",
+          "Pull out the constants, apply the sheet formula $\\sum_{k=1}^{n} k^{2} = \\frac{n(n+1)(2n+1)}{6}$ and simplify.",
+        ),
+        step(
+          "calculation",
+          "$\\sum_{k=1}^{n}\\left[5-\\frac{9k^{2}}{n^{2}}\\right]\\frac{3}{n} = \\frac{3}{n}\\left(5n - \\frac{9}{n^{2}}\\sum_{k=1}^{n}k^{2}\\right) = 15 - \\frac{27}{n^{3}}\\cdot\\frac{n(n+1)(2n+1)}{6} = 15 - \\frac{9}{2}\\cdot\\frac{(n+1)(2n+1)}{n^{2}}$.<br>Control con $n = 1$: $[5-9]\\cdot 3 = -12$ y $15 - \\frac{9}{2}\\cdot\\frac{2\\cdot 3}{1} = -12$ ✓.",
+          "$\\sum_{k=1}^{n}\\left[5-\\frac{9k^{2}}{n^{2}}\\right]\\frac{3}{n} = \\frac{3}{n}\\left(5n - \\frac{9}{n^{2}}\\sum_{k=1}^{n}k^{2}\\right) = 15 - \\frac{27}{n^{3}}\\cdot\\frac{n(n+1)(2n+1)}{6} = 15 - \\frac{9}{2}\\cdot\\frac{(n+1)(2n+1)}{n^{2}}$.<br>Check at $n = 1$: $[5-9]\\cdot 3 = -12$ and $15 - \\frac{9}{2}\\cdot\\frac{2\\cdot 3}{1} = -12$ ✓.",
+        ),
+        step(
+          "result",
+          "La forma cerrada es $15 - \\frac{9}{2}\\cdot\\frac{(n+1)(2n+1)}{n^{2}}$. Cuando $n \\to \\infty$ tiende a $15 - 9 = 6 = \\int_{0}^{3}(5-x^{2})\\,dx$: es la suma de Riemann de esa integral ✓.",
+          "The closed form is $15 - \\frac{9}{2}\\cdot\\frac{(n+1)(2n+1)}{n^{2}}$. As $n \\to \\infty$ it tends to $15 - 9 = 6 = \\int_{0}^{3}(5-x^{2})\\,dx$: it is the Riemann sum of that integral ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* S7 · 26 — Σ k²/[(n+1)(2n+1)]: telescopio con la fórmula → n/6. */
+  template(
+    {
+      id: "sum-uees-26",
+      subject: "math",
+      topicId: "sequences",
+      subtopicId: "finite-sums",
+      difficulty: "medium",
+      questionType: "expression",
+      estimatedTimeSec: 180,
+      tags: ["summation", "sum-of-squares", "telescoping"],
+      prerequisites: ["arithmetic"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "7 · 26",
+        page: 10,
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L(
+        "Telescopio con Σk²: el denominador (n+1)(2n+1) se cancela",
+        "Telescoping with Σk²: the denominator (n+1)(2n+1) cancels",
+      ),
+      statement: L(
+        "Calcule la suma (forma cerrada en $n$):\n\n$$\\sum_{k=1}^{n}\\frac{k^{2}}{(n+1)(2n+1)}$$\n\n(escriba una expresión en $n$; por ejemplo, n*(n+1)/2)",
+        "Evaluate the sum (closed form in $n$):\n\n$$\\sum_{k=1}^{n}\\frac{k^{2}}{(n+1)(2n+1)}$$\n\n(write an expression in $n$; e.g. n*(n+1)/2)",
+      ),
+      answer: {
+        kind: "expression",
+        accepted: ["n/6"],
+        variables: ["n"],
+      },
+      hints: [
+        L(
+          "El denominador $(n+1)(2n+1)$ no depende de $k$: sale como $\\frac{1}{(n+1)(2n+1)}\\sum k^{2}$.",
+          "The denominator $(n+1)(2n+1)$ does not depend on $k$: it comes out as $\\frac{1}{(n+1)(2n+1)}\\sum k^{2}$.",
+        ),
+        L(
+          "Fórmula de la hoja: $\\sum_{k=1}^{n} k^{2} = \\frac{n(n+1)(2n+1)}{6}$ — el denominador ya está adentro.",
+          "Sheet formula: $\\sum_{k=1}^{n} k^{2} = \\frac{n(n+1)(2n+1)}{6}$ — the denominator is already inside.",
+        ),
+        L(
+          "Divide $\\frac{n(n+1)(2n+1)}{6}$ entre $(n+1)(2n+1)$: casi todo se cancela.",
+          "Divide $\\frac{n(n+1)(2n+1)}{6}$ by $(n+1)(2n+1)$: almost everything cancels.",
+        ),
+      ],
+      answerDisplay: L(
+        "$\\frac{n(n+1)(2n+1)}{6\\,(n+1)(2n+1)} = \\frac{n}{6}$",
+        "$\\frac{n(n+1)(2n+1)}{6\\,(n+1)(2n+1)} = \\frac{n}{6}$",
+      ),
+      solution: [
+        step(
+          "given",
+          "La suma $\\sum_{k=1}^{n}\\frac{k^{2}}{(n+1)(2n+1)}$: todo el denominador es constante respecto de $k$.",
+          "The sum $\\sum_{k=1}^{n}\\frac{k^{2}}{(n+1)(2n+1)}$: the whole denominator is constant with respect to $k$.",
+        ),
+        step(
+          "approach",
+          "Sacar el factor constante, aplicar la fórmula de la hoja para $\\sum k^{2}$ y dejar que el denominador telescope.",
+          "Pull out the constant factor, apply the sheet formula for $\\sum k^{2}$ and let the denominator telescope.",
+        ),
+        step(
+          "calculation",
+          "$\\sum_{k=1}^{n}\\frac{k^{2}}{(n+1)(2n+1)} = \\frac{1}{(n+1)(2n+1)}\\cdot\\frac{n(n+1)(2n+1)}{6} = \\frac{n}{6}$.<br>Control con $n = 3$: $\\frac{1+4+9}{4\\cdot 7} = \\frac{14}{28} = \\frac{1}{2}$ y $\\frac{3}{6} = \\frac{1}{2}$ ✓.",
+          "$\\sum_{k=1}^{n}\\frac{k^{2}}{(n+1)(2n+1)} = \\frac{1}{(n+1)(2n+1)}\\cdot\\frac{n(n+1)(2n+1)}{6} = \\frac{n}{6}$.<br>Check at $n = 3$: $\\frac{1+4+9}{4\\cdot 7} = \\frac{14}{28} = \\frac{1}{2}$ and $\\frac{3}{6} = \\frac{1}{2}$ ✓.",
+        ),
+        step(
+          "result",
+          "La suma telescopa a $\\frac{n}{6}$: los factores $(n+1)(2n+1)$ del denominador son exactamente los de la fórmula de $\\sum k^{2}$ y se cancelan por completo ✓.",
+          "The sum telescopes to $\\frac{n}{6}$: the factors $(n+1)(2n+1)$ in the denominator are exactly those in the $\\sum k^{2}$ formula and cancel out completely ✓.",
+        ),
+      ],
+    }),
+  ),
 ];

@@ -5041,4 +5041,3774 @@ export const templates: ProblemTemplate[] = [
       };
     },
   ),
+
+  /* ================================================================== */
+  /* Tarea UEES «EJERCICIOS DE REPASO 1ER PARCIAL MATEMATICAS I»         */
+  /* (INSTRUCTOR_CREATED; sin clave impresa — cada respuesta verificada  */
+  /* con sympy en download/verify_repaso1.py, 417 checks, 0 FAIL).       */
+  /* Secciones: S3 ecuaciones lineales 43-60 · problemas S3/S4 (96, 99,  */
+  /* 10, 13, 16-19, 21, 22) · S5 desigualdades 21-30 y 1-4 · S6 valor    */
+  /* absoluto (21, 24, 26, 29, 32, 35). Convención de dinero en este     */
+  /* bloque: \text{\textdollar} dentro de modo matemático (el «\$» crudo */
+  /* rompe el particionador $...$ de MathText).                          */
+  /* ================================================================== */
+
+  /* UEES S3 · 43 — (9/5)(3−x) = (3/4)(x−3) → x = 3 (binomios opuestos). */
+  template(
+    {
+      id: "lin-uees-43",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "multi-step",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 240,
+      tags: ["linear-equation", "fractions", "multi-step"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "3 · 43",
+        page: 2,
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L("Fracciones de binomios opuestos en los dos lados", "Fractions of opposite binomials on both sides"),
+      statement: L(
+        "Resuelva la ecuación:\n\n$$\\frac{9}{5}(3-x)=\\frac{3}{4}(x-3)$$\n\n(escriba el resultado como decimal)",
+        "Solve the equation:\n\n$$\\frac{9}{5}(3-x)=\\frac{3}{4}(x-3)$$\n\n(give your answer as a decimal)",
+      ),
+      answer: { kind: "numeric", value: 3, tolerance: { mode: "relative", value: 0.02 } },
+      hints: [
+        L(
+          "Los coeficientes fraccionarios $\\frac{9}{5}$ y $\\frac{3}{4}$ piden multiplicar toda la ecuación por el mínimo común múltiplo de los denominadores.",
+          "The fractional coefficients $\\frac{9}{5}$ and $\\frac{3}{4}$ call for multiplying the whole equation by the least common multiple of the denominators.",
+        ),
+        L(
+          "El mcm de $5$ y $4$ es $20$: la ecuación queda $36(3-x) = 15(x-3)$.",
+          "The lcm of $5$ and $4$ is $20$: the equation becomes $36(3-x) = 15(x-3)$.",
+        ),
+        L(
+          "Distribuye y agrupa: números a un lado y $x$ al otro. Ojo: el binomio $(3-x)$ es exactamente el opuesto de $(x-3)$.",
+          "Distribute and collect: numbers on one side, $x$ on the other. Careful: the binomial $(3-x)$ is exactly the opposite of $(x-3)$.",
+        ),
+      ],
+      answerDisplay: L("$x = 3$", "$x = 3$"),
+      solution: [
+        step(
+          "given",
+          "La ecuación $\\frac{9}{5}(3-x)=\\frac{3}{4}(x-3)$ (tarea UEES, sección 3).",
+          "The equation $\\frac{9}{5}(3-x)=\\frac{3}{4}(x-3)$ (UEES worksheet, section 3).",
+        ),
+        step(
+          "approach",
+          "Multiplicar por el mcm $20$ para eliminar los denominadores y despejar la $x$.",
+          "Multiply by the lcm $20$ to clear the denominators and solve for $x$.",
+        ),
+        step(
+          "calculation",
+          "$20 \\cdot \\frac{9}{5}(3-x) = 20 \\cdot \\frac{3}{4}(x-3) \\Rightarrow 36(3-x) = 15(x-3)$<br>$108 - 36x = 15x - 45$<br>$108 + 45 = 15x + 36x \\Rightarrow 153 = 51x \\Rightarrow x = 3$",
+          "$20 \\cdot \\frac{9}{5}(3-x) = 20 \\cdot \\frac{3}{4}(x-3) \\Rightarrow 36(3-x) = 15(x-3)$<br>$108 - 36x = 15x - 45$<br>$108 + 45 = 15x + 36x \\Rightarrow 153 = 51x \\Rightarrow x = 3$",
+        ),
+        step(
+          "result",
+          "$x = 3$. Verificación: $\\frac{9}{5}(3-3) = 0$ y $\\frac{3}{4}(3-3) = 0$ ✓ (ambos lados coinciden).",
+          "$x = 3$. Check: $\\frac{9}{5}(3-3) = 0$ and $\\frac{3}{4}(3-3) = 0$ ✓ (both sides match).",
+        ),
+      ],
+    }),
+  ),
+
+  /* UEES S3 · 44 — suma de tres fracciones → x = 5/2. */
+  template(
+    {
+      id: "lin-uees-44",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "multi-step",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 240,
+      tags: ["linear-equation", "fractions", "lcd"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "3 · 44",
+        page: 2,
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L("Suma de fracciones con tres denominadores", "Adding fractions with three denominators"),
+      statement: L(
+        "Resuelva la ecuación:\n\n$$\\frac{2x-7}{3}+\\frac{8x-9}{14}=\\frac{3x-5}{21}$$\n\n(escriba el resultado como decimal)",
+        "Solve the equation:\n\n$$\\frac{2x-7}{3}+\\frac{8x-9}{14}=\\frac{3x-5}{21}$$\n\n(give your answer as a decimal)",
+      ),
+      answer: { kind: "numeric", value: 2.5, tolerance: { mode: "relative", value: 0.02 } },
+      hints: [
+        L(
+          "Tres denominadores ($3$, $14$ y $21$): el camino limpio es multiplicar toda la ecuación por su mínimo común múltiplo.",
+          "Three denominators ($3$, $14$ and $21$): the clean path is multiplying the whole equation by their least common multiple.",
+        ),
+        L(
+          "$\\text{mcm}(3, 14, 21) = 42$: cada denominador divide exactamente a $42$.",
+          "$\\text{lcm}(3, 14, 21) = 42$: every denominator divides $42$ exactly.",
+        ),
+        L(
+          "Tras multiplicar queda $14(2x-7) + 3(8x-9) = 2(3x-5)$: distribuye y agrupa las $x$.",
+          "After multiplying you get $14(2x-7) + 3(8x-9) = 2(3x-5)$: distribute and collect the $x$'s.",
+        ),
+      ],
+      answerDisplay: L("$x = \\frac{5}{2} = 2{,}5$", "$x = \\frac{5}{2} = 2.5$"),
+      solution: [
+        step(
+          "given",
+          "La ecuación $\\frac{2x-7}{3}+\\frac{8x-9}{14}=\\frac{3x-5}{21}$.",
+          "The equation $\\frac{2x-7}{3}+\\frac{8x-9}{14}=\\frac{3x-5}{21}$.",
+        ),
+        step(
+          "approach",
+          "Multiplicar por el $\\text{mcm}$ de los denominadores para convertir todo en una ecuación lineal sin fracciones.",
+          "Multiply by the $\\text{lcm}$ of the denominators to turn everything into a linear equation without fractions.",
+        ),
+        step(
+          "calculation",
+          "$\\text{mcm}(3, 14, 21) = 42$: $14(2x-7) + 3(8x-9) = 2(3x-5)$<br>$28x - 98 + 24x - 27 = 6x - 10$<br>$52x - 125 = 6x - 10 \\Rightarrow 46x = 115 \\Rightarrow x = \\frac{115}{46} = \\frac{5}{2}$",
+          "$\\text{lcm}(3, 14, 21) = 42$: $14(2x-7) + 3(8x-9) = 2(3x-5)$<br>$28x - 98 + 24x - 27 = 6x - 10$<br>$52x - 125 = 6x - 10 \\Rightarrow 46x = 115 \\Rightarrow x = \\frac{115}{46} = \\frac{5}{2}$",
+        ),
+        step(
+          "result",
+          "$x = \\frac{5}{2} = 2{,}5$. Verificación: $\\frac{2 \\cdot \\frac{5}{2} - 7}{3} + \\frac{8 \\cdot \\frac{5}{2} - 9}{14} = \\frac{-2}{3} + \\frac{11}{14} = \\frac{-28 + 33}{42} = \\frac{5}{42}$ y $\\frac{3 \\cdot \\frac{5}{2} - 5}{21} = \\frac{5/2}{21} = \\frac{5}{42}$ ✓.",
+          "$x = \\frac{5}{2} = 2.5$. Check: $\\frac{2 \\cdot \\frac{5}{2} - 7}{3} + \\frac{8 \\cdot \\frac{5}{2} - 9}{14} = \\frac{-2}{3} + \\frac{11}{14} = \\frac{-28 + 33}{42} = \\frac{5}{42}$ and $\\frac{3 \\cdot \\frac{5}{2} - 5}{21} = \\frac{5/2}{21} = \\frac{5}{42}$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* UEES S3 · 45 — (4/3)(5x−2) = 7[x−(5x−2)] → x = 25/52. */
+  template(
+    {
+      id: "lin-uees-45",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "multi-step",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 240,
+      tags: ["linear-equation", "fractions", "distribution", "brackets"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "3 · 45",
+        page: 2,
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L("Un corchete que esconde una resta con paréntesis", "A bracket hiding a subtraction with parentheses"),
+      statement: L(
+        "Resuelva la ecuación:\n\n$$\\frac{4}{3}(5x-2)=7[x-(5x-2)]$$\n\n(escriba el resultado como decimal)",
+        "Solve the equation:\n\n$$\\frac{4}{3}(5x-2)=7[x-(5x-2)]$$\n\n(give your answer as a decimal)",
+      ),
+      answer: { kind: "numeric", value: 25 / 52, tolerance: { mode: "relative", value: 0.02 } },
+      hints: [
+        L(
+          "El corchete $[x-(5x-2)]$ esconde una resta con paréntesis: quita primero el paréntesis interno con cambio de signos.",
+          "The bracket $[x-(5x-2)]$ hides a subtraction with parentheses: remove the inner parentheses first, flipping signs.",
+        ),
+        L(
+          "$x-(5x-2) = -4x+2$, así que el lado derecho es $7(-4x+2)$.",
+          "$x-(5x-2) = -4x+2$, so the right-hand side is $7(-4x+2)$.",
+        ),
+        L(
+          "Multiplica luego por $3$ para eliminar el $\\frac{4}{3}$ y termina de despejar.",
+          "Then multiply by $3$ to clear the $\\frac{4}{3}$ and finish solving.",
+        ),
+      ],
+      answerDisplay: L("$x = \\frac{25}{52} \\approx 0{,}48$", "$x = \\frac{25}{52} \\approx 0.48$"),
+      solution: [
+        step(
+          "given",
+          "La ecuación $\\frac{4}{3}(5x-2)=7[x-(5x-2)]$.",
+          "The equation $\\frac{4}{3}(5x-2)=7[x-(5x-2)]$.",
+        ),
+        step(
+          "approach",
+          "Simplificar primero el corchete (paréntesis interno) y después multiplicar por $3$ para quitar la fracción.",
+          "Simplify the bracket first (inner parentheses) and then multiply by $3$ to remove the fraction.",
+        ),
+        step(
+          "calculation",
+          "$x-(5x-2) = -4x+2 \\Rightarrow 7(-4x+2) = -28x+14$<br>$\\frac{4}{3}(5x-2) = -28x+14$; multiplicando por $3$: $4(5x-2) = 3(-28x+14)$<br>$20x-8 = -84x+42 \\Rightarrow 104x = 50 \\Rightarrow x = \\frac{50}{104} = \\frac{25}{52}$",
+          "$x-(5x-2) = -4x+2 \\Rightarrow 7(-4x+2) = -28x+14$<br>$\\frac{4}{3}(5x-2) = -28x+14$; multiplying by $3$: $4(5x-2) = 3(-28x+14)$<br>$20x-8 = -84x+42 \\Rightarrow 104x = 50 \\Rightarrow x = \\frac{50}{104} = \\frac{25}{52}$",
+        ),
+        step(
+          "result",
+          "$x = \\frac{25}{52} \\approx 0{,}48$. Verificación: $5x-2 = \\frac{125}{52}-\\frac{104}{52} = \\frac{21}{52}$, luego $\\frac{4}{3} \\cdot \\frac{21}{52} = \\frac{7}{13}$ y $7\\left(x-(5x-2)\\right) = 7 \\cdot \\frac{4}{52} = \\frac{7}{13}$ ✓.",
+          "$x = \\frac{25}{52} \\approx 0.48$. Check: $5x-2 = \\frac{125}{52}-\\frac{104}{52} = \\frac{21}{52}$, hence $\\frac{4}{3} \\cdot \\frac{21}{52} = \\frac{7}{13}$ and $7\\left(x-(5x-2)\\right) = 7 \\cdot \\frac{4}{52} = \\frac{7}{13}$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* UEES S3 · 46 — (2x−5)²+(3x−3)² = 13x²−5x+7 → x = 9/11 (lineal tras cancelar 13x²). */
+  template(
+    {
+      id: "lin-uees-46",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "multi-step",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 240,
+      tags: ["linear-equation", "squares", "like-terms"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "3 · 46",
+        page: 2,
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L("Cuadrados de binomios que se cancelan entre sí", "Squares of binomials that cancel each other"),
+      statement: L(
+        "Resuelva la ecuación:\n\n$$(2x-5)^2+(3x-3)^2=13x^2-5x+7$$\n\n(escriba el resultado como decimal)",
+        "Solve the equation:\n\n$$(2x-5)^2+(3x-3)^2=13x^2-5x+7$$\n\n(give your answer as a decimal)",
+      ),
+      answer: { kind: "numeric", value: 9 / 11, tolerance: { mode: "relative", value: 0.02 } },
+      hints: [
+        L(
+          "Aunque aparezcan cuadrados, desarrolla $(2x-5)^2$ y $(3x-3)^2$: los términos cuadráticos deberían cancelarse con el lado derecho.",
+          "Although squares appear, expand $(2x-5)^2$ and $(3x-3)^2$: the quadratic terms should cancel against the right-hand side.",
+        ),
+        L(
+          "$(2x-5)^2 = 4x^2-20x+25$ y $(3x-3)^2 = 9x^2-18x+9$.",
+          "$(2x-5)^2 = 4x^2-20x+25$ and $(3x-3)^2 = 9x^2-18x+9$.",
+        ),
+        L(
+          "Tras sumar: $13x^2-38x+34 = 13x^2-5x+7$; resta $13x^2$ en ambos lados y queda una ecuación lineal pura.",
+          "After adding: $13x^2-38x+34 = 13x^2-5x+7$; subtract $13x^2$ from both sides and a pure linear equation remains.",
+        ),
+      ],
+      answerDisplay: L("$x = \\frac{9}{11} \\approx 0{,}82$", "$x = \\frac{9}{11} \\approx 0.82$"),
+      solution: [
+        step(
+          "given",
+          "La ecuación $(2x-5)^2+(3x-3)^2=13x^2-5x+7$.",
+          "The equation $(2x-5)^2+(3x-3)^2=13x^2-5x+7$.",
+        ),
+        step(
+          "approach",
+          "Expandir los dos cuadrados de binomio y simplificar: la ecuación es lineal disfrazada.",
+          "Expand the two binomial squares and simplify: the equation is a linear one in disguise.",
+        ),
+        step(
+          "calculation",
+          "$(2x-5)^2+(3x-3)^2 = 4x^2-20x+25+9x^2-18x+9 = 13x^2-38x+34$<br>$13x^2-38x+34 = 13x^2-5x+7$<br>$-38x+34 = -5x+7 \\Rightarrow -33x = -27 \\Rightarrow x = \\frac{27}{33} = \\frac{9}{11}$",
+          "$(2x-5)^2+(3x-3)^2 = 4x^2-20x+25+9x^2-18x+9 = 13x^2-38x+34$<br>$13x^2-38x+34 = 13x^2-5x+7$<br>$-38x+34 = -5x+7 \\Rightarrow -33x = -27 \\Rightarrow x = \\frac{27}{33} = \\frac{9}{11}$",
+        ),
+        step(
+          "result",
+          "$x = \\frac{9}{11} \\approx 0{,}82$. Verificación: con $x = \\frac{9}{11}$, $2x-5 = -\\frac{37}{11}$ y $3x-3 = -\\frac{6}{11}$, luego el lado izquierdo vale $\\frac{1369+36}{121} = \\frac{1405}{121}$; y $13 \\cdot \\frac{81}{121} - \\frac{45}{11} + 7 = \\frac{1053 - 495 + 847}{121} = \\frac{1405}{121}$ ✓.",
+          "$x = \\frac{9}{11} \\approx 0.82$. Check: at $x = \\frac{9}{11}$, $2x-5 = -\\frac{37}{11}$ and $3x-3 = -\\frac{6}{11}$, so the left side equals $\\frac{1369+36}{121} = \\frac{1405}{121}$; and $13 \\cdot \\frac{81}{121} - \\frac{45}{11} + 7 = \\frac{1053 - 495 + 847}{121} = \\frac{1405}{121}$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* UEES S3 · 47 — 5/x = 25 → x = 1/5 (definition-hunting; polo x = 0). */
+  template(
+    {
+      id: "lin-uees-47",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "fractions",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 120,
+      tags: ["linear-equation", "fractions", "reciprocal"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "3 · 47",
+        page: 2,
+      },
+      reasoning: "definition-hunting",
+    },
+    () => ({
+      skill: L("El recíproco de un cociente", "The reciprocal of a quotient"),
+      statement: L(
+        "Resuelva la ecuación:\n\n$$\\frac{5}{x}=25$$\n\n(escriba el resultado como decimal)",
+        "Solve the equation:\n\n$$\\frac{5}{x}=25$$\n\n(give your answer as a decimal)",
+      ),
+      answer: { kind: "numeric", value: 0.2, tolerance: { mode: "relative", value: 0.02 } },
+      hints: [
+        L(
+          "$x$ vive en el denominador: despeja primero el cociente $\\frac{5}{x}$ tal cual.",
+          "$x$ lives in the denominator: first isolate the quotient $\\frac{5}{x}$ as is.",
+        ),
+        L(
+          "$\\frac{5}{x} = 25$ equivale (dividiendo entre $5$) a $\\frac{1}{x} = 5$.",
+          "$\\frac{5}{x} = 25$ is equivalent (dividing by $5$) to $\\frac{1}{x} = 5$.",
+        ),
+        L(
+          "Si $\\frac{1}{x} = 5$, entonces $x$ es el recíproco de $5$; recuerda que el polo $x = 0$ no está permitido.",
+          "If $\\frac{1}{x} = 5$, then $x$ is the reciprocal of $5$; recall that the pole $x = 0$ is not allowed.",
+        ),
+      ],
+      answerDisplay: L("$x = \\frac{1}{5} = 0{,}2$", "$x = \\frac{1}{5} = 0.2$"),
+      solution: [
+        step(
+          "given",
+          "La ecuación $\\frac{5}{x}=25$, con $x \\ne 0$.",
+          "The equation $\\frac{5}{x}=25$, with $x \\ne 0$.",
+        ),
+        step(
+          "approach",
+          "Reducir a un recíproco puro $\\frac{1}{x}$ y aplicar la definición de recíproco.",
+          "Reduce to a pure reciprocal $\\frac{1}{x}$ and apply the definition of reciprocal.",
+        ),
+        step(
+          "calculation",
+          "$\\frac{5}{x} = 25 \\Rightarrow \\frac{1}{x} = \\frac{25}{5} = 5 \\Rightarrow x = \\frac{1}{5}$ (el recíproco de $5$)",
+          "$\\frac{5}{x} = 25 \\Rightarrow \\frac{1}{x} = \\frac{25}{5} = 5 \\Rightarrow x = \\frac{1}{5}$ (the reciprocal of $5$)",
+        ),
+        step(
+          "result",
+          "$x = \\frac{1}{5} = 0{,}2$. Verificación: $\\frac{5}{1/5} = 5 \\cdot 5 = 25$ ✓ (y $x = 0{,}2$ no es el polo $x = 0$).",
+          "$x = \\frac{1}{5} = 0.2$. Check: $\\frac{5}{1/5} = 5 \\cdot 5 = 25$ ✓ (and $x = 0.2$ is not the pole $x = 0$).",
+        ),
+      ],
+    }),
+  ),
+
+  /* UEES S3 · 48 — 4/(x−1) = 2 → x = 3 (definition-hunting; polo x = 1). */
+  template(
+    {
+      id: "lin-uees-48",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "fractions",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 120,
+      tags: ["linear-equation", "fractions", "binomial-denominator"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "3 · 48",
+        page: 2,
+      },
+      reasoning: "definition-hunting",
+    },
+    () => ({
+      skill: L("Despejar el binomio del denominador", "Isolating the binomial in the denominator"),
+      statement: L(
+        "Resuelva la ecuación:\n\n$$\\frac{4}{x-1}=2$$\n\n(escriba el resultado como decimal)",
+        "Solve the equation:\n\n$$\\frac{4}{x-1}=2$$\n\n(give your answer as a decimal)",
+      ),
+      answer: { kind: "numeric", value: 3, tolerance: { mode: "relative", value: 0.02 } },
+      hints: [
+        L(
+          "El denominador es el binomio $x-1$: despéjalo completo, como si fuera una sola letra.",
+          "The denominator is the binomial $x-1$: isolate it whole, as if it were a single letter.",
+        ),
+        L(
+          "De $\\frac{4}{x-1} = 2$ sale $x-1 = \\frac{4}{2}$.",
+          "From $\\frac{4}{x-1} = 2$ you get $x-1 = \\frac{4}{2}$.",
+        ),
+        L(
+          "El polo está en $x = 1$ (donde se anula el denominador): tu solución no puede ser ese valor.",
+          "The pole sits at $x = 1$ (where the denominator vanishes): your solution cannot be that value.",
+        ),
+      ],
+      answerDisplay: L("$x = 3$", "$x = 3$"),
+      solution: [
+        step(
+          "given",
+          "La ecuación $\\frac{4}{x-1}=2$, con $x \\ne 1$.",
+          "The equation $\\frac{4}{x-1}=2$, with $x \\ne 1$.",
+        ),
+        step(
+          "approach",
+          "Despejar el binomio denominador y despejar después la $x$.",
+          "Isolate the denominator binomial and then solve for $x$.",
+        ),
+        step(
+          "calculation",
+          "$\\frac{4}{x-1} = 2 \\Rightarrow x-1 = \\frac{4}{2} = 2 \\Rightarrow x = 3$; control del polo: $3 \\ne 1$ ✓",
+          "$\\frac{4}{x-1} = 2 \\Rightarrow x-1 = \\frac{4}{2} = 2 \\Rightarrow x = 3$; pole check: $3 \\ne 1$ ✓",
+        ),
+        step(
+          "result",
+          "$x = 3$. Verificación: $\\frac{4}{3-1} = \\frac{4}{2} = 2$ ✓.",
+          "$x = 3$. Check: $\\frac{4}{3-1} = \\frac{4}{2} = 2$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* UEES S3 · 49 — 5/(x+3) = 0 → SIN SOLUCIÓN (numerador 5 ≠ 0). MC; el
+     distractor x = 5/3 es la raíz del numerador del ejercicio siguiente y
+     x = −3 es el polo. Sin opciones impresas: la hoja trae el ejercicio
+     abierto; las 4 opciones se construyeron (trampa de polo + trampa de
+     numerador), documentado aquí. */
+  template(
+    {
+      id: "lin-uees-49",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "fractions",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 120,
+      tags: ["linear-equation", "fractions", "no-solution", "spurious-roots"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "3 · 49",
+        page: 2,
+      },
+      reasoning: "spurious",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("No tiene solución", "It has no solution"), correct: true },
+        { id: "b", text: L("$x = -3$", "$x = -3$"), correct: false },
+        { id: "c", text: L("$x = 0$", "$x = 0$"), correct: false },
+        { id: "d", text: L("$x = \\frac{5}{3}$", "$x = \\frac{5}{3}$"), correct: false },
+      ];
+      return {
+        skill: L("Una fracción que nunca se anula", "A fraction that never vanishes"),
+        statement: L(
+          "Resuelva la ecuación y escoja la opción correcta:\n\n$$\\frac{5}{x+3}=0$$",
+          "Solve the equation and choose the correct option:\n\n$$\\frac{5}{x+3}=0$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "¿Cuándo vale cero un cociente? Solo cuando su numerador vale cero (y el denominador no).",
+            "When does a quotient equal zero? Only when its numerator equals zero (and the denominator does not).",
+          ),
+          L(
+            "Aquí el numerador es la constante $5$: no hay ninguna $x$ que lo ponga en cero.",
+            "Here the numerator is the constant $5$: there is no $x$ that can make it zero.",
+          ),
+          L(
+            "El único valor «sospechoso» es $x = -3$, el polo donde el denominador $x+3$ se anula; pero ahí la expresión ni siquiera está definida.",
+            "The only «suspicious» value is $x = -3$, the pole where the denominator $x+3$ vanishes; but there the expression is not even defined.",
+          ),
+        ],
+        answerDisplay: L(
+          "No tiene solución: el numerador $5$ nunca se anula.",
+          "It has no solution: the numerator $5$ never vanishes.",
+        ),
+        solution: [
+          step(
+            "given",
+            "La ecuación $\\frac{5}{x+3}=0$, con $x \\ne -3$.",
+            "The equation $\\frac{5}{x+3}=0$, with $x \\ne -3$.",
+          ),
+          step(
+            "approach",
+            "Aplicar la definición: un cociente $\\frac{a}{b}$ vale $0$ solo si $a = 0$ y $b \\ne 0$.",
+            "Apply the definition: a quotient $\\frac{a}{b}$ equals $0$ only if $a = 0$ and $b \\ne 0$.",
+          ),
+          step(
+            "calculation",
+            "Numerador: $5 \\ne 0$ para todo $x$, así que el cociente jamás llega a $0$.<br>Candidatos: $x = -3$ anula el denominador (expresión indefinida ✗); $x = 0$ da $\\frac{5}{3} \\ne 0$ ✗; $x = \\frac{5}{3}$ da $\\frac{5}{5/3+3} = \\frac{15}{14} \\ne 0$ ✗.",
+            "Numerator: $5 \\ne 0$ for every $x$, so the quotient never reaches $0$.<br>Candidates: $x = -3$ kills the denominator (expression undefined ✗); $x = 0$ gives $\\frac{5}{3} \\ne 0$ ✗; $x = \\frac{5}{3}$ gives $\\frac{5}{5/3+3} = \\frac{15}{14} \\ne 0$ ✗.",
+          ),
+          step(
+            "result",
+            "La ecuación **no tiene solución**: una fracción con numerador constante distinto de cero nunca se anula — para todo $x \\ne -3$ el cociente $\\frac{5}{x+3}$ es estrictamente positivo y jamás toca el $0$ ✓. El distractor $x = -3$ es el polo (excluido del dominio) y $x = \\frac{5}{3}$ es la raíz del numerador del ejercicio siguiente — la trampa clásica.",
+            "The equation **has no solution**: a fraction whose constant numerator is nonzero never vanishes — for every $x \\ne -3$ the quotient $\\frac{5}{x+3}$ is strictly positive and never touches $0$ ✓. The distractor $x = -3$ is the pole (excluded from the domain) and $x = \\frac{5}{3}$ is the numerator's root of the next exercise — the classic trap.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* UEES S3 · 50 — (3x−5)/(x−3) = 0 → x = 5/3 (spurious: raíz del numerador, polo x = 3). */
+  template(
+    {
+      id: "lin-uees-50",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "fractions",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 120,
+      tags: ["linear-equation", "fractions", "zero-numerator", "spurious-roots"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "3 · 50",
+        page: 2,
+      },
+      reasoning: "spurious",
+    },
+    () => ({
+      skill: L("Fracción nula: numerador en cero, denominador vivo", "Zero fraction: numerator at zero, denominator alive"),
+      statement: L(
+        "Resuelva la ecuación:\n\n$$\\frac{3x-5}{x-3}=0$$\n\n(escriba el resultado como decimal)",
+        "Solve the equation:\n\n$$\\frac{3x-5}{x-3}=0$$\n\n(give your answer as a decimal)",
+      ),
+      answer: { kind: "numeric", value: 5 / 3, tolerance: { mode: "relative", value: 0.02 } },
+      hints: [
+        L(
+          "$\\frac{3x-5}{x-3} = 0$ solo puede ocurrir si el numerador $3x-5$ se anula.",
+          "$\\frac{3x-5}{x-3} = 0$ can only happen if the numerator $3x-5$ vanishes.",
+        ),
+        L(
+          "$3x-5 = 0$ lleva a una única raíz; aún hay que comprobar una cosa más.",
+          "$3x-5 = 0$ leads to a single root; one more thing still needs checking.",
+        ),
+        L(
+          "El polo es $x = 3$ (donde el denominador se anula): verifica que tu candidato no sea ese valor.",
+          "The pole is $x = 3$ (where the denominator vanishes): verify your candidate is not that value.",
+        ),
+      ],
+      answerDisplay: L("$x = \\frac{5}{3} \\approx 1{,}67$", "$x = \\frac{5}{3} \\approx 1.67$"),
+      solution: [
+        step(
+          "given",
+          "La ecuación $\\frac{3x-5}{x-3}=0$, con $x \\ne 3$.",
+          "The equation $\\frac{3x-5}{x-3}=0$, with $x \\ne 3$.",
+        ),
+        step(
+          "approach",
+          "Anular el numerador y filtrar después contra el polo del denominador.",
+          "Zero the numerator and then filter against the denominator's pole.",
+        ),
+        step(
+          "calculation",
+          "$3x-5 = 0 \\Rightarrow x = \\frac{5}{3}$; control del polo: $\\frac{5}{3} \\ne 3$ ✓ (el denominador no se anula)",
+          "$3x-5 = 0 \\Rightarrow x = \\frac{5}{3}$; pole check: $\\frac{5}{3} \\ne 3$ ✓ (the denominator does not vanish)",
+        ),
+        step(
+          "result",
+          "$x = \\frac{5}{3} \\approx 1{,}67$. Verificación: $\\frac{3 \\cdot \\frac{5}{3} - 5}{\\frac{5}{3} - 3} = \\frac{0}{-\\frac{4}{3}} = 0$ ✓.",
+          "$x = \\frac{5}{3} \\approx 1.67$. Check: $\\frac{3 \\cdot \\frac{5}{3} - 5}{\\frac{5}{3} - 3} = \\frac{0}{-\\frac{4}{3}} = 0$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* UEES S3 · 51 — 3/(5−2x) = 7/2 → x = 29/14 (multi-concept; polo x = 5/2). */
+  template(
+    {
+      id: "lin-uees-51",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "fractions",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 120,
+      tags: ["linear-equation", "fractions", "proportion"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "3 · 51",
+        page: 2,
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L("Proporción con un binomio en el denominador", "A proportion with a binomial in the denominator"),
+      statement: L(
+        "Resuelva la ecuación:\n\n$$\\frac{3}{5-2x}=\\frac{7}{2}$$\n\n(escriba el resultado como decimal)",
+        "Solve the equation:\n\n$$\\frac{3}{5-2x}=\\frac{7}{2}$$\n\n(give your answer as a decimal)",
+      ),
+      answer: { kind: "numeric", value: 29 / 14, tolerance: { mode: "relative", value: 0.02 } },
+      hints: [
+        L(
+          "Es una proporción: multiplica en cruz, $3 \\cdot 2 = 7(5-2x)$.",
+          "It is a proportion: cross-multiply, $3 \\cdot 2 = 7(5-2x)$.",
+        ),
+        L(
+          "$6 = 35 - 14x$: el binomio $5-2x$ esconde la $x$ con signo menos.",
+          "$6 = 35 - 14x$: the binomial $5-2x$ hides the $x$ with a minus sign.",
+        ),
+        L(
+          "El polo está en $5-2x = 0$, es decir $x = \\frac{5}{2}$: tu respuesta debe evitarlo.",
+          "The pole lies at $5-2x = 0$, i.e. $x = \\frac{5}{2}$: your answer must avoid it.",
+        ),
+      ],
+      answerDisplay: L("$x = \\frac{29}{14} \\approx 2{,}07$", "$x = \\frac{29}{14} \\approx 2.07$"),
+      solution: [
+        step(
+          "given",
+          "La ecuación $\\frac{3}{5-2x}=\\frac{7}{2}$, con $x \\ne \\frac{5}{2}$.",
+          "The equation $\\frac{3}{5-2x}=\\frac{7}{2}$, with $x \\ne \\frac{5}{2}$.",
+        ),
+        step(
+          "approach",
+          "Multiplicar en cruz y despejar la $x$ cuidando el signo del binomio.",
+          "Cross-multiply and solve for $x$ watching the binomial's sign.",
+        ),
+        step(
+          "calculation",
+          "$3 \\cdot 2 = 7(5-2x) \\Rightarrow 6 = 35-14x \\Rightarrow 14x = 29 \\Rightarrow x = \\frac{29}{14}$; control del polo: $\\frac{29}{14} \\ne \\frac{5}{2}$ ✓",
+          "$3 \\cdot 2 = 7(5-2x) \\Rightarrow 6 = 35-14x \\Rightarrow 14x = 29 \\Rightarrow x = \\frac{29}{14}$; pole check: $\\frac{29}{14} \\ne \\frac{5}{2}$ ✓",
+        ),
+        step(
+          "result",
+          "$x = \\frac{29}{14} \\approx 2{,}07$. Verificación: $5-2 \\cdot \\frac{29}{14} = 5-\\frac{29}{7} = \\frac{6}{7}$ y $\\frac{3}{6/7} = \\frac{21}{6} = \\frac{7}{2}$ ✓.",
+          "$x = \\frac{29}{14} \\approx 2.07$. Check: $5-2 \\cdot \\frac{29}{14} = 5-\\frac{29}{7} = \\frac{6}{7}$ and $\\frac{3}{6/7} = \\frac{21}{6} = \\frac{7}{2}$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* UEES S3 · 52 — (x+3)/x = 2/5 → x = −5 (definition-hunting; polo x = 0). */
+  template(
+    {
+      id: "lin-uees-52",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "fractions",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 120,
+      tags: ["linear-equation", "fractions", "proportion"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "3 · 52",
+        page: 2,
+      },
+      reasoning: "definition-hunting",
+    },
+    () => ({
+      skill: L("Proporción con la incógnita en los dos lados", "A proportion with the unknown on both sides"),
+      statement: L(
+        "Resuelva la ecuación:\n\n$$\\frac{x+3}{x}=\\frac{2}{5}$$\n\n(escriba el resultado como decimal)",
+        "Solve the equation:\n\n$$\\frac{x+3}{x}=\\frac{2}{5}$$\n\n(give your answer as a decimal)",
+      ),
+      answer: { kind: "numeric", value: -5, tolerance: { mode: "relative", value: 0.02 } },
+      hints: [
+        L(
+          "Multiplica en cruz: $5(x+3) = 2x$.",
+          "Cross-multiply: $5(x+3) = 2x$.",
+        ),
+        L(
+          "Distribuye: $5x+15 = 2x$; ahora la $x$ aparece en los dos lados.",
+          "Distribute: $5x+15 = 2x$; now the $x$ appears on both sides.",
+        ),
+        L(
+          "Al agrupar queda $3x = -15$; el polo $x = 0$ no está permitido como respuesta.",
+          "Collecting gives $3x = -15$; the pole $x = 0$ is not allowed as an answer.",
+        ),
+      ],
+      answerDisplay: L("$x = -5$", "$x = -5$"),
+      solution: [
+        step(
+          "given",
+          "La ecuación $\\frac{x+3}{x}=\\frac{2}{5}$, con $x \\ne 0$.",
+          "The equation $\\frac{x+3}{x}=\\frac{2}{5}$, with $x \\ne 0$.",
+        ),
+        step(
+          "approach",
+          "Multiplicar en cruz y agrupar los términos lineales.",
+          "Cross-multiply and collect the linear terms.",
+        ),
+        step(
+          "calculation",
+          "$5(x+3) = 2x \\Rightarrow 5x+15 = 2x \\Rightarrow 3x = -15 \\Rightarrow x = -5$; control del polo: $-5 \\ne 0$ ✓",
+          "$5(x+3) = 2x \\Rightarrow 5x+15 = 2x \\Rightarrow 3x = -15 \\Rightarrow x = -5$; pole check: $-5 \\ne 0$ ✓",
+        ),
+        step(
+          "result",
+          "$x = -5$. Verificación: $\\frac{-5+3}{-5} = \\frac{-2}{-5} = \\frac{2}{5}$ ✓.",
+          "$x = -5$. Check: $\\frac{-5+3}{-5} = \\frac{-2}{-5} = \\frac{2}{5}$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* UEES S3 · 53 — q/(5q−4) = 1/3 → q = 2 (spurious; polo q = 4/5). */
+  template(
+    {
+      id: "lin-uees-53",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "fractions",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 210,
+      tags: ["linear-equation", "fractions", "spurious-roots"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "3 · 53",
+        page: 2,
+      },
+      reasoning: "spurious",
+    },
+    () => ({
+      skill: L("Proporción con parámetro q y polo fraccionario", "A proportion with parameter q and a fractional pole"),
+      statement: L(
+        "Resuelva la ecuación:\n\n$$\\frac{q}{5q-4}=\\frac{1}{3}$$\n\n(escriba el resultado como decimal)",
+        "Solve the equation:\n\n$$\\frac{q}{5q-4}=\\frac{1}{3}$$\n\n(give your answer as a decimal)",
+      ),
+      answer: { kind: "numeric", value: 2, tolerance: { mode: "relative", value: 0.02 } },
+      hints: [
+        L(
+          "Multiplica en cruz: $3q = 5q-4$.",
+          "Cross-multiply: $3q = 5q-4$.",
+        ),
+        L(
+          "Las $q$ están en los dos lados: agrúpalas restando $3q$.",
+          "The $q$'s are on both sides: collect them by subtracting $3q$.",
+        ),
+        L(
+          "El polo es $q = \\frac{4}{5}$ (donde $5q-4 = 0$): la solución debe ser distinta de él.",
+          "The pole is $q = \\frac{4}{5}$ (where $5q-4 = 0$): the solution must differ from it.",
+        ),
+      ],
+      answerDisplay: L("$q = 2$", "$q = 2$"),
+      solution: [
+        step(
+          "given",
+          "La ecuación $\\frac{q}{5q-4}=\\frac{1}{3}$, con $q \\ne \\frac{4}{5}$.",
+          "The equation $\\frac{q}{5q-4}=\\frac{1}{3}$, with $q \\ne \\frac{4}{5}$.",
+        ),
+        step(
+          "approach",
+          "Multiplicar en cruz, agrupar y filtrar la solución contra el polo del denominador.",
+          "Cross-multiply, collect, and filter the solution against the denominator's pole.",
+        ),
+        step(
+          "calculation",
+          "$3q = 5q-4 \\Rightarrow 4 = 2q \\Rightarrow q = 2$; control del polo: $2 \\ne \\frac{4}{5}$ ✓",
+          "$3q = 5q-4 \\Rightarrow 4 = 2q \\Rightarrow q = 2$; pole check: $2 \\ne \\frac{4}{5}$ ✓",
+        ),
+        step(
+          "result",
+          "$q = 2$. Verificación: $\\frac{2}{5 \\cdot 2 - 4} = \\frac{2}{6} = \\frac{1}{3}$ ✓.",
+          "$q = 2$. Check: $\\frac{2}{5 \\cdot 2 - 4} = \\frac{2}{6} = \\frac{1}{3}$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* UEES S3 · 54 — 5q/(3−q) = 2 → q = 6/7 (spurious; polo q = 3). */
+  template(
+    {
+      id: "lin-uees-54",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "fractions",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 210,
+      tags: ["linear-equation", "fractions", "spurious-roots"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "3 · 54",
+        page: 2,
+      },
+      reasoning: "spurious",
+    },
+    () => ({
+      skill: L("Proporción con denominador (3−q)", "A proportion with a (3−q) denominator"),
+      statement: L(
+        "Resuelva la ecuación:\n\n$$\\frac{5q}{3-q}=2$$\n\n(escriba el resultado como decimal)",
+        "Solve the equation:\n\n$$\\frac{5q}{3-q}=2$$\n\n(give your answer as a decimal)",
+      ),
+      answer: { kind: "numeric", value: 6 / 7, tolerance: { mode: "relative", value: 0.02 } },
+      hints: [
+        L(
+          "Multiplica en cruz: $5q = 2(3-q)$.",
+          "Cross-multiply: $5q = 2(3-q)$.",
+        ),
+        L(
+          "Distribuye el $2$ cuidando el signo: $5q = 6-2q$.",
+          "Distribute the $2$ watching the sign: $5q = 6-2q$.",
+        ),
+        L(
+          "El polo es $q = 3$ (donde se anula $3-q$): tu solución no puede ser $3$.",
+          "The pole is $q = 3$ (where $3-q$ vanishes): your solution cannot be $3$.",
+        ),
+      ],
+      answerDisplay: L("$q = \\frac{6}{7} \\approx 0{,}86$", "$q = \\frac{6}{7} \\approx 0.86$"),
+      solution: [
+        step(
+          "given",
+          "La ecuación $\\frac{5q}{3-q}=2$, con $q \\ne 3$.",
+          "The equation $\\frac{5q}{3-q}=2$, with $q \\ne 3$.",
+        ),
+        step(
+          "approach",
+          "Multiplicar en cruz, agrupar y comprobar contra el polo.",
+          "Cross-multiply, collect, and check against the pole.",
+        ),
+        step(
+          "calculation",
+          "$5q = 2(3-q) = 6-2q \\Rightarrow 7q = 6 \\Rightarrow q = \\frac{6}{7}$; control del polo: $\\frac{6}{7} \\ne 3$ ✓",
+          "$5q = 2(3-q) = 6-2q \\Rightarrow 7q = 6 \\Rightarrow q = \\frac{6}{7}$; pole check: $\\frac{6}{7} \\ne 3$ ✓",
+        ),
+        step(
+          "result",
+          "$q = \\frac{6}{7} \\approx 0{,}86$. Verificación: $\\frac{5 \\cdot \\frac{6}{7}}{3 - \\frac{6}{7}} = \\frac{\\frac{30}{7}}{\\frac{15}{7}} = 2$ ✓.",
+          "$q = \\frac{6}{7} \\approx 0.86$. Check: $\\frac{5 \\cdot \\frac{6}{7}}{3 - \\frac{6}{7}} = \\frac{\\frac{30}{7}}{\\frac{15}{7}} = 2$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* UEES S3 · 55 — 1/(p−1) = 2/(p−2) → p = 0 (spurious; polos p ∈ {1, 2}). */
+  template(
+    {
+      id: "lin-uees-55",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "fractions",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 210,
+      tags: ["linear-equation", "fractions", "spurious-roots"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "3 · 55",
+        page: 2,
+      },
+      reasoning: "spurious",
+    },
+    () => ({
+      skill: L("Fracciones iguales con polos en 1 y 2", "Equal fractions with poles at 1 and 2"),
+      statement: L(
+        "Resuelva la ecuación:\n\n$$\\frac{1}{p-1}=\\frac{2}{p-2}$$\n\n(escriba el resultado como decimal)",
+        "Solve the equation:\n\n$$\\frac{1}{p-1}=\\frac{2}{p-2}$$\n\n(give your answer as a decimal)",
+      ),
+      answer: { kind: "numeric", value: 0, tolerance: { mode: "relative", value: 0.02 } },
+      hints: [
+        L(
+          "Igualdad de dos fracciones: multiplica en cruz, $p-2 = 2(p-1)$.",
+          "Equality of two fractions: cross-multiply, $p-2 = 2(p-1)$.",
+        ),
+        L(
+          "Distribuye: $p-2 = 2p-2$; los números $-2$ se cancelan en ambos lados.",
+          "Distribute: $p-2 = 2p-2$; the $-2$'s cancel on both sides.",
+        ),
+        L(
+          "Hay dos polos, $p = 1$ y $p = 2$: la solución debe evitar ambos.",
+          "There are two poles, $p = 1$ and $p = 2$: the solution must avoid both.",
+        ),
+      ],
+      answerDisplay: L("$p = 0$", "$p = 0$"),
+      solution: [
+        step(
+          "given",
+          "La ecuación $\\frac{1}{p-1}=\\frac{2}{p-2}$, con $p \\notin \\{1, 2\\}$.",
+          "The equation $\\frac{1}{p-1}=\\frac{2}{p-2}$, with $p \\notin \\{1, 2\\}$.",
+        ),
+        step(
+          "approach",
+          "Multiplicar en cruz y filtrar contra los dos polos.",
+          "Cross-multiply and filter against the two poles.",
+        ),
+        step(
+          "calculation",
+          "$p-2 = 2(p-1) \\Rightarrow p-2 = 2p-2 \\Rightarrow p = 0$; control de polos: $0 \\notin \\{1, 2\\}$ ✓",
+          "$p-2 = 2(p-1) \\Rightarrow p-2 = 2p-2 \\Rightarrow p = 0$; pole check: $0 \\notin \\{1, 2\\}$ ✓",
+        ),
+        step(
+          "result",
+          "$p = 0$. Verificación: $\\frac{1}{0-1} = -1$ y $\\frac{2}{0-2} = -1$ ✓.",
+          "$p = 0$. Check: $\\frac{1}{0-1} = -1$ and $\\frac{2}{0-2} = -1$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* UEES S3 · 56 — (2x−3)/(4x−5) = 6 → x = 27/22 (spurious; polo x = 5/4). */
+  template(
+    {
+      id: "lin-uees-56",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "fractions",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 210,
+      tags: ["linear-equation", "fractions", "spurious-roots"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "3 · 56",
+        page: 2,
+      },
+      reasoning: "spurious",
+    },
+    () => ({
+      skill: L("Fracción igual a un entero grande", "A fraction equal to a large integer"),
+      statement: L(
+        "Resuelva la ecuación:\n\n$$\\frac{2x-3}{4x-5}=6$$\n\n(escriba el resultado como decimal)",
+        "Solve the equation:\n\n$$\\frac{2x-3}{4x-5}=6$$\n\n(give your answer as a decimal)",
+      ),
+      answer: { kind: "numeric", value: 27 / 22, tolerance: { mode: "relative", value: 0.02 } },
+      hints: [
+        L(
+          "Multiplica en cruz: $2x-3 = 6(4x-5)$.",
+          "Cross-multiply: $2x-3 = 6(4x-5)$.",
+        ),
+        L(
+          "Distribuye el $6$: $2x-3 = 24x-30$; ahora agrupa.",
+          "Distribute the $6$: $2x-3 = 24x-30$; now collect.",
+        ),
+        L(
+          "El polo es $x = \\frac{5}{4}$ (donde $4x-5 = 0$): la solución debe evitarlo.",
+          "The pole is $x = \\frac{5}{4}$ (where $4x-5 = 0$): the solution must avoid it.",
+        ),
+      ],
+      answerDisplay: L("$x = \\frac{27}{22} \\approx 1{,}23$", "$x = \\frac{27}{22} \\approx 1.23$"),
+      solution: [
+        step(
+          "given",
+          "La ecuación $\\frac{2x-3}{4x-5}=6$, con $x \\ne \\frac{5}{4}$.",
+          "The equation $\\frac{2x-3}{4x-5}=6$, with $x \\ne \\frac{5}{4}$.",
+        ),
+        step(
+          "approach",
+          "Multiplicar en cruz, agrupar y comprobar contra el polo.",
+          "Cross-multiply, collect, and check against the pole.",
+        ),
+        step(
+          "calculation",
+          "$2x-3 = 6(4x-5) = 24x-30 \\Rightarrow 27 = 22x \\Rightarrow x = \\frac{27}{22}$; control del polo: $\\frac{27}{22} \\ne \\frac{5}{4}$ ✓",
+          "$2x-3 = 6(4x-5) = 24x-30 \\Rightarrow 27 = 22x \\Rightarrow x = \\frac{27}{22}$; pole check: $\\frac{27}{22} \\ne \\frac{5}{4}$ ✓",
+        ),
+        step(
+          "result",
+          "$x = \\frac{27}{22} \\approx 1{,}23$. Verificación: $2x-3 = -\\frac{6}{11}$ y $4x-5 = -\\frac{1}{11}$, luego $\\frac{-6/11}{-1/11} = 6$ ✓.",
+          "$x = \\frac{27}{22} \\approx 1.23$. Check: $2x-3 = -\\frac{6}{11}$ and $4x-5 = -\\frac{1}{11}$, hence $\\frac{-6/11}{-1/11} = 6$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* UEES S3 · 57 — 1/x + 1/7 = 3/7 → x = 7/2 (definition-hunting; polo x = 0). */
+  template(
+    {
+      id: "lin-uees-57",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "fractions",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 210,
+      tags: ["linear-equation", "fractions", "reciprocal"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "3 · 57",
+        page: 2,
+      },
+      reasoning: "definition-hunting",
+    },
+    () => ({
+      skill: L("Suma de recíprocos", "Adding reciprocals"),
+      statement: L(
+        "Resuelva la ecuación:\n\n$$\\frac{1}{x}+\\frac{1}{7}=\\frac{3}{7}$$\n\n(escriba el resultado como decimal)",
+        "Solve the equation:\n\n$$\\frac{1}{x}+\\frac{1}{7}=\\frac{3}{7}$$\n\n(give your answer as a decimal)",
+      ),
+      answer: { kind: "numeric", value: 3.5, tolerance: { mode: "relative", value: 0.02 } },
+      hints: [
+        L(
+          "Pasa el $\\frac{1}{7}$ restando: queda $\\frac{1}{x} = \\frac{3}{7}-\\frac{1}{7}$.",
+          "Move $\\frac{1}{7}$ by subtracting: you are left with $\\frac{1}{x} = \\frac{3}{7}-\\frac{1}{7}$.",
+        ),
+        L(
+          "$\\frac{1}{x} = \\frac{2}{7}$: ahora toma recíprocos en ambos lados.",
+          "$\\frac{1}{x} = \\frac{2}{7}$: now take reciprocals on both sides.",
+        ),
+        L(
+          "El recíproco de $\\frac{2}{7}$ es la solución; el polo $x = 0$ no está en juego.",
+          "The reciprocal of $\\frac{2}{7}$ is the solution; the pole $x = 0$ is not in play.",
+        ),
+      ],
+      answerDisplay: L("$x = \\frac{7}{2} = 3{,}5$", "$x = \\frac{7}{2} = 3.5$"),
+      solution: [
+        step(
+          "given",
+          "La ecuación $\\frac{1}{x}+\\frac{1}{7}=\\frac{3}{7}$, con $x \\ne 0$.",
+          "The equation $\\frac{1}{x}+\\frac{1}{7}=\\frac{3}{7}$, with $x \\ne 0$.",
+        ),
+        step(
+          "approach",
+          "Aislar el recíproco $\\frac{1}{x}$ y aplicar la definición de recíproco.",
+          "Isolate the reciprocal $\\frac{1}{x}$ and apply the definition of reciprocal.",
+        ),
+        step(
+          "calculation",
+          "$\\frac{1}{x} = \\frac{3}{7}-\\frac{1}{7} = \\frac{2}{7} \\Rightarrow x = \\frac{7}{2}$ (recíproco de $\\frac{2}{7}$)",
+          "$\\frac{1}{x} = \\frac{3}{7}-\\frac{1}{7} = \\frac{2}{7} \\Rightarrow x = \\frac{7}{2}$ (reciprocal of $\\frac{2}{7}$)",
+        ),
+        step(
+          "result",
+          "$x = \\frac{7}{2} = 3{,}5$. Verificación: $\\frac{1}{7/2}+\\frac{1}{7} = \\frac{2}{7}+\\frac{1}{7} = \\frac{3}{7}$ ✓.",
+          "$x = \\frac{7}{2} = 3.5$. Check: $\\frac{1}{7/2}+\\frac{1}{7} = \\frac{2}{7}+\\frac{1}{7} = \\frac{3}{7}$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* UEES S3 · 58 — 2/(x−1) = 3/(x−2) → x = −1 (spurious; polos x ∈ {1, 2}). */
+  template(
+    {
+      id: "lin-uees-58",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "fractions",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 210,
+      tags: ["linear-equation", "fractions", "spurious-roots"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "3 · 58",
+        page: 2,
+      },
+      reasoning: "spurious",
+    },
+    () => ({
+      skill: L("Proporción con dos binomios parecidos", "A proportion with two look-alike binomials"),
+      statement: L(
+        "Resuelva la ecuación:\n\n$$\\frac{2}{x-1}=\\frac{3}{x-2}$$\n\n(escriba el resultado como decimal)",
+        "Solve the equation:\n\n$$\\frac{2}{x-1}=\\frac{3}{x-2}$$\n\n(give your answer as a decimal)",
+      ),
+      answer: { kind: "numeric", value: -1, tolerance: { mode: "relative", value: 0.02 } },
+      hints: [
+        L(
+          "Multiplica en cruz: $2(x-2) = 3(x-1)$.",
+          "Cross-multiply: $2(x-2) = 3(x-1)$.",
+        ),
+        L(
+          "Distribuye ambos lados: $2x-4 = 3x-3$.",
+          "Distribute both sides: $2x-4 = 3x-3$.",
+        ),
+        L(
+          "Los polos son $x = 1$ y $x = 2$: la solución debe evitarlos.",
+          "The poles are $x = 1$ and $x = 2$: the solution must avoid them.",
+        ),
+      ],
+      answerDisplay: L("$x = -1$", "$x = -1$"),
+      solution: [
+        step(
+          "given",
+          "La ecuación $\\frac{2}{x-1}=\\frac{3}{x-2}$, con $x \\notin \\{1, 2\\}$.",
+          "The equation $\\frac{2}{x-1}=\\frac{3}{x-2}$, with $x \\notin \\{1, 2\\}$.",
+        ),
+        step(
+          "approach",
+          "Multiplicar en cruz, agrupar y filtrar contra los dos polos.",
+          "Cross-multiply, collect, and filter against the two poles.",
+        ),
+        step(
+          "calculation",
+          "$2x-4 = 3x-3 \\Rightarrow -1 = x$; control de polos: $-1 \\notin \\{1, 2\\}$ ✓",
+          "$2x-4 = 3x-3 \\Rightarrow -1 = x$; pole check: $-1 \\notin \\{1, 2\\}$ ✓",
+        ),
+        step(
+          "result",
+          "$x = -1$. Verificación: $\\frac{2}{-1-1} = -1$ y $\\frac{3}{-1-2} = -1$ ✓.",
+          "$x = -1$. Check: $\\frac{2}{-1-1} = -1$ and $\\frac{3}{-1-2} = -1$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* UEES S3 · 59 — (2t+1)/(2t+3) = (3t−1)/(3t+4) → t = −7/4 (spurious; polos t ∈ {−3/2, −4/3}). */
+  template(
+    {
+      id: "lin-uees-59",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "fractions",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 210,
+      tags: ["linear-equation", "fractions", "spurious-roots"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "3 · 59",
+        page: 2,
+      },
+      reasoning: "spurious",
+    },
+    () => ({
+      skill: L("Fracciones de lineales con polos vecinos", "Fractions of linears with neighboring poles"),
+      statement: L(
+        "Resuelva la ecuación:\n\n$$\\frac{2t+1}{2t+3}=\\frac{3t-1}{3t+4}$$\n\n(escriba el resultado como decimal)",
+        "Solve the equation:\n\n$$\\frac{2t+1}{2t+3}=\\frac{3t-1}{3t+4}$$\n\n(give your answer as a decimal)",
+      ),
+      answer: { kind: "numeric", value: -1.75, tolerance: { mode: "relative", value: 0.02 } },
+      hints: [
+        L(
+          "Multiplica en cruz: $(2t+1)(3t+4) = (3t-1)(2t+3)$.",
+          "Cross-multiply: $(2t+1)(3t+4) = (3t-1)(2t+3)$.",
+        ),
+        L(
+          "Desarrolla ambos productos: $6t^2+11t+4 = 6t^2+7t-3$; los $6t^2$ se cancelan.",
+          "Expand both products: $6t^2+11t+4 = 6t^2+7t-3$; the $6t^2$'s cancel.",
+        ),
+        L(
+          "Los polos son $t = -\\frac{3}{2}$ y $t = -\\frac{4}{3}$: comprueba que tu solución no sea ninguno de los dos.",
+          "The poles are $t = -\\frac{3}{2}$ and $t = -\\frac{4}{3}$: check that your solution is neither.",
+        ),
+      ],
+      answerDisplay: L("$t = -\\frac{7}{4} = -1{,}75$", "$t = -\\frac{7}{4} = -1.75$"),
+      solution: [
+        step(
+          "given",
+          "La ecuación $\\frac{2t+1}{2t+3}=\\frac{3t-1}{3t+4}$, con $t \\notin \\{-\\frac{3}{2}, -\\frac{4}{3}\\}$.",
+          "The equation $\\frac{2t+1}{2t+3}=\\frac{3t-1}{3t+4}$, with $t \\notin \\{-\\frac{3}{2}, -\\frac{4}{3}\\}$.",
+        ),
+        step(
+          "approach",
+          "Multiplicar en cruz, cancelar los términos cuadráticos y filtrar contra los dos polos.",
+          "Cross-multiply, cancel the quadratic terms, and filter against the two poles.",
+        ),
+        step(
+          "calculation",
+          "$(2t+1)(3t+4) = 6t^2+11t+4$ y $(3t-1)(2t+3) = 6t^2+7t-3$<br>$6t^2+11t+4 = 6t^2+7t-3 \\Rightarrow 4t = -7 \\Rightarrow t = -\\frac{7}{4}$; control de polos: $-\\frac{7}{4} \\notin \\{-\\frac{3}{2}, -\\frac{4}{3}\\}$ ✓",
+          "$(2t+1)(3t+4) = 6t^2+11t+4$ and $(3t-1)(2t+3) = 6t^2+7t-3$<br>$6t^2+11t+4 = 6t^2+7t-3 \\Rightarrow 4t = -7 \\Rightarrow t = -\\frac{7}{4}$; pole check: $-\\frac{7}{4} \\notin \\{-\\frac{3}{2}, -\\frac{4}{3}\\}$ ✓",
+        ),
+        step(
+          "result",
+          "$t = -\\frac{7}{4} = -1{,}75$. Verificación: $\\frac{2t+1}{2t+3} = \\frac{-\\frac{5}{2}}{-\\frac{1}{2}} = 5$ y $\\frac{3t-1}{3t+4} = \\frac{-\\frac{25}{4}}{-\\frac{5}{4}} = 5$ ✓.",
+          "$t = -\\frac{7}{4} = -1.75$. Check: $\\frac{2t+1}{2t+3} = \\frac{-\\frac{5}{2}}{-\\frac{1}{2}} = 5$ and $\\frac{3t-1}{3t+4} = \\frac{-\\frac{25}{4}}{-\\frac{5}{4}} = 5$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* UEES S3 · 60 — (x+2)/(x−1) + (x+1)/(3−x) = 0 → x = −5 (spurious; polos x ∈ {1, 3}). */
+  template(
+    {
+      id: "lin-uees-60",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "fractions",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 210,
+      tags: ["linear-equation", "fractions", "spurious-roots", "sum"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "3 · 60",
+        page: 2,
+      },
+      reasoning: "spurious",
+    },
+    () => ({
+      skill: L("Una suma de fracciones que se anula", "A sum of fractions that vanishes"),
+      statement: L(
+        "Resuelva la ecuación:\n\n$$\\frac{x+2}{x-1}+\\frac{x+1}{3-x}=0$$\n\n(escriba el resultado como decimal)",
+        "Solve the equation:\n\n$$\\frac{x+2}{x-1}+\\frac{x+1}{3-x}=0$$\n\n(give your answer as a decimal)",
+      ),
+      answer: { kind: "numeric", value: -5, tolerance: { mode: "relative", value: 0.02 } },
+      hints: [
+        L(
+          "El denominador común es $(x-1)(3-x)$: multiplica toda la ecuación por él.",
+          "The common denominator is $(x-1)(3-x)$: multiply the whole equation by it.",
+        ),
+        L(
+          "Queda $(x+2)(3-x) + (x+1)(x-1) = 0$: desarrolla cuidando los signos.",
+          "You get $(x+2)(3-x) + (x+1)(x-1) = 0$: expand watching the signs.",
+        ),
+        L(
+          "Los cuadrados se cancelan y sobrevive un término lineal; los polos son $x = 1$ y $x = 3$.",
+          "The squares cancel and one linear term survives; the poles are $x = 1$ and $x = 3$.",
+        ),
+      ],
+      answerDisplay: L("$x = -5$", "$x = -5$"),
+      solution: [
+        step(
+          "given",
+          "La ecuación $\\frac{x+2}{x-1}+\\frac{x+1}{3-x}=0$, con $x \\notin \\{1, 3\\}$.",
+          "The equation $\\frac{x+2}{x-1}+\\frac{x+1}{3-x}=0$, with $x \\notin \\{1, 3\\}$.",
+        ),
+        step(
+          "approach",
+          "Multiplicar por el denominador común, expandir y filtrar contra los dos polos.",
+          "Multiply by the common denominator, expand, and filter against the two poles.",
+        ),
+        step(
+          "calculation",
+          "$(x+2)(3-x)+(x+1)(x-1) = (-x^2+x+6)+(x^2-1) = x+5$<br>$x+5 = 0 \\Rightarrow x = -5$; control de polos: $-5 \\notin \\{1, 3\\}$ ✓",
+          "$(x+2)(3-x)+(x+1)(x-1) = (-x^2+x+6)+(x^2-1) = x+5$<br>$x+5 = 0 \\Rightarrow x = -5$; pole check: $-5 \\notin \\{1, 3\\}$ ✓",
+        ),
+        step(
+          "result",
+          "$x = -5$. Verificación: $\\frac{-5+2}{-5-1} + \\frac{-5+1}{3-(-5)} = \\frac{-3}{-6} + \\frac{-4}{8} = \\frac{1}{2}-\\frac{1}{2} = 0$ ✓.",
+          "$x = -5$. Check: $\\frac{-5+2}{-5-1} + \\frac{-5+1}{3-(-5)} = \\frac{-3}{-6} + \\frac{-4}{8} = \\frac{1}{2}-\\frac{1}{2} = 0$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* UEES S3 · 96 — guardería: 450x = 380x + 3500 → x = 50 (punto de equilibrio). */
+  template(
+    {
+      id: "lin-uees-app-96",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "applications",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 150,
+      tags: ["modeling", "break-even", "word-problem", "money"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "3 · 96",
+        page: 3,
+      },
+      reasoning: "modeling",
+    },
+    () => ({
+      skill: L("Punto de equilibrio ingreso–costo", "Revenue–cost break-even point"),
+      statement: L(
+        "Ingreso. El ingreso mensual total de una guardería obtenido por el cuidado de $x$ niños está dado por $r = 450x$ y sus costos mensuales totales están dados por $c = 380x + 3500$. ¿Cuántos niños necesitan estar inscritos mensualmente para llegar al punto de equilibrio? En otras palabras, ¿cuándo igualan los ingresos a los costos?\n\n(escriba el resultado como decimal)",
+        "Revenue. A nursery's total monthly revenue from caring for $x$ children is given by $r = 450x$ and its total monthly costs are given by $c = 380x + 3500$. How many children need to be enrolled monthly to reach the break-even point? In other words, when do revenues equal costs?\n\n(give your answer as a decimal)",
+      ),
+      answer: { kind: "numeric", value: 50, tolerance: { mode: "relative", value: 0.02 } },
+      hints: [
+        L(
+          "«Punto de equilibrio» significa ingreso $=$ costo: plantea $r = c$.",
+          "«Break-even point» means revenue $=$ cost: set up $r = c$.",
+        ),
+        L(
+          "La ecuación es $450x = 380x + 3500$: a cada niño le corresponden $450 - 380 = 70$ dólares para cubrir el costo fijo.",
+          "The equation is $450x = 380x + 3500$: each child contributes $450 - 380 = 70$ dollars toward the fixed cost.",
+        ),
+        L(
+          "Queda $70x = 3500$; piensa cuántas veces cabe el aporte por niño en el costo fijo.",
+          "You are left with $70x = 3500$; think how many times the per-child contribution fits into the fixed cost.",
+        ),
+      ],
+      answerDisplay: L("$x = 50$ niños", "$x = 50$ children"),
+      solution: [
+        step(
+          "given",
+          "Ingreso $r = 450x$; costo $c = 380x + 3500$ (por niño: $380$ de costo variable, más $3500$ fijos al mes).",
+          "Revenue $r = 450x$; cost $c = 380x + 3500$ ($380$ variable per child, plus $3500$ fixed per month).",
+        ),
+        step(
+          "approach",
+          "Igualar ingreso y costo en el punto de equilibrio y despejar $x$.",
+          "Set revenue equal to cost at the break-even point and solve for $x$.",
+        ),
+        step(
+          "calculation",
+          "$450x = 380x + 3500$<br>$450x - 380x = 3500 \\Rightarrow 70x = 3500 \\Rightarrow x = 50$",
+          "$450x = 380x + 3500$<br>$450x - 380x = 3500 \\Rightarrow 70x = 3500 \\Rightarrow x = 50$",
+        ),
+        step(
+          "result",
+          "$x = 50$ niños. Verificación: $r = 450 \\cdot 50 = 22\\,500$ y $c = 380 \\cdot 50 + 3500 = 19\\,000 + 3500 = 22\\,500$ ✓ (ingreso $=$ costo).",
+          "$x = 50$ children. Check: $r = 450 \\cdot 50 = 22,\\!500$ and $c = 380 \\cdot 50 + 3500 = 19,\\!000 + 3500 = 22,\\!500$ ✓ (revenue $=$ cost).",
+        ),
+      ],
+    }),
+  ),
+
+  /* UEES S3 · 99 — Bronwyn: modelo de la hoja 47h + 28 ≥ 550 → 12 horas enteras.
+     MC de 4 opciones CONSTRUIDAS (la hoja no imprime opciones para el 99);
+     se descarta 11 sustituyendo: 47·11 + 28 = 545 < 550 ✗. La frase
+     «la cuarta parte de su salario» se mantiene verbatim en el enunciado;
+     el modelo operativo (verify_repaso1.py, chequeos S3 #99) es el ingreso
+     semanal completo 47h + 28 ≥ 550. */
+  template(
+    {
+      id: "lin-uees-app-99",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "applications",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 180,
+      tags: ["modeling", "inequality", "word-problem", "money"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "3 · 99",
+        page: 3,
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$12$ horas", "$12$ hours"), correct: true },
+        { id: "b", text: L("$11$ horas", "$11$ hours"), correct: false },
+        { id: "c", text: L("$13$ horas", "$13$ hours"), correct: false },
+        { id: "d", text: L("$10$ horas", "$10$ hours"), correct: false },
+      ];
+      return {
+        skill: L("Meta de ahorro semanal con horas enteras", "Weekly savings goal with whole hours"),
+        statement: L(
+          "Ahorros. Bronwyn quiere comprar una casa, de manera que ha decidido ahorrar la cuarta parte de su salario. Bronwyn gana $\\text{\\textdollar}47{,}00$ por hora y recibe un ingreso extra de $\\text{\\textdollar}28{,}00$ a la semana por declarar las prestaciones de la compañía. Ella quiere ahorrar al menos $\\text{\\textdollar}550{,}00$ cada semana. ¿Cuántas horas debe trabajar a la semana para lograr su meta?",
+          "Savings. Bronwyn wants to buy a house, so she has decided to save a quarter of her salary. Bronwyn earns $\\text{\\textdollar}47.00$ per hour and receives extra income of $\\text{\\textdollar}28.00$ per week for filing the company's benefit statements. She wants to save at least $\\text{\\textdollar}550.00$ each week. How many hours per week must she work to reach her goal?",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Llama $h$ a las horas semanales: su ingreso semanal es $47h + 28$.",
+            "Let $h$ be the weekly hours: her weekly income is $47h + 28$.",
+          ),
+          L(
+            "La meta pide $47h + 28 \\ge 550$; pasa el $28$ restando.",
+            "The goal demands $47h + 28 \\ge 550$; move the $28$ by subtracting.",
+          ),
+          L(
+            "Queda $47h \\ge 522$, así que $h \\ge \\frac{522}{47} \\approx 11{,}1$: como $h$ debe ser entera, redondea hacia arriba.",
+            "You get $47h \\ge 522$, so $h \\ge \\frac{522}{47} \\approx 11.1$: since $h$ must be a whole number, round up.",
+          ),
+        ],
+        answerDisplay: L("$12$ horas", "$12$ hours"),
+        solution: [
+          step(
+            "given",
+            "Salario: $\\text{\\textdollar}47{,}00$ por hora; ingreso extra: $\\text{\\textdollar}28{,}00$ a la semana; meta semanal: al menos $\\text{\\textdollar}550{,}00$.",
+            "Wage: $\\text{\\textdollar}47.00$ per hour; extra income: $\\text{\\textdollar}28.00$ per week; weekly goal: at least $\\text{\\textdollar}550.00$.",
+          ),
+          step(
+            "approach",
+            "Modelar el ingreso semanal $47h + 28$ con la meta $\\ge 550$ y redondear hacia arriba a horas enteras.",
+            "Model the weekly income $47h + 28$ against the goal $\\ge 550$ and round up to whole hours.",
+          ),
+          step(
+            "calculation",
+            "$47h + 28 \\ge 550 \\Rightarrow 47h \\ge 522 \\Rightarrow h \\ge \\frac{522}{47} \\approx 11{,}11$<br>Con $h = 11$: $47 \\cdot 11 + 28 = 517 + 28 = 545 < 550$ ✗ (no alcanza)<br>Con $h = 12$: $47 \\cdot 12 + 28 = 564 + 28 = 592 \\ge 550$ ✓",
+            "$47h + 28 \\ge 550 \\Rightarrow 47h \\ge 522 \\Rightarrow h \\ge \\frac{522}{47} \\approx 11.11$<br>At $h = 11$: $47 \\cdot 11 + 28 = 517 + 28 = 545 < 550$ ✗ (falls short)<br>At $h = 12$: $47 \\cdot 12 + 28 = 564 + 28 = 592 \\ge 550$ ✓",
+          ),
+          step(
+            "result",
+            "Debe trabajar $12$ horas a la semana. Verificación: con $11$ horas el ingreso es $545 < 550$ (falla por $5$), y con $12$ horas es $592 \\ge 550$ ✓ — la cota exacta $\\frac{522}{47} \\approx 11{,}11$ obliga a redondear hacia arriba.",
+            "She must work $12$ hours per week. Check: at $11$ hours the income is $545 < 550$ (short by $5$), and at $12$ hours it is $592 \\ge 550$ ✓ — the exact bound $\\frac{522}{47} \\approx 11.11$ forces rounding up.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* UEES S4 · 10 — Smith: 50q = 25q + 500000 + 150000 → q = 26000. */
+  template(
+    {
+      id: "qap-uees-10",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "applications",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 240,
+      tags: ["modeling", "profit", "word-problem", "money"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "4 · 10",
+        page: 4,
+      },
+      reasoning: "modeling",
+    },
+    () => ({
+      skill: L("Unidades para una utilidad objetivo", "Units for a target profit"),
+      statement: L(
+        "Ventas. La administración de la compañía Smith quiere saber cuántas unidades de su producto necesita vender para obtener una utilidad de $\\text{\\textdollar}150\\,000$. Se cuenta con los siguientes datos: precio unitario de venta, $\\text{\\textdollar}50$; costo variable por unidad, $\\text{\\textdollar}25$; costo fijo total, $\\text{\\textdollar}500\\,000$. A partir de estos datos determine las unidades que deben venderse.\n\n(escriba el resultado como decimal)",
+        "Sales. The management of the Smith company wants to know how many units of its product it needs to sell to obtain a profit of $\\text{\\textdollar}150,\\!000$. The following data are available: unit selling price, $\\text{\\textdollar}50$; variable cost per unit, $\\text{\\textdollar}25$; total fixed cost, $\\text{\\textdollar}500,\\!000$. From these data, determine the units that must be sold.\n\n(give your answer as a decimal)",
+      ),
+      answer: { kind: "numeric", value: 26000, tolerance: { mode: "relative", value: 0.02 } },
+      hints: [
+        L(
+          "Utilidad $=$ ingreso $-$ (costo variable $+$ costo fijo): planta $50q - (25q + 500\\,000)$.",
+          "Profit $=$ revenue $-$ (variable cost $+$ fixed cost): set up $50q - (25q + 500,\\!000)$.",
+        ),
+        L(
+          "Cada unidad deja $50 - 25 = 25$ dólares por encima del costo variable.",
+          "Each unit leaves $50 - 25 = 25$ dollars above the variable cost.",
+        ),
+        L(
+          "Los $25$ por unidad deben cubrir el costo fijo $500\\,000$ **más** la utilidad deseada $150\\,000$.",
+          "The $25$ per unit must cover the fixed cost $500,\\!000$ **plus** the desired profit $150,\\!000$.",
+        ),
+      ],
+      answerDisplay: L("$q = 26\\,000$ unidades", "$q = 26,\\!000$ units"),
+      solution: [
+        step(
+          "given",
+          "Precio: $\\text{\\textdollar}50$/unidad; costo variable: $\\text{\\textdollar}25$/unidad; costo fijo: $\\text{\\textdollar}500\\,000$; utilidad objetivo: $\\text{\\textdollar}150\\,000$.",
+          "Price: $\\text{\\textdollar}50$/unit; variable cost: $\\text{\\textdollar}25$/unit; fixed cost: $\\text{\\textdollar}500,\\!000$; target profit: $\\text{\\textdollar}150,\\!000$.",
+        ),
+        step(
+          "approach",
+          "Igualar ingreso con costo total más la utilidad objetivo y despejar $q$.",
+          "Set revenue equal to total cost plus the target profit and solve for $q$.",
+        ),
+        step(
+          "calculation",
+          "$50q = 25q + 500\\,000 + 150\\,000$<br>$50q - 25q = 650\\,000 \\Rightarrow 25q = 650\\,000 \\Rightarrow q = 26\\,000$",
+          "$50q = 25q + 500,\\!000 + 150,\\!000$<br>$50q - 25q = 650,\\!000 \\Rightarrow 25q = 650,\\!000 \\Rightarrow q = 26,\\!000$",
+        ),
+        step(
+          "result",
+          "$q = 26\\,000$ unidades. Verificación: ingreso $50 \\cdot 26\\,000 = 1\\,300\\,000$; costo total $25 \\cdot 26\\,000 + 500\\,000 = 1\\,150\\,000$; utilidad $= 1\\,300\\,000 - 1\\,150\\,000 = 150\\,000$ ✓.",
+          "$q = 26,\\!000$ units. Check: revenue $50 \\cdot 26,\\!000 = 1,\\!300,\\!000$; total cost $25 \\cdot 26,\\!000 + 500,\\!000 = 1,\\!150,\\!000$; profit $= 1,\\!300,\\!000 - 1,\\!150,\\!000 = 150,\\!000$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* UEES S4 · 13 — margen del 20% sobre el precio de venta → P = 4.25.
+     Tolerance rel 0.02 (uniforme con el bloque; el brief sugería abs 0.01). */
+  template(
+    {
+      id: "qap-uees-13",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "applications",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 210,
+      tags: ["modeling", "percent", "pricing", "money"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "4 · 13",
+        page: 4,
+      },
+      reasoning: "modeling",
+    },
+    () => ({
+      skill: L("Margen sobre el precio de venta, no sobre el costo", "Markup on the selling price, not on cost"),
+      statement: L(
+        "Fijación de precios. El costo de un producto al menudeo es de $\\text{\\textdollar}3{,}40$. Si el minorista desea obtener una ganancia del $20\\%$ sobre el precio de venta, ¿a qué precio debe vender el producto?\n\n(escriba el resultado como decimal)",
+        "Pricing. The cost of a retail product is $\\text{\\textdollar}3.40$. If the retailer wants to make a $20\\%$ profit on the selling price, at what price should the product be sold?\n\n(give your answer as a decimal)",
+      ),
+      answer: { kind: "numeric", value: 4.25, tolerance: { mode: "relative", value: 0.02 } },
+      hints: [
+        L(
+          "La ganancia es un porcentaje del **precio de venta** $P$, no del costo: costo $= P - 0{,}20P$.",
+          "The profit is a percentage of the **selling price** $P$, not of the cost: cost $= P - 0.20P$.",
+        ),
+        L(
+          "El costo $\\text{\\textdollar}3{,}40$ es el $80\\%$ del precio de venta.",
+          "The cost $\\text{\\textdollar}3.40$ is $80\\%$ of the selling price.",
+        ),
+        L(
+          "Plantea $0{,}8P = 3{,}40$; ojo con la tentación de sumar el $20\\%$ **del costo**.",
+          "Set up $0.8P = 3.40$; beware the temptation to add $20\\%$ **of the cost**.",
+        ),
+      ],
+      answerDisplay: L("$P = 4{,}25$ dólares", "$P = 4.25$ dollars"),
+      solution: [
+        step(
+          "given",
+          "Costo: $\\text{\\textdollar}3{,}40$; ganancia deseada: $20\\%$ del precio de venta $P$.",
+          "Cost: $\\text{\\textdollar}3.40$; desired profit: $20\\%$ of the selling price $P$.",
+        ),
+        step(
+          "approach",
+          "Escribir el costo como la parte del precio que no es ganancia: $P - 0{,}20P$.",
+          "Write the cost as the part of the price that is not profit: $P - 0.20P$.",
+        ),
+        step(
+          "calculation",
+          "$P - 0{,}20P = 3{,}40 \\Rightarrow 0{,}80P = 3{,}40 \\Rightarrow P = \\frac{3{,}40}{0{,}80} = 4{,}25$<br>(La trampa sería $3{,}40 \\cdot 1{,}20 = 4{,}08$: eso usa el $20\\%$ del costo.)",
+          "$P - 0.20P = 3.40 \\Rightarrow 0.80P = 3.40 \\Rightarrow P = \\frac{3.40}{0.80} = 4.25$<br>(The trap would be $3.40 \\cdot 1.20 = 4.08$: that uses $20\\%$ of the cost.)",
+        ),
+        step(
+          "result",
+          "$P = 4{,}25$ dólares. Verificación: el $20\\%$ de $4{,}25$ es $0{,}85$ y $4{,}25 - 0{,}85 = 3{,}40$ ✓ (el costo queda cubierto exactamente).",
+          "$P = 4.25$ dollars. Check: $20\\%$ of $4.25$ is $0.85$ and $4.25 - 0.85 = 3.40$ ✓ (the cost is covered exactly).",
+        ),
+      ],
+    }),
+  ),
+
+  /* UEES S4 · 16 — equilibrio del fabricante: 30x = 22x + 12000 → x = 1500. */
+  template(
+    {
+      id: "qap-uees-16",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "applications",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 150,
+      tags: ["modeling", "break-even", "word-problem", "money"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "4 · 16",
+        page: 4,
+      },
+      reasoning: "modeling",
+    },
+    () => ({
+      skill: L("Equilibrio con precio y costo por artículo", "Break-even with per-article price and cost"),
+      statement: L(
+        "Un fabricante puede vender todas las unidades que produce al precio de $\\text{\\textdollar}30$ cada una. Tiene costos fijos de $\\text{\\textdollar}12\\,000$ al mes; y además, le cuesta $\\text{\\textdollar}22$ producir cada artículo. ¿Cuántas unidades debe producir y vender al mes la compañía para mantener el equilibrio?\n\n(escriba el resultado como decimal)",
+        "A manufacturer can sell all the units it produces at a price of $\\text{\\textdollar}30$ each. It has fixed costs of $\\text{\\textdollar}12,\\!000$ per month; in addition, it costs $\\text{\\textdollar}22$ to produce each article. How many units per month must the company produce and sell to break even?\n\n(give your answer as a decimal)",
+      ),
+      answer: { kind: "numeric", value: 1500, tolerance: { mode: "relative", value: 0.02 } },
+      hints: [
+        L(
+          "Equilibrio: ingreso $=$ costo. Con $x$ unidades, el ingreso es $30x$.",
+          "Break-even: revenue $=$ cost. With $x$ units, revenue is $30x$.",
+        ),
+        L(
+          "El costo mensual es $22x + 12\\,000$ (variable más fijo).",
+          "The monthly cost is $22x + 12,\\!000$ (variable plus fixed).",
+        ),
+        L(
+          "Cada unidad aporta $30 - 22 = 8$ dólares para cubrir los fijos: planta $8x = 12\\,000$.",
+          "Each unit contributes $30 - 22 = 8$ dollars toward the fixed costs: set up $8x = 12,\\!000$.",
+        ),
+      ],
+      answerDisplay: L("$x = 1500$ unidades", "$x = 1500$ units"),
+      solution: [
+        step(
+          "given",
+          "Precio: $\\text{\\textdollar}30$/unidad; costo variable: $\\text{\\textdollar}22$/unidad; costos fijos: $\\text{\\textdollar}12\\,000$/mes.",
+          "Price: $\\text{\\textdollar}30$/unit; variable cost: $\\text{\\textdollar}22$/unit; fixed costs: $\\text{\\textdollar}12,\\!000$/month.",
+        ),
+        step(
+          "approach",
+          "Igualar ingreso y costo total en el punto de equilibrio.",
+          "Set revenue equal to total cost at the break-even point.",
+        ),
+        step(
+          "calculation",
+          "$30x = 22x + 12\\,000$<br>$30x - 22x = 12\\,000 \\Rightarrow 8x = 12\\,000 \\Rightarrow x = 1500$",
+          "$30x = 22x + 12,\\!000$<br>$30x - 22x = 12,\\!000 \\Rightarrow 8x = 12,\\!000 \\Rightarrow x = 1500$",
+        ),
+        step(
+          "result",
+          "$x = 1500$ unidades. Verificación: $30 \\cdot 1500 = 45\\,000$ y $22 \\cdot 1500 + 12\\,000 = 33\\,000 + 12\\,000 = 45\\,000$ ✓.",
+          "$x = 1500$ units. Check: $30 \\cdot 1500 = 45,\\!000$ and $22 \\cdot 1500 + 12,\\!000 = 33,\\!000 + 12,\\!000 = 45,\\!000$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* UEES S4 · 17 — sandalias: 2.50x = 2.00x + 70000 → 140000 pares. MC impresas
+     140000/35000/70000/90000/80000 → se conservan 140000 ✓, 70000, 35000,
+     90000; se DESCARTA la impresa 80000 (documentado). Refutación 70000:
+     2.5·70000 = 175000 ≠ 210000 = 2·70000 + 70000. */
+  template(
+    {
+      id: "qap-uees-17",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "applications",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["modeling", "break-even", "word-problem", "money"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "4 · 17",
+        page: 4,
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$140\\,000$ pares", "$140,\\!000$ pairs"), correct: true },
+        { id: "b", text: L("$70\\,000$ pares", "$70,\\!000$ pairs"), correct: false },
+        { id: "c", text: L("$35\\,000$ pares", "$35,\\!000$ pairs"), correct: false },
+        { id: "d", text: L("$90\\,000$ pares", "$90,\\!000$ pairs"), correct: false },
+      ];
+      return {
+        skill: L("Equilibrio sumando todos los costos por par", "Break-even adding up every per-pair cost"),
+        statement: L(
+          "La compañía Sandalias Cómodas fabrica sandalias, para las cuales el costo del material es de $\\text{\\textdollar}0{,}80$ por par y el costo de mano de obra es de $\\text{\\textdollar}0{,}90$ por par. Hay costos adicionales por par de $\\text{\\textdollar}0{,}30$. Los costos fijos son de $\\text{\\textdollar}70\\,000$. Si cada par se vende a $\\text{\\textdollar}2{,}50$, entonces el NÚMERO DE PARES QUE DEBE VENDERSE para que la compañía llegue al EQUILIBRIO es:",
+          "The Comfy Sandals company manufactures sandals, for which the material cost is $\\text{\\textdollar}0.80$ per pair and the labor cost is $\\text{\\textdollar}0.90$ per pair. There are additional costs of $\\text{\\textdollar}0.30$ per pair. Fixed costs are $\\text{\\textdollar}70,\\!000$. If each pair sells for $\\text{\\textdollar}2.50$, then the NUMBER OF PAIRS THAT MUST BE SOLD for the company to reach BREAK-EVEN is:",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Primero el costo variable TOTAL por par: material $+$ mano de obra $+$ adicionales.",
+            "First the TOTAL variable cost per pair: material $+$ labor $+$ additional.",
+          ),
+          L(
+            "Por cada par vendido quedan $2{,}50 - 2{,}00 = 0{,}50$ dólares para cubrir los costos fijos.",
+            "Each pair sold leaves $2.50 - 2.00 = 0.50$ dollars to cover the fixed costs.",
+          ),
+          L(
+            "El equilibrio pide $0{,}50x = 70\\,000$; el distractor $70\\,000$ «suena» a costo fijo, pero son dólares, no pares.",
+            "Break-even demands $0.50x = 70,\\!000$; the distractor $70,\\!000$ «sounds like» the fixed cost, but those are dollars, not pairs.",
+          ),
+        ],
+        answerDisplay: L("$140\\,000$ pares", "$140,\\!000$ pairs"),
+        solution: [
+          step(
+            "given",
+            "Material $\\text{\\textdollar}0{,}80$ + mano de obra $\\text{\\textdollar}0{,}90$ + adicionales $\\text{\\textdollar}0{,}30$ por par; fijos $\\text{\\textdollar}70\\,000$; precio $\\text{\\textdollar}2{,}50$ por par.",
+            "Material $\\text{\\textdollar}0.80$ + labor $\\text{\\textdollar}0.90$ + additional $\\text{\\textdollar}0.30$ per pair; fixed $\\text{\\textdollar}70,\\!000$; price $\\text{\\textdollar}2.50$ per pair.",
+          ),
+          step(
+            "approach",
+            "Sumar el costo variable unitario, plantear ingreso $=$ costo y despejar el número de pares.",
+            "Add up the unit variable cost, set revenue $=$ cost, and solve for the number of pairs.",
+          ),
+          step(
+            "calculation",
+            "Costo variable por par: $0{,}80 + 0{,}90 + 0{,}30 = 2{,}00$<br>$2{,}50x = 2{,}00x + 70\\,000 \\Rightarrow 0{,}50x = 70\\,000 \\Rightarrow x = 140\\,000$",
+            "Variable cost per pair: $0.80 + 0.90 + 0.30 = 2.00$<br>$2.50x = 2.00x + 70,\\!000 \\Rightarrow 0.50x = 70,\\!000 \\Rightarrow x = 140,\\!000$",
+          ),
+          step(
+            "result",
+            "$140\\,000$ pares. Verificación: $2{,}50 \\cdot 140\\,000 = 350\\,000$ y $2{,}00 \\cdot 140\\,000 + 70\\,000 = 350\\,000$ ✓. El distractor $70\\,000$ falla: $2{,}50 \\cdot 70\\,000 = 175\\,000 \\ne 210\\,000 = 2{,}00 \\cdot 70\\,000 + 70\\,000$ ✗.",
+            "$140,\\!000$ pairs. Check: $2.50 \\cdot 140,\\!000 = 350,\\!000$ and $2.00 \\cdot 140,\\!000 + 70,\\!000 = 350,\\!000$ ✓. The distractor $70,\\!000$ fails: $2.50 \\cdot 70,\\!000 = 175,\\!000 \\ne 210,\\!000 = 2.00 \\cdot 70,\\!000 + 70,\\!000$ ✗.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* UEES S4 · 18 — 10x = 6x + 40000 + 0.15·40000 → x = 11500. Enunciado impreso
+     a caballo entre las páginas 4 y 5 (el número 18 y el inicio están en la
+     pág. 4; las opciones, en la 5) → page 4. MC impresas 6000/7500/8500/
+     11500/12500 → se conservan 11500 ✓, 8500, 6000, 7500; se DESCARTA la
+     impresa 12500 (documentado). Refutación 8500: 10·8500 = 85000 ≠ 97000
+     = 6·8500 + 46000. */
+  template(
+    {
+      id: "qap-uees-18",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "applications",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["modeling", "profit", "percent", "word-problem", "money"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "4 · 18",
+        page: 4,
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$11\\,500$", "$11,\\!500$"), correct: true },
+        { id: "b", text: L("$8\\,500$", "$8,\\!500$"), correct: false },
+        { id: "c", text: L("$6\\,000$", "$6,\\!000$"), correct: false },
+        { id: "d", text: L("$7\\,500$", "$7,\\!500$"), correct: false },
+      ];
+      return {
+        skill: L("Ganancia exigida sobre los costos fijos, además de todo el costo", "Profit required on top of fixed costs, beyond all costs"),
+        statement: L(
+          "El administrador de cierta empresa tiene como política, no invertir dinero en fabricar un nuevo producto a menos que esté seguro en recibir un $15\\%$ de ganancia calculada sobre los costos fijos. La Empresa puede vender todo lo que produce a un precio de $\\text{\\textdollar}10$ por unidad. El costo de fabricación de cada unidad es de $\\text{\\textdollar}6$ y los costos fijos son de $\\text{\\textdollar}40\\,000$. Entonces el número de unidades que deberá producir y vender de modo que obtenga la ganancia requerida, es:",
+          "The manager of a certain company has a policy of not investing money in manufacturing a new product unless he is sure of receiving a $15\\%$ profit calculated on the fixed costs. The company can sell everything it produces at a price of $\\text{\\textdollar}10$ per unit. The manufacturing cost of each unit is $\\text{\\textdollar}6$ and the fixed costs are $\\text{\\textdollar}40,\\!000$. Then the number of units it must produce and sell so that it obtains the required profit is:",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "La ganancia exigida es $15\\%$ de los costos fijos: $0{,}15 \\cdot 40\\,000 = 6\\,000$ dólares extra que el ingreso debe cubrir además de todos los costos.",
+            "The required profit is $15\\%$ of the fixed costs: $0.15 \\cdot 40,\\!000 = 6,\\!000$ extra dollars that revenue must cover on top of all costs.",
+          ),
+          L(
+            "El ingreso debe igualar costo variable $+$ costo fijo $+$ ganancia: $10x = 6x + 40\\,000 + 6\\,000$.",
+            "Revenue must equal variable cost $+$ fixed cost $+$ profit: $10x = 6x + 40,\\!000 + 6,\\!000$.",
+          ),
+          L(
+            "Cada unidad aporta $10 - 6 = 4$ dólares; el monto a cubrir es $46\\,000$.",
+            "Each unit contributes $10 - 6 = 4$ dollars; the amount to cover is $46,\\!000$.",
+          ),
+        ],
+        answerDisplay: L("$x = 11\\,500$ unidades", "$x = 11,\\!500$ units"),
+        solution: [
+          step(
+            "given",
+            "Precio $\\text{\\textdollar}10$; costo variable $\\text{\\textdollar}6$/unidad; costos fijos $\\text{\\textdollar}40\\,000$; ganancia exigida: $15\\%$ **de los costos fijos**.",
+            "Price $\\text{\\textdollar}10$; variable cost $\\text{\\textdollar}6$/unit; fixed costs $\\text{\\textdollar}40,\\!000$; required profit: $15\\%$ **of the fixed costs**.",
+          ),
+          step(
+            "approach",
+            "Traducir «ganancia sobre los costos fijos» como un monto extra y plantear ingreso $=$ costo total $+$ ganancia.",
+            "Translate «profit on the fixed costs» as an extra amount and set revenue $=$ total cost $+$ profit.",
+          ),
+          step(
+            "calculation",
+            "Ganancia exigida: $0{,}15 \\cdot 40\\,000 = 6\\,000$<br>$10x = 6x + 40\\,000 + 6\\,000 \\Rightarrow 4x = 46\\,000 \\Rightarrow x = 11\\,500$",
+            "Required profit: $0.15 \\cdot 40,\\!000 = 6,\\!000$<br>$10x = 6x + 40,\\!000 + 6,\\!000 \\Rightarrow 4x = 46,\\!000 \\Rightarrow x = 11,\\!500$",
+          ),
+          step(
+            "result",
+            "$x = 11\\,500$ unidades. Verificación: ingreso $10 \\cdot 11\\,500 = 115\\,000$; costo total $6 \\cdot 11\\,500 + 40\\,000 = 109\\,000$; utilidad $= 6\\,000 = 15\\%$ de $40\\,000$ ✓. El distractor $8\\,500$ falla: $10 \\cdot 8\\,500 = 85\\,000 \\ne 97\\,000 = 6 \\cdot 8\\,500 + 46\\,000$ ✗.",
+            "$x = 11,\\!500$ units. Check: revenue $10 \\cdot 11,\\!500 = 115,\\!000$; total cost $6 \\cdot 11,\\!500 + 40,\\!000 = 109,\\!000$; profit $= 6,\\!000 = 15\\%$ of $40,\\!000$ ✓. The distractor $8,\\!500$ fails: $10 \\cdot 8,\\!500 = 85,\\!000 \\ne 97,\\!000 = 6 \\cdot 8,\\!500 + 46,\\!000$ ✗.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* UEES S4 · 19 — vacas: (150000 + 75000 − 72000)/6 = 25500. MC impresas
+     3000/18000/25500/63000/72000 → se conservan 25500 ✓, 63000, 18000,
+     3000; se DESCARTA la impresa 72000 (ingreso de las 4 primeras vacas,
+     no la respuesta; documentado). */
+  template(
+    {
+      id: "qap-uees-19",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "applications",
+      difficulty: "challenge",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 330,
+      tags: ["modeling", "profit", "percent", "word-problem", "money"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "4 · 19",
+        page: 5,
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$\\text{\\textdollar}25\\,500$", "$\\text{\\textdollar}25,\\!500$"), correct: true },
+        { id: "b", text: L("$\\text{\\textdollar}63\\,000$", "$\\text{\\textdollar}63,\\!000$"), correct: false },
+        { id: "c", text: L("$\\text{\\textdollar}18\\,000$", "$\\text{\\textdollar}18,\\!000$"), correct: false },
+        { id: "d", text: L("$\\text{\\textdollar}3\\,000$", "$\\text{\\textdollar}3,\\!000$"), correct: false },
+      ];
+      return {
+        skill: L("Utilidad de un lote repartida entre las vacas restantes", "A lot's profit spread over the remaining cows"),
+        statement: L(
+          "Un granjero compra 10 vacas pagando en total $\\text{\\textdollar}150\\,000$ y vende las primeras 4 teniendo ganancia del $20\\%$ de lo que le costó cada una. Si la utilidad por el lote completo que desea ganar el granjero es de $\\text{\\textdollar}75\\,000$, entonces el PRECIO, en dólares, al que debe vender cada una de las 6 vacas restantes es:",
+          "A farmer buys 10 cows paying $\\text{\\textdollar}150,\\!000$ in total and sells the first 4 at a gain of $20\\%$ over what each one cost him. If the profit the farmer wants to earn on the whole lot is $\\text{\\textdollar}75,\\!000$, then the PRICE, in dollars, at which he must sell each of the remaining 6 cows is:",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Tres capas: costo por vaca, ingreso total necesario y lo que ya recaudó con las primeras 4.",
+            "Three layers: cost per cow, total revenue needed, and what the first 4 already brought in.",
+          ),
+          L(
+            "Costo por vaca $150\\,000/10 = 15\\,000$; las primeras 4 salen a $15\\,000 \\cdot 1{,}20$ cada una.",
+            "Cost per cow $150,\\!000/10 = 15,\\!000$; the first 4 go at $15,\\!000 \\cdot 1.20$ each.",
+          ),
+          L(
+            "Ingreso total necesario $= 150\\,000 + 75\\,000 = 225\\,000$; resta lo de las primeras 4 y reparte entre las 6 restantes.",
+            "Total revenue needed $= 150,\\!000 + 75,\\!000 = 225,\\!000$; subtract the first 4's take and spread it over the remaining 6.",
+          ),
+        ],
+        answerDisplay: L("$\\text{\\textdollar}25\\,500$ por vaca", "$\\text{\\textdollar}25,\\!500$ per cow"),
+        solution: [
+          step(
+            "given",
+            "10 vacas por $\\text{\\textdollar}150\\,000$ en total; las primeras 4 al $20\\%$ sobre su costo; utilidad deseada del lote: $\\text{\\textdollar}75\\,000$.",
+            "10 cows for $\\text{\\textdollar}150,\\!000$ in total; the first 4 at $20\\%$ above their cost; desired profit on the lot: $\\text{\\textdollar}75,\\!000$.",
+          ),
+          step(
+            "approach",
+            "Calcular el ingreso total necesario (costo $+$ utilidad), restar el ingreso ya asegurado con las primeras 4 vacas y dividir entre las 6 restantes.",
+            "Compute the total revenue needed (cost $+$ profit), subtract the revenue already secured with the first 4 cows, and divide among the remaining 6.",
+          ),
+          step(
+            "calculation",
+            "Costo por vaca: $\\frac{150\\,000}{10} = 15\\,000$<br>Primeras 4: $15\\,000 \\cdot 1{,}20 = 18\\,000$ cada una $\\Rightarrow 4 \\cdot 18\\,000 = 72\\,000$<br>Ingreso total necesario: $150\\,000 + 75\\,000 = 225\\,000$<br>Restante para las 6: $225\\,000 - 72\\,000 = 153\\,000 \\Rightarrow \\frac{153\\,000}{6} = 25\\,500$",
+            "Cost per cow: $\\frac{150,\\!000}{10} = 15,\\!000$<br>First 4: $15,\\!000 \\cdot 1.20 = 18,\\!000$ each $\\Rightarrow 4 \\cdot 18,\\!000 = 72,\\!000$<br>Total revenue needed: $150,\\!000 + 75,\\!000 = 225,\\!000$<br>Remaining for the 6: $225,\\!000 - 72,\\!000 = 153,\\!000 \\Rightarrow \\frac{153,\\!000}{6} = 25,\\!500$",
+          ),
+          step(
+            "result",
+            "$\\text{\\textdollar}25\\,500$ por cada una de las 6 vacas restantes. Verificación: $72\\,000 + 6 \\cdot 25\\,500 = 72\\,000 + 153\\,000 = 225\\,000$ ✓ (ingreso total $=$ costo $150\\,000$ $+$ utilidad $75\\,000$). El distractor $\\text{\\textdollar}72\\,000$ es lo recaudado con las primeras 4, no el precio por vaca; y $\\text{\\textdollar}63\\,000$ sale de mezclar utilidad con ingresos.",
+            "$\\text{\\textdollar}25,\\!500$ for each of the remaining 6 cows. Check: $72,\\!000 + 6 \\cdot 25,\\!500 = 72,\\!000 + 153,\\!000 = 225,\\!000$ ✓ (total revenue $=$ cost $150,\\!000$ $+$ profit $75,\\!000$). The distractor $\\text{\\textdollar}72,\\!000$ is what the first 4 brought in, not the per-cow price; and $\\text{\\textdollar}63,\\!000$ comes from mixing profit with revenue.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* UEES S4 · 21 — 0.15x = 0.12x + 14.4 → x = 480. MC impresas $480/$500/
+     $20/$75/$100 → se conservan 480 ✓, 500, 20, 75; se DESCARTA la impresa
+     $100 (documentado). */
+  template(
+    {
+      id: "qap-uees-21",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "applications",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 120,
+      tags: ["modeling", "interest", "word-problem", "money"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "4 · 21",
+        page: 5,
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$\\text{\\textdollar}480$", "$\\text{\\textdollar}480$"), correct: true },
+        { id: "b", text: L("$\\text{\\textdollar}500$", "$\\text{\\textdollar}500$"), correct: false },
+        { id: "c", text: L("$\\text{\\textdollar}20$", "$\\text{\\textdollar}20$"), correct: false },
+        { id: "d", text: L("$\\text{\\textdollar}75$", "$\\text{\\textdollar}75$"), correct: false },
+      ];
+      return {
+        skill: L("Interés simple comparado en dos tasas", "Simple interest compared at two rates"),
+        statement: L(
+          "Una cantidad de dinero invertida al $15\\%$ produce $\\text{\\textdollar}14{,}4$ más que invertida al $12\\%$. Entonces dicha CANTIDAD es:",
+          "An amount of money invested at $15\\%$ produces $\\text{\\textdollar}14.4$ more than when invested at $12\\%$. Then said AMOUNT is:",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Llama $x$ a la cantidad: al $15\\%$ produce $0{,}15x$ y al $12\\%$ produce $0{,}12x$.",
+            "Call the amount $x$: at $15\\%$ it produces $0.15x$ and at $12\\%$ it produces $0.12x$.",
+          ),
+          L(
+            "La diferencia de producción es $0{,}15x - 0{,}12x$ y vale $\\text{\\textdollar}14{,}4$.",
+            "The difference in production is $0.15x - 0.12x$ and it equals $\\text{\\textdollar}14.4$.",
+          ),
+          L(
+            "La diferencia de tasas es $3$ puntos porcentuales: $0{,}03x = 14{,}4$.",
+            "The rate difference is $3$ percentage points: $0.03x = 14.4$.",
+          ),
+        ],
+        answerDisplay: L("$x = \\text{\\textdollar}480$", "$x = \\text{\\textdollar}480$"),
+        solution: [
+          step(
+            "given",
+            "Misma cantidad $x$ a dos tasas: $15\\%$ y $12\\%$; la primera produce $\\text{\\textdollar}14{,}4$ más que la segunda.",
+            "The same amount $x$ at two rates: $15\\%$ and $12\\%$; the first produces $\\text{\\textdollar}14.4$ more than the second.",
+          ),
+          step(
+            "approach",
+            "Plantear la diferencia de intereses como ecuación lineal en $x$.",
+            "Set up the difference of interests as a linear equation in $x$.",
+          ),
+          step(
+            "calculation",
+            "$0{,}15x = 0{,}12x + 14{,}4$<br>$0{,}15x - 0{,}12x = 14{,}4 \\Rightarrow 0{,}03x = 14{,}4 \\Rightarrow x = \\frac{14{,}4}{0{,}03} = 480$",
+            "$0.15x = 0.12x + 14.4$<br>$0.15x - 0.12x = 14.4 \\Rightarrow 0.03x = 14.4 \\Rightarrow x = \\frac{14.4}{0.03} = 480$",
+          ),
+          step(
+            "result",
+            "$x = \\text{\\textdollar}480$. Verificación: $0{,}15 \\cdot 480 = 72$ y $0{,}12 \\cdot 480 = 57{,}6$; la diferencia es $72 - 57{,}6 = 14{,}4$ ✓.",
+            "$x = \\text{\\textdollar}480$. Check: $0.15 \\cdot 480 = 72$ and $0.12 \\cdot 480 = 57.6$; the difference is $72 - 57.6 = 14.4$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* UEES S4 · 22 — 0.80E = 80·1.15 = 92 → E = 115. MC impresas $115/$100/
+     $105/$110/$95 → se conservan 115 ✓, 110, 100, 105; se DESCARTA la
+     impresa $95 (documentado). Refutación 110: 0.8·110 = 88 ≠ 92. */
+  template(
+    {
+      id: "qap-uees-22",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "applications",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["modeling", "percent", "pricing", "money"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "4 · 22",
+        page: 5,
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$\\text{\\textdollar}115$", "$\\text{\\textdollar}115$"), correct: true },
+        { id: "b", text: L("$\\text{\\textdollar}110$", "$\\text{\\textdollar}110$"), correct: false },
+        { id: "c", text: L("$\\text{\\textdollar}100$", "$\\text{\\textdollar}100$"), correct: false },
+        { id: "d", text: L("$\\text{\\textdollar}105$", "$\\text{\\textdollar}105$"), correct: false },
+      ];
+      return {
+        skill: L("Etiqueta con descuento futuro y margen garantizado", "Price tag with a future discount and a guaranteed margin"),
+        statement: L(
+          "Una fábrica produce ropa para damas y está planeando vender su nueva línea de conjuntos deportivos con un costo para el distribuidor de $\\text{\\textdollar}80$ por conjunto. Por conveniencia del distribuidor la fábrica colocará la etiqueta con el precio en cada conjunto. ¿QUÉ CANTIDAD DEBE SER MARCADA EN LAS ETIQUETAS de modo que el distribuidor pueda reducir este precio en un $20\\%$ durante una liquidación y aun así obtener una ganancia del $15\\%$ sobre el precio de costo?",
+          "A factory produces ladies' clothing and is planning to sell its new line of jogging suits to a distributor at a cost of $\\text{\\textdollar}80$ per suit. For the distributor's convenience, the factory will attach the price tag to each suit. WHAT AMOUNT SHOULD BE MARKED ON THE TAGS so that the distributor can reduce this price by $20\\%$ during a clearance sale and still make a $15\\%$ profit on the cost price?",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Tras rebajar el precio de etiqueta $E$ en un $20\\%$, el distribuidor cobra $0{,}80E$.",
+            "After cutting the tag price $E$ by $20\\%$, the distributor collects $0.80E$.",
+          ),
+          L(
+            "Para ganar el $15\\%$ sobre el costo de $\\text{\\textdollar}80$, debe cobrar $80 \\cdot 1{,}15 = 92$ dólares.",
+            "To make $15\\%$ on the $\\text{\\textdollar}80$ cost, he must collect $80 \\cdot 1.15 = 92$ dollars.",
+          ),
+          L(
+            "La ecuación es $0{,}80E = 92$; ojo: el $15\\%$ es sobre el **costo**, el $20\\%$ sobre la **etiqueta**.",
+            "The equation is $0.80E = 92$; careful: the $15\\%$ is on the **cost**, the $20\\%$ on the **tag**.",
+          ),
+        ],
+        answerDisplay: L("$E = \\text{\\textdollar}115$", "$E = \\text{\\textdollar}115$"),
+        solution: [
+          step(
+            "given",
+            "Costo para el distribuidor: $\\text{\\textdollar}80$; descuento en liquidación: $20\\%$ sobre la etiqueta $E$; ganancia exigida: $15\\%$ sobre el costo.",
+            "Distributor's cost: $\\text{\\textdollar}80$; clearance discount: $20\\%$ off the tag $E$; required profit: $15\\%$ on cost.",
+          ),
+          step(
+            "approach",
+            "Igualar el precio de venta tras descuento con el costo más la ganancia exigida.",
+            "Equate the post-discount selling price with cost plus the required profit.",
+          ),
+          step(
+            "calculation",
+            "Precio tras el $20\\%$ de descuento: $E - 0{,}20E = 0{,}80E$<br>Precio que garantiza el $15\\%$ sobre el costo: $80 \\cdot 1{,}15 = 92$<br>$0{,}80E = 92 \\Rightarrow E = \\frac{92}{0{,}80} = 115$",
+            "Price after the $20\\%$ discount: $E - 0.20E = 0.80E$<br>Price guaranteeing $15\\%$ on cost: $80 \\cdot 1.15 = 92$<br>$0.80E = 92 \\Rightarrow E = \\frac{92}{0.80} = 115$",
+          ),
+          step(
+            "result",
+            "$E = \\text{\\textdollar}115$. Verificación: $115 - 20\\% = 115 - 23 = 92$ y $92 - 80 = 12 = 0{,}15 \\cdot 80$ ✓. El distractor $\\text{\\textdollar}110$ falla: $0{,}80 \\cdot 110 = 88 \\ne 92$ ✗.",
+            "$E = \\text{\\textdollar}115$. Check: $115 - 20\\% = 115 - 23 = 92$ and $92 - 80 = 12 = 0.15 \\cdot 80$ ✓. The distractor $\\text{\\textdollar}110$ fails: $0.80 \\cdot 110 = 88 \\ne 92$ ✗.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* UEES S5 · 21 — (5y+2)/4 ≤ 2y−1 → y ≥ 2, [2,∞). Opciones: la versión
+     estricta (2,∞) es la trampa; (−∞,2] y (−∞,2) invierten el sentido. */
+  template(
+    {
+      id: "des-uees-21",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "inequalities",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 120,
+      tags: ["inequality", "fractions", "interval-notation"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "5 · 21",
+        page: 6,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$[2,\\ \\infty)$", "$[2,\\ \\infty)$"), correct: true },
+        { id: "b", text: L("$(2,\\ \\infty)$", "$(2,\\ \\infty)$"), correct: false },
+        { id: "c", text: L("$(-\\infty,\\ 2]$", "$(-\\infty,\\ 2]$"), correct: false },
+        { id: "d", text: L("$(-\\infty,\\ 2)$", "$(-\\infty,\\ 2)$"), correct: false },
+      ];
+      return {
+        skill: L("Desigualdad con fracción: el sentido manda", "Inequality with a fraction: direction rules"),
+        statement: L(
+          "Resuelva la desigualdad y escoja el intervalo solución:\n\n$$\\frac{5y+2}{4} \\le 2y-1$$",
+          "Solve the inequality and choose the solution interval:\n\n$$\\frac{5y+2}{4} \\le 2y-1$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Multiplica todo por $4$ (positivo): la desigualdad NO cambia de sentido.",
+            "Multiply everything by $4$ (positive): the inequality does NOT flip.",
+          ),
+          L(
+            "Queda $5y + 2 \\le 8y - 4$: agrupa las $y$ a un lado y los números al otro.",
+            "You get $5y + 2 \\le 8y - 4$: collect the $y$'s on one side and the numbers on the other.",
+          ),
+          L(
+            "Al despejar, dividir entre $3$ (positivo) conserva el sentido; decide al final si el extremo entra (paréntesis o corchete).",
+            "When solving, dividing by $3$ (positive) keeps the direction; decide at the end whether the endpoint is included (parenthesis or bracket).",
+          ),
+        ],
+        answerDisplay: L("$y \\ge 2$, es decir $[2,\\ \\infty)$", "$y \\ge 2$, i.e. $[2,\\ \\infty)$"),
+        solution: [
+          step(
+            "given",
+            "La desigualdad $\\frac{5y+2}{4} \\le 2y-1$.",
+            "The inequality $\\frac{5y+2}{4} \\le 2y-1$.",
+          ),
+          step(
+            "approach",
+            "Quitar el denominador multiplicando por $4 > 0$ y despejar cuidando el sentido de la desigualdad.",
+            "Clear the denominator by multiplying by $4 > 0$ and solve keeping the inequality's direction.",
+          ),
+          step(
+            "calculation",
+            "$4 \\cdot \\frac{5y+2}{4} \\le 4(2y-1) \\Rightarrow 5y+2 \\le 8y-4$<br>$2 + 4 \\le 8y - 5y \\Rightarrow 6 \\le 3y \\Rightarrow y \\ge 2$",
+            "$4 \\cdot \\frac{5y+2}{4} \\le 4(2y-1) \\Rightarrow 5y+2 \\le 8y-4$<br>$2 + 4 \\le 8y - 5y \\Rightarrow 6 \\le 3y \\Rightarrow y \\ge 2$",
+          ),
+          step(
+            "result",
+            "$y \\ge 2$, o sea $[2,\\ \\infty)$. Verificación: con $y = 2$: $\\frac{12}{4} = 3 = 2 \\cdot 2 - 1$ ✓ (igualdad en la frontera, por eso el corchete); con $y = 1$: $\\frac{7}{4} \\not\\le 1$ ✗; con $y = 3$: $\\frac{17}{4} \\le 5$ ✓.",
+            "$y \\ge 2$, i.e. $[2,\\ \\infty)$. Check: at $y = 2$: $\\frac{12}{4} = 3 = 2 \\cdot 2 - 1$ ✓ (equality at the boundary, hence the bracket); at $y = 1$: $\\frac{7}{4} \\not\\le 1$ ✗; at $y = 3$: $\\frac{17}{4} \\le 5$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* UEES S5 · 22 — (3y−2)/3 ≥ 1/4 → y ≥ 11/12, [11/12,∞). Trampa: extremo
+     abierto; y los dos intervalos invertidos. */
+  template(
+    {
+      id: "des-uees-22",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "inequalities",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["inequality", "fractions", "interval-notation"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "5 · 22",
+        page: 6,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(
+            "$\\left[\\dfrac{11}{12},\\ \\infty\\right)$",
+            "$\\left[\\dfrac{11}{12},\\ \\infty\\right)$",
+          ),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L(
+            "$\\left(\\dfrac{11}{12},\\ \\infty\\right)$",
+            "$\\left(\\dfrac{11}{12},\\ \\infty\\right)$",
+          ),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L(
+            "$\\left(-\\infty,\\ \\dfrac{11}{12}\\right]$",
+            "$\\left(-\\infty,\\ \\dfrac{11}{12}\\right]$",
+          ),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L(
+            "$\\left(-\\infty,\\ \\dfrac{11}{12}\\right)$",
+            "$\\left(-\\infty,\\ \\dfrac{11}{12}\\right)$",
+          ),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L("Desigualdad con dos denominadores", "Inequality with two denominators"),
+        statement: L(
+          "Resuelva la desigualdad y escoja el intervalo solución:\n\n$$\\frac{3y-2}{3} \\ge \\frac{1}{4}$$",
+          "Solve the inequality and choose the solution interval:\n\n$$\\frac{3y-2}{3} \\ge \\frac{1}{4}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Denominadores $3$ y $4$: multiplica por el mínimo común múltiplo $12$, que es positivo.",
+            "Denominators $3$ and $4$: multiply by the least common multiple $12$, which is positive.",
+          ),
+          L(
+            "Queda $4(3y-2) \\ge 3$: distribuye y agrupa.",
+            "You get $4(3y-2) \\ge 3$: distribute and collect.",
+          ),
+          L(
+            "El extremo es una fracción; el $\\ge$ (no estricto) decide el tipo de corchete.",
+            "The endpoint is a fraction; the $\\ge$ (non-strict) decides the bracket type.",
+          ),
+        ],
+        answerDisplay: L(
+          "$y \\ge \\dfrac{11}{12}$, es decir $\\left[\\dfrac{11}{12},\\ \\infty\\right)$",
+          "$y \\ge \\dfrac{11}{12}$, i.e. $\\left[\\dfrac{11}{12},\\ \\infty\\right)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La desigualdad $\\frac{3y-2}{3} \\ge \\frac{1}{4}$.",
+            "The inequality $\\frac{3y-2}{3} \\ge \\frac{1}{4}$.",
+          ),
+          step(
+            "approach",
+            "Multiplicar por el mcm $12 > 0$ y despejar; el sentido no cambia.",
+            "Multiply by the lcm $12 > 0$ and solve; the direction does not change.",
+          ),
+          step(
+            "calculation",
+            "$12 \\cdot \\frac{3y-2}{3} \\ge 12 \\cdot \\frac{1}{4} \\Rightarrow 4(3y-2) \\ge 3$<br>$12y - 8 \\ge 3 \\Rightarrow 12y \\ge 11 \\Rightarrow y \\ge \\frac{11}{12}$",
+            "$12 \\cdot \\frac{3y-2}{3} \\ge 12 \\cdot \\frac{1}{4} \\Rightarrow 4(3y-2) \\ge 3$<br>$12y - 8 \\ge 3 \\Rightarrow 12y \\ge 11 \\Rightarrow y \\ge \\frac{11}{12}$",
+          ),
+          step(
+            "result",
+            "$y \\ge \\frac{11}{12}$, o sea $\\left[\\dfrac{11}{12},\\ \\infty\\right)$. Verificación: con $y = \\frac{11}{12}$: $\\frac{3 \\cdot \\frac{11}{12} - 2}{3} = \\frac{\\frac{11}{4} - 2}{3} = \\frac{3/4}{3} = \\frac{1}{4}$ ✓ (frontera incluida); con $y = 0$: $-\\frac{2}{3} \\not\\ge \\frac{1}{4}$ ✗.",
+            "$y \\ge \\frac{11}{12}$, i.e. $\\left[\\dfrac{11}{12},\\ \\infty\\right)$. Check: at $y = \\frac{11}{12}$: $\\frac{3 \\cdot \\frac{11}{12} - 2}{3} = \\frac{\\frac{11}{4} - 2}{3} = \\frac{3/4}{3} = \\frac{1}{4}$ ✓ (boundary included); at $y = 0$: $-\\frac{2}{3} \\not\\ge \\frac{1}{4}$ ✗.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* UEES S5 · 23 — −3x+1 ≤ −3(x−2)+1 → identidad 1 ≤ 7 → TODOS los reales.
+     Los distractores del brief («x ≥ 0», «x ≤ 2») se convierten a notación
+     de intervalos: [0,∞) y (−∞,2] (documentado). */
+  template(
+    {
+      id: "des-uees-23",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "inequalities",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 180,
+      tags: ["inequality", "identity", "all-reals", "interval-notation"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "5 · 23",
+        page: 6,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$(-\\infty,\\ \\infty)$", "$(-\\infty,\\ \\infty)$"), correct: true },
+        { id: "b", text: L("$\\varnothing$", "$\\varnothing$"), correct: false },
+        { id: "c", text: L("$[0,\\ \\infty)$", "$[0,\\ \\infty)$"), correct: false },
+        { id: "d", text: L("$(-\\infty,\\ 2]$", "$(-\\infty,\\ 2]$"), correct: false },
+      ];
+      return {
+        skill: L("La incógnita se cancela y queda una identidad", "The unknown cancels out leaving an identity"),
+        statement: L(
+          "Resuelva la desigualdad y escoja el intervalo solución:\n\n$$-3x+1 \\le -3(x-2)+1$$",
+          "Solve the inequality and choose the solution interval:\n\n$$-3x+1 \\le -3(x-2)+1$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Desarrolla el lado derecho con cuidado: $-3(x-2) = -3x+6$.",
+            "Expand the right-hand side carefully: $-3(x-2) = -3x+6$.",
+          ),
+          L(
+            "Los términos con $x$ se cancelan en ambos lados: queda una comparación de puros números.",
+            "The $x$ terms cancel on both sides: a comparison of pure numbers remains.",
+          ),
+          L(
+            "Si el resto es una desigualdad verdadera, TODOS los reales sirven; si fuera falsa, ninguno.",
+            "If what remains is a true inequality, ALL reals work; if it were false, none.",
+          ),
+        ],
+        answerDisplay: L(
+          "Todos los reales: $(-\\infty,\\ \\infty)$",
+          "All real numbers: $(-\\infty,\\ \\infty)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La desigualdad $-3x+1 \\le -3(x-2)+1$.",
+            "The inequality $-3x+1 \\le -3(x-2)+1$.",
+          ),
+          step(
+            "approach",
+            "Desarrollar y simplificar: aquí la $x$ desaparece y la respuesta depende de la desigualdad numérica que sobrevive.",
+            "Expand and simplify: here the $x$ disappears and the answer depends on the numeric inequality that survives.",
+          ),
+          step(
+            "calculation",
+            "$-3(x-2)+1 = -3x+6+1 = -3x+7$<br>$-3x+1 \\le -3x+7 \\Rightarrow 1 \\le 7$ (restando $-3x$ en ambos lados)",
+            "$-3(x-2)+1 = -3x+6+1 = -3x+7$<br>$-3x+1 \\le -3x+7 \\Rightarrow 1 \\le 7$ (subtracting $-3x$ from both sides)",
+          ),
+          step(
+            "result",
+            "$1 \\le 7$ es **siempre verdadero**, así que la solución son todos los reales: $(-\\infty,\\ \\infty)$. Verificación: $x = 0$: $1 \\le 7$ ✓; $x = 5$: $-14 \\le -8$ ✓; $x = -10$: $31 \\le 37$ ✓ — cualquier $x$ funciona.",
+            "$1 \\le 7$ is **always true**, so the solution is all real numbers: $(-\\infty,\\ \\infty)$. Check: $x = 0$: $1 \\le 7$ ✓; $x = 5$: $-14 \\le -8$ ✓; $x = -10$: $31 \\le 37$ ✓ — every $x$ works.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* UEES S5 · 24 — 0x ≤ 0 → 0 ≤ 0 siempre → TODOS los reales. Distractor del
+     brief «x = 0 sólo» convertido a {0} (documentado). */
+  template(
+    {
+      id: "des-uees-24",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "inequalities",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 180,
+      tags: ["inequality", "degenerate", "all-reals", "interval-notation"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "5 · 24",
+        page: 6,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$(-\\infty,\\ \\infty)$", "$(-\\infty,\\ \\infty)$"), correct: true },
+        { id: "b", text: L("$\\varnothing$", "$\\varnothing$"), correct: false },
+        { id: "c", text: L("$[0,\\ \\infty)$", "$[0,\\ \\infty)$"), correct: false },
+        { id: "d", text: L("$\\left\\{0\\right\\}$", "$\\left\\{0\\right\\}$"), correct: false },
+      ];
+      return {
+        skill: L("Una desigualdad degenerada 0x ≤ 0", "A degenerate inequality 0x ≤ 0"),
+        statement: L(
+          "Resuelva la desigualdad y escoja el intervalo solución:\n\n$$0x \\le 0$$",
+          "Solve the inequality and choose the solution interval:\n\n$$0x \\le 0$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Cualquier número multiplicado por $0$ da $0$: el lado izquierdo no depende de $x$.",
+            "Any number times $0$ gives $0$: the left-hand side does not depend on $x$.",
+          ),
+          L(
+            "La desigualdad se reduce a comparar $0$ con $0$.",
+            "The inequality reduces to comparing $0$ with $0$.",
+          ),
+          L(
+            "¿$0 \\le 0$ es verdadero o falso? La respuesta a eso decide si sirven todos los reales o ninguno.",
+            "Is $0 \\le 0$ true or false? The answer to that decides whether all reals work or none.",
+          ),
+        ],
+        answerDisplay: L(
+          "Todos los reales: $(-\\infty,\\ \\infty)$",
+          "All real numbers: $(-\\infty,\\ \\infty)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La desigualdad $0x \\le 0$.",
+            "The inequality $0x \\le 0$.",
+          ),
+          step(
+            "approach",
+            "Simplificar el lado izquierdo y leer la desigualdad numérica que queda.",
+            "Simplify the left-hand side and read the numeric inequality that remains.",
+          ),
+          step(
+            "calculation",
+            "$0x = 0$ para todo $x$, así que la desigualdad es $0 \\le 0$",
+            "$0x = 0$ for every $x$, so the inequality is $0 \\le 0$",
+          ),
+          step(
+            "result",
+            "$0 \\le 0$ es **siempre verdadero** (cero es igual a cero): la solución son todos los reales, $(-\\infty,\\ \\infty)$. Verificación: $x = 7$: $0 \\le 0$ ✓; $x = -3{,}5$: $0 \\le 0$ ✓ — la $x$ jamás aparece.",
+            "$0 \\le 0$ is **always true** (zero equals zero): the solution is all real numbers, $(-\\infty,\\ \\infty)$. Check: $x = 7$: $0 \\le 0$ ✓; $x = -3.5$: $0 \\le 0$ ✓ — the $x$ never appears.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* UEES S5 · 25 — (1−t)/2 < (3t−7)/3 → t > 17/9, (17/9,∞). DEVIACIÓN: el
+     3er distractor del brief «t < 17/9» duplica matemáticamente a (−∞,17/9);
+     se sustituye por el invertido-cerrado (−∞,17/9] (regla del brief: nunca
+     un duplicado matemático). */
+  template(
+    {
+      id: "des-uees-25",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "inequalities",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 120,
+      tags: ["inequality", "fractions", "strict", "interval-notation"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "5 · 25",
+        page: 6,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(
+            "$\\left(\\dfrac{17}{9},\\ \\infty\\right)$",
+            "$\\left(\\dfrac{17}{9},\\ \\infty\\right)$",
+          ),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L(
+            "$\\left[\\dfrac{17}{9},\\ \\infty\\right)$",
+            "$\\left[\\dfrac{17}{9},\\ \\infty\\right)$",
+          ),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L(
+            "$\\left(-\\infty,\\ \\dfrac{17}{9}\\right)$",
+            "$\\left(-\\infty,\\ \\dfrac{17}{9}\\right)$",
+          ),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L(
+            "$\\left(-\\infty,\\ \\dfrac{17}{9}\\right]$",
+            "$\\left(-\\infty,\\ \\dfrac{17}{9}\\right]$",
+          ),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L("Desigualdad estricta: la frontera queda fuera", "Strict inequality: the boundary stays out"),
+        statement: L(
+          "Resuelva la desigualdad y escoja el intervalo solución:\n\n$$\\frac{1-t}{2} < \\frac{3t-7}{3}$$",
+          "Solve the inequality and choose the solution interval:\n\n$$\\frac{1-t}{2} < \\frac{3t-7}{3}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Denominadores $2$ y $3$: multiplica por el mcm $6 > 0$ sin voltear el sentido.",
+            "Denominators $2$ and $3$: multiply by the lcm $6 > 0$ without flipping the direction.",
+          ),
+          L(
+            "Queda $3(1-t) < 2(3t-7)$: distribuye con cuidado el signo menos.",
+            "You get $3(1-t) < 2(3t-7)$: distribute the minus sign carefully.",
+          ),
+          L(
+            "El signo es $<$ estricto: en la frontera hay igualdad, así que NO entra en el intervalo.",
+            "The sign is strict $<$: at the boundary there is equality, so it does NOT enter the interval.",
+          ),
+        ],
+        answerDisplay: L(
+          "$t > \\dfrac{17}{9}$, es decir $\\left(\\dfrac{17}{9},\\ \\infty\\right)$",
+          "$t > \\dfrac{17}{9}$, i.e. $\\left(\\dfrac{17}{9},\\ \\infty\\right)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La desigualdad $\\frac{1-t}{2} < \\frac{3t-7}{3}$.",
+            "The inequality $\\frac{1-t}{2} < \\frac{3t-7}{3}$.",
+          ),
+          step(
+            "approach",
+            "Multiplicar por el mcm $6 > 0$, expandir y despejar con el sentido intacto.",
+            "Multiply by the lcm $6 > 0$, expand, and solve with the direction intact.",
+          ),
+          step(
+            "calculation",
+            "$6 \\cdot \\frac{1-t}{2} < 6 \\cdot \\frac{3t-7}{3} \\Rightarrow 3(1-t) < 2(3t-7)$<br>$3-3t < 6t-14 \\Rightarrow 3+14 < 6t+3t \\Rightarrow 17 < 9t \\Rightarrow t > \\frac{17}{9}$",
+            "$6 \\cdot \\frac{1-t}{2} < 6 \\cdot \\frac{3t-7}{3} \\Rightarrow 3(1-t) < 2(3t-7)$<br>$3-3t < 6t-14 \\Rightarrow 3+14 < 6t+3t \\Rightarrow 17 < 9t \\Rightarrow t > \\frac{17}{9}$",
+          ),
+          step(
+            "result",
+            "$t > \\frac{17}{9}$, o sea $\\left(\\dfrac{17}{9},\\ \\infty\\right)$ (abierto: la desigualdad es estricta). Verificación: con $t = 2$: $\\frac{-1}{2} = -0{,}5 < \\frac{-1}{3} \\approx -0{,}33$ ✓; en la frontera $t = \\frac{17}{9}$ ambos lados valen $-\\frac{4}{9}$ (empate, NO sirve) ✗; con $t = 0$: $\\frac{1}{2} \\not< -\\frac{7}{3}$ ✗.",
+            "$t > \\frac{17}{9}$, i.e. $\\left(\\dfrac{17}{9},\\ \\infty\\right)$ (open: the inequality is strict). Check: at $t = 2$: $\\frac{-1}{2} = -0.5 < \\frac{-1}{3} \\approx -0.33$ ✓; at the boundary $t = \\frac{17}{9}$ both sides equal $-\\frac{4}{9}$ (a tie, it does NOT work) ✗; at $t = 0$: $\\frac{1}{2} \\not< -\\frac{7}{3}$ ✗.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* UEES S5 · 26 — 5(3t+1)/3 > (2t−4)/6 + t/2 → t > −14/25, (−14/25,∞). */
+  template(
+    {
+      id: "des-uees-26",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "inequalities",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["inequality", "fractions", "strict", "interval-notation"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "5 · 26",
+        page: 6,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(
+            "$\\left(-\\dfrac{14}{25},\\ \\infty\\right)$",
+            "$\\left(-\\dfrac{14}{25},\\ \\infty\\right)$",
+          ),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L(
+            "$\\left[-\\dfrac{14}{25},\\ \\infty\\right)$",
+            "$\\left[-\\dfrac{14}{25},\\ \\infty\\right)$",
+          ),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L(
+            "$\\left(-\\infty,\\ -\\dfrac{14}{25}\\right)$",
+            "$\\left(-\\infty,\\ -\\dfrac{14}{25}\\right)$",
+          ),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L(
+            "$\\left(-\\infty,\\ -\\dfrac{14}{25}\\right]$",
+            "$\\left(-\\infty,\\ -\\dfrac{14}{25}\\right]$",
+          ),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L("Simplificar antes de cruzar fracciones", "Simplify before dealing with fractions"),
+        statement: L(
+          "Resuelva la desigualdad y escoja el intervalo solución:\n\n$$\\frac{5(3t+1)}{3} > \\frac{2t-4}{6} + \\frac{t}{2}$$",
+          "Solve the inequality and choose the solution interval:\n\n$$\\frac{5(3t+1)}{3} > \\frac{2t-4}{6} + \\frac{t}{2}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Simplifica cada lado primero: $\\frac{5(3t+1)}{3} = 5t + \\frac{5}{3}$.",
+            "Simplify each side first: $\\frac{5(3t+1)}{3} = 5t + \\frac{5}{3}$.",
+          ),
+          L(
+            "El lado derecho se junta en $\\frac{5t-4}{6}$; ahora multiplica por $6 > 0$.",
+            "The right-hand side combines into $\\frac{5t-4}{6}$; now multiply by $6 > 0$.",
+          ),
+          L(
+            "La frontera es negativa y fraccionaria; el $>$ estricto la deja fuera.",
+            "The boundary is negative and fractional; the strict $>$ leaves it out.",
+          ),
+        ],
+        answerDisplay: L(
+          "$t > -\\dfrac{14}{25}$, es decir $\\left(-\\dfrac{14}{25},\\ \\infty\\right)$",
+          "$t > -\\dfrac{14}{25}$, i.e. $\\left(-\\dfrac{14}{25},\\ \\infty\\right)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La desigualdad $\\frac{5(3t+1)}{3} > \\frac{2t-4}{6} + \\frac{t}{2}$.",
+            "The inequality $\\frac{5(3t+1)}{3} > \\frac{2t-4}{6} + \\frac{t}{2}$.",
+          ),
+          step(
+            "approach",
+            "Simplificar ambos lados y multiplicar por el denominador común positivo.",
+            "Simplify both sides and multiply by the positive common denominator.",
+          ),
+          step(
+            "calculation",
+            "Izquierda: $\\frac{5(3t+1)}{3} = 5t + \\frac{5}{3}$; derecha: $\\frac{2t-4}{6} + \\frac{t}{2} = \\frac{2t-4+3t}{6} = \\frac{5t-4}{6}$<br>Multiplicando por $6$: $30t + 10 > 5t - 4 \\Rightarrow 25t > -14 \\Rightarrow t > -\\frac{14}{25}$",
+            "Left: $\\frac{5(3t+1)}{3} = 5t + \\frac{5}{3}$; right: $\\frac{2t-4}{6} + \\frac{t}{2} = \\frac{2t-4+3t}{6} = \\frac{5t-4}{6}$<br>Multiplying by $6$: $30t + 10 > 5t - 4 \\Rightarrow 25t > -14 \\Rightarrow t > -\\frac{14}{25}$",
+          ),
+          step(
+            "result",
+            "$t > -\\frac{14}{25}$, o sea $\\left(-\\dfrac{14}{25},\\ \\infty\\right)$. Verificación: con $t = 0$: $\\frac{5}{3} > -\\frac{2}{3}$ ✓; en la frontera $t = -\\frac{14}{25}$ ambos lados valen $-\\frac{17}{15}$ (empate, NO sirve por el $>$ estricto) ✗.",
+            "$t > -\\frac{14}{25}$, i.e. $\\left(-\\dfrac{14}{25},\\ \\infty\\right)$. Check: at $t = 0$: $\\frac{5}{3} > -\\frac{2}{3}$ ✓; at the boundary $t = -\\frac{14}{25}$ both sides equal $-\\frac{17}{15}$ (a tie, it does NOT work under strict $>$) ✗.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* UEES S5 · 27 — 2x+13 ≥ x/3 − 7 → x ≥ −12, [−12,∞). DEVIACIÓN: el 3er
+     distractor del brief «x ≤ −12» duplica a (−∞,−12]; se sustituye por el
+     invertido-abierto (−∞,−12). */
+  template(
+    {
+      id: "des-uees-27",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "inequalities",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 120,
+      tags: ["inequality", "fractions", "interval-notation"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "5 · 27",
+        page: 6,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$[-12,\\ \\infty)$", "$[-12,\\ \\infty)$"), correct: true },
+        { id: "b", text: L("$(-12,\\ \\infty)$", "$(-12,\\ \\infty)$"), correct: false },
+        { id: "c", text: L("$(-\\infty,\\ -12]$", "$(-\\infty,\\ -12]$"), correct: false },
+        { id: "d", text: L("$(-\\infty,\\ -12)$", "$(-\\infty,\\ -12)$"), correct: false },
+      ];
+      return {
+        skill: L("Fracción de x: multiplicar por el denominador positivo", "A fraction of x: multiply by the positive denominator"),
+        statement: L(
+          "Resuelva la desigualdad y escoja el intervalo solución:\n\n$$2x+13 \\ge \\frac{1}{3}x-7$$",
+          "Solve the inequality and choose the solution interval:\n\n$$2x+13 \\ge \\frac{1}{3}x-7$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Hay una $\\frac{1}{3}x$: multiplica toda la desigualdad por $3 > 0$.",
+            "There is a $\\frac{1}{3}x$: multiply the whole inequality by $3 > 0$.",
+          ),
+          L(
+            "Queda $6x + 39 \\ge x - 21$: agrupa restando $x$.",
+            "You get $6x + 39 \\ge x - 21$: collect by subtracting $x$.",
+          ),
+          L(
+            "Dividir entre $5$ (positivo) no voltea nada; el $\\ge$ pide incluir la frontera.",
+            "Dividing by $5$ (positive) flips nothing; the $\\ge$ demands including the boundary.",
+          ),
+        ],
+        answerDisplay: L("$x \\ge -12$, es decir $[-12,\\ \\infty)$", "$x \\ge -12$, i.e. $[-12,\\ \\infty)$"),
+        solution: [
+          step(
+            "given",
+            "La desigualdad $2x+13 \\ge \\frac{1}{3}x-7$.",
+            "The inequality $2x+13 \\ge \\frac{1}{3}x-7$.",
+          ),
+          step(
+            "approach",
+            "Multiplicar por $3$ para eliminar la fracción y despejar.",
+            "Multiply by $3$ to remove the fraction and solve.",
+          ),
+          step(
+            "calculation",
+            "$3(2x+13) \\ge 3\\left(\\frac{1}{3}x-7\\right) \\Rightarrow 6x+39 \\ge x-21$<br>$6x - x \\ge -21-39 \\Rightarrow 5x \\ge -60 \\Rightarrow x \\ge -12$",
+            "$3(2x+13) \\ge 3\\left(\\frac{1}{3}x-7\\right) \\Rightarrow 6x+39 \\ge x-21$<br>$6x - x \\ge -21-39 \\Rightarrow 5x \\ge -60 \\Rightarrow x \\ge -12$",
+          ),
+          step(
+            "result",
+            "$x \\ge -12$, o sea $[-12,\\ \\infty)$. Verificación: con $x = -12$: $-24+13 = -11$ y $\\frac{-12}{3}-7 = -11$ ✓ (frontera incluida); con $x = -13$: $-13 \\not\\ge -\\frac{34}{3}$ ✗; con $x = 0$: $13 \\ge -7$ ✓.",
+            "$x \\ge -12$, i.e. $[-12,\\ \\infty)$. Check: at $x = -12$: $-24+13 = -11$ and $\\frac{-12}{3}-7 = -11$ ✓ (boundary included); at $x = -13$: $-13 \\not\\ge -\\frac{34}{3}$ ✗; at $x = 0$: $13 \\ge -7$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* UEES S5 · 28 — 3x − 1/3 ≤ (5/2)x → x ≤ 2/3, (−∞,2/3]. DEVIACIÓN: el 3er
+     distractor del brief «x ≥ 2/3» duplica a [2/3,∞); se sustituye por el
+     invertido-abierto (2/3,∞). */
+  template(
+    {
+      id: "des-uees-28",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "inequalities",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["inequality", "fractions", "interval-notation"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "5 · 28",
+        page: 6,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(
+            "$\\left(-\\infty,\\ \\dfrac{2}{3}\\right]$",
+            "$\\left(-\\infty,\\ \\dfrac{2}{3}\\right]$",
+          ),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L(
+            "$\\left(-\\infty,\\ \\dfrac{2}{3}\\right)$",
+            "$\\left(-\\infty,\\ \\dfrac{2}{3}\\right)$",
+          ),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L(
+            "$\\left[\\dfrac{2}{3},\\ \\infty\\right)$",
+            "$\\left[\\dfrac{2}{3},\\ \\infty\\right)$",
+          ),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L(
+            "$\\left(\\dfrac{2}{3},\\ \\infty\\right)$",
+            "$\\left(\\dfrac{2}{3},\\ \\infty\\right)$",
+          ),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L("Coeficientes fraccionarios en los dos lados", "Fractional coefficients on both sides"),
+        statement: L(
+          "Resuelva la desigualdad y escoja el intervalo solución:\n\n$$3x-\\frac{1}{3} \\le \\frac{5}{2}x$$",
+          "Solve the inequality and choose the solution interval:\n\n$$3x-\\frac{1}{3} \\le \\frac{5}{2}x$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Denominadores $3$ y $2$: multiplica por el mcm $6 > 0$.",
+            "Denominators $3$ and $2$: multiply by the lcm $6 > 0$.",
+          ),
+          L(
+            "Queda $18x - 2 \\le 15x$: las $x$ están en ambos lados, agrupa restando $15x$.",
+            "You get $18x - 2 \\le 15x$: the $x$'s are on both sides, collect by subtracting $15x$.",
+          ),
+          L(
+            "Al dividir entre $3$ (positivo) el sentido se conserva; el $\\le$ pide corchete en la frontera.",
+            "Dividing by $3$ (positive) keeps the direction; the $\\le$ demands a bracket at the boundary.",
+          ),
+        ],
+        answerDisplay: L(
+          "$x \\le \\dfrac{2}{3}$, es decir $\\left(-\\infty,\\ \\dfrac{2}{3}\\right]$",
+          "$x \\le \\dfrac{2}{3}$, i.e. $\\left(-\\infty,\\ \\dfrac{2}{3}\\right]$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La desigualdad $3x-\\frac{1}{3} \\le \\frac{5}{2}x$.",
+            "The inequality $3x-\\frac{1}{3} \\le \\frac{5}{2}x$.",
+          ),
+          step(
+            "approach",
+            "Multiplicar por el mcm $6$ y despejar agrupando las $x$.",
+            "Multiply by the lcm $6$ and solve by collecting the $x$'s.",
+          ),
+          step(
+            "calculation",
+            "$6\\left(3x-\\frac{1}{3}\\right) \\le 6 \\cdot \\frac{5}{2}x \\Rightarrow 18x - 2 \\le 15x$<br>$18x - 15x \\le 2 \\Rightarrow 3x \\le 2 \\Rightarrow x \\le \\frac{2}{3}$",
+            "$6\\left(3x-\\frac{1}{3}\\right) \\le 6 \\cdot \\frac{5}{2}x \\Rightarrow 18x - 2 \\le 15x$<br>$18x - 15x \\le 2 \\Rightarrow 3x \\le 2 \\Rightarrow x \\le \\frac{2}{3}$",
+          ),
+          step(
+            "result",
+            "$x \\le \\frac{2}{3}$, o sea $\\left(-\\infty,\\ \\dfrac{2}{3}\\right]$. Verificación: con $x = \\frac{2}{3}$: $2 - \\frac{1}{3} = \\frac{5}{3}$ y $\\frac{5}{2} \\cdot \\frac{2}{3} = \\frac{5}{3}$ ✓ (frontera incluida); con $x = 1$: $\\frac{8}{3} \\not\\le \\frac{5}{2}$ ✗.",
+            "$x \\le \\frac{2}{3}$, i.e. $\\left(-\\infty,\\ \\dfrac{2}{3}\\right]$. Check: at $x = \\frac{2}{3}$: $2 - \\frac{1}{3} = \\frac{5}{3}$ and $\\frac{5}{2} \\cdot \\frac{2}{3} = \\frac{5}{3}$ ✓ (boundary included); at $x = 1$: $\\frac{8}{3} \\not\\le \\frac{5}{2}$ ✗.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* UEES S5 · 29 — (2/3)r < (5/6)r → r > 0, (0,∞). Trampa: incluir el 0. */
+  template(
+    {
+      id: "des-uees-29",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "inequalities",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["inequality", "fractions", "sign-analysis", "interval-notation"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "5 · 29",
+        page: 6,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$(0,\\ \\infty)$", "$(0,\\ \\infty)$"), correct: true },
+        { id: "b", text: L("$[0,\\ \\infty)$", "$[0,\\ \\infty)$"), correct: false },
+        { id: "c", text: L("$(-\\infty,\\ 0)$", "$(-\\infty,\\ 0)$"), correct: false },
+        { id: "d", text: L("$\\varnothing$", "$\\varnothing$"), correct: false },
+      ];
+      return {
+        skill: L("Misma variable en los dos lados: el signo manda", "Same variable on both sides: the sign rules"),
+        statement: L(
+          "Resuelva la desigualdad y escoja el intervalo solución:\n\n$$\\frac{2}{3}r < \\frac{5}{6}r$$",
+          "Solve the inequality and choose the solution interval:\n\n$$\\frac{2}{3}r < \\frac{5}{6}r$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Multiplica por $6 > 0$: queda $4r < 5r$.",
+            "Multiply by $6 > 0$: you get $4r < 5r$.",
+          ),
+          L(
+            "Pasa restando: $0 < r$. No dividas entre $r$ sin pensar en su signo.",
+            "Move it across by subtracting: $0 < r$. Do not divide by $r$ without thinking about its sign.",
+          ),
+          L(
+            "Con $r = 0$ ambos lados valen $0$ (empate): el cero NO entra.",
+            "At $r = 0$ both sides equal $0$ (a tie): zero does NOT enter.",
+          ),
+        ],
+        answerDisplay: L("$r > 0$, es decir $(0,\\ \\infty)$", "$r > 0$, i.e. $(0,\\ \\infty)$"),
+        solution: [
+          step(
+            "given",
+            "La desigualdad $\\frac{2}{3}r < \\frac{5}{6}r$.",
+            "The inequality $\\frac{2}{3}r < \\frac{5}{6}r$.",
+          ),
+          step(
+            "approach",
+            "Multiplicar por el mcm y agrupar TODO en un lado (nunca dividir entre $r$: su signo es desconocido).",
+            "Multiply by the lcm and collect EVERYTHING on one side (never divide by $r$: its sign is unknown).",
+          ),
+          step(
+            "calculation",
+            "$6 \\cdot \\frac{2}{3}r < 6 \\cdot \\frac{5}{6}r \\Rightarrow 4r < 5r$<br>$4r - 5r < 0 \\Rightarrow -r < 0 \\Rightarrow r > 0$ (invirtiendo al multiplicar por $-1$)",
+            "$6 \\cdot \\frac{2}{3}r < 6 \\cdot \\frac{5}{6}r \\Rightarrow 4r < 5r$<br>$4r - 5r < 0 \\Rightarrow -r < 0 \\Rightarrow r > 0$ (flipping when multiplying by $-1$)",
+          ),
+          step(
+            "result",
+            "$r > 0$, o sea $(0,\\ \\infty)$. Verificación: con $r = 1$: $\\frac{2}{3} < \\frac{5}{6}$ ✓; con $r = 0$: $0 < 0$ falso (el cero NO entra) ✗; con $r = -1$: $-\\frac{2}{3} \\not< -\\frac{5}{6}$ ✗.",
+            "$r > 0$, i.e. $(0,\\ \\infty)$. Check: at $r = 1$: $\\frac{2}{3} < \\frac{5}{6}$ ✓; at $r = 0$: $0 < 0$ is false (zero does NOT enter) ✗; at $r = -1$: $-\\frac{2}{3} \\not< -\\frac{5}{6}$ ✗.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* UEES S5 · 30 — (7/4)t > −(8/3)t → t > 0, (0,∞). Trampa: incluir el 0. */
+  template(
+    {
+      id: "des-uees-30",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "inequalities",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["inequality", "fractions", "sign-analysis", "interval-notation"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "5 · 30",
+        page: 6,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$(0,\\ \\infty)$", "$(0,\\ \\infty)$"), correct: true },
+        { id: "b", text: L("$[0,\\ \\infty)$", "$[0,\\ \\infty)$"), correct: false },
+        { id: "c", text: L("$(-\\infty,\\ 0]$", "$(-\\infty,\\ 0]$"), correct: false },
+        { id: "d", text: L("$\\varnothing$", "$\\varnothing$"), correct: false },
+      ];
+      return {
+        skill: L("Coeficientes de signos opuestos", "Coefficients with opposite signs"),
+        statement: L(
+          "Resuelva la desigualdad y escoja el intervalo solución:\n\n$$\\frac{7}{4}t > -\\frac{8}{3}t$$",
+          "Solve the inequality and choose the solution interval:\n\n$$\\frac{7}{4}t > -\\frac{8}{3}t$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Multiplica por el mcm $12 > 0$: queda $21t > -32t$.",
+            "Multiply by the lcm $12 > 0$: you get $21t > -32t$.",
+          ),
+          L(
+            "Suma $32t$ en ambos lados: todo queda de un solo lado con coeficiente positivo.",
+            "Add $32t$ to both sides: everything lands on one side with a positive coefficient.",
+          ),
+          L(
+            "Con $t = 0$ ambos lados valen $0$: el empate no cumple el $>$ estricto.",
+            "At $t = 0$ both sides equal $0$: a tie does not satisfy the strict $>$.",
+          ),
+        ],
+        answerDisplay: L("$t > 0$, es decir $(0,\\ \\infty)$", "$t > 0$, i.e. $(0,\\ \\infty)$"),
+        solution: [
+          step(
+            "given",
+            "La desigualdad $\\frac{7}{4}t > -\\frac{8}{3}t$.",
+            "The inequality $\\frac{7}{4}t > -\\frac{8}{3}t$.",
+          ),
+          step(
+            "approach",
+            "Multiplicar por el mcm y agrupar en un solo lado; nunca dividir entre $t$.",
+            "Multiply by the lcm and collect on one side; never divide by $t$.",
+          ),
+          step(
+            "calculation",
+            "$12 \\cdot \\frac{7}{4}t > 12 \\cdot \\left(-\\frac{8}{3}t\\right) \\Rightarrow 21t > -32t$<br>$21t + 32t > 0 \\Rightarrow 53t > 0 \\Rightarrow t > 0$",
+            "$12 \\cdot \\frac{7}{4}t > 12 \\cdot \\left(-\\frac{8}{3}t\\right) \\Rightarrow 21t > -32t$<br>$21t + 32t > 0 \\Rightarrow 53t > 0 \\Rightarrow t > 0$",
+          ),
+          step(
+            "result",
+            "$t > 0$, o sea $(0,\\ \\infty)$. Verificación: con $t = 1$: $\\frac{7}{4} > -\\frac{8}{3}$ ✓; con $t = 0$: $0 > 0$ falso (el cero NO entra) ✗; con $t = -1$: $-\\frac{7}{4} \\not> \\frac{8}{3}$ ✗.",
+            "$t > 0$, i.e. $(0,\\ \\infty)$. Check: at $t = 1$: $\\frac{7}{4} > -\\frac{8}{3}$ ✓; at $t = 0$: $0 > 0$ is false (zero does NOT enter) ✗; at $t = -1$: $-\\frac{7}{4} \\not> \\frac{8}{3}$ ✗.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* UEES S5 · problema 1 — Davis: 20x > 15x + 600000 → más de 120 000
+     unidades (la frontera exacta da utilidad 0). Opciones de texto (sin
+     matemáticas) ES/EN. */
+  template(
+    {
+      id: "des-uees-app-1",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "applications",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["modeling", "inequality", "profit", "word-problem", "money"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "5 · 1",
+        page: 7,
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L("Más de 120 000 unidades", "More than 120,000 units"),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L("Exactamente 120 000 unidades", "Exactly 120,000 units"),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L("120 000 unidades o más", "120,000 units or more"),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L("Menos de 120 000 unidades", "Fewer than 120,000 units"),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L("Utilidad estricta: la frontera exacta no basta", "Strict profit: the exact boundary is not enough"),
+        statement: L(
+          "Utilidad. La compañía Davis fabrica un producto que tiene un precio unitario de venta de $\\text{\\textdollar}20$ y costo unitario de $\\text{\\textdollar}15$. Si los costos fijos son de $\\text{\\textdollar}600\\,000$, determine el número mínimo de unidades que deben venderse para que la compañía obtenga utilidades.",
+          "Profit. The Davis company manufactures a product with a unit selling price of $\\text{\\textdollar}20$ and a unit cost of $\\text{\\textdollar}15$. If the fixed costs are $\\text{\\textdollar}600,\\!000$, determine the minimum number of units that must be sold for the company to make a profit.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "«Obtener utilidades» es estricto: ingreso $>$ costo total. Con $x$ unidades: $20x > 15x + 600\\,000$.",
+            "«To make a profit» is strict: revenue $>$ total cost. With $x$ units: $20x > 15x + 600,\\!000$.",
+          ),
+          L(
+            "Cada unidad aporta $20 - 15 = 5$ dólares para cubrir los costos fijos.",
+            "Each unit contributes $20 - 15 = 5$ dollars toward the fixed costs.",
+          ),
+          L(
+            "La frontera está en $20x = 15x + 600\\,000$: resuélvela y decide después si esa cantidad exacta ya produce utilidad o no.",
+            "The boundary lies at $20x = 15x + 600,\\!000$: solve it and then decide whether that exact amount already yields a profit.",
+          ),
+        ],
+        answerDisplay: L(
+          "Más de 120 000 unidades ($x > 120\\,000$)",
+          "More than 120,000 units ($x > 120,\\!000$)",
+        ),
+        solution: [
+          step(
+            "given",
+            "Precio $\\text{\\textdollar}20$/unidad; costo variable $\\text{\\textdollar}15$/unidad; costos fijos $\\text{\\textdollar}600\\,000$; se pide utilidad (estricta).",
+            "Price $\\text{\\textdollar}20$/unit; variable cost $\\text{\\textdollar}15$/unit; fixed costs $\\text{\\textdollar}600,\\!000$; a (strict) profit is required.",
+          ),
+          step(
+            "approach",
+            "Plantear la inecuación estricta de utilidad y estudiar la frontera con cuidado.",
+            "Set up the strict profit inequality and examine the boundary carefully.",
+          ),
+          step(
+            "calculation",
+            "$20x > 15x + 600\\,000$<br>$5x > 600\\,000 \\Rightarrow x > 120\\,000$<br>Control en la frontera $x = 120\\,000$: $20 \\cdot 120\\,000 = 2\\,400\\,000$ y $15 \\cdot 120\\,000 + 600\\,000 = 2\\,400\\,000$: utilidad $= 0$ (NO es utilidad) ✗",
+            "$20x > 15x + 600,\\!000$<br>$5x > 600,\\!000 \\Rightarrow x > 120,\\!000$<br>Check at the boundary $x = 120,\\!000$: $20 \\cdot 120,\\!000 = 2,\\!400,\\!000$ and $15 \\cdot 120,\\!000 + 600,\\!000 = 2,\\!400,\\!000$: profit $= 0$ (NOT a profit) ✗",
+          ),
+          step(
+            "result",
+            "Se necesitan **más de 120 000 unidades**: con $x = 120\\,001$ la utilidad es $5$ dólares ✓; con $120\\,000$ exactas la utilidad es $0$ ✗ (por eso «120 000 o más» también es incorrecto); y con menos, hay pérdida ✗.",
+            "It takes **more than 120,000 units**: at $x = 120,\\!001$ the profit is $5$ dollars ✓; at exactly $120,\\!000$ the profit is $0$ ✗ (that is why «120,000 or more» is also wrong); and below that, there is a loss ✗.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* UEES S5 · problema 2 — 7.40x > 6.50x + 5000 → x > 5555,5… → al menos
+     5556 unidades enteras (5555 pierde 0,50). */
+  template(
+    {
+      id: "des-uees-app-2",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "applications",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["modeling", "inequality", "profit", "word-problem", "money"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "5 · 2",
+        page: 7,
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L("Al menos 5556 unidades", "At least 5556 units"),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L("Exactamente 5555 unidades", "Exactly 5555 units"),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L("5555 unidades o más", "5555 units or more"),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L("Menos de 5556 unidades", "Fewer than 5556 units"),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L("Costo unitario compuesto y unidades enteras", "Composite unit cost and whole units"),
+        statement: L(
+          "Utilidad. Para producir una unidad de un producto nuevo, una compañía determina que el costo del material es de $\\text{\\textdollar}2{,}50$ y el de mano de obra $\\text{\\textdollar}4$. El gasto general constante, sin importar el volumen de ventas, es de $\\text{\\textdollar}5000$. Si el precio para un mayorista es de $\\text{\\textdollar}7{,}40$ por unidad, determine el número mínimo de unidades que deben venderse para que la compañía obtenga utilidades.",
+          "Profit. To produce one unit of a new product, a company determines that the cost of material is $\\text{\\textdollar}2.50$ and labor $\\text{\\textdollar}4$. The constant overhead, regardless of sales volume, is $\\text{\\textdollar}5000$. If the price for a wholesaler is $\\text{\\textdollar}7.40$ per unit, determine the minimum number of units that must be sold for the company to make a profit.",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Costo variable TOTAL por unidad: material $+$ mano de obra $= 2{,}50 + 4 = 6{,}50$ dólares.",
+            "TOTAL variable cost per unit: material $+$ labor $= 2.50 + 4 = 6.50$ dollars.",
+          ),
+          L(
+            "La utilidad exige $7{,}40x > 6{,}50x + 5000$: cada unidad aporta $0{,}90$ dólares.",
+            "Profit demands $7.40x > 6.50x + 5000$: each unit contributes $0.90$ dollars.",
+          ),
+          L(
+            "La frontera está en $0{,}90x = 5000$: resuélvela y decide cuántas unidades enteras hacen falta.",
+            "The boundary lies at $0.90x = 5000$: solve it and decide how many whole units are needed.",
+          ),
+        ],
+        answerDisplay: L(
+          "Al menos 5556 unidades ($x > 5555{,}5\\ldots$)",
+          "At least 5556 units ($x > 5555.5\\ldots$)",
+        ),
+        solution: [
+          step(
+            "given",
+            "Material $\\text{\\textdollar}2{,}50$ + mano de obra $\\text{\\textdollar}4$ por unidad; gasto general fijo $\\text{\\textdollar}5000$; precio al mayorista $\\text{\\textdollar}7{,}40$.",
+            "Material $\\text{\\textdollar}2.50$ + labor $\\text{\\textdollar}4$ per unit; fixed overhead $\\text{\\textdollar}5000$; wholesaler price $\\text{\\textdollar}7.40$.",
+          ),
+          step(
+            "approach",
+            "Sumar el costo variable unitario, plantear la inecuación estricta y redondear hacia arriba a unidades enteras.",
+            "Add the unit variable cost, set up the strict inequality, and round up to whole units.",
+          ),
+          step(
+            "calculation",
+            "Costo variable unitario: $2{,}50 + 4 = 6{,}50$<br>$7{,}40x > 6{,}50x + 5000 \\Rightarrow 0{,}90x > 5000 \\Rightarrow x > \\frac{5000}{0{,}90} = 5555{,}5\\ldots$<br>Control: con $x = 5555$: ingreso $7{,}40 \\cdot 5555 = 41\\,107$ y costo $6{,}50 \\cdot 5555 + 5000 = 41\\,107{,}50$ (pérdida de $0{,}50$) ✗; con $x = 5556$: $41\\,114{,}40 > 41\\,114$ ✓",
+            "Unit variable cost: $2.50 + 4 = 6.50$<br>$7.40x > 6.50x + 5000 \\Rightarrow 0.90x > 5000 \\Rightarrow x > \\frac{5000}{0.90} = 5555.5\\ldots$<br>Check: at $x = 5555$: revenue $7.40 \\cdot 5555 = 41,\\!107$ and cost $6.50 \\cdot 5555 + 5000 = 41,\\!107.50$ (a $0.50$ loss) ✗; at $x = 5556$: $41,\\!114.40 > 41,\\!114$ ✓",
+          ),
+          step(
+            "result",
+            "Hacen falta **al menos 5556 unidades** (enteras): la cota exacta es $x > 5555{,}5\\ldots$, así que 5555 pierde $\\text{\\textdollar}0{,}50$ ✗ y 5556 ya deja $\\text{\\textdollar}0{,}40$ de utilidad ✓ — «5555 o más» falla porque 5555 misma pierde.",
+            "It takes **at least 5556 (whole) units**: the exact bound is $x > 5555.5\\ldots$, so 5555 loses $\\text{\\textdollar}0.50$ ✗ and 5556 already leaves a $\\text{\\textdollar}0.40$ profit ✓ — «5555 or more» fails because 5555 itself loses.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* UEES S5 · problema 3 — arrendamiento vs compra: 5040 + 0.06m ≤ 4700 +
+     0.08m → m ≥ 17000 (frontera INCLUIDA: con 17000 ambos cuestan 6060). */
+  template(
+    {
+      id: "des-uees-app-3",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "applications",
+      difficulty: "challenge",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["modeling", "inequality", "word-problem", "money"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "5 · 3",
+        page: 7,
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L("Al menos 17 000 millas", "At least 17,000 miles"),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L("Menos de 17 000 millas", "Fewer than 17,000 miles"),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L("Exactamente 17 000 millas", "Exactly 17,000 miles"),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L("A lo más 16 999 millas", "At most 16,999 miles"),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L("Comparar dos planes con costo fijo + costo por milla", "Comparing two plans with fixed cost + cost per mile"),
+        statement: L(
+          "Arrendamiento versus compra. Una mujer de negocios quiere determinar la diferencia entre el costo de poseer un automóvil y el de arrendarlo con opción a compra. Ella puede arrendar un automóvil por $\\text{\\textdollar}420$ al mes (con una base anual). Bajo este plan, el costo por milla (gasolina y aceite) es de $\\text{\\textdollar}0{,}06$. Si compra el automóvil, el gasto fijo anual sería de $\\text{\\textdollar}4700$ y otros costos ascenderían a $\\text{\\textdollar}0{,}08$ por milla. ¿Al menos cuántas millas tendrá que conducir por año para que el arrendamiento no fuese más caro que la compra?",
+          "Leasing versus buying. A businesswoman wants to determine the difference between the cost of owning a car and that of leasing it with an option to buy. She can lease a car for $\\text{\\textdollar}420$ per month (on an annual basis). Under this plan, the cost per mile (gas and oil) is $\\text{\\textdollar}0.06$. If she buys the car, the annual fixed expense would be $\\text{\\textdollar}4700$ and other costs would amount to $\\text{\\textdollar}0.08$ per mile. At least how many miles per year must she drive so that leasing is not more expensive than buying?",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Arrendamiento anual: $420 \\cdot 12 = 5040$ fijos más $0{,}06$ por milla; compra: $4700$ fijos más $0{,}08$ por milla.",
+            "Annual lease: $420 \\cdot 12 = 5040$ fixed plus $0.06$ per mile; buying: $4700$ fixed plus $0.08$ per mile.",
+          ),
+          L(
+            "«Que el arrendamiento NO fuese más caro» pide costo del arrendamiento $\\le$ costo de compra.",
+            "«So that leasing is NOT more expensive» demands lease cost $\\le$ buying cost.",
+          ),
+          L(
+            "La frontera está en $5040 + 0{,}06m = 4700 + 0{,}08m$: resuélvela y fíjate si en ese punto exacto ya se cumple la condición.",
+            "The boundary lies at $5040 + 0.06m = 4700 + 0.08m$: solve it and check whether the condition already holds at that exact point.",
+          ),
+        ],
+        answerDisplay: L(
+          "Al menos 17 000 millas ($m \\ge 17\\,000$)",
+          "At least 17,000 miles ($m \\ge 17,\\!000$)",
+        ),
+        solution: [
+          step(
+            "given",
+            "Arrendamiento: $\\text{\\textdollar}420$/mes (base anual) $+$ $\\text{\\textdollar}0{,}06$/milla; compra: $\\text{\\textdollar}4700$ fijos al año $+$ $\\text{\\textdollar}0{,}08$/milla.",
+            "Lease: $\\text{\\textdollar}420$/month (annual basis) $+$ $\\text{\\textdollar}0.06$/mile; buying: $\\text{\\textdollar}4700$ fixed per year $+$ $\\text{\\textdollar}0.08$/mile.",
+          ),
+          step(
+            "approach",
+            "Escribir el costo anual de cada opción en función de las millas $m$ y plantear que el arrendamiento no sea más caro (comparación no estricta).",
+            "Write each option's annual cost as a function of miles $m$ and require the lease not to be more expensive (a non-strict comparison).",
+          ),
+          step(
+            "calculation",
+            "Arrendamiento: $420 \\cdot 12 + 0{,}06m = 5040 + 0{,}06m$; compra: $4700 + 0{,}08m$<br>$5040 + 0{,}06m \\le 4700 + 0{,}08m$<br>$5040 - 4700 \\le 0{,}08m - 0{,}06m \\Rightarrow 340 \\le 0{,}02m \\Rightarrow m \\ge 17\\,000$",
+            "Lease: $420 \\cdot 12 + 0.06m = 5040 + 0.06m$; buying: $4700 + 0.08m$<br>$5040 + 0.06m \\le 4700 + 0.08m$<br>$5040 - 4700 \\le 0.08m - 0.06m \\Rightarrow 340 \\le 0.02m \\Rightarrow m \\ge 17,\\!000$",
+          ),
+          step(
+            "result",
+            "Debe conducir **al menos 17 000 millas** al año. Verificación: con $m = 17\\,000$: arrendamiento $5040 + 0{,}06 \\cdot 17\\,000 = 6060$ y compra $4700 + 0{,}08 \\cdot 17\\,000 = 6060$ — empatan, y como el arrendamiento NO es más caro, la frontera SÍ cuenta ✓ (por eso aquí «exactamente 17 000» tampoco responde la pregunta: conducir más también sirve); con $m = 16\\,000$: arrendar cuesta $6000 > 5980$ comprar ✗.",
+            "She must drive **at least 17,000 miles** per year. Check: at $m = 17,\\!000$: lease $5040 + 0.06 \\cdot 17,\\!000 = 6060$ and buying $4700 + 0.08 \\cdot 17,\\!000 = 6060$ — they tie, and since the lease is NOT more expensive, the boundary DOES count ✓ (that is why «exactly 17,000» does not answer the question either: driving more also works); at $m = 16,\\!000$: leasing costs $6000 > 5980$ buying ✗.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* UEES S5 · problema 4 — camisetas: 3.50N > 1.7N + 6500 → N > 3611,1 →
+     al menos 3612 unidades enteras (3611 pierde 0,20). */
+  template(
+    {
+      id: "des-uees-app-4",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "applications",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["modeling", "inequality", "profit", "word-problem", "money"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "5 · 4",
+        page: 7,
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L("Al menos 3612 unidades", "At least 3612 units"),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L("Exactamente 3611 unidades", "Exactly 3611 units"),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L("3611 unidades o más", "3611 units or more"),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L("Menos de 3612 unidades", "Fewer than 3612 units"),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L("Costo unitario de dos componentes y redondeo entero", "Two-component unit cost and whole-number rounding"),
+        statement: L(
+          "Fabricación de camisetas. Una fábrica de camisetas produce $N$ camisetas con un costo de mano de obra total de $\\text{\\textdollar}1{,}3N$ y costo total por material de $\\text{\\textdollar}0{,}4N$. Los gastos generales constantes para la planta son de $\\text{\\textdollar}6500$. Si cada camiseta se vende en $\\text{\\textdollar}3{,}50$, ¿cuántas camisetas deben venderse para que la compañía obtenga utilidades?",
+          "T-shirt manufacturing. A T-shirt factory produces $N$ shirts with a total labor cost of $\\text{\\textdollar}1.3N$ and a total material cost of $\\text{\\textdollar}0.4N$. The plant's constant overhead expenses are $\\text{\\textdollar}6500$. If each shirt sells for $\\text{\\textdollar}3.50$, how many shirts must be sold for the company to make a profit?",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Costo variable por camiseta: $1{,}3 + 0{,}4 = 1{,}7$ dólares (mano de obra $+$ material).",
+            "Variable cost per shirt: $1.3 + 0.4 = 1.7$ dollars (labor $+$ material).",
+          ),
+          L(
+            "La utilidad exige $3{,}50N > 1{,}7N + 6500$: cada camiseta aporta $1{,}80$ dólares.",
+            "Profit demands $3.50N > 1.7N + 6500$: each shirt contributes $1.80$ dollars.",
+          ),
+          L(
+            "La frontera está en $1{,}8N = 6500$: resuélvela y decide cuántas camisetas enteras hacen falta.",
+            "The boundary lies at $1.8N = 6500$: solve it and decide how many whole shirts are needed.",
+          ),
+        ],
+        answerDisplay: L(
+          "Al menos 3612 unidades ($N > 3611{,}1\\ldots$)",
+          "At least 3612 units ($N > 3611.1\\ldots$)",
+        ),
+        solution: [
+          step(
+            "given",
+            "Mano de obra $\\text{\\textdollar}1{,}3N$ + material $\\text{\\textdollar}0{,}4N$; gastos generales fijos $\\text{\\textdollar}6500$; precio $\\text{\\textdollar}3{,}50$ por camiseta.",
+            "Labor $\\text{\\textdollar}1.3N$ + material $\\text{\\textdollar}0.4N$; fixed overhead $\\text{\\textdollar}6500$; price $\\text{\\textdollar}3.50$ per shirt.",
+          ),
+          step(
+            "approach",
+            "Unir los costos variables, plantear la inecuación estricta de utilidad y redondear hacia arriba.",
+            "Combine the variable costs, set up the strict profit inequality, and round up.",
+          ),
+          step(
+            "calculation",
+            "Costo variable por camiseta: $1{,}3 + 0{,}4 = 1{,}7$<br>$3{,}50N > 1{,}7N + 6500 \\Rightarrow 1{,}8N > 6500 \\Rightarrow N > \\frac{6500}{1{,}8} = 3611{,}1\\ldots$<br>Control: con $N = 3611$: ingreso $3{,}50 \\cdot 3611 = 12\\,638{,}50$ y costo $1{,}7 \\cdot 3611 + 6500 = 12\\,638{,}70$ (pérdida de $0{,}20$) ✗; con $N = 3612$: $12\\,642 > 12\\,640{,}40$ ✓",
+            "Variable cost per shirt: $1.3 + 0.4 = 1.7$<br>$3.50N > 1.7N + 6500 \\Rightarrow 1.8N > 6500 \\Rightarrow N > \\frac{6500}{1.8} = 3611.1\\ldots$<br>Check: at $N = 3611$: revenue $3.50 \\cdot 3611 = 12,\\!638.50$ and cost $1.7 \\cdot 3611 + 6500 = 12,\\!638.70$ (a $0.20$ loss) ✗; at $N = 3612$: $12,\\!642 > 12,\\!640.40$ ✓",
+          ),
+          step(
+            "result",
+            "Deben venderse **al menos 3612 camisetas**: la cota exacta es $N > 3611{,}1\\ldots$, así que 3611 pierde $\\text{\\textdollar}0{,}20$ ✗ y 3612 ya deja $\\text{\\textdollar}1{,}60$ de utilidad ✓ — «3611 o más» falla porque 3611 misma pierde.",
+            "At least **3612 shirts** must be sold: the exact bound is $N > 3611.1\\ldots$, so 3611 loses $\\text{\\textdollar}0.20$ ✗ and 3612 already leaves a $\\text{\\textdollar}1.60$ profit ✓ — «3611 or more» fails because 3611 itself loses.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* UEES S6 · 21 — |5x−2| = 0 → x = 2/5 (el valor absoluto se anula solo
+     cuando su interior es 0). */
+  template(
+    {
+      id: "abseq-uees-21",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-equations",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 90,
+      tags: ["absolute-value", "equation", "zero-case"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "6 · 21",
+        page: 8,
+      },
+      reasoning: "definition-hunting",
+    },
+    () => ({
+      skill: L("Valor absoluto cero: el interior debe ser cero", "Absolute value zero: the inside must be zero"),
+      statement: L(
+        "Resuelva la ecuación:\n\n$$|5x-2|=0$$\n\n(escriba el resultado como decimal)",
+        "Solve the equation:\n\n$$|5x-2|=0$$\n\n(give your answer as a decimal)",
+      ),
+      answer: { kind: "numeric", value: 0.4, tolerance: { mode: "relative", value: 0.02 } },
+      hints: [
+        L(
+          "Un valor absoluto es $\\ge 0$; la única forma de que valga exactamente $0$ es que su interior valga $0$.",
+          "An absolute value is $\\ge 0$; the only way it equals exactly $0$ is for its inside to be $0$.",
+        ),
+        L(
+          "Plantea $5x - 2 = 0$ (un solo caso: aquí no hay «$\\pm$» que valga).",
+          "Set up $5x - 2 = 0$ (a single case: there is no «$\\pm$» here).",
+        ),
+        L(
+          "Despeja: $5x = 2$; la respuesta es un decimal finito.",
+          "Solve: $5x = 2$; the answer is a terminating decimal.",
+        ),
+      ],
+      answerDisplay: L("$x = \\frac{2}{5} = 0{,}4$", "$x = \\frac{2}{5} = 0.4$"),
+      solution: [
+        step(
+          "given",
+          "La ecuación $|5x-2|=0$.",
+          "The equation $|5x-2|=0$.",
+        ),
+        step(
+          "approach",
+          "Usar la definición: $|A| = 0$ equivale exactamente a $A = 0$ (no hay dos casos).",
+          "Use the definition: $|A| = 0$ is equivalent to exactly $A = 0$ (no two cases).",
+        ),
+        step(
+          "calculation",
+          "$|5x-2| = 0 \\Rightarrow 5x-2 = 0 \\Rightarrow 5x = 2 \\Rightarrow x = \\frac{2}{5}$",
+          "$|5x-2| = 0 \\Rightarrow 5x-2 = 0 \\Rightarrow 5x = 2 \\Rightarrow x = \\frac{2}{5}$",
+        ),
+        step(
+          "result",
+          "$x = \\frac{2}{5} = 0{,}4$. Verificación: $|5 \\cdot 0{,}4 - 2| = |2 - 2| = 0$ ✓.",
+          "$x = \\frac{2}{5} = 0.4$. Check: $|5 \\cdot 0.4 - 2| = |2 - 2| = 0$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* UEES S6 · 24 — |5−3x| = 7 → x ∈ {−2/3, 4}. MC (sin opciones impresas:
+     la hoja trae el ejercicio abierto; distractors construidos: sólo una
+     raíz ×2 y el par con signos cambiados). */
+  template(
+    {
+      id: "abseq-uees-24",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-equations",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["absolute-value", "equation", "two-cases"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "6 · 24",
+        page: 8,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L("$x = -\\dfrac{2}{3}$ o $x = 4$", "$x = -\\dfrac{2}{3}$ or $x = 4$"),
+          correct: true,
+        },
+        { id: "b", text: L("sólo $x = 4$", "only $x = 4$"), correct: false },
+        { id: "c", text: L("sólo $x = -\\dfrac{2}{3}$", "only $x = -\\dfrac{2}{3}$"), correct: false },
+        {
+          id: "d",
+          text: L("$x = \\dfrac{2}{3}$ o $x = -4$", "$x = \\dfrac{2}{3}$ or $x = -4$"),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L("Dos casos del valor absoluto, con signos cuidados", "Two absolute-value cases, with careful signs"),
+        statement: L(
+          "Resuelva la ecuación y escoja la opción correcta:\n\n$$|5-3x|=7$$",
+          "Solve the equation and choose the correct option:\n\n$$|5-3x|=7$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "$|A| = 7$ equivale a $A = 7$ o $A = -7$: aquí $A = 5-3x$.",
+            "$|A| = 7$ is equivalent to $A = 7$ or $A = -7$: here $A = 5-3x$.",
+          ),
+          L(
+            "Caso 1: $5-3x = 7$; caso 2: $5-3x = -7$. Resuelve las dos ecuaciones lineales.",
+            "Case 1: $5-3x = 7$; case 2: $5-3x = -7$. Solve both linear equations.",
+          ),
+          L(
+            "Al despejar con $-3x$ hay que dividir entre $-3$: cuida los signos de las dos raíces.",
+            "Solving with $-3x$ requires dividing by $-3$: watch the signs of both roots.",
+          ),
+        ],
+        answerDisplay: L(
+          "$x = -\\dfrac{2}{3}$ o $x = 4$",
+          "$x = -\\dfrac{2}{3}$ or $x = 4$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La ecuación $|5-3x|=7$.",
+            "The equation $|5-3x|=7$.",
+          ),
+          step(
+            "approach",
+            "Abrir el valor absoluto en los dos casos $5-3x = \\pm 7$ y resolver cada ecuación lineal.",
+            "Open the absolute value into the two cases $5-3x = \\pm 7$ and solve each linear equation.",
+          ),
+          step(
+            "calculation",
+            "Caso 1: $5-3x = 7 \\Rightarrow -3x = 2 \\Rightarrow x = -\\frac{2}{3}$<br>Caso 2: $5-3x = -7 \\Rightarrow -3x = -12 \\Rightarrow x = 4$",
+            "Case 1: $5-3x = 7 \\Rightarrow -3x = 2 \\Rightarrow x = -\\frac{2}{3}$<br>Case 2: $5-3x = -7 \\Rightarrow -3x = -12 \\Rightarrow x = 4$",
+          ),
+          step(
+            "result",
+            "Las dos soluciones son $x = -\\dfrac{2}{3}$ y $x = 4$. Verificación: $\\left|5 - 3\\left(-\\frac{2}{3}\\right)\\right| = |5+2| = 7$ ✓ y $|5 - 3 \\cdot 4| = |5-12| = |-7| = 7$ ✓. El distractor con signos cambiados falla: $\\left|5 - 3 \\cdot \\frac{2}{3}\\right| = |3| = 3 \\ne 7$ ✗.",
+            "The two solutions are $x = -\\dfrac{2}{3}$ and $x = 4$. Check: $\\left|5 - 3\\left(-\\frac{2}{3}\\right)\\right| = |5+2| = 7$ ✓ and $|5 - 3 \\cdot 4| = |5-12| = |-7| = 7$ ✓. The sign-swapped distractor fails: $\\left|5 - 3 \\cdot \\frac{2}{3}\\right| = |3| = 3 \\ne 7$ ✗.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* UEES S6 · 26 — |−x| < 3 → (−3,3), pues |−x| = |x|. Trampa: cerrar los
+     extremos; el complemento; el vacío. */
+  template(
+    {
+      id: "absdes-uees-26",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-inequalities",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 120,
+      tags: ["absolute-value", "inequality", "interval-notation"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "6 · 26",
+        page: 8,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$(-3,\\ 3)$", "$(-3,\\ 3)$"), correct: true },
+        { id: "b", text: L("$[-3,\\ 3]$", "$[-3,\\ 3]$"), correct: false },
+        {
+          id: "c",
+          text: L(
+            "$(-\\infty,\\ -3) \\cup (3,\\ \\infty)$",
+            "$(-\\infty,\\ -3) \\cup (3,\\ \\infty)$",
+          ),
+          correct: false,
+        },
+        { id: "d", text: L("$\\varnothing$", "$\\varnothing$"), correct: false },
+      ];
+      return {
+        skill: L("|−x| = |x|: el signo dentro no importa", "|−x| = |x|: the sign inside does not matter"),
+        statement: L(
+          "Resuelva la desigualdad y escoja el intervalo solución:\n\n$$|-x|<3$$",
+          "Solve the inequality and choose the solution interval:\n\n$$|-x|<3$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Primero simplifica: $|-x| = |x|$ (el valor absoluto ignora el signo).",
+            "Simplify first: $|-x| = |x|$ (the absolute value ignores the sign).",
+          ),
+          L(
+            "$|x| < 3$ equivale a $-3 < x < 3$: la desigualdad «menor que» con barras da un intervalo acotado.",
+            "$|x| < 3$ is equivalent to $-3 < x < 3$: the «less than» inequality with bars gives a bounded interval.",
+          ),
+          L(
+            "El signo es estricto $<$: con $x = \\pm 3$ el lado izquierdo vale $3$, que NO es menor que $3$.",
+            "The sign is strict $<$: at $x = \\pm 3$ the left side equals $3$, which is NOT less than $3$.",
+          ),
+        ],
+        answerDisplay: L("$-3 < x < 3$, es decir $(-3,\\ 3)$", "$-3 < x < 3$, i.e. $(-3,\\ 3)$"),
+        solution: [
+          step(
+            "given",
+            "La desigualdad $|-x|<3$.",
+            "The inequality $|-x|<3$.",
+          ),
+          step(
+            "approach",
+            "Aplicar la propiedad $|-x| = |x|$ y luego la regla del «menor que» para valor absoluto.",
+            "Apply the property $|-x| = |x|$ and then the «less than» rule for absolute values.",
+          ),
+          step(
+            "calculation",
+            "$|-x| = |x|$, así que $|x| < 3$<br>$|x| < 3 \\Rightarrow -3 < x < 3$",
+            "$|-x| = |x|$, so $|x| < 3$<br>$|x| < 3 \\Rightarrow -3 < x < 3$",
+          ),
+          step(
+            "result",
+            "$-3 < x < 3$, o sea $(-3,\\ 3)$, abierto porque el signo es estricto. Verificación: $x = 2{,}9$: $|-2{,}9| = 2{,}9 < 3$ ✓; $x = 3$: $|-3| = 3 \\not< 3$ ✗ (por eso el corchete de $[-3, 3]$ está mal); $x = 4$: $4 \\not< 3$ ✗.",
+            "$-3 < x < 3$, i.e. $(-3,\\ 3)$, open because the sign is strict. Check: $x = 2.9$: $|-2.9| = 2.9 < 3$ ✓; $x = 3$: $|-3| = 3 \\not< 3$ ✗ (that is why the brackets in $[-3, 3]$ are wrong); $x = 4$: $4 \\not< 3$ ✗.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* UEES S6 · 29 — |x+7| < 3 → (−10,−4). Trampa: no trasladar el centro
+     (−7,3); cerrar extremos; tomar el complemento. */
+  template(
+    {
+      id: "absdes-uees-29",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-inequalities",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 120,
+      tags: ["absolute-value", "inequality", "interval-notation"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "6 · 29",
+        page: 8,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$(-10,\\ -4)$", "$(-10,\\ -4)$"), correct: true },
+        { id: "b", text: L("$[-10,\\ -4]$", "$[-10,\\ -4]$"), correct: false },
+        {
+          id: "c",
+          text: L(
+            "$(-\\infty,\\ -10) \\cup (-4,\\ \\infty)$",
+            "$(-\\infty,\\ -10) \\cup (-4,\\ \\infty)$",
+          ),
+          correct: false,
+        },
+        { id: "d", text: L("$(-7,\\ 3)$", "$(-7,\\ 3)$"), correct: false },
+      ];
+      return {
+        skill: L("Valor absoluto «menor que»: intervalo centrado", "Absolute value «less than»: a centered interval"),
+        statement: L(
+          "Resuelva la desigualdad y escoja el intervalo solución:\n\n$$|x+7|<3$$",
+          "Solve the inequality and choose the solution interval:\n\n$$|x+7|<3$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "$|x+7| < 3$ equivale a $-3 < x+7 < 3$: el centro del intervalo es $-7$, no $0$.",
+            "$|x+7| < 3$ is equivalent to $-3 < x+7 < 3$: the interval's center is $-7$, not $0$.",
+          ),
+          L(
+            "Resta $7$ en las tres partes de la doble desigualdad.",
+            "Subtract $7$ from all three parts of the double inequality.",
+          ),
+          L(
+            "Los extremos quedan a distancia $3$ del centro $-7$: calcula $-7-3$ y $-7+3$.",
+            "The endpoints sit at distance $3$ from the center $-7$: compute $-7-3$ and $-7+3$.",
+          ),
+        ],
+        answerDisplay: L("$-10 < x < -4$, es decir $(-10,\\ -4)$", "$-10 < x < -4$, i.e. $(-10,\\ -4)$"),
+        solution: [
+          step(
+            "given",
+            "La desigualdad $|x+7|<3$.",
+            "The inequality $|x+7|<3$.",
+          ),
+          step(
+            "approach",
+            "Abrir la barra con la regla del «menor que» (doble desigualdad) y trasladar el centro.",
+            "Open the bar with the «less than» rule (double inequality) and shift the center.",
+          ),
+          step(
+            "calculation",
+            "$|x+7| < 3 \\Rightarrow -3 < x+7 < 3$<br>Restando $7$: $-3-7 < x < 3-7 \\Rightarrow -10 < x < -4$",
+            "$|x+7| < 3 \\Rightarrow -3 < x+7 < 3$<br>Subtracting $7$: $-3-7 < x < 3-7 \\Rightarrow -10 < x < -4$",
+          ),
+          step(
+            "result",
+            "$-10 < x < -4$, o sea $(-10,\\ -4)$, abierto por el signo estricto. Verificación: $x = -7$ (el centro): $|0| = 0 < 3$ ✓; $x = -10$: $|-3| = 3 \\not< 3$ ✗ (extremos fuera); $x = 0$: $|7| \\not< 3$ ✗ (el distractor $(-7, 3)$ ni siquiera contiene al centro correcto).",
+            "$-10 < x < -4$, i.e. $(-10,\\ -4)$, open due to the strict sign. Check: $x = -7$ (the center): $|0| = 0 < 3$ ✓; $x = -10$: $|-3| = 3 \\not< 3$ ✗ (endpoints out); $x = 0$: $|7| \\not< 3$ ✗ (the distractor $(-7, 3)$ does not even contain the correct center).",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* UEES S6 · 32 — |1−3x| > 2 → (−∞,−1/3)∪(1,∞). Hint 3: la unión, no la
+     intersección. */
+  template(
+    {
+      id: "absdes-uees-32",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-inequalities",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 180,
+      tags: ["absolute-value", "inequality", "union", "interval-notation"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "6 · 32",
+        page: 8,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(
+            "$\\left(-\\infty,\\ -\\dfrac{1}{3}\\right) \\cup (1,\\ \\infty)$",
+            "$\\left(-\\infty,\\ -\\dfrac{1}{3}\\right) \\cup (1,\\ \\infty)$",
+          ),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L(
+            "$\\left(-\\infty,\\ -\\dfrac{1}{3}\\right] \\cup [1,\\ \\infty)$",
+            "$\\left(-\\infty,\\ -\\dfrac{1}{3}\\right] \\cup [1,\\ \\infty)$",
+          ),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L("$\\left(\\dfrac{1}{3},\\ 1\\right)$", "$\\left(\\dfrac{1}{3},\\ 1\\right)$"),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L(
+            "$(-\\infty,\\ -1) \\cup \\left(\\dfrac{1}{3},\\ \\infty\\right)$",
+            "$(-\\infty,\\ -1) \\cup \\left(\\dfrac{1}{3},\\ \\infty\\right)$",
+          ),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L("Valor absoluto «mayor que»: dos rayos", "Absolute value «greater than»: two rays"),
+        statement: L(
+          "Resuelva la desigualdad y escoja el intervalo solución:\n\n$$|1-3x|>2$$",
+          "Solve the inequality and choose the solution interval:\n\n$$|1-3x|>2$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "$|A| > 2$ equivale a $A > 2$ **o** $A < -2$: la «o» produce dos rayos separados.",
+            "$|A| > 2$ is equivalent to $A > 2$ **or** $A < -2$: the «or» produces two separate rays.",
+          ),
+          L(
+            "Caso 1: $1-3x > 2 \\Rightarrow -3x > 1$; caso 2: $1-3x < -2 \\Rightarrow -3x < -3$. Al dividir entre $-3$, invierte cada desigualdad.",
+            "Case 1: $1-3x > 2 \\Rightarrow -3x > 1$; case 2: $1-3x < -2 \\Rightarrow -3x < -3$. When dividing by $-3$, flip each inequality.",
+          ),
+          L(
+            "La respuesta es la UNIÓN de los dos rayos, no su intersección (no es un intervalo acotado).",
+            "The answer is the UNION of the two rays, not their intersection (it is not a bounded interval).",
+          ),
+        ],
+        answerDisplay: L(
+          "$x < -\\dfrac{1}{3}$ o $x > 1$, es decir $\\left(-\\infty,\\ -\\dfrac{1}{3}\\right) \\cup (1,\\ \\infty)$",
+          "$x < -\\dfrac{1}{3}$ or $x > 1$, i.e. $\\left(-\\infty,\\ -\\dfrac{1}{3}\\right) \\cup (1,\\ \\infty)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La desigualdad $|1-3x|>2$.",
+            "The inequality $|1-3x|>2$.",
+          ),
+          step(
+            "approach",
+            "Abrir la barra en los dos casos del «mayor que» y resolver cada rama cuidando la división entre $-3$.",
+            "Open the bar into the two «greater than» cases and solve each branch watching the division by $-3$.",
+          ),
+          step(
+            "calculation",
+            "Caso 1: $1-3x > 2 \\Rightarrow -3x > 1 \\Rightarrow x < -\\frac{1}{3}$ (invirtiendo)<br>Caso 2: $1-3x < -2 \\Rightarrow -3x < -3 \\Rightarrow x > 1$ (invirtiendo)<br>Unión: $x < -\\frac{1}{3}$ o $x > 1$",
+            "Case 1: $1-3x > 2 \\Rightarrow -3x > 1 \\Rightarrow x < -\\frac{1}{3}$ (flipping)<br>Case 2: $1-3x < -2 \\Rightarrow -3x < -3 \\Rightarrow x > 1$ (flipping)<br>Union: $x < -\\frac{1}{3}$ or $x > 1$",
+          ),
+          step(
+            "result",
+            "$x < -\\dfrac{1}{3}$ o $x > 1$, o sea $\\left(-\\infty,\\ -\\dfrac{1}{3}\\right) \\cup (1,\\ \\infty)$, abiertos por el signo estricto. Verificación: $x = -1$: $|1+3| = 4 > 2$ ✓; $x = 2$: $|1-6| = 5 > 2$ ✓; $x = 0$ (el hueco): $|1| = 1 \\not> 2$ ✗; $x = -\\frac{1}{3}$ (frontera): $|2| = 2 \\not> 2$ ✗ (por eso los corchetes de la opción cerrada están mal).",
+            "$x < -\\dfrac{1}{3}$ or $x > 1$, i.e. $\\left(-\\infty,\\ -\\dfrac{1}{3}\\right) \\cup (1,\\ \\infty)$, open due to the strict sign. Check: $x = -1$: $|1+3| = 4 > 2$ ✓; $x = 2$: $|1-6| = 5 > 2$ ✓; $x = 0$ (the gap): $|1| = 1 \\not> 2$ ✗; $x = -\\frac{1}{3}$ (boundary): $|2| = 2 \\not> 2$ ✗ (that is why the closed-bracket option is wrong).",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* UEES S6 · 35 — |(3x−8)/2| ≥ 4 → (−∞,0]∪[16/3,∞). El ≥ pide extremos
+     CERRADOS (d1 es la versión abierta: la trampa central del ítem). */
+  template(
+    {
+      id: "absdes-uees-35",
+      subject: "math",
+      topicId: "linear-equations",
+      subtopicId: "abs-inequalities",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 210,
+      tags: ["absolute-value", "inequality", "union", "closed-endpoints", "interval-notation"],
+      prerequisites: ["linear-equations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "6 · 35",
+        page: 8,
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(
+            "$(-\\infty,\\ 0] \\cup \\left[\\dfrac{16}{3},\\ \\infty\\right)$",
+            "$(-\\infty,\\ 0] \\cup \\left[\\dfrac{16}{3},\\ \\infty\\right)$",
+          ),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L(
+            "$(-\\infty,\\ 0) \\cup \\left(\\dfrac{16}{3},\\ \\infty\\right)$",
+            "$(-\\infty,\\ 0) \\cup \\left(\\dfrac{16}{3},\\ \\infty\\right)$",
+          ),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L(
+            "$\\left[0,\\ \\dfrac{16}{3}\\right]$",
+            "$\\left[0,\\ \\dfrac{16}{3}\\right]$",
+          ),
+          correct: false,
+        },
+        { id: "d", text: L("$\\varnothing$", "$\\varnothing$"), correct: false },
+      ];
+      return {
+        skill: L("Barra con fracción y «mayor o igual»: extremos cerrados", "Bar with a fraction and «greater or equal»: closed endpoints"),
+        statement: L(
+          "Resuelva la desigualdad y escoja el intervalo solución:\n\n$$\\left|\\frac{3x-8}{2}\\right| \\ge 4$$",
+          "Solve the inequality and choose the solution interval:\n\n$$\\left|\\frac{3x-8}{2}\\right| \\ge 4$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "$|A| \\ge 4$ equivale a $A \\ge 4$ **o** $A \\le -4$, con $A = \\frac{3x-8}{2}$.",
+            "$|A| \\ge 4$ is equivalent to $A \\ge 4$ **or** $A \\le -4$, with $A = \\frac{3x-8}{2}$.",
+          ),
+          L(
+            "Multiplica cada caso por $2$: $3x-8 \\ge 8$ o $3x-8 \\le -8$; después despeja dividiendo entre $3$.",
+            "Multiply each case by $2$: $3x-8 \\ge 8$ or $3x-8 \\le -8$; then solve by dividing by $3$.",
+          ),
+          L(
+            "Con $\\ge$ los extremos ENTRAN: en $x = 0$ y en $x = \\frac{16}{3}$ la barra vale exactamente $4$, y eso sí cumple.",
+            "With $\\ge$ the endpoints ENTER: at $x = 0$ and at $x = \\frac{16}{3}$ the bar equals exactly $4$, and that does satisfy it.",
+          ),
+        ],
+        answerDisplay: L(
+          "$x \\le 0$ o $x \\ge \\dfrac{16}{3}$, es decir $(-\\infty,\\ 0] \\cup \\left[\\dfrac{16}{3},\\ \\infty\\right)$",
+          "$x \\le 0$ or $x \\ge \\dfrac{16}{3}$, i.e. $(-\\infty,\\ 0] \\cup \\left[\\dfrac{16}{3},\\ \\infty\\right)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La desigualdad $\\left|\\frac{3x-8}{2}\\right| \\ge 4$.",
+            "The inequality $\\left|\\frac{3x-8}{2}\\right| \\ge 4$.",
+          ),
+          step(
+            "approach",
+            "Abrir la barra en los dos casos del «mayor o igual», multiplicar por $2$ y despejar; el $\\ge$ exige extremos cerrados.",
+            "Open the bar into the two «greater or equal» cases, multiply by $2$, and solve; the $\\ge$ demands closed endpoints.",
+          ),
+          step(
+            "calculation",
+            "Caso 1: $\\frac{3x-8}{2} \\ge 4 \\Rightarrow 3x-8 \\ge 8 \\Rightarrow 3x \\ge 16 \\Rightarrow x \\ge \\frac{16}{3}$<br>Caso 2: $\\frac{3x-8}{2} \\le -4 \\Rightarrow 3x-8 \\le -8 \\Rightarrow 3x \\le 0 \\Rightarrow x \\le 0$<br>Unión: $x \\le 0$ o $x \\ge \\frac{16}{3}$",
+            "Case 1: $\\frac{3x-8}{2} \\ge 4 \\Rightarrow 3x-8 \\ge 8 \\Rightarrow 3x \\ge 16 \\Rightarrow x \\ge \\frac{16}{3}$<br>Case 2: $\\frac{3x-8}{2} \\le -4 \\Rightarrow 3x-8 \\le -8 \\Rightarrow 3x \\le 0 \\Rightarrow x \\le 0$<br>Union: $x \\le 0$ or $x \\ge \\frac{16}{3}$",
+          ),
+          step(
+            "result",
+            "$x \\le 0$ o $x \\ge \\dfrac{16}{3}$, o sea $(-\\infty,\\ 0] \\cup \\left[\\dfrac{16}{3},\\ \\infty\\right)$ con extremos CERRADOS. Verificación: $x = 0$: $\\left|\\frac{-8}{2}\\right| = 4 \\ge 4$ ✓ (¡entra!); $x = \\frac{16}{3}$: $\\left|\\frac{16-8}{2}\\right| = 4 \\ge 4$ ✓ (¡entra!); $x = 1$ (el hueco): $\\left|\\frac{-5}{2}\\right| = 2{,}5 \\not\\ge 4$ ✗ — por eso la versión abierta de los extremos es el distractor trampa.",
+            "$x \\le 0$ or $x \\ge \\dfrac{16}{3}$, i.e. $(-\\infty,\\ 0] \\cup \\left[\\dfrac{16}{3},\\ \\infty\\right)$ with CLOSED endpoints. Check: $x = 0$: $\\left|\\frac{-8}{2}\\right| = 4 \\ge 4$ ✓ (it enters!); $x = \\frac{16}{3}$: $\\left|\\frac{16-8}{2}\\right| = 4 \\ge 4$ ✓ (it enters!); $x = 1$ (the gap): $\\left|\\frac{-5}{2}\\right| = 2.5 \\not\\ge 4$ ✗ — that is why the open-endpoint version is the trap distractor.",
+          ),
+        ],
+      };
+    },
+  ),
 ];

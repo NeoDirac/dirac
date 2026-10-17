@@ -3818,4 +3818,5042 @@ export const templates: ProblemTemplate[] = [
     }),
   ),
 
+  /* ================================================================== */
+  /* Tarea UEES 1er parcial (tutor Sebastián Calderón, 2026-10-17):      */
+  /* «EJERCICIOS DE REPASO 1ER PARCIAL MATEMATICAS I». Sección 1         */
+  /* «PRODUCTOS NOTABLES» ítems 19-48 (pág. 1) y Sección 2               */
+  /* «FACTORIZACION» ítems 21-52 (pág. 2). La hoja NO tiene clave        */
+  /* impresa: cada respuesta y cada distractor verificados con sympy     */
+  /* (download/verify_repaso1.py, 417 checks + auditoría previa del      */
+  /* autor download/audit_8a_pre.py, 623 checks, 0 FAIL). Distractores   */
+  /* según receta del brief (S1: coeficientes intercambiados / signo /   */
+  /* término faltante; S2: se queda a medias / par erróneo / signo).     */
+  /* ================================================================== */
+
+  /* S1.19 — (x+4)(x+5) = x²+9x+20. Distraen: swap, signo, sin cruzados. */
+  template(
+    {
+      id: "pn-uees-19",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "special-products",
+      difficulty: "easy",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 60,
+      tags: ["special-products", "binomial-product"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "1 · 19",
+        page: 1,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$x^{2} + 9x + 20$", "$x^{2} + 9x + 20$"), correct: true },
+        { id: "b", text: L("$x^{2} + 20x + 9$", "$x^{2} + 20x + 9$"), correct: false },
+        { id: "c", text: L("$x^{2} + 9x - 20$", "$x^{2} + 9x - 20$"), correct: false },
+        { id: "d", text: L("$x^{2} + 20$", "$x^{2} + 20$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Producto de dos binomios con término común",
+          "Product of two binomials with a common term",
+        ),
+        statement: L(
+          "Desarrolle el producto notable:\n\n$$(x+4)(x+5)$$",
+          "Expand the special product:\n\n$$(x+4)(x+5)$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Es el producto de dos binomios con el mismo término $x$: distribuye término a término (FOIL).",
+            "It is a product of two binomials sharing the term $x$: distribute term by term (FOIL).",
+          ),
+          L(
+            "Regla: $(a+b)(c+d) = ac + ad + bc + bd$ — cuatro productos parciales y luego reduces los semejantes.",
+            "Rule: $(a+b)(c+d) = ac + ad + bc + bd$ — four partial products, then combine like terms.",
+          ),
+          L(
+            "Los cuatro productos parciales aquí son $x \\cdot x$, $x \\cdot 5$, $4 \\cdot x$ y $4 \\cdot 5$; los dos del medio son semejantes.",
+            "The four partial products here are $x \\cdot x$, $x \\cdot 5$, $4 \\cdot x$ and $4 \\cdot 5$; the two middle ones are like terms.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(x+4)(x+5) = x^{2} + 9x + 20$",
+          "$(x+4)(x+5) = x^{2} + 9x + 20$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El producto $(x+4)(x+5)$: dos binomios con el término común $x$.",
+            "The product $(x+4)(x+5)$: two binomials with the common term $x$.",
+          ),
+          step(
+            "approach",
+            "Distribuir término a término: cada término del primer binomio multiplica a cada término del segundo; al final se reducen los semejantes.",
+            "Distribute term by term: each term of the first binomial multiplies each term of the second; then combine like terms.",
+          ),
+          step(
+            "calculation",
+            "$(x+4)(x+5) = x \\cdot x + x \\cdot 5 + 4 \\cdot x + 4 \\cdot 5$<br>$= x^{2} + 5x + 4x + 20$<br>$= x^{2} + 9x + 20$",
+            "$(x+4)(x+5) = x \\cdot x + x \\cdot 5 + 4 \\cdot x + 4 \\cdot 5$<br>$= x^{2} + 5x + 4x + 20$<br>$= x^{2} + 9x + 20$",
+          ),
+          step(
+            "result",
+            "$(x+4)(x+5) = x^{2} + 9x + 20$. Control: con $x = 1$: $(1+4)(1+5) = 5 \\cdot 6 = 30$ y $1 + 9 + 20 = 30$ ✓.",
+            "$(x+4)(x+5) = x^{2} + 9x + 20$. Check: at $x = 1$: $(1+4)(1+5) = 5 \\cdot 6 = 30$ and $1 + 9 + 20 = 30$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S1.20 — (u+2)(u+5) = u²+7u+10. */
+  template(
+    {
+      id: "pn-uees-20",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "special-products",
+      difficulty: "easy",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 60,
+      tags: ["special-products", "binomial-product"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "1 · 20",
+        page: 1,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$u^{2} + 7u + 10$", "$u^{2} + 7u + 10$"), correct: true },
+        { id: "b", text: L("$u^{2} + 10u + 7$", "$u^{2} + 10u + 7$"), correct: false },
+        { id: "c", text: L("$u^{2} + 7u - 10$", "$u^{2} + 7u - 10$"), correct: false },
+        { id: "d", text: L("$u^{2} + 10$", "$u^{2} + 10$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Producto de dos binomios con término común",
+          "Product of two binomials with a common term",
+        ),
+        statement: L(
+          "Desarrolle el producto notable:\n\n$$(u+2)(u+5)$$",
+          "Expand the special product:\n\n$$(u+2)(u+5)$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Dos binomios con el mismo término $u$: multiplica término a término.",
+            "Two binomials sharing the term $u$: multiply term by term.",
+          ),
+          L(
+            "$(a+b)(c+d) = ac + ad + bc + bd$; los dos productos «cruzados» ($ad$ y $bc$) dan términos semejantes en $u$.",
+            "$(a+b)(c+d) = ac + ad + bc + bd$; the two cross products ($ad$ and $bc$) give like terms in $u$.",
+          ),
+          L(
+            "Aquí los cruzados son $u \\cdot 5$ y $2 \\cdot u$; los extremos dan $u \\cdot u$ y $2 \\cdot 5$.",
+            "Here the cross products are $u \\cdot 5$ and $2 \\cdot u$; the outer terms give $u \\cdot u$ and $2 \\cdot 5$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(u+2)(u+5) = u^{2} + 7u + 10$",
+          "$(u+2)(u+5) = u^{2} + 7u + 10$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El producto $(u+2)(u+5)$ en la variable $u$.",
+            "The product $(u+2)(u+5)$ in the variable $u$.",
+          ),
+          step(
+            "approach",
+            "Distribución término a término (FOIL) y reducción de semejantes.",
+            "Term-by-term distribution (FOIL) and combining like terms.",
+          ),
+          step(
+            "calculation",
+            "$(u+2)(u+5) = u^{2} + 5u + 2u + 10$<br>$= u^{2} + 7u + 10$",
+            "$(u+2)(u+5) = u^{2} + 5u + 2u + 10$<br>$= u^{2} + 7u + 10$",
+          ),
+          step(
+            "result",
+            "$(u+2)(u+5) = u^{2} + 7u + 10$. Control: con $u = 1$: $(1+2)(1+5) = 3 \\cdot 6 = 18$ y $1 + 7 + 10 = 18$ ✓.",
+            "$(u+2)(u+5) = u^{2} + 7u + 10$. Check: at $u = 1$: $(1+2)(1+5) = 3 \\cdot 6 = 18$ and $1 + 7 + 10 = 18$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S1.21 — (w+2)(w−5) = w²−3w−10. */
+  template(
+    {
+      id: "pn-uees-21",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "special-products",
+      difficulty: "easy",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 60,
+      tags: ["special-products", "binomial-product"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "1 · 21",
+        page: 1,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$w^{2} - 3w - 10$", "$w^{2} - 3w - 10$"), correct: true },
+        { id: "b", text: L("$w^{2} - 10w - 3$", "$w^{2} - 10w - 3$"), correct: false },
+        { id: "c", text: L("$w^{2} - 3w + 10$", "$w^{2} - 3w + 10$"), correct: false },
+        { id: "d", text: L("$w^{2} - 10$", "$w^{2} - 10$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Binomios con signos distintos y término común",
+          "Binomials with opposite signs and a common term",
+        ),
+        statement: L(
+          "Desarrolle el producto notable:\n\n$$(w+2)(w-5)$$",
+          "Expand the special product:\n\n$$(w+2)(w-5)$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Es un binomio por un binomio con signos distintos: el término independiente del resultado será NEGATIVO.",
+            "It is one binomial times another with opposite signs: the constant term of the result will be NEGATIVE.",
+          ),
+          L(
+            "$(a+b)(c-d) = ac - ad + bc - bd$: respeta el signo de cada producto parcial.",
+            "$(a+b)(c-d) = ac - ad + bc - bd$: keep the sign of each partial product.",
+          ),
+          L(
+            "Los cruzados son $w \\cdot (-5) = -5w$ y $2 \\cdot w = 2w$; el producto de los independientes es $2 \\cdot (-5)$.",
+            "The cross products are $w \\cdot (-5) = -5w$ and $2 \\cdot w = 2w$; the product of the constants is $2 \\cdot (-5)$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(w+2)(w-5) = w^{2} - 3w - 10$",
+          "$(w+2)(w-5) = w^{2} - 3w - 10$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El producto $(w+2)(w-5)$: binomios con el término común $w$ y signos distintos.",
+            "The product $(w+2)(w-5)$: binomials with the common term $w$ and opposite signs.",
+          ),
+          step(
+            "approach",
+            "Distribuir respetando los signos: $(+2)(-5)$ queda negativo y los cruzados $-5w + 2w$ se combinan.",
+            "Distribute respecting the signs: $(+2)(-5)$ stays negative and the cross terms $-5w + 2w$ combine.",
+          ),
+          step(
+            "calculation",
+            "$(w+2)(w-5) = w^{2} - 5w + 2w - 10$<br>$= w^{2} - 3w - 10$",
+            "$(w+2)(w-5) = w^{2} - 5w + 2w - 10$<br>$= w^{2} - 3w - 10$",
+          ),
+          step(
+            "result",
+            "$(w+2)(w-5) = w^{2} - 3w - 10$. Control: con $w = 1$: $(1+2)(1-5) = 3 \\cdot (-4) = -12$ y $1 - 3 - 10 = -12$ ✓.",
+            "$(w+2)(w-5) = w^{2} - 3w - 10$. Check: at $w = 1$: $(1+2)(1-5) = 3 \\cdot (-4) = -12$ and $1 - 3 - 10 = -12$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S1.22 — (x−4)(x+7) = x²+3x−28. */
+  template(
+    {
+      id: "pn-uees-22",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "special-products",
+      difficulty: "easy",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 60,
+      tags: ["special-products", "binomial-product"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "1 · 22",
+        page: 1,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$x^{2} + 3x - 28$", "$x^{2} + 3x - 28$"), correct: true },
+        { id: "b", text: L("$x^{2} - 28x + 3$", "$x^{2} - 28x + 3$"), correct: false },
+        { id: "c", text: L("$x^{2} + 3x + 28$", "$x^{2} + 3x + 28$"), correct: false },
+        { id: "d", text: L("$x^{2} - 28$", "$x^{2} - 28$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Binomios con signos distintos y término común",
+          "Binomials with opposite signs and a common term",
+        ),
+        statement: L(
+          "Desarrolle el producto notable:\n\n$$(x-4)(x+7)$$",
+          "Expand the special product:\n\n$$(x-4)(x+7)$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Binomio con resta por binomio con suma: el término independiente del resultado es negativo porque $(-4)(+7) < 0$.",
+            "A subtracting binomial times an adding binomial: the constant term of the result is negative because $(-4)(+7) < 0$.",
+          ),
+          L(
+            "$(a-b)(c+d) = ac + ad - bc - bd$.",
+            "$(a-b)(c+d) = ac + ad - bc - bd$.",
+          ),
+          L(
+            "Los cruzados: $x \\cdot 7 = 7x$ y $(-4) \\cdot x = -4x$; el independiente sale de $(-4) \\cdot 7$.",
+            "The cross products: $x \\cdot 7 = 7x$ and $(-4) \\cdot x = -4x$; the constant comes from $(-4) \\cdot 7$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(x-4)(x+7) = x^{2} + 3x - 28$",
+          "$(x-4)(x+7) = x^{2} + 3x - 28$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El producto $(x-4)(x+7)$, binomios con el término común $x$.",
+            "The product $(x-4)(x+7)$, binomials with the common term $x$.",
+          ),
+          step(
+            "approach",
+            "Distribuir con cuidado de los signos y combinar los dos términos lineales.",
+            "Distribute carefully with the signs and combine the two linear terms.",
+          ),
+          step(
+            "calculation",
+            "$(x-4)(x+7) = x^{2} + 7x - 4x - 28$<br>$= x^{2} + 3x - 28$",
+            "$(x-4)(x+7) = x^{2} + 7x - 4x - 28$<br>$= x^{2} + 3x - 28$",
+          ),
+          step(
+            "result",
+            "$(x-4)(x+7) = x^{2} + 3x - 28$. Control: con $x = 1$: $(1-4)(1+7) = (-3) \\cdot 8 = -24$ y $1 + 3 - 28 = -24$ ✓.",
+            "$(x-4)(x+7) = x^{2} + 3x - 28$. Check: at $x = 1$: $(1-4)(1+7) = (-3) \\cdot 8 = -24$ and $1 + 3 - 28 = -24$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S1.23 — (2x+3)(5x+2) = 10x²+19x+6. */
+  template(
+    {
+      id: "pn-uees-23",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "special-products",
+      difficulty: "easy",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 75,
+      tags: ["special-products", "binomial-product", "foil"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "1 · 23",
+        page: 1,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$10x^{2} + 19x + 6$", "$10x^{2} + 19x + 6$"), correct: true },
+        { id: "b", text: L("$10x^{2} + 6x + 19$", "$10x^{2} + 6x + 19$"), correct: false },
+        { id: "c", text: L("$10x^{2} + 19x - 6$", "$10x^{2} + 19x - 6$"), correct: false },
+        { id: "d", text: L("$10x^{2} + 6$", "$10x^{2} + 6$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Binomios con coeficientes en ambos términos (FOIL)",
+          "Binomials with coefficients in both terms (FOIL)",
+        ),
+        statement: L(
+          "Desarrolle el producto notable:\n\n$$(2x+3)(5x+2)$$",
+          "Expand the special product:\n\n$$(2x+3)(5x+2)$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Ningún término es común: usa FOIL (Primeros, Externos, Internos, Últimos) o distribuye los cuatro productos.",
+            "No shared term: use FOIL (First, Outer, Inner, Last) or distribute the four products.",
+          ),
+          L(
+            "$(ax+b)(cx+d) = ac \\cdot x^{2} + (ad+bc) \\, x + bd$: los coeficientes se multiplican cruzados.",
+            "$(ax+b)(cx+d) = ac \\cdot x^{2} + (ad+bc) \\, x + bd$: the coefficients multiply across.",
+          ),
+          L(
+            "Aquí $ac = 2 \\cdot 5$ y $bd = 3 \\cdot 2$; el término central junta $2x \\cdot 2$ con $3 \\cdot 5x$.",
+            "Here $ac = 2 \\cdot 5$ and $bd = 3 \\cdot 2$; the middle term joins $2x \\cdot 2$ with $3 \\cdot 5x$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(2x+3)(5x+2) = 10x^{2} + 19x + 6$",
+          "$(2x+3)(5x+2) = 10x^{2} + 19x + 6$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El producto $(2x+3)(5x+2)$: ambos binomios tienen coeficiente numérico.",
+            "The product $(2x+3)(5x+2)$: both binomials carry a numeric coefficient.",
+          ),
+          step(
+            "approach",
+            "Distribuir los cuatro productos parciales (FOIL) y reducir los semejantes en $x$.",
+            "Distribute the four partial products (FOIL) and combine the like terms in $x$.",
+          ),
+          step(
+            "calculation",
+            "$(2x+3)(5x+2) = 10x^{2} + 4x + 15x + 6$<br>$= 10x^{2} + 19x + 6$",
+            "$(2x+3)(5x+2) = 10x^{2} + 4x + 15x + 6$<br>$= 10x^{2} + 19x + 6$",
+          ),
+          step(
+            "result",
+            "$(2x+3)(5x+2) = 10x^{2} + 19x + 6$. Control: con $x = 1$: $(2+3)(5+2) = 5 \\cdot 7 = 35$ y $10 + 19 + 6 = 35$ ✓.",
+            "$(2x+3)(5x+2) = 10x^{2} + 19x + 6$. Check: at $x = 1$: $(2+3)(5+2) = 5 \\cdot 7 = 35$ and $10 + 19 + 6 = 35$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S1.24 — (t−5)(2t+7) = 2t²−3t−35. */
+  template(
+    {
+      id: "pn-uees-24",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "special-products",
+      difficulty: "easy",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 75,
+      tags: ["special-products", "binomial-product", "foil"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "1 · 24",
+        page: 1,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$2t^{2} - 3t - 35$", "$2t^{2} - 3t - 35$"), correct: true },
+        { id: "b", text: L("$2t^{2} - 35t - 3$", "$2t^{2} - 35t - 3$"), correct: false },
+        { id: "c", text: L("$2t^{2} - 3t + 35$", "$2t^{2} - 3t + 35$"), correct: false },
+        { id: "d", text: L("$2t^{2} - 35$", "$2t^{2} - 35$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Binomios con coeficientes y signos mixtos (FOIL)",
+          "Binomials with coefficients and mixed signs (FOIL)",
+        ),
+        statement: L(
+          "Desarrolle el producto notable:\n\n$$(t-5)(2t+7)$$",
+          "Expand the special product:\n\n$$(t-5)(2t+7)$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "FOIL con signos mixtos: el término independiente sale de $(-5)(+7)$ y es negativo.",
+            "FOIL with mixed signs: the constant term comes from $(-5)(+7)$ and is negative.",
+          ),
+          L(
+            "$(ax+b)(cx+d) = ac \\cdot x^{2} + (ad+bc) \\, x + bd$, con $b = -5$ aquí.",
+            "$(ax+b)(cx+d) = ac \\cdot x^{2} + (ad+bc) \\, x + bd$, with $b = -5$ here.",
+          ),
+          L(
+            "El central junta $t \\cdot 7 = 7t$ con $(-5) \\cdot 2t = -10t$; el cuadrático es $t \\cdot 2t$.",
+            "The middle term joins $t \\cdot 7 = 7t$ with $(-5) \\cdot 2t = -10t$; the quadratic one is $t \\cdot 2t$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(t-5)(2t+7) = 2t^{2} - 3t - 35$",
+          "$(t-5)(2t+7) = 2t^{2} - 3t - 35$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El producto $(t-5)(2t+7)$: coeficientes y signos mixtos.",
+            "The product $(t-5)(2t+7)$: mixed coefficients and signs.",
+          ),
+          step(
+            "approach",
+            "Distribuir los cuatro productos con FOIL cuidando los signos, y reducir los términos en $t$.",
+            "Distribute the four FOIL products watching the signs, and combine the $t$ terms.",
+          ),
+          step(
+            "calculation",
+            "$(t-5)(2t+7) = 2t^{2} + 7t - 10t - 35$<br>$= 2t^{2} - 3t - 35$",
+            "$(t-5)(2t+7) = 2t^{2} + 7t - 10t - 35$<br>$= 2t^{2} - 3t - 35$",
+          ),
+          step(
+            "result",
+            "$(t-5)(2t+7) = 2t^{2} - 3t - 35$. Control: con $t = 1$: $(1-5)(2+7) = (-4) \\cdot 9 = -36$ y $2 - 3 - 35 = -36$ ✓.",
+            "$(t-5)(2t+7) = 2t^{2} - 3t - 35$. Check: at $t = 1$: $(1-5)(2+7) = (-4) \\cdot 9 = -36$ and $2 - 3 - 35 = -36$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S1.25 — (X+2Y)² = X²+4XY+4Y². */
+  template(
+    {
+      id: "pn-uees-25",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "special-products",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 90,
+      tags: ["special-products", "perfect-square"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "1 · 25",
+        page: 1,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$X^{2} + 4XY + 4Y^{2}$", "$X^{2} + 4XY + 4Y^{2}$"), correct: true },
+        { id: "b", text: L("$X^{2} + 2XY + 4Y^{2}$", "$X^{2} + 2XY + 4Y^{2}$"), correct: false },
+        { id: "c", text: L("$X^{2} + 4XY - 4Y^{2}$", "$X^{2} + 4XY - 4Y^{2}$"), correct: false },
+        { id: "d", text: L("$X^{2} + 4Y^{2}$", "$X^{2} + 4Y^{2}$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Binomio al cuadrado con dos variables",
+          "Squaring a binomial in two variables",
+        ),
+        statement: L(
+          "Desarrolle el producto notable:\n\n$$(X+2Y)^{2}$$",
+          "Expand the special product:\n\n$$(X+2Y)^{2}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Es un binomio al cuadrado (producto notable): usa la identidad, no multipliques a ciegas.",
+            "It is a squared binomial (special product): use the identity, do not multiply blindly.",
+          ),
+          L(
+            "$(a+b)^{2} = a^{2} + 2ab + b^{2}$.",
+            "$(a+b)^{2} = a^{2} + 2ab + b^{2}$.",
+          ),
+          L(
+            "Aquí $a = X$ y $b = 2Y$: el término central es el doble producto $2 \\cdot X \\cdot 2Y = 4XY$.",
+            "Here $a = X$ and $b = 2Y$: the middle term is the double product $2 \\cdot X \\cdot 2Y = 4XY$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(X+2Y)^{2} = X^{2} + 4XY + 4Y^{2}$",
+          "$(X+2Y)^{2} = X^{2} + 4XY + 4Y^{2}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El cuadrado del binomio $(X+2Y)^{2}$ en las variables $X$ e $Y$.",
+            "The square of the binomial $(X+2Y)^{2}$ in the variables $X$ and $Y$.",
+          ),
+          step(
+            "approach",
+            "Identidad del cuadrado de un binomio con $a = X$ y $b = 2Y$: cuadrado del primero, doble producto, cuadrado del segundo.",
+            "Squared-binomial identity with $a = X$ and $b = 2Y$: square of the first, double product, square of the second.",
+          ),
+          step(
+            "calculation",
+            "$(X+2Y)^{2} = X^{2} + 2 \\cdot X \\cdot 2Y + (2Y)^{2}$<br>$= X^{2} + 4XY + 4Y^{2}$",
+            "$(X+2Y)^{2} = X^{2} + 2 \\cdot X \\cdot 2Y + (2Y)^{2}$<br>$= X^{2} + 4XY + 4Y^{2}$",
+          ),
+          step(
+            "result",
+            "$(X+2Y)^{2} = X^{2} + 4XY + 4Y^{2}$. Control: con $X = 1$, $Y = 1$: $(1+2)^{2} = 9$ y $1 + 4 + 4 = 9$ ✓.",
+            "$(X+2Y)^{2} = X^{2} + 4XY + 4Y^{2}$. Check: at $X = 1$, $Y = 1$: $(1+2)^{2} = 9$ and $1 + 4 + 4 = 9$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S1.26 — (2x−1)² = 4x²−4x+1. */
+  template(
+    {
+      id: "pn-uees-26",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "special-products",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 90,
+      tags: ["special-products", "perfect-square"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "1 · 26",
+        page: 1,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$4x^{2} - 4x + 1$", "$4x^{2} - 4x + 1$"), correct: true },
+        { id: "b", text: L("$4x^{2} - 2x + 1$", "$4x^{2} - 2x + 1$"), correct: false },
+        { id: "c", text: L("$4x^{2} + 4x + 1$", "$4x^{2} + 4x + 1$"), correct: false },
+        { id: "d", text: L("$4x^{2} + 1$", "$4x^{2} + 1$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Binomio al cuadrado con coeficiente y resta",
+          "Squaring a binomial with a coefficient and a subtraction",
+        ),
+        statement: L(
+          "Desarrolle el producto notable:\n\n$$(2x-1)^{2}$$",
+          "Expand the special product:\n\n$$(2x-1)^{2}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Binomio al cuadrado: NO distribuyas el exponente solo a cada término; hay un doble producto escondido.",
+            "Squared binomial: do NOT distribute the exponent onto each term; there is a hidden double product.",
+          ),
+          L(
+            "$(a-b)^{2} = a^{2} - 2ab + b^{2}$.",
+            "$(a-b)^{2} = a^{2} - 2ab + b^{2}$.",
+          ),
+          L(
+            "Aquí $a = 2x$ y $b = 1$: el doble producto es $2 \\cdot 2x \\cdot 1 = 4x$ (con signo menos).",
+            "Here $a = 2x$ and $b = 1$: the double product is $2 \\cdot 2x \\cdot 1 = 4x$ (with a minus sign).",
+          ),
+        ],
+        answerDisplay: L(
+          "$(2x-1)^{2} = 4x^{2} - 4x + 1$",
+          "$(2x-1)^{2} = 4x^{2} - 4x + 1$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El cuadrado $(2x-1)^{2}$.",
+            "The square $(2x-1)^{2}$.",
+          ),
+          step(
+            "approach",
+            "Identidad del binomio al cuadrado con $a = 2x$, $b = 1$ y resta: $(a-b)^{2} = a^{2} - 2ab + b^{2}$.",
+            "Squared-binomial identity with $a = 2x$, $b = 1$ and a subtraction: $(a-b)^{2} = a^{2} - 2ab + b^{2}$.",
+          ),
+          step(
+            "calculation",
+            "$(2x-1)^{2} = (2x)^{2} - 2 \\cdot 2x \\cdot 1 + 1^{2}$<br>$= 4x^{2} - 4x + 1$",
+            "$(2x-1)^{2} = (2x)^{2} - 2 \\cdot 2x \\cdot 1 + 1^{2}$<br>$= 4x^{2} - 4x + 1$",
+          ),
+          step(
+            "result",
+            "$(2x-1)^{2} = 4x^{2} - 4x + 1$. Control: con $x = 2$: $(4-1)^{2} = 9$ y $16 - 8 + 1 = 9$ ✓.",
+            "$(2x-1)^{2} = 4x^{2} - 4x + 1$. Check: at $x = 2$: $(4-1)^{2} = 9$ and $16 - 8 + 1 = 9$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S1.27 — (7−X)² = X²−14X+49 (orden invertido). */
+  template(
+    {
+      id: "pn-uees-27",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "special-products",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 90,
+      tags: ["special-products", "perfect-square"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "1 · 27",
+        page: 1,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$X^{2} - 14X + 49$", "$X^{2} - 14X + 49$"), correct: true },
+        { id: "b", text: L("$X^{2} - 7X + 49$", "$X^{2} - 7X + 49$"), correct: false },
+        { id: "c", text: L("$X^{2} + 14X + 49$", "$X^{2} + 14X + 49$"), correct: false },
+        { id: "d", text: L("$X^{2} + 49$", "$X^{2} + 49$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Binomio al cuadrado escrito al revés (7−X)",
+          "A squared binomial written backwards (7−X)",
+        ),
+        statement: L(
+          "Desarrolle el producto notable:\n\n$$(7-X)^{2}$$",
+          "Expand the special product:\n\n$$(7-X)^{2}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "El binomio está «al revés» (primero el número): reescríbelo con la variable primero para ver la identidad.",
+            "The binomial is «backwards» (number first): rewrite it with the variable first to see the identity.",
+          ),
+          L(
+            "$(a-b)^{2} = (b-a)^{2}$: el cuadrado de un binomio NO cambia si se intercambian los términos.",
+            "$(a-b)^{2} = (b-a)^{2}$: the square of a binomial does not change if you swap its terms.",
+          ),
+          L(
+            "Reescribe $(7-X)^{2} = (X-7)^{2}$: el doble producto es $2 \\cdot X \\cdot 7 = 14X$ con signo menos.",
+            "Rewrite $(7-X)^{2} = (X-7)^{2}$: the double product is $2 \\cdot X \\cdot 7 = 14X$ with a minus sign.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(7-X)^{2} = X^{2} - 14X + 49$",
+          "$(7-X)^{2} = X^{2} - 14X + 49$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El cuadrado $(7-X)^{2}$, con el número primero.",
+            "The square $(7-X)^{2}$, with the number first.",
+          ),
+          step(
+            "approach",
+            "Como $(7-X)^{2} = (X-7)^{2}$, se aplica la identidad del cuadrado de una resta con $a = X$ y $b = 7$.",
+            "Since $(7-X)^{2} = (X-7)^{2}$, apply the square-of-a-difference identity with $a = X$ and $b = 7$.",
+          ),
+          step(
+            "calculation",
+            "$(7-X)^{2} = (X-7)^{2} = X^{2} - 2 \\cdot X \\cdot 7 + 7^{2}$<br>$= X^{2} - 14X + 49$",
+            "$(7-X)^{2} = (X-7)^{2} = X^{2} - 2 \\cdot X \\cdot 7 + 7^{2}$<br>$= X^{2} - 14X + 49$",
+          ),
+          step(
+            "result",
+            "$(7-X)^{2} = X^{2} - 14X + 49$. Control: con $X = 1$: $(7-1)^{2} = 36$ y $1 - 14 + 49 = 36$ ✓.",
+            "$(7-X)^{2} = X^{2} - 14X + 49$. Check: at $X = 1$: $(7-1)^{2} = 36$ and $1 - 14 + 49 = 36$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S1.28 — (√x−1)(2√x+5) = 2x+3√x−5. */
+  template(
+    {
+      id: "pn-uees-28",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "special-products",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 120,
+      tags: ["special-products", "binomial-product", "radicals"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "1 · 28",
+        page: 1,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$2x + 3\\sqrt{x} - 5$", "$2x + 3\\sqrt{x} - 5$"), correct: true },
+        { id: "b", text: L("$2x + 5\\sqrt{x} - 5$", "$2x + 5\\sqrt{x} - 5$"), correct: false },
+        { id: "c", text: L("$2x + 3\\sqrt{x} + 5$", "$2x + 3\\sqrt{x} + 5$"), correct: false },
+        { id: "d", text: L("$2x - 5$", "$2x - 5$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Producto de binomios con raíces cuadradas",
+          "Product of binomials with square roots",
+        ),
+        statement: L(
+          "Desarrolle el producto notable:\n\n$$(\\sqrt{x}-1)(2\\sqrt{x}+5)$$",
+          "Expand the special product:\n\n$$(\\sqrt{x}-1)(2\\sqrt{x}+5)$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Ambos factores comparten $\\sqrt{x}$: trátala como si fuera una sola letra y distribuye normalmente.",
+            "Both factors share $\\sqrt{x}$: treat it as a single letter and distribute normally.",
+          ),
+          L(
+            "Al multiplicar raíces: $\\sqrt{x} \\cdot \\sqrt{x} = x$ y $\\sqrt{x} \\cdot 2\\sqrt{x} = 2x$; los radicales se combinan solo si son semejantes.",
+            "When multiplying roots: $\\sqrt{x} \\cdot \\sqrt{x} = x$ and $\\sqrt{x} \\cdot 2\\sqrt{x} = 2x$; radicals combine only if like.",
+          ),
+          L(
+            "Los cuatro productos: $\\sqrt{x} \\cdot 2\\sqrt{x} = 2x$, $\\sqrt{x} \\cdot 5 = 5\\sqrt{x}$, $(-1) \\cdot 2\\sqrt{x} = -2\\sqrt{x}$ y $(-1) \\cdot 5 = -5$.",
+            "The four products: $\\sqrt{x} \\cdot 2\\sqrt{x} = 2x$, $\\sqrt{x} \\cdot 5 = 5\\sqrt{x}$, $(-1) \\cdot 2\\sqrt{x} = -2\\sqrt{x}$ and $(-1) \\cdot 5 = -5$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(\\sqrt{x}-1)(2\\sqrt{x}+5) = 2x + 3\\sqrt{x} - 5$",
+          "$(\\sqrt{x}-1)(2\\sqrt{x}+5) = 2x + 3\\sqrt{x} - 5$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El producto $(\\sqrt{x}-1)(2\\sqrt{x}+5)$, binomios con la raíz $\\sqrt{x}$ como término común.",
+            "The product $(\\sqrt{x}-1)(2\\sqrt{x}+5)$, binomials with the root $\\sqrt{x}$ as common term.",
+          ),
+          step(
+            "approach",
+            "Distribuir los cuatro productos parciales usando $\\sqrt{x} \\cdot \\sqrt{x} = x$ y combinando los radicales semejantes.",
+            "Distribute the four partial products using $\\sqrt{x} \\cdot \\sqrt{x} = x$ and combining the like radicals.",
+          ),
+          step(
+            "calculation",
+            "$(\\sqrt{x}-1)(2\\sqrt{x}+5) = 2x + 5\\sqrt{x} - 2\\sqrt{x} - 5$<br>$= 2x + 3\\sqrt{x} - 5$",
+            "$(\\sqrt{x}-1)(2\\sqrt{x}+5) = 2x + 5\\sqrt{x} - 2\\sqrt{x} - 5$<br>$= 2x + 3\\sqrt{x} - 5$",
+          ),
+          step(
+            "result",
+            "$(\\sqrt{x}-1)(2\\sqrt{x}+5) = 2x + 3\\sqrt{x} - 5$. Control: con $x = 4$: $(2-1)(2 \\cdot 2+5) = 1 \\cdot 9 = 9$ y $2 \\cdot 4 + 3 \\cdot 2 - 5 = 9$ ✓.",
+            "$(\\sqrt{x}-1)(2\\sqrt{x}+5) = 2x + 3\\sqrt{x} - 5$. Check: at $x = 4$: $(2-1)(2 \\cdot 2+5) = 1 \\cdot 9 = 9$ and $2 \\cdot 4 + 3 \\cdot 2 - 5 = 9$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S1.29 — (√(3x)+5)² = 3x+10√(3x)+25. */
+  template(
+    {
+      id: "pn-uees-29",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "special-products",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 120,
+      tags: ["special-products", "perfect-square", "radicals"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "1 · 29",
+        page: 1,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$3x + 10\\sqrt{3x} + 25$", "$3x + 10\\sqrt{3x} + 25$"), correct: true },
+        { id: "b", text: L("$3x + 5\\sqrt{3x} + 25$", "$3x + 5\\sqrt{3x} + 25$"), correct: false },
+        { id: "c", text: L("$3x - 10\\sqrt{3x} + 25$", "$3x - 10\\sqrt{3x} + 25$"), correct: false },
+        { id: "d", text: L("$3x + 25$", "$3x + 25$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Binomio al cuadrado con un radical",
+          "Squaring a binomial with a radical",
+        ),
+        statement: L(
+          "Desarrolle el producto notable:\n\n$$(\\sqrt{3x}+5)^{2}$$",
+          "Expand the special product:\n\n$$(\\sqrt{3x}+5)^{2}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Es un binomio al cuadrado donde el primer término es la raíz $\\sqrt{3x}$: usa la identidad completa.",
+            "It is a squared binomial whose first term is the root $\\sqrt{3x}$: use the full identity.",
+          ),
+          L(
+            "$(a+b)^{2} = a^{2} + 2ab + b^{2}$ con $a = \\sqrt{3x}$: al elevar al cuadrado, la raíz desaparece.",
+            "$(a+b)^{2} = a^{2} + 2ab + b^{2}$ with $a = \\sqrt{3x}$: squaring removes the root.",
+          ),
+          L(
+            "Aquí $a = \\sqrt{3x}$ y $b = 5$: $a^{2} = 3x$ y el doble producto es $2 \\cdot \\sqrt{3x} \\cdot 5 = 10\\sqrt{3x}$.",
+            "Here $a = \\sqrt{3x}$ and $b = 5$: $a^{2} = 3x$ and the double product is $2 \\cdot \\sqrt{3x} \\cdot 5 = 10\\sqrt{3x}$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(\\sqrt{3x}+5)^{2} = 3x + 10\\sqrt{3x} + 25$",
+          "$(\\sqrt{3x}+5)^{2} = 3x + 10\\sqrt{3x} + 25$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El cuadrado $(\\sqrt{3x}+5)^{2}$.",
+            "The square $(\\sqrt{3x}+5)^{2}$.",
+          ),
+          step(
+            "approach",
+            "Identidad del binomio al cuadrado con $a = \\sqrt{3x}$ y $b = 5$; el término central conserva la raíz.",
+            "Squared-binomial identity with $a = \\sqrt{3x}$ and $b = 5$; the middle term keeps the root.",
+          ),
+          step(
+            "calculation",
+            "$(\\sqrt{3x}+5)^{2} = (\\sqrt{3x})^{2} + 2 \\cdot \\sqrt{3x} \\cdot 5 + 5^{2}$<br>$= 3x + 10\\sqrt{3x} + 25$",
+            "$(\\sqrt{3x}+5)^{2} = (\\sqrt{3x})^{2} + 2 \\cdot \\sqrt{3x} \\cdot 5 + 5^{2}$<br>$= 3x + 10\\sqrt{3x} + 25$",
+          ),
+          step(
+            "result",
+            "$(\\sqrt{3x}+5)^{2} = 3x + 10\\sqrt{3x} + 25$. Control: con $x = 3$: $(3+5)^{2} = 64$ y $9 + 30 + 25 = 64$ ✓.",
+            "$(\\sqrt{3x}+5)^{2} = 3x + 10\\sqrt{3x} + 25$. Check: at $x = 3$: $(3+5)^{2} = 64$ and $9 + 30 + 25 = 64$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S1.30 — (√y−3)(√y+3) = y−9. */
+  template(
+    {
+      id: "pn-uees-30",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "special-products",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 90,
+      tags: ["special-products", "difference-of-squares", "radicals"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "1 · 30",
+        page: 1,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$y - 9$", "$y - 9$"), correct: true },
+        { id: "b", text: L("$y + 9$", "$y + 9$"), correct: false },
+        { id: "c", text: L("$y - 3$", "$y - 3$"), correct: false },
+        { id: "d", text: L("$y - 6$", "$y - 6$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Conjugados con radical: suma por diferencia",
+          "Conjugates with a radical: sum times difference",
+        ),
+        statement: L(
+          "Desarrolle el producto notable:\n\n$$(\\sqrt{y}-3)(\\sqrt{y}+3)$$",
+          "Expand the special product:\n\n$$(\\sqrt{y}-3)(\\sqrt{y}+3)$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Los dos binomios son conjugados (solo cambia el signo): es una suma por diferencia.",
+            "The two binomials are conjugates (only the sign changes): it is a sum times a difference.",
+          ),
+          L(
+            "$(a-b)(a+b) = a^{2} - b^{2}$: los términos cruzados se cancelan solos.",
+            "$(a-b)(a+b) = a^{2} - b^{2}$: the cross terms cancel by themselves.",
+          ),
+          L(
+            "Aquí $a = \\sqrt{y}$ y $b = 3$: al elevar, $a^{2} = y$ (la raíz desaparece) y $b^{2} = 9$.",
+            "Here $a = \\sqrt{y}$ and $b = 3$: squaring gives $a^{2} = y$ (the root disappears) and $b^{2} = 9$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(\\sqrt{y}-3)(\\sqrt{y}+3) = y - 9$",
+          "$(\\sqrt{y}-3)(\\sqrt{y}+3) = y - 9$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El producto $(\\sqrt{y}-3)(\\sqrt{y}+3)$: binomios conjugados.",
+            "The product $(\\sqrt{y}-3)(\\sqrt{y}+3)$: conjugate binomials.",
+          ),
+          step(
+            "approach",
+            "Suma por diferencia: el resultado es la diferencia de los cuadrados de $\\sqrt{y}$ y de $3$.",
+            "Sum times difference: the result is the difference of the squares of $\\sqrt{y}$ and $3$.",
+          ),
+          step(
+            "calculation",
+            "$(\\sqrt{y}-3)(\\sqrt{y}+3) = (\\sqrt{y})^{2} - 3^{2} = y - 9$",
+            "$(\\sqrt{y}-3)(\\sqrt{y}+3) = (\\sqrt{y})^{2} - 3^{2} = y - 9$",
+          ),
+          step(
+            "result",
+            "$(\\sqrt{y}-3)(\\sqrt{y}+3) = y - 9$. Control: con $y = 16$: $(4-3)(4+3) = 7$ y $16 - 9 = 7$ ✓.",
+            "$(\\sqrt{y}-3)(\\sqrt{y}+3) = y - 9$. Check: at $y = 16$: $(4-3)(4+3) = 7$ and $16 - 9 = 7$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S1.31 — (2s−1)(2s+1) = 4s²−1. */
+  template(
+    {
+      id: "pn-uees-31",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "special-products",
+      difficulty: "easy",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 75,
+      tags: ["special-products", "difference-of-squares"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "1 · 31",
+        page: 1,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$4s^{2} - 1$", "$4s^{2} - 1$"), correct: true },
+        { id: "b", text: L("$4s^{2} + 1$", "$4s^{2} + 1$"), correct: false },
+        { id: "c", text: L("$4s^{2} - 2s + 1$", "$4s^{2} - 2s + 1$"), correct: false },
+        { id: "d", text: L("$4s^{2} - s$", "$4s^{2} - s$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Conjugados (suma por diferencia)",
+          "Conjugate binomials (sum times difference)",
+        ),
+        statement: L(
+          "Desarrolle el producto notable:\n\n$$(2s-1)(2s+1)$$",
+          "Expand the special product:\n\n$$(2s-1)(2s+1)$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Son conjugados: solo cambia el signo del término independiente.",
+            "They are conjugates: only the sign of the constant term changes.",
+          ),
+          L(
+            "$(a-b)(a+b) = a^{2} - b^{2}$.",
+            "$(a-b)(a+b) = a^{2} - b^{2}$.",
+          ),
+          L(
+            "Aquí $a = 2s$ y $b = 1$: los cuadrados son $(2s)^{2}$ y $1^{2}$.",
+            "Here $a = 2s$ and $b = 1$: the squares are $(2s)^{2}$ and $1^{2}$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(2s-1)(2s+1) = 4s^{2} - 1$",
+          "$(2s-1)(2s+1) = 4s^{2} - 1$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El producto $(2s-1)(2s+1)$: binomios conjugados.",
+            "The product $(2s-1)(2s+1)$: conjugate binomials.",
+          ),
+          step(
+            "approach",
+            "Es una suma por diferencia: el resultado es la diferencia de los cuadrados.",
+            "It is a sum times a difference: the result is the difference of the squares.",
+          ),
+          step(
+            "calculation",
+            "$(2s-1)(2s+1) = (2s)^{2} - 1^{2} = 4s^{2} - 1$",
+            "$(2s-1)(2s+1) = (2s)^{2} - 1^{2} = 4s^{2} - 1$",
+          ),
+          step(
+            "result",
+            "$(2s-1)(2s+1) = 4s^{2} - 1$. Control: con $s = 2$: $(4-1)(4+1) = 3 \\cdot 5 = 15$ y $16 - 1 = 15$ ✓.",
+            "$(2s-1)(2s+1) = 4s^{2} - 1$. Check: at $s = 2$: $(4-1)(4+1) = 3 \\cdot 5 = 15$ and $16 - 1 = 15$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S1.32 — (a²+2b)(a²−2b) = a⁴−4b². */
+  template(
+    {
+      id: "pn-uees-32",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "special-products",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 90,
+      tags: ["special-products", "difference-of-squares"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "1 · 32",
+        page: 1,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$a^{4} - 4b^{2}$", "$a^{4} - 4b^{2}$"), correct: true },
+        { id: "b", text: L("$a^{4} + 4b^{2}$", "$a^{4} + 4b^{2}$"), correct: false },
+        { id: "c", text: L("$a^{4} - 2b^{2}$", "$a^{4} - 2b^{2}$"), correct: false },
+        { id: "d", text: L("$a^{4} - 4b$", "$a^{4} - 4b$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Conjugados con términos compuestos",
+          "Conjugates with compound terms",
+        ),
+        statement: L(
+          "Desarrolle el producto notable:\n\n$$(a^{2}+2b)(a^{2}-2b)$$",
+          "Expand the special product:\n\n$$(a^{2}+2b)(a^{2}-2b)$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "De nuevo conjugados: primero $a^{2}$, con signos opuestos en $2b$.",
+            "Conjugates again: first $a^{2}$, with opposite signs on $2b$.",
+          ),
+          L(
+            "$(a-b)(a+b) = a^{2} - b^{2}$ también funciona cuando $a$ y $b$ son expresiones compuestas.",
+            "$(a-b)(a+b) = a^{2} - b^{2}$ also works when $a$ and $b$ are compound expressions.",
+          ),
+          L(
+            "Aquí el «$a$» de la identidad es $a^{2}$ y el «$b$» es $2b$: el resultado es $\\left(a^{2}\\right)^{2} - (2b)^{2}$.",
+            "Here the identity's «$a$» is $a^{2}$ and «$b$» is $2b$: the result is $\\left(a^{2}\\right)^{2} - (2b)^{2}$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(a^{2}+2b)(a^{2}-2b) = a^{4} - 4b^{2}$",
+          "$(a^{2}+2b)(a^{2}-2b) = a^{4} - 4b^{2}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El producto $(a^{2}+2b)(a^{2}-2b)$: conjugados con términos compuestos.",
+            "The product $(a^{2}+2b)(a^{2}-2b)$: conjugates with compound terms.",
+          ),
+          step(
+            "approach",
+            "Suma por diferencia con $a = a^{2}$ y $b = 2b$: diferencia de los cuadrados de esos bloques.",
+            "Sum times difference with $a = a^{2}$ and $b = 2b$: difference of the squares of those blocks.",
+          ),
+          step(
+            "calculation",
+            "$(a^{2}+2b)(a^{2}-2b) = \\left(a^{2}\\right)^{2} - (2b)^{2} = a^{4} - 4b^{2}$",
+            "$(a^{2}+2b)(a^{2}-2b) = \\left(a^{2}\\right)^{2} - (2b)^{2} = a^{4} - 4b^{2}$",
+          ),
+          step(
+            "result",
+            "$(a^{2}+2b)(a^{2}-2b) = a^{4} - 4b^{2}$. Control: con $a = 1$, $b = 1$: $(1+2)(1-2) = 3 \\cdot (-1) = -3$ y $1 - 4 = -3$ ✓.",
+            "$(a^{2}+2b)(a^{2}-2b) = a^{4} - 4b^{2}$. Check: at $a = 1$, $b = 1$: $(1+2)(1-2) = 3 \\cdot (-1) = -3$ and $1 - 4 = -3$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S1.33 — (x²−3)(x+4) = x³+4x²−3x−12. */
+  template(
+    {
+      id: "pn-uees-33",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "special-products",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 120,
+      tags: ["special-products", "polynomial-product"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "1 · 33",
+        page: 1,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$x^{3} + 4x^{2} - 3x - 12$", "$x^{3} + 4x^{2} - 3x - 12$"), correct: true },
+        { id: "b", text: L("$x^{3} - 12x^{2} + 4x - 3$", "$x^{3} - 12x^{2} + 4x - 3$"), correct: false },
+        { id: "c", text: L("$x^{3} + 4x^{2} + 3x + 12$", "$x^{3} + 4x^{2} + 3x + 12$"), correct: false },
+        { id: "d", text: L("$x^{3} + 4x^{2} - 12$", "$x^{3} + 4x^{2} - 12$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Distribución de binomios con potencias",
+          "Distributing binomials with powers",
+        ),
+        statement: L(
+          "Desarrolle el producto notable:\n\n$$(x^{2}-3)(x+4)$$",
+          "Expand the special product:\n\n$$(x^{2}-3)(x+4)$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "No es una identidad corta: distribuye CADA término del primer binomio sobre los dos del segundo (cuatro productos).",
+            "No short identity here: distribute EACH term of the first binomial over the two of the second (four products).",
+          ),
+          L(
+            "$(a+b)(c+d) = ac + ad + bc + bd$; aquí $a = x^{2}$, así que aparecen potencias $x^{3}$ y $x^{2}$.",
+            "$(a+b)(c+d) = ac + ad + bc + bd$; here $a = x^{2}$, so $x^{3}$ and $x^{2}$ powers appear.",
+          ),
+          L(
+            "Los cuatro productos: $x^{2} \\cdot x = x^{3}$, $x^{2} \\cdot 4 = 4x^{2}$, $(-3) \\cdot x = -3x$ y $(-3) \\cdot 4 = -12$.",
+            "The four products: $x^{2} \\cdot x = x^{3}$, $x^{2} \\cdot 4 = 4x^{2}$, $(-3) \\cdot x = -3x$ and $(-3) \\cdot 4 = -12$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(x^{2}-3)(x+4) = x^{3} + 4x^{2} - 3x - 12$",
+          "$(x^{2}-3)(x+4) = x^{3} + 4x^{2} - 3x - 12$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El producto $(x^{2}-3)(x+4)$, un binomio con potencia por un binomio lineal.",
+            "The product $(x^{2}-3)(x+4)$, a binomial with a power times a linear binomial.",
+          ),
+          step(
+            "approach",
+            "Distribución completa término a término; no hay semejantes que reducir, así que quedan cuatro términos.",
+            "Full term-by-term distribution; there are no like terms to combine, so four terms remain.",
+          ),
+          step(
+            "calculation",
+            "$(x^{2}-3)(x+4) = x^{3} + 4x^{2} - 3x - 12$",
+            "$(x^{2}-3)(x+4) = x^{3} + 4x^{2} - 3x - 12$",
+          ),
+          step(
+            "result",
+            "$(x^{2}-3)(x+4) = x^{3} + 4x^{2} - 3x - 12$. Control: con $x = 2$: $(4-3)(2+4) = 1 \\cdot 6 = 6$ y $8 + 16 - 6 - 12 = 6$ ✓.",
+            "$(x^{2}-3)(x+4) = x^{3} + 4x^{2} - 3x - 12$. Check: at $x = 2$: $(4-3)(2+4) = 1 \\cdot 6 = 6$ and $8 + 16 - 6 - 12 = 6$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S1.34 — (x+1)(x²+x+3) = x³+2x²+4x+3. */
+  template(
+    {
+      id: "pn-uees-34",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "special-products",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 120,
+      tags: ["special-products", "polynomial-product"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "1 · 34",
+        page: 1,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$x^{3} + 2x^{2} + 4x + 3$", "$x^{3} + 2x^{2} + 4x + 3$"), correct: true },
+        { id: "b", text: L("$x^{3} + x^{2} + 4x + 3$", "$x^{3} + x^{2} + 4x + 3$"), correct: false },
+        { id: "c", text: L("$x^{3} + 2x^{2} - 4x + 3$", "$x^{3} + 2x^{2} - 4x + 3$"), correct: false },
+        { id: "d", text: L("$x^{3} + 2x^{2} + 4x - 3$", "$x^{3} + 2x^{2} + 4x - 3$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Binomio por trinomio (distribución completa)",
+          "Binomial times a trinomial (full distribution)",
+        ),
+        statement: L(
+          "Desarrolle el producto notable:\n\n$$(x+1)(x^{2}+x+3)$$",
+          "Expand the special product:\n\n$$(x+1)(x^{2}+x+3)$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Es un binomio por un trinomio: distribuye los DOS términos del primero sobre los TRES del segundo.",
+            "It is a binomial times a trinomial: distribute the TWO terms of the first over the THREE of the second.",
+          ),
+          L(
+            "$(a+b)(c+d+e) = ac + ad + ae + bc + bd + be$; al final reduces los semejantes.",
+            "$(a+b)(c+d+e) = ac + ad + ae + bc + bd + be$; then combine like terms.",
+          ),
+          L(
+            "Primero $x \\cdot (x^{2}+x+3)$ y luego $1 \\cdot (x^{2}+x+3)$: verás que los términos en $x^{2}$ y en $x$ se repiten.",
+            "First $x \\cdot (x^{2}+x+3)$ and then $1 \\cdot (x^{2}+x+3)$: you will see the $x^{2}$ and $x$ terms repeat.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(x+1)(x^{2}+x+3) = x^{3} + 2x^{2} + 4x + 3$",
+          "$(x+1)(x^{2}+x+3) = x^{3} + 2x^{2} + 4x + 3$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El producto $(x+1)(x^{2}+x+3)$.",
+            "The product $(x+1)(x^{2}+x+3)$.",
+          ),
+          step(
+            "approach",
+            "Distribuir el $x$ y el $1$ sobre el trinomio completo, y luego reducir los semejantes.",
+            "Distribute the $x$ and the $1$ over the whole trinomial, then combine like terms.",
+          ),
+          step(
+            "calculation",
+            "$(x+1)(x^{2}+x+3) = x^{3} + x^{2} + 3x + x^{2} + x + 3$<br>$= x^{3} + 2x^{2} + 4x + 3$",
+            "$(x+1)(x^{2}+x+3) = x^{3} + x^{2} + 3x + x^{2} + x + 3$<br>$= x^{3} + 2x^{2} + 4x + 3$",
+          ),
+          step(
+            "result",
+            "$(x+1)(x^{2}+x+3) = x^{3} + 2x^{2} + 4x + 3$. Control: con $x = 2$: $(3)(4+2+3) = 3 \\cdot 9 = 27$ y $8 + 8 + 8 + 3 = 27$ ✓.",
+            "$(x+1)(x^{2}+x+3) = x^{3} + 2x^{2} + 4x + 3$. Check: at $x = 2$: $(3)(4+2+3) = 3 \\cdot 9 = 27$ and $8 + 8 + 8 + 3 = 27$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S1.35 — (x²−4)(3x²+2x−1) = 3x⁴+2x³−13x²−8x+4. */
+  template(
+    {
+      id: "pn-uees-35",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "special-products",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["special-products", "polynomial-product"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "1 · 35",
+        page: 1,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$3x^{4} + 2x^{3} - 13x^{2} - 8x + 4$", "$3x^{4} + 2x^{3} - 13x^{2} - 8x + 4$"), correct: true },
+        { id: "b", text: L("$3x^{4} + 2x^{3} - 13x^{2} - 8x - 4$", "$3x^{4} + 2x^{3} - 13x^{2} - 8x - 4$"), correct: false },
+        { id: "c", text: L("$3x^{4} - 13x^{2} - 8x + 4$", "$3x^{4} - 13x^{2} - 8x + 4$"), correct: false },
+        { id: "d", text: L("$3x^{4} + 2x^{3} - 13x^{2} + 8x + 4$", "$3x^{4} + 2x^{3} - 13x^{2} + 8x + 4$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Binomio por trinomio con potencias superiores",
+          "Binomial times a trinomial with higher powers",
+        ),
+        statement: L(
+          "Desarrolle el producto notable:\n\n$$(x^{2}-4)(3x^{2}+2x-1)$$",
+          "Expand the special product:\n\n$$(x^{2}-4)(3x^{2}+2x-1)$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Distribuye $x^{2}$ y $-4$ sobre los TRES términos del trinomio: son seis productos parciales.",
+            "Distribute $x^{2}$ and $-4$ over the THREE terms of the trinomial: that is six partial products.",
+          ),
+          L(
+            "$(a+b)(c+d+e) = ac + ad + ae + bc + bd + be$, cuidando el signo del $-4$ en los tres últimos.",
+            "$(a+b)(c+d+e) = ac + ad + ae + bc + bd + be$, watching the sign of $-4$ in the last three.",
+          ),
+          L(
+            "Los productos con $-4$: $-4 \\cdot 3x^{2} = -12x^{2}$, $-4 \\cdot 2x = -8x$ y $-4 \\cdot (-1) = 4$; luego reduce los $x^{2}$.",
+            "The products with $-4$: $-4 \\cdot 3x^{2} = -12x^{2}$, $-4 \\cdot 2x = -8x$ and $-4 \\cdot (-1) = 4$; then combine the $x^{2}$ terms.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(x^{2}-4)(3x^{2}+2x-1) = 3x^{4} + 2x^{3} - 13x^{2} - 8x + 4$",
+          "$(x^{2}-4)(3x^{2}+2x-1) = 3x^{4} + 2x^{3} - 13x^{2} - 8x + 4$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El producto $(x^{2}-4)(3x^{2}+2x-1)$.",
+            "The product $(x^{2}-4)(3x^{2}+2x-1)$.",
+          ),
+          step(
+            "approach",
+            "Distribución completa de los dos términos sobre los tres, con cuidado de los signos; al final se reducen los términos en $x^{2}$.",
+            "Full distribution of the two terms over the three, watching the signs; at the end the $x^{2}$ terms combine.",
+          ),
+          step(
+            "calculation",
+            "$(x^{2}-4)(3x^{2}+2x-1) = 3x^{4} + 2x^{3} - x^{2} - 12x^{2} - 8x + 4$<br>$= 3x^{4} + 2x^{3} - 13x^{2} - 8x + 4$",
+            "$(x^{2}-4)(3x^{2}+2x-1) = 3x^{4} + 2x^{3} - x^{2} - 12x^{2} - 8x + 4$<br>$= 3x^{4} + 2x^{3} - 13x^{2} - 8x + 4$",
+          ),
+          step(
+            "result",
+            "$(x^{2}-4)(3x^{2}+2x-1) = 3x^{4} + 2x^{3} - 13x^{2} - 8x + 4$. Control: con $x = 1$: $(1-4)(3+2-1) = (-3)(4) = -12$ y $3 + 2 - 13 - 8 + 4 = -12$ ✓.",
+            "$(x^{2}-4)(3x^{2}+2x-1) = 3x^{4} + 2x^{3} - 13x^{2} - 8x + 4$. Check: at $x = 1$: $(1-4)(3+2-1) = (-3)(4) = -12$ and $3 + 2 - 13 - 8 + 4 = -12$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S1.36 — (3y−2)(4y³+2y²−3y) = 12y⁴−2y³−13y²+6y. */
+  template(
+    {
+      id: "pn-uees-36",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "special-products",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["special-products", "polynomial-product"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "1 · 36",
+        page: 1,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$12y^{4} - 2y^{3} - 13y^{2} + 6y$", "$12y^{4} - 2y^{3} - 13y^{2} + 6y$"), correct: true },
+        { id: "b", text: L("$12y^{4} + 2y^{3} - 13y^{2} + 6y$", "$12y^{4} + 2y^{3} - 13y^{2} + 6y$"), correct: false },
+        { id: "c", text: L("$12y^{4} - 2y^{3} + 13y^{2} + 6y$", "$12y^{4} - 2y^{3} + 13y^{2} + 6y$"), correct: false },
+        { id: "d", text: L("$12y^{4} - 13y^{2} + 6y$", "$12y^{4} - 13y^{2} + 6y$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Binomio por trinomio y reducción de semejantes",
+          "Binomial times a trinomial and combining like terms",
+        ),
+        statement: L(
+          "Desarrolle el producto notable:\n\n$$(3y-2)(4y^{3}+2y^{2}-3y)$$",
+          "Expand the special product:\n\n$$(3y-2)(4y^{3}+2y^{2}-3y)$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Seis productos parciales: distribuye $3y$ y $-2$ sobre cada término del trinomio.",
+            "Six partial products: distribute $3y$ and $-2$ over each term of the trinomial.",
+          ),
+          L(
+            "$(a+b)(c+d+e) = ac + ad + ae + bc + bd + be$; presta atención a los signos de los tres últimos.",
+            "$(a+b)(c+d+e) = ac + ad + ae + bc + bd + be$; pay attention to the signs of the last three.",
+          ),
+          L(
+            "Los productos con $-2$: $-2 \\cdot 4y^{3} = -8y^{3}$, $-2 \\cdot 2y^{2} = -4y^{2}$ y $-2 \\cdot (-3y) = 6y$; reduce los $y^{3}$ y los $y^{2}$.",
+            "The products with $-2$: $-2 \\cdot 4y^{3} = -8y^{3}$, $-2 \\cdot 2y^{2} = -4y^{2}$ and $-2 \\cdot (-3y) = 6y$; combine the $y^{3}$ and $y^{2}$ terms.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(3y-2)(4y^{3}+2y^{2}-3y) = 12y^{4} - 2y^{3} - 13y^{2} + 6y$",
+          "$(3y-2)(4y^{3}+2y^{2}-3y) = 12y^{4} - 2y^{3} - 13y^{2} + 6y$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El producto $(3y-2)(4y^{3}+2y^{2}-3y)$.",
+            "The product $(3y-2)(4y^{3}+2y^{2}-3y)$.",
+          ),
+          step(
+            "approach",
+            "Distribución completa de $3y$ y $-2$ sobre el trinomio y reducción de los semejantes en $y^{3}$ y $y^{2}$.",
+            "Full distribution of $3y$ and $-2$ over the trinomial and combining the like terms in $y^{3}$ and $y^{2}$.",
+          ),
+          step(
+            "calculation",
+            "$(3y-2)(4y^{3}+2y^{2}-3y) = 12y^{4} + 6y^{3} - 9y^{2} - 8y^{3} - 4y^{2} + 6y$<br>$= 12y^{4} - 2y^{3} - 13y^{2} + 6y$",
+            "$(3y-2)(4y^{3}+2y^{2}-3y) = 12y^{4} + 6y^{3} - 9y^{2} - 8y^{3} - 4y^{2} + 6y$<br>$= 12y^{4} - 2y^{3} - 13y^{2} + 6y$",
+          ),
+          step(
+            "result",
+            "$(3y-2)(4y^{3}+2y^{2}-3y) = 12y^{4} - 2y^{3} - 13y^{2} + 6y$. Control: con $y = 1$: $(3-2)(4+2-3) = 1 \\cdot 3 = 3$ y $12 - 2 - 13 + 6 = 3$ ✓.",
+            "$(3y-2)(4y^{3}+2y^{2}-3y) = 12y^{4} - 2y^{3} - 13y^{2} + 6y$. Check: at $y = 1$: $(3-2)(4+2-3) = 1 \\cdot 3 = 3$ and $12 - 2 - 13 + 6 = 3$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S1.37 — t{3(t+2)(t−4)+5[3t(t−7)]} = 18t³−111t²−24t. */
+  template(
+    {
+      id: "pn-uees-37",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "special-products",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 180,
+      tags: ["special-products", "nested-products", "distribution"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "1 · 37",
+        page: 1,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$18t^{3} - 111t^{2} - 24t$", "$18t^{3} - 111t^{2} - 24t$"), correct: true },
+        { id: "b", text: L("$18t^{3} + 111t^{2} - 24t$", "$18t^{3} + 111t^{2} - 24t$"), correct: false },
+        { id: "c", text: L("$18t^{3} - 111t^{2} + 24t$", "$18t^{3} - 111t^{2} + 24t$"), correct: false },
+        { id: "d", text: L("$18t^{3} - 24t$", "$18t^{3} - 24t$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Corchetes anidados: productos internos y distribución final",
+          "Nested brackets: inner products and the final distribution",
+        ),
+        statement: L(
+          "Desarrolle el producto notable:\n\n$$t\\left\\{3(t+2)(t-4)+5\\left[3t(t-7)\\right]\\right\\}$$",
+          "Expand the special product:\n\n$$t\\left\\{3(t+2)(t-4)+5\\left[3t(t-7)\\right]\\right\\}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Trabaja de adentro hacia afuera: primero los dos productos internos, luego la suma de los corchetes y al final multiplica por la $t$ exterior.",
+            "Work from the inside out: first the two inner products, then the sum inside the brackets, and finally multiply by the outer $t$.",
+          ),
+          L(
+            "Regla de signos: $(t+2)(t-4) = t^{2} - 2t - 8$ y $3t(t-7) = 3t^{2} - 21t$.",
+            "Sign rule: $(t+2)(t-4) = t^{2} - 2t - 8$ and $3t(t-7) = 3t^{2} - 21t$.",
+          ),
+          L(
+            "Dentro queda $3t^{2} - 6t - 24 + 15t^{2} - 105t$; reduce ANTES de multiplicar por $t$.",
+            "Inside you get $3t^{2} - 6t - 24 + 15t^{2} - 105t$; combine BEFORE multiplying by $t$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$t\\left\\{3(t+2)(t-4)+5\\left[3t(t-7)\\right]\\right\\} = 18t^{3} - 111t^{2} - 24t$",
+          "$t\\left\\{3(t+2)(t-4)+5\\left[3t(t-7)\\right]\\right\\} = 18t^{3} - 111t^{2} - 24t$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El producto anidado $t\\left\\{3(t+2)(t-4)+5\\left[3t(t-7)\\right]\\right\\}$.",
+            "The nested product $t\\left\\{3(t+2)(t-4)+5\\left[3t(t-7)\\right]\\right\\}$.",
+          ),
+          step(
+            "approach",
+            "Resolver de adentro hacia afuera: expandir los dos binomios internos, sumar dentro de la llave y distribuir la $t$ exterior.",
+            "Solve from the inside out: expand the two inner binomials, add inside the brace, and distribute the outer $t$.",
+          ),
+          step(
+            "calculation",
+            "$(t+2)(t-4) = t^{2} - 2t - 8$, así $3(t^{2}-2t-8) = 3t^{2} - 6t - 24$<br>$5 \\cdot 3t(t-7) = 5(3t^{2} - 21t) = 15t^{2} - 105t$<br>Suma interna: $3t^{2} - 6t - 24 + 15t^{2} - 105t = 18t^{2} - 111t - 24$<br>Por la $t$ exterior: $t\\left(18t^{2} - 111t - 24\\right) = 18t^{3} - 111t^{2} - 24t$",
+            "$(t+2)(t-4) = t^{2} - 2t - 8$, so $3(t^{2}-2t-8) = 3t^{2} - 6t - 24$<br>$5 \\cdot 3t(t-7) = 5(3t^{2} - 21t) = 15t^{2} - 105t$<br>Inner sum: $3t^{2} - 6t - 24 + 15t^{2} - 105t = 18t^{2} - 111t - 24$<br>By the outer $t$: $t\\left(18t^{2} - 111t - 24\\right) = 18t^{3} - 111t^{2} - 24t$",
+          ),
+          step(
+            "result",
+            "$t\\left\\{3(t+2)(t-4)+5\\left[3t(t-7)\\right]\\right\\} = 18t^{3} - 111t^{2} - 24t$. Control: con $t = 1$: $1 \\cdot \\left[3(3)(-3)+5(3)(-6)\\right] = -27 - 90 = -117$ y $18 - 111 - 24 = -117$ ✓.",
+            "$t\\left\\{3(t+2)(t-4)+5\\left[3t(t-7)\\right]\\right\\} = 18t^{3} - 111t^{2} - 24t$. Check: at $t = 1$: $1 \\cdot \\left[3(3)(-3)+5(3)(-6)\\right] = -27 - 90 = -117$ and $18 - 111 - 24 = -117$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S1.38 — [(2z+1)(2z−1)](4z²+1) = 16z⁴−1. */
+  template(
+    {
+      id: "pn-uees-38",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "special-products",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 120,
+      tags: ["special-products", "difference-of-squares"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "1 · 38",
+        page: 1,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$16z^{4} - 1$", "$16z^{4} - 1$"), correct: true },
+        { id: "b", text: L("$16z^{4} + 1$", "$16z^{4} + 1$"), correct: false },
+        { id: "c", text: L("$16z^{4} - 4z^{2} + 1$", "$16z^{4} - 4z^{2} + 1$"), correct: false },
+        { id: "d", text: L("$8z^{4} - 1$", "$8z^{4} - 1$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Suma por diferencia dos veces seguidas",
+          "Sum times difference twice in a row",
+        ),
+        statement: L(
+          "Desarrolle el producto notable:\n\n$$\\left[(2z+1)(2z-1)\\right](4z^{2}+1)$$",
+          "Expand the special product:\n\n$$\\left[(2z+1)(2z-1)\\right](4z^{2}+1)$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "El corchete esconde una suma por diferencia: resuélvela primero.",
+            "The bracket hides a sum times a difference: resolve it first.",
+          ),
+          L(
+            "$(a-b)(a+b) = a^{2} - b^{2}$; al terminar el corchete quedará OTRO producto conjugado.",
+            "$(a-b)(a+b) = a^{2} - b^{2}$; after the bracket there will be ANOTHER conjugate product.",
+          ),
+          L(
+            "El corchete da $4z^{2} - 1$, y entonces queda $(4z^{2}-1)(4z^{2}+1)$, de nuevo suma por diferencia.",
+            "The bracket gives $4z^{2} - 1$, and then $(4z^{2}-1)(4z^{2}+1)$ remains — a sum times a difference again.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\left[(2z+1)(2z-1)\\right](4z^{2}+1) = 16z^{4} - 1$",
+          "$\\left[(2z+1)(2z-1)\\right](4z^{2}+1) = 16z^{4} - 1$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El producto $\\left[(2z+1)(2z-1)\\right](4z^{2}+1)$: conjugados por dentro y por fuera.",
+            "The product $\\left[(2z+1)(2z-1)\\right](4z^{2}+1)$: conjugates inside and outside.",
+          ),
+          step(
+            "approach",
+            "Aplicar la identidad de conjugados al corchete y luego otra vez al resultado: dos diferencias de cuadrados encadenadas.",
+            "Apply the conjugate identity to the bracket and then again to the result: two chained differences of squares.",
+          ),
+          step(
+            "calculation",
+            "Corchete: $(2z+1)(2z-1) = (2z)^{2} - 1 = 4z^{2} - 1$<br>Luego: $(4z^{2}-1)(4z^{2}+1) = (4z^{2})^{2} - 1^{2} = 16z^{4} - 1$",
+            "Bracket: $(2z+1)(2z-1) = (2z)^{2} - 1 = 4z^{2} - 1$<br>Then: $(4z^{2}-1)(4z^{2}+1) = (4z^{2})^{2} - 1^{2} = 16z^{4} - 1$",
+          ),
+          step(
+            "result",
+            "$\\left[(2z+1)(2z-1)\\right](4z^{2}+1) = 16z^{4} - 1$. Control: con $z = 1$: $[(3)(1)](5) = 15$ y $16 - 1 = 15$ ✓.",
+            "$\\left[(2z+1)(2z-1)\\right](4z^{2}+1) = 16z^{4} - 1$. Check: at $z = 1$: $[(3)(1)](5) = 15$ and $16 - 1 = 15$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S1.39 — (x+y+2)(3x+2y−4) = 3x²+5xy+2y²+2x−8 (los y lineales SE CANCELAN). */
+  template(
+    {
+      id: "pn-uees-39",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "special-products",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 210,
+      tags: ["special-products", "polynomial-product", "two-variables"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "1 · 39",
+        page: 1,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$3x^{2} + 5xy + 2y^{2} + 2x - 8$", "$3x^{2} + 5xy + 2y^{2} + 2x - 8$"), correct: true },
+        { id: "b", text: L("$3x^{2} + 5xy + 2y^{2} + 2x - 4y - 8$", "$3x^{2} + 5xy + 2y^{2} + 2x - 4y - 8$"), correct: false },
+        { id: "c", text: L("$3x^{2} + 5xy + 2y^{2} - 8$", "$3x^{2} + 5xy + 2y^{2} - 8$"), correct: false },
+        { id: "d", text: L("$3x^{2} + 2y^{2} - 8$", "$3x^{2} + 2y^{2} - 8$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Trinomio por trinomio en dos variables (con cancelación)",
+          "Trinomial times a trinomial in two variables (with a cancellation)",
+        ),
+        statement: L(
+          "Desarrolle el producto notable:\n\n$$(x+y+2)(3x+2y-4)$$",
+          "Expand the special product:\n\n$$(x+y+2)(3x+2y-4)$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Son $3 \\times 3 = 9$ productos parciales: distribuye cada término del primer trinomio sobre los tres del segundo.",
+            "There are $3 \\times 3 = 9$ partial products: distribute each term of the first trinomial over the three of the second.",
+          ),
+          L(
+            "Agrupa por tipo: cuadráticos ($x^{2}$, $xy$, $y^{2}$), lineales ($x$, $y$) y constante.",
+            "Group by kind: quadratics ($x^{2}$, $xy$, $y^{2}$), linears ($x$, $y$) and the constant.",
+          ),
+          L(
+            "Cuidado con los términos lineales en $y$: $-4y$ y $+4y$ aparecen con signos opuestos.",
+            "Watch the linear terms in $y$: $-4y$ and $+4y$ appear with opposite signs.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(x+y+2)(3x+2y-4) = 3x^{2} + 5xy + 2y^{2} + 2x - 8$",
+          "$(x+y+2)(3x+2y-4) = 3x^{2} + 5xy + 2y^{2} + 2x - 8$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El producto $(x+y+2)(3x+2y-4)$, dos trinomios en las variables $x$ e $y$.",
+            "The product $(x+y+2)(3x+2y-4)$, two trinomials in the variables $x$ and $y$.",
+          ),
+          step(
+            "approach",
+            "Distribuir los nueve productos parciales y agrupar por tipo de término; en esta expresión hay una cancelación escondida.",
+            "Distribute the nine partial products and group by term kind; this expression hides a cancellation.",
+          ),
+          step(
+            "calculation",
+            "Distribuyendo: $3x^{2} + 2xy - 4x + 3xy + 2y^{2} - 4y + 6x + 4y - 8$<br>Los lineales en $y$ se cancelan: $-4y + 4y = 0$<br>$= 3x^{2} + 5xy + 2y^{2} + 2x - 8$",
+            "Distributing: $3x^{2} + 2xy - 4x + 3xy + 2y^{2} - 4y + 6x + 4y - 8$<br>The linear $y$ terms cancel: $-4y + 4y = 0$<br>$= 3x^{2} + 5xy + 2y^{2} + 2x - 8$",
+          ),
+          step(
+            "result",
+            "$(x+y+2)(3x+2y-4) = 3x^{2} + 5xy + 2y^{2} + 2x - 8$ — ¡los términos lineales en $y$ se cancelan! Control: con $x = 1$, $y = 1$: $(1+1+2)(3+2-4) = 4 \\cdot 1 = 4$ y $3 + 5 + 2 + 2 - 8 = 4$ ✓.",
+            "$(x+y+2)(3x+2y-4) = 3x^{2} + 5xy + 2y^{2} + 2x - 8$ — the linear $y$ terms cancel! Check: at $x = 1$, $y = 1$: $(1+1+2)(3+2-4) = 4 \\cdot 1 = 4$ and $3 + 5 + 2 + 2 - 8 = 4$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S1.40 — (x²+x+1)² = x⁴+2x³+3x²+2x+1. */
+  template(
+    {
+      id: "pn-uees-40",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "special-products",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 180,
+      tags: ["special-products", "perfect-square", "trinomial"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "1 · 40",
+        page: 1,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$x^{4} + 2x^{3} + 3x^{2} + 2x + 1$", "$x^{4} + 2x^{3} + 3x^{2} + 2x + 1$"), correct: true },
+        { id: "b", text: L("$x^{4} + x^{3} + 3x^{2} + x + 1$", "$x^{4} + x^{3} + 3x^{2} + x + 1$"), correct: false },
+        { id: "c", text: L("$x^{4} + 2x^{3} + 3x^{2} + 2x - 1$", "$x^{4} + 2x^{3} + 3x^{2} + 2x - 1$"), correct: false },
+        { id: "d", text: L("$x^{4} + 3x^{2} + 1$", "$x^{4} + 3x^{2} + 1$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Cuadrado de un trinomio",
+          "Squaring a trinomial",
+        ),
+        statement: L(
+          "Desarrolle el producto notable:\n\n$$(x^{2}+x+1)^{2}$$",
+          "Expand the special product:\n\n$$(x^{2}+x+1)^{2}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Es el cuadrado de un TRINOMIO: hay una identidad con seis productos parciales, no tres.",
+            "It is the square of a TRINOMIAL: there is an identity with six partial products, not three.",
+          ),
+          L(
+            "$(a+b+c)^{2} = a^{2} + b^{2} + c^{2} + 2ab + 2ac + 2bc$.",
+            "$(a+b+c)^{2} = a^{2} + b^{2} + c^{2} + 2ab + 2ac + 2bc$.",
+          ),
+          L(
+            "Aquí $a = x^{2}$, $b = x$ y $c = 1$: los productos cruzados dobles son $2x^{3}$, $2x^{2}$ y $2x$.",
+            "Here $a = x^{2}$, $b = x$ and $c = 1$: the doubled cross products are $2x^{3}$, $2x^{2}$ and $2x$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(x^{2}+x+1)^{2} = x^{4} + 2x^{3} + 3x^{2} + 2x + 1$",
+          "$(x^{2}+x+1)^{2} = x^{4} + 2x^{3} + 3x^{2} + 2x + 1$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El cuadrado del trinomio $(x^{2}+x+1)^{2}$.",
+            "The square of the trinomial $(x^{2}+x+1)^{2}$.",
+          ),
+          step(
+            "approach",
+            "Identidad del cuadrado de un trinomio con $a = x^{2}$, $b = x$, $c = 1$: tres cuadrados más tres dobles productos.",
+            "Squared-trinomial identity with $a = x^{2}$, $b = x$, $c = 1$: three squares plus three double products.",
+          ),
+          step(
+            "calculation",
+            "$(x^{2}+x+1)^{2} = x^{4} + x^{2} + 1 + 2x^{3} + 2x^{2} + 2x$<br>$= x^{4} + 2x^{3} + 3x^{2} + 2x + 1$",
+            "$(x^{2}+x+1)^{2} = x^{4} + x^{2} + 1 + 2x^{3} + 2x^{2} + 2x$<br>$= x^{4} + 2x^{3} + 3x^{2} + 2x + 1$",
+          ),
+          step(
+            "result",
+            "$(x^{2}+x+1)^{2} = x^{4} + 2x^{3} + 3x^{2} + 2x + 1$. Control: con $x = 2$: $(4+2+1)^{2} = 49$ y $16 + 16 + 12 + 4 + 1 = 49$ ✓.",
+            "$(x^{2}+x+1)^{2} = x^{4} + 2x^{3} + 3x^{2} + 2x + 1$. Check: at $x = 2$: $(4+2+1)^{2} = 49$ and $16 + 16 + 12 + 4 + 1 = 49$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S1.41 — (2a+3)³ = 8a³+36a²+54a+27. */
+  template(
+    {
+      id: "pn-uees-41",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "special-products",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["special-products", "cube-of-binomial"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "1 · 41",
+        page: 1,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$8a^{3} + 36a^{2} + 54a + 27$", "$8a^{3} + 36a^{2} + 54a + 27$"), correct: true },
+        { id: "b", text: L("$8a^{3} + 12a^{2} + 9a + 27$", "$8a^{3} + 12a^{2} + 9a + 27$"), correct: false },
+        { id: "c", text: L("$8a^{3} + 36a^{2} + 54a - 27$", "$8a^{3} + 36a^{2} + 54a - 27$"), correct: false },
+        { id: "d", text: L("$8a^{3} + 36a^{2} + 27$", "$8a^{3} + 36a^{2} + 27$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Cubo de un binomio (2a+3)",
+          "Cube of a binomial (2a+3)",
+        ),
+        statement: L(
+          "Desarrolle el producto notable:\n\n$$(2a+3)^{3}$$",
+          "Expand the special product:\n\n$$(2a+3)^{3}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Es un cubo de binomio: hay una identidad con CUATRO términos y coeficientes $1, 3, 3, 1$.",
+            "It is a cube of a binomial: there is an identity with FOUR terms and coefficients $1, 3, 3, 1$.",
+          ),
+          L(
+            "$(a+b)^{3} = a^{3} + 3a^{2}b + 3ab^{2} + b^{3}$.",
+            "$(a+b)^{3} = a^{3} + 3a^{2}b + 3ab^{2} + b^{3}$.",
+          ),
+          L(
+            "Aquí $a = 2a$ y $b = 3$: el segundo término es $3 \\cdot (2a)^{2} \\cdot 3$ y el tercero $3 \\cdot 2a \\cdot 3^{2}$.",
+            "Here $a = 2a$ and $b = 3$: the second term is $3 \\cdot (2a)^{2} \\cdot 3$ and the third one $3 \\cdot 2a \\cdot 3^{2}$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(2a+3)^{3} = 8a^{3} + 36a^{2} + 54a + 27$",
+          "$(2a+3)^{3} = 8a^{3} + 36a^{2} + 54a + 27$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El cubo $(2a+3)^{3}$.",
+            "The cube $(2a+3)^{3}$.",
+          ),
+          step(
+            "approach",
+            "Identidad del cubo de un binomio con $a = 2a$ y $b = 3$: los coeficientes $1, 3, 3, 1$ con potencias de $2a$ que bajan y de $3$ que suben.",
+            "Cube-of-a-binomial identity with $a = 2a$ and $b = 3$: the coefficients $1, 3, 3, 1$ with powers of $2a$ going down and of $3$ going up.",
+          ),
+          step(
+            "calculation",
+            "$(2a+3)^{3} = (2a)^{3} + 3(2a)^{2} \\cdot 3 + 3 \\cdot 2a \\cdot 3^{2} + 3^{3}$<br>$= 8a^{3} + 36a^{2} + 54a + 27$",
+            "$(2a+3)^{3} = (2a)^{3} + 3(2a)^{2} \\cdot 3 + 3 \\cdot 2a \\cdot 3^{2} + 3^{3}$<br>$= 8a^{3} + 36a^{2} + 54a + 27$",
+          ),
+          step(
+            "result",
+            "$(2a+3)^{3} = 8a^{3} + 36a^{2} + 54a + 27$. Control: con $a = 1$: $(2+3)^{3} = 5^{3} = 125$ y $8 + 36 + 54 + 27 = 125$ ✓.",
+            "$(2a+3)^{3} = 8a^{3} + 36a^{2} + 54a + 27$. Check: at $a = 1$: $(2+3)^{3} = 5^{3} = 125$ and $8 + 36 + 54 + 27 = 125$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S1.42 — (2a−3)³ = 8a³−36a²+54a−27. */
+  template(
+    {
+      id: "pn-uees-42",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "special-products",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["special-products", "cube-of-binomial"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "1 · 42",
+        page: 1,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$8a^{3} - 36a^{2} + 54a - 27$", "$8a^{3} - 36a^{2} + 54a - 27$"), correct: true },
+        { id: "b", text: L("$8a^{3} - 12a^{2} + 9a - 27$", "$8a^{3} - 12a^{2} + 9a - 27$"), correct: false },
+        { id: "c", text: L("$8a^{3} + 36a^{2} + 54a + 27$", "$8a^{3} + 36a^{2} + 54a + 27$"), correct: false },
+        { id: "d", text: L("$8a^{3} - 36a^{2} - 27$", "$8a^{3} - 36a^{2} - 27$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Cubo de una resta (2a−3)",
+          "Cube of a difference (2a−3)",
+        ),
+        statement: L(
+          "Desarrolle el producto notable:\n\n$$(2a-3)^{3}$$",
+          "Expand the special product:\n\n$$(2a-3)^{3}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Cubo de una resta: la identidad alterna los signos, no los cuatro términos son negativos.",
+            "Cube of a difference: the identity alternates the signs, not all four terms are negative.",
+          ),
+          L(
+            "$(a-b)^{3} = a^{3} - 3a^{2}b + 3ab^{2} - b^{3}$.",
+            "$(a-b)^{3} = a^{3} - 3a^{2}b + 3ab^{2} - b^{3}$.",
+          ),
+          L(
+            "Aquí $a = 2a$ y $b = 3$: el segundo término es $-3 \\cdot (2a)^{2} \\cdot 3$ y el tercero $+3 \\cdot 2a \\cdot 3^{2}$.",
+            "Here $a = 2a$ and $b = 3$: the second term is $-3 \\cdot (2a)^{2} \\cdot 3$ and the third one $+3 \\cdot 2a \\cdot 3^{2}$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(2a-3)^{3} = 8a^{3} - 36a^{2} + 54a - 27$",
+          "$(2a-3)^{3} = 8a^{3} - 36a^{2} + 54a - 27$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El cubo $(2a-3)^{3}$.",
+            "The cube $(2a-3)^{3}$.",
+          ),
+          step(
+            "approach",
+            "Identidad del cubo de una resta con $a = 2a$ y $b = 3$: signos $+,-,+,-$.",
+            "Cube-of-a-difference identity with $a = 2a$ and $b = 3$: signs $+,-,+,-$.",
+          ),
+          step(
+            "calculation",
+            "$(2a-3)^{3} = (2a)^{3} - 3(2a)^{2} \\cdot 3 + 3 \\cdot 2a \\cdot 3^{2} - 3^{3}$<br>$= 8a^{3} - 36a^{2} + 54a - 27$",
+            "$(2a-3)^{3} = (2a)^{3} - 3(2a)^{2} \\cdot 3 + 3 \\cdot 2a \\cdot 3^{2} - 3^{3}$<br>$= 8a^{3} - 36a^{2} + 54a - 27$",
+          ),
+          step(
+            "result",
+            "$(2a-3)^{3} = 8a^{3} - 36a^{2} + 54a - 27$. Control: con $a = 1$: $(2-3)^{3} = (-1)^{3} = -1$ y $8 - 36 + 54 - 27 = -1$ ✓.",
+            "$(2a-3)^{3} = 8a^{3} - 36a^{2} + 54a - 27$. Check: at $a = 1$: $(2-3)^{3} = (-1)^{3} = -1$ and $8 - 36 + 54 - 27 = -1$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S1.43 — (2x−3)³ = 8x³−36x²+54x−27. */
+  template(
+    {
+      id: "pn-uees-43",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "special-products",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["special-products", "cube-of-binomial"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "1 · 43",
+        page: 1,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$8x^{3} - 36x^{2} + 54x - 27$", "$8x^{3} - 36x^{2} + 54x - 27$"), correct: true },
+        { id: "b", text: L("$8x^{3} - 12x^{2} + 9x - 27$", "$8x^{3} - 12x^{2} + 9x - 27$"), correct: false },
+        { id: "c", text: L("$8x^{3} - 36x^{2} - 54x - 27$", "$8x^{3} - 36x^{2} - 54x - 27$"), correct: false },
+        { id: "d", text: L("$8x^{3} - 36x^{2} - 27$", "$8x^{3} - 36x^{2} - 27$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Cubo de una resta en la variable x (2x−3)",
+          "Cube of a difference in the variable x (2x−3)",
+        ),
+        statement: L(
+          "Desarrolle el producto notable:\n\n$$(2x-3)^{3}$$",
+          "Expand the special product:\n\n$$(2x-3)^{3}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Cubo de una resta: mismo patrón del ítem anterior, ahora en la variable $x$.",
+            "Cube of a difference: same pattern as the previous item, now in the variable $x$.",
+          ),
+          L(
+            "$(a-b)^{3} = a^{3} - 3a^{2}b + 3ab^{2} - b^{3}$.",
+            "$(a-b)^{3} = a^{3} - 3a^{2}b + 3ab^{2} - b^{3}$.",
+          ),
+          L(
+            "Aquí $a = 2x$ y $b = 3$: el tercer término lleva signo POSITIVO, $3 \\cdot 2x \\cdot 9$.",
+            "Here $a = 2x$ and $b = 3$: the third term carries a POSITIVE sign, $3 \\cdot 2x \\cdot 9$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(2x-3)^{3} = 8x^{3} - 36x^{2} + 54x - 27$",
+          "$(2x-3)^{3} = 8x^{3} - 36x^{2} + 54x - 27$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El cubo $(2x-3)^{3}$.",
+            "The cube $(2x-3)^{3}$.",
+          ),
+          step(
+            "approach",
+            "Identidad del cubo de una resta con $a = 2x$, $b = 3$; atención al signo del tercer término.",
+            "Cube-of-a-difference identity with $a = 2x$, $b = 3$; mind the sign of the third term.",
+          ),
+          step(
+            "calculation",
+            "$(2x-3)^{3} = (2x)^{3} - 3(2x)^{2} \\cdot 3 + 3 \\cdot 2x \\cdot 3^{2} - 3^{3}$<br>$= 8x^{3} - 36x^{2} + 54x - 27$",
+            "$(2x-3)^{3} = (2x)^{3} - 3(2x)^{2} \\cdot 3 + 3 \\cdot 2x \\cdot 3^{2} - 3^{3}$<br>$= 8x^{3} - 36x^{2} + 54x - 27$",
+          ),
+          step(
+            "result",
+            "$(2x-3)^{3} = 8x^{3} - 36x^{2} + 54x - 27$. Control: con $x = 1$: $(2-3)^{3} = -1$ y $8 - 36 + 54 - 27 = -1$ ✓.",
+            "$(2x-3)^{3} = 8x^{3} - 36x^{2} + 54x - 27$. Check: at $x = 1$: $(2-3)^{3} = -1$ and $8 - 36 + 54 - 27 = -1$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S1.44 — (x+2y)³ = x³+6x²y+12xy²+8y³. */
+  template(
+    {
+      id: "pn-uees-44",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "special-products",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["special-products", "cube-of-binomial", "two-variables"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "1 · 44",
+        page: 1,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$x^{3} + 6x^{2}y + 12xy^{2} + 8y^{3}$", "$x^{3} + 6x^{2}y + 12xy^{2} + 8y^{3}$"), correct: true },
+        { id: "b", text: L("$x^{3} + 3x^{2}y + 3xy^{2} + 8y^{3}$", "$x^{3} + 3x^{2}y + 3xy^{2} + 8y^{3}$"), correct: false },
+        { id: "c", text: L("$x^{3} + 6x^{2}y - 12xy^{2} + 8y^{3}$", "$x^{3} + 6x^{2}y - 12xy^{2} + 8y^{3}$"), correct: false },
+        { id: "d", text: L("$x^{3} + 8y^{3}$", "$x^{3} + 8y^{3}$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Cubo de un binomio con dos variables",
+          "Cube of a binomial in two variables",
+        ),
+        statement: L(
+          "Desarrolle el producto notable:\n\n$$(x+2y)^{3}$$",
+          "Expand the special product:\n\n$$(x+2y)^{3}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Cubo de un binomio con dos variables: usa la identidad completa, no solo los cubos de los extremos.",
+            "Cube of a binomial in two variables: use the full identity, not only the cubes of the ends.",
+          ),
+          L(
+            "$(a+b)^{3} = a^{3} + 3a^{2}b + 3ab^{2} + b^{3}$.",
+            "$(a+b)^{3} = a^{3} + 3a^{2}b + 3ab^{2} + b^{3}$.",
+          ),
+          L(
+            "Aquí $a = x$ y $b = 2y$: los términos centrales son $3 \\cdot x^{2} \\cdot 2y$ y $3 \\cdot x \\cdot (2y)^{2}$.",
+            "Here $a = x$ and $b = 2y$: the middle terms are $3 \\cdot x^{2} \\cdot 2y$ and $3 \\cdot x \\cdot (2y)^{2}$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(x+2y)^{3} = x^{3} + 6x^{2}y + 12xy^{2} + 8y^{3}$",
+          "$(x+2y)^{3} = x^{3} + 6x^{2}y + 12xy^{2} + 8y^{3}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El cubo $(x+2y)^{3}$ en las variables $x$ e $y$.",
+            "The cube $(x+2y)^{3}$ in the variables $x$ and $y$.",
+          ),
+          step(
+            "approach",
+            "Identidad del cubo de un binomio con $a = x$ y $b = 2y$.",
+            "Cube-of-a-binomial identity with $a = x$ and $b = 2y$.",
+          ),
+          step(
+            "calculation",
+            "$(x+2y)^{3} = x^{3} + 3x^{2} \\cdot 2y + 3x \\cdot (2y)^{2} + (2y)^{3}$<br>$= x^{3} + 6x^{2}y + 12xy^{2} + 8y^{3}$",
+            "$(x+2y)^{3} = x^{3} + 3x^{2} \\cdot 2y + 3x \\cdot (2y)^{2} + (2y)^{3}$<br>$= x^{3} + 6x^{2}y + 12xy^{2} + 8y^{3}$",
+          ),
+          step(
+            "result",
+            "$(x+2y)^{3} = x^{3} + 6x^{2}y + 12xy^{2} + 8y^{3}$. Control: con $x = 1$, $y = 1$: $(1+2)^{3} = 27$ y $1 + 6 + 12 + 8 = 27$ ✓.",
+            "$(x+2y)^{3} = x^{3} + 6x^{2}y + 12xy^{2} + 8y^{3}$. Check: at $x = 1$, $y = 1$: $(1+2)^{3} = 27$ and $1 + 6 + 12 + 8 = 27$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S1.45 — (z²−18z)/z = z−18. */
+  template(
+    {
+      id: "pn-uees-45",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "special-products",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 90,
+      tags: ["algebraic-division", "monomial-quotient"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "1 · 45",
+        page: 1,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$z - 18$", "$z - 18$"), correct: true },
+        { id: "b", text: L("$z + 18$", "$z + 18$"), correct: false },
+        { id: "c", text: L("$z - 18z$", "$z - 18z$"), correct: false },
+        { id: "d", text: L("$2z - 18$", "$2z - 18$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "División de un binomio entre un monomio",
+          "Dividing a binomial by a monomial",
+        ),
+        statement: L(
+          "Efectúe la división algebraica:\n\n$$\\frac{z^{2}-18z}{z}$$",
+          "Carry out the algebraic division:\n\n$$\\frac{z^{2}-18z}{z}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "División de un polinomio entre un monomio: divide CADA término del numerador entre el denominador.",
+            "Polynomial divided by a monomial: divide EACH term of the numerator by the denominator.",
+          ),
+          L(
+            "$\\frac{a+b}{c} = \\frac{a}{c} + \\frac{b}{c}$ y $\\frac{a^{m}}{a^{n}} = a^{m-n}$.",
+            "$\\frac{a+b}{c} = \\frac{a}{c} + \\frac{b}{c}$ and $\\frac{a^{m}}{a^{n}} = a^{m-n}$.",
+          ),
+          L(
+            "Aquí $\\frac{z^{2}}{z} = z^{2-1}$ y $\\frac{18z}{z} = 18$.",
+            "Here $\\frac{z^{2}}{z} = z^{2-1}$ and $\\frac{18z}{z} = 18$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\frac{z^{2}-18z}{z} = z - 18$",
+          "$\\frac{z^{2}-18z}{z} = z - 18$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El cociente $\\frac{z^{2}-18z}{z}$ (con $z \\neq 0$).",
+            "The quotient $\\frac{z^{2}-18z}{z}$ (with $z \\neq 0$).",
+          ),
+          step(
+            "approach",
+            "Dividir término a término: cada término del numerador entre el monomio $z$ del denominador.",
+            "Divide term by term: each numerator term by the monomial $z$ in the denominator.",
+          ),
+          step(
+            "calculation",
+            "$\\frac{z^{2}-18z}{z} = \\frac{z^{2}}{z} - \\frac{18z}{z} = z - 18$",
+            "$\\frac{z^{2}-18z}{z} = \\frac{z^{2}}{z} - \\frac{18z}{z} = z - 18$",
+          ),
+          step(
+            "result",
+            "$\\frac{z^{2}-18z}{z} = z - 18$ (válido para $z \\neq 0$). Control: con $z = 2$: $\\frac{4-36}{2} = -16$ y $2 - 18 = -16$ ✓.",
+            "$\\frac{z^{2}-18z}{z} = z - 18$ (valid for $z \\neq 0$). Check: at $z = 2$: $\\frac{4-36}{2} = -16$ and $2 - 18 = -16$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S1.46 — (2x³−7x+4)/x = 2x²−7+4/x. */
+  template(
+    {
+      id: "pn-uees-46",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "special-products",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 120,
+      tags: ["algebraic-division", "term-by-term"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "1 · 46",
+        page: 1,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$2x^{2} - 7 + \\frac{4}{x}$", "$2x^{2} - 7 + \\frac{4}{x}$"), correct: true },
+        { id: "b", text: L("$2x^{2} - 7 + 4x$", "$2x^{2} - 7 + 4x$"), correct: false },
+        { id: "c", text: L("$2x^{2} - 7 - \\frac{4}{x}$", "$2x^{2} - 7 - \\frac{4}{x}$"), correct: false },
+        { id: "d", text: L("$2x^{2} - 7$", "$2x^{2} - 7$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "División término a término con un resto fraccionario",
+          "Term-by-term division with a fractional remainder",
+        ),
+        statement: L(
+          "Efectúe la división algebraica:\n\n$$\\frac{2x^{3}-7x+4}{x}$$",
+          "Carry out the algebraic division:\n\n$$\\frac{2x^{3}-7x+4}{x}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Divide cada término entre $x$; el término $4$ NO es divisible entre $x$: queda como fracción.",
+            "Divide each term by $x$; the term $4$ is NOT divisible by $x$: it stays as a fraction.",
+          ),
+          L(
+            "$\\frac{a^{m}}{a^{n}} = a^{m-n}$; una constante entre $x$ se queda como $\\frac{\\text{constante}}{x}$.",
+            "$\\frac{a^{m}}{a^{n}} = a^{m-n}$; a constant over $x$ remains as $\\frac{\\text{constant}}{x}$.",
+          ),
+          L(
+            "$\\frac{2x^{3}}{x} = 2x^{2}$, $\\frac{7x}{x} = 7$ y el $4$ se queda dividido entre $x$.",
+            "$\\frac{2x^{3}}{x} = 2x^{2}$, $\\frac{7x}{x} = 7$ and the $4$ stays divided by $x$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\frac{2x^{3}-7x+4}{x} = 2x^{2} - 7 + \\frac{4}{x}$",
+          "$\\frac{2x^{3}-7x+4}{x} = 2x^{2} - 7 + \\frac{4}{x}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El cociente $\\frac{2x^{3}-7x+4}{x}$ (con $x \\neq 0$).",
+            "The quotient $\\frac{2x^{3}-7x+4}{x}$ (with $x \\neq 0$).",
+          ),
+          step(
+            "approach",
+            "División término a término; el término independiente genera una fracción que NO desaparece.",
+            "Term-by-term division; the constant term produces a fraction that does NOT disappear.",
+          ),
+          step(
+            "calculation",
+            "$\\frac{2x^{3}-7x+4}{x} = \\frac{2x^{3}}{x} - \\frac{7x}{x} + \\frac{4}{x} = 2x^{2} - 7 + \\frac{4}{x}$",
+            "$\\frac{2x^{3}-7x+4}{x} = \\frac{2x^{3}}{x} - \\frac{7x}{x} + \\frac{4}{x} = 2x^{2} - 7 + \\frac{4}{x}$",
+          ),
+          step(
+            "result",
+            "$\\frac{2x^{3}-7x+4}{x} = 2x^{2} - 7 + \\frac{4}{x}$ (válido para $x \\neq 0$). Control: con $x = 2$: $\\frac{16-14+4}{2} = 3$ y $8 - 7 + \\frac{4}{2} = 3$ ✓.",
+            "$\\frac{2x^{3}-7x+4}{x} = 2x^{2} - 7 + \\frac{4}{x}$ (valid for $x \\neq 0$). Check: at $x = 2$: $\\frac{16-14+4}{2} = 3$ and $8 - 7 + \\frac{4}{2} = 3$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S1.47 — (6u⁵+9u³−1)/(3u²) = 2u³+3u−1/(3u²). */
+  template(
+    {
+      id: "pn-uees-47",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "special-products",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 120,
+      tags: ["algebraic-division", "term-by-term"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "1 · 47",
+        page: 1,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$2u^{3} + 3u - \\frac{1}{3u^{2}}$", "$2u^{3} + 3u - \\frac{1}{3u^{2}}$"), correct: true },
+        { id: "b", text: L("$2u^{3} + 3u - 3u$", "$2u^{3} + 3u - 3u$"), correct: false },
+        { id: "c", text: L("$2u^{3} + 3u + \\frac{1}{3u^{2}}$", "$2u^{3} + 3u + \\frac{1}{3u^{2}}$"), correct: false },
+        { id: "d", text: L("$2u^{3} + 3u$", "$2u^{3} + 3u$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "División entre un monomio con coeficiente",
+          "Division by a monomial with a coefficient",
+        ),
+        statement: L(
+          "Efectúe la división algebraica:\n\n$$\\frac{6u^{5}+9u^{3}-1}{3u^{2}}$$",
+          "Carry out the algebraic division:\n\n$$\\frac{6u^{5}+9u^{3}-1}{3u^{2}}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "El divisor tiene coeficiente $3$: divide también los coeficientes, no solo las potencias de $u$.",
+            "The divisor carries the coefficient $3$: divide the coefficients too, not only the powers of $u$.",
+          ),
+          L(
+            "$\\frac{ka^{m}}{ta^{n}} = \\frac{k}{t} \\, a^{m-n}$.",
+            "$\\frac{ka^{m}}{ta^{n}} = \\frac{k}{t} \\, a^{m-n}$.",
+          ),
+          L(
+            "$\\frac{6u^{5}}{3u^{2}} = 2u^{3}$ y $\\frac{9u^{3}}{3u^{2}} = 3u$; el $-1$ queda dividido entre $3u^{2}$.",
+            "$\\frac{6u^{5}}{3u^{2}} = 2u^{3}$ and $\\frac{9u^{3}}{3u^{2}} = 3u$; the $-1$ stays over $3u^{2}$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\frac{6u^{5}+9u^{3}-1}{3u^{2}} = 2u^{3} + 3u - \\frac{1}{3u^{2}}$",
+          "$\\frac{6u^{5}+9u^{3}-1}{3u^{2}} = 2u^{3} + 3u - \\frac{1}{3u^{2}}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El cociente $\\frac{6u^{5}+9u^{3}-1}{3u^{2}}$ (con $u \\neq 0$).",
+            "The quotient $\\frac{6u^{5}+9u^{3}-1}{3u^{2}}$ (with $u \\neq 0$).",
+          ),
+          step(
+            "approach",
+            "División término a término dividiendo coeficientes y restando exponentes; el $-1$ no se puede dividir exacto.",
+            "Term-by-term division splitting coefficients and subtracting exponents; the $-1$ cannot divide exactly.",
+          ),
+          step(
+            "calculation",
+            "$\\frac{6u^{5}+9u^{3}-1}{3u^{2}} = \\frac{6u^{5}}{3u^{2}} + \\frac{9u^{3}}{3u^{2}} - \\frac{1}{3u^{2}} = 2u^{3} + 3u - \\frac{1}{3u^{2}}$",
+            "$\\frac{6u^{5}+9u^{3}-1}{3u^{2}} = \\frac{6u^{5}}{3u^{2}} + \\frac{9u^{3}}{3u^{2}} - \\frac{1}{3u^{2}} = 2u^{3} + 3u - \\frac{1}{3u^{2}}$",
+          ),
+          step(
+            "result",
+            "$\\frac{6u^{5}+9u^{3}-1}{3u^{2}} = 2u^{3} + 3u - \\frac{1}{3u^{2}}$ (válido para $u \\neq 0$). Control: con $u = 1$: $\\frac{6+9-1}{3} = \\frac{14}{3}$ y $2 + 3 - \\frac{1}{3} = \\frac{14}{3}$ ✓.",
+            "$\\frac{6u^{5}+9u^{3}-1}{3u^{2}} = 2u^{3} + 3u - \\frac{1}{3u^{2}}$ (valid for $u \\neq 0$). Check: at $u = 1$: $\\frac{6+9-1}{3} = \\frac{14}{3}$ and $2 + 3 - \\frac{1}{3} = \\frac{14}{3}$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S1.48 — ((3y−4)−(9y+5))/(3y) = −2−3/y. */
+  template(
+    {
+      id: "pn-uees-48",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "special-products",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 120,
+      tags: ["algebraic-division", "simplify-first"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "1 · 48",
+        page: 1,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$-2 - \\frac{3}{y}$", "$-2 - \\frac{3}{y}$"), correct: true },
+        { id: "b", text: L("$-2 + \\frac{3}{y}$", "$-2 + \\frac{3}{y}$"), correct: false },
+        { id: "c", text: L("$-2 - 3y$", "$-2 - 3y$"), correct: false },
+        { id: "d", text: L("$-\\frac{13y+1}{3y}$", "$-\\frac{13y+1}{3y}$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Restar binomios primero y luego dividir",
+          "Subtract the binomials first, then divide",
+        ),
+        statement: L(
+          "Efectúe la división algebraica:\n\n$$\\frac{(3y-4)-(9y+5)}{3y}$$",
+          "Carry out the algebraic division:\n\n$$\\frac{(3y-4)-(9y+5)}{3y}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Primero resuelve la resta del numerador: el signo menos del paréntesis cambia TODOS los signos de adentro.",
+            "First solve the subtraction in the numerator: the minus sign in front of the parenthesis flips EVERY sign inside.",
+          ),
+          L(
+            "$(a-b)-(c+d) = a - b - c - d$; luego divide cada término entre $3y$.",
+            "$(a-b)-(c+d) = a - b - c - d$; then divide each term by $3y$.",
+          ),
+          L(
+            "El numerador queda $3y - 4 - 9y - 5$; reduce los términos en $y$ y los constantes antes de dividir.",
+            "The numerator becomes $3y - 4 - 9y - 5$; combine the $y$ terms and the constants before dividing.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\frac{(3y-4)-(9y+5)}{3y} = -2 - \\frac{3}{y}$",
+          "$\\frac{(3y-4)-(9y+5)}{3y} = -2 - \\frac{3}{y}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El cociente $\\frac{(3y-4)-(9y+5)}{3y}$ (con $y \\neq 0$).",
+            "The quotient $\\frac{(3y-4)-(9y+5)}{3y}$ (with $y \\neq 0$).",
+          ),
+          step(
+            "approach",
+            "Simplificar el numerador (ojo con el signo del segundo paréntesis) y luego dividir término a término entre $3y$.",
+            "Simplify the numerator (mind the sign of the second parenthesis) and then divide term by term by $3y$.",
+          ),
+          step(
+            "calculation",
+            "Numerador: $(3y-4)-(9y+5) = 3y - 4 - 9y - 5 = -6y - 9$<br>$\\frac{-6y-9}{3y} = \\frac{-6y}{3y} - \\frac{9}{3y} = -2 - \\frac{3}{y}$",
+            "Numerator: $(3y-4)-(9y+5) = 3y - 4 - 9y - 5 = -6y - 9$<br>$\\frac{-6y-9}{3y} = \\frac{-6y}{3y} - \\frac{9}{3y} = -2 - \\frac{3}{y}$",
+          ),
+          step(
+            "result",
+            "$\\frac{(3y-4)-(9y+5)}{3y} = -2 - \\frac{3}{y}$ (válido para $y \\neq 0$). Control: con $y = 1$: $\\frac{(3-4)-(9+5)}{3} = \\frac{-15}{3} = -5$ y $-2 - 3 = -5$ ✓.",
+            "$\\frac{(3y-4)-(9y+5)}{3y} = -2 - \\frac{3}{y}$ (valid for $y \\neq 0$). Check: at $y = 1$: $\\frac{(3-4)-(9+5)}{3} = \\frac{-15}{3} = -5$ and $-2 - 3 = -5$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* ================================================================== */
+  /* Sección 2 «FACTORIZACION» — ítems 21-52 (pág. 2).                  */
+  /* ================================================================== */
+
+  /* S2.21 — 5x²+16x+3 = (5x+1)(x+3). */
+  template(
+    {
+      id: "fc-uees-21",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 120,
+      tags: ["factoring", "trinomial", "leading-coefficient"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "2 · 21",
+        page: 2,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$(5x+1)(x+3)$", "$(5x+1)(x+3)$"), correct: true },
+        { id: "b", text: L("$(5x+3)(x+1)$", "$(5x+3)(x+1)$"), correct: false },
+        { id: "c", text: L("$(5x+1)(x-3)$", "$(5x+1)(x-3)$"), correct: false },
+        { id: "d", text: L("$(x+3)(5x+3)$", "$(x+3)(5x+3)$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Factorizar un trinomio con coeficiente principal 5",
+          "Factoring a trinomial with leading coefficient 5",
+        ),
+        statement: L(
+          "Factorice completamente:\n\n$$5x^{2}+16x+3$$",
+          "Factor completely:\n\n$$5x^{2}+16x+3$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Trinomio con coeficiente principal distinto de 1: busca dos binomios $(ax+b)(cx+d)$.",
+            "Trinomial with leading coefficient other than 1: look for two binomials $(ax+b)(cx+d)$.",
+          ),
+          L(
+            "Debe cumplirse $ac = 5$, $bd = 3$ y $ad + bc = 16$.",
+            "It must satisfy $ac = 5$, $bd = 3$ and $ad + bc = 16$.",
+          ),
+          L(
+            "Con $ac = 5 = 5 \\cdot 1$ y $bd = 3 = 3 \\cdot 1$: prueba dónde colocar el $5$ y el $3$ para que el término central salga $16x$.",
+            "With $ac = 5 = 5 \\cdot 1$ and $bd = 3 = 3 \\cdot 1$: try where to place the $5$ and the $3$ so the middle term becomes $16x$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$5x^{2}+16x+3 = (5x+1)(x+3)$",
+          "$5x^{2}+16x+3 = (5x+1)(x+3)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El trinomio $5x^{2}+16x+3$.",
+            "The trinomial $5x^{2}+16x+3$.",
+          ),
+          step(
+            "approach",
+            "Prueba y error dirigido: $ac = 5$ y $bd = 3$ dejan pocas combinaciones; verificar expandiendo.",
+            "Guided trial and error: $ac = 5$ and $bd = 3$ leave few combinations; verify by expanding.",
+          ),
+          step(
+            "calculation",
+            "$(5x+1)(x+3) = 5x^{2} + 15x + x + 3 = 5x^{2} + 16x + 3$ ✓",
+            "$(5x+1)(x+3) = 5x^{2} + 15x + x + 3 = 5x^{2} + 16x + 3$ ✓",
+          ),
+          step(
+            "result",
+            "$5x^{2}+16x+3 = (5x+1)(x+3)$. Control: con $x = 1$: $5 + 16 + 3 = 24$ y $(6)(4) = 24$ ✓.",
+            "$5x^{2}+16x+3 = (5x+1)(x+3)$. Check: at $x = 1$: $5 + 16 + 3 = 24$ and $(6)(4) = 24$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S2.22 — 4x²−x−3 = (4x+3)(x−1). */
+  template(
+    {
+      id: "fc-uees-22",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 120,
+      tags: ["factoring", "trinomial", "leading-coefficient"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "2 · 22",
+        page: 2,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$(4x+3)(x-1)$", "$(4x+3)(x-1)$"), correct: true },
+        { id: "b", text: L("$(4x-3)(x+1)$", "$(4x-3)(x+1)$"), correct: false },
+        { id: "c", text: L("$(4x-1)(x+3)$", "$(4x-1)(x+3)$"), correct: false },
+        { id: "d", text: L("$(4x+3)(x+1)$", "$(4x+3)(x+1)$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Factorizar un trinomio con coeficiente principal 4 y signos mixtos",
+          "Factoring a trinomial with leading coefficient 4 and mixed signs",
+        ),
+        statement: L(
+          "Factorice completamente:\n\n$$4x^{2}-x-3$$",
+          "Factor completely:\n\n$$4x^{2}-x-3$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "El término independiente es negativo: los signos de los binomios son DISTINTOS.",
+            "The constant term is negative: the binomial signs are DIFFERENT.",
+          ),
+          L(
+            "Necesitas $ac = 4$, $bd = -3$ y $ad + bc = -1$.",
+            "You need $ac = 4$, $bd = -3$ and $ad + bc = -1$.",
+          ),
+          L(
+            "Con $4 = 4 \\cdot 1$ y $-3 = 3 \\cdot (-1)$: el cruce $4 \\cdot (-1) + 3 \\cdot 1$ debe dar $-1$.",
+            "With $4 = 4 \\cdot 1$ and $-3 = 3 \\cdot (-1)$: the cross $4 \\cdot (-1) + 3 \\cdot 1$ must give $-1$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$4x^{2}-x-3 = (4x+3)(x-1)$",
+          "$4x^{2}-x-3 = (4x+3)(x-1)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El trinomio $4x^{2}-x-3$.",
+            "The trinomial $4x^{2}-x-3$.",
+          ),
+          step(
+            "approach",
+            "Signos distintos (por el $-3$); buscar la repartición de $4$ y de $3$ cuyo cruce dé $-1x$.",
+            "Different signs (because of the $-3$); find the arrangement of the $4$ and the $3$ whose cross gives $-1x$.",
+          ),
+          step(
+            "calculation",
+            "$(4x+3)(x-1) = 4x^{2} - 4x + 3x - 3 = 4x^{2} - x - 3$ ✓",
+            "$(4x+3)(x-1) = 4x^{2} - 4x + 3x - 3 = 4x^{2} - x - 3$ ✓",
+          ),
+          step(
+            "result",
+            "$4x^{2}-x-3 = (4x+3)(x-1)$. Control: con $x = 2$: $16 - 2 - 3 = 11$ y $(11)(1) = 11$ ✓.",
+            "$4x^{2}-x-3 = (4x+3)(x-1)$. Check: at $x = 2$: $16 - 2 - 3 = 11$ and $(11)(1) = 11$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S2.23 — 12s³+10s²−8s = 2s(2s−1)(3s+4). */
+  template(
+    {
+      id: "fc-uees-23",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["factoring", "common-factor", "trinomial"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "2 · 23",
+        page: 2,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$2s(2s-1)(3s+4)$", "$2s(2s-1)(3s+4)$"), correct: true },
+        { id: "b", text: L("$2s\\left(6s^{2}+5s-4\\right)$", "$2s\\left(6s^{2}+5s-4\\right)$"), correct: false },
+        { id: "c", text: L("$2s(2s+1)(3s-4)$", "$2s(2s+1)(3s-4)$"), correct: false },
+        { id: "d", text: L("$2s(2s-1)(3s-4)$", "$2s(2s-1)(3s-4)$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Factor común primero y trinomio después",
+          "Common factor first and a trinomial afterwards",
+        ),
+        statement: L(
+          "Factorice completamente:\n\n$$12s^{3}+10s^{2}-8s$$",
+          "Factor completely:\n\n$$12s^{3}+10s^{2}-8s$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Los tres términos comparten la variable $s$ y un factor numérico: sácalos primero.",
+            "The three terms share the variable $s$ and a numeric factor: pull them out first.",
+          ),
+          L(
+            "Factor común $2s$: queda un trinomio $6s^{2}+5s-4$ que todavía se puede factorizar.",
+            "Common factor $2s$: a trinomial $6s^{2}+5s-4$ remains that can still be factored.",
+          ),
+          L(
+            "Para $6s^{2}+5s-4$ busca $ac = 6$, $bd = -4$ con cruce $5$: prueba $(2s-1)(3s+4)$.",
+            "For $6s^{2}+5s-4$ look for $ac = 6$, $bd = -4$ with cross $5$: try $(2s-1)(3s+4)$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$12s^{3}+10s^{2}-8s = 2s(2s-1)(3s+4)$",
+          "$12s^{3}+10s^{2}-8s = 2s(2s-1)(3s+4)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El polinomio $12s^{3}+10s^{2}-8s$.",
+            "The polynomial $12s^{3}+10s^{2}-8s$.",
+          ),
+          step(
+            "approach",
+            "Dos pasos: extraer el factor común $2s$ y factorizar el trinomio que queda.",
+            "Two steps: pull out the common factor $2s$ and factor the remaining trinomial.",
+          ),
+          step(
+            "calculation",
+            "$12s^{3}+10s^{2}-8s = 2s\\left(6s^{2}+5s-4\\right)$<br>$6s^{2}+5s-4 = (2s-1)(3s+4)$<br>Entonces: $12s^{3}+10s^{2}-8s = 2s(2s-1)(3s+4)$",
+            "$12s^{3}+10s^{2}-8s = 2s\\left(6s^{2}+5s-4\\right)$<br>$6s^{2}+5s-4 = (2s-1)(3s+4)$<br>So: $12s^{3}+10s^{2}-8s = 2s(2s-1)(3s+4)$",
+          ),
+          step(
+            "result",
+            "$12s^{3}+10s^{2}-8s = 2s(2s-1)(3s+4)$. Control: con $s = 1$: $12 + 10 - 8 = 14$ y $2 \\cdot 1 \\cdot 1 \\cdot 7 = 14$ ✓.",
+            "$12s^{3}+10s^{2}-8s = 2s(2s-1)(3s+4)$. Check: at $s = 1$: $12 + 10 - 8 = 14$ and $2 \\cdot 1 \\cdot 1 \\cdot 7 = 14$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S2.24 — 9z²+30z+25 = (3z+5)². */
+  template(
+    {
+      id: "fc-uees-24",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "easy",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 75,
+      tags: ["factoring", "perfect-square"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "2 · 24",
+        page: 2,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$(3z+5)^{2}$", "$(3z+5)^{2}$"), correct: true },
+        { id: "b", text: L("$(3z+5)(3z-5)$", "$(3z+5)(3z-5)$"), correct: false },
+        { id: "c", text: L("$(3z-5)^{2}$", "$(3z-5)^{2}$"), correct: false },
+        { id: "d", text: L("$(9z+5)(z+5)$", "$(9z+5)(z+5)$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Reconocer un trinomio cuadrado perfecto",
+          "Recognizing a perfect-square trinomial",
+        ),
+        statement: L(
+          "Factorice completamente:\n\n$$9z^{2}+30z+25$$",
+          "Factor completely:\n\n$$9z^{2}+30z+25$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Observa los extremos: $9z^{2}$ y $25$ son cuadrados perfectos.",
+            "Look at the ends: $9z^{2}$ and $25$ are perfect squares.",
+          ),
+          L(
+            "Un trinomio $a^{2} + 2ab + b^{2}$ se factoriza como $(a+b)^{2}$.",
+            "A trinomial $a^{2} + 2ab + b^{2}$ factors as $(a+b)^{2}$.",
+          ),
+          L(
+            "Aquí $a = 3z$ y $b = 5$: comprueba si el término central es el doble producto $2 \\cdot 3z \\cdot 5 = 30z$.",
+            "Here $a = 3z$ and $b = 5$: check whether the middle term is the double product $2 \\cdot 3z \\cdot 5 = 30z$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$9z^{2}+30z+25 = (3z+5)^{2}$",
+          "$9z^{2}+30z+25 = (3z+5)^{2}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El trinomio $9z^{2}+30z+25$.",
+            "The trinomial $9z^{2}+30z+25$.",
+          ),
+          step(
+            "approach",
+            "Verificar la estructura de cuadrado perfecto: $a^{2} + 2ab + b^{2}$ con $a = 3z$ y $b = 5$.",
+            "Verify the perfect-square structure: $a^{2} + 2ab + b^{2}$ with $a = 3z$ and $b = 5$.",
+          ),
+          step(
+            "calculation",
+            "$(3z)^{2} + 2 \\cdot 3z \\cdot 5 + 5^{2} = 9z^{2} + 30z + 25$, así que $9z^{2}+30z+25 = (3z+5)^{2}$",
+            "$(3z)^{2} + 2 \\cdot 3z \\cdot 5 + 5^{2} = 9z^{2} + 30z + 25$, so $9z^{2}+30z+25 = (3z+5)^{2}$",
+          ),
+          step(
+            "result",
+            "$9z^{2}+30z+25 = (3z+5)^{2}$. Control: con $z = 1$: $9 + 30 + 25 = 64$ y $(3+5)^{2} = 64$ ✓.",
+            "$9z^{2}+30z+25 = (3z+5)^{2}$. Check: at $z = 1$: $9 + 30 + 25 = 64$ and $(3+5)^{2} = 64$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S2.25 — u^(13/5)v − 4u^(3/5)v³ = u^(3/5)v(u−2v)(u+2v). */
+  template(
+    {
+      id: "fc-uees-25",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 180,
+      tags: ["factoring", "common-factor", "fractional-exponents", "difference-of-squares"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "2 · 25",
+        page: 2,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$u^{\\frac{3}{5}}v(u-2v)(u+2v)$", "$u^{\\frac{3}{5}}v(u-2v)(u+2v)$"), correct: true },
+        { id: "b", text: L("$u^{\\frac{3}{5}}v\\left(u^{2}-4v^{2}\\right)$", "$u^{\\frac{3}{5}}v\\left(u^{2}-4v^{2}\\right)$"), correct: false },
+        { id: "c", text: L("$u^{\\frac{3}{5}}v(u-2v)(u+v)$", "$u^{\\frac{3}{5}}v(u-2v)(u+v)$"), correct: false },
+        { id: "d", text: L("$u^{\\frac{13}{5}}v(u-4v)(u+4v)$", "$u^{\\frac{13}{5}}v(u-4v)(u+4v)$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Factor común con exponentes fraccionarios y diferencia de cuadrados",
+          "Common factor with fractional exponents and difference of squares",
+        ),
+        statement: L(
+          "Factorice completamente:\n\n$$u^{\\frac{13}{5}}v-4u^{\\frac{3}{5}}v^{3}$$",
+          "Factor completely:\n\n$$u^{\\frac{13}{5}}v-4u^{\\frac{3}{5}}v^{3}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "El factor común de potencias de la misma base lleva el MENOR exponente; aquí también hay una $v$ común.",
+            "The common factor of powers of the same base carries the SMALLEST exponent; here there is also a common $v$.",
+          ),
+          L(
+            "Al dividir potencias se restan los exponentes: $u^{\\frac{13}{5}} \\div u^{\\frac{3}{5}} = u^{\\frac{10}{5}} = u^{2}$.",
+            "Dividing powers subtracts the exponents: $u^{\\frac{13}{5}} \\div u^{\\frac{3}{5}} = u^{\\frac{10}{5}} = u^{2}$.",
+          ),
+          L(
+            "Dentro del paréntesis queda $u^{2} - 4v^{2}$: es una diferencia de cuadrados.",
+            "Inside the parentheses $u^{2} - 4v^{2}$ remains: it is a difference of squares.",
+          ),
+        ],
+        answerDisplay: L(
+          "$u^{\\frac{13}{5}}v-4u^{\\frac{3}{5}}v^{3} = u^{\\frac{3}{5}}v(u-2v)(u+2v)$",
+          "$u^{\\frac{13}{5}}v-4u^{\\frac{3}{5}}v^{3} = u^{\\frac{3}{5}}v(u-2v)(u+2v)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La expresión $u^{\\frac{13}{5}}v-4u^{\\frac{3}{5}}v^{3}$, con exponentes fraccionarios en $u$.",
+            "The expression $u^{\\frac{13}{5}}v-4u^{\\frac{3}{5}}v^{3}$, with fractional exponents in $u$.",
+          ),
+          step(
+            "approach",
+            "Extraer el factor común $u^{\\frac{3}{5}}v$ (menor exponente de $u$ y la $v$ común) y luego factorizar la diferencia de cuadrados que queda.",
+            "Pull out the common factor $u^{\\frac{3}{5}}v$ (smallest exponent of $u$ plus the common $v$) and then factor the remaining difference of squares.",
+          ),
+          step(
+            "calculation",
+            "$u^{\\frac{13}{5}}v-4u^{\\frac{3}{5}}v^{3} = u^{\\frac{3}{5}}v\\left(u^{2}-4v^{2}\\right)$<br>$u^{2}-4v^{2} = (u-2v)(u+2v)$<br>Entonces: $u^{\\frac{13}{5}}v-4u^{\\frac{3}{5}}v^{3} = u^{\\frac{3}{5}}v(u-2v)(u+2v)$",
+            "$u^{\\frac{13}{5}}v-4u^{\\frac{3}{5}}v^{3} = u^{\\frac{3}{5}}v\\left(u^{2}-4v^{2}\\right)$<br>$u^{2}-4v^{2} = (u-2v)(u+2v)$<br>So: $u^{\\frac{13}{5}}v-4u^{\\frac{3}{5}}v^{3} = u^{\\frac{3}{5}}v(u-2v)(u+2v)$",
+          ),
+          step(
+            "result",
+            "$u^{\\frac{13}{5}}v-4u^{\\frac{3}{5}}v^{3} = u^{\\frac{3}{5}}v(u-2v)(u+2v)$. Control: con $u = 1$, $v = 1$: $1 - 4 = -3$ y $1 \\cdot 1 \\cdot (-1) \\cdot 3 = -3$ ✓.",
+            "$u^{\\frac{13}{5}}v-4u^{\\frac{3}{5}}v^{3} = u^{\\frac{3}{5}}v(u-2v)(u+2v)$. Check: at $u = 1$, $v = 1$: $1 - 4 = -3$ and $1 \\cdot 1 \\cdot (-1) \\cdot 3 = -3$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S2.26 — 4x^(6/5)−1 = (2x^(3/5)−1)(2x^(3/5)+1). */
+  template(
+    {
+      id: "fc-uees-26",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 180,
+      tags: ["factoring", "fractional-exponents", "difference-of-squares"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "2 · 26",
+        page: 2,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$\\left(2x^{\\frac{3}{5}}-1\\right)\\left(2x^{\\frac{3}{5}}+1\\right)$", "$\\left(2x^{\\frac{3}{5}}-1\\right)\\left(2x^{\\frac{3}{5}}+1\\right)$"), correct: true },
+        { id: "b", text: L("$\\left(2x^{\\frac{3}{5}}\\right)^{2}-1$", "$\\left(2x^{\\frac{3}{5}}\\right)^{2}-1$"), correct: false },
+        { id: "c", text: L("$\\left(2x^{\\frac{6}{5}}-1\\right)\\left(2x^{\\frac{6}{5}}+1\\right)$", "$\\left(2x^{\\frac{6}{5}}-1\\right)\\left(2x^{\\frac{6}{5}}+1\\right)$"), correct: false },
+        { id: "d", text: L("$\\left(4x^{\\frac{3}{5}}-1\\right)\\left(x^{\\frac{3}{5}}+1\\right)$", "$\\left(4x^{\\frac{3}{5}}-1\\right)\\left(x^{\\frac{3}{5}}+1\\right)$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Diferencia de cuadrados con exponentes fraccionarios",
+          "Difference of squares with fractional exponents",
+        ),
+        statement: L(
+          "Factorice completamente:\n\n$$4x^{\\frac{6}{5}}-1$$",
+          "Factor completely:\n\n$$4x^{\\frac{6}{5}}-1$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "El exponente fraccionario $\\frac{6}{5}$ es PAR al multiplicar por $\\frac{1}{2}$: piensa en el cuadrado de $2x^{\\frac{3}{5}}$.",
+            "The fractional exponent $\\frac{6}{5}$ becomes even when halved: think of the square of $2x^{\\frac{3}{5}}$.",
+          ),
+          L(
+            "$a^{2}-b^{2} = (a-b)(a+b)$.",
+            "$a^{2}-b^{2} = (a-b)(a+b)$.",
+          ),
+          L(
+            "Aquí $a = 2x^{\\frac{3}{5}}$ (porque $\\left(2x^{\\frac{3}{5}}\\right)^{2} = 4x^{\\frac{6}{5}}$) y $b = 1$.",
+            "Here $a = 2x^{\\frac{3}{5}}$ (because $\\left(2x^{\\frac{3}{5}}\\right)^{2} = 4x^{\\frac{6}{5}}$) and $b = 1$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$4x^{\\frac{6}{5}}-1 = \\left(2x^{\\frac{3}{5}}-1\\right)\\left(2x^{\\frac{3}{5}}+1\\right)$",
+          "$4x^{\\frac{6}{5}}-1 = \\left(2x^{\\frac{3}{5}}-1\\right)\\left(2x^{\\frac{3}{5}}+1\\right)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La expresión $4x^{\\frac{6}{5}}-1$.",
+            "The expression $4x^{\\frac{6}{5}}-1$.",
+          ),
+          step(
+            "approach",
+            "Reconocer la diferencia de cuadrados con $a = 2x^{\\frac{3}{5}}$ y $b = 1$.",
+            "Recognize the difference of squares with $a = 2x^{\\frac{3}{5}}$ and $b = 1$.",
+          ),
+          step(
+            "calculation",
+            "$4x^{\\frac{6}{5}}-1 = \\left(2x^{\\frac{3}{5}}\\right)^{2} - 1^{2} = \\left(2x^{\\frac{3}{5}}-1\\right)\\left(2x^{\\frac{3}{5}}+1\\right)$",
+            "$4x^{\\frac{6}{5}}-1 = \\left(2x^{\\frac{3}{5}}\\right)^{2} - 1^{2} = \\left(2x^{\\frac{3}{5}}-1\\right)\\left(2x^{\\frac{3}{5}}+1\\right)$",
+          ),
+          step(
+            "result",
+            "$4x^{\\frac{6}{5}}-1 = \\left(2x^{\\frac{3}{5}}-1\\right)\\left(2x^{\\frac{3}{5}}+1\\right)$. Control: con $x = 1$: $4 - 1 = 3$ y $(2-1)(2+1) = 3$ ✓.",
+            "$4x^{\\frac{6}{5}}-1 = \\left(2x^{\\frac{3}{5}}-1\\right)\\left(2x^{\\frac{3}{5}}+1\\right)$. Check: at $x = 1$: $4 - 1 = 3$ and $(2-1)(2+1) = 3$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S2.27 — 2x³+2x²−12x = 2x(x−2)(x+3). */
+  template(
+    {
+      id: "fc-uees-27",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 120,
+      tags: ["factoring", "common-factor", "trinomial"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "2 · 27",
+        page: 2,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$2x(x-2)(x+3)$", "$2x(x-2)(x+3)$"), correct: true },
+        { id: "b", text: L("$2x\\left(x^{2}+x-6\\right)$", "$2x\\left(x^{2}+x-6\\right)$"), correct: false },
+        { id: "c", text: L("$2x(x+2)(x-3)$", "$2x(x+2)(x-3)$"), correct: false },
+        { id: "d", text: L("$2x(x-2)(x-3)$", "$2x(x-2)(x-3)$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Factor común y trinomio simple",
+          "Common factor and a simple trinomial",
+        ),
+        statement: L(
+          "Factorice completamente:\n\n$$2x^{3}+2x^{2}-12x$$",
+          "Factor completely:\n\n$$2x^{3}+2x^{2}-12x$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Los tres términos comparten $2x$: extráelo primero.",
+            "The three terms share $2x$: pull it out first.",
+          ),
+          L(
+            "El trinomio que queda se factoriza buscando dos números que multipliquen el independiente y sumen el coeficiente lineal.",
+            "The remaining trinomial factors by looking for two numbers that multiply to the constant and add to the linear coefficient.",
+          ),
+          L(
+            "Dentro queda $x^{2}+x-6$: busca dos números con producto $-6$ y suma $1$.",
+            "Inside, $x^{2}+x-6$ remains: look for two numbers with product $-6$ and sum $1$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$2x^{3}+2x^{2}-12x = 2x(x-2)(x+3)$",
+          "$2x^{3}+2x^{2}-12x = 2x(x-2)(x+3)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El polinomio $2x^{3}+2x^{2}-12x$.",
+            "The polynomial $2x^{3}+2x^{2}-12x$.",
+          ),
+          step(
+            "approach",
+            "Factor común $2x$ y luego el trinomio $x^{2}+x-6$ por producto y suma.",
+            "Common factor $2x$ and then the trinomial $x^{2}+x-6$ by product and sum.",
+          ),
+          step(
+            "calculation",
+            "$2x^{3}+2x^{2}-12x = 2x\\left(x^{2}+x-6\\right)$<br>$x^{2}+x-6 = (x-2)(x+3)$ (producto $-6$, suma $1$)<br>Entonces: $2x^{3}+2x^{2}-12x = 2x(x-2)(x+3)$",
+            "$2x^{3}+2x^{2}-12x = 2x\\left(x^{2}+x-6\\right)$<br>$x^{2}+x-6 = (x-2)(x+3)$ (product $-6$, sum $1$)<br>So: $2x^{3}+2x^{2}-12x = 2x(x-2)(x+3)$",
+          ),
+          step(
+            "result",
+            "$2x^{3}+2x^{2}-12x = 2x(x-2)(x+3)$. Control: con $x = 3$: $54 + 18 - 36 = 36$ y $2 \\cdot 3 \\cdot 1 \\cdot 6 = 36$ ✓.",
+            "$2x^{3}+2x^{2}-12x = 2x(x-2)(x+3)$. Check: at $x = 3$: $54 + 18 - 36 = 36$ and $2 \\cdot 3 \\cdot 1 \\cdot 6 = 36$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S2.28 — x²y²−4xy+4 = (xy−2)². */
+  template(
+    {
+      id: "fc-uees-28",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 120,
+      tags: ["factoring", "perfect-square", "substitution"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "2 · 28",
+        page: 2,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$(xy-2)^{2}$", "$(xy-2)^{2}$"), correct: true },
+        { id: "b", text: L("$(xy-2)(xy+2)$", "$(xy-2)(xy+2)$"), correct: false },
+        { id: "c", text: L("$(xy+2)^{2}$", "$(xy+2)^{2}$"), correct: false },
+        { id: "d", text: L("$(xy-4)^{2}$", "$(xy-4)^{2}$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Un trinomio cuadrado perfecto disfrazado (con xy)",
+          "A perfect-square trinomial in disguise (with xy)",
+        ),
+        statement: L(
+          "Factorice completamente:\n\n$$x^{2}y^{2}-4xy+4$$",
+          "Factor completely:\n\n$$x^{2}y^{2}-4xy+4$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Trata el bloque $xy$ como si fuera una sola variable: escribe $u = xy$.",
+            "Treat the block $xy$ as a single variable: write $u = xy$.",
+          ),
+          L(
+            "Con $u = xy$ la expresión es $u^{2} - 4u + 4$, un trinomio cuadrado perfecto.",
+            "With $u = xy$ the expression is $u^{2} - 4u + 4$, a perfect-square trinomial.",
+          ),
+          L(
+            "El doble producto es $2 \\cdot xy \\cdot 2 = 4xy$ (el término central, con signo menos).",
+            "The double product is $2 \\cdot xy \\cdot 2 = 4xy$ (the middle term, with a minus sign).",
+          ),
+        ],
+        answerDisplay: L(
+          "$x^{2}y^{2}-4xy+4 = (xy-2)^{2}$",
+          "$x^{2}y^{2}-4xy+4 = (xy-2)^{2}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La expresión $x^{2}y^{2}-4xy+4$.",
+            "The expression $x^{2}y^{2}-4xy+4$.",
+          ),
+          step(
+            "approach",
+            "Sustitución $u = xy$: el trinomio $u^{2} - 4u + 4$ es un cuadrado perfecto.",
+            "Substitution $u = xy$: the trinomial $u^{2} - 4u + 4$ is a perfect square.",
+          ),
+          step(
+            "calculation",
+            "$(xy)^{2} - 2 \\cdot xy \\cdot 2 + 2^{2} = (xy-2)^{2}$",
+            "$(xy)^{2} - 2 \\cdot xy \\cdot 2 + 2^{2} = (xy-2)^{2}$",
+          ),
+          step(
+            "result",
+            "$x^{2}y^{2}-4xy+4 = (xy-2)^{2}$. Control: con $x = 3$, $y = 1$: $9 - 12 + 4 = 1$ y $(3-2)^{2} = 1$ ✓.",
+            "$x^{2}y^{2}-4xy+4 = (xy-2)^{2}$. Check: at $x = 3$, $y = 1$: $9 - 12 + 4 = 1$ and $(3-2)^{2} = 1$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S2.29 — (4x+2)² = 4(2x+1)². */
+  template(
+    {
+      id: "fc-uees-29",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["factoring", "common-factor", "perfect-square"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "2 · 29",
+        page: 2,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$4(2x+1)^{2}$", "$4(2x+1)^{2}$"), correct: true },
+        { id: "b", text: L("$(4x+2)^{2}$", "$(4x+2)^{2}$"), correct: false },
+        { id: "c", text: L("$2(2x+1)^{2}$", "$2(2x+1)^{2}$"), correct: false },
+        { id: "d", text: L("$4(2x-1)^{2}$", "$4(2x-1)^{2}$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "El cuadrado esconde un factor 4",
+          "A hidden factor 4 inside the square",
+        ),
+        statement: L(
+          "Factorice completamente:\n\n$$(4x+2)^{2}$$",
+          "Factor completely:\n\n$$(4x+2)^{2}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Parece ya factorizado, pero el binomio de adentro todavía tiene un factor común.",
+            "It looks factored already, but the binomial inside still has a common factor.",
+          ),
+          L(
+            "$(ka)^{2} = k^{2}a^{2}$: el cuadrado de un producto reparte el exponente.",
+            "$(ka)^{2} = k^{2}a^{2}$: the square of a product distributes the exponent.",
+          ),
+          L(
+            "$4x+2 = 2(2x+1)$, así que el cuadrado del binomio contiene $2^{2} = 4$.",
+            "$4x+2 = 2(2x+1)$, so the square of the binomial contains $2^{2} = 4$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(4x+2)^{2} = 4(2x+1)^{2}$",
+          "$(4x+2)^{2} = 4(2x+1)^{2}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El cuadrado $(4x+2)^{2}$: el binomio interior no es primo.",
+            "The square $(4x+2)^{2}$: the inner binomial is not prime.",
+          ),
+          step(
+            "approach",
+            "Extraer el factor común $2$ del binomio interior; su cuadrado sale multiplicado como $4$.",
+            "Pull the common factor $2$ out of the inner binomial; its square comes out as $4$.",
+          ),
+          step(
+            "calculation",
+            "$(4x+2)^{2} = \\left[2(2x+1)\\right]^{2} = 2^{2}(2x+1)^{2} = 4(2x+1)^{2}$",
+            "$(4x+2)^{2} = \\left[2(2x+1)\\right]^{2} = 2^{2}(2x+1)^{2} = 4(2x+1)^{2}$",
+          ),
+          step(
+            "result",
+            "$(4x+2)^{2} = 4(2x+1)^{2}$. Control: con $x = 1$: $(4+2)^{2} = 36$ y $4(3)^{2} = 36$ ✓.",
+            "$(4x+2)^{2} = 4(2x+1)^{2}$. Check: at $x = 1$: $(4+2)^{2} = 36$ and $4(3)^{2} = 36$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S2.30 — 2x²(2x−4x²)² = 8x⁴(1−2x)². */
+  template(
+    {
+      id: "fc-uees-30",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 210,
+      tags: ["factoring", "common-factor", "perfect-square"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "2 · 30",
+        page: 2,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$8x^{4}(1-2x)^{2}$", "$8x^{4}(1-2x)^{2}$"), correct: true },
+        { id: "b", text: L("$2x^{2}\\left(2x-4x^{2}\\right)^{2}$", "$2x^{2}\\left(2x-4x^{2}\\right)^{2}$"), correct: false },
+        { id: "c", text: L("$8x^{4}(1+2x)^{2}$", "$8x^{4}(1+2x)^{2}$"), correct: false },
+        { id: "d", text: L("$4x^{4}(1-2x)^{2}$", "$4x^{4}(1-2x)^{2}$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Factorizar por dentro del cuadrado",
+          "Factoring inside the square",
+        ),
+        statement: L(
+          "Factorice completamente:\n\n$$2x^{2}\\left(2x-4x^{2}\\right)^{2}$$",
+          "Factor completely:\n\n$$2x^{2}\\left(2x-4x^{2}\\right)^{2}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "El binomio dentro del corchete todavía tiene factor común: factorízalo ANTES de cuadrar.",
+            "The binomial inside the bracket still has a common factor: factor it BEFORE squaring.",
+          ),
+          L(
+            "$(ka)^{2} = k^{2}a^{2}$: el factor que sacas del paréntesis sale al cuadrado.",
+            "$(ka)^{2} = k^{2}a^{2}$: the factor you pull out of the parenthesis comes out squared.",
+          ),
+          L(
+            "$2x-4x^{2} = 2x(1-2x)$, así que el corchete aporta $\\left(2x\\right)^{2} = 4x^{2}$.",
+            "$2x-4x^{2} = 2x(1-2x)$, so the bracket contributes $\\left(2x\\right)^{2} = 4x^{2}$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$2x^{2}\\left(2x-4x^{2}\\right)^{2} = 8x^{4}(1-2x)^{2}$",
+          "$2x^{2}\\left(2x-4x^{2}\\right)^{2} = 8x^{4}(1-2x)^{2}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La expresión $2x^{2}\\left(2x-4x^{2}\\right)^{2}$.",
+            "The expression $2x^{2}\\left(2x-4x^{2}\\right)^{2}$.",
+          ),
+          step(
+            "approach",
+            "Factorizar el binomio interior ($2x$ común) y multiplicar las potencias con el coeficiente exterior.",
+            "Factor the inner binomial (common $2x$) and multiply the powers with the outer coefficient.",
+          ),
+          step(
+            "calculation",
+            "$2x-4x^{2} = 2x(1-2x)$<br>$\\left[2x(1-2x)\\right]^{2} = 4x^{2}(1-2x)^{2}$<br>Total: $2x^{2} \\cdot 4x^{2}(1-2x)^{2} = 8x^{4}(1-2x)^{2}$",
+            "$2x-4x^{2} = 2x(1-2x)$<br>$\\left[2x(1-2x)\\right]^{2} = 4x^{2}(1-2x)^{2}$<br>Total: $2x^{2} \\cdot 4x^{2}(1-2x)^{2} = 8x^{4}(1-2x)^{2}$",
+          ),
+          step(
+            "result",
+            "$2x^{2}\\left(2x-4x^{2}\\right)^{2} = 8x^{4}(1-2x)^{2}$. Control: con $x = 1$: $2 \\cdot (2-4)^{2} = 8$ y $8 \\cdot 1 \\cdot (-1)^{2} = 8$ ✓.",
+            "$2x^{2}\\left(2x-4x^{2}\\right)^{2} = 8x^{4}(1-2x)^{2}$. Check: at $x = 1$: $2 \\cdot (2-4)^{2} = 8$ and $8 \\cdot 1 \\cdot (-1)^{2} = 8$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S2.31 — x³y²−16x²y+64x = x(xy−8)². */
+  template(
+    {
+      id: "fc-uees-31",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 210,
+      tags: ["factoring", "common-factor", "perfect-square", "substitution"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "2 · 31",
+        page: 2,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$x(xy-8)^{2}$", "$x(xy-8)^{2}$"), correct: true },
+        { id: "b", text: L("$x\\left(x^{2}y^{2}-16xy+64\\right)$", "$x\\left(x^{2}y^{2}-16xy+64\\right)$"), correct: false },
+        { id: "c", text: L("$x(xy-8)(xy+8)$", "$x(xy-8)(xy+8)$"), correct: false },
+        { id: "d", text: L("$x(xy+8)^{2}$", "$x(xy+8)^{2}$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Factor común x y cuadrado perfecto en xy",
+          "Common factor x and a perfect square in xy",
+        ),
+        statement: L(
+          "Factorice completamente:\n\n$$x^{3}y^{2}-16x^{2}y+64x$$",
+          "Factor completely:\n\n$$x^{3}y^{2}-16x^{2}y+64x$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Los tres términos comparten la $x$: sácala primero.",
+            "The three terms share the $x$: pull it out first.",
+          ),
+          L(
+            "Dentro queda un trinomio en el bloque $xy$: con $u = xy$ es $u^{2} - 16u + 64$.",
+            "Inside remains a trinomial in the block $xy$: with $u = xy$ it is $u^{2} - 16u + 64$.",
+          ),
+          L(
+            "El doble producto es $2 \\cdot xy \\cdot 8 = 16xy$ (el término central, con signo menos).",
+            "The double product is $2 \\cdot xy \\cdot 8 = 16xy$ (the middle term, with a minus sign).",
+          ),
+        ],
+        answerDisplay: L(
+          "$x^{3}y^{2}-16x^{2}y+64x = x(xy-8)^{2}$",
+          "$x^{3}y^{2}-16x^{2}y+64x = x(xy-8)^{2}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El polinomio $x^{3}y^{2}-16x^{2}y+64x$.",
+            "The polynomial $x^{3}y^{2}-16x^{2}y+64x$.",
+          ),
+          step(
+            "approach",
+            "Factor común $x$ y luego un trinomio cuadrado perfecto en el bloque $u = xy$.",
+            "Common factor $x$ and then a perfect-square trinomial in the block $u = xy$.",
+          ),
+          step(
+            "calculation",
+            "$x^{3}y^{2}-16x^{2}y+64x = x\\left(x^{2}y^{2}-16xy+64\\right)$<br>Con $u = xy$: $u^{2} - 16u + 64 = (u-8)^{2}$<br>Entonces: $x^{3}y^{2}-16x^{2}y+64x = x(xy-8)^{2}$",
+            "$x^{3}y^{2}-16x^{2}y+64x = x\\left(x^{2}y^{2}-16xy+64\\right)$<br>With $u = xy$: $u^{2} - 16u + 64 = (u-8)^{2}$<br>So: $x^{3}y^{2}-16x^{2}y+64x = x(xy-8)^{2}$",
+          ),
+          step(
+            "result",
+            "$x^{3}y^{2}-16x^{2}y+64x = x(xy-8)^{2}$. Control: con $x = 1$, $y = 1$: $1 - 16 + 64 = 49$ y $1 \\cdot (1-8)^{2} = 49$ ✓.",
+            "$x^{3}y^{2}-16x^{2}y+64x = x(xy-8)^{2}$. Check: at $x = 1$, $y = 1$: $1 - 16 + 64 = 49$ and $1 \\cdot (1-8)^{2} = 49$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S2.32 — (5x²+2x)+(10x+4) = (5x+2)(x+2). */
+  template(
+    {
+      id: "fc-uees-32",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["factoring", "grouping", "trinomial"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "2 · 32",
+        page: 2,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$(5x+2)(x+2)$", "$(5x+2)(x+2)$"), correct: true },
+        { id: "b", text: L("$\\left(5x^{2}+2x\\right)+(10x+4)$", "$\\left(5x^{2}+2x\\right)+(10x+4)$"), correct: false },
+        { id: "c", text: L("$(5x+4)(x+2)$", "$(5x+4)(x+2)$"), correct: false },
+        { id: "d", text: L("$(5x+2)(x-2)$", "$(5x+2)(x-2)$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Sumar primero, factorizar después",
+          "Add first, factor afterwards",
+        ),
+        statement: L(
+          "Factorice completamente:\n\n$$\\left(5x^{2}+2x\\right)+(10x+4)$$",
+          "Factor completely:\n\n$$\\left(5x^{2}+2x\\right)+(10x+4)$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Es una SUMA de dos grupos: primero elimina los paréntesis y reduce.",
+            "It is a SUM of two groups: first drop the parentheses and combine.",
+          ),
+          L(
+            "La suma es un trinomio $5x^{2} + 12x + 4$ que se factoriza con coeficiente principal $5$.",
+            "The sum is a trinomial $5x^{2} + 12x + 4$ that factors with leading coefficient $5$.",
+          ),
+          L(
+            "Necesitas $ac = 5$ y $bd = 4$ con cruce $12$: prueba el $5$ con el $2$ y el $1$ con el $2$.",
+            "You need $ac = 5$ and $bd = 4$ with cross $12$: try the $5$ with the $2$ and the $1$ with the $2$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\left(5x^{2}+2x\\right)+(10x+4) = (5x+2)(x+2)$",
+          "$\\left(5x^{2}+2x\\right)+(10x+4) = (5x+2)(x+2)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La suma de grupos $\\left(5x^{2}+2x\\right)+(10x+4)$.",
+            "The sum of groups $\\left(5x^{2}+2x\\right)+(10x+4)$.",
+          ),
+          step(
+            "approach",
+            "Reducir la suma a un solo trinomio y factorizarlo con la técnica del coeficiente principal.",
+            "Reduce the sum to a single trinomial and factor it with the leading-coefficient technique.",
+          ),
+          step(
+            "calculation",
+            "$\\left(5x^{2}+2x\\right)+(10x+4) = 5x^{2} + 12x + 4$<br>$5x^{2} + 12x + 4 = (5x+2)(x+2)$",
+            "$\\left(5x^{2}+2x\\right)+(10x+4) = 5x^{2} + 12x + 4$<br>$5x^{2} + 12x + 4 = (5x+2)(x+2)$",
+          ),
+          step(
+            "result",
+            "$\\left(5x^{2}+2x\\right)+(10x+4) = (5x+2)(x+2)$. Control: con $x = 2$: $(20+4)+(20+4) = 48$ y $(12)(4) = 48$ ✓.",
+            "$\\left(5x^{2}+2x\\right)+(10x+4) = (5x+2)(x+2)$. Check: at $x = 2$: $(20+4)+(20+4) = 48$ and $(12)(4) = 48$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S2.33 — (x³−4x)+(8−2x²) = (x−2)²(x+2). */
+  template(
+    {
+      id: "fc-uees-33",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 210,
+      tags: ["factoring", "grouping", "difference-of-squares"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "2 · 33",
+        page: 2,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$(x-2)^{2}(x+2)$", "$(x-2)^{2}(x+2)$"), correct: true },
+        { id: "b", text: L("$(x-2)\\left(x^{2}-4\\right)$", "$(x-2)\\left(x^{2}-4\\right)$"), correct: false },
+        { id: "c", text: L("$(x+2)^{2}(x-2)$", "$(x+2)^{2}(x-2)$"), correct: false },
+        { id: "d", text: L("$(x-2)^{3}$", "$(x-2)^{3}$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Reagrupar para hallar el factor común (x²−4)",
+          "Regrouping to find the common factor (x²−4)",
+        ),
+        statement: L(
+          "Factorice completamente:\n\n$$\\left(x^{3}-4x\\right)+\\left(8-2x^{2}\\right)$$",
+          "Factor completely:\n\n$$\\left(x^{3}-4x\\right)+\\left(8-2x^{2}\\right)$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Factoriza cada grupo por separado: ambos esconden el bloque $x^{2}-4$.",
+            "Factor each group separately: both hide the block $x^{2}-4$.",
+          ),
+          L(
+            "$x^{3}-4x = x\\left(x^{2}-4\\right)$ y $8-2x^{2} = -2\\left(x^{2}-4\\right)$.",
+            "$x^{3}-4x = x\\left(x^{2}-4\\right)$ and $8-2x^{2} = -2\\left(x^{2}-4\\right)$.",
+          ),
+          L(
+            "Con el bloque común fuera queda $(x-2)$; y el bloque $x^{2}-4$ todavía se abre como diferencia de cuadrados.",
+            "With the common block outside, $(x-2)$ remains; and the block $x^{2}-4$ still opens as a difference of squares.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\left(x^{3}-4x\\right)+\\left(8-2x^{2}\\right) = (x-2)^{2}(x+2)$",
+          "$\\left(x^{3}-4x\\right)+\\left(8-2x^{2}\\right) = (x-2)^{2}(x+2)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La suma de grupos $\\left(x^{3}-4x\\right)+\\left(8-2x^{2}\\right)$.",
+            "The sum of groups $\\left(x^{3}-4x\\right)+\\left(8-2x^{2}\\right)$.",
+          ),
+          step(
+            "approach",
+            "Factorizar cada grupo, extraer el factor común $\\left(x^{2}-4\\right)$ y abrir la diferencia de cuadrados.",
+            "Factor each group, pull out the common factor $\\left(x^{2}-4\\right)$ and open the difference of squares.",
+          ),
+          step(
+            "calculation",
+            "$x^{3}-4x = x\\left(x^{2}-4\\right)$ y $8-2x^{2} = -2\\left(x^{2}-4\\right)$<br>Suma: $x\\left(x^{2}-4\\right) - 2\\left(x^{2}-4\\right) = (x-2)\\left(x^{2}-4\\right)$<br>$x^{2}-4 = (x-2)(x+2)$, así que: $(x-2)^{2}(x+2)$",
+            "$x^{3}-4x = x\\left(x^{2}-4\\right)$ and $8-2x^{2} = -2\\left(x^{2}-4\\right)$<br>Sum: $x\\left(x^{2}-4\\right) - 2\\left(x^{2}-4\\right) = (x-2)\\left(x^{2}-4\\right)$<br>$x^{2}-4 = (x-2)(x+2)$, so: $(x-2)^{2}(x+2)$",
+          ),
+          step(
+            "result",
+            "$\\left(x^{3}-4x\\right)+\\left(8-2x^{2}\\right) = (x-2)^{2}(x+2)$. Control: con $x = 3$: $(27-12)+(8-18) = 5$ y $(1)^{2}(5) = 5$ ✓.",
+            "$\\left(x^{3}-4x\\right)+\\left(8-2x^{2}\\right) = (x-2)^{2}(x+2)$. Check: at $x = 3$: $(27-12)+(8-18) = 5$ and $(1)^{2}(5) = 5$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S2.34 — (x²−1)+(x²−x−2) = (2x−3)(x+1). */
+  template(
+    {
+      id: "fc-uees-34",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["factoring", "grouping", "trinomial"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "2 · 34",
+        page: 2,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$(2x-3)(x+1)$", "$(2x-3)(x+1)$"), correct: true },
+        { id: "b", text: L("$\\left(x^{2}-1\\right)+\\left(x^{2}-x-2\\right)$", "$\\left(x^{2}-1\\right)+\\left(x^{2}-x-2\\right)$"), correct: false },
+        { id: "c", text: L("$(2x+3)(x+1)$", "$(2x+3)(x+1)$"), correct: false },
+        { id: "d", text: L("$(2x-3)(x-1)$", "$(2x-3)(x-1)$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Sumar primero y factorizar el trinomio",
+          "Add first and factor the trinomial",
+        ),
+        statement: L(
+          "Factorice completamente:\n\n$$\\left(x^{2}-1\\right)+\\left(x^{2}-x-2\\right)$$",
+          "Factor completely:\n\n$$\\left(x^{2}-1\\right)+\\left(x^{2}-x-2\\right)$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Primero suma los dos grupos: queda un solo trinomio.",
+            "First add the two groups: a single trinomial remains.",
+          ),
+          L(
+            "El trinomio $2x^{2}-x-3$ tiene coeficiente principal $2$: busca $ac = 2$, $bd = -3$.",
+            "The trinomial $2x^{2}-x-3$ has leading coefficient $2$: look for $ac = 2$, $bd = -3$.",
+          ),
+          L(
+            "El cruce debe dar $-1$: prueba el $2$ con el $+1$ y el $-3$ con el $1$.",
+            "The cross must give $-1$: try the $2$ with the $+1$ and the $-3$ with the $1$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\left(x^{2}-1\\right)+\\left(x^{2}-x-2\\right) = (2x-3)(x+1)$",
+          "$\\left(x^{2}-1\\right)+\\left(x^{2}-x-2\\right) = (2x-3)(x+1)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La suma de grupos $\\left(x^{2}-1\\right)+\\left(x^{2}-x-2\\right)$.",
+            "The sum of groups $\\left(x^{2}-1\\right)+\\left(x^{2}-x-2\\right)$.",
+          ),
+          step(
+            "approach",
+            "Reducir la suma al trinomio $2x^{2}-x-3$ y factorizarlo.",
+            "Reduce the sum to the trinomial $2x^{2}-x-3$ and factor it.",
+          ),
+          step(
+            "calculation",
+            "$\\left(x^{2}-1\\right)+\\left(x^{2}-x-2\\right) = 2x^{2} - x - 3$<br>$2x^{2} - x - 3 = (2x-3)(x+1)$ (producto $-6$, suma $-1$)",
+            "$\\left(x^{2}-1\\right)+\\left(x^{2}-x-2\\right) = 2x^{2} - x - 3$<br>$2x^{2} - x - 3 = (2x-3)(x+1)$ (product $-6$, sum $-1$)",
+          ),
+          step(
+            "result",
+            "$\\left(x^{2}-1\\right)+\\left(x^{2}-x-2\\right) = (2x-3)(x+1)$. Control: con $x = 2$: $(4-1)+(4-2-2) = 3$ y $(1)(3) = 3$ ✓.",
+            "$\\left(x^{2}-1\\right)+\\left(x^{2}-x-2\\right) = (2x-3)(x+1)$. Check: at $x = 2$: $(4-1)+(4-2-2) = 3$ and $(1)(3) = 3$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S2.35 — RETO: (y⁴+8y³+16y²)−(y²+8y+16) = (y−1)(y+1)(y+4)². */
+  template(
+    {
+      id: "fc-uees-35",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "challenge",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 300,
+      tags: ["factoring", "perfect-square", "difference-of-squares", "challenge"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "2 · 35",
+        page: 2,
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$(y-1)(y+1)(y+4)^{2}$", "$(y-1)(y+1)(y+4)^{2}$"), correct: true },
+        { id: "b", text: L("$\\left(y^{2}+3y-4\\right)\\left(y^{2}+5y+4\\right)$", "$\\left(y^{2}+3y-4\\right)\\left(y^{2}+5y+4\\right)$"), correct: false },
+        { id: "c", text: L("$(y-1)(y+1)(y+4)$", "$(y-1)(y+1)(y+4)$"), correct: false },
+        { id: "d", text: L("$(y+1)(y+4)^{2}$", "$(y+1)(y+4)^{2}$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "RETO: dos cuadrados perfectos y una diferencia de cuadrados",
+          "CHALLENGE: two perfect squares and a difference of squares",
+        ),
+        statement: L(
+          "Factorice completamente:\n\n$$\\left(y^{4}+8y^{3}+16y^{2}\\right)-\\left(y^{2}+8y+16\\right)$$",
+          "Factor completely:\n\n$$\\left(y^{4}+8y^{3}+16y^{2}\\right)-\\left(y^{2}+8y+16\\right)$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Mira cada paréntesis como un bloque: ¿el primero no es el cuadrado de $y^{2}+4y$? ¿Y el segundo?",
+            "Look at each parenthesis as a block: is the first one not the square of $y^{2}+4y$? And the second one?",
+          ),
+          L(
+            "$y^{4}+8y^{3}+16y^{2} = \\left(y^{2}+4y\\right)^{2}$ y $y^{2}+8y+16 = (y+4)^{2}$: la resta es una diferencia de cuadrados.",
+            "$y^{4}+8y^{3}+16y^{2} = \\left(y^{2}+4y\\right)^{2}$ and $y^{2}+8y+16 = (y+4)^{2}$: the subtraction is a difference of squares.",
+          ),
+          L(
+            "$\\left(y^{2}+4y\\right)^{2}-(y+4)^{2} = \\left(y^{2}+3y-4\\right)\\left(y^{2}+5y+4\\right)$: a cada cuadrático todavía le falta factorizar.",
+            "$\\left(y^{2}+4y\\right)^{2}-(y+4)^{2} = \\left(y^{2}+3y-4\\right)\\left(y^{2}+5y+4\\right)$: each quadratic still needs factoring.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\left(y^{4}+8y^{3}+16y^{2}\\right)-\\left(y^{2}+8y+16\\right) = (y-1)(y+1)(y+4)^{2}$",
+          "$\\left(y^{4}+8y^{3}+16y^{2}\\right)-\\left(y^{2}+8y+16\\right) = (y-1)(y+1)(y+4)^{2}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La resta $\\left(y^{4}+8y^{3}+16y^{2}\\right)-\\left(y^{2}+8y+16\\right)$ (ítem de reto de la tarea).",
+            "The subtraction $\\left(y^{4}+8y^{3}+16y^{2}\\right)-\\left(y^{2}+8y+16\\right)$ (the challenge item of the assignment).",
+          ),
+          step(
+            "approach",
+            "Reconocer los DOS trinomios como cuadrados perfectos; su resta es una diferencia de cuadrados y los cuadráticos resultantes se factorizan por producto y suma.",
+            "Recognize BOTH trinomials as perfect squares; their subtraction is a difference of squares and the resulting quadratics factor by product and sum.",
+          ),
+          step(
+            "calculation",
+            "$y^{4}+8y^{3}+16y^{2} = \\left(y^{2}+4y\\right)^{2}$ y $y^{2}+8y+16 = (y+4)^{2}$<br>Diferencia de cuadrados: $\\left(y^{2}+4y\\right)^{2}-(y+4)^{2} = \\left(y^{2}+3y-4\\right)\\left(y^{2}+5y+4\\right)$<br>$y^{2}+3y-4 = (y-1)(y+4)$ y $y^{2}+5y+4 = (y+1)(y+4)$<br>Entonces: $(y-1)(y+4)(y+1)(y+4) = (y-1)(y+1)(y+4)^{2}$",
+            "$y^{4}+8y^{3}+16y^{2} = \\left(y^{2}+4y\\right)^{2}$ and $y^{2}+8y+16 = (y+4)^{2}$<br>Difference of squares: $\\left(y^{2}+4y\\right)^{2}-(y+4)^{2} = \\left(y^{2}+3y-4\\right)\\left(y^{2}+5y+4\\right)$<br>$y^{2}+3y-4 = (y-1)(y+4)$ and $y^{2}+5y+4 = (y+1)(y+4)$<br>So: $(y-1)(y+4)(y+1)(y+4) = (y-1)(y+1)(y+4)^{2}$",
+          ),
+          step(
+            "result",
+            "$\\left(y^{4}+8y^{3}+16y^{2}\\right)-\\left(y^{2}+8y+16\\right) = (y-1)(y+1)(y+4)^{2}$ — detenerse en $\\left(y^{2}+3y-4\\right)\\left(y^{2}+5y+4\\right)$ es quedarse a medias. Control: con $y = 0$: $0 - 16 = -16$ y $(-1)(1)(16) = -16$ ✓.",
+            "$\\left(y^{4}+8y^{3}+16y^{2}\\right)-\\left(y^{2}+8y+16\\right) = (y-1)(y+1)(y+4)^{2}$ — stopping at $\\left(y^{2}+3y-4\\right)\\left(y^{2}+5y+4\\right)$ is half way. Check: at $y = 0$: $0 - 16 = -16$ and $(-1)(1)(16) = -16$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S2.36 — t³u−3tu+t²w²−3w² = (t²−3)(tu+w²). */
+  template(
+    {
+      id: "fc-uees-36",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 210,
+      tags: ["factoring", "grouping", "common-factor"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "2 · 36",
+        page: 2,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$\\left(t^{2}-3\\right)\\left(tu+w^{2}\\right)$", "$\\left(t^{2}-3\\right)\\left(tu+w^{2}\\right)$"), correct: true },
+        { id: "b", text: L("$u\\left(t^{3}-3t\\right)+w^{2}\\left(t^{2}-3\\right)$", "$u\\left(t^{3}-3t\\right)+w^{2}\\left(t^{2}-3\\right)$"), correct: false },
+        { id: "c", text: L("$\\left(t^{2}-3\\right)\\left(tu-w^{2}\\right)$", "$\\left(t^{2}-3\\right)\\left(tu-w^{2}\\right)$"), correct: false },
+        { id: "d", text: L("$\\left(t^{2}+3\\right)\\left(tu+w^{2}\\right)$", "$\\left(t^{2}+3\\right)\\left(tu+w^{2}\\right)$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Agrupación con dos letras y un cuadrado",
+          "Grouping with two letters and a square",
+        ),
+        statement: L(
+          "Factorice completamente:\n\n$$t^{3}u-3tu+t^{2}w^{2}-3w^{2}$$",
+          "Factor completely:\n\n$$t^{3}u-3tu+t^{2}w^{2}-3w^{2}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Agrupa los dos términos con $u$ y los dos con $w^{2}$.",
+            "Group the two terms with $u$ and the two with $w^{2}$.",
+          ),
+          L(
+            "$t^{3}u - 3tu = tu\\left(t^{2}-3\\right)$: el bloque $t^{2}-3$ aparece también en $t^{2}w^{2} - 3w^{2}$.",
+            "$t^{3}u - 3tu = tu\\left(t^{2}-3\\right)$: the block $t^{2}-3$ also appears in $t^{2}w^{2} - 3w^{2}$.",
+          ),
+          L(
+            "$t^{2}w^{2} - 3w^{2} = w^{2}\\left(t^{2}-3\\right)$: ahora extrae ese bloque común.",
+            "$t^{2}w^{2} - 3w^{2} = w^{2}\\left(t^{2}-3\\right)$: now pull out that common block.",
+          ),
+        ],
+        answerDisplay: L(
+          "$t^{3}u-3tu+t^{2}w^{2}-3w^{2} = \\left(t^{2}-3\\right)\\left(tu+w^{2}\\right)$",
+          "$t^{3}u-3tu+t^{2}w^{2}-3w^{2} = \\left(t^{2}-3\\right)\\left(tu+w^{2}\\right)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El polinomio $t^{3}u-3tu+t^{2}w^{2}-3w^{2}$ en las variables $t$, $u$ y $w$.",
+            "The polynomial $t^{3}u-3tu+t^{2}w^{2}-3w^{2}$ in the variables $t$, $u$ and $w$.",
+          ),
+          step(
+            "approach",
+            "Agrupación: factorizar cada par y extraer el bloque común $\\left(t^{2}-3\\right)$.",
+            "Grouping: factor each pair and pull out the common block $\\left(t^{2}-3\\right)$.",
+          ),
+          step(
+            "calculation",
+            "$t^{3}u-3tu = tu\\left(t^{2}-3\\right)$ y $t^{2}w^{2}-3w^{2} = w^{2}\\left(t^{2}-3\\right)$<br>$tu\\left(t^{2}-3\\right) + w^{2}\\left(t^{2}-3\\right) = \\left(t^{2}-3\\right)\\left(tu+w^{2}\\right)$",
+            "$t^{3}u-3tu = tu\\left(t^{2}-3\\right)$ and $t^{2}w^{2}-3w^{2} = w^{2}\\left(t^{2}-3\\right)$<br>$tu\\left(t^{2}-3\\right) + w^{2}\\left(t^{2}-3\\right) = \\left(t^{2}-3\\right)\\left(tu+w^{2}\\right)$",
+          ),
+          step(
+            "result",
+            "$t^{3}u-3tu+t^{2}w^{2}-3w^{2} = \\left(t^{2}-3\\right)\\left(tu+w^{2}\\right)$ (sobre los racionales, $t^{2}-3$ ya no se factoriza). Control: con $t = 2$, $u = 1$, $w = 1$: $8 - 6 + 4 - 3 = 3$ y $(1)(2+1) = 3$ ✓.",
+            "$t^{3}u-3tu+t^{2}w^{2}-3w^{2} = \\left(t^{2}-3\\right)\\left(tu+w^{2}\\right)$ (over the rationals, $t^{2}-3$ does not factor further). Check: at $t = 2$, $u = 1$, $w = 1$: $8 - 6 + 4 - 3 = 3$ and $(1)(2+1) = 3$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S2.37 — b³+64 = (b+4)(b²−4b+16). */
+  template(
+    {
+      id: "fc-uees-37",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "easy",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 90,
+      tags: ["factoring", "sum-of-cubes"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "2 · 37",
+        page: 2,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$(b+4)\\left(b^{2}-4b+16\\right)$", "$(b+4)\\left(b^{2}-4b+16\\right)$"), correct: true },
+        { id: "b", text: L("$(b+4)\\left(b^{2}+4b+16\\right)$", "$(b+4)\\left(b^{2}+4b+16\\right)$"), correct: false },
+        { id: "c", text: L("$(b-4)\\left(b^{2}+4b+16\\right)$", "$(b-4)\\left(b^{2}+4b+16\\right)$"), correct: false },
+        { id: "d", text: L("$(b+4)\\left(b^{2}-16\\right)$", "$(b+4)\\left(b^{2}-16\\right)$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Suma de cubos (b³+64)",
+          "Sum of cubes (b³+64)",
+        ),
+        statement: L(
+          "Factorice completamente:\n\n$$b^{3}+64$$",
+          "Factor completely:\n\n$$b^{3}+64$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Dos cubos perfectos sumados: $b^{3}$ y $64 = 4^{3}$.",
+            "Two perfect cubes added: $b^{3}$ and $64 = 4^{3}$.",
+          ),
+          L(
+            "$a^{3}+b^{3} = (a+b)\\left(a^{2}-ab+b^{2}\\right)$.",
+            "$a^{3}+b^{3} = (a+b)\\left(a^{2}-ab+b^{2}\\right)$.",
+          ),
+          L(
+            "Aquí $a = b$ y $b = 4$: el cociente es $b^{2} - 4b + 16$.",
+            "Here $a = b$ and $b = 4$: the quotient is $b^{2} - 4b + 16$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$b^{3}+64 = (b+4)\\left(b^{2}-4b+16\\right)$",
+          "$b^{3}+64 = (b+4)\\left(b^{2}-4b+16\\right)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El binomio $b^{3}+64$.",
+            "The binomial $b^{3}+64$.",
+          ),
+          step(
+            "approach",
+            "Suma de cubos con $a = b$ y $b = 4$.",
+            "Sum of cubes with $a = b$ and $b = 4$.",
+          ),
+          step(
+            "calculation",
+            "$b^{3}+4^{3} = (b+4)\\left(b^{2} - b \\cdot 4 + 4^{2}\\right) = (b+4)\\left(b^{2}-4b+16\\right)$",
+            "$b^{3}+4^{3} = (b+4)\\left(b^{2} - b \\cdot 4 + 4^{2}\\right) = (b+4)\\left(b^{2}-4b+16\\right)$",
+          ),
+          step(
+            "result",
+            "$b^{3}+64 = (b+4)\\left(b^{2}-4b+16\\right)$ (el cociente $b^{2}-4b+16$ ya no factoriza). Control: con $b = 2$: $8 + 64 = 72$ y $(6)(4 - 8 + 16) = 6 \\cdot 12 = 72$ ✓.",
+            "$b^{3}+64 = (b+4)\\left(b^{2}-4b+16\\right)$ (the quotient $b^{2}-4b+16$ does not factor further). Check: at $b = 2$: $8 + 64 = 72$ and $(6)(4 - 8 + 16) = 6 \\cdot 12 = 72$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S2.38 — x³−1 = (x−1)(x²+x+1). */
+  template(
+    {
+      id: "fc-uees-38",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "easy",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 90,
+      tags: ["factoring", "difference-of-cubes"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "2 · 38",
+        page: 2,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$(x-1)\\left(x^{2}+x+1\\right)$", "$(x-1)\\left(x^{2}+x+1\\right)$"), correct: true },
+        { id: "b", text: L("$(x-1)\\left(x^{2}-x+1\\right)$", "$(x-1)\\left(x^{2}-x+1\\right)$"), correct: false },
+        { id: "c", text: L("$(x+1)\\left(x^{2}-x+1\\right)$", "$(x+1)\\left(x^{2}-x+1\\right)$"), correct: false },
+        { id: "d", text: L("$(x-1)\\left(x^{2}+1\\right)$", "$(x-1)\\left(x^{2}+1\\right)$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Diferencia de cubos (x³−1)",
+          "Difference of cubes (x³−1)",
+        ),
+        statement: L(
+          "Factorice completamente:\n\n$$x^{3}-1$$",
+          "Factor completely:\n\n$$x^{3}-1$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Es la diferencia de dos cubos: $x^{3}$ y $1 = 1^{3}$.",
+            "It is the difference of two cubes: $x^{3}$ and $1 = 1^{3}$.",
+          ),
+          L(
+            "$a^{3}-b^{3} = (a-b)\\left(a^{2}+ab+b^{2}\\right)$.",
+            "$a^{3}-b^{3} = (a-b)\\left(a^{2}+ab+b^{2}\\right)$.",
+          ),
+          L(
+            "Con $a = x$ y $b = 1$, el cociente es $x^{2} + x + 1$ (signo central POSITIVO aunque la resta sea negativa).",
+            "With $a = x$ and $b = 1$, the quotient is $x^{2} + x + 1$ (POSITIVE middle sign even though the subtraction is negative).",
+          ),
+        ],
+        answerDisplay: L(
+          "$x^{3}-1 = (x-1)\\left(x^{2}+x+1\\right)$",
+          "$x^{3}-1 = (x-1)\\left(x^{2}+x+1\\right)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El binomio $x^{3}-1$.",
+            "The binomial $x^{3}-1$.",
+          ),
+          step(
+            "approach",
+            "Diferencia de cubos con $a = x$ y $b = 1$.",
+            "Difference of cubes with $a = x$ and $b = 1$.",
+          ),
+          step(
+            "calculation",
+            "$x^{3}-1^{3} = (x-1)\\left(x^{2} + x \\cdot 1 + 1^{2}\\right) = (x-1)\\left(x^{2}+x+1\\right)$",
+            "$x^{3}-1^{3} = (x-1)\\left(x^{2} + x \\cdot 1 + 1^{2}\\right) = (x-1)\\left(x^{2}+x+1\\right)$",
+          ),
+          step(
+            "result",
+            "$x^{3}-1 = (x-1)\\left(x^{2}+x+1\\right)$. Control: con $x = 2$: $8 - 1 = 7$ y $(1)(4+2+1) = 7$ ✓.",
+            "$x^{3}-1 = (x-1)\\left(x^{2}+x+1\\right)$. Check: at $x = 2$: $8 - 1 = 7$ and $(1)(4+2+1) = 7$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S2.39 — x⁶−1 = (x−1)(x+1)(x²+x+1)(x²−x+1). */
+  template(
+    {
+      id: "fc-uees-39",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["factoring", "difference-of-squares", "difference-of-cubes"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "2 · 39",
+        page: 2,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$(x-1)(x+1)\\left(x^{2}+x+1\\right)\\left(x^{2}-x+1\\right)$", "$(x-1)(x+1)\\left(x^{2}+x+1\\right)\\left(x^{2}-x+1\\right)$"), correct: true },
+        { id: "b", text: L("$\\left(x^{2}-1\\right)\\left(x^{4}+x^{2}+1\\right)$", "$\\left(x^{2}-1\\right)\\left(x^{4}+x^{2}+1\\right)$"), correct: false },
+        { id: "c", text: L("$(x^{3}-1)(x^{3}+1)$", "$(x^{3}-1)(x^{3}+1)$"), correct: false },
+        { id: "d", text: L("$(x-1)(x+1)\\left(x^{2}+1\\right)$", "$(x-1)(x+1)\\left(x^{2}+1\\right)$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Diferencia de cuadrados Y de cubos (x⁶−1)",
+          "Difference of squares AND cubes (x⁶−1)",
+        ),
+        statement: L(
+          "Factorice completamente:\n\n$$x^{6}-1$$",
+          "Factor completely:\n\n$$x^{6}-1$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "El exponente 6 es par Y múltiplo de 3: se puede empezar por cuadrados o por cubos.",
+            "The exponent 6 is even AND a multiple of 3: you may start with squares or with cubes.",
+          ),
+          L(
+            "$x^{6}-1 = (x^{3}-1)(x^{3}+1)$ y cada cubo se abre con su identidad.",
+            "$x^{6}-1 = (x^{3}-1)(x^{3}+1)$ and each cube opens with its identity.",
+          ),
+          L(
+            "$x^{3}-1 = (x-1)\\left(x^{2}+x+1\\right)$ y $x^{3}+1 = (x+1)\\left(x^{2}-x+1\\right)$: cuatro factores en total.",
+            "$x^{3}-1 = (x-1)\\left(x^{2}+x+1\\right)$ and $x^{3}+1 = (x+1)\\left(x^{2}-x+1\\right)$: four factors in total.",
+          ),
+        ],
+        answerDisplay: L(
+          "$x^{6}-1 = (x-1)(x+1)\\left(x^{2}+x+1\\right)\\left(x^{2}-x+1\\right)$",
+          "$x^{6}-1 = (x-1)(x+1)\\left(x^{2}+x+1\\right)\\left(x^{2}-x+1\\right)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El binomio $x^{6}-1$.",
+            "The binomial $x^{6}-1$.",
+          ),
+          step(
+            "approach",
+            "Cadena de identidades: diferencia de cuadrados en $x^{3}$ y luego suma y diferencia de cubos.",
+            "Chain of identities: difference of squares in $x^{3}$ and then sum and difference of cubes.",
+          ),
+          step(
+            "calculation",
+            "$x^{6}-1 = \\left(x^{3}\\right)^{2} - 1 = (x^{3}-1)(x^{3}+1)$<br>$x^{3}-1 = (x-1)\\left(x^{2}+x+1\\right)$ y $x^{3}+1 = (x+1)\\left(x^{2}-x+1\\right)$<br>Entonces: $x^{6}-1 = (x-1)(x+1)\\left(x^{2}+x+1\\right)\\left(x^{2}-x+1\\right)$",
+            "$x^{6}-1 = \\left(x^{3}\\right)^{2} - 1 = (x^{3}-1)(x^{3}+1)$<br>$x^{3}-1 = (x-1)\\left(x^{2}+x+1\\right)$ and $x^{3}+1 = (x+1)\\left(x^{2}-x+1\\right)$<br>So: $x^{6}-1 = (x-1)(x+1)\\left(x^{2}+x+1\\right)\\left(x^{2}-x+1\\right)$",
+          ),
+          step(
+            "result",
+            "$x^{6}-1 = (x-1)(x+1)\\left(x^{2}+x+1\\right)\\left(x^{2}-x+1\\right)$ — los cuadráticos $x^{2} \\pm x + 1$ ya no factorizan sobre los reales. Control: con $x = 2$: $64 - 1 = 63$ y $(1)(3)(7)(3) = 63$ ✓.",
+            "$x^{6}-1 = (x-1)(x+1)\\left(x^{2}+x+1\\right)\\left(x^{2}-x+1\\right)$ — the quadratics $x^{2} \\pm x + 1$ do not factor over the reals. Check: at $x = 2$: $64 - 1 = 63$ and $(1)(3)(7)(3) = 63$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S2.40 — 27+8x³ = (3+2x)(9−6x+4x²). */
+  template(
+    {
+      id: "fc-uees-40",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "easy",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 90,
+      tags: ["factoring", "sum-of-cubes"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "2 · 40",
+        page: 2,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$(3+2x)\\left(9-6x+4x^{2}\\right)$", "$(3+2x)\\left(9-6x+4x^{2}\\right)$"), correct: true },
+        { id: "b", text: L("$(3+2x)\\left(9+6x+4x^{2}\\right)$", "$(3+2x)\\left(9+6x+4x^{2}\\right)$"), correct: false },
+        { id: "c", text: L("$(3-2x)\\left(9+6x+4x^{2}\\right)$", "$(3-2x)\\left(9+6x+4x^{2}\\right)$"), correct: false },
+        { id: "d", text: L("$(3+2x)\\left(9-4x^{2}\\right)$", "$(3+2x)\\left(9-4x^{2}\\right)$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Suma de cubos (27+8x³)",
+          "Sum of cubes (27+8x³)",
+        ),
+        statement: L(
+          "Factorice completamente:\n\n$$27+8x^{3}$$",
+          "Factor completely:\n\n$$27+8x^{3}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Ambos términos son cubos: $27 = 3^{3}$ y $8x^{3} = (2x)^{3}$.",
+            "Both terms are cubes: $27 = 3^{3}$ and $8x^{3} = (2x)^{3}$.",
+          ),
+          L(
+            "$a^{3}+b^{3} = (a+b)\\left(a^{2}-ab+b^{2}\\right)$.",
+            "$a^{3}+b^{3} = (a+b)\\left(a^{2}-ab+b^{2}\\right)$.",
+          ),
+          L(
+            "Con $a = 3$ y $b = 2x$: el producto central es $-3 \\cdot 2x = -6x$.",
+            "With $a = 3$ and $b = 2x$: the middle product is $-3 \\cdot 2x = -6x$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$27+8x^{3} = (3+2x)\\left(9-6x+4x^{2}\\right)$",
+          "$27+8x^{3} = (3+2x)\\left(9-6x+4x^{2}\\right)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El binomio $27+8x^{3}$.",
+            "The binomial $27+8x^{3}$.",
+          ),
+          step(
+            "approach",
+            "Suma de cubos con $a = 3$ y $b = 2x$.",
+            "Sum of cubes with $a = 3$ and $b = 2x$.",
+          ),
+          step(
+            "calculation",
+            "$3^{3}+(2x)^{3} = (3+2x)\\left(9 - 3 \\cdot 2x + 4x^{2}\\right) = (3+2x)\\left(9-6x+4x^{2}\\right)$",
+            "$3^{3}+(2x)^{3} = (3+2x)\\left(9 - 3 \\cdot 2x + 4x^{2}\\right) = (3+2x)\\left(9-6x+4x^{2}\\right)$",
+          ),
+          step(
+            "result",
+            "$27+8x^{3} = (3+2x)\\left(9-6x+4x^{2}\\right)$. Control: con $x = 1$: $27 + 8 = 35$ y $(5)(9 - 6 + 4) = 5 \\cdot 7 = 35$ ✓.",
+            "$27+8x^{3} = (3+2x)\\left(9-6x+4x^{2}\\right)$. Check: at $x = 1$: $27 + 8 = 35$ and $(5)(9 - 6 + 4) = 5 \\cdot 7 = 35$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S2.41 — (x+4)³(x−2)+(x+4)²(x−2)² = 2(x+4)²(x−2)(x+1). */
+  template(
+    {
+      id: "fc-uees-41",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["factoring", "common-factor", "binomial-factors"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "2 · 41",
+        page: 2,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$2(x+4)^{2}(x-2)(x+1)$", "$2(x+4)^{2}(x-2)(x+1)$"), correct: true },
+        { id: "b", text: L("$(x+4)^{2}(x-2)\\left[(x+4)+(x-2)\\right]$", "$(x+4)^{2}(x-2)\\left[(x+4)+(x-2)\\right]$"), correct: false },
+        { id: "c", text: L("$(x+4)^{2}(x-2)(2x+2)$", "$(x+4)^{2}(x-2)(2x+2)$"), correct: false },
+        { id: "d", text: L("$2(x+4)^{2}(x-2)(x-1)$", "$2(x+4)^{2}(x-2)(x-1)$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Factor común con potencias de binomios",
+          "Common factor with powers of binomials",
+        ),
+        statement: L(
+          "Factorice completamente:\n\n$$(x+4)^{3}(x-2)+(x+4)^{2}(x-2)^{2}$$",
+          "Factor completely:\n\n$$(x+4)^{3}(x-2)+(x+4)^{2}(x-2)^{2}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Los dos términos comparten $(x+4)^{2}$ y $(x-2)$: ese es el factor común.",
+            "The two terms share $(x+4)^{2}$ and $(x-2)$: that is the common factor.",
+          ),
+          L(
+            "El factor común toma el MENOR exponente de cada bloque: $(x+4)^{2}(x-2)$.",
+            "The common factor takes the SMALLEST exponent of each block: $(x+4)^{2}(x-2)$.",
+          ),
+          L(
+            "Dentro queda $\\left[(x+4)+(x-2)\\right] = 2x+2$: todavía puedes extraer el $2$.",
+            "Inside remains $\\left[(x+4)+(x-2)\\right] = 2x+2$: you can still pull out the $2$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(x+4)^{3}(x-2)+(x+4)^{2}(x-2)^{2} = 2(x+4)^{2}(x-2)(x+1)$",
+          "$(x+4)^{3}(x-2)+(x+4)^{2}(x-2)^{2} = 2(x+4)^{2}(x-2)(x+1)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La suma $(x+4)^{3}(x-2)+(x+4)^{2}(x-2)^{2}$.",
+            "The sum $(x+4)^{3}(x-2)+(x+4)^{2}(x-2)^{2}$.",
+          ),
+          step(
+            "approach",
+            "Extraer el factor común $(x+4)^{2}(x-2)$ (menor exponente de cada bloque) y simplificar el corchete.",
+            "Pull out the common factor $(x+4)^{2}(x-2)$ (smallest exponent of each block) and simplify the bracket.",
+          ),
+          step(
+            "calculation",
+            "$(x+4)^{3}(x-2)+(x+4)^{2}(x-2)^{2} = (x+4)^{2}(x-2)\\left[(x+4)+(x-2)\\right]$<br>Corchete: $(x+4)+(x-2) = 2x+2 = 2(x+1)$<br>Entonces: $2(x+4)^{2}(x-2)(x+1)$",
+            "$(x+4)^{3}(x-2)+(x+4)^{2}(x-2)^{2} = (x+4)^{2}(x-2)\\left[(x+4)+(x-2)\\right]$<br>Bracket: $(x+4)+(x-2) = 2x+2 = 2(x+1)$<br>So: $2(x+4)^{2}(x-2)(x+1)$",
+          ),
+          step(
+            "result",
+            "$(x+4)^{3}(x-2)+(x+4)^{2}(x-2)^{2} = 2(x+4)^{2}(x-2)(x+1)$. Control: con $x = 0$: $64 \\cdot (-2) + 16 \\cdot 4 = -128 + 64 = -64$ y $2 \\cdot 16 \\cdot (-2) \\cdot 1 = -64$ ✓.",
+            "$(x+4)^{3}(x-2)+(x+4)^{2}(x-2)^{2} = 2(x+4)^{2}(x-2)(x+1)$. Check: at $x = 0$: $64 \\cdot (-2) + 16 \\cdot 4 = -128 + 64 = -64$ and $2 \\cdot 16 \\cdot (-2) \\cdot 1 = -64$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S2.42 — (a+5)³(a+1)²+(a+5)²(a+1)³ = 2(a+5)²(a+1)²(a+3). */
+  template(
+    {
+      id: "fc-uees-42",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["factoring", "common-factor", "binomial-factors"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "2 · 42",
+        page: 2,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$2(a+5)^{2}(a+1)^{2}(a+3)$", "$2(a+5)^{2}(a+1)^{2}(a+3)$"), correct: true },
+        { id: "b", text: L("$(a+5)^{2}(a+1)^{2}(2a+6)$", "$(a+5)^{2}(a+1)^{2}(2a+6)$"), correct: false },
+        { id: "c", text: L("$(a+5)^{2}(a+1)^{2}(a+3)$", "$(a+5)^{2}(a+1)^{2}(a+3)$"), correct: false },
+        { id: "d", text: L("$2(a+5)^{2}(a+1)^{2}(a-3)$", "$2(a+5)^{2}(a+1)^{2}(a-3)$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Factor binomio común y extraer el 2 del corchete",
+          "Common binomial factor and pulling the 2 out of the bracket",
+        ),
+        statement: L(
+          "Factorice completamente:\n\n$$(a+5)^{3}(a+1)^{2}+(a+5)^{2}(a+1)^{3}$$",
+          "Factor completely:\n\n$$(a+5)^{3}(a+1)^{2}+(a+5)^{2}(a+1)^{3}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "El factor común toma el menor exponente de cada binomio: $(a+5)^{2}(a+1)^{2}$.",
+            "The common factor takes the smallest exponent of each binomial: $(a+5)^{2}(a+1)^{2}$.",
+          ),
+          L(
+            "Dentro del corchete queda $(a+5)+(a+1)$: una suma lineal que se simplifica.",
+            "Inside the bracket $(a+5)+(a+1)$ remains: a linear sum that simplifies.",
+          ),
+          L(
+            "$(a+5)+(a+1) = 2a+6$: aún queda un factor $2$ por extraer.",
+            "$(a+5)+(a+1) = 2a+6$: a factor $2$ still remains to be pulled out.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(a+5)^{3}(a+1)^{2}+(a+5)^{2}(a+1)^{3} = 2(a+5)^{2}(a+1)^{2}(a+3)$",
+          "$(a+5)^{3}(a+1)^{2}+(a+5)^{2}(a+1)^{3} = 2(a+5)^{2}(a+1)^{2}(a+3)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La suma $(a+5)^{3}(a+1)^{2}+(a+5)^{2}(a+1)^{3}$.",
+            "The sum $(a+5)^{3}(a+1)^{2}+(a+5)^{2}(a+1)^{3}$.",
+          ),
+          step(
+            "approach",
+            "Extraer $(a+5)^{2}(a+1)^{2}$ y simplificar el corchete; el resultado lineal esconde un $2$.",
+            "Pull out $(a+5)^{2}(a+1)^{2}$ and simplify the bracket; the linear result hides a $2$.",
+          ),
+          step(
+            "calculation",
+            "$(a+5)^{3}(a+1)^{2}+(a+5)^{2}(a+1)^{3} = (a+5)^{2}(a+1)^{2}\\left[(a+5)+(a+1)\\right]$<br>Corchete: $(a+5)+(a+1) = 2a+6 = 2(a+3)$<br>Entonces: $2(a+5)^{2}(a+1)^{2}(a+3)$",
+            "$(a+5)^{3}(a+1)^{2}+(a+5)^{2}(a+1)^{3} = (a+5)^{2}(a+1)^{2}\\left[(a+5)+(a+1)\\right]$<br>Bracket: $(a+5)+(a+1) = 2a+6 = 2(a+3)$<br>So: $2(a+5)^{2}(a+1)^{2}(a+3)$",
+          ),
+          step(
+            "result",
+            "$(a+5)^{3}(a+1)^{2}+(a+5)^{2}(a+1)^{3} = 2(a+5)^{2}(a+1)^{2}(a+3)$. Control: con $a = 0$: $125 \\cdot 1 + 25 \\cdot 1 = 150$ y $2 \\cdot 25 \\cdot 1 \\cdot 3 = 150$ ✓.",
+            "$(a+5)^{3}(a+1)^{2}+(a+5)^{2}(a+1)^{3} = 2(a+5)^{2}(a+1)^{2}(a+3)$. Check: at $a = 0$: $125 \\cdot 1 + 25 \\cdot 1 = 150$ and $2 \\cdot 25 \\cdot 1 \\cdot 3 = 150$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S2.43 — P(1+r)+P(1+r)r = P(1+r)². */
+  template(
+    {
+      id: "fc-uees-43",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "easy",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 75,
+      tags: ["factoring", "common-factor", "application"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "2 · 43",
+        page: 2,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$P(1+r)^{2}$", "$P(1+r)^{2}$"), correct: true },
+        { id: "b", text: L("$P(1+2r)$", "$P(1+2r)$"), correct: false },
+        { id: "c", text: L("$P(1+r)(1-r)$", "$P(1+r)(1-r)$"), correct: false },
+        { id: "d", text: L("$P+P(1+r)r$", "$P+P(1+r)r$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Factor común P(1+r) (sabor de interés compuesto)",
+          "Common factor P(1+r) (a compound-interest flavor)",
+        ),
+        statement: L(
+          "Factorice completamente:\n\n$$P(1+r)+P(1+r)r$$",
+          "Factor completely:\n\n$$P(1+r)+P(1+r)r$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Los dos términos comparten el bloque $P(1+r)$: extráelo completo.",
+            "The two terms share the block $P(1+r)$: pull out the whole block.",
+          ),
+          L(
+            "$A \\cdot x + A \\cdot y = A(x+y)$ con $A = P(1+r)$, $x = 1$ y $y = r$.",
+            "$A \\cdot x + A \\cdot y = A(x+y)$ with $A = P(1+r)$, $x = 1$ and $y = r$.",
+          ),
+          L(
+            "Dentro queda $1 + r$: el bloque común multiplicado por $1+r$ se escribe como un cuadrado.",
+            "Inside $1 + r$ remains: the common block times $1+r$ can be written as a square.",
+          ),
+        ],
+        answerDisplay: L(
+          "$P(1+r)+P(1+r)r = P(1+r)^{2}$",
+          "$P(1+r)+P(1+r)r = P(1+r)^{2}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La expresión $P(1+r)+P(1+r)r$ (típica del cálculo de interés compuesto).",
+            "The expression $P(1+r)+P(1+r)r$ (typical of compound-interest calculations).",
+          ),
+          step(
+            "approach",
+            "Extraer el factor común $P(1+r)$; el paréntesis que queda es $1+r$.",
+            "Pull out the common factor $P(1+r)$; the parenthesis that remains is $1+r$.",
+          ),
+          step(
+            "calculation",
+            "$P(1+r)+P(1+r)r = P(1+r)\\left[1+r\\right] = P(1+r)(1+r) = P(1+r)^{2}$",
+            "$P(1+r)+P(1+r)r = P(1+r)\\left[1+r\\right] = P(1+r)(1+r) = P(1+r)^{2}$",
+          ),
+          step(
+            "result",
+            "$P(1+r)+P(1+r)r = P(1+r)^{2}$. Control: con $P = 100$ y $r = 0{,}1$: $100 \\cdot 1{,}1 + 100 \\cdot 1{,}1 \\cdot 0{,}1 = 110 + 11 = 121$ y $100 \\cdot (1{,}1)^{2} = 121$ ✓.",
+            "$P(1+r)+P(1+r)r = P(1+r)^{2}$. Check: at $P = 100$ and $r = 0.1$: $100 \\cdot 1.1 + 100 \\cdot 1.1 \\cdot 0.1 = 110 + 11 = 121$ and $100 \\cdot (1.1)^{2} = 121$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S2.44 — (X−3D)(3X+5I)−(3X+5I)(X+2I) = (3X+5I)(−3D−2I). */
+  template(
+    {
+      id: "fc-uees-44",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 180,
+      tags: ["factoring", "common-factor", "signs"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "2 · 44",
+        page: 2,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$(3X+5I)(-3D-2I)$", "$(3X+5I)(-3D-2I)$"), correct: true },
+        { id: "b", text: L("$(3X+5I)(-3D+2I)$", "$(3X+5I)(-3D+2I)$"), correct: false },
+        { id: "c", text: L("$(3X+5I)(3D+2I)$", "$(3X+5I)(3D+2I)$"), correct: false },
+        { id: "d", text: L("$(X-3D)(X+2I)$", "$(X-3D)(X+2I)$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Factor binomio común con cuidado de los signos",
+          "Common binomial factor watching the signs",
+        ),
+        statement: L(
+          "Factorice completamente:\n\n$$(X-3D)(3X+5I)-(3X+5I)(X+2I)$$",
+          "Factor completely:\n\n$$(X-3D)(3X+5I)-(3X+5I)(X+2I)$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "El binomio $(3X+5I)$ aparece en los dos productos: es el factor común.",
+            "The binomial $(3X+5I)$ appears in both products: it is the common factor.",
+          ),
+          L(
+            "Al extraer, el segundo corchete es una RESTA: $\\left[(X-3D)-(X+2I)\\right]$.",
+            "When pulling out, the second bracket is a SUBTRACTION: $\\left[(X-3D)-(X+2I)\\right]$.",
+          ),
+          L(
+            "Dentro: $(X-3D)-(X+2I) = X - 3D - X - 2I$; las $X$ se cancelan.",
+            "Inside: $(X-3D)-(X+2I) = X - 3D - X - 2I$; the $X$ terms cancel.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(X-3D)(3X+5I)-(3X+5I)(X+2I) = (3X+5I)(-3D-2I)$",
+          "$(X-3D)(3X+5I)-(3X+5I)(X+2I) = (3X+5I)(-3D-2I)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La resta $(X-3D)(3X+5I)-(3X+5I)(X+2I)$ en las literales $X$, $D$ e $I$.",
+            "The subtraction $(X-3D)(3X+5I)-(3X+5I)(X+2I)$ in the letters $X$, $D$ and $I$.",
+          ),
+          step(
+            "approach",
+            "Extraer el factor común $(3X+5I)$ y simplificar el corchete con la resta (signos del segundo paréntesis invertidos).",
+            "Pull out the common factor $(3X+5I)$ and simplify the bracket with the subtraction (signs of the second parenthesis flipped).",
+          ),
+          step(
+            "calculation",
+            "$(X-3D)(3X+5I)-(3X+5I)(X+2I) = (3X+5I)\\left[(X-3D)-(X+2I)\\right]$<br>Corchete: $(X-3D)-(X+2I) = X - 3D - X - 2I = -3D - 2I$<br>Entonces: $(3X+5I)(-3D-2I)$",
+            "$(X-3D)(3X+5I)-(3X+5I)(X+2I) = (3X+5I)\\left[(X-3D)-(X+2I)\\right]$<br>Bracket: $(X-3D)-(X+2I) = X - 3D - X - 2I = -3D - 2I$<br>So: $(3X+5I)(-3D-2I)$",
+          ),
+          step(
+            "result",
+            "$(X-3D)(3X+5I)-(3X+5I)(X+2I) = (3X+5I)(-3D-2I)$. Control: con $X = 1$, $D = 1$, $I = 1$: $(-2)(8)-(8)(3) = -16 - 24 = -40$ y $(8)(-5) = -40$ ✓.",
+            "$(X-3D)(3X+5I)-(3X+5I)(X+2I) = (3X+5I)(-3D-2I)$. Check: at $X = 1$, $D = 1$, $I = 1$: $(-2)(8)-(8)(3) = -16 - 24 = -40$ and $(8)(-5) = -40$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S2.45 — x⁴−16 = (x²+4)(x−2)(x+2). */
+  template(
+    {
+      id: "fc-uees-45",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 120,
+      tags: ["factoring", "difference-of-squares"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "2 · 45",
+        page: 2,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$\\left(x^{2}+4\\right)(x-2)(x+2)$", "$\\left(x^{2}+4\\right)(x-2)(x+2)$"), correct: true },
+        { id: "b", text: L("$\\left(x^{2}+4\\right)\\left(x^{2}-4\\right)$", "$\\left(x^{2}+4\\right)\\left(x^{2}-4\\right)$"), correct: false },
+        { id: "c", text: L("$\\left(x^{2}-4\\right)(x-2)(x+2)$", "$\\left(x^{2}-4\\right)(x-2)(x+2)$"), correct: false },
+        { id: "d", text: L("$\\left(x^{2}+4\\right)(x-2)^{2}$", "$\\left(x^{2}+4\\right)(x-2)^{2}$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Diferencia de cuadrados dos veces (x⁴−16)",
+          "Difference of squares twice (x⁴−16)",
+        ),
+        statement: L(
+          "Factorice completamente:\n\n$$x^{4}-16$$",
+          "Factor completely:\n\n$$x^{4}-16$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "$x^{4}$ y $16$ son cuadrados perfectos: empieza por la diferencia de cuadrados.",
+            "$x^{4}$ and $16$ are perfect squares: start with the difference of squares.",
+          ),
+          L(
+            "$x^{4}-16 = \\left(x^{2}-4\\right)\\left(x^{2}+4\\right)$; el primer factor SEGURO se vuelve a abrir.",
+            "$x^{4}-16 = \\left(x^{2}-4\\right)\\left(x^{2}+4\\right)$; the first factor SURELY opens again.",
+          ),
+          L(
+            "$x^{2}-4 = (x-2)(x+2)$, pero $x^{2}+4$ ya no factoriza sobre los reales.",
+            "$x^{2}-4 = (x-2)(x+2)$, but $x^{2}+4$ does not factor over the reals.",
+          ),
+        ],
+        answerDisplay: L(
+          "$x^{4}-16 = \\left(x^{2}+4\\right)(x-2)(x+2)$",
+          "$x^{4}-16 = \\left(x^{2}+4\\right)(x-2)(x+2)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El binomio $x^{4}-16$.",
+            "The binomial $x^{4}-16$.",
+          ),
+          step(
+            "approach",
+            "Dos pasos de diferencia de cuadrados; la suma de cuadrados $x^{2}+4$ queda prima.",
+            "Two difference-of-squares steps; the sum of squares $x^{2}+4$ stays prime.",
+          ),
+          step(
+            "calculation",
+            "$x^{4}-16 = \\left(x^{2}\\right)^{2} - 4^{2} = \\left(x^{2}-4\\right)\\left(x^{2}+4\\right)$<br>$x^{2}-4 = (x-2)(x+2)$<br>Entonces: $x^{4}-16 = \\left(x^{2}+4\\right)(x-2)(x+2)$",
+            "$x^{4}-16 = \\left(x^{2}\\right)^{2} - 4^{2} = \\left(x^{2}-4\\right)\\left(x^{2}+4\\right)$<br>$x^{2}-4 = (x-2)(x+2)$<br>So: $x^{4}-16 = \\left(x^{2}+4\\right)(x-2)(x+2)$",
+          ),
+          step(
+            "result",
+            "$x^{4}-16 = \\left(x^{2}+4\\right)(x-2)(x+2)$. Control: con $x = 3$: $81 - 16 = 65$ y $(13)(1)(5) = 65$ ✓.",
+            "$x^{4}-16 = \\left(x^{2}+4\\right)(x-2)(x+2)$. Check: at $x = 3$: $81 - 16 = 65$ and $(13)(1)(5) = 65$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S2.46 — 256y⁴−z⁴ = (4y−z)(4y+z)(16y²+z²). */
+  template(
+    {
+      id: "fc-uees-46",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["factoring", "difference-of-squares", "two-step"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "2 · 46",
+        page: 2,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$(4y-z)(4y+z)\\left(16y^{2}+z^{2}\\right)$", "$(4y-z)(4y+z)\\left(16y^{2}+z^{2}\\right)$"), correct: true },
+        { id: "b", text: L("$\\left(16y^{2}-z^{2}\\right)\\left(16y^{2}+z^{2}\\right)$", "$\\left(16y^{2}-z^{2}\\right)\\left(16y^{2}+z^{2}\\right)$"), correct: false },
+        { id: "c", text: L("$(4y-z)(4y+z)\\left(16y^{2}-z^{2}\\right)$", "$(4y-z)(4y+z)\\left(16y^{2}-z^{2}\\right)$"), correct: false },
+        { id: "d", text: L("$(4y-z)(4y+z)$", "$(4y-z)(4y+z)$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Diferencia de cuadrados dos veces (256y⁴−z⁴)",
+          "Difference of squares twice (256y⁴−z⁴)",
+        ),
+        statement: L(
+          "Factorice completamente:\n\n$$256y^{4}-z^{4}$$",
+          "Factor completely:\n\n$$256y^{4}-z^{4}$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "$256y^{4} = \\left(16y^{2}\\right)^{2}$ y $z^{4} = \\left(z^{2}\\right)^{2}$: primera diferencia de cuadrados.",
+            "$256y^{4} = \\left(16y^{2}\\right)^{2}$ and $z^{4} = \\left(z^{2}\\right)^{2}$: first difference of squares.",
+          ),
+          L(
+            "El factor $16y^{2}-z^{2}$ se abre de nuevo: $16y^{2} = (4y)^{2}$.",
+            "The factor $16y^{2}-z^{2}$ opens again: $16y^{2} = (4y)^{2}$.",
+          ),
+          L(
+            "La suma $16y^{2}+z^{2}$ NO se factoriza sobre los reales: ahí se detiene.",
+            "The sum $16y^{2}+z^{2}$ does NOT factor over the reals: it stops there.",
+          ),
+        ],
+        answerDisplay: L(
+          "$256y^{4}-z^{4} = (4y-z)(4y+z)\\left(16y^{2}+z^{2}\\right)$",
+          "$256y^{4}-z^{4} = (4y-z)(4y+z)\\left(16y^{2}+z^{2}\\right)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El binomio $256y^{4}-z^{4}$ en las variables $y$ y $z$.",
+            "The binomial $256y^{4}-z^{4}$ in the variables $y$ and $z$.",
+          ),
+          step(
+            "approach",
+            "Cadena de dos diferencias de cuadrados; la suma de cuadrados final queda prima.",
+            "A chain of two differences of squares; the final sum of squares stays prime.",
+          ),
+          step(
+            "calculation",
+            "$256y^{4}-z^{4} = \\left(16y^{2}\\right)^{2} - \\left(z^{2}\\right)^{2} = \\left(16y^{2}-z^{2}\\right)\\left(16y^{2}+z^{2}\\right)$<br>$16y^{2}-z^{2} = (4y-z)(4y+z)$<br>Entonces: $256y^{4}-z^{4} = (4y-z)(4y+z)\\left(16y^{2}+z^{2}\\right)$",
+            "$256y^{4}-z^{4} = \\left(16y^{2}\\right)^{2} - \\left(z^{2}\\right)^{2} = \\left(16y^{2}-z^{2}\\right)\\left(16y^{2}+z^{2}\\right)$<br>$16y^{2}-z^{2} = (4y-z)(4y+z)$<br>So: $256y^{4}-z^{4} = (4y-z)(4y+z)\\left(16y^{2}+z^{2}\\right)$",
+          ),
+          step(
+            "result",
+            "$256y^{4}-z^{4} = (4y-z)(4y+z)\\left(16y^{2}+z^{2}\\right)$. Control: con $y = 1$, $z = 1$: $256 - 1 = 255$ y $(3)(5)(17) = 255$ ✓.",
+            "$256y^{4}-z^{4} = (4y-z)(4y+z)\\left(16y^{2}+z^{2}\\right)$. Check: at $y = 1$, $z = 1$: $256 - 1 = 255$ and $(3)(5)(17) = 255$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S2.47 — y⁸−1 = (y−1)(y+1)(y²+1)(y⁴+1). */
+  template(
+    {
+      id: "fc-uees-47",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 180,
+      tags: ["factoring", "difference-of-squares", "repeated"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "2 · 47",
+        page: 2,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$(y-1)(y+1)\\left(y^{2}+1\\right)\\left(y^{4}+1\\right)$", "$(y-1)(y+1)\\left(y^{2}+1\\right)\\left(y^{4}+1\\right)$"), correct: true },
+        { id: "b", text: L("$\\left(y^{4}-1\\right)\\left(y^{4}+1\\right)$", "$\\left(y^{4}-1\\right)\\left(y^{4}+1\\right)$"), correct: false },
+        { id: "c", text: L("$(y-1)(y+1)\\left(y^{4}+1\\right)$", "$(y-1)(y+1)\\left(y^{4}+1\\right)$"), correct: false },
+        { id: "d", text: L("$(y-1)\\left(y^{2}+1\\right)\\left(y^{4}+1\\right)$", "$(y-1)\\left(y^{2}+1\\right)\\left(y^{4}+1\\right)$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Cadena de diferencias de cuadrados (y⁸−1)",
+          "A chain of differences of squares (y⁸−1)",
+        ),
+        statement: L(
+          "Factorice completamente:\n\n$$y^{8}-1$$",
+          "Factor completely:\n\n$$y^{8}-1$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "El exponente 8 se puede partir como $4+4$: $y^{8} = \\left(y^{4}\\right)^{2}$.",
+            "The exponent 8 splits as $4+4$: $y^{8} = \\left(y^{4}\\right)^{2}$.",
+          ),
+          L(
+            "Cada factor diferencia se vuelve a abrir mientras el exponente sea par: $y^{4}-1$, luego $y^{2}-1$.",
+            "Each difference factor opens again while the exponent is even: $y^{4}-1$, then $y^{2}-1$.",
+          ),
+          L(
+            "Las sumas $y^{2}+1$ y $y^{4}+1$ NO se factorizan sobre los reales: ahí termina la cadena.",
+            "The sums $y^{2}+1$ and $y^{4}+1$ do NOT factor over the reals: the chain ends there.",
+          ),
+        ],
+        answerDisplay: L(
+          "$y^{8}-1 = (y-1)(y+1)\\left(y^{2}+1\\right)\\left(y^{4}+1\\right)$",
+          "$y^{8}-1 = (y-1)(y+1)\\left(y^{2}+1\\right)\\left(y^{4}+1\\right)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El binomio $y^{8}-1$.",
+            "The binomial $y^{8}-1$.",
+          ),
+          step(
+            "approach",
+            "Cadena de diferencias de cuadrados: $y^{8} \\to y^{4} \\to y^{2}$; las sumas de cuadrados quedan primas.",
+            "A chain of differences of squares: $y^{8} \\to y^{4} \\to y^{2}$; the sums of squares stay prime.",
+          ),
+          step(
+            "calculation",
+            "$y^{8}-1 = \\left(y^{4}-1\\right)\\left(y^{4}+1\\right)$<br>$y^{4}-1 = \\left(y^{2}-1\\right)\\left(y^{2}+1\\right)$<br>$y^{2}-1 = (y-1)(y+1)$<br>Entonces: $y^{8}-1 = (y-1)(y+1)\\left(y^{2}+1\\right)\\left(y^{4}+1\\right)$",
+            "$y^{8}-1 = \\left(y^{4}-1\\right)\\left(y^{4}+1\\right)$<br>$y^{4}-1 = \\left(y^{2}-1\\right)\\left(y^{2}+1\\right)$<br>$y^{2}-1 = (y-1)(y+1)$<br>So: $y^{8}-1 = (y-1)(y+1)\\left(y^{2}+1\\right)\\left(y^{4}+1\\right)$",
+          ),
+          step(
+            "result",
+            "$y^{8}-1 = (y-1)(y+1)\\left(y^{2}+1\\right)\\left(y^{4}+1\\right)$. Control: con $y = 2$: $256 - 1 = 255$ y $(1)(3)(5)(17) = 255$ ✓.",
+            "$y^{8}-1 = (y-1)(y+1)\\left(y^{2}+1\\right)\\left(y^{4}+1\\right)$. Check: at $y = 2$: $256 - 1 = 255$ and $(1)(3)(5)(17) = 255$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S2.48 — t⁴−4 = (t−√2)(t+√2)(t²+2) SOBRE ℝ. */
+  template(
+    {
+      id: "fc-uees-48",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 180,
+      tags: ["factoring", "difference-of-squares", "irrational-roots"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "2 · 48",
+        page: 2,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$\\left(t-\\sqrt{2}\\right)\\left(t+\\sqrt{2}\\right)\\left(t^{2}+2\\right)$", "$\\left(t-\\sqrt{2}\\right)\\left(t+\\sqrt{2}\\right)\\left(t^{2}+2\\right)$"), correct: true },
+        { id: "b", text: L("$\\left(t^{2}-2\\right)\\left(t^{2}+2\\right)$", "$\\left(t^{2}-2\\right)\\left(t^{2}+2\\right)$"), correct: false },
+        { id: "c", text: L("$(t-2)(t+2)\\left(t^{2}+2\\right)$", "$(t-2)(t+2)\\left(t^{2}+2\\right)$"), correct: false },
+        { id: "d", text: L("$\\left(t-\\sqrt{2}\\right)\\left(t+\\sqrt{2}\\right)\\left(t^{2}-2\\right)$", "$\\left(t-\\sqrt{2}\\right)\\left(t+\\sqrt{2}\\right)\\left(t^{2}-2\\right)$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Diferencia de cuadrados hasta los irracionales (t⁴−4)",
+          "Difference of squares down to the irrationals (t⁴−4)",
+        ),
+        statement: L(
+          "Factorice completamente (sobre los reales):\n\n$$t^{4}-4$$",
+          "Factor completely (over the reals):\n\n$$t^{4}-4$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Es una diferencia de cuadrados con $t^{2}$ y $2$; el primer factor se vuelve a abrir.",
+            "It is a difference of squares with $t^{2}$ and $2$; the first factor opens again.",
+          ),
+          L(
+            "$t^{2}-2 = \\left(t-\\sqrt{2}\\right)\\left(t+\\sqrt{2}\\right)$ sobre los reales (raíces $\\pm\\sqrt{2}$).",
+            "$t^{2}-2 = \\left(t-\\sqrt{2}\\right)\\left(t+\\sqrt{2}\\right)$ over the reals (roots $\\pm\\sqrt{2}$).",
+          ),
+          L(
+            "Cuidado: el clásico $\\left(t^{2}-2\\right)\\left(t^{2}+2\\right)$ se queda a medias, porque $t^{2}-2$ AÚN se factoriza sobre $\\mathbb{R}$.",
+            "Careful: the classic $\\left(t^{2}-2\\right)\\left(t^{2}+2\\right)$ stops half way, because $t^{2}-2$ STILL factors over $\\mathbb{R}$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$t^{4}-4 = \\left(t-\\sqrt{2}\\right)\\left(t+\\sqrt{2}\\right)\\left(t^{2}+2\\right)$",
+          "$t^{4}-4 = \\left(t-\\sqrt{2}\\right)\\left(t+\\sqrt{2}\\right)\\left(t^{2}+2\\right)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El binomio $t^{4}-4$ (se pide la factorización completa sobre los reales).",
+            "The binomial $t^{4}-4$ (the complete factorization over the reals is requested).",
+          ),
+          step(
+            "approach",
+            "Dos pasos de diferencia de cuadrados; el segundo usa las raíces irracionales $\\pm\\sqrt{2}$ de $t^{2}-2$.",
+            "Two difference-of-squares steps; the second uses the irrational roots $\\pm\\sqrt{2}$ of $t^{2}-2$.",
+          ),
+          step(
+            "calculation",
+            "$t^{4}-4 = \\left(t^{2}\\right)^{2} - 2^{2} = \\left(t^{2}-2\\right)\\left(t^{2}+2\\right)$<br>Sobre $\\mathbb{R}$: $t^{2}-2 = \\left(t-\\sqrt{2}\\right)\\left(t+\\sqrt{2}\\right)$, mientras que $t^{2}+2$ ya no se factoriza<br>Entonces: $t^{4}-4 = \\left(t-\\sqrt{2}\\right)\\left(t+\\sqrt{2}\\right)\\left(t^{2}+2\\right)$",
+            "$t^{4}-4 = \\left(t^{2}\\right)^{2} - 2^{2} = \\left(t^{2}-2\\right)\\left(t^{2}+2\\right)$<br>Over $\\mathbb{R}$: $t^{2}-2 = \\left(t-\\sqrt{2}\\right)\\left(t+\\sqrt{2}\\right)$, while $t^{2}+2$ factors no further<br>So: $t^{4}-4 = \\left(t-\\sqrt{2}\\right)\\left(t+\\sqrt{2}\\right)\\left(t^{2}+2\\right)$",
+          ),
+          step(
+            "result",
+            "$t^{4}-4 = \\left(t-\\sqrt{2}\\right)\\left(t+\\sqrt{2}\\right)\\left(t^{2}+2\\right)$ — quedarse en $\\left(t^{2}-2\\right)\\left(t^{2}+2\\right)$ es la respuesta clásica incompleta, porque sobre $\\mathbb{R}$ el factor $t^{2}-2$ todavía se abre con $\\sqrt{2}$. Control: con $t = 1$: $1 - 4 = -3$ y $(1-\\sqrt{2})(1+\\sqrt{2})(3) = (1-2)(3) = -3$ ✓.",
+            "$t^{4}-4 = \\left(t-\\sqrt{2}\\right)\\left(t+\\sqrt{2}\\right)\\left(t^{2}+2\\right)$ — stopping at $\\left(t^{2}-2\\right)\\left(t^{2}+2\\right)$ is the classic incomplete answer, because over $\\mathbb{R}$ the factor $t^{2}-2$ still opens with $\\sqrt{2}$. Check: at $t = 1$: $1 - 4 = -3$ and $(1-\\sqrt{2})(1+\\sqrt{2})(3) = (1-2)(3) = -3$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S2.49 — X⁴+4X²−5 = (X²+5)(X−1)(X+1). */
+  template(
+    {
+      id: "fc-uees-49",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["factoring", "quadratic-form", "difference-of-squares"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "2 · 49",
+        page: 2,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$\\left(X^{2}+5\\right)(X-1)(X+1)$", "$\\left(X^{2}+5\\right)(X-1)(X+1)$"), correct: true },
+        { id: "b", text: L("$\\left(X^{2}+5\\right)\\left(X^{2}-1\\right)$", "$\\left(X^{2}+5\\right)\\left(X^{2}-1\\right)$"), correct: false },
+        { id: "c", text: L("$\\left(X^{2}-5\\right)\\left(X^{2}+1\\right)$", "$\\left(X^{2}-5\\right)\\left(X^{2}+1\\right)$"), correct: false },
+        { id: "d", text: L("$\\left(X^{2}+5\\right)(X-1)^{2}$", "$\\left(X^{2}+5\\right)(X-1)^{2}$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Forma cuadrática en X² (sustitución u = X²)",
+          "Quadratic form in X² (substitution u = X²)",
+        ),
+        statement: L(
+          "Factorice completamente:\n\n$$X^{4}+4X^{2}-5$$",
+          "Factor completely:\n\n$$X^{4}+4X^{2}-5$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Con $u = X^{2}$ la expresión es $u^{2}+4u-5$: un trinomio simple.",
+            "With $u = X^{2}$ the expression is $u^{2}+4u-5$: a simple trinomial.",
+          ),
+          L(
+            "$u^{2}+4u-5 = (u+5)(u-1)$: dos números con producto $-5$ y suma $4$.",
+            "$u^{2}+4u-5 = (u+5)(u-1)$: two numbers with product $-5$ and sum $4$.",
+          ),
+          L(
+            "El factor $X^{2}-1$ todavía se abre como diferencia de cuadrados; el $X^{2}+5$ no.",
+            "The factor $X^{2}-1$ still opens as a difference of squares; the $X^{2}+5$ does not.",
+          ),
+        ],
+        answerDisplay: L(
+          "$X^{4}+4X^{2}-5 = \\left(X^{2}+5\\right)(X-1)(X+1)$",
+          "$X^{4}+4X^{2}-5 = \\left(X^{2}+5\\right)(X-1)(X+1)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El polinomio $X^{4}+4X^{2}-5$ (sin término cúbico ni lineal: forma cuadrática).",
+            "The polynomial $X^{4}+4X^{2}-5$ (no cubic or linear term: quadratic form).",
+          ),
+          step(
+            "approach",
+            "Sustitución $u = X^{2}$, factorización del trinomio y apertura de la diferencia de cuadrados.",
+            "Substitution $u = X^{2}$, factoring the trinomial and opening the difference of squares.",
+          ),
+          step(
+            "calculation",
+            "Con $u = X^{2}$: $u^{2}+4u-5 = (u+5)(u-1)$<br>De vuelta: $\\left(X^{2}+5\\right)\\left(X^{2}-1\\right)$ y $X^{2}-1 = (X-1)(X+1)$<br>Entonces: $X^{4}+4X^{2}-5 = \\left(X^{2}+5\\right)(X-1)(X+1)$",
+            "With $u = X^{2}$: $u^{2}+4u-5 = (u+5)(u-1)$<br>Back: $\\left(X^{2}+5\\right)\\left(X^{2}-1\\right)$ and $X^{2}-1 = (X-1)(X+1)$<br>So: $X^{4}+4X^{2}-5 = \\left(X^{2}+5\\right)(X-1)(X+1)$",
+          ),
+          step(
+            "result",
+            "$X^{4}+4X^{2}-5 = \\left(X^{2}+5\\right)(X-1)(X+1)$. Control: con $X = 2$: $16 + 16 - 5 = 27$ y $(9)(1)(3) = 27$ ✓.",
+            "$X^{4}+4X^{2}-5 = \\left(X^{2}+5\\right)(X-1)(X+1)$. Check: at $X = 2$: $16 + 16 - 5 = 27$ and $(9)(1)(3) = 27$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S2.50 — x⁴−10x²+9 = (x−3)(x+3)(x−1)(x+1). */
+  template(
+    {
+      id: "fc-uees-50",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 180,
+      tags: ["factoring", "quadratic-form", "difference-of-squares"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "2 · 50",
+        page: 2,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$(x-3)(x+3)(x-1)(x+1)$", "$(x-3)(x+3)(x-1)(x+1)$"), correct: true },
+        { id: "b", text: L("$\\left(x^{2}-9\\right)\\left(x^{2}-1\\right)$", "$\\left(x^{2}-9\\right)\\left(x^{2}-1\\right)$"), correct: false },
+        { id: "c", text: L("$(x-3)(x+3)(x-1)^{2}$", "$(x-3)(x+3)(x-1)^{2}$"), correct: false },
+        { id: "d", text: L("$(x-3)(x-1)(x+1)$", "$(x-3)(x-1)(x+1)$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Bicuadrada: sustitución u = x² y dos diferencias de cuadrados",
+          "Biquadratic: substitution u = x² and two differences of squares",
+        ),
+        statement: L(
+          "Factorice completamente:\n\n$$x^{4}-10x^{2}+9$$",
+          "Factor completely:\n\n$$x^{4}-10x^{2}+9$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Es una ecuación bicuadrada en forma factorizada: con $u = x^{2}$ es $u^{2}-10u+9$.",
+            "It is a biquadratic in factored form: with $u = x^{2}$ it is $u^{2}-10u+9$.",
+          ),
+          L(
+            "$u^{2}-10u+9 = (u-9)(u-1)$: producto $9$, suma $-10$.",
+            "$u^{2}-10u+9 = (u-9)(u-1)$: product $9$, sum $-10$.",
+          ),
+          L(
+            "Tanto $x^{2}-9$ como $x^{2}-1$ son diferencias de cuadrados: se abren las dos.",
+            "Both $x^{2}-9$ and $x^{2}-1$ are differences of squares: open them both.",
+          ),
+        ],
+        answerDisplay: L(
+          "$x^{4}-10x^{2}+9 = (x-3)(x+3)(x-1)(x+1)$",
+          "$x^{4}-10x^{2}+9 = (x-3)(x+3)(x-1)(x+1)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El polinomio bicuadrado $x^{4}-10x^{2}+9$.",
+            "The biquadratic polynomial $x^{4}-10x^{2}+9$.",
+          ),
+          step(
+            "approach",
+            "Sustitución $u = x^{2}$, trinomio por producto y suma, y dos diferencias de cuadrados al final.",
+            "Substitution $u = x^{2}$, trinomial by product and sum, and two differences of squares at the end.",
+          ),
+          step(
+            "calculation",
+            "Con $u = x^{2}$: $u^{2}-10u+9 = (u-9)(u-1)$<br>De vuelta: $\\left(x^{2}-9\\right)\\left(x^{2}-1\\right) = (x-3)(x+3)(x-1)(x+1)$",
+            "With $u = x^{2}$: $u^{2}-10u+9 = (u-9)(u-1)$<br>Back: $\\left(x^{2}-9\\right)\\left(x^{2}-1\\right) = (x-3)(x+3)(x-1)(x+1)$",
+          ),
+          step(
+            "result",
+            "$x^{4}-10x^{2}+9 = (x-3)(x+3)(x-1)(x+1)$. Control: con $x = 2$: $16 - 40 + 9 = -15$ y $(-1)(5)(1)(3) = -15$ ✓.",
+            "$x^{4}-10x^{2}+9 = (x-3)(x+3)(x-1)(x+1)$. Check: at $x = 2$: $16 - 40 + 9 = -15$ and $(-1)(5)(1)(3) = -15$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S2.51 — a⁴b−8a²b+16b = b(a−2)²(a+2)². */
+  template(
+    {
+      id: "fc-uees-51",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["factoring", "common-factor", "quadratic-form"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "2 · 51",
+        page: 2,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$b(a-2)^{2}(a+2)^{2}$", "$b(a-2)^{2}(a+2)^{2}$"), correct: true },
+        { id: "b", text: L("$b\\left(a^{2}-4\\right)^{2}$", "$b\\left(a^{2}-4\\right)^{2}$"), correct: false },
+        { id: "c", text: L("$b(a-2)(a+2)^{2}$", "$b(a-2)(a+2)^{2}$"), correct: false },
+        { id: "d", text: L("$b(a-2)^{2}(a+2)$", "$b(a-2)^{2}(a+2)$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Factor común b y un cuadrado perfecto doble",
+          "Common factor b and a double perfect square",
+        ),
+        statement: L(
+          "Factorice completamente:\n\n$$a^{4}b-8a^{2}b+16b$$",
+          "Factor completely:\n\n$$a^{4}b-8a^{2}b+16b$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "La $b$ es común a los tres términos: sácala primero.",
+            "The $b$ is common to the three terms: pull it out first.",
+          ),
+          L(
+            "Dentro queda $a^{4}-8a^{2}+16$: con $u = a^{2}$ es el cuadrado perfecto $u^{2}-8u+16$.",
+            "Inside remains $a^{4}-8a^{2}+16$: with $u = a^{2}$ it is the perfect square $u^{2}-8u+16$.",
+          ),
+          L(
+            "$a^{4}-8a^{2}+16 = \\left(a^{2}-4\\right)^{2}$, y el paréntesis de adentro aún se abre: $a^{2}-4 = (a-2)(a+2)$.",
+            "$a^{4}-8a^{2}+16 = \\left(a^{2}-4\\right)^{2}$, and the inner parenthesis still opens: $a^{2}-4 = (a-2)(a+2)$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$a^{4}b-8a^{2}b+16b = b(a-2)^{2}(a+2)^{2}$",
+          "$a^{4}b-8a^{2}b+16b = b(a-2)^{2}(a+2)^{2}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El polinomio $a^{4}b-8a^{2}b+16b$.",
+            "The polynomial $a^{4}b-8a^{2}b+16b$.",
+          ),
+          step(
+            "approach",
+            "Factor común $b$, cuadrado perfecto en $u = a^{2}$ y apertura final de la diferencia de cuadrados (al cuadrado).",
+            "Common factor $b$, perfect square in $u = a^{2}$ and final opening of the (squared) difference of squares.",
+          ),
+          step(
+            "calculation",
+            "$a^{4}b-8a^{2}b+16b = b\\left(a^{4}-8a^{2}+16\\right) = b\\left(a^{2}-4\\right)^{2}$<br>$a^{2}-4 = (a-2)(a+2)$, así que $\\left(a^{2}-4\\right)^{2} = (a-2)^{2}(a+2)^{2}$<br>Entonces: $a^{4}b-8a^{2}b+16b = b(a-2)^{2}(a+2)^{2}$",
+            "$a^{4}b-8a^{2}b+16b = b\\left(a^{4}-8a^{2}+16\\right) = b\\left(a^{2}-4\\right)^{2}$<br>$a^{2}-4 = (a-2)(a+2)$, so $\\left(a^{2}-4\\right)^{2} = (a-2)^{2}(a+2)^{2}$<br>So: $a^{4}b-8a^{2}b+16b = b(a-2)^{2}(a+2)^{2}$",
+          ),
+          step(
+            "result",
+            "$a^{4}b-8a^{2}b+16b = b(a-2)^{2}(a+2)^{2}$. Control: con $a = 3$, $b = 2$: $162 - 144 + 32 = 50$ y $2 \\cdot 1 \\cdot 25 = 50$ ✓.",
+            "$a^{4}b-8a^{2}b+16b = b(a-2)^{2}(a+2)^{2}$. Check: at $a = 3$, $b = 2$: $162 - 144 + 32 = 50$ and $2 \\cdot 1 \\cdot 25 = 50$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* S2.52 — 4x³−6x²−4x = 2x(2x+1)(x−2). */
+  template(
+    {
+      id: "fc-uees-52",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "factoring",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 120,
+      tags: ["factoring", "common-factor", "trinomial"],
+      prerequisites: ["factoring"],
+      source: {
+        sourceId: "uees-tarea-parcial1",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "2 · 52",
+        page: 2,
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$2x(2x+1)(x-2)$", "$2x(2x+1)(x-2)$"), correct: true },
+        { id: "b", text: L("$2x\\left(2x^{2}-3x-2\\right)$", "$2x\\left(2x^{2}-3x-2\\right)$"), correct: false },
+        { id: "c", text: L("$2x(2x-1)(x+2)$", "$2x(2x-1)(x+2)$"), correct: false },
+        { id: "d", text: L("$2x(2x+1)(x+2)$", "$2x(2x+1)(x+2)$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Factor común y trinomio con coeficiente 2",
+          "Common factor and a trinomial with coefficient 2",
+        ),
+        statement: L(
+          "Factorice completamente:\n\n$$4x^{3}-6x^{2}-4x$$",
+          "Factor completely:\n\n$$4x^{3}-6x^{2}-4x$$",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Los tres términos comparten $2x$: extráelo primero.",
+            "The three terms share $2x$: pull it out first.",
+          ),
+          L(
+            "Dentro queda $2x^{2}-3x-2$: coeficiente principal $2$ con signos distintos.",
+            "Inside remains $2x^{2}-3x-2$: leading coefficient $2$ with different signs.",
+          ),
+          L(
+            "Busca $ac = 2$ y $bd = -2$ con cruce $-3$: prueba $(2x+1)(x-2)$.",
+            "Look for $ac = 2$ and $bd = -2$ with cross $-3$: try $(2x+1)(x-2)$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$4x^{3}-6x^{2}-4x = 2x(2x+1)(x-2)$",
+          "$4x^{3}-6x^{2}-4x = 2x(2x+1)(x-2)$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El polinomio $4x^{3}-6x^{2}-4x$.",
+            "The polynomial $4x^{3}-6x^{2}-4x$.",
+          ),
+          step(
+            "approach",
+            "Factor común $2x$ y trinomio $2x^{2}-3x-2$ con la técnica del coeficiente principal.",
+            "Common factor $2x$ and the trinomial $2x^{2}-3x-2$ with the leading-coefficient technique.",
+          ),
+          step(
+            "calculation",
+            "$4x^{3}-6x^{2}-4x = 2x\\left(2x^{2}-3x-2\\right)$<br>$2x^{2}-3x-2 = (2x+1)(x-2)$<br>Entonces: $4x^{3}-6x^{2}-4x = 2x(2x+1)(x-2)$",
+            "$4x^{3}-6x^{2}-4x = 2x\\left(2x^{2}-3x-2\\right)$<br>$2x^{2}-3x-2 = (2x+1)(x-2)$<br>So: $4x^{3}-6x^{2}-4x = 2x(2x+1)(x-2)$",
+          ),
+          step(
+            "result",
+            "$4x^{3}-6x^{2}-4x = 2x(2x+1)(x-2)$. Control: con $x = 3$: $108 - 54 - 12 = 42$ y $2 \\cdot 3 \\cdot 7 \\cdot 1 = 42$ ✓.",
+            "$4x^{3}-6x^{2}-4x = 2x(2x+1)(x-2)$. Check: at $x = 3$: $108 - 54 - 12 = 42$ and $2 \\cdot 3 \\cdot 7 \\cdot 1 = 42$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
 ];
