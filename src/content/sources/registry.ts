@@ -234,6 +234,33 @@ export const SOURCES: SourceRecord[] = [
     level: "Studienkolleg T/M",
     short: l10n("Kompetenzprofil Physik", "Physics competence profile"),
   },
+  {
+    id: "tutor-encargo-polinomios-2026",
+    title:
+      "Encargo del tutor — banco de polinomios para el examen de Antonio (11 temas del syllabus)",
+    origin:
+      "Comisionado por el tutor (Sebastián Calderón) el 2026-10-18: entregó el syllabus de 11 temas (productos notables → verificación algebraica) y dirigió la autoría del banco que respalda cada tema del examen; sin documento fuente físico",
+    kind: "framework",
+    language: "es",
+    license: "INSTRUCTOR_CREATED",
+    use:
+      "Tutor-commissioned, assistant-authored bank (2026-10-18). NO printed source exists: this brief IS the source. Every answer was derived and double-verified with sympy BEFORE any template was written (download/verify_antonio.py, 154 checks, run to 0 FAIL; download/antonio-brief.md is the item-by-item contract — statements verbatim, distractors typified, 3 graduated hints, 4-step solutions with numeric ✓ controls). 41 templates in 8 new pools (cb-ant cubo de binomio 5; ops-ant operaciones 5; alg-ant lenguaje algebraico 6; div-ant división cociente/residuo 4 — long division, Ruffini and the remainder theorem; pas-ant triángulo de Pascal 5; tmr-ant términos de un desarrollo 6; pat-ant patrones algebraicos 5; ver-ant verificación algebraica 5). New curriculum scaffolding: 6 polynomials subtopics (algebraic-language, polynomial-division, pascal-triangle, development-terms, algebraic-patterns, algebraic-verification). Notable design decisions: ver-ant-2 the flawed identity x²−9 vs (x−3)² coincides ONLY at x=3 (evaluating there hides the error — the trap is the point); ver-ant-4 correct and wrong (2x−1)³ developments coincide only at x=0 (difference −6x²); ver-ant-5 three distinct evaluation points suffice for a degree-≤2 identity (interpolation recovers x²+4x+4 exactly); cb-ant-4 asks for the linear coefficient 48 of (x−4)³ with ±48/±12 distractors; alg-ant-5 'la cuarta parte del DOBLE' simplifies to x−3 with the 3x/4−3 misreading as d1. This commission backs ANTONIO's exam-mode profile (src/content/exams/profiles.ts — 11 temas; pools: pn-uees-19..44, cb-ant, ops-ant, alg-ant, pn-uees-45..48+div-ant, poly-espol-ch2-116..124, pas-ant, tmr-ant, pat-ant, fc-uees+poly-espol-ch2-3x, ver-ant).",
+    topics: [
+      "productos notables",
+      "cubo de binomio",
+      "operaciones con polinomios",
+      "lenguaje algebraico",
+      "división de polinomios",
+      "teorema del binomio",
+      "triángulo de Pascal",
+      "términos de un desarrollo",
+      "patrones algebraicos",
+      "factorización",
+      "verificación algebraica",
+    ],
+    level: "Bachillerato / primer año universitario (Matemáticas I)",
+    short: l10n("Encargo del tutor · polinomios", "Tutor commission · polynomials"),
+  },
 ];
 
 export function sourceById(id: string): SourceRecord | undefined {

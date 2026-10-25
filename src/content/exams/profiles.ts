@@ -130,6 +130,88 @@ export const examProfiles: ExamProfile[] = [
       },
     ],
   },
+  {
+    id: "antonio-polinomios",
+    student: "Antonio",
+    title: l10n("Examen de polinomios · Matemáticas I", "Polynomials exam · Mathematics I"),
+    subtitle: l10n(
+      "Una pregunta por tema, siempre la más difícil. Fuente: encargo del tutor para la unidad de polinomios (11 temas del syllabus).",
+      "One question per tema, always the hardest. Source: tutor-commissioned for the polynomials unit (11 syllabus temas).",
+    ),
+    versions: [
+      {
+        label: "A",
+        description: l10n(
+          "La más difícil de cada tema",
+          "The single hardest problem of each tema",
+        ),
+      },
+      {
+        label: "B",
+        description: l10n(
+          "La segunda más difícil — el mismo nivel, otros problemas",
+          "The second hardest — same level, different problems",
+        ),
+      },
+    ],
+    temas: [
+      {
+        id: "t01",
+        name: l10n("Productos notables", "Special products"),
+        // pn-uees-19..44: the worksheet's pure special products (45..48 are its
+        // algebraic divisions — they feed tema 5 instead, so no tema repeats a
+        // skill and no division pollutes this pool's ranking).
+        prefixes: [
+          "pn-uees-1",
+          "pn-uees-2",
+          "pn-uees-3",
+          "pn-uees-40",
+          "pn-uees-41",
+          "pn-uees-42",
+          "pn-uees-43",
+          "pn-uees-44",
+        ],
+      },
+      { id: "t02", name: l10n("Cubo de un binomio", "Cube of a binomial"), prefixes: ["cb-ant-"] },
+      {
+        id: "t03",
+        name: l10n("Operaciones con polinomios", "Polynomial operations"),
+        prefixes: ["ops-ant-"],
+      },
+      { id: "t04", name: l10n("Lenguaje algebraico", "Algebraic language"), prefixes: ["alg-ant-"] },
+      {
+        id: "t05",
+        name: l10n("División de polinomios", "Polynomial division"),
+        // the worksheet's 4 monomial divisions (pn-uees-45..48) + the
+        // commissioned quotient/remainder pool (long division, Ruffini,
+        // remainder theorem).
+        prefixes: ["pn-uees-45", "pn-uees-46", "pn-uees-47", "pn-uees-48", "div-ant-"],
+      },
+      {
+        id: "t06",
+        name: l10n("Teorema del binomio", "Binomial theorem"),
+        prefixes: ["poly-espol-ch2-1"], // ESPOL ch.2 #116..124 (real book source)
+      },
+      { id: "t07", name: l10n("Triángulo de Pascal", "Pascal's triangle"), prefixes: ["pas-ant-"] },
+      {
+        id: "t08",
+        name: l10n("Términos de un desarrollo", "Terms of an expansion"),
+        prefixes: ["tmr-ant-"],
+      },
+      { id: "t09", name: l10n("Patrones algebraicos", "Algebraic patterns"), prefixes: ["pat-ant-"] },
+      {
+        id: "t10",
+        name: l10n("Factorización", "Factoring"),
+        // worksheet S2 (32) + ESPOL ch.2 factoring #34e/36a/b/d/e (5).
+        prefixes: ["fc-uees-", "poly-espol-ch2-3"],
+      },
+      {
+        id: "t11",
+        name: l10n("Verificación algebraica", "Algebraic verification"),
+        prefixes: ["ver-ant-"],
+      },
+    ],
+  },
 ];
 
 export function examProfileById(id: string): ExamProfile | undefined {

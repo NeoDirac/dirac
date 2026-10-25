@@ -327,3 +327,25 @@ Complejos» (PDF 588+) a la espera de encargo del tutor.
 **Total: 260 plantillas** (banco 870 → 1130). Exclusiones documentadas: S3 #20 (doble solución válida 125/150 — enunciado defectuoso); S13 #3-#6, #39, #40 (necesitan UI de opciones con gráfica, misma deuda que ESPOL Ch.4 #16). Erratas/catches de la derivación: S1 #39 (los términos en y se cancelan), S3 #18 (utilidad ≥ 15% de los costos fijos ENCIMA de todos los costos → 11500), S7 #21 = #22 (misma suma disfrazada, 295425), S11 #10 (f∘f = x⁴+4x³+4x²−2, cazado por sympy), S16 #16 (puntos (10000,18)/(26000,12) → p = −(3/8000)q + 87/4), S17 #30 (vértice no entero 8500/9, R = 7225/18).
 
 **Además (fuera de inventario de fuentes):** MODO EXAMEN — perfiles en `src/content/exams/profiles.ts` (pedro-parcial1: 17 temas × 2 versiones A/B), motor en `src/lib/exams.ts` (una pregunta por tema, siempre la más difícil; versión B = la 2ª más difícil), UI en `#/exam` (perfil → temas → versión → vista previa → examen), informe por temas con soluciones al final. Cada tema del examen = el prefijo de ids de SU sección de la hoja (los `qap-*` y `exp-*` alimentan el tema 4 aunque su topic de currículo sea linear-equations/exponential).
+
+## Encargo del tutor — Banco de polinomios, examen de ANTONIO (2026-10-18)
+
+**Fuente:** comisión del tutor (sin documento físico): entregó el syllabus de 11 temas de la unidad de polinomios y dirigió la autoría del banco que respalda cada tema. Registro: `tutor-encargo-polinomios-2026` (INSTRUCTOR_CREATED). Verificación: `download/verify_antonio.py` (154 comprobaciones sympy, 0 FAIL) — la clave se derivó desde cero porque no existe fuente impresa; `download/antonio-brief.md` es el contrato ítem por ítem (enunciados verbatim, distractores tipificados, pistas, controles ✓).
+
+| Tema (syllabus) | Ítems del pool | Destino (subtopic) | Prefijo ids |
+|---|---|---|---|
+| 1 · Productos notables (cuadrado de binomio, dif. de cuadrados, término común) | 26 (hoja UEES S1 19-44) | polynomials/special-products | `pn-uees-19..44` (prefijos pn-uees-1/2/3/40-44) |
+| 2 · Cubo de un binomio | 5 (NUEVO) | polynomials/special-products | `cb-ant-*` |
+| 3 · Operaciones con polinomios | 5 (NUEVO) | polynomials/operations | `ops-ant-*` |
+| 4 · Lenguaje algebraico | 6 (NUEVO) | polynomials/algebraic-language (subtopic NUEVO) | `alg-ant-*` |
+| 5 · División de polinomios (cociente y residuo) | 4 hoja (S1 45-48) + 4 (NUEVO) | polynomials/polynomial-division (subtopic NUEVO) | `pn-uees-45..48`, `div-ant-*` |
+| 6 · Teorema del binomio | 8 (libro ESPOL cap. 2 #116-124) | polynomials/binomial-theorem | `poly-espol-ch2-116..124` (prefijo poly-espol-ch2-1) |
+| 7 · Triángulo de Pascal | 5 (NUEVO) | polynomials/pascal-triangle (subtopic NUEVO) | `pas-ant-*` |
+| 8 · Términos de un desarrollo | 6 (NUEVO) | polynomials/development-terms (subtopic NUEVO) | `tmr-ant-*` |
+| 9 · Patrones algebraicos | 5 (NUEVO) | polynomials/algebraic-patterns (subtopic NUEVO) | `pat-ant-*` |
+| 10 · Factorización (común, agrupación, dif. cuadrados, cubos) | 32 hoja (S2) + 5 libro (ESPOL #34e/36a-d) | polynomials/factoring | `fc-uees-*`, `poly-espol-ch2-3x` |
+| 11 · Verificación algebraica | 5 (NUEVO) | polynomials/algebraic-verification (subtopic NUEVO) | `ver-ant-*` |
+
+**Total: 41 plantillas nuevas** (banco 1130 → 1171) + reutilización de 69 existentes (26 pn-uees + 8 poly-espol-ch2 + 4 pn-uees divisiones + 32 fc-uees — 37 del tema 10). Los pools quedan limpios: las 4 divisiones entre monomio de la hoja (pn-uees-45..48) alimentan SOLO el tema 5 (el tema 1 las excluye por prefijo explícito 40-44). Diseños notables: ver-ant-2 (la identidad defectuosa x²−9 solo coincide con (x−3)² en x=3 — el punto de la trampa), ver-ant-4 (correcto y erróneo de (2x−1)³ solo coinciden en x=0, diferencia −6x²), ver-ant-5 (3 valores distintos bastan para una identidad de grado ≤2), cb-ant-4 (coeficiente lineal 48 de (x−4)³ con distractores ±48/±12), alg-ant-5 («la cuarta parte del DOBLE» → x−3, con la mala lectura 3x/4−3 como d1).
+
+**Perfil de examen NUEVO:** `antonio-polinomios` en `src/content/exams/profiles.ts` (alumno Antonio, 11 temas del syllabus, versiones A/B). Un perfil por alumno: `examProfiles` es append-only.

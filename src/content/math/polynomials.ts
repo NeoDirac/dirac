@@ -8856,4 +8856,3134 @@ export const templates: ProblemTemplate[] = [
     },
   ),
 
+  /* ================================================================== */
+  /* ANTONIO (encargo del tutor 2026-10-18, perfil de examen «antonio»)  */
+  /* · T2 «Cubo de un binomio» — cb-ant-1..5 (special-products).         */
+  /* Fuente: tutor-encargo-polinomios-2026 (INSTRUCTOR_CREATED, sin      */
+  /* documento físico). Clave sympy: download/verify_antonio.py.         */
+  /* ================================================================== */
+
+  /* T2.1 — (x+2)³ = x³+6x²+12x+8. Control x=1: 27. */
+  template(
+    {
+      id: "cb-ant-1",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "special-products",
+      difficulty: "easy",
+      questionType: "expression",
+      estimatedTimeSec: 90,
+      tags: ["special-products", "binomial-cube"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T2 · 1",
+      },
+      reasoning: "definition-hunting",
+    },
+    () => ({
+      skill: L("Cubo de una suma", "Cube of a sum"),
+      statement: L(
+        "Desarrolla el cubo de una suma:\n\n$$\\left(x+2\\right)^{3}$$\n\n(escribe por ejemplo x^3+6*x^2+12*x+8).",
+        "Expand the cube of a sum:\n\n$$\\left(x+2\\right)^{3}$$\n\n(write e.g. x^3+6*x^2+12*x+8).",
+      ),
+      answer: {
+        kind: "expression",
+        accepted: ["x^3+6*x^2+12*x+8", "x^3+6*x^2+12*x+8.0"],
+        variables: ["x"],
+      },
+      hints: [
+        L(
+          "Es el cubo de un binomio: usa la identidad $(a+b)^3 = a^3+3a^2b+3ab^2+b^3$.",
+          "It is the cube of a binomial: use the identity $(a+b)^3 = a^3+3a^2b+3ab^2+b^3$.",
+        ),
+        L(
+          "Con $a = x$ y $b = 2$: los productos cruzados son $3x^2\\cdot 2 = 6x^2$ y $3x\\cdot 4 = 12x$.",
+          "With $a = x$ and $b = 2$: the cross products are $3x^2\\cdot 2 = 6x^2$ and $3x\\cdot 4 = 12x$.",
+        ),
+        L(
+          "Los coeficientes del desarrollo son $1$, $6$, $12$ y $8$.",
+          "The coefficients of the expansion are $1$, $6$, $12$ and $8$.",
+        ),
+      ],
+      answerDisplay: L(
+        "$\\left(x+2\\right)^{3} = x^{3}+6x^{2}+12x+8$",
+        "$\\left(x+2\\right)^{3} = x^{3}+6x^{2}+12x+8$",
+      ),
+      solution: [
+        step(
+          "given",
+          "El cubo $\\left(x+2\\right)^{3}$.",
+          "The cube $\\left(x+2\\right)^{3}$.",
+        ),
+        step(
+          "approach",
+          "Identidad del cubo de una suma, $(a+b)^3 = a^3+3a^2b+3ab^2+b^3$, con $a = x$ y $b = 2$.",
+          "Cube-of-a-sum identity, $(a+b)^3 = a^3+3a^2b+3ab^2+b^3$, with $a = x$ and $b = 2$.",
+        ),
+        step(
+          "calculation",
+          "$a^3 = x^3$; $3a^2b = 3\\cdot x^2 \\cdot 2 = 6x^2$; $3ab^2 = 3 \\cdot x \\cdot 2^2 = 12x$; $b^3 = 2^3 = 8$.",
+          "$a^3 = x^3$; $3a^2b = 3\\cdot x^2 \\cdot 2 = 6x^2$; $3ab^2 = 3 \\cdot x \\cdot 2^2 = 12x$; $b^3 = 2^3 = 8$.",
+        ),
+        step(
+          "result",
+          "$\\left(x+2\\right)^{3} = x^{3}+6x^{2}+12x+8$. Control: con $x = 1$: $\\left(1+2\\right)^{3} = 27$ y $1+6+12+8 = 27$ ✓.",
+          "$\\left(x+2\\right)^{3} = x^{3}+6x^{2}+12x+8$. Check: at $x = 1$: $\\left(1+2\\right)^{3} = 27$ and $1+6+12+8 = 27$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* T2.2 — (x−3)³ = x³−9x²+27x−27. Control x=2: −1. */
+  template(
+    {
+      id: "cb-ant-2",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "special-products",
+      difficulty: "medium",
+      questionType: "expression",
+      estimatedTimeSec: 120,
+      tags: ["special-products", "binomial-cube"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T2 · 2",
+      },
+      reasoning: "definition-hunting",
+    },
+    () => ({
+      skill: L("Cubo de una diferencia", "Cube of a difference"),
+      statement: L(
+        "Desarrolla el cubo de una diferencia:\n\n$$\\left(x-3\\right)^{3}$$",
+        "Expand the cube of a difference:\n\n$$\\left(x-3\\right)^{3}$$",
+      ),
+      answer: {
+        kind: "expression",
+        accepted: ["x^3-9*x^2+27*x-27"],
+        variables: ["x"],
+      },
+      hints: [
+        L(
+          "Identidad del cubo de una diferencia: $(a-b)^3 = a^3-3a^2b+3ab^2-b^3$.",
+          "Cube-of-a-difference identity: $(a-b)^3 = a^3-3a^2b+3ab^2-b^3$.",
+        ),
+        L(
+          "Con $a = x$ y $b = 3$: $-3x^2\\cdot 3 = -9x^2$ y $3x\\cdot 9 = 27x$.",
+          "With $a = x$ and $b = 3$: $-3x^2\\cdot 3 = -9x^2$ and $3x\\cdot 9 = 27x$.",
+        ),
+        L(
+          "Los signos del desarrollo alternan: $+$, $-$, $+$, $-$.",
+          "The signs of the expansion alternate: $+$, $-$, $+$, $-$.",
+        ),
+      ],
+      answerDisplay: L(
+        "$\\left(x-3\\right)^{3} = x^{3}-9x^{2}+27x-27$",
+        "$\\left(x-3\\right)^{3} = x^{3}-9x^{2}+27x-27$",
+      ),
+      solution: [
+        step(
+          "given",
+          "El cubo $\\left(x-3\\right)^{3}$.",
+          "The cube $\\left(x-3\\right)^{3}$.",
+        ),
+        step(
+          "approach",
+          "Identidad del cubo de una diferencia, $(a-b)^3 = a^3-3a^2b+3ab^2-b^3$, con $a = x$ y $b = 3$.",
+          "Cube-of-a-difference identity, $(a-b)^3 = a^3-3a^2b+3ab^2-b^3$, with $a = x$ and $b = 3$.",
+        ),
+        step(
+          "calculation",
+          "$a^3 = x^3$; $-3a^2b = -3\\cdot x^2\\cdot 3 = -9x^2$; $3ab^2 = 3\\cdot x\\cdot 3^2 = 27x$; $-b^3 = -27$.",
+          "$a^3 = x^3$; $-3a^2b = -3\\cdot x^2\\cdot 3 = -9x^2$; $3ab^2 = 3\\cdot x\\cdot 3^2 = 27x$; $-b^3 = -27$.",
+        ),
+        step(
+          "result",
+          "$\\left(x-3\\right)^{3} = x^{3}-9x^{2}+27x-27$. Control: con $x = 2$: $\\left(2-3\\right)^{3} = -1$ y $8-36+54-27 = -1$ ✓.",
+          "$\\left(x-3\\right)^{3} = x^{3}-9x^{2}+27x-27$. Check: at $x = 2$: $\\left(2-3\\right)^{3} = -1$ and $8-36+54-27 = -1$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* T2.3 — (2x+y)³; distractores: swap 6/12, solo extremos, 2 sin cubar. */
+  template(
+    {
+      id: "cb-ant-3",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "special-products",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["special-products", "binomial-cube"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T2 · 3",
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$8x^{3}+12x^{2}y+6xy^{2}+y^{3}$", "$8x^{3}+12x^{2}y+6xy^{2}+y^{3}$"), correct: true },
+        { id: "b", text: L("$8x^{3}+6x^{2}y+12xy^{2}+y^{3}$", "$8x^{3}+6x^{2}y+12xy^{2}+y^{3}$"), correct: false },
+        { id: "c", text: L("$8x^{3}+y^{3}$", "$8x^{3}+y^{3}$"), correct: false },
+        { id: "d", text: L("$2x^{3}+6x^{2}y+12xy^{2}+y^{3}$", "$2x^{3}+6x^{2}y+12xy^{2}+y^{3}$"), correct: false },
+      ];
+      return {
+        skill: L("Cubo de un binomio con dos variables", "Cube of a binomial with two variables"),
+        statement: L(
+          "¿Cuál es el desarrollo de $(2x+y)^{3}$?",
+          "Which one is the expansion of $(2x+y)^{3}$?",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Usa la identidad del cubo de una suma con $a = 2x$ y $b = y$.",
+            "Use the cube-of-a-sum identity with $a = 2x$ and $b = y$.",
+          ),
+          L(
+            "$(2x)^3 = 8x^3$ — el $2$ TAMBIÉN se eleva al cubo.",
+            "$(2x)^3 = 8x^3$ — the $2$ is ALSO cubed.",
+          ),
+          L(
+            "$3(2x)^{2}y = 12x^{2}y$ y $3(2x)y^{2} = 6xy^{2}$.",
+            "$3(2x)^{2}y = 12x^{2}y$ and $3(2x)y^{2} = 6xy^{2}$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$(2x+y)^{3} = 8x^{3}+12x^{2}y+6xy^{2}+y^{3}$",
+          "$(2x+y)^{3} = 8x^{3}+12x^{2}y+6xy^{2}+y^{3}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El cubo $(2x+y)^{3}$.",
+            "The cube $(2x+y)^{3}$.",
+          ),
+          step(
+            "approach",
+            "Cubo de una suma con $a = 2x$ y $b = y$: $(a+b)^3 = a^3+3a^2b+3ab^2+b^3$.",
+            "Cube of a sum with $a = 2x$ and $b = y$: $(a+b)^3 = a^3+3a^2b+3ab^2+b^3$.",
+          ),
+          step(
+            "calculation",
+            "$(2x)^3 = 8x^3$; $3(2x)^2y = 3\\cdot 4x^2\\cdot y = 12x^2y$; $3(2x)y^2 = 6xy^2$; $y^3$.",
+            "$(2x)^3 = 8x^3$; $3(2x)^2y = 3\\cdot 4x^2\\cdot y = 12x^2y$; $3(2x)y^2 = 6xy^2$; $y^3$.",
+          ),
+          step(
+            "result",
+            "$(2x+y)^{3} = 8x^{3}+12x^{2}y+6xy^{2}+y^{3}$. Control: con $x = 1$, $y = 1$: izquierda $(2+1)^{3} = 27$ y $8+12+6+1 = 27$ ✓.",
+            "$(2x+y)^{3} = 8x^{3}+12x^{2}y+6xy^{2}+y^{3}$. Check: at $x = 1$, $y = 1$: left side $(2+1)^{3} = 27$ and $8+12+6+1 = 27$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* T2.4 — coef. lineal de (x−4)³ = 48; distractores −48, 12, −12. */
+  template(
+    {
+      id: "cb-ant-4",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "special-products",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 210,
+      tags: ["special-products", "binomial-cube", "coefficient"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T2 · 4",
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$48$", "$48$"), correct: true },
+        { id: "b", text: L("$-48$", "$-48$"), correct: false },
+        { id: "c", text: L("$12$", "$12$"), correct: false },
+        { id: "d", text: L("$-12$", "$-12$"), correct: false },
+      ];
+      return {
+        skill: L(
+          "Coeficiente del término lineal en un cubo",
+          "Coefficient of the linear term in a cube",
+        ),
+        statement: L(
+          "En el desarrollo de $(x-4)^{3}$, ¿cuál es el coeficiente del término lineal (el que va con $x$)?",
+          "In the expansion of $(x-4)^{3}$, what is the coefficient of the linear term (the one with $x$)?",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Identidad: $(a-b)^3 = a^3 - 3a^2b + 3ab^2 - b^3$.",
+            "Identity: $(a-b)^3 = a^3 - 3a^2b + 3ab^2 - b^3$.",
+          ),
+          L(
+            "El término en $x$ es $3ab^2 = 3\\cdot x\\cdot(-4)^{2}$.",
+            "The $x$ term is $3ab^2 = 3\\cdot x\\cdot(-4)^{2}$.",
+          ),
+          L(
+            "$(-4)^2 = 16$, y $3\\cdot 16 = 48$.",
+            "$(-4)^2 = 16$, and $3\\cdot 16 = 48$.",
+          ),
+        ],
+        answerDisplay: L(
+          "El término lineal de $(x-4)^{3}$ es $48x$",
+          "The linear term of $(x-4)^{3}$ is $48x$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El cubo $(x-4)^{3}$; se pide el coeficiente del término en $x$.",
+            "The cube $(x-4)^{3}$; the coefficient of the $x$ term is requested.",
+          ),
+          step(
+            "approach",
+            "Desarrollar con la identidad del cubo de una diferencia y leer el término lineal.",
+            "Expand with the cube-of-a-difference identity and read off the linear term.",
+          ),
+          step(
+            "calculation",
+            "$(x-4)^3 = x^3 - 3x^2\\cdot 4 + 3x\\cdot (-4)^2 - 4^3 = x^3-12x^2+48x-64$.",
+            "$(x-4)^3 = x^3 - 3x^2\\cdot 4 + 3x\\cdot (-4)^2 - 4^3 = x^3-12x^2+48x-64$.",
+          ),
+          step(
+            "result",
+            "El coeficiente del término lineal es $48$. Control: con $x = 2$: $\\left(2-4\\right)^{3} = -8$ y $8-48+96-64 = -8$ ✓.",
+            "The coefficient of the linear term is $48$. Check: at $x = 2$: $\\left(2-4\\right)^{3} = -8$ and $8-48+96-64 = -8$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* T2.5 — (1−2x)³ = 1−6x+12x²−8x³. Control x=1: −1. */
+  template(
+    {
+      id: "cb-ant-5",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "special-products",
+      difficulty: "hard",
+      questionType: "expression",
+      estimatedTimeSec: 240,
+      tags: ["special-products", "binomial-cube"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T2 · 5",
+      },
+      reasoning: "definition-hunting",
+    },
+    () => ({
+      skill: L(
+        "Cubo con la variable en el segundo término",
+        "Cube with the variable in the second term",
+      ),
+      statement: L(
+        "Desarrolla:\n\n$$\\left(1-2x\\right)^{3}$$",
+        "Expand:\n\n$$\\left(1-2x\\right)^{3}$$",
+      ),
+      answer: {
+        kind: "expression",
+        accepted: ["1-6*x+12*x^2-8*x^3", "-8*x^3+12*x^2-6*x+1"],
+        variables: ["x"],
+      },
+      hints: [
+        L(
+          "Es el cubo de una diferencia con $a = 1$ y $b = 2x$ — el $b$ NO es solo la $x$.",
+          "It is the cube of a difference with $a = 1$ and $b = 2x$ — $b$ is NOT just the $x$.",
+        ),
+        L(
+          "$-3a^2b = -3\\cdot 1\\cdot 2x = -6x$ y $3ab^2 = 3\\cdot 1\\cdot 4x^2 = 12x^2$.",
+          "$-3a^2b = -3\\cdot 1\\cdot 2x = -6x$ and $3ab^2 = 3\\cdot 1\\cdot 4x^2 = 12x^2$.",
+        ),
+        L(
+          "Termina en $-(2x)^3 = -8x^3$.",
+          "It ends with $-(2x)^3 = -8x^3$.",
+        ),
+      ],
+      answerDisplay: L(
+        "$\\left(1-2x\\right)^{3} = 1-6x+12x^{2}-8x^{3}$",
+        "$\\left(1-2x\\right)^{3} = 1-6x+12x^{2}-8x^{3}$",
+      ),
+      solution: [
+        step(
+          "given",
+          "El cubo $\\left(1-2x\\right)^{3}$.",
+          "The cube $\\left(1-2x\\right)^{3}$.",
+        ),
+        step(
+          "approach",
+          "Cubo de una diferencia con $a = 1$ y $b = 2x$: $(a-b)^3 = a^3-3a^2b+3ab^2-b^3$.",
+          "Cube of a difference with $a = 1$ and $b = 2x$: $(a-b)^3 = a^3-3a^2b+3ab^2-b^3$.",
+        ),
+        step(
+          "calculation",
+          "$a^3 = 1$; $-3a^2b = -6x$; $3ab^2 = 3\\cdot(2x)^2 = 12x^2$; $-b^3 = -(2x)^3 = -8x^3$.",
+          "$a^3 = 1$; $-3a^2b = -6x$; $3ab^2 = 3\\cdot(2x)^2 = 12x^2$; $-b^3 = -(2x)^3 = -8x^3$.",
+        ),
+        step(
+          "result",
+          "$\\left(1-2x\\right)^{3} = 1-6x+12x^{2}-8x^{3}$. Control: con $x = 1$: $\\left(1-2\\right)^{3} = -1$ y $1-6+12-8 = -1$ ✓.",
+          "$\\left(1-2x\\right)^{3} = 1-6x+12x^{2}-8x^{3}$. Check: at $x = 1$: $\\left(1-2\\right)^{3} = -1$ and $1-6+12-8 = -1$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* ================================================================== */
+  /* ANTONIO · T3 «Operaciones con polinomios» — ops-ant-1..5            */
+  /* (operations). Ítems procedurales: sin `reasoning`, igual que        */
+  /* poly-ops-01 (solo ops-ant-5 lo lleva). Fuente y clave: como T2.     */
+  /* ================================================================== */
+
+  /* T3.1 — suma: 4x²−x−5. */
+  template(
+    {
+      id: "ops-ant-1",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "operations",
+      difficulty: "easy",
+      questionType: "expression",
+      estimatedTimeSec: 90,
+      tags: ["operations", "addition"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T3 · 1",
+      },
+    },
+    () => ({
+      skill: L("Suma de polinomios", "Adding polynomials"),
+      statement: L(
+        "Efectúa la suma: $\\left(3x^{2}-5x+2\\right)+\\left(x^{2}+4x-7\\right)$",
+        "Carry out the addition: $\\left(3x^{2}-5x+2\\right)+\\left(x^{2}+4x-7\\right)$",
+      ),
+      answer: {
+        kind: "expression",
+        accepted: ["4*x^2-x-5"],
+        variables: ["x"],
+      },
+      hints: [
+        L(
+          "Agrupa los términos semejantes: los que tienen el mismo exponente.",
+          "Group the like terms: those with the same exponent.",
+        ),
+        L(
+          "En $x^2$: $3x^2+x^2 = 4x^2$; en $x$: $-5x+4x = -x$.",
+          "In $x^2$: $3x^2+x^2 = 4x^2$; in $x$: $-5x+4x = -x$.",
+        ),
+        L(
+          "Las constantes: $2-7 = -5$.",
+          "The constants: $2-7 = -5$.",
+        ),
+      ],
+      answerDisplay: L(
+        "$\\left(3x^{2}-5x+2\\right)+\\left(x^{2}+4x-7\\right) = 4x^{2}-x-5$",
+        "$\\left(3x^{2}-5x+2\\right)+\\left(x^{2}+4x-7\\right) = 4x^{2}-x-5$",
+      ),
+      solution: [
+        step(
+          "given",
+          "La suma $\\left(3x^{2}-5x+2\\right)+\\left(x^{2}+4x-7\\right)$.",
+          "The addition $\\left(3x^{2}-5x+2\\right)+\\left(x^{2}+4x-7\\right)$.",
+        ),
+        step(
+          "approach",
+          "Sumar por separado los coeficientes de cada grado.",
+          "Add the coefficients of each degree separately.",
+        ),
+        step(
+          "calculation",
+          "En $x^2$: $3+1 = 4$; en $x$: $-5+4 = -1$; en la constante: $2-7 = -5$.",
+          "In $x^2$: $3+1 = 4$; in $x$: $-5+4 = -1$; in the constant: $2-7 = -5$.",
+        ),
+        step(
+          "result",
+          "$= 4x^{2}-x-5$. Control: con $x = 1$: $\\left(3-5+2\\right)+\\left(1+4-7\\right) = 0+(-2) = -2$ y $4-1-5 = -2$ ✓.",
+          "$= 4x^{2}-x-5$. Check: at $x = 1$: $\\left(3-5+2\\right)+\\left(1+4-7\\right) = 0+(-2) = -2$ and $4-1-5 = -2$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* T3.2 — resta: x³−6x+13. Control x=1: 8. */
+  template(
+    {
+      id: "ops-ant-2",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "operations",
+      difficulty: "medium",
+      questionType: "expression",
+      estimatedTimeSec: 120,
+      tags: ["operations", "subtraction"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T3 · 2",
+      },
+    },
+    () => ({
+      skill: L("Resta de polinomios", "Subtracting polynomials"),
+      statement: L(
+        "Efectúa la resta: $\\left(2x^{3}-x+9\\right)-\\left(x^{3}+5x-4\\right)$",
+        "Carry out the subtraction: $\\left(2x^{3}-x+9\\right)-\\left(x^{3}+5x-4\\right)$",
+      ),
+      answer: {
+        kind: "expression",
+        accepted: ["x^3-6*x+13"],
+        variables: ["x"],
+      },
+      hints: [
+        L(
+          "El signo menos se distribuye a **todo** el segundo paréntesis.",
+          "The minus sign distributes over **every** term of the second parenthesis.",
+        ),
+        L(
+          "En $x$: $-x-5x = -6x$.",
+          "In $x$: $-x-5x = -6x$.",
+        ),
+        L(
+          "Las constantes: $9-(-4) = 13$.",
+          "The constants: $9-(-4) = 13$.",
+        ),
+      ],
+      answerDisplay: L(
+        "$\\left(2x^{3}-x+9\\right)-\\left(x^{3}+5x-4\\right) = x^{3}-6x+13$",
+        "$\\left(2x^{3}-x+9\\right)-\\left(x^{3}+5x-4\\right) = x^{3}-6x+13$",
+      ),
+      solution: [
+        step(
+          "given",
+          "La resta $\\left(2x^{3}-x+9\\right)-\\left(x^{3}+5x-4\\right)$.",
+          "The subtraction $\\left(2x^{3}-x+9\\right)-\\left(x^{3}+5x-4\\right)$.",
+        ),
+        step(
+          "approach",
+          "Cambiar el signo de todos los términos del segundo paréntesis y luego reducir los semejantes.",
+          "Flip the sign of every term of the second parenthesis and then combine like terms.",
+        ),
+        step(
+          "calculation",
+          "$= 2x^3-x+9-x^3-5x+4$<br>En $x^3$: $2-1 = 1$; en $x$: $-1-5 = -6$; constante: $9+4 = 13$.",
+          "$= 2x^3-x+9-x^3-5x+4$<br>In $x^3$: $2-1 = 1$; in $x$: $-1-5 = -6$; constant: $9+4 = 13$.",
+        ),
+        step(
+          "result",
+          "$= x^{3}-6x+13$. Control: con $x = 1$: $\\left(2-1+9\\right)-\\left(1+5-4\\right) = 10-2 = 8$ y $1-6+13 = 8$ ✓.",
+          "$= x^{3}-6x+13$. Check: at $x = 1$: $\\left(2-1+9\\right)-\\left(1+5-4\\right) = 10-2 = 8$ and $1-6+13 = 8$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* T3.3 — producto: 2x³+5x²−2x+3. Control x=1: 8. */
+  template(
+    {
+      id: "ops-ant-3",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "operations",
+      difficulty: "medium",
+      questionType: "expression",
+      estimatedTimeSec: 150,
+      tags: ["operations", "multiplication"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T3 · 3",
+      },
+    },
+    () => ({
+      skill: L("Producto de un binomio por un trinomio", "Product of a binomial by a trinomial"),
+      statement: L(
+        "Multiplica: $\\left(x+3\\right)\\left(2x^{2}-x+1\\right)$",
+        "Multiply: $\\left(x+3\\right)\\left(2x^{2}-x+1\\right)$",
+      ),
+      answer: {
+        kind: "expression",
+        accepted: ["2*x^3+5*x^2-2*x+3"],
+        variables: ["x"],
+      },
+      hints: [
+        L(
+          "Distribuye primero el monomio $x$ y luego el $3$ sobre el trinomio.",
+          "Distribute first the monomial $x$ and then the $3$ over the trinomial.",
+        ),
+        L(
+          "$x\\cdot\\left(2x^{2}-x+1\\right) = 2x^{3}-x^{2}+x$ y $3\\cdot\\left(2x^{2}-x+1\\right) = 6x^{2}-3x+3$.",
+          "$x\\cdot\\left(2x^{2}-x+1\\right) = 2x^{3}-x^{2}+x$ and $3\\cdot\\left(2x^{2}-x+1\\right) = 6x^{2}-3x+3$.",
+        ),
+        L(
+          "Al sumar: $-x^2+6x^2 = 5x^2$.",
+          "Adding up: $-x^2+6x^2 = 5x^2$.",
+        ),
+      ],
+      answerDisplay: L(
+        "$\\left(x+3\\right)\\left(2x^{2}-x+1\\right) = 2x^{3}+5x^{2}-2x+3$",
+        "$\\left(x+3\\right)\\left(2x^{2}-x+1\\right) = 2x^{3}+5x^{2}-2x+3$",
+      ),
+      solution: [
+        step(
+          "given",
+          "El producto $\\left(x+3\\right)\\left(2x^{2}-x+1\\right)$.",
+          "The product $\\left(x+3\\right)\\left(2x^{2}-x+1\\right)$.",
+        ),
+        step(
+          "approach",
+          "Doble distribución: cada término del binomio multiplica al trinomio completo; luego se reducen los semejantes.",
+          "Double distribution: each term of the binomial multiplies the whole trinomial; then combine like terms.",
+        ),
+        step(
+          "calculation",
+          "$x\\left(2x^{2}-x+1\\right) = 2x^{3}-x^{2}+x$<br>$3\\left(2x^{2}-x+1\\right) = 6x^{2}-3x+3$<br>$= 2x^{3}+(-1+6)x^{2}+(1-3)x+3 = 2x^{3}+5x^{2}-2x+3$",
+          "$x\\left(2x^{2}-x+1\\right) = 2x^{3}-x^{2}+x$<br>$3\\left(2x^{2}-x+1\\right) = 6x^{2}-3x+3$<br>$= 2x^{3}+(-1+6)x^{2}+(1-3)x+3 = 2x^{3}+5x^{2}-2x+3$",
+        ),
+        step(
+          "result",
+          "$= 2x^{3}+5x^{2}-2x+3$. Control: con $x = 1$: $\\left(1+3\\right)\\left(2-1+1\\right) = 4\\cdot 2 = 8$ y $2+5-2+3 = 8$ ✓.",
+          "$= 2x^{3}+5x^{2}-2x+3$. Check: at $x = 1$: $\\left(1+3\\right)\\left(2-1+1\\right) = 4\\cdot 2 = 8$ and $2+5-2+3 = 8$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* T3.4 — división exacta entre monomio: 6x²−4x+3. */
+  template(
+    {
+      id: "ops-ant-4",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "operations",
+      difficulty: "hard",
+      questionType: "expression",
+      estimatedTimeSec: 210,
+      tags: ["operations", "division"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T3 · 4",
+      },
+    },
+    () => ({
+      skill: L("División de un polinomio entre un monomio", "Dividing a polynomial by a monomial"),
+      statement: L(
+        "Divide (es exacta):\n\n$$\\frac{12x^{4}-8x^{3}+6x^{2}}{2x^{2}}$$",
+        "Divide (it is exact):\n\n$$\\frac{12x^{4}-8x^{3}+6x^{2}}{2x^{2}}$$",
+      ),
+      answer: {
+        kind: "expression",
+        accepted: ["6*x^2-4*x+3", "6*x^2-4*x+3.0"],
+        variables: ["x"],
+      },
+      hints: [
+        L(
+          "Divide **cada** término del numerador entre $2x^{2}$.",
+          "Divide **each** term of the numerator by $2x^{2}$.",
+        ),
+        L(
+          "$12x^{4}/2x^{2} = 6x^{2}$ y $-8x^{3}/2x^{2} = -4x$.",
+          "$12x^{4}/2x^{2} = 6x^{2}$ and $-8x^{3}/2x^{2} = -4x$.",
+        ),
+        L(
+          "El último: $6x^{2}/2x^{2} = 3$.",
+          "The last one: $6x^{2}/2x^{2} = 3$.",
+        ),
+      ],
+      answerDisplay: L(
+        "$\\frac{12x^{4}-8x^{3}+6x^{2}}{2x^{2}} = 6x^{2}-4x+3$",
+        "$\\frac{12x^{4}-8x^{3}+6x^{2}}{2x^{2}} = 6x^{2}-4x+3$",
+      ),
+      solution: [
+        step(
+          "given",
+          "El cociente $\\frac{12x^{4}-8x^{3}+6x^{2}}{2x^{2}}$ (con $x \\neq 0$).",
+          "The quotient $\\frac{12x^{4}-8x^{3}+6x^{2}}{2x^{2}}$ (with $x \\neq 0$).",
+        ),
+        step(
+          "approach",
+          "Dividir término a término entre el monomio $2x^2$: coeficientes entre sí y exponentes restados.",
+          "Divide term by term by the monomial $2x^2$: coefficients divided and exponents subtracted.",
+        ),
+        step(
+          "calculation",
+          "$\\frac{12x^{4}}{2x^{2}} = 6x^{2}$; $\\frac{-8x^{3}}{2x^{2}} = -4x$; $\\frac{6x^{2}}{2x^{2}} = 3$.",
+          "$\\frac{12x^{4}}{2x^{2}} = 6x^{2}$; $\\frac{-8x^{3}}{2x^{2}} = -4x$; $\\frac{6x^{2}}{2x^{2}} = 3$.",
+        ),
+        step(
+          "result",
+          "$\\frac{12x^{4}-8x^{3}+6x^{2}}{2x^{2}} = 6x^{2}-4x+3$. Control de vuelta: $2x^{2}\\left(6x^{2}-4x+3\\right) = 12x^{4}-8x^{3}+6x^{2}$ ✓.",
+          "$\\frac{12x^{4}-8x^{3}+6x^{2}}{2x^{2}} = 6x^{2}-4x+3$. Check by multiplying back: $2x^{2}\\left(6x^{2}-4x+3\\right) = 12x^{4}-8x^{3}+6x^{2}$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* T3.5 — 2P−Q = 3x²−11x+4; distractores 2P+Q, sin constante, +2. */
+  template(
+    {
+      id: "ops-ant-5",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "operations",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["operations", "combined", "evaluation"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T3 · 5",
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$3x^{2}-11x+4$", "$3x^{2}-11x+4$"), correct: true },
+        { id: "b", text: L("$5x^{2}-x$", "$5x^{2}-x$"), correct: false },
+        { id: "c", text: L("$3x^{2}-11x$", "$3x^{2}-11x$"), correct: false },
+        { id: "d", text: L("$3x^{2}-11x+2$", "$3x^{2}-11x+2$"), correct: false },
+      ];
+      return {
+        skill: L("Combinación lineal de polinomios", "Linear combination of polynomials"),
+        statement: L(
+          "Sean $P(x)=2x^{2}-3x+1$ y $Q(x)=x^{2}+5x-2$. ¿Cuál es $2P(x)-Q(x)$?",
+          "Let $P(x)=2x^{2}-3x+1$ and $Q(x)=x^{2}+5x-2$. Which one is $2P(x)-Q(x)$?",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Primero $2P = 4x^{2}-6x+2$.",
+            "First $2P = 4x^{2}-6x+2$.",
+          ),
+          L(
+            "Luego resta **todo** $Q$: $-x^{2}-5x+2$.",
+            "Then subtract **all of** $Q$: $-x^{2}-5x+2$.",
+          ),
+          L(
+            "Las constantes: $2+2 = 4$ (porque $-(-2) = +2$).",
+            "The constants: $2+2 = 4$ (because $-(-2) = +2$).",
+          ),
+        ],
+        answerDisplay: L(
+          "$2P(x)-Q(x) = 3x^{2}-11x+4$",
+          "$2P(x)-Q(x) = 3x^{2}-11x+4$",
+        ),
+        solution: [
+          step(
+            "given",
+            "$P(x)=2x^{2}-3x+1$ y $Q(x)=x^{2}+5x-2$; se pide $2P(x)-Q(x)$.",
+            "$P(x)=2x^{2}-3x+1$ and $Q(x)=x^{2}+5x-2$; the request is $2P(x)-Q(x)$.",
+          ),
+          step(
+            "approach",
+            "Calcular primero $2P$ y restarle después $Q$ completo, distribuyendo el signo.",
+            "Compute $2P$ first and then subtract all of $Q$, distributing the sign.",
+          ),
+          step(
+            "calculation",
+            "$2P = 4x^{2}-6x+2$<br>$2P-Q = 4x^{2}-6x+2-x^{2}-5x+2 = 3x^{2}-11x+4$",
+            "$2P = 4x^{2}-6x+2$<br>$2P-Q = 4x^{2}-6x+2-x^{2}-5x+2 = 3x^{2}-11x+4$",
+          ),
+          step(
+            "result",
+            "$2P(x)-Q(x) = 3x^{2}-11x+4$. Control: con $x = 1$: $P(1) = 0$, $Q(1) = 4 \\Rightarrow 2P-Q = -4$ y $3-11+4 = -4$ ✓.",
+            "$2P(x)-Q(x) = 3x^{2}-11x+4$. Check: at $x = 1$: $P(1) = 0$, $Q(1) = 4 \\Rightarrow 2P-Q = -4$ and $3-11+4 = -4$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* ================================================================== */
+  /* ANTONIO · T4 «Lenguaje algebraico» — alg-ant-1..6 (subtopic NUEVO   */
+  /* algebraic-language; lo registra el integrador en curriculum/math).  */
+  /* La «x» del enunciado ES la incógnita pedida. Reasoning: modeling.  */
+  /* Fuente y clave: como T2.                                            */
+  /* ================================================================== */
+
+  /* T4.1 — el triple aumentado en 5: 3x+5. */
+  template(
+    {
+      id: "alg-ant-1",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "algebraic-language",
+      difficulty: "easy",
+      questionType: "expression",
+      estimatedTimeSec: 75,
+      tags: ["algebraic-language", "translation"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T4 · 1",
+      },
+      reasoning: "modeling",
+    },
+    () => ({
+      skill: L("Traducción al lenguaje algebraico", "Translating into algebraic language"),
+      statement: L(
+        "Si $x$ es un número, escribe en lenguaje algebraico: «el triple de un número, aumentado en 5».",
+        "If $x$ is a number, write in algebraic language: \"three times a number, increased by 5\".",
+      ),
+      answer: {
+        kind: "expression",
+        accepted: ["3*x+5"],
+        variables: ["x"],
+      },
+      hints: [
+        L(
+          "«El triple de» un número es multiplicarlo por 3: $3x$.",
+          "\"Three times\" a number means multiplying it by 3: $3x$.",
+        ),
+        L(
+          "«Aumentado en» 5 se traduce con una suma: $+$.",
+          "\"Increased by\" 5 translates as an addition: $+$.",
+        ),
+        L(
+          "$3x+5$ — el $5$ va FUERA del producto.",
+          "$3x+5$ — the $5$ goes OUTSIDE the product.",
+        ),
+      ],
+      answerDisplay: L("$3x+5$", "$3x+5$"),
+      solution: [
+        step(
+          "given",
+          "La frase «el triple de un número, aumentado en 5», donde el número es $x$.",
+          "The sentence \"three times a number, increased by 5\", where the number is $x$.",
+        ),
+        step(
+          "approach",
+          "Traducir pieza a pieza: primero «el triple de», después «aumentado en 5».",
+          "Translate piece by piece: first \"three times\", then \"increased by 5\".",
+        ),
+        step(
+          "calculation",
+          "«El triple de un número»: $3x$. «Aumentado en 5»: se suma el $5$ después del producto: $3x+5$.",
+          "\"Three times a number\": $3x$. \"Increased by 5\": the $5$ is added after the product: $3x+5$.",
+        ),
+        step(
+          "result",
+          "$3x+5$. Control: con $x = 4$: el triple de 4 es 12 y $12+5 = 17$; también $3\\cdot 4+5 = 17$ ✓.",
+          "$3x+5$. Check: at $x = 4$: three times 4 is 12 and $12+5 = 17$; also $3\\cdot 4+5 = 17$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* T4.2 — cuadrado + doble: x²+2x. */
+  template(
+    {
+      id: "alg-ant-2",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "algebraic-language",
+      difficulty: "easy",
+      questionType: "expression",
+      estimatedTimeSec: 90,
+      tags: ["algebraic-language", "translation"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T4 · 2",
+      },
+      reasoning: "modeling",
+    },
+    () => ({
+      skill: L("Traducción al lenguaje algebraico", "Translating into algebraic language"),
+      statement: L(
+        "Escribe en lenguaje algebraico: «la suma del cuadrado de un número y su doble».",
+        "Write in algebraic language: \"the sum of the square of a number and its double\".",
+      ),
+      answer: {
+        kind: "expression",
+        accepted: ["x^2+2*x", "2*x+x^2"],
+        variables: ["x"],
+      },
+      hints: [
+        L(
+          "Dos piezas: el cuadrado $x^{2}$ y el doble $2x$.",
+          "Two pieces: the square $x^{2}$ and the double $2x$.",
+        ),
+        L(
+          "«La suma de A y B» se traduce como $A+B$.",
+          "\"The sum of A and B\" translates as $A+B$.",
+        ),
+        L(
+          "Queda $x^{2}+2x$.",
+          "It gives $x^{2}+2x$.",
+        ),
+      ],
+      answerDisplay: L("$x^{2}+2x$", "$x^{2}+2x$"),
+      solution: [
+        step(
+          "given",
+          "La frase «la suma del cuadrado de un número y su doble», con $x$ el número.",
+          "The sentence \"the sum of the square of a number and its double\", with $x$ the number.",
+        ),
+        step(
+          "approach",
+          "Identificar las dos piezas de la suma y unirlas.",
+          "Identify the two pieces of the sum and join them.",
+        ),
+        step(
+          "calculation",
+          "El cuadrado del número: $x^{2}$. Su doble: $2x$. La suma de ambas: $x^{2}+2x$.",
+          "The square of the number: $x^{2}$. Its double: $2x$. The sum of both: $x^{2}+2x$.",
+        ),
+        step(
+          "result",
+          "$x^{2}+2x$. Control: con $x = 3$: el cuadrado es 9, el doble es 6 y $9+6 = 15$; también $3^{2}+2\\cdot 3 = 15$ ✓.",
+          "$x^{2}+2x$. Check: at $x = 3$: the square is 9, the double is 6 and $9+6 = 15$; also $3^{2}+2\\cdot 3 = 15$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* T4.3 — ecuación 2x−4 = x²−3; distractores 2(x−4), 2x+4, x²+3. */
+  template(
+    {
+      id: "alg-ant-3",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "algebraic-language",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 120,
+      tags: ["algebraic-language", "equation-translation"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T4 · 3",
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$2x-4=x^{2}-3$", "$2x-4=x^{2}-3$"), correct: true },
+        { id: "b", text: L("$2(x-4)=x^{2}-3$", "$2(x-4)=x^{2}-3$"), correct: false },
+        { id: "c", text: L("$2x+4=x^{2}-3$", "$2x+4=x^{2}-3$"), correct: false },
+        { id: "d", text: L("$2x-4=x^{2}+3$", "$2x-4=x^{2}+3$"), correct: false },
+      ];
+      return {
+        skill: L("Traducción de una frase a una ecuación", "Translating a sentence into an equation"),
+        statement: L(
+          "La frase «el doble de un número, disminuido en 4, es igual al cuadrado del número menos 3» se traduce a:",
+          "The sentence \"twice a number, decreased by 4, equals the square of the number minus 3\" translates to:",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "«El doble de un número» es $2x$.",
+            "\"Twice a number\" is $2x$.",
+          ),
+          L(
+            "«Disminuido en 4» le resta 4 a ESO: $2x-4$ (no $2(x-4)$).",
+            "\"Decreased by 4\" subtracts 4 from THAT: $2x-4$ (not $2(x-4)$).",
+          ),
+          L(
+            "«El cuadrado del número menos 3»: $x^{2}-3$.",
+            "\"The square of the number minus 3\": $x^{2}-3$.",
+          ),
+        ],
+        answerDisplay: L("$2x-4=x^{2}-3$", "$2x-4=x^{2}-3$"),
+        solution: [
+          step(
+            "given",
+            "La frase: «el doble de un número, disminuido en 4, es igual al cuadrado del número menos 3».",
+            "The sentence: \"twice a number, decreased by 4, equals the square of the number minus 3\".",
+          ),
+          step(
+            "approach",
+            "Traducir cada lado por separado y unirlos con el signo $=$.",
+            "Translate each side separately and join them with an $=$ sign.",
+          ),
+          step(
+            "calculation",
+            "Izquierda: «el doble de un número, disminuido en 4» $= 2x-4$.<br>Derecha: «el cuadrado del número menos 3» $= x^{2}-3$.",
+            "Left: \"twice a number, decreased by 4\" $= 2x-4$.<br>Right: \"the square of the number minus 3\" $= x^{2}-3$.",
+          ),
+          step(
+            "result",
+            "$2x-4=x^{2}-3$. Control: la ecuación se cumple en su solución $x = 1$: izquierda $2\\cdot 1-4 = -2$ y derecha $1-3 = -2$ ✓.",
+            "$2x-4=x^{2}-3$. Check: the equation holds at its solution $x = 1$: left side $2\\cdot 1-4 = -2$ and right side $1-3 = -2$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* T4.4 — perímetro del rectángulo: 4x+6. */
+  template(
+    {
+      id: "alg-ant-4",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "algebraic-language",
+      difficulty: "medium",
+      questionType: "expression",
+      estimatedTimeSec: 150,
+      tags: ["algebraic-language", "perimeter"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T4 · 4",
+      },
+      reasoning: "modeling",
+    },
+    () => ({
+      skill: L("Perímetro en lenguaje algebraico", "Perimeter in algebraic language"),
+      statement: L(
+        "El largo de un rectángulo excede en 3 m a su ancho. Si el ancho mide $x$, expresa el perímetro simplificado.",
+        "The length of a rectangle exceeds its width by 3 m. If the width is $x$, write the simplified perimeter.",
+      ),
+      answer: {
+        kind: "expression",
+        accepted: ["4*x+6", "2*(2*x+3)", "2*(x+x+3)"],
+        variables: ["x"],
+      },
+      hints: [
+        L(
+          "El largo mide $x+3$ (excede en 3 al ancho).",
+          "The length is $x+3$ (it exceeds the width by 3).",
+        ),
+        L(
+          "El perímetro es $2\\left(x+(x+3)\\right)$.",
+          "The perimeter is $2\\left(x+(x+3)\\right)$.",
+        ),
+        L(
+          "$2(2x+3) = 4x+6$.",
+          "$2(2x+3) = 4x+6$.",
+        ),
+      ],
+      answerDisplay: L(
+        "$P = 2\\left(x+(x+3)\\right) = 4x+6$",
+        "$P = 2\\left(x+(x+3)\\right) = 4x+6$",
+      ),
+      solution: [
+        step(
+          "given",
+          "Ancho $x$; largo $x+3$; se pide el perímetro simplificado.",
+          "Width $x$; length $x+3$; the simplified perimeter is requested.",
+        ),
+        step(
+          "approach",
+          "El perímetro es la suma de los cuatro lados: dos anchos y dos largos.",
+          "The perimeter is the sum of the four sides: two widths and two lengths.",
+        ),
+        step(
+          "calculation",
+          "$P = x+(x+3)+x+(x+3) = 2x+2(x+3) = 2x+2x+6 = 4x+6$.",
+          "$P = x+(x+3)+x+(x+3) = 2x+2(x+3) = 2x+2x+6 = 4x+6$.",
+        ),
+        step(
+          "result",
+          "$P = 4x+6$ (en metros). Control: con $x = 2$: ancho 2, largo 5, perímetro $2+5+2+5 = 14$ y $4\\cdot 2+6 = 14$ ✓.",
+          "$P = 4x+6$ (in meters). Check: at $x = 2$: width 2, length 5, perimeter $2+5+2+5 = 14$ and $4\\cdot 2+6 = 14$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* T4.5 — mitad + cuarta del doble − 3 = x−3. */
+  template(
+    {
+      id: "alg-ant-5",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "algebraic-language",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 210,
+      tags: ["algebraic-language", "simplification"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T4 · 5",
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$x-3$", "$x-3$"), correct: true },
+        { id: "b", text: L("$\\frac{3x}{4}-3$", "$\\frac{3x}{4}-3$"), correct: false },
+        { id: "c", text: L("$\\frac{x}{2}-3$", "$\\frac{x}{2}-3$"), correct: false },
+        { id: "d", text: L("$x+3$", "$x+3$"), correct: false },
+      ];
+      return {
+        skill: L("Simplificación de una traducción algebraica", "Simplifying an algebraic translation"),
+        statement: L(
+          "«La mitad de un número, más la cuarta parte del DOBLE de ese número, menos 3.» ¿Cuál es la expresión SIMPLIFICADA?",
+          "\"Half of a number, plus a quarter of the DOUBLE of that number, minus 3.\" Which is the SIMPLIFIED expression?",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "La cuarta parte del DOBLE es $\\frac{2x}{4} = \\frac{x}{2}$.",
+            "A quarter of the DOUBLE is $\\frac{2x}{4} = \\frac{x}{2}$.",
+          ),
+          L(
+            "$\\frac{x}{2}+\\frac{x}{2} = x$.",
+            "$\\frac{x}{2}+\\frac{x}{2} = x$.",
+          ),
+          L(
+            "Queda $x-3$.",
+            "It leaves $x-3$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$\\frac{x}{2}+\\frac{2x}{4}-3 = x-3$",
+          "$\\frac{x}{2}+\\frac{2x}{4}-3 = x-3$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La frase: «la mitad de un número, más la cuarta parte del DOBLE de ese número, menos 3».",
+            "The sentence: \"half of a number, plus a quarter of the DOUBLE of that number, minus 3\".",
+          ),
+          step(
+            "approach",
+            "Traducir las tres piezas y simplificar las fracciones.",
+            "Translate the three pieces and simplify the fractions.",
+          ),
+          step(
+            "calculation",
+            "$\\frac{x}{2}+\\frac{2x}{4}-3 = \\frac{x}{2}+\\frac{x}{2}-3 = x-3$.",
+            "$\\frac{x}{2}+\\frac{2x}{4}-3 = \\frac{x}{2}+\\frac{x}{2}-3 = x-3$.",
+          ),
+          step(
+            "result",
+            "La expresión simplificada es $x-3$. Control: con $x = 8$: $4+4-3 = 5$ y $8-3 = 5$ ✓.",
+            "The simplified expression is $x-3$. Check: at $x = 8$: $4+4-3 = 5$ and $8-3 = 5$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* T4.6 — ecuación x/2+8 = 3x−12 (solución x=8). */
+  template(
+    {
+      id: "alg-ant-6",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "algebraic-language",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 180,
+      tags: ["algebraic-language", "equation-translation"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T4 · 6",
+      },
+      reasoning: "modeling",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$\\frac{x}{2}+8=3x-12$", "$\\frac{x}{2}+8=3x-12$"), correct: true },
+        { id: "b", text: L("$\\frac{x}{2}+8=3(x-12)$", "$\\frac{x}{2}+8=3(x-12)$"), correct: false },
+        { id: "c", text: L("$\\frac{x}{2}-8=3x-12$", "$\\frac{x}{2}-8=3x-12$"), correct: false },
+        { id: "d", text: L("$2x+8=3x-12$", "$2x+8=3x-12$"), correct: false },
+      ];
+      return {
+        skill: L("Traducción de una frase a una ecuación", "Translating a sentence into an equation"),
+        statement: L(
+          "«La mitad de un número, más 8, es igual al triple del número, menos 12.» ¿Cuál es la ecuación?",
+          "\"Half a number, plus 8, equals triple the number, minus 12.\" Which is the equation?",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "«La mitad de un número, más 8»: $\\frac{x}{2}+8$.",
+            "\"Half a number, plus 8\": $\\frac{x}{2}+8$.",
+          ),
+          L(
+            "«El triple del número, menos 12»: $3x-12$.",
+            "\"Triple the number, minus 12\": $3x-12$.",
+          ),
+          L(
+            "Únelos con el signo $=$.",
+            "Join them with an $=$ sign.",
+          ),
+        ],
+        answerDisplay: L("$\\frac{x}{2}+8=3x-12$", "$\\frac{x}{2}+8=3x-12$"),
+        solution: [
+          step(
+            "given",
+            "La frase: «la mitad de un número, más 8, es igual al triple del número, menos 12».",
+            "The sentence: \"half a number, plus 8, equals triple the number, minus 12\".",
+          ),
+          step(
+            "approach",
+            "Traducir el lado izquierdo y el lado derecho por separado.",
+            "Translate the left side and the right side separately.",
+          ),
+          step(
+            "calculation",
+            "Izquierda: $\\frac{x}{2}+8$. Derecha: $3x-12$. Ecuación: $\\frac{x}{2}+8 = 3x-12$.",
+            "Left: $\\frac{x}{2}+8$. Right: $3x-12$. Equation: $\\frac{x}{2}+8 = 3x-12$.",
+          ),
+          step(
+            "result",
+            "$\\frac{x}{2}+8=3x-12$. Control: la ecuación se cumple en $x = 8$: $4+8 = 12$ y $24-12 = 12$ ✓.",
+            "$\\frac{x}{2}+8=3x-12$. Check: the equation holds at $x = 8$: $4+8 = 12$ and $24-12 = 12$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* ================================================================== */
+  /* ANTONIO · T5 «División de polinomios» — div-ant-1..4 (subtopic      */
+  /* NUEVO polynomial-division; lo registra el integrador). Reasoning:   */
+  /* multi-concept (salvo div-ant-4: definition-hunting).                */
+  /* Fuente y clave: como T2.                                            */
+  /* ================================================================== */
+
+  /* T5.1 — (x³+2x²−3x+4)÷(x−1): Q = x²+3x, R = 4. Control x=2: 14. */
+  template(
+    {
+      id: "div-ant-1",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "polynomial-division",
+      difficulty: "medium",
+      questionType: "expression",
+      estimatedTimeSec: 150,
+      tags: ["polynomial-division", "quotient"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T5 · 1",
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L("División larga: cociente y residuo", "Long division: quotient and remainder"),
+      statement: L(
+        "Divide $x^{3}+2x^{2}-3x+4$ entre $x-1$ (división larga). Escribe el COCIENTE. La división NO es exacta; el residuo va en la solución.",
+        "Divide $x^{3}+2x^{2}-3x+4$ by $x-1$ (long division). Write the QUOTIENT. The division is NOT exact; the remainder is shown in the solution.",
+      ),
+      answer: {
+        kind: "expression",
+        accepted: ["x^2+3*x", "x^2+3*x+0"],
+        variables: ["x"],
+      },
+      hints: [
+        L(
+          "Divide los primeros términos: $x^{3}/x = x^{2}$; ese es el primer sumando del cociente.",
+          "Divide the leading terms: $x^{3}/x = x^{2}$; that is the first term of the quotient.",
+        ),
+        L(
+          "Multiplica y resta: sobra $3x^{2}-3x$; el siguiente sumando del cociente es $+3x$.",
+          "Multiply and subtract: $3x^{2}-3x$ remains; the next term of the quotient is $+3x$.",
+        ),
+        L(
+          "Al final sobra $4$: cociente $x^{2}+3x$, residuo $4$.",
+          "At the end $4$ remains: quotient $x^{2}+3x$, remainder $4$.",
+        ),
+      ],
+      answerDisplay: L(
+        "$Q = x^{2}+3x$, $R = 4$",
+        "$Q = x^{2}+3x$, $R = 4$",
+      ),
+      solution: [
+        step(
+          "given",
+          "La división $\\left(x^{3}+2x^{2}-3x+4\\right) \\div (x-1)$; se pide el cociente (la división no es exacta).",
+          "The division $\\left(x^{3}+2x^{2}-3x+4\\right) \\div (x-1)$; the quotient is requested (the division is not exact).",
+        ),
+        step(
+          "approach",
+          "División larga: dividir los líderes, multiplicar, restar y bajar, hasta que el grado del resto sea menor que el del divisor.",
+          "Long division: divide the leaders, multiply, subtract and bring down, until the remainder's degree is smaller than the divisor's.",
+        ),
+        step(
+          "calculation",
+          "Paso 1: $x^3/x = x^2$; $x^3+2x^2-3x+4 - x^2(x-1) = 3x^2-3x+4$.<br>Paso 2: $3x^2/x = 3x$; $3x^2-3x+4 - 3x(x-1) = 4$.<br>Grado $0 <$ grado $1$: se detiene.",
+          "Step 1: $x^3/x = x^2$; $x^3+2x^2-3x+4 - x^2(x-1) = 3x^2-3x+4$.<br>Step 2: $3x^2/x = 3x$; $3x^2-3x+4 - 3x(x-1) = 4$.<br>Degree $0 <$ degree $1$: stop.",
+        ),
+        step(
+          "result",
+          "$Q = x^{2}+3x$ (con residuo $R = 4$: $P = (x-1)\\left(x^{2}+3x\\right)+4$). Control: con $x = 2$: $P(2) = 8+8-6+4 = 14$ y $(2-1)(4+6)+4 = 14$ ✓.",
+          "$Q = x^{2}+3x$ (with remainder $R = 4$: $P = (x-1)\\left(x^{2}+3x\\right)+4$). Check: at $x = 2$: $P(2) = 8+8-6+4 = 14$ and $(2-1)(4+6)+4 = 14$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* T5.2 — (2x³−3x²+x−5)÷(x−2): Q = 2x²+x+3, R = 1. */
+  template(
+    {
+      id: "div-ant-2",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "polynomial-division",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 210,
+      tags: ["polynomial-division", "quotient-remainder"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T5 · 2",
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$Q=2x^{2}+x+3$, $R=1$", "$Q=2x^{2}+x+3$, $R=1$"), correct: true },
+        { id: "b", text: L("$Q=2x^{2}+x+3$, $R=0$", "$Q=2x^{2}+x+3$, $R=0$"), correct: false },
+        { id: "c", text: L("$Q=2x^{2}-x+3$, $R=1$", "$Q=2x^{2}-x+3$, $R=1$"), correct: false },
+        { id: "d", text: L("$Q=2x^{2}+x+3$, $R=-5$", "$Q=2x^{2}+x+3$, $R=-5$"), correct: false },
+      ];
+      return {
+        skill: L("Cociente y residuo de una división", "Quotient and remainder of a division"),
+        statement: L(
+          "Al dividir $2x^{3}-3x^{2}+x-5$ entre $x-2$, el cociente Q y el residuo R son:",
+          "When dividing $2x^{3}-3x^{2}+x-5$ by $x-2$, the quotient Q and the remainder R are:",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Divide los líderes: $2x^{3}/x = 2x^{2}$; multiplica $2x^{2}(x-2)$ y resta.",
+            "Divide the leaders: $2x^{3}/x = 2x^{2}$; multiply $2x^{2}(x-2)$ and subtract.",
+          ),
+          L(
+            "Tras el segundo paso el residuo parcial es $x^{2}+x-5$.",
+            "After the second step the partial remainder is $x^{2}+x-5$.",
+          ),
+          L(
+            "El cociente termina en $+3$ y sobra $1$ — compruébalo con el teorema del resto: $P(2) = 1$.",
+            "The quotient ends with $+3$ and $1$ remains — check it with the remainder theorem: $P(2) = 1$.",
+          ),
+        ],
+        answerDisplay: L(
+          "$Q = 2x^{2}+x+3$, $R = 1$",
+          "$Q = 2x^{2}+x+3$, $R = 1$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La división $\\left(2x^{3}-3x^{2}+x-5\\right) \\div (x-2)$; se piden el cociente y el residuo.",
+            "The division $\\left(2x^{3}-3x^{2}+x-5\\right) \\div (x-2)$; the quotient and the remainder are requested.",
+          ),
+          step(
+            "approach",
+            "División larga paso a paso; el residuo se confirma con el teorema del resto ($P(2)$).",
+            "Long division step by step; the remainder is confirmed with the remainder theorem ($P(2)$).",
+          ),
+          step(
+            "calculation",
+            "$2x^3/x = 2x^2$; resto parcial $x^2+x-5$.<br>$x^2/x = x$; $x^2+x-5 - x(x-2) = 3x-5$.<br>$3x/x = 3$; $3x-5 - 3(x-2) = 1$.<br>Teorema del resto: $P(2) = 16-12+2-5 = 1$.",
+            "$2x^3/x = 2x^2$; partial remainder $x^2+x-5$.<br>$x^2/x = x$; $x^2+x-5 - x(x-2) = 3x-5$.<br>$3x/x = 3$; $3x-5 - 3(x-2) = 1$.<br>Remainder theorem: $P(2) = 16-12+2-5 = 1$.",
+          ),
+          step(
+            "result",
+            "$Q = 2x^{2}+x+3$ y $R = 1$, es decir $P = (x-2)Q+R$. Control: con $x = 3$: $P(3) = 54-27+3-5 = 25$ y $(3-2)(18+3+3)+1 = 25$ ✓.",
+            "$Q = 2x^{2}+x+3$ and $R = 1$, that is $P = (x-2)Q+R$. Check: at $x = 3$: $P(3) = 54-27+3-5 = 25$ and $(3-2)(18+3+3)+1 = 25$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* T5.3 — Ruffini (x⁴−3x³+4x²−5x+3)÷(x−2): Q = x³−x²+2x−1, R = 1. */
+  template(
+    {
+      id: "div-ant-3",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "polynomial-division",
+      difficulty: "hard",
+      questionType: "expression",
+      estimatedTimeSec: 240,
+      tags: ["polynomial-division", "synthetic-division"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T5 · 3",
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L("División sintética (Ruffini)", "Synthetic division (Ruffini)"),
+      statement: L(
+        "Usa la división sintética (Ruffini) para dividir $x^{4}-3x^{3}+4x^{2}-5x+3$ entre $x-2$. Escribe el COCIENTE.",
+        "Use synthetic division to divide $x^{4}-3x^{3}+4x^{2}-5x+3$ by $x-2$. Write the QUOTIENT.",
+      ),
+      answer: {
+        kind: "expression",
+        accepted: ["x^3-x^2+2*x-1", "-1+2*x-x^2+x^3"],
+        variables: ["x"],
+      },
+      hints: [
+        L(
+          "Coeficientes del dividendo: $1, -3, 4, -5, 3$; el divisor es $x-2$, así que se trabaja con el $2$.",
+          "Coefficients of the dividend: $1, -3, 4, -5, 3$; the divisor is $x-2$, so work with the $2$.",
+        ),
+        L(
+          "Baja el $1$, multiplica por $2$ y suma al siguiente: $-3+2 = -1$.",
+          "Bring down the $1$, multiply by $2$ and add to the next one: $-3+2 = -1$.",
+        ),
+        L(
+          "Al final sobra $1$: cociente $x^{3}-x^{2}+2x-1$, residuo $1$.",
+          "At the end $1$ remains: quotient $x^{3}-x^{2}+2x-1$, remainder $1$.",
+        ),
+      ],
+      answerDisplay: L(
+        "$Q = x^{3}-x^{2}+2x-1$, $R = 1$",
+        "$Q = x^{3}-x^{2}+2x-1$, $R = 1$",
+      ),
+      solution: [
+        step(
+          "given",
+          "La división $\\left(x^{4}-3x^{3}+4x^{2}-5x+3\\right) \\div (x-2)$ por Ruffini.",
+          "The division $\\left(x^{4}-3x^{3}+4x^{2}-5x+3\\right) \\div (x-2)$ by synthetic division.",
+        ),
+        step(
+          "approach",
+          "Con el divisor $x-2$ se trabaja con el $2$: bajar, multiplicar, sumar, coeficiente a coeficiente.",
+          "With the divisor $x-2$ you work with the $2$: bring down, multiply, add, coefficient by coefficient.",
+        ),
+        step(
+          "calculation",
+          "Coeficientes $1, -3, 4, -5, 3$ con el $2$:<br>$1$; $-3+2\\cdot 1 = -1$; $4+2\\cdot(-1) = 2$; $-5+2\\cdot 2 = -1$; $3+2\\cdot(-1) = 1$.<br>Cociente: $x^{3}-x^{2}+2x-1$; residuo: $1$.",
+          "Coefficients $1, -3, 4, -5, 3$ with the $2$:<br>$1$; $-3+2\\cdot 1 = -1$; $4+2\\cdot(-1) = 2$; $-5+2\\cdot 2 = -1$; $3+2\\cdot(-1) = 1$.<br>Quotient: $x^{3}-x^{2}+2x-1$; remainder: $1$.",
+        ),
+        step(
+          "result",
+          "$Q = x^{3}-x^{2}+2x-1$ (residuo $1$: $P = (x-2)Q+1$). Control: con $x = 3$: $P(3) = 81-81+36-15+3 = 24$ y $(3-2)(27-9+6-1)+1 = 24$ ✓.",
+          "$Q = x^{3}-x^{2}+2x-1$ (remainder $1$: $P = (x-2)Q+1$). Check: at $x = 3$: $P(3) = 81-81+36-15+3 = 24$ and $(3-2)(27-9+6-1)+1 = 24$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* T5.4 — teorema del resto: P(3) = 31. */
+  template(
+    {
+      id: "div-ant-4",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "polynomial-division",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 270,
+      tags: ["polynomial-division", "remainder-theorem"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T5 · 4",
+      },
+      reasoning: "definition-hunting",
+    },
+    () => ({
+      skill: L("Teorema del resto", "Remainder theorem"),
+      statement: L(
+        "Sin dividir, usando el teorema del resto: ¿cuál es el residuo de dividir $x^{3}+2x^{2}-5x+1$ entre $x-3$?",
+        "Without dividing, using the remainder theorem: what is the remainder of dividing $x^{3}+2x^{2}-5x+1$ by $x-3$?",
+      ),
+      answer: {
+        kind: "numeric",
+        value: 31,
+        tolerance: { mode: "absolute", value: 0.02 },
+      },
+      hints: [
+        L(
+          "El residuo de dividir $P(x)$ entre $x-a$ es $P(a)$.",
+          "The remainder of dividing $P(x)$ by $x-a$ is $P(a)$.",
+        ),
+        L(
+          "Aquí $a = 3$: evalúa $P(3)$ sin dividir.",
+          "Here $a = 3$: evaluate $P(3)$ without dividing.",
+        ),
+        L(
+          "$27+18-15+1$.",
+          "$27+18-15+1$.",
+        ),
+      ],
+      answerDisplay: L(
+        "$R = P(3) = 31$",
+        "$R = P(3) = 31$",
+      ),
+      solution: [
+        step(
+          "given",
+          "La división $\\left(x^{3}+2x^{2}-5x+1\\right) \\div (x-3)$; se pide solo el residuo, sin dividir.",
+          "The division $\\left(x^{3}+2x^{2}-5x+1\\right) \\div (x-3)$; only the remainder is requested, without dividing.",
+        ),
+        step(
+          "approach",
+          "Teorema del resto: el residuo de dividir entre $x-a$ es $P(a)$; aquí $a = 3$.",
+          "Remainder theorem: the remainder of dividing by $x-a$ is $P(a)$; here $a = 3$.",
+        ),
+        step(
+          "calculation",
+          "$P(3) = 3^{3}+2\\cdot 3^{2}-5\\cdot 3+1 = 27+18-15+1 = 31$.",
+          "$P(3) = 3^{3}+2\\cdot 3^{2}-5\\cdot 3+1 = 27+18-15+1 = 31$.",
+        ),
+        step(
+          "result",
+          "El residuo es $31$ (dividir en serio daría lo mismo). Control: $P = (x-3)\\left(x^{2}+5x+10\\right)+31$ y con $x = 4$: $64+32-20+1 = 77$ y $1\\cdot(16+20+10)+31 = 77$ ✓.",
+          "The remainder is $31$ (actually dividing would give the same). Check: $P = (x-3)\\left(x^{2}+5x+10\\right)+31$ and at $x = 4$: $64+32-20+1 = 77$ and $1\\cdot(16+20+10)+31 = 77$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* ================================================================== */
+  /* ANTONIO · T7 «Triángulo de Pascal» — pas-ant-1..5 (subtopic NUEVO   */
+  /* pascal-triangle; lo registra el integrador). Fuente y clave: T2.    */
+  /* ================================================================== */
+
+  /* T7.1 — la fila 1 5 10 10 5 1 suma 32 = 2⁵. */
+  template(
+    {
+      id: "pas-ant-1",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "pascal-triangle",
+      difficulty: "easy",
+      questionType: "numeric",
+      estimatedTimeSec: 90,
+      tags: ["pascal-triangle", "row-sum"],
+      prerequisites: ["special-products"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T7 · 1",
+      },
+      reasoning: "definition-hunting",
+    },
+    () => ({
+      skill: L("Suma de una fila del triángulo de Pascal", "Sum of a row of Pascal's triangle"),
+      statement: L(
+        "La fila $1\\;5\\;10\\;10\\;5\\;1$ del triángulo de Pascal: ¿cuánto suman sus términos?",
+        "The row $1\\;5\\;10\\;10\\;5\\;1$ of Pascal's triangle: what do its numbers add up to?",
+      ),
+      answer: { kind: "numeric", value: 32 },
+      hints: [
+        L(
+          "Cada fila del triángulo suma el doble que la anterior.",
+          "Each row of the triangle adds up to twice the previous one.",
+        ),
+        L(
+          "Las sumas de las filas van $1, 2, 4, 8, 16, \\ldots$",
+          "The row sums go $1, 2, 4, 8, 16, \\ldots$",
+        ),
+        L(
+          "Esta fila es la 5ª: su suma es $2^{5}$.",
+          "This row is the 5th one: its sum is $2^{5}$.",
+        ),
+      ],
+      answerDisplay: L(
+        "$1+5+10+10+5+1 = 32 = 2^{5}$",
+        "$1+5+10+10+5+1 = 32 = 2^{5}$",
+      ),
+      solution: [
+        step(
+          "given",
+          "La fila $1\\;5\\;10\\;10\\;5\\;1$ del triángulo de Pascal (es la fila 5).",
+          "The row $1\\;5\\;10\\;10\\;5\\;1$ of Pascal's triangle (it is row 5).",
+        ),
+        step(
+          "approach",
+          "Sumar los seis términos directamente, o usar la regla de potencias de 2.",
+          "Add the six numbers directly, or use the powers-of-2 rule.",
+        ),
+        step(
+          "calculation",
+          "$1+5+10+10+5+1 = 32$; además la fila $n$ suma $2^{n}$ y $2^{5} = 32$.",
+          "$1+5+10+10+5+1 = 32$; moreover row $n$ adds up to $2^{n}$ and $2^{5} = 32$.",
+        ),
+        step(
+          "result",
+          "La suma es $32$. Control: $2^{5} = 32$ coincide con la suma directa $1+5+10+10+5+1$ ✓.",
+          "The sum is $32$. Check: $2^{5} = 32$ matches the direct sum $1+5+10+10+5+1$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* T7.2 — fila siguiente a 1 3 3 1: 1 4 6 4 1. */
+  template(
+    {
+      id: "pas-ant-2",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "pascal-triangle",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 120,
+      tags: ["pascal-triangle", "next-row"],
+      prerequisites: ["special-products"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T7 · 2",
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$1\\;4\\;6\\;4\\;1$", "$1\\;4\\;6\\;4\\;1$"), correct: true },
+        { id: "b", text: L("$1\\;4\\;4\\;4\\;1$", "$1\\;4\\;4\\;4\\;1$"), correct: false },
+        { id: "c", text: L("$1\\;5\\;10\\;10\\;5\\;1$", "$1\\;5\\;10\\;10\\;5\\;1$"), correct: false },
+        { id: "d", text: L("$1\\;3\\;6\\;4\\;1$", "$1\\;3\\;6\\;4\\;1$"), correct: false },
+      ];
+      return {
+        skill: L("Fila siguiente del triángulo de Pascal", "Next row of Pascal's triangle"),
+        statement: L(
+          "El triángulo de Pascal empieza $1$; $1\\;1$; $1\\;2\\;1$; $1\\;3\\;3\\;1$. ¿Cuál es la fila siguiente?",
+          "Pascal's triangle starts $1$; $1\\;1$; $1\\;2\\;1$; $1\\;3\\;3\\;1$. Which is the next row?",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Cada número es la suma de los dos que tiene encima.",
+            "Each number is the sum of the two above it.",
+          ),
+          L(
+            "Los interiores: $1+3 = 4$, $3+3 = 6$, $3+1 = 4$.",
+            "The inner ones: $1+3 = 4$, $3+3 = 6$, $3+1 = 4$.",
+          ),
+          L(
+            "Los bordes son siempre $1$.",
+            "The edges are always $1$.",
+          ),
+        ],
+        answerDisplay: L(
+          "La fila siguiente es $1\\;4\\;6\\;4\\;1$",
+          "The next row is $1\\;4\\;6\\;4\\;1$",
+        ),
+        solution: [
+          step(
+            "given",
+            "Las primeras filas: $1$; $1\\;1$; $1\\;2\\;1$; $1\\;3\\;3\\;1$.",
+            "The first rows: $1$; $1\\;1$; $1\\;2\\;1$; $1\\;3\\;3\\;1$.",
+          ),
+          step(
+            "approach",
+            "Construir la fila 5 sumando los pares adyacentes de la fila $1\\;3\\;3\\;1$.",
+            "Build row 5 by adding adjacent pairs of the row $1\\;3\\;3\\;1$.",
+          ),
+          step(
+            "calculation",
+            "Bordes: $1$ y $1$. Interiores: $1+3 = 4$; $3+3 = 6$; $3+1 = 4$.",
+            "Edges: $1$ and $1$. Inner ones: $1+3 = 4$; $3+3 = 6$; $3+1 = 4$.",
+          ),
+          step(
+            "result",
+            "La fila siguiente es $1\\;4\\;6\\;4\\;1$. Control: suma $1+4+6+4+1 = 16 = 2^{4}$ (el doble de la fila anterior, $8$) ✓.",
+            "The next row is $1\\;4\\;6\\;4\\;1$. Check: it adds up to $1+4+6+4+1 = 16 = 2^{4}$ (twice the previous row, $8$) ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* T7.3 — coeficiente de a³b⁴ en (a+b)⁷: C(7,4) = 35. */
+  template(
+    {
+      id: "pas-ant-3",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "pascal-triangle",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 150,
+      tags: ["pascal-triangle", "binomial-coefficient"],
+      prerequisites: ["special-products"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T7 · 3",
+      },
+      reasoning: "definition-hunting",
+    },
+    () => ({
+      skill: L("Coeficiente binomial en el triángulo", "Binomial coefficient in the triangle"),
+      statement: L(
+        "¿Cuál es el coeficiente de $a^{3}b^{4}$ en el desarrollo de $(a+b)^{7}$?",
+        "What is the coefficient of $a^{3}b^{4}$ in the expansion of $(a+b)^{7}$?",
+      ),
+      answer: { kind: "numeric", value: 35 },
+      hints: [
+        L(
+          "El coeficiente es $C(7,k)$ con $k$ el exponente de $b$.",
+          "The coefficient is $C(7,k)$ with $k$ the exponent of $b$.",
+        ),
+        L(
+          "Aquí $k = 4$: se necesita $C(7,4)$.",
+          "Here $k = 4$: you need $C(7,4)$.",
+        ),
+        L(
+          "$C(7,4) = C(7,3) = 35$.",
+          "$C(7,4) = C(7,3) = 35$.",
+        ),
+      ],
+      answerDisplay: L(
+        "El coeficiente de $a^{3}b^{4}$ es $35$",
+        "The coefficient of $a^{3}b^{4}$ is $35$",
+      ),
+      solution: [
+        step(
+          "given",
+          "El binomio $(a+b)^{7}$; se busca el coeficiente del término $a^{3}b^{4}$.",
+          "The binomial $(a+b)^{7}$; the coefficient of the term $a^{3}b^{4}$ is sought.",
+        ),
+        step(
+          "approach",
+          "El término con $b^{k}$ lleva el coeficiente $C(7,k)$ de la fila 7 del triángulo.",
+          "The term with $b^{k}$ carries the coefficient $C(7,k)$ from row 7 of the triangle.",
+        ),
+        step(
+          "calculation",
+          "Con $k = 4$: $C(7,4) = \\frac{7!}{4!\\,3!} = \\frac{7\\cdot 6\\cdot 5}{3\\cdot 2\\cdot 1} = 35$.",
+          "With $k = 4$: $C(7,4) = \\frac{7!}{4!\\,3!} = \\frac{7\\cdot 6\\cdot 5}{3\\cdot 2\\cdot 1} = 35$.",
+        ),
+        step(
+          "result",
+          "El coeficiente es $35$. Control: por la simetría de la fila 7, $C(7,4) = C(7,3) = 35$ ✓.",
+          "The coefficient is $35$. Check: by the symmetry of row 7, $C(7,4) = C(7,3) = 35$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* T7.4 — tercer número de la fila 10: C(10,2) = 45. */
+  template(
+    {
+      id: "pas-ant-4",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "pascal-triangle",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 210,
+      tags: ["pascal-triangle", "position"],
+      prerequisites: ["special-products"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T7 · 4",
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$45$", "$45$"), correct: true },
+        { id: "b", text: L("$10$", "$10$"), correct: false },
+        { id: "c", text: L("$120$", "$120$"), correct: false },
+        { id: "d", text: L("$36$", "$36$"), correct: false },
+      ];
+      return {
+        skill: L("Posición dentro de una fila", "Position within a row"),
+        statement: L(
+          "La fila 10 del triángulo de Pascal empieza $1\\;10\\;45\\;120\\;\\ldots$ ¿Cuál es el TERCER número de esa fila (contando el 1 inicial como el primero)?",
+          "Row 10 of Pascal's triangle starts $1\\;10\\;45\\;120\\;\\ldots$ What is the THIRD number of that row (counting the initial 1 as the first)?",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "La fila 10 es $1,\\;10,\\;45,\\;120,\\;210,\\;\\ldots$",
+            "Row 10 is $1,\\;10,\\;45,\\;120,\\;210,\\;\\ldots$",
+          ),
+          L(
+            "El tercer número (contando el $1$ inicial) es $C(10,2)$.",
+            "The third number (counting the initial $1$) is $C(10,2)$.",
+          ),
+          L(
+            "$C(10,2) = 45$.",
+            "$C(10,2) = 45$.",
+          ),
+        ],
+        answerDisplay: L(
+          "El tercer número de la fila 10 es $45$",
+          "The third number of row 10 is $45$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La fila 10 del triángulo de Pascal, que empieza $1\\;10\\;45\\;120\\;\\ldots$; se pide su TERCER número.",
+            "Row 10 of Pascal's triangle, which starts $1\\;10\\;45\\;120\\;\\ldots$; its THIRD number is requested.",
+          ),
+          step(
+            "approach",
+            "Los números de la fila $n$ son $C(n,0), C(n,1), C(n,2), \\ldots$ — el tercero es $C(10,2)$.",
+            "The numbers of row $n$ are $C(n,0), C(n,1), C(n,2), \\ldots$ — the third one is $C(10,2)$.",
+          ),
+          step(
+            "calculation",
+            "$C(10,2) = \\frac{10\\cdot 9}{2} = 45$.",
+            "$C(10,2) = \\frac{10\\cdot 9}{2} = 45$.",
+          ),
+          step(
+            "result",
+            "El tercer número es $45$. Control: en la fila 9, $9+36 = 45$ — cada número es la suma de los dos de encima ✓.",
+            "The third number is $45$. Check: in row 9, $9+36 = 45$ — each number is the sum of the two above it ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* T7.5 — suma de las filas 0..4: 2⁵−1 = 31. */
+  template(
+    {
+      id: "pas-ant-5",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "pascal-triangle",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 240,
+      tags: ["pascal-triangle", "row-sum"],
+      prerequisites: ["special-products"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T7 · 5",
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L("Suma de varias filas del triángulo", "Sum of several rows of the triangle"),
+      statement: L(
+        "¿Cuánto suman TODOS los números de las filas 0 a 4 del triángulo de Pascal (la fila 0 es solo $1$)?",
+        "What do ALL the numbers of rows 0 through 4 of Pascal's triangle add up to (row 0 is just $1$)?",
+      ),
+      answer: { kind: "numeric", value: 31 },
+      hints: [
+        L(
+          "La fila $n$ suma $2^{n}$.",
+          "Row $n$ adds up to $2^{n}$.",
+        ),
+        L(
+          "Hay que sumar $2^{0}+2^{1}+2^{2}+2^{3}+2^{4}$.",
+          "You must add $2^{0}+2^{1}+2^{2}+2^{3}+2^{4}$.",
+        ),
+        L(
+          "$1+2+4+8+16 = 31 = 2^{5}-1$.",
+          "$1+2+4+8+16 = 31 = 2^{5}-1$.",
+        ),
+      ],
+      answerDisplay: L(
+        "$1+2+4+8+16 = 31$",
+        "$1+2+4+8+16 = 31$",
+      ),
+      solution: [
+        step(
+          "given",
+          "Las filas 0 a 4 del triángulo de Pascal: $1$; $1\\;1$; $1\\;2\\;1$; $1\\;3\\;3\\;1$; $1\\;4\\;6\\;4\\;1$.",
+          "Rows 0 through 4 of Pascal's triangle: $1$; $1\\;1$; $1\\;2\\;1$; $1\\;3\\;3\\;1$; $1\\;4\\;6\\;4\\;1$.",
+        ),
+        step(
+          "approach",
+          "Cada fila $n$ suma $2^{n}$; basta sumar las cinco potencias.",
+          "Each row $n$ adds up to $2^{n}$; just add the five powers.",
+        ),
+        step(
+          "calculation",
+          "$2^{0}+2^{1}+2^{2}+2^{3}+2^{4} = 1+2+4+8+16 = 31$.",
+          "$2^{0}+2^{1}+2^{2}+2^{3}+2^{4} = 1+2+4+8+16 = 31$.",
+        ),
+        step(
+          "result",
+          "La suma total es $31$. Control: la suma geométrica da $2^{5}-1 = 31$ ✓.",
+          "The total is $31$. Check: the geometric sum gives $2^{5}-1 = 31$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* ================================================================== */
+  /* ANTONIO · T8 «Términos de un desarrollo» — tmr-ant-1..6 (subtopic   */
+  /* NUEVO development-terms; lo registra el integrador). Fuente y       */
+  /* clave: como T2.                                                     */
+  /* ================================================================== */
+
+  /* T8.1 — (x+5)⁷ tiene 8 términos. */
+  template(
+    {
+      id: "tmr-ant-1",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "development-terms",
+      difficulty: "easy",
+      questionType: "numeric",
+      estimatedTimeSec: 75,
+      tags: ["development-terms", "count"],
+      prerequisites: ["special-products"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T8 · 1",
+      },
+    },
+    () => ({
+      skill: L("Número de términos de un desarrollo", "Number of terms of an expansion"),
+      statement: L(
+        "¿Cuántos términos tiene el desarrollo de $(x+5)^{7}$?",
+        "How many terms does the expansion of $(x+5)^{7}$ have?",
+      ),
+      answer: { kind: "numeric", value: 8 },
+      hints: [
+        L(
+          "$(a+b)^{n}$ se desarrolla con $n+1$ términos.",
+          "$(a+b)^{n}$ expands into $n+1$ terms.",
+        ),
+        L(
+          "Aquí $n = 7$.",
+          "Here $n = 7$.",
+        ),
+        L(
+          "$7+1 = 8$.",
+          "$7+1 = 8$.",
+        ),
+      ],
+      answerDisplay: L(
+        "$(x+5)^{7}$ tiene $8$ términos",
+        "$(x+5)^{7}$ has $8$ terms",
+      ),
+      solution: [
+        step(
+          "given",
+          "El binomio $(x+5)^{7}$.",
+          "The binomial $(x+5)^{7}$.",
+        ),
+        step(
+          "approach",
+          "En el desarrollo de $(a+b)^{n}$ los exponentes de $a$ bajan de $n$ a $0$: son $n+1$ términos.",
+          "In the expansion of $(a+b)^{n}$ the exponents of $a$ step down from $n$ to $0$: that is $n+1$ terms.",
+        ),
+        step(
+          "calculation",
+          "Los exponentes de $x$ bajan $7, 6, 5, 4, 3, 2, 1, 0$: son $8$ valores.",
+          "The exponents of $x$ step down $7, 6, 5, 4, 3, 2, 1, 0$: that is $8$ values.",
+        ),
+        step(
+          "result",
+          "$8$ términos. Control: $n+1 = 7+1 = 8$ ✓.",
+          "$8$ terms. Check: $n+1 = 7+1 = 8$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* T8.2 — primer término de (2x−3)⁵: 32x⁵. */
+  template(
+    {
+      id: "tmr-ant-2",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "development-terms",
+      difficulty: "easy",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 90,
+      tags: ["development-terms", "first-term"],
+      prerequisites: ["special-products"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T8 · 2",
+      },
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$32x^{5}$", "$32x^{5}$"), correct: true },
+        { id: "b", text: L("$2x^{5}$", "$2x^{5}$"), correct: false },
+        { id: "c", text: L("$x^{5}$", "$x^{5}$"), correct: false },
+        { id: "d", text: L("$-32x^{5}$", "$-32x^{5}$"), correct: false },
+      ];
+      return {
+        skill: L("Primer término de un desarrollo", "First term of an expansion"),
+        statement: L(
+          "¿Cuál es el PRIMER término del desarrollo de $(2x-3)^{5}$?",
+          "What is the FIRST term of the expansion of $(2x-3)^{5}$?",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "El primer término es $\\left(\\text{primer sumando}\\right)^{n}$.",
+            "The first term is $\\left(\\text{first addend}\\right)^{n}$.",
+          ),
+          L(
+            "Aquí: $(2x)^{5}$.",
+            "Here: $(2x)^{5}$.",
+          ),
+          L(
+            "$2^{5} = 32$.",
+            "$2^{5} = 32$.",
+          ),
+        ],
+        answerDisplay: L(
+          "El primer término es $32x^{5}$",
+          "The first term is $32x^{5}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El binomio $(2x-3)^{5}$; se pide el primer término del desarrollo.",
+            "The binomial $(2x-3)^{5}$; the first term of the expansion is requested.",
+          ),
+          step(
+            "approach",
+            "El primer término del desarrollo de $(a+b)^{n}$ es $a^{n}$; aquí $a = 2x$.",
+            "The first term of the expansion of $(a+b)^{n}$ is $a^{n}$; here $a = 2x$.",
+          ),
+          step(
+            "calculation",
+            "$(2x)^{5} = 2^{5}x^{5} = 32x^{5}$.",
+            "$(2x)^{5} = 2^{5}x^{5} = 32x^{5}$.",
+          ),
+          step(
+            "result",
+            "El primer término es $32x^{5}$ (positivo: el $-3$ NO interviene en este término). Control: el desarrollo completo es $32x^{5}-240x^{4}+720x^{3}-1080x^{2}+810x-243$ y con $x = 1$: $32-240+720-1080+810-243 = -1 = (2-3)^{5}$ ✓.",
+            "The first term is $32x^{5}$ (positive: the $-3$ does NOT appear in this term). Check: the full expansion is $32x^{5}-240x^{4}+720x^{3}-1080x^{2}+810x-243$ and at $x = 1$: $32-240+720-1080+810-243 = -1 = (2-3)^{5}$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* T8.3 — último término de (x−4)⁶: (−4)⁶ = 4096. */
+  template(
+    {
+      id: "tmr-ant-3",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "development-terms",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 120,
+      tags: ["development-terms", "last-term"],
+      prerequisites: ["special-products"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T8 · 3",
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$4096$", "$4096$"), correct: true },
+        { id: "b", text: L("$-4096$", "$-4096$"), correct: false },
+        { id: "c", text: L("$1024$", "$1024$"), correct: false },
+        { id: "d", text: L("$24$", "$24$"), correct: false },
+      ];
+      return {
+        skill: L("Último término de un desarrollo", "Last term of an expansion"),
+        statement: L(
+          "¿Cuál es el ÚLTIMO término del desarrollo de $(x-4)^{6}$?",
+          "What is the LAST term of the expansion of $(x-4)^{6}$?",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "El último término es $(-4)^{6}$.",
+            "The last term is $(-4)^{6}$.",
+          ),
+          L(
+            "Exponente par $\\Rightarrow$ positivo.",
+            "Even exponent $\\Rightarrow$ positive.",
+          ),
+          L(
+            "$4^{6} = 4096$.",
+            "$4^{6} = 4096$.",
+          ),
+        ],
+        answerDisplay: L(
+          "El último término es $4096$",
+          "The last term is $4096$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El binomio $(x-4)^{6}$; se pide el último término del desarrollo.",
+            "The binomial $(x-4)^{6}$; the last term of the expansion is requested.",
+          ),
+          step(
+            "approach",
+            "El último término del desarrollo de $(a+b)^{n}$ es $b^{n}$; aquí $b = -4$.",
+            "The last term of the expansion of $(a+b)^{n}$ is $b^{n}$; here $b = -4$.",
+          ),
+          step(
+            "calculation",
+            "$(-4)^{6} = 4^{6} = 4096$ (exponente par: el signo desaparece).",
+            "$(-4)^{6} = 4^{6} = 4096$ (even exponent: the sign disappears).",
+          ),
+          step(
+            "result",
+            "El último término es $4096$. Control: el desarrollo completo es $x^{6}-24x^{5}+240x^{4}-1280x^{3}+3840x^{2}-6144x+4096$ y con $x = 1$: $1-24+240-1280+3840-6144+4096 = 729 = (1-4)^{6}$ ✓.",
+            "The last term is $4096$. Check: the full expansion is $x^{6}-24x^{5}+240x^{4}-1280x^{3}+3840x^{2}-6144x+4096$ and at $x = 1$: $1-24+240-1280+3840-6144+4096 = 729 = (1-4)^{6}$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* T8.4 — segundo término de (x+3)⁵: 15x⁴. */
+  template(
+    {
+      id: "tmr-ant-4",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "development-terms",
+      difficulty: "medium",
+      questionType: "expression",
+      estimatedTimeSec: 150,
+      tags: ["development-terms", "second-term"],
+      prerequisites: ["special-products"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T8 · 4",
+      },
+    },
+    () => ({
+      skill: L("Segundo término de un desarrollo", "Second term of an expansion"),
+      statement: L(
+        "¿Cuál es el SEGUNDO término del desarrollo de $(x+3)^{5}$?",
+        "What is the SECOND term of the expansion of $(x+3)^{5}$?",
+      ),
+      answer: {
+        kind: "expression",
+        accepted: ["15*x^4"],
+        variables: ["x"],
+      },
+      hints: [
+        L(
+          "El término $k+1$ del desarrollo es $C(n,k)\\,a^{\\,n-k}b^{k}$.",
+          "The $k+1$-th term of the expansion is $C(n,k)\\,a^{\\,n-k}b^{k}$.",
+        ),
+        L(
+          "El segundo es $C(5,1)\\,x^{4}\\cdot 3$.",
+          "The second one is $C(5,1)\\,x^{4}\\cdot 3$.",
+        ),
+        L(
+          "$5\\cdot 3 = 15$.",
+          "$5\\cdot 3 = 15$.",
+        ),
+      ],
+      answerDisplay: L(
+        "El segundo término es $15x^{4}$",
+        "The second term is $15x^{4}$",
+      ),
+      solution: [
+        step(
+          "given",
+          "El binomio $(x+3)^{5}$; se pide el segundo término del desarrollo.",
+          "The binomial $(x+3)^{5}$; the second term of the expansion is requested.",
+        ),
+        step(
+          "approach",
+          "Término general $C(5,k)\\,x^{\\,5-k}\\,3^{k}$; el segundo término corresponde a $k = 1$.",
+          "General term $C(5,k)\\,x^{\\,5-k}\\,3^{k}$; the second term corresponds to $k = 1$.",
+        ),
+        step(
+          "calculation",
+          "$C(5,1)\\,x^{4}\\cdot 3^{1} = 5\\cdot 3\\,x^{4} = 15x^{4}$.",
+          "$C(5,1)\\,x^{4}\\cdot 3^{1} = 5\\cdot 3\\,x^{4} = 15x^{4}$.",
+        ),
+        step(
+          "result",
+          "El segundo término es $15x^{4}$. Control: el desarrollo completo es $x^{5}+15x^{4}+90x^{3}+270x^{2}+405x+243$ y con $x = 1$: $1+15+90+270+405+243 = 1024 = 4^{5}$ ✓.",
+          "The second term is $15x^{4}$. Check: the full expansion is $x^{5}+15x^{4}+90x^{3}+270x^{2}+405x+243$ and at $x = 1$: $1+15+90+270+405+243 = 1024 = 4^{5}$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* T8.5 — cuarto término de (x²−2)⁹: −672x¹². */
+  template(
+    {
+      id: "tmr-ant-5",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "development-terms",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["development-terms", "general-term"],
+      prerequisites: ["special-products"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T8 · 5",
+      },
+      reasoning: "multi-concept",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$-672x^{12}$", "$-672x^{12}$"), correct: true },
+        { id: "b", text: L("$+672x^{12}$", "$+672x^{12}$"), correct: false },
+        { id: "c", text: L("$-84x^{12}$", "$-84x^{12}$"), correct: false },
+        { id: "d", text: L("$-672x^{9}$", "$-672x^{9}$"), correct: false },
+      ];
+      return {
+        skill: L("Término general de un desarrollo", "General term of an expansion"),
+        statement: L(
+          "En el desarrollo de $(x^{2}-2)^{9}$, ¿cuál es el CUARTO término?",
+          "In the expansion of $(x^{2}-2)^{9}$, what is the FOURTH term?",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "El cuarto término corresponde a $k = 3$: $C(9,3)\\left(x^{2}\\right)^{6}(-2)^{3}$.",
+            "The fourth term corresponds to $k = 3$: $C(9,3)\\left(x^{2}\\right)^{6}(-2)^{3}$.",
+          ),
+          L(
+            "$C(9,3) = 84$ y $(-2)^{3} = -8$.",
+            "$C(9,3) = 84$ and $(-2)^{3} = -8$.",
+          ),
+          L(
+            "$\\left(x^{2}\\right)^{6} = x^{12}$ — el exponente se multiplica, no se hereda el $9$.",
+            "$\\left(x^{2}\\right)^{6} = x^{12}$ — the exponent multiplies; the $9$ is not inherited.",
+          ),
+        ],
+        answerDisplay: L(
+          "El cuarto término es $-672x^{12}$",
+          "The fourth term is $-672x^{12}$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El binomio $\\left(x^{2}-2\\right)^{9}$; se pide el cuarto término del desarrollo.",
+            "The binomial $\\left(x^{2}-2\\right)^{9}$; the fourth term of the expansion is requested.",
+          ),
+          step(
+            "approach",
+            "Término general $C(9,k)\\left(x^{2}\\right)^{\\,9-k}(-2)^{k}$; el cuarto término es $k = 3$.",
+            "General term $C(9,k)\\left(x^{2}\\right)^{\\,9-k}(-2)^{k}$; the fourth term is $k = 3$.",
+          ),
+          step(
+            "calculation",
+            "$C(9,3)\\left(x^{2}\\right)^{6}(-2)^{3} = 84\\cdot x^{12}\\cdot(-8) = -672x^{12}$.",
+            "$C(9,3)\\left(x^{2}\\right)^{6}(-2)^{3} = 84\\cdot x^{12}\\cdot(-8) = -672x^{12}$.",
+          ),
+          step(
+            "result",
+            "El cuarto término es $-672x^{12}$. Control: $C(9,3) = \\frac{9\\cdot 8\\cdot 7}{3\\cdot 2\\cdot 1} = 84$, $84\\cdot 8 = 672$ y el signo es el de $(-2)^{3} < 0$ ✓.",
+            "The fourth term is $-672x^{12}$. Check: $C(9,3) = \\frac{9\\cdot 8\\cdot 7}{3\\cdot 2\\cdot 1} = 84$, $84\\cdot 8 = 672$ and the sign is that of $(-2)^{3} < 0$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* T8.6 — término independiente de (x+2)⁵: 2⁵ = 32. */
+  template(
+    {
+      id: "tmr-ant-6",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "development-terms",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 210,
+      tags: ["development-terms", "independent-term"],
+      prerequisites: ["special-products"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T8 · 6",
+      },
+      reasoning: "definition-hunting",
+    },
+    () => ({
+      skill: L("Término independiente de un desarrollo", "Constant term of an expansion"),
+      statement: L(
+        "¿Cuál es el término independiente (el que no lleva $x$) del desarrollo de $(x+2)^{5}$?",
+        "What is the constant term (the one without $x$) in the expansion of $(x+2)^{5}$?",
+      ),
+      answer: { kind: "numeric", value: 32 },
+      hints: [
+        L(
+          "El término independiente es el último: $b^{n}$.",
+          "The constant term is the last one: $b^{n}$.",
+        ),
+        L(
+          "Aquí $b = 2$.",
+          "Here $b = 2$.",
+        ),
+        L(
+          "$2^{5} = 32$.",
+          "$2^{5} = 32$.",
+        ),
+      ],
+      answerDisplay: L(
+        "El término independiente es $32$",
+        "The constant term is $32$",
+      ),
+      solution: [
+        step(
+          "given",
+          "El binomio $(x+2)^{5}$; se busca el término sin $x$.",
+          "The binomial $(x+2)^{5}$; the term without $x$ is sought.",
+        ),
+        step(
+          "approach",
+          "En $(a+b)^{n}$ el único término sin $a$ es $b^{n}$ (el último).",
+          "In $(a+b)^{n}$ the only term without $a$ is $b^{n}$ (the last one).",
+        ),
+        step(
+          "calculation",
+          "$b^{n} = 2^{5} = 32$.",
+          "$b^{n} = 2^{5} = 32$.",
+        ),
+        step(
+          "result",
+          "El término independiente es $32$. Control: el desarrollo completo es $x^{5}+10x^{4}+40x^{3}+80x^{2}+80x+32$ y con $x = 0$ queda exactamente $32$ ✓.",
+          "The constant term is $32$. Check: the full expansion is $x^{5}+10x^{4}+40x^{3}+80x^{2}+80x+32$ and at $x = 0$ exactly $32$ remains ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* ================================================================== */
+  /* ANTONIO · T9 «Patrones algebraicos» — pat-ant-1..5 (subtopic NUEVO  */
+  /* algebraic-patterns; lo registra el integrador). Fuente y clave: T2. */
+  /* ================================================================== */
+
+  /* T9.1 — 2,6,12,20,30 → 42 (diferencias 4,6,8,10 → 12). */
+  template(
+    {
+      id: "pat-ant-1",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "algebraic-patterns",
+      difficulty: "easy",
+      questionType: "numeric",
+      estimatedTimeSec: 90,
+      tags: ["algebraic-patterns", "sequence"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T9 · 1",
+      },
+    },
+    () => ({
+      skill: L("Patrón de diferencias crecientes", "Pattern of growing differences"),
+      statement: L(
+        "Observa el patrón: $2,\\;6,\\;12,\\;20,\\;30,\\;\\ldots$ ¿Qué número sigue?",
+        "Look at the pattern: $2,\\;6,\\;12,\\;20,\\;30,\\;\\ldots$ What comes next?",
+      ),
+      answer: { kind: "numeric", value: 42 },
+      hints: [
+        L(
+          "Mira las DIFERENCIAS entre términos consecutivos: $4, 6, 8, 10$.",
+          "Look at the DIFFERENCES between consecutive terms: $4, 6, 8, 10$.",
+        ),
+        L(
+          "La siguiente diferencia es $12$.",
+          "The next difference is $12$.",
+        ),
+        L(
+          "$30+12 = 42$.",
+          "$30+12 = 42$.",
+        ),
+      ],
+      answerDisplay: L(
+        "$2,\\;6,\\;12,\\;20,\\;30,\\;42$",
+        "$2,\\;6,\\;12,\\;20,\\;30,\\;42$",
+      ),
+      solution: [
+        step(
+          "given",
+          "La sucesión $2,\\;6,\\;12,\\;20,\\;30,\\;\\ldots$",
+          "The sequence $2,\\;6,\\;12,\\;20,\\;30,\\;\\ldots$",
+        ),
+        step(
+          "approach",
+          "Analizar las diferencias entre términos consecutivos.",
+          "Analyze the differences between consecutive terms.",
+        ),
+        step(
+          "calculation",
+          "$6-2 = 4$; $12-6 = 6$; $20-12 = 8$; $30-20 = 10$. Las diferencias suben de 2 en 2: la siguiente es $12$.",
+          "$6-2 = 4$; $12-6 = 6$; $20-12 = 8$; $30-20 = 10$. The differences grow by 2: the next one is $12$.",
+        ),
+        step(
+          "result",
+          "El siguiente número es $42$. Control: el patrón es $n^{2}+n$ y $6^{2}+6 = 42$ ✓.",
+          "The next number is $42$. Check: the pattern is $n^{2}+n$ and $6^{2}+6 = 42$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* T9.2 — exponentes de (x+1)⁴: bajan de 1 en 1 de 4 a 0. */
+  template(
+    {
+      id: "pat-ant-2",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "algebraic-patterns",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 120,
+      tags: ["algebraic-patterns", "exponents"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T9 · 2",
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L("Disminuyen de uno en uno, desde 4 hasta 0", "They decrease by one at a time, from 4 down to 0"),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L("Aumentan de uno en uno", "They increase by one at a time"),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L("Disminuyen de dos en dos", "They decrease by two at a time"),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L("Son iguales a los coeficientes", "They equal the coefficients"),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L("Patrón de los exponentes", "Pattern of the exponents"),
+        statement: L(
+          "En el desarrollo $(x+1)^{4} = x^{4}+4x^{3}+6x^{2}+4x+1$: ¿qué patrón siguen los exponentes de $x$, de izquierda a derecha?",
+          "In the expansion $(x+1)^{4} = x^{4}+4x^{3}+6x^{2}+4x+1$: what pattern do the exponents of $x$ follow, left to right?",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Enumera los exponentes de $x$ en cada término: $4, 3, 2, 1, 0$.",
+            "List the exponents of $x$ in each term: $4, 3, 2, 1, 0$.",
+          ),
+          L(
+            "Cada paso resta $1$ al exponente anterior.",
+            "Each step subtracts $1$ from the previous exponent.",
+          ),
+          L(
+            "El último término no lleva $x$: exponente $0$.",
+            "The last term carries no $x$: exponent $0$.",
+          ),
+        ],
+        answerDisplay: L(
+          "Los exponentes bajan $4, 3, 2, 1, 0$",
+          "The exponents go down $4, 3, 2, 1, 0$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El desarrollo $(x+1)^{4} = x^{4}+4x^{3}+6x^{2}+4x+1$.",
+            "The expansion $(x+1)^{4} = x^{4}+4x^{3}+6x^{2}+4x+1$.",
+          ),
+          step(
+            "approach",
+            "Leer el exponente de $x$ término a término, de izquierda a derecha.",
+            "Read the exponent of $x$ term by term, left to right.",
+          ),
+          step(
+            "calculation",
+            "Exponentes: $4, 3, 2, 1$; el último término ($1$) no lleva $x$, o sea $x^{0}$.",
+            "Exponents: $4, 3, 2, 1$; the last term ($1$) carries no $x$, that is $x^{0}$.",
+          ),
+          step(
+            "result",
+            "Disminuyen de uno en uno, desde $4$ hasta $0$. Control: en $(a+b)^{n}$ el término $k+1$ lleva $a^{\\,n-k}$ — los exponentes de $a$ bajan siempre de 1 en 1 hasta $0$ ✓.",
+            "They decrease by one at a time, from $4$ down to $0$. Check: in $(a+b)^{n}$ the $k+1$-th term carries $a^{\\,n-k}$ — the exponents of $a$ always step down by 1 until $0$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* T9.3 — triangulares 1,3,6,10,15 → 21. */
+  template(
+    {
+      id: "pat-ant-3",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "algebraic-patterns",
+      difficulty: "medium",
+      questionType: "numeric",
+      estimatedTimeSec: 150,
+      tags: ["algebraic-patterns", "triangular-numbers"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T9 · 3",
+      },
+    },
+    () => ({
+      skill: L("Números triangulares", "Triangular numbers"),
+      statement: L(
+        "Los números triangulares: $1,\\;3,\\;6,\\;10,\\;15,\\;\\ldots$ ¿Qué número sigue?",
+        "The triangular numbers: $1,\\;3,\\;6,\\;10,\\;15,\\;\\ldots$ What comes next?",
+      ),
+      answer: { kind: "numeric", value: 21 },
+      hints: [
+        L(
+          "Diferencias: $2, 3, 4, 5$.",
+          "Differences: $2, 3, 4, 5$.",
+        ),
+        L(
+          "La siguiente diferencia es $6$.",
+          "The next difference is $6$.",
+        ),
+        L(
+          "$15+6 = 21$.",
+          "$15+6 = 21$.",
+        ),
+      ],
+      answerDisplay: L(
+        "$1,\\;3,\\;6,\\;10,\\;15,\\;21$",
+        "$1,\\;3,\\;6,\\;10,\\;15,\\;21$",
+      ),
+      solution: [
+        step(
+          "given",
+          "Los números triangulares $1,\\;3,\\;6,\\;10,\\;15,\\;\\ldots$",
+          "The triangular numbers $1,\\;3,\\;6,\\;10,\\;15,\\;\\ldots$",
+        ),
+        step(
+          "approach",
+          "Analizar las diferencias entre términos consecutivos.",
+          "Analyze the differences between consecutive terms.",
+        ),
+        step(
+          "calculation",
+          "$3-1 = 2$; $6-3 = 3$; $10-6 = 4$; $15-10 = 5$. La siguiente diferencia es $6$; entonces $15+6 = 21$.",
+          "$3-1 = 2$; $6-3 = 3$; $10-6 = 4$; $15-10 = 5$. The next difference is $6$; hence $15+6 = 21$.",
+        ),
+        step(
+          "result",
+          "El siguiente número es $21$. Control: el $n$-ésimo triangular es $\\frac{n(n+1)}{2}$ y $\\frac{6\\cdot 7}{2} = 21$ ✓.",
+          "The next number is $21$. Check: the $n$-th triangular number is $\\frac{n(n+1)}{2}$ and $\\frac{6\\cdot 7}{2} = 21$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* T9.4 — palitos 4n−1: figura 25 → 99. */
+  template(
+    {
+      id: "pat-ant-4",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "algebraic-patterns",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 210,
+      tags: ["algebraic-patterns", "generalization"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T9 · 4",
+      },
+      reasoning: "modeling",
+    },
+    () => ({
+      skill: L("Generalización de un patrón de figuras", "Generalizing a figure pattern"),
+      statement: L(
+        "Un patrón de figuras usa 3, 7, 11, 15, … palitos (cada figura añade 4). ¿Cuántos palitos usa la figura 25?",
+        "A figure pattern uses 3, 7, 11, 15, … sticks (each figure adds 4). How many sticks does figure 25 use?",
+      ),
+      answer: { kind: "numeric", value: 99 },
+      hints: [
+        L(
+          "La fórmula general es lineal: $f(n) = 4n-1$.",
+          "The general formula is linear: $f(n) = 4n-1$.",
+        ),
+        L(
+          "Comprueba: $f(1) = 3$, $f(2) = 7$ ✓.",
+          "Check: $f(1) = 3$, $f(2) = 7$ ✓.",
+        ),
+        L(
+          "$f(25) = 100-1 = 99$.",
+          "$f(25) = 100-1 = 99$.",
+        ),
+      ],
+      answerDisplay: L(
+        "$f(25) = 4\\cdot 25-1 = 99$",
+        "$f(25) = 4\\cdot 25-1 = 99$",
+      ),
+      solution: [
+        step(
+          "given",
+          "Las figuras usan $3, 7, 11, 15, \\ldots$ palitos: cada figura añade $4$; se pide la figura $25$.",
+          "The figures use $3, 7, 11, 15, \\ldots$ sticks: each figure adds $4$; figure $25$ is requested.",
+        ),
+        step(
+          "approach",
+          "Modelar con una fórmula lineal $f(n) = an+b$: el incremento fijo $4$ da $a = 4$.",
+          "Model with a linear formula $f(n) = an+b$: the fixed increment $4$ gives $a = 4$.",
+        ),
+        step(
+          "calculation",
+          "$f(n) = 4n+b$; con $f(1) = 3$: $4+b = 3 \\Rightarrow b = -1$. Así $f(n) = 4n-1$.",
+          "$f(n) = 4n+b$; with $f(1) = 3$: $4+b = 3 \\Rightarrow b = -1$. Hence $f(n) = 4n-1$.",
+        ),
+        step(
+          "result",
+          "$f(25) = 4\\cdot 25-1 = 99$ palitos. Control: $f(2) = 8-1 = 7$ ✓ (y $f(1) = 3$).",
+          "$f(25) = 4\\cdot 25-1 = 99$ sticks. Check: $f(2) = 8-1 = 7$ ✓ (and $f(1) = 3$).",
+        ),
+      ],
+    }),
+  ),
+
+  /* T9.5 — f(n)=n²+n: f(6)+f(7) = 42+56 = 98. */
+  template(
+    {
+      id: "pat-ant-5",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "algebraic-patterns",
+      difficulty: "hard",
+      questionType: "numeric",
+      estimatedTimeSec: 240,
+      tags: ["algebraic-patterns", "formula"],
+      prerequisites: ["foundations"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T9 · 5",
+      },
+      reasoning: "multi-concept",
+    },
+    () => ({
+      skill: L("Evaluación de la fórmula de una sucesión", "Evaluating a sequence formula"),
+      statement: L(
+        "El n-ésimo término de la sucesión $2, 6, 12, 20, 30, \\ldots$ es $f(n)=n^{2}+n$. ¿Cuánto suma el 6º término más el 7º?",
+        "The n-th term of the sequence $2, 6, 12, 20, 30, \\ldots$ is $f(n)=n^{2}+n$. What is the 6th term plus the 7th?",
+      ),
+      answer: { kind: "numeric", value: 98 },
+      hints: [
+        L(
+          "6º término: $f(6) = 36+6$.",
+          "6th term: $f(6) = 36+6$.",
+        ),
+        L(
+          "7º: $f(7) = 49+7$.",
+          "7th: $f(7) = 49+7$.",
+        ),
+        L(
+          "$42+56 = 98$.",
+          "$42+56 = 98$.",
+        ),
+      ],
+      answerDisplay: L(
+        "$f(6)+f(7) = 42+56 = 98$",
+        "$f(6)+f(7) = 42+56 = 98$",
+      ),
+      solution: [
+        step(
+          "given",
+          "La sucesión con $f(n) = n^{2}+n$; se pide la suma del 6º y el 7º términos.",
+          "The sequence with $f(n) = n^{2}+n$; the 6th term plus the 7th is requested.",
+        ),
+        step(
+          "approach",
+          "Evaluar la fórmula en $n = 6$ y $n = 7$ y sumar ambos valores.",
+          "Evaluate the formula at $n = 6$ and $n = 7$ and add both values.",
+        ),
+        step(
+          "calculation",
+          "$f(6) = 36+6 = 42$; $f(7) = 49+7 = 56$.",
+          "$f(6) = 36+6 = 42$; $f(7) = 49+7 = 56$.",
+        ),
+        step(
+          "result",
+          "$42+56 = 98$. Control: $f(6)+f(7) = \\left(6^{2}+6\\right)+\\left(7^{2}+7\\right) = 42+56 = 98$ ✓.",
+          "$42+56 = 98$. Check: $f(6)+f(7) = \\left(6^{2}+6\\right)+\\left(7^{2}+7\\right) = 42+56 = 98$ ✓.",
+        ),
+      ],
+    }),
+  ),
+
+  /* ================================================================== */
+  /* ANTONIO · T11 «Verificación algebraica» — ver-ant-1..5 (subtopic    */
+  /* NUEVO algebraic-verification; lo registra el integrador).           */
+  /* Fuente y clave: como T2.                                            */
+  /* ================================================================== */
+
+  /* T11.1 — (x+5)² en x=2: 49 en ambos lados. */
+  template(
+    {
+      id: "ver-ant-1",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "algebraic-verification",
+      difficulty: "easy",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 90,
+      tags: ["algebraic-verification", "substitution"],
+      prerequisites: ["special-products"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T11 · 1",
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$49$ en ambos lados", "$49$ on both sides"), correct: true },
+        { id: "b", text: L("$25$ en ambos lados", "$25$ on both sides"), correct: false },
+        { id: "c", text: L("Izquierdo $49$, derecho $29$", "Left side $49$, right side $29$"), correct: false },
+        { id: "d", text: L("Izquierdo $49$, derecho $45$", "Left side $49$, right side $45$"), correct: false },
+      ];
+      return {
+        skill: L("Verificación por sustitución", "Verification by substitution"),
+        statement: L(
+          "Para verificar el desarrollo $(x+5)^{2}=x^{2}+10x+25$, un estudiante evalúa ambos lados en $x=2$. Si el desarrollo es correcto, ¿qué debe obtener?",
+          "To verify the expansion $(x+5)^{2}=x^{2}+10x+25$, a student evaluates both sides at $x=2$. If the expansion is correct, what should she get?",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Izquierdo: $\\left(2+5\\right)^{2}$.",
+            "Left side: $\\left(2+5\\right)^{2}$.",
+          ),
+          L(
+            "Derecho: $4+20+25$.",
+            "Right side: $4+20+25$.",
+          ),
+          L(
+            "Ambos dan $49$.",
+            "Both give $49$.",
+          ),
+        ],
+        answerDisplay: L(
+          "Ambos lados dan $49$",
+          "Both sides give $49$",
+        ),
+        solution: [
+          step(
+            "given",
+            "El desarrollo $(x+5)^{2}=x^{2}+10x+25$ y el punto de control $x = 2$.",
+            "The expansion $(x+5)^{2}=x^{2}+10x+25$ and the check point $x = 2$.",
+          ),
+          step(
+            "approach",
+            "Evaluar cada lado por separado en $x = 2$.",
+            "Evaluate each side separately at $x = 2$.",
+          ),
+          step(
+            "calculation",
+            "Izquierdo: $\\left(2+5\\right)^{2} = 7^{2} = 49$. Derecho: $2^{2}+10\\cdot 2+25 = 4+20+25 = 49$.",
+            "Left side: $\\left(2+5\\right)^{2} = 7^{2} = 49$. Right side: $2^{2}+10\\cdot 2+25 = 4+20+25 = 49$.",
+          ),
+          step(
+            "result",
+            "Debe obtener $49$ en ambos lados. Control: $49 = 49$ — la igualdad se mantiene en este punto ✓.",
+            "She should get $49$ on both sides. Check: $49 = 49$ — the equality holds at this point ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* T11.2 — (x−3)² ≠ x²−9: en x=0 se separa (9 vs −9). */
+  template(
+    {
+      id: "ver-ant-2",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "algebraic-verification",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 120,
+      tags: ["algebraic-verification", "refutation"],
+      prerequisites: ["special-products"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T11 · 2",
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L("En $x=0$: el izquierdo da 9 y el derecho $-9$", "At $x=0$: the left side gives 9 and the right side $-9$"),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L("En $x=3$: ambos dan 0", "At $x=3$: both give 0"),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L("En ninguna: $x^{2}-9$ es equivalente a $(x-3)^{2}$", "In none: $x^{2}-9$ is equivalent to $(x-3)^{2}$"),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L("En $x=0$: ambos dan $-9$", "At $x=0$: both give $-9$"),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L("Refutación por sustitución", "Refutation by substitution"),
+        statement: L(
+          "Un estudiante escribió $(x-3)^{2}=x^{2}-9$. ¿En cuál evaluación se pone de manifiesto el ERROR?",
+          "A student wrote $(x-3)^{2}=x^{2}-9$. Which evaluation exposes the MISTAKE?",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Evalúa el lado izquierdo y el derecho por separado en cada candidato.",
+            "Evaluate the left side and the right side separately at each candidate.",
+          ),
+          L(
+            "Con $x = 3$ los DOS valen $0$ — es el único punto donde coinciden.",
+            "At $x = 3$ BOTH equal $0$ — it is the only point where they coincide.",
+          ),
+          L(
+            "Con $x = 0$ se separan: 9 contra $-9$.",
+            "At $x = 0$ they split apart: 9 versus $-9$.",
+          ),
+        ],
+        answerDisplay: L(
+          "En $x=0$: izquierda 9, derecha $-9$",
+          "At $x=0$: left side 9, right side $-9$",
+        ),
+        solution: [
+          step(
+            "given",
+            "La supuesta identidad $(x-3)^{2}=x^{2}-9$; se busca una evaluación que la refute.",
+            "The claimed identity $(x-3)^{2}=x^{2}-9$; an evaluation that refutes it is sought.",
+          ),
+          step(
+            "approach",
+            "Probar valores: si en algún punto los dos lados difieren, la identidad es falsa.",
+            "Test values: if at some point the two sides differ, the identity is false.",
+          ),
+          step(
+            "calculation",
+            "Con $x = 0$: izquierdo $\\left(0-3\\right)^{2} = 9$; derecho $0-9 = -9$. Difieren. (Con $x = 3$: ambos dan $0$; ahí NO refuta.)",
+            "At $x = 0$: left side $\\left(0-3\\right)^{2} = 9$; right side $0-9 = -9$. They differ. (At $x = 3$: both give $0$; no refutation there.)",
+          ),
+          step(
+            "result",
+            "En $x=0$ se manifiesta el error: $9 \\neq -9$. Control: la única coincidencia es $x = 3$ ($x^{2}-6x+9 = x^{2}-9 \\Rightarrow x = 3$) ✓.",
+            "At $x=0$ the mistake shows: $9 \\neq -9$. Check: the only point of agreement is $x = 3$ ($x^{2}-6x+9 = x^{2}-9 \\Rightarrow x = 3$) ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* T11.3 — comprobar factorización: expandir y comparar. */
+  template(
+    {
+      id: "ver-ant-3",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "algebraic-verification",
+      difficulty: "medium",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 150,
+      tags: ["algebraic-verification", "procedure"],
+      prerequisites: ["special-products"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T11 · 3",
+      },
+      reasoning: "definition-hunting",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L("Expandir $(x-2)(x-3)$ y comparar término a término", "Expand $(x-2)(x-3)$ and compare term by term"),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L("Evaluar ambos lados en un solo valor de $x$", "Evaluate both sides at a single value of $x$"),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L("Derivar ambos lados", "Differentiate both sides"),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L("Graficar y contar intersecciones", "Graph and count intersections"),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L("Procedimiento de comprobación", "Checking procedure"),
+        statement: L(
+          "Para comprobar la factorización $x^{2}-5x+6=(x-2)(x-3)$, ¿cuál es el procedimiento más directo y concluyente?",
+          "To check the factoring $x^{2}-5x+6=(x-2)(x-3)$, which is the most direct and conclusive procedure?",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Una factorización es una IDENTIDAD: debe valer para TODO $x$.",
+            "A factoring is an IDENTITY: it must hold for EVERY $x$.",
+          ),
+          L(
+            "El único chequeo completo es re-expandir el lado factorizado.",
+            "The only complete check is to re-expand the factored side.",
+          ),
+          L(
+            "$(x-2)(x-3) = x^{2}-5x+6$ ✓.",
+            "$(x-2)(x-3) = x^{2}-5x+6$ ✓.",
+          ),
+        ],
+        answerDisplay: L(
+          "Expandir $(x-2)(x-3)$ y comparar término a término",
+          "Expand $(x-2)(x-3)$ and compare term by term",
+        ),
+        solution: [
+          step(
+            "given",
+            "La factorización propuesta $x^{2}-5x+6=(x-2)(x-3)$; se pide el mejor procedimiento de comprobación.",
+            "The proposed factoring $x^{2}-5x+6=(x-2)(x-3)$; the best checking procedure is requested.",
+          ),
+          step(
+            "approach",
+            "Una identidad se comprueba devolviéndola a la forma original: expandir el lado derecho y comparar.",
+            "An identity is checked by returning it to its original form: expand the right side and compare.",
+          ),
+          step(
+            "calculation",
+            "$(x-2)(x-3) = x^{2}-3x-2x+6 = x^{2}-5x+6$.",
+            "$(x-2)(x-3) = x^{2}-3x-2x+6 = x^{2}-5x+6$.",
+          ),
+          step(
+            "result",
+            "Expandir y comparar término a término es concluyente: $x^{2}-5x+6$ coincide. Control: evaluar en UN solo valor no basta (otras expresiones pueden pasar por ese punto) y derivar puede hacer coincidir sin que las funciones coincidan ✓.",
+            "Expanding and comparing term by term is conclusive: $x^{2}-5x+6$ matches. Check: evaluating at a SINGLE value is not enough (other expressions may pass through that point) and differentiating may match without the functions matching ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* T11.4 — (2x−1)³ vs calculadora: coinciden solo en x=0. */
+  template(
+    {
+      id: "ver-ant-4",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "algebraic-verification",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 210,
+      tags: ["algebraic-verification", "refutation"],
+      prerequisites: ["special-products"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T11 · 4",
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        { id: "a", text: L("$x=0$", "$x=0$"), correct: true },
+        { id: "b", text: L("$x=1$", "$x=1$"), correct: false },
+        { id: "c", text: L("$x=\\frac{1}{2}$", "$x=\\frac{1}{2}$"), correct: false },
+        { id: "d", text: L("$x=2$", "$x=2$"), correct: false },
+      ];
+      return {
+        skill: L("Dónde coinciden dos desarrollos", "Where two expansions coincide"),
+        statement: L(
+          "El desarrollo correcto es $(2x-1)^{3}=8x^{3}-12x^{2}+6x-1$. Una calculadora devolvió $8x^{3}-6x^{2}+6x-1$. ¿En cuál valor de x COINCIDEN el resultado correcto y el erróneo (es decir, en cuál valor NO sirve evaluar para refutar)?",
+          "The correct expansion is $(2x-1)^{3}=8x^{3}-12x^{2}+6x-1$. A calculator returned $8x^{3}-6x^{2}+6x-1$. At which value of x do the correct and the wrong results COINCIDE (that is, at which value is evaluating useless to refute)?",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "Resta el resultado correcto menos el erróneo.",
+            "Subtract the wrong result from the correct one.",
+          ),
+          L(
+            "La diferencia es $-6x^{2}$.",
+            "The difference is $-6x^{2}$.",
+          ),
+          L(
+            "Solo se anula en $x = 0$.",
+            "It only vanishes at $x = 0$.",
+          ),
+        ],
+        answerDisplay: L(
+          "Coinciden solo en $x=0$",
+          "They coincide only at $x=0$",
+        ),
+        solution: [
+          step(
+            "given",
+            "Correcto: $(2x-1)^{3} = 8x^{3}-12x^{2}+6x-1$; calculadora: $8x^{3}-6x^{2}+6x-1$.",
+            "Correct: $(2x-1)^{3} = 8x^{3}-12x^{2}+6x-1$; calculator: $8x^{3}-6x^{2}+6x-1$.",
+          ),
+          step(
+            "approach",
+            "Restar ambas expresiones: donde la diferencia valga $0$, coinciden (y evaluar no refuta).",
+            "Subtract the two expressions: wherever the difference is $0$, they coincide (and evaluating does not refute).",
+          ),
+          step(
+            "calculation",
+            "$\\left(8x^{3}-12x^{2}+6x-1\\right)-\\left(8x^{3}-6x^{2}+6x-1\\right) = -6x^{2}$; se anula solo en $x = 0$.",
+            "$\\left(8x^{3}-12x^{2}+6x-1\\right)-\\left(8x^{3}-6x^{2}+6x-1\\right) = -6x^{2}$; it vanishes only at $x = 0$.",
+          ),
+          step(
+            "result",
+            "Coinciden solo en $x = 0$ (ambos dan $-1$). Control: con $x = 1$ sí refuta: correcto $8-12+6-1 = 1$ y calculadora $8-6+6-1 = 7$, con $1 \\neq 7$ ✓.",
+            "They coincide only at $x = 0$ (both give $-1$). Check: at $x = 1$ it does refute: correct $8-12+6-1 = 1$ and calculator $8-6+6-1 = 7$, with $1 \\neq 7$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
+  /* T11.5 — 3 valores distintos bastan (diferencia de grado ≤ 2). */
+  template(
+    {
+      id: "ver-ant-5",
+      subject: "math",
+      topicId: "polynomials",
+      subtopicId: "algebraic-verification",
+      difficulty: "hard",
+      questionType: "multiple-choice",
+      estimatedTimeSec: 240,
+      tags: ["algebraic-verification", "identity-proof"],
+      prerequisites: ["special-products"],
+      source: {
+        sourceId: "tutor-encargo-polinomios-2026",
+        license: "INSTRUCTOR_CREATED",
+        exerciseNumber: "T11 · 5",
+      },
+      reasoning: "case-analysis",
+    },
+    (rng) => {
+      const options: McOption[] = [
+        {
+          id: "a",
+          text: L(
+            "3 valores: la diferencia es de grado a lo sumo 2, y un polinomio de grado ≤ 2 con 3 raíces distintas es el polinomio cero",
+            "3 values: the difference has degree at most 2, and a degree-≤2 polynomial with 3 distinct roots is the zero polynomial",
+          ),
+          correct: true,
+        },
+        {
+          id: "b",
+          text: L("1 valor: si coinciden una vez, queda demostrado", "1 value: if they match once, it is proved"),
+          correct: false,
+        },
+        {
+          id: "c",
+          text: L("2 valores: porque x aparece al cuadrado", "2 values: because x appears squared"),
+          correct: false,
+        },
+        {
+          id: "d",
+          text: L("Ninguno: evaluar nunca puede demostrar una identidad", "None: evaluating can never prove an identity"),
+          correct: false,
+        },
+      ];
+      return {
+        skill: L("Cuántas evaluaciones demuestran una identidad", "How many evaluations prove an identity"),
+        statement: L(
+          "Para demostrar la identidad $(x+2)^{2}=x^{2}+4x+4$ evaluando en valores de x (sin expandir), ¿cuántos valores DISTINTOS bastan y por qué?",
+          "To prove the identity $(x+2)^{2}=x^{2}+4x+4$ by evaluating at values of x (without expanding), how many DISTINCT values suffice, and why?",
+        ),
+        answer: { kind: "multiple-choice", options: rng.shuffle(options) },
+        hints: [
+          L(
+            "La diferencia de ambos lados es de grado ≤ 2.",
+            "The difference of both sides has degree ≤ 2.",
+          ),
+          L(
+            "Un polinomio de grado $d$ tiene a lo sumo $d$ raíces.",
+            "A polynomial of degree $d$ has at most $d$ roots.",
+          ),
+          L(
+            "3 raíces distintas $\\Rightarrow$ diferencia nula en todas partes.",
+            "3 distinct roots $\\Rightarrow$ the difference is zero everywhere.",
+          ),
+        ],
+        answerDisplay: L(
+          "Bastan 3 valores distintos",
+          "3 distinct values suffice",
+        ),
+        solution: [
+          step(
+            "given",
+            "La identidad $(x+2)^{2}=x^{2}+4x+4$; se pregunta cuántas evaluaciones distintas la demuestran.",
+            "The identity $(x+2)^{2}=x^{2}+4x+4$; the question is how many distinct evaluations prove it.",
+          ),
+          step(
+            "approach",
+            "Restar ambos lados: si la diferencia (grado $\\le 2$) se anula en suficientes puntos, es el polinomio cero.",
+            "Subtract both sides: if the difference (degree $\\le 2$) vanishes at enough points, it is the zero polynomial.",
+          ),
+          step(
+            "calculation",
+            "Con $x = 0$: $4 = 4$; con $x = 1$: $9 = 9$; con $x = 2$: $16 = 16$. La diferencia $D(x)$ (grado $\\le 2$) tiene las 3 raíces $0, 1, 2 \\Rightarrow D \\equiv 0$.",
+            "At $x = 0$: $4 = 4$; at $x = 1$: $9 = 9$; at $x = 2$: $16 = 16$. The difference $D(x)$ (degree $\\le 2$) has the 3 roots $0, 1, 2 \\Rightarrow D \\equiv 0$.",
+          ),
+          step(
+            "result",
+            "Bastan 3 valores distintos: la diferencia es de grado a lo sumo 2, y un polinomio de grado $\\le 2$ con 3 raíces distintas es el polinomio cero. Control: con solo 2 valores NO basta — $5x+4$ pasa por $(0,4)$ y $(1,9)$ sin ser $x^{2}+4x+4$ ✓.",
+            "3 distinct values suffice: the difference has degree at most 2, and a degree-≤2 polynomial with 3 distinct roots is the zero polynomial. Check: 2 values are NOT enough — $5x+4$ passes through $(0,4)$ and $(1,9)$ without being $x^{2}+4x+4$ ✓.",
+          ),
+        ],
+      };
+    },
+  ),
+
 ];
